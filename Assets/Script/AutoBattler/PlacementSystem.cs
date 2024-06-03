@@ -16,7 +16,8 @@ public class PlacementSystem : MonoBehaviour
     private int selectedObjectIndex = -1;
     [SerializeField]
     private GameObject gridVisualization;
-
+    [SerializeField]
+    private AutoBattlerUIManager autoBattlerUIManager;
     [SerializeField]
     private PreViewSystem preview;
     private GridData floorData, objectData;
@@ -33,6 +34,11 @@ public class PlacementSystem : MonoBehaviour
         StopPlacement();
         floorData = new();
         objectData = new();
+       // StartCoroutine(AIPlaceObjects());
+    }
+
+    public void StartPlacement()
+    {
         StartCoroutine(AIPlaceObjects());
     }
 
@@ -60,8 +66,9 @@ public class PlacementSystem : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
         }
+        autoBattlerUIManager.StartPlayerTeamSelection();
 
-       
+
     }
 
     public void StartPlacement(int ID)
@@ -69,6 +76,7 @@ public class PlacementSystem : MonoBehaviour
         if (userPlacedItemsCount >= maxItemsToPlace)
         {
             Debug.Log("Maximum number of items placed.");
+            autoBattlerUIManager.BattleInProgressPanel();
             return;
         }
         isPreviewEnabled = true;
