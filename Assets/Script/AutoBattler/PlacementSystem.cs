@@ -29,6 +29,8 @@ public class PlacementSystem : MonoBehaviour
     private int userPlacedItemsCount=0;
     private int maxItemsToPlace=5;
 
+    public List<GameObject> aIPikas = new List<GameObject>();
+    public List<GameObject> playerPika = new List<GameObject>();
     private void Start()
     {
         StopPlacement();
@@ -125,9 +127,14 @@ public class PlacementSystem : MonoBehaviour
         {
             // Rotate the whole AI game object by 180 degrees on the y-axis
             gameObject.transform.Rotate(0, 180, 0);
+            aIPikas.Add(gameObject);
         }
         else
+        {
             userPlacedItemsCount++;
+            playerPika.Add(gameObject);
+        }
+            
 
         preview.StopShowingPreView();
         placedGameObjects.Add(gameObject);
