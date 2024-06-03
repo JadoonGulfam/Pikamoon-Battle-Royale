@@ -111,7 +111,7 @@ public class PlacementSystem : MonoBehaviour
         GameObject gameObject = Instantiate(database.objectData[objectIndex].Prefab);
         Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
 
-        gameObject.transform.position = new Vector3(cellWorldPosition.x, objectIndex == 1 ? -2 : 0, cellWorldPosition.z);
+        gameObject.transform.position = new Vector3(cellWorldPosition.x, objectIndex == 1 ? 0: 0, cellWorldPosition.z);
 
         if (isAIPlacement)
         {
