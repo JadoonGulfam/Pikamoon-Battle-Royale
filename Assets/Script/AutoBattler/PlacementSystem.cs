@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
 {
+    public static PlacementSystem Instance { get; private set; }
+    public static event Action OnPlacementComplete;
+
     [SerializeField]
     private GameObject mouseIndicator; //, cellIndicator;
     [SerializeField]
@@ -31,6 +34,18 @@ public class PlacementSystem : MonoBehaviour
 
     public List<GameObject> aIPikas = new List<GameObject>();
     public List<GameObject> playerPika = new List<GameObject>();
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
         StopPlacement();
@@ -79,6 +94,7 @@ public class PlacementSystem : MonoBehaviour
         {
             Debug.Log("Maximum number of items placed.");
             autoBattlerUIManager.BattleInProgressPanel();
+            OnPlacementComplete?.Invoke();
             return;
         }
         isPreviewEnabled = true;
@@ -121,20 +137,24 @@ public class PlacementSystem : MonoBehaviour
         GameObject gameObject = Instantiate(database.objectData[objectIndex].Prefab);
         Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
 
-        gameObject.transform.position = new Vector3(cellWorldPosition.x, objectIndex == 1 ? 0: 0, cellWorldPosition.z);
+        gameObject.transform.position = new Vector3(cellWorldPosition.x, 0, cellWorldPosition.z);
+
+        // Initialize the CharacterController script with the appropriate opponent list
+        CharacterController characterController = gameObject.GetComponent<CharacterController>();
 
         if (isAIPlacement)
         {
-            // Rotate the whole AI game object by 180 degrees on the y-axis
             gameObject.transform.Rotate(0, 180, 0);
             aIPikas.Add(gameObject);
+            gameObject.GetComponent<PikamoonController>().isAIPikamood = true;
+          
         }
         else
         {
             userPlacedItemsCount++;
             playerPika.Add(gameObject);
+            gameObject.GetComponent<PikamoonController>().isAIPikamood = false;
         }
-            
 
         preview.StopShowingPreView();
         placedGameObjects.Add(gameObject);
@@ -147,6 +167,7 @@ public class PlacementSystem : MonoBehaviour
             placedGameObjects.Count - 1
         );
     }
+
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
