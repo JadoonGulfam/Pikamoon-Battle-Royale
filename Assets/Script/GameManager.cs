@@ -41,8 +41,13 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
 
     }
+    public void StartAutoBattler()
+    {
 
-    
+        SceneManager.LoadScene("AutoBattler");
+    Destroy(gameObject);
+    }
+
 
     public void ReturnToLobby()
     {

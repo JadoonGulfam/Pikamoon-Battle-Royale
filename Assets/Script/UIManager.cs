@@ -8,6 +8,6 @@ public class UIManager : MonoBehaviour
 {
     public void StartAutoBattler()
     {
-        SceneManager.LoadScene("AutoBattler");
+      //  SceneManager.LoadScene("AutoBattler");
     }
 }
