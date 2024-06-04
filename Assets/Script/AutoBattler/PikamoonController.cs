@@ -9,7 +9,7 @@ public class PikamoonController : MonoBehaviour
     public bool isAIPikamood = false;
     private List<GameObject> opponents; // List to hold the opponent characters
     private GameObject nearestOpponent; // The nearest opponent character
-    private float speed = 3.0f; // Movement speed
+    private float speed = 100.0f; // Movement speed
     private bool isBattleStarted;
     private void OnEnable()
     {
@@ -25,15 +25,24 @@ public class PikamoonController : MonoBehaviour
 
     private void StartFindingOpponent()
     {
+        print("StartFindingOpponent event raised");
         Initialize();
+        isBattleStarted = true;
 ;    }
 
     public void Initialize()
     {
         if(isAIPikamood)
+        {
             opponents = PlacementSystem.Instance.aIPikas;
+            print(this.gameObject.name + " total oponents " + opponents.Count);
+        }
         else
+        {
             opponents = PlacementSystem.Instance.playerPika;
+            print(this.gameObject.name + " total oponents " + opponents.Count);
+        }
+           
         FindAndSetNearestOpponent();
     }
 
@@ -43,6 +52,7 @@ public class PikamoonController : MonoBehaviour
         {
             if (nearestOpponent == null)
             {
+                print("nearest opponent destroyed");
                 // Find a new nearest opponent if the current one is destroyed
                 FindAndSetNearestOpponent();
                 if (nearestOpponent == null)
@@ -52,6 +62,7 @@ public class PikamoonController : MonoBehaviour
             }
 
             // Move towards the nearest opponent
+            
             MoveTowardsOpponent(nearestOpponent);
         }
        
@@ -60,6 +71,7 @@ public class PikamoonController : MonoBehaviour
     private void FindAndSetNearestOpponent()
     {
         nearestOpponent = FindNearestOpponent();
+        print(this.gameObject.name + "nearest oppoentent " + nearestOpponent.name);
     }
 
     private GameObject FindNearestOpponent()
@@ -85,6 +97,8 @@ public class PikamoonController : MonoBehaviour
 
     private void MoveTowardsOpponent(GameObject opponent)
     {
+        print(this.gameObject.name + this.gameObject.transform.position + "  vs  " +opponent.name+ opponent.transform.position);
+       
         Vector3 direction = (opponent.transform.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
     }
