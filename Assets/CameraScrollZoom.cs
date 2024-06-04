@@ -17,8 +17,7 @@ public class CameraScrollZoom : MonoBehaviour
         virtualCamera = GetComponent<PlayerController>().virtualCamera;
 
     }
-    public bool buffer;
-    public float buffer1;
+   
     void Update()
     {
         print(Input.GetAxis("Mouse ScrollWheel"));
