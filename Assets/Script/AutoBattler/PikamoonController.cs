@@ -9,7 +9,7 @@ public class PikamoonController : MonoBehaviour
     public bool isAIPikamood = false;
     private List<GameObject> opponents; // List to hold the opponent characters
     private GameObject nearestOpponent; // The nearest opponent character
-    private float speed = 100.0f; // Movement speed
+    private float speed = 0.5f; // Movement speed
     private bool isBattleStarted;
     private void OnEnable()
     {
@@ -34,12 +34,12 @@ public class PikamoonController : MonoBehaviour
     {
         if(isAIPikamood)
         {
-            opponents = PlacementSystem.Instance.aIPikas;
+            opponents = PlacementSystem.Instance.playerPika;
             print(this.gameObject.name + " total oponents " + opponents.Count);
         }
         else
         {
-            opponents = PlacementSystem.Instance.playerPika;
+            opponents = PlacementSystem.Instance.aIPikas;
             print(this.gameObject.name + " total oponents " + opponents.Count);
         }
            
@@ -81,13 +81,14 @@ public class PikamoonController : MonoBehaviour
 
         foreach (GameObject opponent in opponents)
         {
-            if (opponent != null)
+            if (opponent != null && opponent != gameObject)
             {
                 float distance = Vector3.Distance(transform.position, opponent.transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    nearest = opponent;
+                    nearest = opponent.transform.GetChild(0).gameObject;
+                    print("nearest name " + nearest.name);
                 }
             }
         }
@@ -97,9 +98,27 @@ public class PikamoonController : MonoBehaviour
 
     private void MoveTowardsOpponent(GameObject opponent)
     {
-        print(this.gameObject.name + this.gameObject.transform.position + "  vs  " +opponent.name+ opponent.transform.position);
-       
+        if (opponent == null) return;
+
+        float distance = Vector3.Distance(transform.position, opponent.transform.position);
+        if (distance < 2f)
+        {
+            return;
+        }
+        print(this.gameObject.name + this.gameObject.transform.position + "  vs  " + opponent.name + opponent.transform.position);
+
         Vector3 direction = (opponent.transform.position - transform.position).normalized;
+        Vector3 offset = transform.GetChild(0).position - transform.GetChild(0).position;
+        Vector3 targetPosition = opponent.transform.position - offset;
+        direction = (targetPosition - transform.GetChild(0).position).normalized;
+
         transform.position += direction * speed * Time.deltaTime;
+
+        // Rotate to face the opponent
+        if (direction != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, speed * Time.deltaTime);
+        }
     }
 }
