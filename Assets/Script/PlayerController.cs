@@ -28,7 +28,8 @@ public class PlayerController : NetworkBehaviour
 
     [Networked, OnChangedRender(nameof(HealthChanged))]
     public int myHealth { get; set; } = 100;
-
+    
+    public GameObject virtualCamera;
     IEnumerator Start()
     {
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
@@ -54,8 +55,8 @@ public class PlayerController : NetworkBehaviour
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
 
             playerName.text = GameManager.instance._playerName;
-            GameObject VirtualCamera = GameObject.Find("PlayerFollowCamera");
-            VirtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraRoot;
+            virtualCamera = GameObject.Find("PlayerFollowCamera");
+            virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraRoot;
             GetComponent<ThirdPersonController>().enabled = true;
             GetComponent<PlayerInput>().enabled = true;
             userName = GameManager.instance._playerName;
