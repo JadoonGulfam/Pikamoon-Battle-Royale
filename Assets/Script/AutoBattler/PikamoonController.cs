@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public class PikamoonController : MonoBehaviour
 {
     public bool isAIPikamood = false;
-    private List<GameObject> opponents; // List to hold the opponent characters
-    private GameObject nearestOpponent; // The nearest opponent character
-    private float speed = 0.5f; // Movement speed
+    private List<GameObject> opponents;
+    private GameObject nearestOpponent; 
+    private float speed = 0.5f;
     private bool isBattleStarted;
+
     private void OnEnable()
     {
         PlacementSystem.OnPlacementComplete += StartFindingOpponent;
@@ -21,39 +21,27 @@ public class PikamoonController : MonoBehaviour
         PlacementSystem.OnPlacementComplete -= StartFindingOpponent;
     }
 
-
-
     private void StartFindingOpponent()
     {
-        print("StartFindingOpponent event raised");
+        Debug.Log("StartFindingOpponent event raised");
         Initialize();
         isBattleStarted = true;
-;    }
+    }
 
     public void Initialize()
     {
-        if(isAIPikamood)
-        {
-            opponents = PlacementSystem.Instance.playerPika;
-            print(this.gameObject.name + " total oponents " + opponents.Count);
-        }
-        else
-        {
-            opponents = PlacementSystem.Instance.aIPikas;
-            print(this.gameObject.name + " total oponents " + opponents.Count);
-        }
-           
+        opponents = isAIPikamood ? PlacementSystem.Instance.playerPika : PlacementSystem.Instance.aIPikas;
+        Debug.Log($"{gameObject.name} total opponents {opponents.Count}");
         FindAndSetNearestOpponent();
     }
 
     private void Update()
     {
-        if(isBattleStarted)
+        if (isBattleStarted)
         {
             if (nearestOpponent == null)
             {
-                print("nearest opponent destroyed");
-                // Find a new nearest opponent if the current one is destroyed
+                Debug.Log("Nearest opponent destroyed");
                 FindAndSetNearestOpponent();
                 if (nearestOpponent == null)
                 {
@@ -61,60 +49,59 @@ public class PikamoonController : MonoBehaviour
                 }
             }
 
-            // Move towards the nearest opponent
-            
-            MoveTowardsOpponent(nearestOpponent);
+            MoveTowardsOpponent();
         }
-       
     }
 
     private void FindAndSetNearestOpponent()
     {
         nearestOpponent = FindNearestOpponent();
-        print(this.gameObject.name + "nearest oppoentent " + nearestOpponent.name);
+        if (nearestOpponent != null)
+        {
+            Debug.Log($"{gameObject.name} nearest opponent {nearestOpponent.name}");
+        }
     }
 
     private GameObject FindNearestOpponent()
     {
         GameObject nearest = null;
         float minDistance = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
 
         foreach (GameObject opponent in opponents)
         {
             if (opponent != null && opponent != gameObject)
             {
-                float distance = Vector3.Distance(transform.position, opponent.transform.position);
+                float distance = Vector3.Distance(currentPosition, opponent.transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    nearest = opponent.transform.GetChild(0).gameObject;
-                    print("nearest name " + nearest.name);
+                    nearest = opponent;
                 }
             }
         }
 
-        return nearest;
+        return nearest?.transform.GetChild(0).gameObject;
     }
 
-    private void MoveTowardsOpponent(GameObject opponent)
+    private void MoveTowardsOpponent()
     {
-        if (opponent == null) return;
+        if (nearestOpponent == null) return;
 
-        float distance = Vector3.Distance(transform.position, opponent.transform.position);
+        Vector3 opponentPosition = nearestOpponent.transform.position;
+        float distance = Vector3.Distance(transform.position, opponentPosition);
+
         if (distance < 2f)
         {
             return;
         }
-        print(this.gameObject.name + this.gameObject.transform.position + "  vs  " + opponent.name + opponent.transform.position);
 
-        Vector3 direction = (opponent.transform.position - transform.position).normalized;
-        Vector3 offset = transform.GetChild(0).position - transform.GetChild(0).position;
-        Vector3 targetPosition = opponent.transform.position - offset;
-        direction = (targetPosition - transform.GetChild(0).position).normalized;
+        Debug.Log($"{gameObject.name} {transform.position}  vs  {nearestOpponent.name} {opponentPosition}");
+
+        Vector3 direction = (opponentPosition - transform.position).normalized;
 
         transform.position += direction * speed * Time.deltaTime;
 
-        // Rotate to face the opponent
         if (direction != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
