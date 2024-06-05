@@ -174,22 +174,22 @@ public class PlayerController : NetworkBehaviour
                 break;
             case "Sylvolt":
                 temp = Runner.Spawn(PikaMoon_Sylvolt, transform.position, Quaternion.identity);
-                temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
                 pikaMoon_CharacterList.Add(temp);
                 break;
             case "Dracodilla":
                 temp = Runner.Spawn(PikaMoon_Dracodilla, transform.position, Quaternion.identity);
-                temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
                 pikaMoon_CharacterList.Add(temp);
                 break;
             case "Soarcrow":
                 temp = Runner.Spawn(PikaMoon_Soarcrow, transform.position, Quaternion.identity);
-                temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
                 pikaMoon_CharacterList.Add(temp);
                 break;
             case "Torrentar":
                 temp = Runner.Spawn(PikaMoon_Torrentar, transform.position, Quaternion.identity);
-                temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
                 pikaMoon_CharacterList.Add(temp);
                 break;
         }
