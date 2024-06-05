@@ -94,6 +94,7 @@ public class PlacementSystem : MonoBehaviour
         {
             Debug.Log("Maximum number of items placed.");
             autoBattlerUIManager.BattleInProgressPanel();
+            autoBattlerUIManager.TeamSelectionCompleted();
             OnPlacementComplete?.Invoke();
             return;
         }

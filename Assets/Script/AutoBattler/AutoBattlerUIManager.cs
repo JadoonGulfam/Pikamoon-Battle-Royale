@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 public class AutoBattlerUIManager : MonoBehaviour
 {
     [SerializeField]
@@ -20,6 +21,11 @@ public class AutoBattlerUIManager : MonoBehaviour
     public void StartPlayerTeamSelection()
     {
         playerTeamSelectionUI.SetActive(true);
+        
+    }
+    public void TeamSelectionCompleted()
+    {
+        
     }
     public void StartStartBattel()
     {
@@ -27,7 +33,7 @@ public class AutoBattlerUIManager : MonoBehaviour
     }
     public void BattleInProgressPanel()
     {
-        //battleSystemInPogress.SetActive(true);
+        battleSystemInPogress.SetActive(true);
     }
 
     public void BackToLobby()
