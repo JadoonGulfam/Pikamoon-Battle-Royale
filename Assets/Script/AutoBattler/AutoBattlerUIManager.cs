@@ -27,7 +27,7 @@ public class AutoBattlerUIManager : MonoBehaviour
     }
     public void BattleInProgressPanel()
     {
-        battleSystemInPogress.SetActive(true);
+        //battleSystemInPogress.SetActive(true);
     }
 
     public void BackToLobby()
