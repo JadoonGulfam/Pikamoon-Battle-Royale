@@ -91,7 +91,7 @@ public class PikamoonController : MonoBehaviour
         Vector3 opponentPosition = nearestOpponent.transform.position;
         float distance = Vector3.Distance(transform.position, opponentPosition);
 
-        if (distance < 2f)
+        if (distance < 1.5f)
         {
             return;
         }

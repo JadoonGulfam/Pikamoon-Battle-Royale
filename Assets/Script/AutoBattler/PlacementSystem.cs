@@ -90,10 +90,11 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
-        if (userPlacedItemsCount >= maxItemsToPlace-1)
+        if (userPlacedItemsCount >= maxItemsToPlace)
         {
             Debug.Log("Maximum number of items placed.");
             autoBattlerUIManager.BattleInProgressPanel();
+            autoBattlerUIManager.TeamSelectionCompleted();
             OnPlacementComplete?.Invoke();
             return;
         }
