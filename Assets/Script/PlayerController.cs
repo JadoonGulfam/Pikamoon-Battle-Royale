@@ -14,7 +14,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] Transform playerCameraRoot;
     // Start is called before the first frame update
     public TMP_Text playerName;
-    public GameObject PikaMoon_Barkian, PikaMoon_Blazeving;
+    public GameObject PikaMoon_Barkian, PikaMoon_Blazeving,PikaMoon_Sylvolt,PikaMoon_Dracodilla,PikaMoon_Soarcrow,PikaMoon_Torrentar;
     public GameObject canvasData;
     Button Destroypika;
     Button[] PikaButtons=new Button[6];
@@ -73,8 +73,12 @@ public class PlayerController : NetworkBehaviour
             PikaButtons[3] = temp.transform.GetChild(3).GetComponent<Button>();
             PikaButtons[4] = temp.transform.GetChild(4).GetComponent<Button>();
             PikaButtons[5] = temp.transform.GetChild(5).GetComponent<Button>();
-            PikaButtons[0].onClick.AddListener(SpawnPika_Barkian);
-            PikaButtons[1].onClick.AddListener(SpawnPikaMoon_Blazeving);
+            PikaButtons[0].onClick.AddListener(delegate { Spawn_PikaMoon("Barkian"); });
+            PikaButtons[1].onClick.AddListener(delegate { Spawn_PikaMoon("Blazeving"); });
+            PikaButtons[2].onClick.AddListener(delegate { Spawn_PikaMoon("Sylvolt"); });
+            PikaButtons[3].onClick.AddListener(delegate { Spawn_PikaMoon("Dracodilla"); });
+            PikaButtons[4].onClick.AddListener(delegate { Spawn_PikaMoon("Soarcrow"); });
+            PikaButtons[5].onClick.AddListener(delegate { Spawn_PikaMoon("Torrentar"); });
         }
         canvasData.SetActive(true);
 
@@ -130,18 +134,68 @@ public class PlayerController : NetworkBehaviour
     void SpawnPika_Barkian()
     {
 
-        NetworkObject temp=Runner.Spawn(PikaMoon_Barkian,transform.position, Quaternion.identity);
-        temp.GetComponent<BarkianPlayerFollowAI>().followMaster = this.transform;
-
-        pikaMoon_CharacterList.Add(temp);
-        temp = null;
+      //  NetworkObject temp=Runner.Spawn(PikaMoon_Barkian,transform.position, Quaternion.identity);
+    //    temp.GetComponent<BarkianPlayerFollowAI>().followMaster = this.transform;
+    //
+      //  pikaMoon_CharacterList.Add(temp);
+      //  temp = null;
         
         }
     void SpawnPikaMoon_Blazeving()
     {
-        NetworkObject temp = Runner.Spawn(PikaMoon_Blazeving, transform.position, Quaternion.identity);
+       /* NetworkObject temp = Runner.Spawn(PikaMoon_Blazeving, transform.position, Quaternion.identity);
       temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+        pikaMoon_CharacterList.Add(temp);*/
+     //   temp = null;
+    }
+    void SpawnPikaMoon_Sylvolt()
+    {
+    /*    NetworkObject temp = Runner.Spawn(PikaMoon_Sylvolt, transform.position, Quaternion.identity);
+        temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
         pikaMoon_CharacterList.Add(temp);
-        temp = null;
+        temp = null;*/
+    }
+
+    void Spawn_PikaMoon(string pika)
+    {
+        NetworkObject temp;
+        switch (pika)
+        {
+            case "Barkian":
+                temp = Runner.Spawn(PikaMoon_Barkian, transform.position, Quaternion.identity);
+                temp.GetComponent<BarkianPlayerFollowAI>().followMaster = this.transform;
+                pikaMoon_CharacterList.Add(temp);
+                break;
+
+            case "Blazeving":
+                temp = Runner.Spawn(PikaMoon_Blazeving, transform.position, Quaternion.identity);
+                temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+                pikaMoon_CharacterList.Add(temp);
+                break;
+            case "Sylvolt":
+                temp = Runner.Spawn(PikaMoon_Sylvolt, transform.position, Quaternion.identity);
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+                pikaMoon_CharacterList.Add(temp);
+                break;
+            case "Dracodilla":
+                temp = Runner.Spawn(PikaMoon_Dracodilla, transform.position, Quaternion.identity);
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+                pikaMoon_CharacterList.Add(temp);
+                break;
+            case "Soarcrow":
+                temp = Runner.Spawn(PikaMoon_Soarcrow, transform.position, Quaternion.identity);
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+                pikaMoon_CharacterList.Add(temp);
+                break;
+            case "Torrentar":
+                temp = Runner.Spawn(PikaMoon_Torrentar, transform.position, Quaternion.identity);
+               // temp.GetComponent<BlazewingPlayerFollowAI>().player = this.transform;
+                pikaMoon_CharacterList.Add(temp);
+                break;
+        }
+                temp = null;
+        
+
+        
     }
 }
