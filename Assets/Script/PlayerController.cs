@@ -8,6 +8,7 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 using UnityEngine.UI;
+using Fusion.Addons.Physics;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -67,6 +68,7 @@ public class PlayerController : NetworkBehaviour
             Destroypika = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).transform.GetChild(2).GetComponent<Button>();
             Destroypika.onClick.AddListener(DeSpawnPikamoon);
 
+            GetComponent<NetworkRigidbody3D>().InterpolationTarget = myPlayerAvatar.transform;
             for (int i = 0; i < PikaButtons.Length; i++)
             {
                 var x = i;

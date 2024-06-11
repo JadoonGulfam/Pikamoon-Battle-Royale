@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿using Fusion;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -152,8 +153,15 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
         }
 
+        //
         private void Update()
-        {
+         {//
+      //  public override void FixedUpdateNetwork()
+        //{
+          //  if (HasStateAuthority == false)
+            //{
+              //  return;
+            //}
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
