@@ -32,11 +32,11 @@ public class PlayerController : NetworkBehaviour
     public GameObject virtualCamera;
     IEnumerator Start()
     {
-        canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
-        ConstraintSource sc = new ConstraintSource();
-        sc.weight = 1.0f;
-        sc.sourceTransform = Camera.main.transform;
-        canvasData.GetComponent<LookAtConstraint>().SetSource(0, sc);
+       // canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
+      //  ConstraintSource sc = new ConstraintSource();
+      //  sc.weight = 1.0f;
+       // sc.sourceTransform = Camera.main.transform;
+       // canvasData.GetComponent<LookAtConstraint>().SetSource(0, sc);
       //  HealthChanged();
         // AttackButton.onClick.AddListener(DealDamageRpc);
 
@@ -55,10 +55,10 @@ public class PlayerController : NetworkBehaviour
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
 
             playerName.text = GameManager.instance._playerName;
-            virtualCamera = GameObject.Find("PlayerFollowCamera");
-            virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraRoot;
-            GetComponent<ThirdPersonController>().enabled = true;
-            GetComponent<PlayerInput>().enabled = true;
+         //   virtualCamera = GameObject.Find("PlayerFollowCamera");
+          //  virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraRoot;
+          //  GetComponent<ThirdPersonController>().enabled = true;
+         //   GetComponent<PlayerInput>().enabled = true;
             userName = GameManager.instance._playerName;
             //   StartCoroutine(SpawnTest());// userName);
 
