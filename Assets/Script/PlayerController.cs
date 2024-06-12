@@ -43,10 +43,12 @@ public class PlayerController : NetworkBehaviour
 
         if (HasStateAuthority == false)
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
             playerName.text = userName;
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
+            GetComponent<CharacterController>().enabled = false;
+            GetComponent<CameraScrollZoom>().enabled = false;
         }
         else
         {
