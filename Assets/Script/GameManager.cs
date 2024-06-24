@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
 
     }
-    public void StartAutoBattler()
+
+
+public void StartAutoBattler()
     {
 
         SceneManager.LoadScene("AutoBattler");
@@ -114,6 +116,11 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 
             //  print(runner.IsCloudReady);
            
+        }
+         if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.Log("Error. Check internet connection!");
+
         }
     }
 
