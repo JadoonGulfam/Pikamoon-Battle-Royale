@@ -26,9 +26,8 @@ public class PlayerController : NetworkBehaviour
     [Networked]
     public int myCharacterindex { get; set; } = 0;
 
-   // [Networked, OnChangedRender(nameof(HealthChanged))]
-   // public int myHealth { get; set; } = 100;
-    
+ 
+    public DisplayItems myItems; //show items on screem
     public GameObject virtualCamera;
     IEnumerator Start()
     {
@@ -75,15 +74,43 @@ public class PlayerController : NetworkBehaviour
                 PikaButtons[x] = temp.transform.GetChild(x).GetComponent<Button>();
                 PikaButtons[x].onClick.AddListener(delegate { Spawn_PikaMoon(x); });
             }
+
+            //Get text for ping 
+            myItems = FindObjectOfType<DisplayItems>();
+
         }
         canvasData.SetActive(true);
     }
+    private double[] _roundTripTimes = new double[100];
+    private int _averageRTT;
 
-   // void HealthChanged()
-  //  {
-       // AttackButton.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = myHealth.ToString();
-        //   Debug.Log($"Health changed to: {NetworkedHealth}");
-   // }
+    private void Update()
+    {
+        if (Runner != null)
+        {
+            _roundTripTimes[Time.frameCount % _roundTripTimes.Length] = Runner.GetPlayerRtt(PlayerRef.None);
+
+            double averageRTT = 0.0;
+            for (int i = 0, count = _roundTripTimes.Length; i < count; ++i)
+            {
+                averageRTT += _roundTripTimes[i];
+            }
+            if (HasStateAuthority)
+            {
+                _averageRTT = Mathf.RoundToInt((float)(averageRTT * (1000.0 / _roundTripTimes.Length)));
+                Debug.LogError(_averageRTT + " ms");
+                myItems.networkPing.text = _averageRTT + " ms";
+
+            }
+        }
+    }
+
+
+    // void HealthChanged()
+    //  {
+    // AttackButton.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = myHealth.ToString();
+    //   Debug.Log($"Health changed to: {NetworkedHealth}");
+    // }
     //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     void DeSpawnPikamoon()
     {

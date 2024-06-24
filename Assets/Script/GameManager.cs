@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public void SetPlayerName()
     {
 
-        myCharacter =UnityEngine.Random.Range(0,8);
+        myCharacter =UnityEngine.Random.Range(0,10);
      StartCoroutine ( ConnectToLobby(userInputField.text));
         
     }
@@ -101,7 +101,8 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         runner.JoinSessionLobby(SessionLobby.Shared);
     }
 
-  
+    
+
     void Update()
     {
        if (runner!=null)
@@ -115,6 +116,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
             //  print(runner.IsCloudReady);
            
         }
+       
     }
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
