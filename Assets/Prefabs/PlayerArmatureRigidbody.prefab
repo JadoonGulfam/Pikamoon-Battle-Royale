@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: -3441492172912248310}
   - component: {fileID: 5574516172988483362}
   - component: {fileID: 7418604413317603570}
+  - component: {fileID: 1947646544064802587}
   m_Layer: 8
   m_Name: PlayerArmatureRigidbody
   m_TagString: Player
@@ -496,6 +497,7 @@ MonoBehaviour:
   pikaMoon_CharacterList: []
   _userName: ' '
   _myCharacterindex: 0
+  myItems: {fileID: 0}
   virtualCamera: {fileID: 0}
 --- !u!114 &-7649945902918050967
 MonoBehaviour:
@@ -522,7 +524,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505059675166667281}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac53300c4bd666041a8ede7d8b25d7ba, type: 3}
   m_Name: 
@@ -530,7 +532,7 @@ MonoBehaviour:
   minFov: 2
   maxFov: 16
   sensitivity: 10
-  virtualCamera: {fileID: 0}
+  virtualCameraDistance: {fileID: 0}
 --- !u!54 &5574516172988483362
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -580,6 +582,18 @@ MonoBehaviour:
     Position: 0.01
     Rotation: 0.01
     Scale: 0.01
+--- !u!114 &1947646544064802587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505059675166667281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d204e3674d92d46820131cf7f92657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &672677928793979730
 GameObject:
   m_ObjectHideFlags: 0

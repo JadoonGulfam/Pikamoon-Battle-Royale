@@ -98,7 +98,7 @@ public class PlayerController : NetworkBehaviour
             if (HasStateAuthority)
             {
                 _averageRTT = Mathf.RoundToInt((float)(averageRTT * (1000.0 / _roundTripTimes.Length)));
-                Debug.LogError(_averageRTT + " ms");
+             //   Debug.LogError(_averageRTT + " ms");
                 myItems.networkPing.text = _averageRTT + " ms";
 
             }
