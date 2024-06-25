@@ -8,6 +8,7 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 using UnityEngine.UI;
+using SickscoreGames.HUDNavigationSystem;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -42,6 +43,7 @@ public class PlayerController : NetworkBehaviour
 
         if (HasStateAuthority == false)
         {
+            GetComponent<HUDNavigationElement>().enabled = true;
             yield return new WaitForSeconds(1);
             playerName.text = userName;
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
@@ -51,6 +53,7 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
+            GetComponent<HNSPlayerController>().enabled = true;
             myCharacterindex = GameManager.instance.myCharacter;
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
