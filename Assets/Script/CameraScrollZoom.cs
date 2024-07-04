@@ -9,29 +9,29 @@ public class CameraScrollZoom : MonoBehaviour
     public float minFov ;
     public float maxFov ;
     public float sensitivity = 10f;
-    public GameObject virtualCameraDistance;
-    Cinemachine3rdPersonFollow setDistance;
+    //public GameObject virtualCameraDistance;
+    CinemachineFreeLook setDistance;
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        GameObject temp=  GameObject.FindWithTag("HUD");
-        temp.GetComponent<HUDNavigationSystem>().PlayerController=gameObject.transform;
+       // GameObject temp=  GameObject.FindWithTag("HUD");
+       // temp.GetComponent<HUDNavigationSystem>().PlayerController=gameObject.transform;
 
         yield return new WaitForSeconds(1.0f);
-        virtualCameraDistance = GameObject.Find("PlayerFollowCamera");
-        setDistance = virtualCameraDistance.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        //virtualCameraDistance = GameObject.Find("PlayerFollowCamera");
+        setDistance = GetComponent<CinemachineFreeLook>();//.GetCinemachineComponent<CinemachineFreeLook>();
       
     }
    
     void Update()
     {
       
-        if (virtualCameraDistance != null )
+        if (setDistance != null )
         {
-            float fov = setDistance.CameraDistance;
+            float fov = setDistance.m_Lens.FieldOfView;
             fov += Input.GetAxis("Mouse ScrollWheel") * sensitivity;
             fov = Mathf.Clamp(fov, minFov, maxFov);
-            setDistance.CameraDistance = fov;
+            setDistance.m_Lens.FieldOfView = fov;
         }
 
        

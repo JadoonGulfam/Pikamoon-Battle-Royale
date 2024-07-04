@@ -32,6 +32,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject virtualCamera;
     IEnumerator Start()
     {
+        myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
         ConstraintSource sc = new ConstraintSource();
         sc.weight = 1.0f;
@@ -50,6 +51,8 @@ public class PlayerController : NetworkBehaviour
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
             GetComponent<CharacterController>().enabled = false;
             GetComponent<CameraScrollZoom>().enabled = false;
+            GetComponent<PersonController>().enabled = false;
+
         }
         else
         {
@@ -60,9 +63,11 @@ public class PlayerController : NetworkBehaviour
 
             playerName.text = GameManager.instance._playerName;
             virtualCamera = GameObject.Find("PlayerFollowCamera");
-            virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraRoot;
-            GetComponent<ThirdPersonController>().enabled = true;
-            GetComponent<PlayerInput>().enabled = true;
+            virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
+            virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
+
+            //   GetComponent<PersonController>().enabled = true;
+            //  GetComponent<PlayerInput>().enabled = true;
             userName = GameManager.instance._playerName;
             //   StartCoroutine(SpawnTest());// userName);
 
@@ -79,7 +84,7 @@ public class PlayerController : NetworkBehaviour
             }
 
             //Get text for ping 
-            myItems = FindObjectOfType<DisplayItems>();
+            
 
         }
         canvasData.SetActive(true);
