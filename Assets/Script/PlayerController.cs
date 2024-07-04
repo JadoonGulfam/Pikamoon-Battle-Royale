@@ -107,8 +107,11 @@ public class PlayerController : NetworkBehaviour
             {
                 _averageRTT = Mathf.RoundToInt((float)(averageRTT * (1000.0 / _roundTripTimes.Length)));
              //   Debug.LogError(_averageRTT + " ms");
-                myItems.networkPing.text = _averageRTT + " ms";
-
+             if(_averageRTT <180)
+                myItems.networkPing.text = "<color=green>" + _averageRTT + " ms" + "</color>";
+                else if (_averageRTT > 180)
+                    myItems.networkPing.text = "<color=red>"+ _averageRTT +  " ms" + "</color>";
+                
             }
         }
     }
