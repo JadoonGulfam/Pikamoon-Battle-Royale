@@ -29,8 +29,9 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject sessionEntryPrefab;
     public List<SessionInfo> _session = new List<SessionInfo>();
     public GameObject _roomList;
-  //  public SceneAsset lobbyScene;
-  //  public SceneAsset gamePlayScene;
+    //  public SceneAsset lobbyScene;
+    //  public SceneAsset gamePlayScene;
+    public GameObject PlayerPrefabForSinglePlayer;
     public int myCharacter;
     private void Awake()
     {
@@ -171,12 +172,12 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = GameMode.Shared,
             SessionName = sessionName,
 
-        }) ;
+        });
     }
     public async void CreateSession()
     {
         _roomList.SetActive(false);
-       int randomint = UnityEngine.Random.Range(1000, 9999);
+        int randomint = UnityEngine.Random.Range(1000, 9999);
         string randomSessionName = "Room-" + randomint.ToString();
 
         if (runner == null)
@@ -184,16 +185,35 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
             runner = gameObject.AddComponent<NetworkRunner>();
         }
 
-        
+
         await runner.StartGame(new StartGameArgs()
         {
             Scene = SceneRef.FromIndex(2),
             GameMode = GameMode.Shared,
             SessionName = randomSessionName,
             PlayerCount = 4,
-            
-            
+
+
         });
+    }
+    void OnDestroy()
+    {
+        // Unregister the callback to avoid memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void SinglePlayer()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        myCharacter = 0;
+        SceneManager.LoadScene("Environment");
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Environment")
+        {
+            // Instantiate the player when the "Environment" scene is loaded
+            GameObject singlePlayer = Instantiate(PlayerPrefabForSinglePlayer, PlayerPrefabForSinglePlayer.transform.position, Quaternion.identity);
+        }
     }
     public void OnConnectedToServer(NetworkRunner runner)
     {
