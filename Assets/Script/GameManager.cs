@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public void SetPlayerName()
     {
 
-        myCharacter =UnityEngine.Random.Range(0,10);
+        myCharacter = 10;//UnityEngine.Random.Range(0,10);
      StartCoroutine ( ConnectToLobby(userInputField.text));
         
     }

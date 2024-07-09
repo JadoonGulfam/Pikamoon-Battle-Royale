@@ -311729,7 +311729,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1862512775}
   - component: {fileID: 1862512776}
-  - component: {fileID: 1862512774}
   m_Layer: 0
   m_Name: '[HUD Navigation System]'
   m_TagString: Untagged
@@ -311737,34 +311736,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1862512774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862512773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad9065c0cb31a149b1d36606e6cc184, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Configurations:
-  - _Scene:
-      _sceneAsset: {fileID: 102900000, guid: 2221441c5fc4b0b4bb2046aa9f0e742c, type: 3}
-      _path: Assets/Sickscore Games/HUD-Navigation-System/_Examples/ExampleScene/ExampleScene_SkyIsland.unity
-    _DisabledInScene: 0
-    _Config: {fileID: 11400000, guid: 6902e1cf6ef547d4893f91574cabceef, type: 2}
-  - _Scene:
-      _sceneAsset: {fileID: 102900000, guid: 58a2d4d3d520b894f90eb76a6a07304b, type: 3}
-      _path: Assets/Sickscore Games/HUD-Navigation-System/_Examples/ExampleScene/ExampleScene_SkyIsland_Night.unity
-    _DisabledInScene: 0
-    _Config: {fileID: 11400000, guid: 6ffee79e35eb90f44903548785fe309e, type: 2}
-  - _Scene:
-      _sceneAsset: {fileID: 102900000, guid: f40443b6f60b2f14da7f3566d6101396, type: 3}
-      _path: Assets/Scenes/Environment.unity
-    _DisabledInScene: 0
-    _Config: {fileID: 11400000, guid: 801785335e7f759459c80bbe5c614792, type: 2}
 --- !u!4 &1862512775
 Transform:
   m_ObjectHideFlags: 0
@@ -311798,7 +311769,7 @@ MonoBehaviour:
   RotationReference: 0
   UpdateMode: 1
   KeepAliveOnLoad: 1
-  useRadar: 1
+  useRadar: 0
   radarMode: 1
   radarZoom: 1
   radarRadius: 50
@@ -311829,10 +311800,10 @@ MonoBehaviour:
   indicatorFadeRadius: 10
   indicatorMinFade: 0
   useMinimap: 1
-  minimapProfile: {fileID: 11400000, guid: 794138be95da23a40b2d7f27e4b926cd, type: 2}
+  minimapProfile: {fileID: 11400000, guid: b393daf3f673dab4b877db62e5f00fe9, type: 2}
   currentMinimapProfile: {fileID: 0}
   minimapMode: 1
-  minimapScale: 0.1
+  minimapScale: 1
   minimapRadius: 75
   useMinimapScaling: 1
   minimapScaleDistance: 10
