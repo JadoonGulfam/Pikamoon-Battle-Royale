@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 {
 
     public static GameManager instance;
-   // public bool connectOnAwake = false;
+    // public bool connectOnAwake = false;
     public NetworkRunner runner;
     public GameObject PlayerPrefab;
     public string _playerName = null;
@@ -29,65 +29,67 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject sessionEntryPrefab;
     public List<SessionInfo> _session = new List<SessionInfo>();
     public GameObject _roomList;
+    public Button createSessionBtn;
     //  public SceneAsset lobbyScene;
     //  public SceneAsset gamePlayScene;
     public GameObject PlayerPrefabForSinglePlayer;
     public int myCharacter;
+
     private void Awake()
     {
-        if(instance==null) { instance = this; }
-    DontDestroyOnLoad(gameObject);
+        if (instance == null) { instance = this; }
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {
-
+        createSessionBtn.onClick.AddListener(CreateSession);
     }
     public void StartAutoBattler()
     {
 
         SceneManager.LoadScene("AutoBattler");
-    Destroy(gameObject);
+        Destroy(gameObject);
     }
 
 
     public void ReturnToLobby()
     {
         runner.Despawn(runner.GetPlayerObject(runner.LocalPlayer));
-        runner.Shutdown(true,ShutdownReason.Ok);
-       
+        runner.Shutdown(true, ShutdownReason.Ok);
+
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
 
-       
-      
+
+
         SceneManager.LoadScene("Lobby");
         //    throw new NotImplementedException();
     }
 
-    public void SelectCharacter(int characterId)
-    {
-     /*   myCharacter=characterId;
-        for(int i=0;i<_canvasCharacterSelection.childCount;i++)
-        {
-            if(characterId!=i)
-            {
+    //public void SelectCharacter(int characterId)
+    //{
+    /*   myCharacter=characterId;
+       for(int i=0;i<_canvasCharacterSelection.childCount;i++)
+       {
+           if(characterId!=i)
+           {
 
-                _canvasCharacterSelection.GetChild(i).GetChild(0).gameObject.GetComponent<Out>().enabled = false;
+               _canvasCharacterSelection.GetChild(i).GetChild(0).gameObject.GetComponent<Out>().enabled = false;
 
-            }
-            else
-                _canvasCharacterSelection.GetChild(i).GetChild(0).transform.GetChild(1).gameObject.GetComponent<Outline>().enabled = true;
-        }*/
-      //  _canvasCharacterSelection.GetChild(characterId)
-    }
+           }
+           else
+               _canvasCharacterSelection.GetChild(i).GetChild(0).transform.GetChild(1).gameObject.GetComponent<Outline>().enabled = true;
+       }*/
+    //  _canvasCharacterSelection.GetChild(characterId)
+    //}
     public void SetPlayerName()
     {
 
-        myCharacter = 10;//UnityEngine.Random.Range(0,10);
-     StartCoroutine ( ConnectToLobby(userInputField.text));
-        
+        myCharacter = 9;//UnityEngine.Random.Range(0,10);
+        StartCoroutine(ConnectToLobby(userInputField.text));
+
     }
 
     public IEnumerator ConnectToLobby(string playerName)
@@ -95,29 +97,30 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         print(playerName);
         yield return new WaitForSeconds(1f);
         _playerName = playerName;
-        if (runner==null)
+        if (runner == null)
         {
             runner = gameObject.AddComponent<NetworkRunner>();
         }
         runner.JoinSessionLobby(SessionLobby.Shared);
     }
 
-    
+
 
     void Update()
     {
-       if (runner!=null)
+        if (runner != null)
         {
-            if(runner.IsCloudReady && !runner.IsConnectedToServer) {
+            if (runner.IsCloudReady && !runner.IsConnectedToServer)
+            {
                 createSessionButton.interactable = true;
             }
             else
                 createSessionButton.interactable = false;
 
             //  print(runner.IsCloudReady);
-           
+
         }
-       
+
     }
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
@@ -129,23 +132,23 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     }
     public void RefreshSessionListUI()
     {
-      
+
         //Create Session list UI so we dont create duplicates
-        foreach(Transform child in sessionListContent)
+        foreach (Transform child in sessionListContent)
         {
             Destroy(child.gameObject);
         }
 
-        foreach(SessionInfo session in _session)
+        foreach (SessionInfo session in _session)
         {
-            if(session.IsVisible)
+            if (session.IsVisible)
             {
                 GameObject entry = GameObject.Instantiate(sessionEntryPrefab, sessionListContent);
                 SessionEntryPrefab script = entry.GetComponent<SessionEntryPrefab>();
                 script.sessionName.text = session.Name;
                 script.playerCount.text = session.PlayerCount + "/" + session.MaxPlayers;
 
-                if(session.IsOpen==false || session.PlayerCount >=session.MaxPlayers)
+                if (session.IsOpen == false || session.PlayerCount >= session.MaxPlayers)
                 {
 
                     script.joinButton.interactable = false;
@@ -160,7 +163,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public async void ConnectToSession(string sessionName)
     {
         _roomList.SetActive(false);
-        if (runner==null)
+        if (runner == null)
         {
             runner = gameObject.AddComponent<NetworkRunner>();
         }
@@ -176,7 +179,8 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     }
     public async void CreateSession()
     {
-        _roomList.SetActive(false);
+        //_roomList.SetActive(false);
+        createSessionBtn.enabled = false;
         int randomint = UnityEngine.Random.Range(1000, 9999);
         string randomSessionName = "Room-" + randomint.ToString();
 
@@ -200,11 +204,12 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         // Unregister the callback to avoid memory leaks
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        createSessionBtn.onClick.RemoveAllListeners();
     }
     public void SinglePlayer()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        myCharacter = 0;
+        myCharacter = 9;
         SceneManager.LoadScene("Environment");
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -220,23 +225,23 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         print("connected to server");
         connectionStatus.text = "Connected to Server";
-    //    throw new NotImplementedException();
+        //    throw new NotImplementedException();
     }
-    
+
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        connectionStatus.text = "NetWork connection Failed : reason: "+ reason.ToString();
+        connectionStatus.text = "NetWork connection Failed : reason: " + reason.ToString();
         // throw new NotImplementedException();
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
-      //  throw new NotImplementedException();
+        //  throw new NotImplementedException();
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
-    //    throw new NotImplementedException();
+        //    throw new NotImplementedException();
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
@@ -252,27 +257,27 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
-     //   throw new NotImplementedException();
+        //   throw new NotImplementedException();
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-     //   throw new NotImplementedException();
+        //   throw new NotImplementedException();
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
-      //  throw new NotImplementedException();
+        //  throw new NotImplementedException();
     }
-    
+
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-       // throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-      //  throw new NotImplementedException();
+        //  throw new NotImplementedException();
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -280,13 +285,13 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         print("Onplayer Joinned");
         if (player == runner.LocalPlayer)
         {
-       //     SceneManager.LoadScene(gamePlayScene.name);
-   //      NetworkObject playerNetworkObject= runner.Spawn(PlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
-            NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab,PlayerPrefab.transform.position,Quaternion.identity, player);
-            runner.SetPlayerObject(player,playerNetworkObject);
-           //print( player. .GetComponent<PlayerController>().myHealth);
-         }
-      //  throw new NotImplementedException();
+            //     SceneManager.LoadScene(gamePlayScene.name);
+            //      NetworkObject playerNetworkObject= runner.Spawn(PlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
+            NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab, PlayerPrefab.transform.position, Quaternion.identity, player);
+            runner.SetPlayerObject(player, playerNetworkObject);
+            //print( player. .GetComponent<PlayerController>().myHealth);
+        }
+        //  throw new NotImplementedException();
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -294,44 +299,44 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         print("Player left guys");
         if (player == runner.LocalPlayer)
         {
-            
+
         }
-       
-    //   throw new NotImplementedException();
+
+        //   throw new NotImplementedException();
     }
 
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
     {
-     //   throw new NotImplementedException();
+        //   throw new NotImplementedException();
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
     {
-       // throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-      //  throw new NotImplementedException();
+        //  throw new NotImplementedException();
     }
 
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-     //   throw new NotImplementedException();
+        //   throw new NotImplementedException();
     }
 
-   
 
-    
+
+
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
 
-    //    print("Player left guys");
-      //  throw new NotImplementedException();
+        //    print("Player left guys");
+        //  throw new NotImplementedException();
     }
 
     // Start is called before the first frame update
-    
+
 
 }
