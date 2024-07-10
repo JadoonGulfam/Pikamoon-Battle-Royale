@@ -50,7 +50,7 @@ public class PlayerController : NetworkBehaviour
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
             GetComponent<CharacterController>().enabled = false;
-            GetComponent<CameraScrollZoom>().enabled = false;
+           // GetComponent<CameraScrollZoom>().enabled = false;
             GetComponent<PersonController>().enabled = false;
 
         }

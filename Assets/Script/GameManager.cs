@@ -212,6 +212,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         if (scene.name == "Environment")
         {
             // Instantiate the player when the "Environment" scene is loaded
+            GetComponent<NetworkRunner>().enabled = false;
             GameObject singlePlayer = Instantiate(PlayerPrefabForSinglePlayer, PlayerPrefabForSinglePlayer.transform.position, Quaternion.identity);
         }
     }
