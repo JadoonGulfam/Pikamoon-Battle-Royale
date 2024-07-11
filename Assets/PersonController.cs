@@ -22,12 +22,16 @@ public class PersonController : MonoBehaviour
     // Animation parameters
     private float animationBlend;
 
+    AudioSource CharacterSound;
+    public AudioClip footStepSound;
+    public AudioClip jumpSound;
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main.transform;
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        CharacterSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -129,6 +133,14 @@ public class PersonController : MonoBehaviour
         //   AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
         //  }
     }
-    private void OnFootstep() { }
+    private void OnFootstep()
+    {
+        CharacterSound.PlayOneShot(footStepSound);
+    }
+    private void OnJump()
+    {
+        Debug.Log("yaha aya ha bhai");
+        CharacterSound.PlayOneShot(jumpSound);
+    }
 
 }
