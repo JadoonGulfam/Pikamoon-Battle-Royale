@@ -13,6 +13,7 @@ public class SinglePlayerController : MonoBehaviour
     Button[] PikaButtons = new Button[6];
     void Start()
     {
+
         GetComponent<HNSPlayerController>().enabled = true;
         myCharacterindex = GameManager.instance.myCharacter;
         GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
@@ -21,7 +22,7 @@ public class SinglePlayerController : MonoBehaviour
         virtualCamera = GameObject.Find("PlayerFollowCamera");
         virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
         virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
-
+        GameObject.FindGameObjectWithTag("Canvas").SetActive(false);
         // Temp button for pika to spawn in environment
         //Transform temp = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1);
         //Destroypika = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).transform.GetChild(2).GetComponent<Button>();
