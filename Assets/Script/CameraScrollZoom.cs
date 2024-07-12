@@ -1,41 +1,28 @@
 using Cinemachine;
-using SickscoreGames.HUDNavigationSystem;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 public class CameraScrollZoom : MonoBehaviour
 {
-    public float minFov ;
-    public float maxFov ;
+    public float minDistance = 4f;
+    public float maxDistance = 15f;
     public float sensitivity = 10f;
-    //public GameObject virtualCameraDistance;
-    CinemachineFreeLook setDistance;
-    // Start is called before the first frame update
+
+    private CinemachineFreeLook setDistance;
     IEnumerator Start()
     {
-       // GameObject temp=  GameObject.FindWithTag("HUD");
-       // temp.GetComponent<HUDNavigationSystem>().PlayerController=gameObject.transform;
-
         yield return new WaitForSeconds(1.0f);
-        //virtualCameraDistance = GameObject.Find("PlayerFollowCamera");
-        setDistance = GetComponent<CinemachineFreeLook>();//.GetCinemachineComponent<CinemachineFreeLook>();
-      
+        setDistance = GetComponent<CinemachineFreeLook>();
     }
-   
+
     void Update()
     {
-      
-        if (setDistance != null )
+        if (setDistance != null)
         {
-            float fov = setDistance.m_Lens.FieldOfView;
-            fov += Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-            fov = Mathf.Clamp(fov, minFov, maxFov);
-            setDistance.m_Lens.FieldOfView = fov;
+            float scroll = Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+            for (int i = 0; i < setDistance.m_Orbits.Length; i++)
+            {
+                setDistance.m_Orbits[i].m_Radius = Mathf.Clamp(setDistance.m_Orbits[i].m_Radius - scroll, minDistance, maxDistance);
+            }
         }
-
-       
-
-
     }
 }
