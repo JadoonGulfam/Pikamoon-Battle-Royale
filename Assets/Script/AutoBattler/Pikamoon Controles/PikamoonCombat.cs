@@ -10,11 +10,12 @@ public class PikamoonCombat : MonoBehaviour
     private float currentMana;
     private bool isAttacking = false;
     private GameObject currentTarget;
+    [SerializeField]
     private PikamoonAnimation animationController;
 
     private void Awake()
     {
-        animationController = GetComponent<PikamoonAnimation>();
+       // animationController = GetComponent<PikamoonAnimation>();
     }
 
     private void Start()

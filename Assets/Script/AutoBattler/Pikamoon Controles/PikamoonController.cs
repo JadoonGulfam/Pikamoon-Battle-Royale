@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PikamoonMovement))]
 [RequireComponent(typeof(PikamoonCombat))]
-[RequireComponent(typeof(PikamoonAnimation))]
+
 public class PikamoonController : MonoBehaviour
 {
     [Header("General Settings")]

@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8143987401317086669}
   - component: {fileID: 7627592584378605504}
+  - component: {fileID: 7192614618431656759}
+  - component: {fileID: 3491541854997625511}
+  - component: {fileID: 802373065009464674}
   m_Layer: 0
   m_Name: DM_Soarcrow
   m_TagString: Untagged
@@ -46,6 +49,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAIPikamood: 0
+--- !u!143 &7192614618431656759
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379426234330643657}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3491541854997625511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379426234330643657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e922c31a72e33dd4d9feff95062e966f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &802373065009464674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379426234330643657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0927099b7ccdd45a29c6b5ab32d096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 10
+  attackRange: 1.5
+  manaRegenRate: 1
+  animationController: {fileID: 2605493035331984795}
 --- !u!1001 &2816543470138214939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,6 +174,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1781716281727677204}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9d7e712dfd55bde4390487e1e9e84e3c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2605493035331984795}
   m_SourcePrefab: {fileID: 100100000, guid: 9d7e712dfd55bde4390487e1e9e84e3c, type: 3}
 --- !u!4 &2350006132685516272 stripped
 Transform:
@@ -151,3 +212,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2605493035331984795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3159053642506827594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63771d7885d76e843a841425654a8a37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireParticles: {fileID: 0}

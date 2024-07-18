@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7142936717286634233}
   - component: {fileID: 9195069464297585927}
+  - component: {fileID: 153818866140389690}
+  - component: {fileID: 8135386828892899950}
+  - component: {fileID: 760744793796944580}
   m_Layer: 0
   m_Name: DM_Sylvolt
   m_TagString: Untagged
@@ -46,6 +49,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAIPikamood: 0
+--- !u!143 &153818866140389690
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2462642122293723578}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8135386828892899950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2462642122293723578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e922c31a72e33dd4d9feff95062e966f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &760744793796944580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2462642122293723578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0927099b7ccdd45a29c6b5ab32d096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 10
+  attackRange: 1.5
+  manaRegenRate: 1
+  animationController: {fileID: 9112787526740819055}
 --- !u!1001 &6158173552858611044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,6 +174,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7087179768172721553}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 77315679f41a5944e945e73d7095db38,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9112787526740819055}
   m_SourcePrefab: {fileID: 100100000, guid: 77315679f41a5944e945e73d7095db38, type: 3}
 --- !u!4 &5979798739595483791 stripped
 Transform:
@@ -151,3 +212,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9112787526740819055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6464728054321807413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63771d7885d76e843a841425654a8a37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireParticles: {fileID: 0}

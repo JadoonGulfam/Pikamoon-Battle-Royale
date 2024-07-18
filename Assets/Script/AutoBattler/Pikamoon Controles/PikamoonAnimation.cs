@@ -3,7 +3,7 @@ using UnityEngine;
 public class PikamoonAnimation : MonoBehaviour
 {
     [Header("Animation Settings")]
-    private Animator animator;
+     private Animator animator;
     [SerializeField] private ParticleSystem fireParticles;
 
     private void Awake()
