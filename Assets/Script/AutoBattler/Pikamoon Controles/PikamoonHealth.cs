@@ -15,6 +15,7 @@ public class PikamoonHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        print("Damage amount" + amount);
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
@@ -24,6 +25,7 @@ public class PikamoonHealth : MonoBehaviour
 
     private void Die()
     {
+        Debug.Log("Die player died");
         animationController.SetAttackAnimation(false);
         animationController.SetDeathAnimation();
         // Additional death logic here
