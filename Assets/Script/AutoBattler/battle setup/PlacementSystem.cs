@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject[] prefabs;
     public static PlacementSystem Instance { get; private set; }
     public static event Action OnPlacementComplete;
 
@@ -34,6 +36,8 @@ public class PlacementSystem : MonoBehaviour
 
     public List<GameObject> aIPikas = new List<GameObject>();
     public List<GameObject> playerPika = new List<GameObject>();
+
+    
 
     private void Awake()
     {
@@ -107,8 +111,8 @@ public class PlacementSystem : MonoBehaviour
         }
         gridVisualization.SetActive(true);
         preview.StartShowingPlacementPreview(
-            database.objectData[selectedObjectIndex].Prefab,
-            database.objectData[selectedObjectIndex].Size
+            prefabs[database.objectData[selectedObjectIndex].ID],
+            Vector2Int.one
         );
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
@@ -135,7 +139,9 @@ public class PlacementSystem : MonoBehaviour
 
     private void PlaceStructureAt(int objectIndex, Vector3Int gridPosition, bool isAIPlacement)
     {
-        GameObject gameObject = Instantiate(database.objectData[objectIndex].Prefab);
+        print("selected index" + objectIndex);
+        print("id" + database.objectData[objectIndex].ID);
+        GameObject gameObject = Instantiate(prefabs[objectIndex]);
         Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
 
         gameObject.transform.position = new Vector3(cellWorldPosition.x, 0, cellWorldPosition.z);
@@ -148,7 +154,7 @@ public class PlacementSystem : MonoBehaviour
             gameObject.transform.Rotate(0, 180, 0);
             aIPikas.Add(gameObject);
             gameObject.GetComponent<PikamoonController>().isAIPikamood = true;
-          
+
         }
         else
         {
@@ -163,7 +169,7 @@ public class PlacementSystem : MonoBehaviour
 
         selectData.AddOjectAt(
             gridPosition,
-            database.objectData[objectIndex].Size,
+            Vector2Int.one,
             database.objectData[objectIndex].ID,
             placedGameObjects.Count - 1
         );
@@ -172,9 +178,9 @@ public class PlacementSystem : MonoBehaviour
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
-        GridData selectData = database.objectData[selectedObjectIndex].ID == -1 ? floorData : objectData;
+       GridData selectData = database.objectData[selectedObjectIndex].ID == -1 ? floorData : objectData;
 
-        return selectData.CanPlaceObjectAt(gridPosition, database.objectData[selectedObjectIndex].Size);
+        return selectData.CanPlaceObjectAt(gridPosition, Vector2Int.one);
     }
 
     private void StopPlacement()
