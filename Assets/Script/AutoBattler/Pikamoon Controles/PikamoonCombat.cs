@@ -4,22 +4,25 @@ using UnityEngine;
 public class PikamoonCombat : MonoBehaviour
 {
     [Header("Combat Settings")]
-    public float attackDamage = 10f;
-    public float attackRange = 1.5f;
-    public float manaRegenRate = 1f;
+    private float attackDamage;
+    private float attackRange;
+    private float manaRegenRate;
+
     private float currentMana;
     private bool isAttacking = false;
     private GameObject currentTarget;
-    [SerializeField]
     private PikamoonAnimation animationController;
 
     private void Awake()
     {
-       // animationController = GetComponent<PikamoonAnimation>();
+        animationController = GetComponent<PikamoonAnimation>();
     }
 
-    private void Start()
+    public void Initialize(float attack, float range, float manaRegen)
     {
+        attackDamage = attack;
+        attackRange = range;
+        manaRegenRate = manaRegen;
         currentMana = manaRegenRate;
     }
 

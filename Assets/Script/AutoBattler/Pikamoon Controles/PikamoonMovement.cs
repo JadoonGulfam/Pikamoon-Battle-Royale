@@ -4,12 +4,17 @@ using UnityEngine;
 public class PikamoonMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    private float speed = 0.5f;
+    private float speed;
     private CharacterController characterController;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+    }
+
+    public void Initialize(float moveSpeed)
+    {
+        speed = moveSpeed;
     }
 
     public bool MoveTowardsOpponent(GameObject nearestOpponent)
@@ -23,6 +28,8 @@ public class PikamoonMovement : MonoBehaviour
         {
             return true;
         }
+
+        Debug.Log($"{gameObject.name} {transform.position}  vs  {nearestOpponent.name} {opponentPosition}");
 
         Vector3 direction = (opponentPosition - transform.position).normalized;
 
