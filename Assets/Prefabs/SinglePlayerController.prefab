@@ -591,7 +591,9 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 2.5
   isGrounded: 0
-  footStepSound: {fileID: 8300000, guid: ae9ea58a048d1274998d484b5df0ee86, type: 3}
+  roadFootStepSound: {fileID: 8300000, guid: ae9ea58a048d1274998d484b5df0ee86, type: 3}
+  mudFootStepSound: {fileID: 8300000, guid: abc4c1ccf88111a4d8e2cd47f308c6b3, type: 3}
+  grassFootStepSound: {fileID: 8300000, guid: 9007f868f389f4c47854ae780c35e9ae, type: 3}
   jumpSound: {fileID: 8300000, guid: 0ce98ada7f8504142b0bc99eb53931dd, type: 3}
 --- !u!208 &721142660386018315
 NavMeshObstacle:
@@ -829,15 +831,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a9ecea138d32a45ba90518efdf2c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footIKWeight: 0
-  footHeightOffset: 0
+  footIKWeight: 1
+  footHeightOffset: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  footPositionSmooth: 0
-  footRotationSmooth: 0
-  pelvisOffset: 0
-  pelvisAdjustmentSpeed: 0
 --- !u!1 &2676229702635137431
 GameObject:
   m_ObjectHideFlags: 0

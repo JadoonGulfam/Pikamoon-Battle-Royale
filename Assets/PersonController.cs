@@ -22,16 +22,30 @@ public class PersonController : MonoBehaviour
     // Animation parameters
     private float animationBlend;
 
-    AudioSource CharacterSound;
-    public AudioClip footStepSound;
+    AudioSource characterSound;
+    public AudioClip roadFootStepSound;
+    public AudioClip mudFootStepSound;
+    public AudioClip grassFootStepSound;
     public AudioClip jumpSound;
+
+    private Terrain terrain;
+    private Vector3 terrainPos;
+    private string currentTextureName;
+
+    // Footstep sound control
+    private float footstepInterval = 0.5f; // Adjust interval as needed
+    private float footstepTimer = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main.transform;
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        CharacterSound = GetComponent<AudioSource>();
+        characterSound = GetComponent<AudioSource>();
+
+        terrain = Terrain.activeTerrain;
+        terrainPos = terrain.transform.position;
     }
 
     // Update is called once per frame
@@ -72,6 +86,7 @@ public class PersonController : MonoBehaviour
 
             // Calculate animation blend value based on speed
             animationBlend = Mathf.Clamp01(direction.magnitude) * (targetSpeed == runSpeed ? 2f : 1f);
+
         }
         else
         {
@@ -100,7 +115,88 @@ public class PersonController : MonoBehaviour
         //}
         // Update animator with blend value
         animator.SetFloat("MotionSpeed", animationBlend);
-       // animator.SetFloat("JumpSpeed", velocity.y); // Update vertical speed for in-air animation
+        // animator.SetFloat("JumpSpeed", velocity.y); // Update vertical speed for in-air animation
+        DetectTerrainTexture();
+    }
+    void DetectTerrainTexture()
+    {
+        Vector3 playerPos = transform.position;
+        Vector3 terrainCoord = playerPos - terrainPos;
+        Vector3 mapCoord = new Vector3(terrainCoord.x / terrain.terrainData.size.x, 0, terrainCoord.z / terrain.terrainData.size.z);
+
+        int xMap = Mathf.RoundToInt(mapCoord.x * terrain.terrainData.alphamapWidth);
+        int zMap = Mathf.RoundToInt(mapCoord.z * terrain.terrainData.alphamapHeight);
+
+        float[,,] splatmapData = terrain.terrainData.GetAlphamaps(xMap, zMap, 1, 1);
+
+        float[] textureMix = new float[splatmapData.GetUpperBound(2) + 1];
+        for (int i = 0; i < textureMix.Length; i++)
+        {
+            textureMix[i] = splatmapData[0, 0, i];
+        }
+
+        int textureIndex = 0;
+        float maxMix = 0;
+
+        for (int i = 0; i < textureMix.Length; i++)
+        {
+            if (textureMix[i] > maxMix)
+            {
+                textureIndex = i;
+                maxMix = textureMix[i];
+            }
+        }
+
+        string newTextureName = terrain.terrainData.terrainLayers[textureIndex].name;
+
+        if (newTextureName != currentTextureName)
+        {
+            currentTextureName = newTextureName;
+            ChangeAnimationAndSound(newTextureName);
+        }
+    }
+    void PlayFootstepSound()
+    {
+        if (characterSound.clip != null && isGrounded && characterController.velocity.magnitude > 0.1f)
+        {
+            characterSound.Play();
+        }
+    }
+    void ChangeAnimationAndSound(string textureName)
+    {
+        switch (textureName)
+        {
+            case "Dirt_02":
+               // animator.SetTrigger("WalkOnRoad");
+                characterSound.clip = mudFootStepSound;
+                Debug.Log("Dirt_02");
+                break;
+            case "Grass_01":
+               // animator.SetTrigger("WalkOnMud");
+                characterSound.clip = grassFootStepSound;
+                Debug.Log("Grass_01");
+                break;
+            case "Dirt_01":
+               // animator.SetTrigger("WalkOnGrass");
+                characterSound.clip = mudFootStepSound;
+                Debug.Log("Dirt_01");
+                break;
+            case "Dirt_Road":
+               // animator.SetTrigger("WalkOnGrass");
+                characterSound.clip = mudFootStepSound;
+                Debug.Log("Dirt_Road");
+                break;
+            case "Cliff":
+               // animator.SetTrigger("WalkOnGrass");
+                characterSound.clip = roadFootStepSound;
+                Debug.Log("Cliff");
+                break;
+            default:
+               // animator.SetTrigger("WalkDefault");
+                Debug.Log("WalkDefault");
+                characterSound.clip = null;
+                break;
+        }
     }
     bool chkforGround;
     private void JumpAnimate()
@@ -135,12 +231,11 @@ public class PersonController : MonoBehaviour
     }
     private void OnFootstep()
     {
-        CharacterSound.PlayOneShot(footStepSound);
+        characterSound.Play();
     }
     private void OnJump()
     {
-        Debug.Log("yaha aya ha bhai");
-        CharacterSound.PlayOneShot(jumpSound);
+        characterSound.PlayOneShot(jumpSound);
     }
 
 }
