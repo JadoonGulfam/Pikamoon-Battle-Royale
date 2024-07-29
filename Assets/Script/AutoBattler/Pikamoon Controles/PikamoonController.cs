@@ -143,6 +143,7 @@ public class PikamoonController : MonoBehaviour
 
     private void FindAndSetNearestOpponent()
     {
+
         nearestOpponent = FindNearestOpponent();
         if (nearestOpponent != null)
         {
