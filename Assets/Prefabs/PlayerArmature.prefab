@@ -182,6 +182,8 @@ GameObject:
   - component: {fileID: -7649945902918050967}
   - component: {fileID: 8806149260138939447}
   - component: {fileID: -3441492172912248310}
+  - component: {fileID: 2326007521212581909}
+  - component: {fileID: 1036710619609384547}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -197,8 +199,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505059675166667281}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 613.823, y: 21.66, z: 458.696}
+  m_LocalRotation: {x: 0, y: -0.9982692, z: 0, w: 0.0588099}
+  m_LocalPosition: {x: 563.9318, y: 23.77875, z: 437.30557}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -207,7 +209,7 @@ Transform:
   - {fileID: 4145451427073070642}
   - {fileID: 4501029934848646876}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -173.257, z: 0}
 --- !u!95 &6532938970154889937
 Animator:
   serializedVersion: 5
@@ -488,6 +490,14 @@ MonoBehaviour:
     type: 3}
   PikaMoon_Blazeving: {fileID: 8007243249918823574, guid: 83ee445fe0878eb44b50f918aa5b72f7,
     type: 3}
+  PikaMoon_Sylvolt: {fileID: 4454572566789570489, guid: 454ff95fc0cb34049997b2eb0cf092b1,
+    type: 3}
+  PikaMoon_Dracodilla: {fileID: 2705821859349728127, guid: 5141e568e44d60047a55cc03ebd806bd,
+    type: 3}
+  PikaMoon_Soarcrow: {fileID: 8094961872711702112, guid: b63f3b6d0b2c23240a60063ac2a2cc62,
+    type: 3}
+  PikaMoon_Torrentar: {fileID: 5200295727484133333, guid: ec37b2ae6b8a03744aab1f828a5d06b3,
+    type: 3}
   canvasData: {fileID: 7129484302008918036}
   characters:
   - {fileID: 1901944441222039956, guid: bb17423d7a492284cb4f3d775889236a, type: 3}
@@ -503,7 +513,7 @@ MonoBehaviour:
   pikaMoon_CharacterList: []
   _userName: ' '
   _myCharacterindex: 0
-  _myHealth: 100
+  myItems: {fileID: 0}
   virtualCamera: {fileID: 0}
 --- !u!114 &-7649945902918050967
 MonoBehaviour:
@@ -546,15 +556,102 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505059675166667281}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac53300c4bd666041a8ede7d8b25d7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFov: 50
-  maxFov: 90
-  sensitivity: 10
-  virtualCamera: {fileID: 0}
+  minFov: 30
+  maxFov: 60
+  sensitivity: 20
+  virtualCameraDistance: {fileID: 0}
+--- !u!114 &2326007521212581909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505059675166667281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d204e3674d92d46820131cf7f92657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1036710619609384547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505059675166667281}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a5fc50cb592fe4f95457eb6d66e520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Settings: {fileID: 0}
+  Prefabs:
+    RadarPrefab: {fileID: 114649513964931752, guid: 7df08e2a2fd0940469fa781e26554019,
+      type: 3}
+    CompassBarPrefab: {fileID: 114875581833013858, guid: d04e4256c86dfc4439da3d1b4407458e,
+      type: 3}
+    IndicatorPrefab: {fileID: 114774112296258654, guid: a6a30f54a2a73b44188b37b26acba8fd,
+      type: 3}
+    MinimapPrefab: {fileID: 114416010850775958, guid: 1a49a06b982118e419d1430157c20d2c,
+      type: 3}
+  hideInRadar: 0
+  ignoreRadarRadius: 1
+  ignoreRadarScaling: 0
+  ignoreRadarFading: 0
+  rotateWithGameObject: 1
+  useRadarHeightSystem: 1
+  hideInCompassBar: 0
+  ignoreCompassBarRadius: 0
+  useCompassBarDistanceText: 1
+  compassBarDistanceTextFormat: '{0}m'
+  showIndicator: 1
+  showOffscreenIndicator: 1
+  ignoreIndicatorRadius: 1
+  ignoreIndicatorHideDistance: 1
+  ignoreIndicatorScaling: 0
+  ignoreIndicatorFading: 1
+  useIndicatorDistanceText: 1
+  showOffscreenIndicatorDistance: 0
+  indicatorOnscreenDistanceTextFormat: '{0}m'
+  indicatorOffscreenDistanceTextFormat: '{0}'
+  hideInMinimap: 0
+  ignoreMinimapRadius: 1
+  ignoreMinimapScaling: 0
+  ignoreMinimapFading: 0
+  rotateWithGameObjectMM: 1
+  useMinimapHeightSystem: 1
+  OnElementReady:
+    m_PersistentCalls:
+      m_Calls: []
+  OnElementUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAppear:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDisappear:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnterRadius:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeaveRadius:
+    m_PersistentCalls:
+      m_Calls: []
+  IsActive: 1
+  Radar: {fileID: 0}
+  CompassBar: {fileID: 0}
+  Indicator: {fileID: 0}
+  Minimap: {fileID: 0}
+  IsInRadarRadius: 0
+  IsInCompassBarRadius: 0
+  IsInIndicatorRadius: 0
+  IsInMinimapRadius: 0
 --- !u!1 &672677928793979730
 GameObject:
   m_ObjectHideFlags: 0

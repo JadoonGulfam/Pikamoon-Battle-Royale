@@ -6,8 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public void StartAutoBattler()
+    public GameObject mainPanel, loadingPanel;
+    public Image loadingSprite;
+    private bool isLoading=false;
+
+    private void Start()
     {
-        SceneManager.LoadScene("AutoBattler");
+        isLoading = true;
+    }
+    private void Update()
+    {
+        if (isLoading)
+        {
+
+            loadingSprite.fillAmount += Time.deltaTime * 0.2f;
+            if (loadingSprite.fillAmount >= 0.9f)
+            {
+                loadingPanel.SetActive(false);
+                mainPanel.SetActive(true);
+                isLoading = false;
+            }
+        }
     }
 }
