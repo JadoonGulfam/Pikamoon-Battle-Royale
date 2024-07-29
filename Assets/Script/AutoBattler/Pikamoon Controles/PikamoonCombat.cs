@@ -31,7 +31,7 @@ public class PikamoonCombat : MonoBehaviour
         if (!isAttacking)
         {
             currentTarget = target;
-            StartCoroutine(CombatRoutine());
+           // StartCoroutine(CombatRoutine());
         }
     }
 

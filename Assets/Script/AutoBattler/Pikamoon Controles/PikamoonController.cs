@@ -56,7 +56,7 @@ public class PikamoonController : MonoBehaviour
             Debug.LogError($"No Pikamoon data found with ID: {pikamoonID}");
             return;
         }
-
+        movement.Initialize(pikamoonData.MoveSpeed);
         // Here you can initialize your Pikamoon attributes with pikamoonData
         // For example:
        // Debug.Log($"Initializing Pikamoon {pikamoonData.DisplayName} with ID {pikamoonData.ID}");
@@ -80,30 +80,31 @@ public class PikamoonController : MonoBehaviour
             Debug.LogError($"No Pikamoon data found with ID: {pikamoonID}");
             return;
         }
+        
 
         // Print Pikamoon attributes
-        Debug.Log($"Pikamoon Attributes for ID {pikamoonID}:");
-        Debug.Log($"DisplayName: {pikamoonData.DisplayName}");
-        Debug.Log($"Rarity: {pikamoonData.Rarity}");
-        Debug.Log($"Level: {pikamoonData.Level}");
-        Debug.Log($"ElementalClass: {pikamoonData.ElementalClass}");
-        Debug.Log($"CombatClass: {pikamoonData.CombatClass}");
-        Debug.Log($"Attack: {pikamoonData.Attack}");
-        Debug.Log($"Magic: {pikamoonData.Magic}");
-        Debug.Log($"Hp: {pikamoonData.Hp}");
-        Debug.Log($"PhysicalDefense: {pikamoonData.PhysicalDefense}");
-        Debug.Log($"MagicalDefense: {pikamoonData.MagicalDefense}");
-        Debug.Log($"Evasion: {pikamoonData.Evasion}");
-        Debug.Log($"MoveSpeed: {pikamoonData.MoveSpeed}");
-        Debug.Log($"AttackInterval: {pikamoonData.AttackInterval}");
-        Debug.Log($"AttackRange: {pikamoonData.AttackRange}");
-        Debug.Log($"MaxMana: {pikamoonData.MaxMana}");
-        Debug.Log($"BaseManaGeneration: {pikamoonData.BaseManaGeneration}");
-        Debug.Log($"ManaGainAttackMultiplier: {pikamoonData.ManaGainAttackMultiplier}");
-        Debug.Log($"ManaGainDamageMultiplier: {pikamoonData.ManaGainDamageMultiplier}");
-        Debug.Log($"CriticalChance: {pikamoonData.CriticalChance}");
-        Debug.Log($"SpecialAbility: {pikamoonData.SpecialAbility}");
-        Debug.Log($"Description: {pikamoonData.Description}");
+        //Debug.Log($"Pikamoon Attributes for ID {pikamoonID}:");
+        //Debug.Log($"DisplayName: {pikamoonData.DisplayName}");
+        //Debug.Log($"Rarity: {pikamoonData.Rarity}");
+        //Debug.Log($"Level: {pikamoonData.Level}");
+        //Debug.Log($"ElementalClass: {pikamoonData.ElementalClass}");
+        //Debug.Log($"CombatClass: {pikamoonData.CombatClass}");
+        //Debug.Log($"Attack: {pikamoonData.Attack}");
+        //Debug.Log($"Magic: {pikamoonData.Magic}");
+        //Debug.Log($"Hp: {pikamoonData.Hp}");
+        //Debug.Log($"PhysicalDefense: {pikamoonData.PhysicalDefense}");
+        //Debug.Log($"MagicalDefense: {pikamoonData.MagicalDefense}");
+        //Debug.Log($"Evasion: {pikamoonData.Evasion}");
+        //Debug.Log($"MoveSpeed: {pikamoonData.MoveSpeed}");
+        //Debug.Log($"AttackInterval: {pikamoonData.AttackInterval}");
+        //Debug.Log($"AttackRange: {pikamoonData.AttackRange}");
+        //Debug.Log($"MaxMana: {pikamoonData.MaxMana}");
+        //Debug.Log($"BaseManaGeneration: {pikamoonData.BaseManaGeneration}");
+        //Debug.Log($"ManaGainAttackMultiplier: {pikamoonData.ManaGainAttackMultiplier}");
+        //Debug.Log($"ManaGainDamageMultiplier: {pikamoonData.ManaGainDamageMultiplier}");
+        //Debug.Log($"CriticalChance: {pikamoonData.CriticalChance}");
+        //Debug.Log($"SpecialAbility: {pikamoonData.SpecialAbility}");
+        //Debug.Log($"Description: {pikamoonData.Description}");
     }
 
     private void StartFindingOpponent()

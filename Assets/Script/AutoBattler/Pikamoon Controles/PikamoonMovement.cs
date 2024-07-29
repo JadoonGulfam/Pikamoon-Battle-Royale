@@ -4,17 +4,20 @@ using UnityEngine;
 public class PikamoonMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    private float speed;
+    private float speed=10;
     private CharacterController characterController;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        
     }
 
     public void Initialize(float moveSpeed)
     {
         speed = moveSpeed;
+        print("Move speed" + speed);
+        
     }
 
     public bool MoveTowardsOpponent(GameObject nearestOpponent)
@@ -37,6 +40,7 @@ public class PikamoonMovement : MonoBehaviour
 
         if (direction != Vector3.zero)
         {
+            print("sssss" + speed);
             Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, speed * Time.deltaTime);
         }
