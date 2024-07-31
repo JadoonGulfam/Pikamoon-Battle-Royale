@@ -30,7 +30,7 @@ public class InputManager : MonoBehaviour
         }
         return lastPosition;
     }
-    //
+    
 }
 
 #region  ____________________MVVM______________________
