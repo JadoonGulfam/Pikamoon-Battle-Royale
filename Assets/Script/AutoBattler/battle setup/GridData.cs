@@ -24,7 +24,7 @@ public class GridData
         }
     }
 
-     
+// 
     private List<Vector3Int> CalulatePositions(Vector3Int girdPosition, Vector2Int objectSize)
     {
         List<Vector3Int> returnVal = new();
