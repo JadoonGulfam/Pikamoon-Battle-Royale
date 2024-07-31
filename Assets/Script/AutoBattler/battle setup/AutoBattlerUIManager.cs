@@ -40,4 +40,5 @@ public class AutoBattlerUIManager : MonoBehaviour
     {
         SceneManager.LoadScene("Lobby");
     }
+    //
 }

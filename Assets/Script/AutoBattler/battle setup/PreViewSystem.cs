@@ -41,7 +41,7 @@ public class PreViewSystem : MonoBehaviour
             cellIndicatorRenderer.material.mainTextureScale = size;
         }
     }
-
+    //
     private void PreparePreView(GameObject preViewObject)
     {
         Renderer[] renderers = preViewObject.GetComponentsInChildren<Renderer>();

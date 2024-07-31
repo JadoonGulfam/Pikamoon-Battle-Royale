@@ -131,7 +131,7 @@ public class PlacementSystem : MonoBehaviour
             }
         }
     }
-
+//
     private void PlaceStructureAt(int objectIndex, Vector3Int gridPosition, bool isAIPlacement)
     {
         print("selected index" + objectIndex);

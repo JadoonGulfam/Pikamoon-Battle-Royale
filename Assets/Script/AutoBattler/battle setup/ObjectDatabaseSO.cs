@@ -33,5 +33,5 @@ public class ObjectData
     public int ManaGainDamageMultiplier;
     public int CriticalChance;
     public string SpecialAbility;
-    public string Description;
+    public string Description;//
 }
