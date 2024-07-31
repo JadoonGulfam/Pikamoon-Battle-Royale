@@ -59,7 +59,7 @@ public class PikamoonController : MonoBehaviour
         movement.Initialize(pikamoonData.MoveSpeed);
         // Here you can initialize your Pikamoon attributes with pikamoonData
         // For example:
-        // Debug.Log($"Initializing Pikamoon {pikamoonData.DisplayName} with ID {pikamoonData.ID}");
+       // Debug.Log($"Initializing Pikamoon {pikamoonData.DisplayName} with ID {pikamoonData.ID}");
         // Set attributes like HP, Attack, etc.
         // hp = pikamoonData.Hp;
         // attack = pikamoonData.Attack;
@@ -80,7 +80,7 @@ public class PikamoonController : MonoBehaviour
             Debug.LogError($"No Pikamoon data found with ID: {pikamoonID}");
             return;
         }
-
+        
 
         // Print Pikamoon attributes
         //Debug.Log($"Pikamoon Attributes for ID {pikamoonID}:");
