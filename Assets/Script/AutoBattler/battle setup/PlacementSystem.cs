@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] prefabs;
     public static PlacementSystem Instance { get; private set; }
     public static event Action OnPlacementComplete;
 
@@ -16,7 +14,8 @@ public class PlacementSystem : MonoBehaviour
     private InputManager inputManager;
     [SerializeField]
     private Grid grid;
-    public ObjectDatabaseSO database;  // Changed from private to public
+    [SerializeField]
+    private ObjectDatabaseSO database;
     private int selectedObjectIndex = -1;
     [SerializeField]
     private GameObject gridVisualization;
@@ -30,8 +29,8 @@ public class PlacementSystem : MonoBehaviour
     private Vector3 lastDetectedPosition = Vector3.zero;
 
     private bool isPreviewEnabled = false;
-    private int userPlacedItemsCount = 0;
-    private int maxItemsToPlace = 5;
+    private int userPlacedItemsCount=0;
+    private int maxItemsToPlace=5;
 
     public List<GameObject> aIPikas = new List<GameObject>();
     public List<GameObject> playerPika = new List<GameObject>();
@@ -52,7 +51,7 @@ public class PlacementSystem : MonoBehaviour
         StopPlacement();
         floorData = new();
         objectData = new();
-        // StartCoroutine(AIPlaceObjects());
+       // StartCoroutine(AIPlaceObjects());
     }
 
     public void StartPlacement()
@@ -85,6 +84,8 @@ public class PlacementSystem : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         autoBattlerUIManager.StartPlayerTeamSelection();
+
+
     }
 
     public void StartPlacement(int ID)
@@ -106,8 +107,8 @@ public class PlacementSystem : MonoBehaviour
         }
         gridVisualization.SetActive(true);
         preview.StartShowingPlacementPreview(
-            prefabs[database.objectData[selectedObjectIndex].ID],
-            Vector2Int.one
+            database.objectData[selectedObjectIndex].Prefab,
+            database.objectData[selectedObjectIndex].Size
         );
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
@@ -134,22 +135,20 @@ public class PlacementSystem : MonoBehaviour
 
     private void PlaceStructureAt(int objectIndex, Vector3Int gridPosition, bool isAIPlacement)
     {
-        print("selected index" + objectIndex);
-        print("id" + database.objectData[objectIndex].ID);
-        GameObject gameObject = Instantiate(prefabs[objectIndex]);
+        GameObject gameObject = Instantiate(database.objectData[objectIndex].Prefab);
         Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
 
         gameObject.transform.position = new Vector3(cellWorldPosition.x, 0, cellWorldPosition.z);
 
-        // Initialize the PikamoonController script with the appropriate ID
-        PikamoonController pikamoonController = gameObject.GetComponent<PikamoonController>();
-        pikamoonController.pikamoonID = database.objectData[objectIndex].ID;
+        // Initialize the CharacterController script with the appropriate opponent list
+        CharacterController characterController = gameObject.GetComponent<CharacterController>();
 
         if (isAIPlacement)
         {
             gameObject.transform.Rotate(0, 180, 0);
             aIPikas.Add(gameObject);
             gameObject.GetComponent<PikamoonController>().isAIPikamood = true;
+          
         }
         else
         {
@@ -164,17 +163,18 @@ public class PlacementSystem : MonoBehaviour
 
         selectData.AddOjectAt(
             gridPosition,
-            Vector2Int.one,
+            database.objectData[objectIndex].Size,
             database.objectData[objectIndex].ID,
             placedGameObjects.Count - 1
         );
     }
 
+
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
         GridData selectData = database.objectData[selectedObjectIndex].ID == -1 ? floorData : objectData;
 
-        return selectData.CanPlaceObjectAt(gridPosition, Vector2Int.one);
+        return selectData.CanPlaceObjectAt(gridPosition, database.objectData[selectedObjectIndex].Size);
     }
 
     private void StopPlacement()
@@ -203,3 +203,74 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 }
+
+
+#region ____________________________mvvm__________________
+//using System;
+//using UnityEngine;
+
+//public class PlacementSystem : MonoBehaviour
+//{
+//    [SerializeField]
+//    private GameObject mouseIndicator, cellIndicator, gridVisualization;
+//    [SerializeField]
+//    private InputManager inputManager;
+//    [SerializeField]
+//    private ObjectDatabaseSO database;
+//    [SerializeField]
+//    private GridWrapper grid;
+
+//    private PlacementSystemViewModel viewModel;
+
+//    private void Start()
+//    {
+//        viewModel = new PlacementSystemViewModel(database, grid);
+//        viewModel.OnMouseIndicatorMove += MoveMouseIndicator;
+//        viewModel.OnCellIndicatorMove += MoveCellIndicator;
+//        viewModel.OnObjectPlaced += ObjectPlaced;
+//        viewModel.OnPlacementStopped += StopPlacementVisuals;
+
+//        inputManager.OnClicked += () => viewModel.PlaceStructure(inputManager.GetSelectedMapPosition(), inputManager.IsPointerOverUI());
+
+//        inputManager.OnExit += viewModel.StopPlacement;
+
+//        StopPlacementVisuals();
+//    }
+
+//    private void Update()
+//    {
+//        if (viewModel != null)
+//        {
+//            viewModel.UpdateMousePosition(inputManager.GetSelectedMapPosition());
+//        }
+//    }
+
+//    public void StartPlacement(int ID)
+//    {
+//        viewModel.StartPlacement(ID);
+//        gridVisualization.SetActive(true);
+//        cellIndicator.SetActive(true);
+//    }
+
+//    private void MoveMouseIndicator(Vector3 position)
+//    {
+//        mouseIndicator.transform.position = position;
+//    }
+
+//    private void MoveCellIndicator(Vector3 position)
+//    {
+//        cellIndicator.transform.position = position;
+//    }
+
+//    private void ObjectPlaced(GameObject gameObject)
+//    {
+//        // Custom logic when object is placed, if any
+//    }
+
+//    private void StopPlacementVisuals()
+//    {
+//        gridVisualization.SetActive(false);
+//        cellIndicator.SetActive(false);
+//    }
+//}
+#endregion
