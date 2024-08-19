@@ -3,23 +3,29 @@ using UnityEngine.UI;
 
 public class HealthManaBar : MonoBehaviour
 {
-    [SerializeField]
-    private Image healthFill;
-    [SerializeField]
-    private Image manaFill;
+    [Header("UI Elements")]
+    [SerializeField] private Image healthFill;
+    [SerializeField] private Image manaFill;
 
     private void Start()
     {
-        UpdateHealthBar(1);
-        UpdateManaBar(1);
+        UpdateHealthBar(1f);
+        UpdateManaBar(1f);
     }
+
     public void UpdateHealthBar(float fillAmount)
     {
-        healthFill.fillAmount = 0.5f;
+        if (healthFill != null)
+        {
+            healthFill.fillAmount = Mathf.Clamp01(fillAmount);
+        }
     }
 
     public void UpdateManaBar(float fillAmount)
     {
-        manaFill.fillAmount = 0.8f;
+        if (manaFill != null)
+        {
+            manaFill.fillAmount = Mathf.Clamp01(fillAmount);
+        }
     }
 }

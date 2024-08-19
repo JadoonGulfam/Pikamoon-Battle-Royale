@@ -3,36 +3,36 @@ using UnityEngine;
 public class PikamoonHealth : MonoBehaviour
 {
     [Header("Health Settings")]
-    private float maxHealth;
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float maxMana;
+
     private float currentHealth;
-    public float currentMana;
-    public float maxMana;
-    [SerializeField]
+    public float currentMana { get; private set; }
     private PikamoonAnimation animationController;
 
     private void Awake()
     {
         animationController = GetComponent<PikamoonAnimation>();
     }
-    
+
     public void Initialize(float hp, float mana)
     {
         maxHealth = hp;
         currentHealth = maxHealth;
         maxMana = mana;
-        currentMana = maxMana;
-        print("initialized health attributes");
+        currentMana = 0f;
     }
 
     public float GetHealthPercentage()
     {
-        return currentHealth / maxHealth;
+        return Mathf.Clamp01(currentHealth / maxHealth);
     }
 
     public float GetManaPercentage()
     {
-        return currentMana / maxMana;
+        return Mathf.Clamp01(currentMana / maxMana);
     }
+
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;

@@ -15,21 +15,12 @@ public class PikamoonAnimation : MonoBehaviour
 
     public void SetAttackAnimation(bool isAttacking)
     {
-        if (animator != null)
-        {
-            animator.SetBool("IsAttacking", isAttacking);
-        }
+        animator?.SetBool("IsAttacking", isAttacking);
     }
 
     public void SetDeathAnimation()
     {
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
-        if (fireParticles != null)
-        {
-            fireParticles.Play();
-        }
+        animator?.SetTrigger("Die");
+        fireParticles?.Play();
     }
 }
