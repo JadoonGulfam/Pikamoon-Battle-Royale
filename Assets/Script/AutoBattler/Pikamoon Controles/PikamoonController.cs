@@ -3,6 +3,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(PikamoonMovement))]
 [RequireComponent(typeof(PikamoonCombat))]
+[RequireComponent(typeof(PikamoonHealth))]
+[RequireComponent(typeof(HealthManaBar))]
+
 public class PikamoonController : MonoBehaviour
 {
     [Header("General Settings")]
@@ -15,6 +18,7 @@ public class PikamoonController : MonoBehaviour
     [Header("Components")]
     private PikamoonMovement movement;
     private PikamoonCombat combat;
+    private PikamoonHealth health;
 
     [SerializeField]
     private ObjectDatabaseSO objectDatabase; // Serialized field to assign ObjectDatabaseSO
@@ -34,15 +38,16 @@ public class PikamoonController : MonoBehaviour
         // Initialize components
         movement = GetComponent<PikamoonMovement>();
         combat = GetComponent<PikamoonCombat>();
+        health= GetComponent<PikamoonHealth>();
 
         // Initialize attributes
-        InitializeAttributes();
+        InitializePikamoonAttributes();
     }
     private void Start()
     {
         PrintPikamoonAttributes();
     }
-    private void InitializeAttributes()
+    private void InitializePikamoonAttributes()
     {
         if (objectDatabase == null)
         {
@@ -57,6 +62,14 @@ public class PikamoonController : MonoBehaviour
             return;
         }
         movement.Initialize(pikamoonData.MoveSpeed);
+        health.Initialize(pikamoonData.Hp, pikamoonData.MaxMana);
+        
+
+
+
+
+
+
         // Here you can initialize your Pikamoon attributes with pikamoonData
         // For example:
        // Debug.Log($"Initializing Pikamoon {pikamoonData.DisplayName} with ID {pikamoonData.ID}");
