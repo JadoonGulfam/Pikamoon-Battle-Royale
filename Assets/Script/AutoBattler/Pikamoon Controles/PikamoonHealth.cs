@@ -9,10 +9,14 @@ public class PikamoonHealth : MonoBehaviour
     private float currentHealth;
     public float currentMana { get; private set; }
     private PikamoonAnimation animationController;
+    private HealthManaBar healthManaBar;
+
+    
 
     private void Awake()
     {
         animationController = GetComponent<PikamoonAnimation>();
+        healthManaBar = GetComponent<HealthManaBar>();
     }
 
     public void Initialize(float hp, float mana)
@@ -36,6 +40,7 @@ public class PikamoonHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
+        healthManaBar.UpdateHealthBar(currentHealth);
         if (currentHealth <= 0)
         {
             Die();

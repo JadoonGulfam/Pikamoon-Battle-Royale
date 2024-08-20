@@ -66,6 +66,8 @@ public class PikamoonCombat : MonoBehaviour
         if (currentTarget == null) return;
 
         var health = currentTarget.GetComponent<PikamoonHealth>();
+       
+
         if (health != null)
         {
             health.TakeDamage(attackDamage);
