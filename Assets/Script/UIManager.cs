@@ -9,7 +9,6 @@ public class UIManager : MonoBehaviour
     public GameObject mainPanel, loadingPanel;
     public Image loadingSprite;
     private bool isLoading=false;
-
     private void Start()
     {
         isLoading = true;
