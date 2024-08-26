@@ -60,6 +60,9 @@ public class AddressableDownloader : MonoBehaviour
                                 case bodyType.Shoes:
                                     characterCustomizationManager.ApplyShoesPreset(loadAd.Result as GameObject, key, type);
                                     break;
+                                case bodyType.Preset:
+                                    characterCustomizationManager.ApplyOnPreset(loadAd.Result as GameObject, key, type);
+                                    break;
                             }
                             MemoryManager.AddToReferenceList(loadAd, key.ToLower());
 

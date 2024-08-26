@@ -53,12 +53,12 @@ public class CharacterCustomization : MonoBehaviour
         characterCustomizationManager.ApplySkinColor(color, type);
 
     }
-    public void ChangeHairColor(string color, bodyType type)
-    {
-        // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.ApplyHairColor(color, type);
+    //public void ChangeHairColor(string color, bodyType type)
+    //{
+    //    // characterMesh.SetBlendShapeWeight(index, 100);
+    //    characterCustomizationManager.ApplyHairColor(color, type);
 
-    }
+    //}
     public void ChangeLipsColor(string color, bodyType type)
     {
         // characterMesh.SetBlendShapeWeight(index, 100);

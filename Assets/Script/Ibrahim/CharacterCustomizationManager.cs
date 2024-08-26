@@ -17,7 +17,9 @@ public class CharacterCustomizationManager : MonoBehaviour
     public Material hairMaterial;
     public AddressableDownloader addressableDownloader;
     public GameObject loader;
-    public GameObject hairObject, shirtObject, trouserObject, shoesObject;
+    public GameObject hairObject, shirtObject, trouserObject, shoesObject, presetObject;
+    public GameObject _curretClickedBtn;
+    public GameObject _lastAvatarClickedBtn;
     void Start()
     {
         LoadCharacterCustomization();
@@ -114,15 +116,23 @@ public class CharacterCustomizationManager : MonoBehaviour
         characterCustom.shoespreset = _key;
         loader.SetActive(false);
     }
-    public void ApplyHairColor(string color, bodyType type)
+    public void ApplyOnPreset(GameObject _preset, string _key, bodyType _type) 
     {
-        Color newColor;
-        if (ColorUtility.TryParseHtmlString(color, out newColor))
-        {
-            hairMaterial.color = newColor;
-            characterCustom.hairColor = newColor;
-        }
+        if (presetObject != null)
+            Destroy(presetObject);
+        presetObject = Instantiate(_preset);
+        characterCustom.characterPreset = _key;
+        loader.SetActive(false);
     }
+    //public void ApplyHairColor(string color, bodyType type)
+    //{
+    //    Color newColor;
+    //    if (ColorUtility.TryParseHtmlString(color, out newColor))
+    //    {
+    //        hairMaterial.color = newColor;
+    //        characterCustom.hairColor = newColor;
+    //    }
+    //}
     public void ApplyEyeTexture(Texture2D _texture, string _key)
     {
         eyeMaterial.mainTexture = _texture;
@@ -151,6 +161,7 @@ public class CharacterCustom
     public Color skinColor;
     public Color hairColor;
     public Color lipsColor;
+    public string characterPreset;
 }
-public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes }
+public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset }
 public enum genderType { male, female }

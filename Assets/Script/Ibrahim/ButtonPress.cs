@@ -13,10 +13,15 @@ public class ButtonPress : MonoBehaviour
     }
     private void OnEnable()
     {
-        GetComponent<Button>().onClick.AddListener(ChangeValue);
+        GetComponent<Button>().onClick.AddListener(OnButtonClick);
     }
-    public void ChangeValue() 
+    private void OnDisable()
     {
+        GetComponent<Button>().onClick.RemoveListener(OnButtonClick);
+    }
+    public void OnButtonClick() 
+    {
+        if (GetComponent<Image>().color.a is 1f) return;
         string type = bodyType.ToString();
         switch (type) 
         {
@@ -41,18 +46,31 @@ public class ButtonPress : MonoBehaviour
             case "LipsColor":
                 CharacterCustomization.ChangeLipsColor(currentIndex, bodyType.Lips);
                 break;
-            case "HairColor":
-                CharacterCustomization.ChangeHairColor(currentIndex, bodyType.SkinColor);
+          //  case "HairColor":
+          //     CharacterCustomization.ChangeHairColor(currentIndex, bodyType.SkinColor);
                 break;
             case "EyeColor":
                 CharacterCustomization.downloadPresetTexture(currentIndex, bodyType.EyeColor);
                 break;
+            case "Preset":
+                CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Preset);
+                break;
             default:
                 break;
         }
-    }
-    private void OnDisable()
-    {
-        GetComponent<Button>().onClick.RemoveListener(ChangeValue);
+
+        CharacterCustomization.characterCustomizationManager._curretClickedBtn = this.gameObject;
+        if (CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn && CharacterCustomization.characterCustomizationManager._curretClickedBtn == CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn)
+            return;
+
+        CharacterCustomization.characterCustomizationManager._curretClickedBtn.GetComponent<Image>().color = new Color(0f, 0f, 1f, 1f);
+
+        if (CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn)
+        {
+            if (CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn.GetComponent<ButtonPress>())
+                CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+        }
+
+        CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn = this.gameObject;
     }
 }
