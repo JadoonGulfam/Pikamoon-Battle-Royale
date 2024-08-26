@@ -19,12 +19,26 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
 
     [SerializeField] private GameObject attack;
+  
+    private void OnEnable()
+    {
+        StartCoroutine(StartAttacking());
+    }
     private void Start()
     {
+      
+        // PlayCastAnimation(2);
+    }
+    IEnumerator StartAttacking()
+    {
+        print("start attacked");
         PlayCastAnimation(2);
+        yield return new WaitForSeconds(5);
+         StartCoroutine(StartAttacking());
     }
     public void PlayCastAnimation(int animationNumber)
     {
+        print("attacked");
         switch (animationNumber)
         {
             case 0:

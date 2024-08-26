@@ -25,15 +25,17 @@ public class PikamoonCombat : MonoBehaviour
         manaRegenRate = manaRegen;
         currentMana = 0f;
     }
-
+    bool test = true;
     public void StartCombat(GameObject target)
     {
         if (isAttacking || target == null) return;
 
         currentTarget = target;
-       // StartCoroutine(CombatRoutine());
+       
+       
+        // StartCoroutine(CombatRoutine());
     }
-
+    
     private IEnumerator CombatRoutine()
     {
         isAttacking = true;

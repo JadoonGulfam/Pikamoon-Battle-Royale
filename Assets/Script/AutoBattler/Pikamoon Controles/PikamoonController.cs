@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
 
 [RequireComponent(typeof(PikamoonMovement))]
 [RequireComponent(typeof(PikamoonCombat))]
@@ -81,6 +82,7 @@ public class PikamoonController : MonoBehaviour
         Debug.Log("Battle started. Finding opponents...");
         InitializeOpponents();
         isBattleStarted = true;
+        
     }
 
     private void InitializeOpponents()
@@ -140,4 +142,6 @@ public class PikamoonController : MonoBehaviour
 
         return nearest?.transform.GetChild(0).gameObject;
     }
+
+   
 }
