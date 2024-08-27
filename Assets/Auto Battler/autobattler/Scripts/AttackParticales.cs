@@ -6,12 +6,16 @@ public class AttackParticales : MonoBehaviour
 {
     public float speed = 5f; // Speed of the movement along the Z-axis
 
-    private void Start()
+    private void OnEnable()
     {
-        // Start the movement coroutine
         StartCoroutine(MoveForTwoSeconds());
     }
-
+    //private void Start()
+    //{
+    //    // Start the movement coroutine
+    //    StartCoroutine(MoveForTwoSeconds());
+    //}
+    
     private IEnumerator MoveForTwoSeconds()
     {
         float elapsedTime = 0f;
@@ -27,8 +31,8 @@ public class AttackParticales : MonoBehaviour
             // Wait until the next frame
             yield return null;
         }
-
+        gameObject.SetActive(false);
         // After 2 seconds, stop the particle or destroy it
-        Destroy(gameObject); // Optional: Destroy the particle after movement
+       // Destroy(gameObject); // Optional: Destroy the particle after movement
     }
 }

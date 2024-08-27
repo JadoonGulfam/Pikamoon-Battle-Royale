@@ -24,16 +24,20 @@ public class PikamoonController : MonoBehaviour
     private PikamoonCombat combat;
     private PikamoonHealth health;
 
-    private void OnEnable()
-    {
-        PlacementSystem.OnPlacementComplete += StartFindingOpponent;
-    }
+    //private void OnEnable()
+    //{
+    //    PlacementSystem.OnPlacementComplete += StartFindingOpponent;
+    //}
 
     private void OnDisable()
     {
         PlacementSystem.OnPlacementComplete -= StartFindingOpponent;
     }
 
+    private void Start()
+    {
+        PlacementSystem.OnPlacementComplete += StartFindingOpponent;
+    }
     private void Awake()
     {
         InitializeComponents();

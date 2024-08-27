@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PikamoonBattleAnimationController : MonoBehaviour
@@ -14,31 +13,41 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     private const string CAST_ANIM_ID = "CastAnim";
     private string _stateName;
 
+    [Header("Component References")]
     [SerializeField] private Animator _animator;
     [SerializeField] private Transform _projectileCreationPoint;
+    private AttackVisualPooler attackPooler;  // Reference to AttackVisualPooler
 
+    [Header("Attack Configuration")]
+    [SerializeField] private string attackVisualTag;
 
-    [SerializeField] private GameObject attack;
-  
+    private void Awake()
+    {
+        // Find the AttackVisualPooler in the scene when the object is instantiated
+        attackPooler = FindObjectOfType<AttackVisualPooler>();
+
+        if (attackPooler == null)
+        {
+            Debug.LogError("AttackVisualPooler not found in the scene.");
+        }
+    }
+
     private void OnEnable()
     {
         StartCoroutine(StartAttacking());
     }
-    private void Start()
+
+    private IEnumerator StartAttacking()
     {
-      
-        // PlayCastAnimation(2);
-    }
-    IEnumerator StartAttacking()
-    {
-        print("start attacked");
+        Debug.Log("Starting attack sequence");
         PlayCastAnimation(2);
         yield return new WaitForSeconds(5);
-         StartCoroutine(StartAttacking());
+        StartCoroutine(StartAttacking());
     }
+
     public void PlayCastAnimation(int animationNumber)
     {
-        print("attacked");
+        Debug.Log("Casting attack animation");
         switch (animationNumber)
         {
             case 0:
@@ -57,13 +66,20 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
     public void castAttackVisuls()
     {
-        Instantiate(attack, _projectileCreationPoint.position, Quaternion.identity);
+        GameObject attackObject = attackPooler.GetPooledObject(attackVisualTag);
+        if (attackObject != null)
+        {
+            attackObject.transform.position = _projectileCreationPoint.position;
+            attackObject.transform.rotation = Quaternion.identity;
+            attackObject.SetActive(true);
+        }
     }
 
-    public void CastEmptyVisuals()
+    public void castStartAttackVisuls()
     {
-        print("empty visuals");
+        print("castStartAttackVisuls");
     }
+
     public void PlayVictoryAnimation()
     {
         ResetTriggers();
@@ -91,7 +107,6 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
     private void PlayKnockdownAnimation()
     {
-      
         _animator.SetTrigger(Knockdown);
     }
 
@@ -103,9 +118,9 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     public void PlayDeathAnimation()
     {
         ResetTriggers();
-
         _animator.SetTrigger(Death);
     }
+
     private void ResetTriggers()
     {
         _animator.ResetTrigger(Knockback);
