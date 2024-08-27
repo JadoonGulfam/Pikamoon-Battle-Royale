@@ -30,6 +30,7 @@ public class PlacementSystem : MonoBehaviour
     public List<GameObject> aIPikas { get; private set; } = new List<GameObject>();
     public List<GameObject> playerPika { get; private set; } = new List<GameObject>();
 
+    public AttackVisualPooler attackVisualPooler;
     public static event Action OnPlacementComplete;
 
     private void Awake()
@@ -154,6 +155,9 @@ public class PlacementSystem : MonoBehaviour
 
             gameObject.transform.position = new Vector3(cellWorldPosition.x, 0, cellWorldPosition.z);
 
+
+            PikamoonBattleAnimationController pikamoonController1 = gameObject.GetComponent<PikamoonBattleAnimationController>();
+            pikamoonController1.SetAttackVisualPooler(attackVisualPooler);
             // Initialize the PikamoonController script with the appropriate ID
             PikamoonController pikamoonController = gameObject.GetComponent<PikamoonController>();
             pikamoonController.pikamoonID = database.objectData[objectIndex].ID;

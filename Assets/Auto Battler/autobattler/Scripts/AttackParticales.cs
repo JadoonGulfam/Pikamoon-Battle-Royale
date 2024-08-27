@@ -6,6 +6,7 @@ public class AttackParticales : MonoBehaviour
 {
     public float speed = 5f; // Speed of the movement along the Z-axis
 
+    
     private void OnEnable()
     {
         StartCoroutine(MoveForTwoSeconds());

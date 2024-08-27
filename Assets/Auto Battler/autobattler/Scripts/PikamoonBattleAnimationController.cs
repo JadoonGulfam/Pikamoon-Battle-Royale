@@ -21,17 +21,21 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     [Header("Attack Configuration")]
     [SerializeField] private string attackVisualTag;
 
-    private void Awake()
+    public PikamoonController pikamoonController;
+    //private void Awake()
+    //{
+    //    // Find the AttackVisualPooler in the scene when the object is instantiated
+    //    attackPooler = FindObjectOfType<AttackVisualPooler>();
+
+    //    if (attackPooler == null)
+    //    {
+    //        Debug.LogError("AttackVisualPooler not found in the scene.");
+    //    }
+    //}
+    public void SetAttackVisualPooler(AttackVisualPooler pooler)
     {
-        // Find the AttackVisualPooler in the scene when the object is instantiated
-        attackPooler = FindObjectOfType<AttackVisualPooler>();
-
-        if (attackPooler == null)
-        {
-            Debug.LogError("AttackVisualPooler not found in the scene.");
-        }
+        attackPooler = pooler;
     }
-
     private void OnEnable()
     {
         StartCoroutine(StartAttacking());
@@ -71,9 +75,22 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         {
             attackObject.transform.position = _projectileCreationPoint.position;
             attackObject.transform.rotation = Quaternion.identity;
+
+            if (pikamoonController.isAIPikamoon)
+            {
+                // Rotate by 180 degrees on the Y-axis if this is an AI Pikamoon
+                attackObject.transform.Rotate(0, 180, 0);
+              
+            }
+            else
+            {
+                attackObject.transform.Rotate(0, 0, 0);
+            }
+
             attackObject.SetActive(true);
         }
     }
+
 
     public void castStartAttackVisuls()
     {
