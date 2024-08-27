@@ -24,6 +24,7 @@ public class PikamoonController : MonoBehaviour
     private PikamoonCombat combat;
     private PikamoonHealth health;
 
+    public PikamoonBattleAnimationController pikamoonBattleAnimationController;
     //private void OnEnable()
     //{
     //    PlacementSystem.OnPlacementComplete += StartFindingOpponent;
@@ -83,9 +84,10 @@ public class PikamoonController : MonoBehaviour
 
     private void StartFindingOpponent()
     {
+        pikamoonBattleAnimationController.StartAttack();
         Debug.Log("Battle started. Finding opponents...");
-        InitializeOpponents();
-        isBattleStarted = true;
+        //InitializeOpponents();
+        //isBattleStarted = true;
         
     }
 

@@ -22,21 +22,12 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     [SerializeField] private string attackVisualTag;
 
     public PikamoonController pikamoonController;
-    //private void Awake()
-    //{
-    //    // Find the AttackVisualPooler in the scene when the object is instantiated
-    //    attackPooler = FindObjectOfType<AttackVisualPooler>();
-
-    //    if (attackPooler == null)
-    //    {
-    //        Debug.LogError("AttackVisualPooler not found in the scene.");
-    //    }
-    //}
+     
     public void SetAttackVisualPooler(AttackVisualPooler pooler)
     {
         attackPooler = pooler;
     }
-    private void OnEnable()
+    public void StartAttack()
     {
         StartCoroutine(StartAttacking());
     }
@@ -45,7 +36,11 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     {
         Debug.Log("Starting attack sequence");
         PlayCastAnimation(2);
-        yield return new WaitForSeconds(5);
+
+        // Wait for a random time between 1 and 4 seconds
+        float randomWaitTime = Random.Range(1f, 4f);
+        yield return new WaitForSeconds(randomWaitTime);
+
         StartCoroutine(StartAttacking());
     }
 
