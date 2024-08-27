@@ -5,10 +5,11 @@ using UnityEngine;
 public class AttackParticales : MonoBehaviour
 {
     public float speed = 5f; // Speed of the movement along the Z-axis
-
     private void OnEnable()
     {
+       
         StartCoroutine(MoveForTwoSeconds());
+        SetAttackDirection();
     }
     //private void Start()
     //{
@@ -16,10 +17,15 @@ public class AttackParticales : MonoBehaviour
     //    StartCoroutine(MoveForTwoSeconds());
     //}
     
+    public void SetAttackDirection()
+    {
+       
+       
+    }
     private IEnumerator MoveForTwoSeconds()
     {
         float elapsedTime = 0f;
-
+        
         while (elapsedTime < 2f)
         {
             // Move the particle along the Z-axis

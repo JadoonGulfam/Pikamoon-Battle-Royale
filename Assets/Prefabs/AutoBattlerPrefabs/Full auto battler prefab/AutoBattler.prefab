@@ -38,6 +38,7 @@ Transform:
   - {fileID: 3904496113621769676}
   - {fileID: 8351400746541525774}
   - {fileID: 3788170529775957237}
+  - {fileID: 1925599920668608097}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &98388957333419756
@@ -279,6 +280,74 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &454435335939825612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1925599920668608097}
+  - component: {fileID: 546836590703957434}
+  m_Layer: 0
+  m_Name: AttackVisualPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1925599920668608097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454435335939825612}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4451483073072880352}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &546836590703957434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454435335939825612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7900b837bf3d8f9419723e7742fac4fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Barkian
+    prefab: {fileID: 7002188792406041175, guid: bc79d115a52bca44baea9b39f13a7007,
+      type: 3}
+    size: 10
+  - tag: Blazewing
+    prefab: {fileID: 8470203852581515364, guid: 12425055e3988674e9bc1cb3723822a6,
+      type: 3}
+    size: 10
+  - tag: Dracodillo
+    prefab: {fileID: 737694240959331873, guid: df0c81c1219d0b041a48035917aca749, type: 3}
+    size: 10
+  - tag: Soarcrow
+    prefab: {fileID: 7520889685760406579, guid: d8b9c8af0e5a4434e819017897cc82cd,
+      type: 3}
+    size: 10
+  - tag: Sylvolt
+    prefab: {fileID: 5100696753109375194, guid: 7d2d481369bffc04e8b2fde74869ed46,
+      type: 3}
+    size: 10
+  - tag: Torrentar
+    prefab: {fileID: 4644903616815560622, guid: ed6b70167cff0b042956087cacf27c78,
+      type: 3}
+    size: 10
 --- !u!1 &568952268143635716
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,20 +2164,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 5844894937565824800, guid: f24f3f03e0ac96944be97feb26979c21, type: 3}
-  - {fileID: 7158341071655379942, guid: 323ba3a161a1e8d4d8c01c56d0a5982e, type: 3}
-  - {fileID: 2462642122293723578, guid: 46b188ac6c6cb3748841242aff68b727, type: 3}
-  - {fileID: 6598775514113762609, guid: d01bdf1f8557a634d863872a702da2fc, type: 3}
-  - {fileID: 4379426234330643657, guid: 6032401e78eae44428a9167dc705f270, type: 3}
+  - {fileID: 9179096536092520801, guid: c3e5b0a5176210d4ea22c78d36df78b7, type: 3}
+  - {fileID: 3607935871259545830, guid: 059de291e1b5894429b61cdad21f38de, type: 3}
+  - {fileID: 210691098867074916, guid: 0f0280904312f5b46920ba0a83b40dc9, type: 3}
+  - {fileID: 6260237141332091647, guid: 4943b6dcfc9d4f9439544d6c8efac975, type: 3}
+  - {fileID: 255437820632421057, guid: 7b34f3f42a84c0f4c9c7e65f609c5cfb, type: 3}
   mouseIndicator: {fileID: 1180942029540543673}
-  inputManager: {fileID: 6316647606493954750}
-  grid: {fileID: 3602232347955297564}
-  database: {fileID: 11400000, guid: 49f2562da0d0dc141a79994b9b57cac6, type: 2}
   gridVisualization: {fileID: 6504305275193039250}
   autoBattlerUIManager: {fileID: 5928094324337909663}
   preview: {fileID: 6214911191013292779}
-  aIPikas: []
-  playerPika: []
+  inputManager: {fileID: 6316647606493954750}
+  grid: {fileID: 3602232347955297564}
+  database: {fileID: 11400000, guid: 49f2562da0d0dc141a79994b9b57cac6, type: 2}
 --- !u!1 &4303040702420216054
 GameObject:
   m_ObjectHideFlags: 0
@@ -4184,7 +4251,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 033a24cd33b8d1948a4042e309c30e0c, type: 2}
+  - {fileID: 2100000, guid: 43b3db0cf9471a247b8feae47691828e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
