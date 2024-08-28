@@ -74,11 +74,13 @@ public class PikamoonBattleAnimationController : MonoBehaviour
             if (pikamoonController.isAIPikamoon)
             {
                 // Rotate by 180 degrees on the Y-axis if this is an AI Pikamoon
+                attackObject.GetComponent<AttackParticales>().isAiCast = true;
                 attackObject.transform.Rotate(0, 180, 0);
               
             }
             else
             {
+                attackObject.GetComponent<AttackParticales>().isAiCast = false;
                 attackObject.transform.Rotate(0, 0, 0);
             }
 

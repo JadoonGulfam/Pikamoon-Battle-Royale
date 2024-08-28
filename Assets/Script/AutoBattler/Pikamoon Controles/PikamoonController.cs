@@ -44,7 +44,17 @@ public class PikamoonController : MonoBehaviour
         InitializeComponents();
         InitializePikamoonAttributes();
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("obstical"))
+        {
+            bool isAIAttack = other.gameObject.GetComponent<AttackParticales>().isAiCast;
+            if((isAIPikamoon && !isAIAttack) || (!isAIPikamoon && isAIAttack))
+            {
+                pikamoonBattleAnimationController.PlayHitAnimation();
+            }
+        }
+    }
     private void InitializeComponents()
     {
         movement = GetComponent<PikamoonMovement>();
