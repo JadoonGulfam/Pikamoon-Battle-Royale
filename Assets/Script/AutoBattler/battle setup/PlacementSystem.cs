@@ -153,12 +153,13 @@ public class PlacementSystem : MonoBehaviour
             GameObject gameObject = Instantiate(prefabs[objectIndex]);
             Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
 
-            gameObject.transform.position = new Vector3(cellWorldPosition.x, 0, cellWorldPosition.z);
-
+            // Offset to center the object in the cell
+            Vector3 offset = new Vector3(grid.cellSize.x / 2f, 0, grid.cellSize.z / 2f);
+            gameObject.transform.position = cellWorldPosition + offset;
 
             PikamoonBattleAnimationController pikamoonController1 = gameObject.GetComponent<PikamoonBattleAnimationController>();
             pikamoonController1.SetAttackVisualPooler(attackVisualPooler);
-            // Initialize the PikamoonController script with the appropriate ID
+
             PikamoonController pikamoonController = gameObject.GetComponent<PikamoonController>();
             pikamoonController.pikamoonID = database.objectData[objectIndex].ID;
 
@@ -191,6 +192,7 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"Error placing structure at index {objectIndex}: {ex.Message}");
         }
     }
+
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
