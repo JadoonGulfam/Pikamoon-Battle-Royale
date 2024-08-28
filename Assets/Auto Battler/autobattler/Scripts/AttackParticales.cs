@@ -1,30 +1,43 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackParticales : MonoBehaviour
 {
-    public float speed = 5f; // Speed of the movement along the Z-axis
+     float speed = 10f; // Speed of the movement along the Z-axis
+    public bool isAiCast; // Variable to indicate if AI cast the particle
 
-    public bool isAiCast;
+    private Transform target; // The target to move towards
+
     private void OnEnable()
     {
-        StartCoroutine(MoveForTwoSeconds());
+        StartCoroutine(MoveTowardsTarget());
     }
-    //private void Start()
-    //{
-    //    // Start the movement coroutine
-    //    StartCoroutine(MoveForTwoSeconds());
-    //}
-    
-    private IEnumerator MoveForTwoSeconds()
+   
+    // Initialize the particle with a target and speed
+    public void Initialize(Transform targetTransform, float speed)
+    {
+        target = targetTransform;
+        //this.speed = speed;
+    }
+
+    private IEnumerator MoveTowardsTarget()
     {
         float elapsedTime = 0f;
 
-        while (elapsedTime < 2f)
+        while (target != null && elapsedTime < 1)
         {
-            // Move the particle along the Z-axis
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            // Calculate direction towards the target
+            Vector3 direction = (target.position - transform.position).normalized;
+
+            // Rotate the particle to face the direction of movement
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * speed);
+            }
+
+            // Move the particle towards the target at constant speed
+            transform.position += direction * speed * Time.deltaTime;
 
             // Increment elapsed time
             elapsedTime += Time.deltaTime;
@@ -32,8 +45,8 @@ public class AttackParticales : MonoBehaviour
             // Wait until the next frame
             yield return null;
         }
+
+        // Deactivate the particle after 1.5 seconds
         gameObject.SetActive(false);
-        // After 2 seconds, stop the particle or destroy it
-       // Destroy(gameObject); // Optional: Destroy the particle after movement
     }
 }

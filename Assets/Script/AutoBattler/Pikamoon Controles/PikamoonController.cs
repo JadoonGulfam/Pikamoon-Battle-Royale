@@ -13,7 +13,8 @@ public class PikamoonController : MonoBehaviour
     [SerializeField] public bool isAIPikamoon = false;
     [SerializeField] public int pikamoonID;
     [SerializeField] private ObjectDatabaseSO objectDatabase;
-
+    public Transform targetPosition;
+    
     [Header("State")]
     private List<GameObject> opponents;
     private GameObject nearestOpponent;
@@ -94,9 +95,10 @@ public class PikamoonController : MonoBehaviour
 
     private void StartFindingOpponent()
     {
+        InitializeOpponents();
         pikamoonBattleAnimationController.StartAttack();
         Debug.Log("Battle started. Finding opponents...");
-        //InitializeOpponents();
+        
         //isBattleStarted = true;
         
     }
@@ -155,7 +157,7 @@ public class PikamoonController : MonoBehaviour
                 nearest = opponent;
             }
         }
-
+        targetPosition = nearest?.transform.GetChild(0).gameObject.transform;
         return nearest?.transform.GetChild(0).gameObject;
     }
 

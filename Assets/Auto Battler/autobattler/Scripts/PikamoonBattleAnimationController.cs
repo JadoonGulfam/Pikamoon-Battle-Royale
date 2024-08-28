@@ -62,12 +62,19 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         _animator.SetInteger(CAST_ANIM_ID, animationNumber);
         _animator.SetTrigger(Cast);
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("AutoBattlerCharacter"))
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
     public void castAttackVisuls()
     {
         GameObject attackObject = attackPooler.GetPooledObject(attackVisualTag);
         if (attackObject != null)
         {
+            
             attackObject.transform.position = _projectileCreationPoint.position;
             attackObject.transform.rotation = Quaternion.identity;
 
@@ -83,7 +90,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
                 attackObject.GetComponent<AttackParticales>().isAiCast = false;
                 attackObject.transform.Rotate(0, 0, 0);
             }
-
+            attackObject.GetComponent<AttackParticales>().Initialize(pikamoonController.targetPosition, 5);
             attackObject.SetActive(true);
         }
     }
