@@ -99,7 +99,7 @@ public class PikamoonController : MonoBehaviour
         pikamoonBattleAnimationController.StartAttack();
         Debug.Log("Battle started. Finding opponents...");
         
-        //isBattleStarted = true;
+        isBattleStarted = true;
         
     }
 
@@ -122,10 +122,10 @@ public class PikamoonController : MonoBehaviour
                 }
             }
 
-            if (movement.MoveTowardsOpponent(nearestOpponent))
-            {
-                combat.StartCombat(nearestOpponent);
-            }
+            //if (movement.MoveTowardsOpponent(nearestOpponent))
+            //{
+            //    combat.StartCombat(nearestOpponent);
+            //}
         }
     }
 
