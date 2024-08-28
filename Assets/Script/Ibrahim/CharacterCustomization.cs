@@ -41,6 +41,27 @@ public class CharacterCustomization : MonoBehaviour
         characterCustomizationManager.characterCustom.noseShape = int.Parse(index);
 
     }
+    public void ChangeArmsBlendShapes(float index)
+    {
+        //ResetBlendShapes();
+        // characterMesh.SetBlendShapeWeight(index, 100);
+        characterCustomizationManager.characterCustom.armShape = index;
+
+    }
+    public void ChangeLegsBlendShapes(float index)
+    {
+        //ResetBlendShapes();
+        // characterMesh.SetBlendShapeWeight(index, 100);
+        characterCustomizationManager.characterCustom.legShape = index;
+
+    }
+    public void ChangeTorsoBlendShapes(float index)
+    {
+        //ResetBlendShapes();
+        // characterMesh.SetBlendShapeWeight(index, 100);
+        characterCustomizationManager.characterCustom.torsoShape = index;
+
+    }
     public void downloadPresetObject(string key, bodyType type)
     {
         // characterMesh.SetBlendShapeWeight(index, 100);

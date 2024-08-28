@@ -20,6 +20,7 @@ public class CharacterCustomizationManager : MonoBehaviour
     public GameObject hairObject, shirtObject, trouserObject, shoesObject, presetObject;
     public GameObject _curretClickedBtn;
     public GameObject _lastAvatarClickedBtn;
+    public Transform characterPosition;
     void Start()
     {
         LoadCharacterCustomization();
@@ -121,6 +122,8 @@ public class CharacterCustomizationManager : MonoBehaviour
         if (presetObject != null)
             Destroy(presetObject);
         presetObject = Instantiate(_preset);
+        presetObject.transform.position = characterPosition.transform.position;
+        presetObject.transform.rotation = characterPosition.transform.rotation;
         characterCustom.characterPreset = _key;
         loader.SetActive(false);
     }
@@ -152,6 +155,9 @@ public class CharacterCustom
     public int eyeShape;
     public int lipsShape;
     public int noseShape;
+    public float armShape;
+    public float legShape;
+    public float torsoShape;
     public string hairPreset;
     public string shirtPreset;
     public string trouserPreset;
@@ -163,5 +169,5 @@ public class CharacterCustom
     public Color lipsColor;
     public string characterPreset;
 }
-public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset }
+public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso }
 public enum genderType { male, female }

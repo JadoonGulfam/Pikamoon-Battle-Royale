@@ -15,7 +15,7 @@ public class ApplyColorPicker:MonoBehaviour
     //private float saturation;
     //private float brightness;
 
-    public SliderType sliderCategory;
+    public ColorType colorCategory;
     public bool getStartingColorFromMaterial;
     public FlexibleColorPicker fcp;
     //public Material material;
@@ -52,7 +52,7 @@ public class ApplyColorPicker:MonoBehaviour
     //    }
     //}
 
-    void ChangeSliderColor(Color m_color)
+    void ChangeColor(Color m_color)
     {
         if (getStartingColorFromMaterial)
             fcp.color = m_color;
@@ -77,19 +77,19 @@ public class ApplyColorPicker:MonoBehaviour
     }
     void SetRelatedData()
     {
-        switch (sliderCategory)
+        switch (colorCategory)
         {
-            case SliderType.HairColor:
-                ChangeSliderColor(GetHairColor());
+            case ColorType.HairColor:
+                ChangeColor(GetHairColor());
                 //outputTxt.text = ConvertColorToHex(GetHairColor());
                 break;
 
-            case SliderType.LipsColor:
-                ChangeSliderColor(GetLipColor());
+            case ColorType.LipsColor:
+                ChangeColor(GetLipColor());
                // outputTxt.text = ConvertColorToHex(GetLipColor());
                 break;
-            case SliderType.EyebrowColor:
-                ChangeSliderColor(GetEyebrowColor());
+            case ColorType.EyebrowColor:
+                ChangeColor(GetEyebrowColor());
                 //outputTxt.text = ConvertColorToHex(GetEyebrowColor());
                 break;
             default:
@@ -101,15 +101,15 @@ public class ApplyColorPicker:MonoBehaviour
     //public bool addToList = true;
     void OnChangeColor(Color _color)
     {
-        switch (sliderCategory)
+        switch (colorCategory)
         {
-            case SliderType.HairColor:
+            case ColorType.HairColor:
                 ChangeHairColor(_color);
                 break;
-            case SliderType.LipsColor:
+            case ColorType.LipsColor:
                 ChangeLipColor(_color);
                 break;
-            case SliderType.EyebrowColor:
+            case ColorType.EyebrowColor:
                 ChangeEyebrowColor(_color);
                 break;
             default:
@@ -170,7 +170,7 @@ public class ApplyColorPicker:MonoBehaviour
     //    }
     //}
 }
-public enum SliderType
+public enum ColorType
 {
     HairColor, LipsColor, EyebrowColor
 }
