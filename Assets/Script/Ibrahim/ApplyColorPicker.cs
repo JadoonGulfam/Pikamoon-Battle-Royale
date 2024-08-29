@@ -65,7 +65,7 @@ public class ApplyColorPicker:MonoBehaviour
     //}
     public Color GetLipColor()
     {
-        return characterCustomizationManager.lipMaterial.color;
+        return characterCustomizationManager.characterMesh.materials[0].color;
     }
     public Color GetEyebrowColor()
     {
@@ -124,7 +124,7 @@ public class ApplyColorPicker:MonoBehaviour
     }
     public void ChangeLipColor(Color color)
     {
-        characterCustomizationManager.lipMaterial.color = color;
+        characterCustomizationManager.characterMesh.materials[0].color = color;
         characterCustomizationManager.characterCustom.lipsColor = color;
     }
     public void ChangeEyebrowColor(Color color)

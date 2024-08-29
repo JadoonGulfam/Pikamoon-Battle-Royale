@@ -10,10 +10,8 @@ public class CharacterCustomizationManager : MonoBehaviour
 {
     public CharacterCustom characterCustom;
     public SkinnedMeshRenderer characterMesh; // Assumes a SkinnedMeshRenderer for blendshapes
-    public Material skinMaterial;
     public Material eyeMaterial;
     public Material eyebrowMaterial;
-    public Material lipMaterial;
     public Material hairMaterial;
     public AddressableDownloader addressableDownloader;
     public GameObject loader;
@@ -72,7 +70,8 @@ public class CharacterCustomizationManager : MonoBehaviour
         Color newColor;
         if (ColorUtility.TryParseHtmlString(color, out newColor))
         {
-            skinMaterial.color = newColor;
+            characterMesh.materials[1].color = newColor;
+            characterMesh.materials[2].color = newColor;
             characterCustom.skinColor = newColor;
         }
     }
@@ -81,7 +80,7 @@ public class CharacterCustomizationManager : MonoBehaviour
         Color newColor;
         if (ColorUtility.TryParseHtmlString(color, out newColor))
         {
-            lipMaterial.color = newColor;
+            characterMesh.materials[0].color = newColor;
             characterCustom.lipsColor = newColor;
         }
     }
