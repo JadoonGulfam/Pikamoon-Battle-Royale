@@ -62,13 +62,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         _animator.SetInteger(CAST_ANIM_ID, animationNumber);
         _animator.SetTrigger(Cast);
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.CompareTag("AutoBattlerCharacter"))
-        {
-            this.gameObject.SetActive(false);
-        }
-    }
+    
     public void castAttackVisuls()
     {
         GameObject attackObject = attackPooler.GetPooledObject(attackVisualTag);

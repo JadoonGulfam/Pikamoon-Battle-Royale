@@ -49,6 +49,7 @@ public class PikamoonController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("obstical"))
         {
+            other.gameObject.SetActive(false);
             bool isAIAttack = other.gameObject.GetComponent<AttackParticales>().isAiCast;
             if((isAIPikamoon && !isAIAttack) || (!isAIPikamoon && isAIAttack))
             {
@@ -157,9 +158,32 @@ public class PikamoonController : MonoBehaviour
                 nearest = opponent;
             }
         }
-        targetPosition = nearest?.transform.GetChild(0).gameObject.transform;
-        return nearest?.transform.GetChild(0).gameObject;
+
+        if (nearest != null)
+        {
+            // Find the specific child transform of the nearest opponent
+            Transform nearestTargetTransform = nearest.transform.GetChild(0).gameObject.transform;
+
+            // Update the target position
+            targetPosition = nearestTargetTransform;
+
+            // Calculate the direction to the nearest opponent
+            Vector3 directionToTarget = (nearestTargetTransform.position - currentPosition).normalized;
+
+            // Immediately rotate the game object to face the nearest opponent
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                transform.rotation = lookRotation; // Directly apply the rotation
+            }
+
+            return nearestTargetTransform.gameObject;
+        }
+
+        return null;
     }
 
-   
+
+
+
 }
