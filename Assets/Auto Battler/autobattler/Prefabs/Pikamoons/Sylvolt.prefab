@@ -80,7 +80,6 @@ GameObject:
   - component: {fileID: 4683005356242103913}
   - component: {fileID: 364892572166694162}
   - component: {fileID: 6520731365580311328}
-  - component: {fileID: 6085904428079702379}
   m_Layer: 0
   m_Name: Sylvolt
   m_TagString: AutoBattlerCharacter
@@ -243,29 +242,6 @@ MonoBehaviour:
   objectDatabase: {fileID: 11400000, guid: 49f2562da0d0dc141a79994b9b57cac6, type: 2}
   targetPosition: {fileID: 0}
   pikamoonBattleAnimationController: {fileID: 5123270777352586437}
---- !u!136 &6085904428079702379
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210691098867074916}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.07, z: 0}
 --- !u!1 &241876554799510276
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,9 +603,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7793463911086007344}
-  - component: {fileID: 4936749752381777716}
-  - component: {fileID: 941138977385222523}
-  - component: {fileID: 2521892174077270803}
   m_Layer: 0
   m_Name: focus position
   m_TagString: Target
@@ -652,62 +625,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 695620173364682206}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4936749752381777716
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107115971507960809}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &941138977385222523
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107115971507960809}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &2521892174077270803
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107115971507960809}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1 &2237965399162823094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1420,9 +1337,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6364442268090304465}
+  - component: {fileID: 3637472116411777892}
   m_Layer: 0
   m_Name: Spine1_M
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1443,6 +1361,29 @@ Transform:
   - {fileID: 5677293176157423171}
   m_Father: {fileID: 1039128299698321199}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -11.439789}
+--- !u!136 &3637472116411777892
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6001301283490371209}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2
+  m_Height: 0.7
+  m_Direction: 0
+  m_Center: {x: -0.12, y: 0, z: 0}
 --- !u!1 &6262101329561085374
 GameObject:
   m_ObjectHideFlags: 0

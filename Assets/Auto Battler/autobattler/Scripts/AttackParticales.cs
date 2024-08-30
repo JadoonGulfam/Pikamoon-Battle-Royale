@@ -12,15 +12,21 @@ public class AttackParticales : MonoBehaviour
     {
         StartCoroutine(MoveTowardsTarget());
     }
-
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.gameObject.CompareTag("Character"))
+    //    {
+    //        this.gameObject.SetActive(false);
+    //    }
+    //}
     //private void OnTriggerEnter(Collider other)
     //{
     //    if(other.gameObject.CompareTag("Target"))
     //    {
     //        gameObject.SetActive(false);
     //    }
-        
-   // }
+
+    // }
     // Initialize the particle with a target and speed
     public void Initialize(Transform targetTransform, float speed)
     {

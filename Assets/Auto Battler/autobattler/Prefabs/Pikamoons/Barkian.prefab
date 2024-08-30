@@ -399,8 +399,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9120086531264641608}
-  - component: {fileID: 4978969557155593463}
-  - component: {fileID: 1909927813021151346}
   m_Layer: 0
   m_Name: target
   m_TagString: Target
@@ -423,54 +421,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8370330260710910939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4978969557155593463
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3485864377527269707}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1909927813021151346
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3485864377527269707}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1 &3488684790402707179
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +718,7 @@ GameObject:
   - component: {fileID: 1200623116461842667}
   m_Layer: 0
   m_Name: UnrealRoot
-  m_TagString: Untagged
+  m_TagString: obstical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1372,9 +1322,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7143630704679700331}
+  - component: {fileID: 115281718994625895}
   m_Layer: 0
   m_Name: Spine1_M
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1395,6 +1346,29 @@ Transform:
   - {fileID: 8482953018241451769}
   m_Father: {fileID: 3826922160699619221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &115281718994625895
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7509940926103082547}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14
+  m_Height: 1.04
+  m_Direction: 0
+  m_Center: {x: -0.06, y: 0, z: 0}
 --- !u!1 &7687598258154178665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,7 +1602,6 @@ GameObject:
   m_Component:
   - component: {fileID: 993934973440155734}
   - component: {fileID: 1017204497064460391}
-  - component: {fileID: 7336722684856781629}
   m_Layer: 0
   m_Name: Barkian
   m_TagString: Untagged
@@ -1646,7 +1619,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8370330260710910939}
@@ -1755,28 +1728,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.14750105, y: -0.08427657, z: -0.029083863}
     m_Extent: {x: 0.53662914, y: 0.23286043, z: 0.41117078}
   m_DirtyAABB: 0
---- !u!64 &7336722684856781629
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8690410541568830988}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2328582103040558392, guid: 468d8f8f44f981f4387b63dc58f560e3, type: 3}
 --- !u!1 &8702751735824283262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,7 +1872,6 @@ GameObject:
   - component: {fileID: 5768175152457467130}
   - component: {fileID: 2953443311543027314}
   - component: {fileID: 980285619673327694}
-  - component: {fileID: 8854168755009765549}
   m_Layer: 0
   m_Name: Barkian
   m_TagString: AutoBattlerCharacter
@@ -2084,29 +2034,6 @@ MonoBehaviour:
   objectDatabase: {fileID: 11400000, guid: 49f2562da0d0dc141a79994b9b57cac6, type: 2}
   targetPosition: {fileID: 0}
   pikamoonBattleAnimationController: {fileID: 7277918998415848969}
---- !u!136 &8854168755009765549
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9179096536092520801}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.65
-  m_Height: 3.38
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.46, z: 0}
 --- !u!1 &9191118988464563800
 GameObject:
   m_ObjectHideFlags: 0
