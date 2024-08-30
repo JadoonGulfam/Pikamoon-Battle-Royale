@@ -51,27 +51,19 @@ public class AttackParticles : MonoBehaviour
 
         while (target != null && elapsedTime < duration)
         {
-            // Calculate direction towards the target
             Vector3 direction = (target.position - transform.position).normalized;
 
-            // Rotate the particle to face the direction of movement
             if (direction != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * speed);
             }
 
-            // Move the particle towards the target at constant speed
             transform.position += direction * speed * Time.deltaTime;
-
-            // Increment elapsed time
             elapsedTime += Time.deltaTime;
-
-            // Wait until the next frame
             yield return null;
         }
 
-        // Deactivate the particle after 2 seconds
         gameObject.SetActive(false);
     }
 }
