@@ -1,10 +1,21 @@
 using System.Collections;
 using UnityEngine;
 
-public class AttackParticales : MonoBehaviour
+public class AttackParticles : MonoBehaviour
 {
+    public enum CasterType
+    {
+        Player,
+        AI
+    }
+
+    [Header("Particle Settings")]
     public float speed = 10f; // Speed of the movement
-    public bool isAiCast; // Variable to indicate if AI cast the particle
+
+
+    [Header("Attack Data")]
+    public CasterType casterType; // Enum to indicate if the particle was cast by a player or AI
+    public float damageStrength; // The damage strength of the attack
 
     private Transform target; // The target to move towards
 
@@ -12,29 +23,27 @@ public class AttackParticales : MonoBehaviour
     {
         StartCoroutine(MoveTowardsTarget());
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.gameObject.CompareTag("Character"))
-    //    {
-    //        this.gameObject.SetActive(false);
-    //    }
-    //}
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.gameObject.CompareTag("Target"))
-    //    {
-    //        gameObject.SetActive(false);
-    //    }
 
-    // }
-    // Initialize the particle with a target and speed
-    public void Initialize(Transform targetTransform, float speed)
+    public void Initialize(Transform targetTransform, float speed, bool isAi, float damage)
     {
+
         target = targetTransform;
         this.speed = speed;
-    }
-    
+        casterType = isAi ? CasterType.AI : CasterType.Player;
+        damageStrength = damage;
 
+        print("is ai cast" + isAi);
+        
+    }
+    public bool IsAICast()
+    {
+        return casterType == CasterType.AI;
+    }
+
+    public bool IsPlayerCast()
+    {
+        return casterType == CasterType.Player;
+    }
     private IEnumerator MoveTowardsTarget()
     {
         float duration = 2f; // Duration to move towards the target (2 seconds)

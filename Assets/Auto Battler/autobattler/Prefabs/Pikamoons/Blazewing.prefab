@@ -825,6 +825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3638195389182371810}
   - component: {fileID: 3980652628442108785}
+  - component: {fileID: 7243129949336646720}
   m_Layer: 0
   m_Name: joint5_R
   m_TagString: Character
@@ -871,6 +872,20 @@ CapsuleCollider:
   m_Height: 0.88
   m_Direction: 1
   m_Center: {x: 0.18, y: 0.03, z: -0.01}
+--- !u!114 &7243129949336646720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448742948881067965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf860fbe8bd2a4499f424e8c7f19896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonBattleAnimationController: {fileID: 5630853228235507192}
+  characterType: 0
 --- !u!1 &1509632843388779257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,6 +1455,7 @@ MonoBehaviour:
   objectDatabase: {fileID: 11400000, guid: 49f2562da0d0dc141a79994b9b57cac6, type: 2}
   targetPosition: {fileID: 0}
   pikamoonBattleAnimationController: {fileID: 5630853228235507192}
+  damageHndler: {fileID: 7243129949336646720}
 --- !u!143 &7037844288993891694
 CharacterController:
   m_ObjectHideFlags: 0

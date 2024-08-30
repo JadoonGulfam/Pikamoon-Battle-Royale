@@ -31,6 +31,7 @@ public class PlacementSystem : MonoBehaviour
     public List<GameObject> playerPika { get; private set; } = new List<GameObject>();
 
     public AttackVisualPooler attackVisualPooler;
+
     public static event Action OnPlacementComplete;
 
     private void Awake()

@@ -26,6 +26,7 @@ public class PikamoonController : MonoBehaviour
     private PikamoonHealth health;
 
     public PikamoonBattleAnimationController pikamoonBattleAnimationController;
+    public DamageHndler damageHndler;
     //private void OnEnable()
     //{
     //    PlacementSystem.OnPlacementComplete += StartFindingOpponent;
@@ -47,16 +48,19 @@ public class PikamoonController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("obstical"))
-        {
-            other.gameObject.SetActive(false);
-            bool isAIAttack = other.gameObject.GetComponent<AttackParticales>().isAiCast;
-            if ((isAIPikamoon && !isAIAttack) || (!isAIPikamoon && isAIAttack))
-            {
-                pikamoonBattleAnimationController.PlayHitAnimation();
-            }
-        }
+        //if (other.gameObject.CompareTag("obstical"))
+        //{
+        //    other.gameObject.SetActive(false);
+        //    bool isAIAttack = other.gameObject.GetComponent<AttackParticles>().casterType;
+        //    if ((isAIPikamoon && !isAIAttack) || (!isAIPikamoon && isAIAttack))
+        //    {
+        //        pikamoonBattleAnimationController.PlayHitAnimation();
+        //    }
+        //}
     }
+
+
+
     private void InitializeComponents()
     {
         movement = GetComponent<PikamoonMovement>();
@@ -96,6 +100,7 @@ public class PikamoonController : MonoBehaviour
 
     private void StartFindingOpponent()
     {
+        damageHndler.Initialize(isAIPikamoon);
         InitializeOpponents();
         pikamoonBattleAnimationController.StartAttack();
         Debug.Log("Battle started. Finding opponents...");
