@@ -51,13 +51,22 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     private IEnumerator StartAttacking()
     {
         Debug.Log("Starting attack sequence");
+        
         PlayCastAnimation(2);
 
         // Wait for a random time between 1 and 4 seconds
         float randomWaitTime = Random.Range(2f, 4f);
         yield return new WaitForSeconds(randomWaitTime);
-
-        StartCoroutine(StartAttacking());
+        if(pikamoonController.isBattleStarted)
+        {
+            StartCoroutine(StartAttacking());
+        }
+        else
+        {
+            print("battle ended");
+            PlayVictoryAnimation();
+        }
+            
     }
 
     public void PlayCastAnimation(int animationNumber)

@@ -18,7 +18,7 @@ public class PikamoonController : MonoBehaviour
     [Header("State")]
     private List<GameObject> opponents;
     private GameObject nearestOpponent;
-    private bool isBattleStarted;
+    public bool isBattleStarted;
 
     [Header("Components")]
     private PikamoonMovement movement;
@@ -126,6 +126,8 @@ public class PikamoonController : MonoBehaviour
                 FindAndSetNearestOpponent();
                 if (nearestOpponent == null)
                 {
+                    isBattleStarted = false;
+                    print("battle ended");
                     return;
                 }
             }
@@ -144,6 +146,7 @@ public class PikamoonController : MonoBehaviour
         {
             Debug.Log($"{gameObject.name} found nearest opponent: {nearestOpponent.name}");
         }
+
     }
 
     private GameObject FindNearestOpponent()
