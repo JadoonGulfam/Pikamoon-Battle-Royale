@@ -41,7 +41,7 @@ public class PikamoonHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
-        healthManaBar.UpdateHealthBar(currentHealth);
+        healthManaBar.UpdateHealthBar(currentHealth/maxHealth);
         if (currentHealth <= 0)
         {
             Die();

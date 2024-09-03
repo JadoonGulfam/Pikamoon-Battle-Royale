@@ -39,8 +39,8 @@ public class PikamoonController : MonoBehaviour
 
     private void Start()
     {
-        InitializeComponents();
-        InitializePikamoonAttributes();
+        //InitializeComponents();
+        //InitializePikamoonAttributes();
         PlacementSystem.OnPlacementComplete += StartFindingOpponent;
     }
     private void Awake()
