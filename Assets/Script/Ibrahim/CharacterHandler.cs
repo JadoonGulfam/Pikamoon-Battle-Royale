@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CharacterHandler : MonoBehaviour
 {
-    public AvatarGender activePlayerGender;
+    public genderType activePlayerGender;
     public AvatarData maleAvatarData;
     public AvatarData femaleAvatarData;
     private void Awake()
@@ -55,7 +55,7 @@ public class CharacterHandler : MonoBehaviour
 
     public AvatarData GetActiveAvatarData()
     {
-        if (activePlayerGender == AvatarGender.Male)
+        if (activePlayerGender == genderType.male)
         {
             return maleAvatarData;
         }
@@ -69,14 +69,34 @@ public class CharacterHandler : MonoBehaviour
     [Serializable]
     public class AvatarData
     {
-        public AvatarGender avatar_Gender;
+        public genderType avatar_Gender;
         public GameObject avatar_parent;
         public SkinnedMeshRenderer avatar_body;
         public Animator avatar_animator;
         public Texture DShirt_Texture, DPent_Texture, DShoe_Texture, DEye_texture, DFace_Texture, DSkin_Texture;
     }
 }
-public enum AvatarGender
+[Serializable]
+public class CharacterData
 {
-    Male, Female
+    public string gender;
+    public int faceShape;
+    public int eyeShape;
+    public int lipsShape;
+    public int noseShape;
+    public float armShape;
+    public float legShape;
+    public float torsoShape;
+    public string hairPreset;
+    public string shirtPreset;
+    public string trouserPreset;
+    public string shoespreset;
+    public string eyeColor;
+    public Color eyeBrowColor;
+    public Color skinColor;
+    public Color hairColor;
+    public Color lipsColor;
+    public string characterPreset;
 }
+public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso }
+public enum genderType { male, female }

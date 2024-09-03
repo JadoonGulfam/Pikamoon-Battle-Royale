@@ -17,49 +17,49 @@ public class CharacterCustomization : MonoBehaviour
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.characterCustom.faceShape = int.Parse(index);
+        characterCustomizationManager.currentCharacterData.faceShape = int.Parse(index);
 
     }
     public void ChangeLipsBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.characterCustom.lipsShape = int.Parse(index);
+        characterCustomizationManager.currentCharacterData.lipsShape = int.Parse(index);
 
     }
     public void ChangeEyeBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.characterCustom.eyeShape = int.Parse(index);
+        characterCustomizationManager.currentCharacterData.eyeShape = int.Parse(index);
 
     }
     public void ChangeNoseBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.characterCustom.noseShape = int.Parse(index);
+        characterCustomizationManager.currentCharacterData.noseShape = int.Parse(index);
 
     }
     public void ChangeArmsBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.characterCustom.armShape = index;
+        characterCustomizationManager.currentCharacterData.armShape = index;
 
     }
     public void ChangeLegsBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.characterCustom.legShape = index;
+        characterCustomizationManager.currentCharacterData.legShape = index;
 
     }
     public void ChangeTorsoBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.characterCustom.torsoShape = index;
+        characterCustomizationManager.currentCharacterData.torsoShape = index;
 
     }
     public void downloadPresetObject(string key, bodyType type)

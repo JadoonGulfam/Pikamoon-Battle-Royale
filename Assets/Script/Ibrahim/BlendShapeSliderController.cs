@@ -37,14 +37,14 @@ public class BlendShapeSliderController : MonoBehaviour
         switch (bodyType)
         {
             case SliderType.Arms:
-              blendShapeSlider.value = characterCustomization.characterCustomizationManager.characterCustom.armShape;
+              blendShapeSlider.value = characterCustomization.characterCustomizationManager.currentCharacterData.armShape;
                 break;
 
             case SliderType.Legs:
-                blendShapeSlider.value = characterCustomization.characterCustomizationManager.characterCustom.legShape;
+                blendShapeSlider.value = characterCustomization.characterCustomizationManager.currentCharacterData.legShape;
                 break;
             case SliderType.Torso:
-                blendShapeSlider.value = characterCustomization.characterCustomizationManager.characterCustom.torsoShape;
+                blendShapeSlider.value = characterCustomization.characterCustomizationManager.currentCharacterData.torsoShape;
                 break;
             default:
                 break;

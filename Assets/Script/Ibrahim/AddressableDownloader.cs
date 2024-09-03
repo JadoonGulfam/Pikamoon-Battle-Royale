@@ -49,19 +49,19 @@ public class AddressableDownloader : MonoBehaviour
                             switch (type)
                             {
                                 case bodyType.Hair:
-                                    characterCustomizationManager.ApplyHairPreset(loadAd.Result as GameObject, key, type);
+                                    characterCustomizationManager.ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                                 case bodyType.Shirt:
-                                    characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type);
+                                    characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                                 case bodyType.Trouser:
-                                    characterCustomizationManager.ApplyTrouserPreset(loadAd.Result as GameObject, key, type);
+                                    characterCustomizationManager.ApplyTrouserPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                                 case bodyType.Shoes:
-                                    characterCustomizationManager.ApplyShoesPreset(loadAd.Result as GameObject, key, type);
+                                    characterCustomizationManager.ApplyShoesPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                                 case bodyType.Preset:
-                                    characterCustomizationManager.ApplyOnPreset(loadAd.Result as GameObject, key, type);
+                                    characterCustomizationManager.ApplyOnPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                             }
                             MemoryManager.AddToReferenceList(loadAd, key.ToLower());

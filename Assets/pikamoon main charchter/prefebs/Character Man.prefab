@@ -106,7 +106,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5925631349828623179}
   - component: {fileID: 7247579365638956424}
-  - component: {fileID: 1171011806134708744}
   m_Layer: 0
   m_Name: Character Man
   m_TagString: Untagged
@@ -122,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4828816999829066870}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.62, y: -2.22, z: -0.8}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -146,43 +145,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultClothDatabase: {fileID: 1171011806134708744}
+  defaultClothDatabase: {fileID: 0}
+  body: {fileID: 3785118675358733276}
+  eyes: {fileID: 8231519400190528718}
   wornHair: {fileID: 0}
   wornPant: {fileID: 0}
   wornShirt: {fileID: 0}
   wornShoes: {fileID: 0}
-  body: {fileID: 0}
---- !u!114 &1171011806134708744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4828816999829066870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6356904f31ae4a4d8d28dd38c7f87e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maleAvatarDefaultCostume:
-    DefaultSkin: {fileID: 2800000, guid: ab46a101b53f7914b9ddd39c5d1e3c69, type: 3}
-    DefaultEyes: {fileID: 2800000, guid: 1c099754ba7e1114393a7cf74b5efaf9, type: 3}
-    DefaultLips: {fileID: 2800000, guid: ab46a101b53f7914b9ddd39c5d1e3c69, type: 3}
-    DefaultPent: {fileID: 6162011958491082409, guid: 05486854c172eba4394ed2c483d7b6c3,
-      type: 3}
-    DefaultShoes: {fileID: 8757408430177614032, guid: fa249cb59a46db247b73bc201dd32cab,
-      type: 3}
-    DefaultShirt: {fileID: 3774495842178349480, guid: 8e1fae87bd9ad7f4286608bd144f07aa,
-      type: 3}
-    DefaultHair: {fileID: 0}
-  femaleAvatarDefaultCostume:
-    DefaultSkin: {fileID: 0}
-    DefaultEyes: {fileID: 0}
-    DefaultLips: {fileID: 0}
-    DefaultPent: {fileID: 0}
-    DefaultShoes: {fileID: 0}
-    DefaultShirt: {fileID: 0}
-    DefaultHair: {fileID: 0}
 --- !u!1 &5493938948399900791
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5618615670788593151}
   - component: {fileID: 6030706966733208430}
-  - component: {fileID: 5173613974546925716}
+  - component: {fileID: 8231519400190528718}
   m_Layer: 0
   m_Name: eyes
   m_TagString: Untagged
@@ -516,8 +485,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9126513196091979880}
   m_Mesh: {fileID: 6365349383709012778, guid: b7c5e282cb4cd1349ad72dceeb33d289, type: 3}
---- !u!23 &5173613974546925716
-MeshRenderer:
+--- !u!137 &8231519400190528718
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -531,7 +500,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 3
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
@@ -557,4 +526,15 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 6365349383709012778, guid: b7c5e282cb4cd1349ad72dceeb33d289, type: 3}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: -0.0000065062195, y: 1.6792946, z: 0.094388135}
+    m_Extent: {x: 0.042986915, y: 0.013232887, z: 0.013303019}
+  m_DirtyAABB: 0

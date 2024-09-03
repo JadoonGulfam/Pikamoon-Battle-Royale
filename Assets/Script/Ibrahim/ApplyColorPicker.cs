@@ -65,7 +65,7 @@ public class ApplyColorPicker:MonoBehaviour
     //}
     public Color GetLipColor()
     {
-        return characterCustomizationManager.characterMesh.materials[0].color;
+        return characterCustomizationManager.characterMesh.materials[1].color;
     }
     public Color GetEyebrowColor()
     {
@@ -73,7 +73,7 @@ public class ApplyColorPicker:MonoBehaviour
     }
     public Color GetHairColor()
     {
-        return characterCustomizationManager.hairMaterial.color;
+            return characterCustomizationManager.hairMaterial.GetColor("_Root_Color");
     }
     void SetRelatedData()
     {
@@ -120,17 +120,17 @@ public class ApplyColorPicker:MonoBehaviour
     public void ChangeHairColor(Color color)
     {
         characterCustomizationManager.hairMaterial.color = color;
-        characterCustomizationManager.characterCustom.hairColor = color;
+        characterCustomizationManager.currentCharacterData.hairColor = color;
     }
     public void ChangeLipColor(Color color)
     {
-        characterCustomizationManager.characterMesh.materials[0].color = color;
-        characterCustomizationManager.characterCustom.lipsColor = color;
+        characterCustomizationManager.characterMesh.materials[1].color = color;
+        characterCustomizationManager.currentCharacterData.lipsColor = color;
     }
     public void ChangeEyebrowColor(Color color)
     {
         characterCustomizationManager.eyebrowMaterial.color = color;
-        characterCustomizationManager.characterCustom.eyeBrowColor = color;
+        characterCustomizationManager.currentCharacterData.eyeBrowColor = color;
     }
     //Color GetCurrentColor()
     //{
