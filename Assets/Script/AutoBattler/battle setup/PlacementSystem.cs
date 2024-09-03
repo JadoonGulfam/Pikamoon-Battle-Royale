@@ -163,7 +163,8 @@ public class PlacementSystem : MonoBehaviour
 
             PikamoonController pikamoonController = gameObject.GetComponent<PikamoonController>();
             pikamoonController.pikamoonID = database.objectData[objectIndex].ID;
-
+            pikamoonController.InitializeComponents();
+            pikamoonController.InitializePikamoonAttributes();
             if (isAIPlacement)
             {
                 gameObject.transform.Rotate(0, 180, 0);

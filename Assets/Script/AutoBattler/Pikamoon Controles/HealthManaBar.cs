@@ -18,6 +18,7 @@ public class HealthManaBar : MonoBehaviour
         if (healthFill != null)
         {
             healthFill.fillAmount = Mathf.Clamp01(fillAmount);
+            print("fill amount" + healthFill.fillAmount);
         }
     }
 

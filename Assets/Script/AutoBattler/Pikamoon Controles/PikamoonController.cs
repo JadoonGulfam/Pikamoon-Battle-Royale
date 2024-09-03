@@ -39,6 +39,8 @@ public class PikamoonController : MonoBehaviour
 
     private void Start()
     {
+        InitializeComponents();
+        InitializePikamoonAttributes();
         PlacementSystem.OnPlacementComplete += StartFindingOpponent;
     }
     private void Awake()
@@ -61,14 +63,14 @@ public class PikamoonController : MonoBehaviour
 
 
 
-    private void InitializeComponents()
+    public void InitializeComponents()
     {
         movement = GetComponent<PikamoonMovement>();
         combat = GetComponent<PikamoonCombat>();
         health = GetComponent<PikamoonHealth>();
     }
 
-    private void InitializePikamoonAttributes()
+    public void InitializePikamoonAttributes()
     {
         try
         {
@@ -78,7 +80,7 @@ public class PikamoonController : MonoBehaviour
             var pikamoonData = objectDatabase.GetPikamoonDataByID(pikamoonID);
             if (pikamoonData == null)
                 throw new KeyNotFoundException($"No Pikamoon data found with ID: {pikamoonID}");
-
+            print("pikamoon id" + pikamoonID);
             movement.Initialize(pikamoonData.MoveSpeed);
             health.Initialize(pikamoonData.Hp, pikamoonData.MaxMana);
             combat.Initialize(pikamoonData.Attack, pikamoonData.AttackRange, pikamoonData.ManaRegenRate);

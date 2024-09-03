@@ -8,19 +8,20 @@ public class PikamoonHealth : MonoBehaviour
 
     private float currentHealth;
     public float currentMana { get; private set; }
-    private PikamoonAnimation animationController;
+    private PikamoonBattleAnimationController animationController;
     private HealthManaBar healthManaBar;
 
     
 
     private void Awake()
     {
-        animationController = GetComponent<PikamoonAnimation>();
+        animationController = GetComponent<PikamoonBattleAnimationController>();
         healthManaBar = GetComponent<HealthManaBar>();
     }
 
     public void Initialize(float hp, float mana)
     {
+        print("hp" + hp);
         maxHealth = hp;
         currentHealth = maxHealth;
         maxMana = mana;
@@ -45,12 +46,12 @@ public class PikamoonHealth : MonoBehaviour
         {
             Die();
         }
+        print("current health" + currentHealth);
     }
 
     private void Die()
     {
-        animationController.SetAttackAnimation(false);
-        animationController.SetDeathAnimation();
+        animationController.PlayDeathAnimation();
         // Additional death logic here
     }
 }

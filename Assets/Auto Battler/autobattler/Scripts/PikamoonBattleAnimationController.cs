@@ -22,11 +22,27 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     [SerializeField] private string attackVisualTag;
 
     public PikamoonController pikamoonController;
-     
+    public PikamoonHealth pikamoonHealth;
+    private void Awake()
+    {
+        pikamoonController = this.gameObject.GetComponent<PikamoonController>();
+        pikamoonHealth = this.gameObject.GetComponent<PikamoonHealth>();
+    }
     public void SetAttackVisualPooler(AttackVisualPooler pooler)
     {
         attackPooler = pooler;
     }
+
+
+    public void PikamoonDethVisuals()
+    {
+        Destroy(this.gameObject);
+        print("pika moon die");
+    }
+
+
+
+
     public void StartAttack()
     {
         StartCoroutine(StartAttacking());
@@ -61,6 +77,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
         _animator.SetInteger(CAST_ANIM_ID, animationNumber);
         _animator.SetTrigger(Cast);
+        pikamoonHealth.TakeDamage(100f);
     }
     
     public void castAttackVisuls()
@@ -132,6 +149,8 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     {
         ResetTriggers();
         _animator.SetTrigger(Death);
+        Destroy(this.gameObject);
+        print("charater die");
     }
 
     private void ResetTriggers()
