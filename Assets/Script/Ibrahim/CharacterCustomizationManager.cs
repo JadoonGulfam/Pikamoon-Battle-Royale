@@ -10,19 +10,17 @@ using UnityEngine.Analytics;
 public class CharacterCustomizationManager : MonoBehaviour
 {
     public CharacterData defaultCharacterdata;
-    public SkinnedMeshRenderer characterMesh; // Assumes a SkinnedMeshRenderer for blendshapes
-    public Material eyeMaterial;
     public Material eyebrowMaterial;
-    public Material hairMaterial;
     public AddressableDownloader addressableDownloader;
     public GameObject loader;
-    public GameObject hairObject, shirtObject, trouserObject, shoesObject, presetObject;
+    private GameObject presetObject;
+    [HideInInspector]
     public GameObject _curretClickedBtn;
+    [HideInInspector]
     public GameObject _lastAvatarClickedBtn;
-    public Transform characterPosition;
 
     public CharacterData currentCharacterData;
-    public AvatarController avatarController;
+    public AvatarController avatarController;  
     void Start()
     {
         LoadCharacterCustomization();
@@ -56,7 +54,7 @@ public class CharacterCustomizationManager : MonoBehaviour
         // characterMesh.SetBlendShapeWeight(0, characterCustom.faceShape);
         // skinMaterial.color = characterCustom.skinColor;
         // Implement other settings as needed
-       // currentCharacterData =  defaultCharacterdata;
+        currentCharacterData =  defaultCharacterdata.Clone();
         Debug.Log("faceshape    " + defaultCharacterdata.faceShape);
     }
     public void DownloadPresetAddressableObject(string key, bodyType type)
@@ -74,9 +72,9 @@ public class CharacterCustomizationManager : MonoBehaviour
         Color newColor;
         if (ColorUtility.TryParseHtmlString(color, out newColor))
         {
-            characterMesh.materials[0].color = newColor;
-            characterMesh.materials[2].color = newColor;
-            defaultCharacterdata.skinColor = newColor;
+            avatarController.body.materials[0].color = newColor;
+            avatarController.body.materials[2].color = newColor;
+            currentCharacterData.skinColor = newColor;
         }
     }
     public void ApplyLipsColor(string color, bodyType type)
@@ -84,33 +82,32 @@ public class CharacterCustomizationManager : MonoBehaviour
         Color newColor;
         if (ColorUtility.TryParseHtmlString(color, out newColor))
         {
-            characterMesh.materials[1].color = newColor;
-            defaultCharacterdata.lipsColor = newColor;
+            avatarController.body.materials[1].color = newColor;
+            currentCharacterData.lipsColor = newColor;
         }
     }
     public void ApplyHairPreset(GameObject _preset, string _key, string _type)
     {
         avatarController.StichItem(-1, _preset, "Hair", avatarController.gameObject);
-
-        defaultCharacterdata.hairPreset = _key;
+        currentCharacterData.hairPreset = _key;
         loader.SetActive(false);
     }
     public void ApplyShirtPreset(GameObject _preset, string _key, string _type)
     {
         avatarController.StichItem(-1, _preset, "Shirt", avatarController.gameObject);
-        defaultCharacterdata.shirtPreset = _key;
+        currentCharacterData.shirtPreset = _key;
         loader.SetActive(false);
     }
     public void ApplyTrouserPreset(GameObject _preset, string _key, string _type)
     {
         avatarController.StichItem(-1, _preset, "Trouser", avatarController.gameObject);
-        defaultCharacterdata.trouserPreset = _key;
+        currentCharacterData.trouserPreset = _key;
         loader.SetActive(false);
     }
     public void ApplyShoesPreset(GameObject _preset, string _key, string _type)
     {
         avatarController.StichItem(-1, _preset, "Shoes", avatarController.gameObject);
-        defaultCharacterdata.shoespreset = _key;
+        currentCharacterData.shoespreset = _key;
         loader.SetActive(false);
     }
     public void ApplyOnPreset(GameObject _preset, string _key, string _type) 
@@ -118,9 +115,7 @@ public class CharacterCustomizationManager : MonoBehaviour
         if (presetObject != null)
             Destroy(presetObject);
         presetObject = Instantiate(_preset);
-        presetObject.transform.position = characterPosition.transform.position;
-        presetObject.transform.rotation = characterPosition.transform.rotation;
-        defaultCharacterdata.characterPreset = _key;
+        currentCharacterData.characterPreset = _key;
         loader.SetActive(false);
     }
     //public void ApplyHairColor(string color, bodyType type)
@@ -134,21 +129,21 @@ public class CharacterCustomizationManager : MonoBehaviour
     //}
     public void ApplyEyeTexture(Texture2D _texture, string _key)
     {
-        eyeMaterial.mainTexture = _texture;
-        defaultCharacterdata.eyeColor = _key;
+        avatarController.eye.mainTexture = _texture;
+        currentCharacterData.eyeColor = _key;
         loader.SetActive(false);
     }
     public void ApplyChanges()
     {
-        defaultCharacterdata = currentCharacterData;
+        defaultCharacterdata = currentCharacterData.Clone();
         SaveCharacterCustomization();
     }
     public void ResetChanges()
     {
         // currentCharacterData =  defaultCharacterdata;
         ApplyEyeTexture(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, "");
-        ApplyLipsColor("#FFFFFF", bodyType.Lips);
-        ApplySkinColor("#FFFFFF", bodyType.SkinColor);
+        ApplyLipsColor(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor.ToString(), bodyType.Lips);
+        ApplySkinColor(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor.ToString(), bodyType.SkinColor);
         ApplyHairPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, "", bodyType.Hair.ToString());
         ApplyShirtPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, "", bodyType.Shirt.ToString());
         ApplyTrouserPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, "", bodyType.Trouser.ToString());

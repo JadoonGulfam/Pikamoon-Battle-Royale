@@ -29,6 +29,9 @@ public class AvatarController : MonoBehaviour
         WearDefaultItem("Feet", applyOn.gameObject, _gender);
         WearDefaultItem("Hair", applyOn.gameObject, _gender);
         TextureForEyes(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
+        ColorForSkin(defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
+        ColorForLips(defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
+        ColorForEyeBrow(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
     }
     public void WearDefaultItem(string type, GameObject applyOn, string gender)
     {      
@@ -109,16 +112,16 @@ public class AvatarController : MonoBehaviour
     }
     public void ColorForSkin(Color _color)
     {
-        body.materials[0].SetColor("_BaseMap", _color);
-        body.materials[2].SetColor("_BaseMap", _color);
+        body.materials[0].SetColor("_BaseColor", _color);
+        body.materials[2].SetColor("_BaseColor", _color);
     }
     public void ColorForLips(Color _color)
     {
-        body.materials[1].SetColor("_BaseMap", _color);
+        body.materials[1].SetColor("_BaseColor", _color);
     }
     public void ColorForEyeBrow(Color _color)
     {
-        body.materials[1].SetColor("_BaseMap", _color);
+        //body.materials[1].SetColor("_BaseColor", _color);
     }
     public void TextureForEyes(Texture texture)
     {

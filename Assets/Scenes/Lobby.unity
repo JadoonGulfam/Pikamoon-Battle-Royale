@@ -18388,20 +18388,11 @@ MonoBehaviour:
     hairColor: {r: 0, g: 0, b: 0, a: 0}
     lipsColor: {r: 0, g: 0, b: 0, a: 0}
     characterPreset: 
-  characterMesh: {fileID: 4362305813178633040}
-  eyeMaterial: {fileID: 2100000, guid: 62af010b452c2e941917c8e0f75dca6b, type: 2}
   eyebrowMaterial: {fileID: 2100000, guid: eda0e23f2e499c948ba82ac7fe9b0e3b, type: 2}
-  hairMaterial: {fileID: 2100000, guid: 3a001638cc924ee4f97ef66ba68c858b, type: 2}
   addressableDownloader: {fileID: 966698884}
   loader: {fileID: 451987458}
-  hairObject: {fileID: 0}
-  shirtObject: {fileID: 0}
-  trouserObject: {fileID: 0}
-  shoesObject: {fileID: 0}
-  presetObject: {fileID: 0}
   _curretClickedBtn: {fileID: 0}
   _lastAvatarClickedBtn: {fileID: 0}
-  characterPosition: {fileID: 383732023}
   currentCharacterData:
     gender: 
     faceShape: 0
@@ -24384,7 +24375,7 @@ MonoBehaviour:
     dynamicMaterial: {fileID: 2100000, guid: d122a9ab83052a844bff54d706f46330, type: 2}
   hexInput: {fileID: 466113469}
   modeDropdown: {fileID: 199692289}
-  mode: 1
+  mode: 0
   staticSpriteMain:
   - {fileID: 21300000, guid: 9eeaa26afcff5404d9a837ac9bf644d7, type: 3}
   - {fileID: 21300000, guid: 818f373e223bc044b95f83ad796bbec0, type: 3}
@@ -36782,6 +36773,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1643539670}
   - component: {fileID: 1643539669}
+  - component: {fileID: 1643539671}
   m_Layer: 0
   m_Name: Cloth DataBase
   m_TagString: Untagged
@@ -36802,9 +36794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maleAvatarDefaultCostume:
-    DefaultSkin: {fileID: 2800000, guid: ab46a101b53f7914b9ddd39c5d1e3c69, type: 3}
     DefaultEyes: {fileID: 2800000, guid: 37040e236c04c2849bdf8f04934b2b75, type: 3}
-    DefaultLips: {fileID: 2800000, guid: ab46a101b53f7914b9ddd39c5d1e3c69, type: 3}
     DefaultPent: {fileID: 1592569782975563051, guid: 9ba44c30e9cfc384ab9386db0a82c2df,
       type: 3}
     DefaultShoes: {fileID: 1187178803855354671, guid: ff7eed42209293242a57e49a2bda3767,
@@ -36813,14 +36803,18 @@ MonoBehaviour:
       type: 3}
     DefaultHair: {fileID: 6128544689655923852, guid: 6a1eceda69f8db04798e7a17c918d490,
       type: 3}
+    DefaultSkinColor: {r: 1, g: 1, b: 1, a: 1}
+    DefaultLipsColor: {r: 1, g: 1, b: 1, a: 1}
+    DefaultEyebrowColor: {r: 0, g: 0, b: 0, a: 0}
   femaleAvatarDefaultCostume:
-    DefaultSkin: {fileID: 0}
     DefaultEyes: {fileID: 0}
-    DefaultLips: {fileID: 0}
     DefaultPent: {fileID: 0}
     DefaultShoes: {fileID: 0}
     DefaultShirt: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultSkinColor: {r: 0, g: 0, b: 0, a: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+    DefaultEyebrowColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &1643539670
 Transform:
   m_ObjectHideFlags: 0
@@ -36836,6 +36830,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1643539671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643539668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0947f857753bf5f4e926d26e001799aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _curretClickedBtn: {fileID: 0}
+  _lastAvatarClickedBtn: {fileID: 0}
 --- !u!1 &1643646802
 GameObject:
   m_ObjectHideFlags: 0
@@ -48432,16 +48440,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7247579365638956424, guid: 0c6d1b6b42e2b3d40a2be42e468fb45e,
         type: 3}
-      propertyPath: eye
-      value: 
-      objectReference: {fileID: 2100000, guid: 62af010b452c2e941917c8e0f75dca6b, type: 2}
-    - target: {fileID: 7247579365638956424, guid: 0c6d1b6b42e2b3d40a2be42e468fb45e,
-        type: 3}
-      propertyPath: eyeBrow
-      value: 
-      objectReference: {fileID: 2100000, guid: eda0e23f2e499c948ba82ac7fe9b0e3b, type: 2}
-    - target: {fileID: 7247579365638956424, guid: 0c6d1b6b42e2b3d40a2be42e468fb45e,
-        type: 3}
       propertyPath: defaultClothDatabase
       value: 
       objectReference: {fileID: 1643539669}
@@ -50447,7 +50445,7 @@ MonoBehaviour:
     dynamicMaterial: {fileID: 2100000, guid: d122a9ab83052a844bff54d706f46330, type: 2}
   hexInput: {fileID: 2130943086003606790}
   modeDropdown: {fileID: 2130943085459726144}
-  mode: 1
+  mode: 0
   staticSpriteMain:
   - {fileID: 21300000, guid: 9eeaa26afcff5404d9a837ac9bf644d7, type: 3}
   - {fileID: 21300000, guid: 818f373e223bc044b95f83ad796bbec0, type: 3}
@@ -55750,12 +55748,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
---- !u!137 &4362305813178633040 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3785118675358733276, guid: 0c6d1b6b42e2b3d40a2be42e468fb45e,
-    type: 3}
-  m_PrefabInstance: {fileID: 409819362720867704}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4776209445046736856
 MonoBehaviour:
   m_ObjectHideFlags: 0
