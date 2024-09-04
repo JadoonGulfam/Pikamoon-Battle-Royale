@@ -62,7 +62,7 @@ public class PlacementSystem : MonoBehaviour
 
     private IEnumerator AIPlaceObjects()
     {
-        const float duration = 5f;
+        const float duration = 10f;
         const int itemsToPlace = 5;
         float endTime = Time.time + duration;
         int placedItems = 0;
@@ -89,7 +89,7 @@ public class PlacementSystem : MonoBehaviour
                 Debug.LogError($"Error during AI placement: {ex.Message}");
             }
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
 
         autoBattlerUIManager.StartPlayerTeamSelection();
