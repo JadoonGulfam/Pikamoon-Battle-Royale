@@ -31,8 +31,10 @@ public class PlacementSystem : MonoBehaviour
     public List<GameObject> playerPika { get; private set; } = new List<GameObject>();
 
     public AttackVisualPooler attackVisualPooler;
+    public SoundManager soundManager;
 
     public static event Action OnPlacementComplete;
+
 
     private void Awake()
     {
@@ -193,6 +195,7 @@ public class PlacementSystem : MonoBehaviour
         {
             Debug.LogError($"Error placing structure at index {objectIndex}: {ex.Message}");
         }
+        soundManager.PlaySoundByID(0);
     }
 
 
