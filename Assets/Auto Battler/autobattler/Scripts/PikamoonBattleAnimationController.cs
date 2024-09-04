@@ -57,11 +57,11 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         // Wait for a random time between 1 and 4 seconds
         float randomWaitTime = Random.Range(2f, 4f);
         yield return new WaitForSeconds(randomWaitTime);
-        if(pikamoonController.isBattleStarted)
+        if(pikamoonController.isBattleStarted && pikamoonController.isPikamoonLive)
         {
             StartCoroutine(StartAttacking());
         }
-        else
+        else if(!pikamoonController.isBattleStarted && pikamoonController.isPikamoonLive)
         {
             print("battle ended");
             PlayVictoryAnimation();
@@ -86,7 +86,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
         _animator.SetInteger(CAST_ANIM_ID, animationNumber);
         _animator.SetTrigger(Cast);
-        pikamoonHealth.TakeDamage(100f);
+        
     }
     
     public void castAttackVisuls()
@@ -142,6 +142,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         {
             PlayKnockbackAnimation();
         }
+        pikamoonHealth.TakeDamage(100f);
     }
 
     private void PlayKnockdownAnimation()
@@ -156,6 +157,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
     public void PlayDeathAnimation()
     {
+        pikamoonController.isPikamoonLive = false;
         ResetTriggers();
         _animator.SetTrigger(Death);
         Destroy(this.gameObject);

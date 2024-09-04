@@ -12,6 +12,7 @@ public class PikamoonController : MonoBehaviour
     [Header("General Settings")]
     [SerializeField] public bool isAIPikamoon = false;
     [SerializeField] public int pikamoonID;
+    [SerializeField] public bool isPikamoonLive=true;
     [SerializeField] private ObjectDatabaseSO objectDatabase;
     public Transform targetPosition;
     
@@ -119,7 +120,7 @@ public class PikamoonController : MonoBehaviour
 
     private void Update()
     {
-        if (isBattleStarted)
+        if (isBattleStarted && isPikamoonLive)
         {
             if (nearestOpponent == null)
             {
