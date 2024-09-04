@@ -1344,6 +1344,7 @@ Transform:
   - {fileID: 4340832045377933817}
   - {fileID: 8788763682479349636}
   - {fileID: 1955763320620054483}
+  - {fileID: 7320029891497830586}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &9059794425670108255
@@ -1383,7 +1384,8 @@ MonoBehaviour:
   _projectileCreationPoint: {fileID: 1513831992750250007}
   attackVisualTag: Blazewing
   pikamoonController: {fileID: 1324955861883359257}
-  pikamoonHealth: {fileID: 0}
+  pikamoonHealth: {fileID: 8135668829804058691}
+  Deathparticales: {fileID: 8892736929040488284}
 --- !u!114 &1962096203266332701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3647,3 +3649,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &8937007405372204836
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4132657542790695516}
+    m_Modifications:
+    - target: {fileID: 535921747854766200, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_Name
+      value: FX_Blazewing_Death
+      objectReference: {fileID: 0}
+    - target: {fileID: 535921747854766200, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 60505bf2e4c8c3349aaab4397e0e1d0f, type: 3}
+--- !u!4 &7320029891497830586 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1842914003928928158, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8937007405372204836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8892736929040488284 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 535921747854766200, guid: 60505bf2e4c8c3349aaab4397e0e1d0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8937007405372204836}
+  m_PrefabAsset: {fileID: 0}

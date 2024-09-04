@@ -24,6 +24,8 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     public PikamoonController pikamoonController;
     public PikamoonHealth pikamoonHealth;
     private CharacterAudioManager audioManager;
+
+    [SerializeField] private GameObject Deathparticales;
     private void Awake()
     {
         pikamoonController = this.gameObject.GetComponent<PikamoonController>();
@@ -160,6 +162,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
     public void PlayDeathAnimation()
     {
+        Deathparticales.SetActive(true);
         audioManager.PlayDeathSound();
         pikamoonController.isPikamoonLive = false;
         ResetTriggers();
