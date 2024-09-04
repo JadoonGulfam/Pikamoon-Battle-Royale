@@ -23,10 +23,12 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
     public PikamoonController pikamoonController;
     public PikamoonHealth pikamoonHealth;
+    private CharacterAudioManager audioManager;
     private void Awake()
     {
         pikamoonController = this.gameObject.GetComponent<PikamoonController>();
         pikamoonHealth = this.gameObject.GetComponent<PikamoonHealth>();
+        audioManager = GetComponent<CharacterAudioManager>();
     }
     public void SetAttackVisualPooler(AttackVisualPooler pooler)
     {
@@ -121,6 +123,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
     public void PlayVictoryAnimation()
     {
+        audioManager.PlayVictorySound();
         ResetTriggers();
         _animator.SetTrigger(VICTORY);
     }
@@ -157,10 +160,11 @@ public class PikamoonBattleAnimationController : MonoBehaviour
 
     public void PlayDeathAnimation()
     {
+        audioManager.PlayDeathSound();
         pikamoonController.isPikamoonLive = false;
         ResetTriggers();
         _animator.SetTrigger(Death);
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject,2.5f);
         print("charater die");
     }
 

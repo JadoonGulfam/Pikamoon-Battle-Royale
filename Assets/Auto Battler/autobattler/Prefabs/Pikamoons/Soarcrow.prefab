@@ -80,6 +80,8 @@ GameObject:
   - component: {fileID: 2632085840382521648}
   - component: {fileID: 7419914221667513088}
   - component: {fileID: 731443407998363618}
+  - component: {fileID: 6341049770776180668}
+  - component: {fileID: 6426298408008918059}
   m_Layer: 0
   m_Name: Soarcrow
   m_TagString: AutoBattlerCharacter
@@ -143,6 +145,7 @@ MonoBehaviour:
   _projectileCreationPoint: {fileID: 2637068663826307632}
   attackVisualTag: Soarcrow
   pikamoonController: {fileID: 731443407998363618}
+  pikamoonHealth: {fileID: 0}
 --- !u!143 &1145363383568388409
 CharacterController:
   m_ObjectHideFlags: 0
@@ -239,10 +242,123 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAIPikamoon: 0
   pikamoonID: 0
+  isPikamoonLive: 1
   objectDatabase: {fileID: 11400000, guid: 49f2562da0d0dc141a79994b9b57cac6, type: 2}
   targetPosition: {fileID: 0}
+  isBattleStarted: 0
   pikamoonBattleAnimationController: {fileID: 1751335802860051588}
   damageHndler: {fileID: 5084180578332176186}
+--- !u!114 &6341049770776180668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255437820632421057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e665165003b554b8f6e0e0939cf6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnClip: {fileID: 8300000, guid: 634e13a055da53942ac5ef507fccf1af, type: 3}
+  deathClip: {fileID: 8300000, guid: 634e13a055da53942ac5ef507fccf1af, type: 3}
+  victoryClip: {fileID: 8300000, guid: af86725ad763cda4fb1a37d81e7c9b36, type: 3}
+--- !u!82 &6426298408008918059
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255437820632421057}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &261769154720318025
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,8 +2153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbf860fbe8bd2a4499f424e8c7f19896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pikamoonBattleAnimationController: {fileID: 1751335802860051588}
   characterType: 0
+  pikamoonBattleAnimationController: {fileID: 1751335802860051588}
 --- !u!1 &6068373212547821123
 GameObject:
   m_ObjectHideFlags: 0

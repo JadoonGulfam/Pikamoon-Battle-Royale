@@ -17,6 +17,7 @@ public class PikamoonHealth : MonoBehaviour
     {
         animationController = GetComponent<PikamoonBattleAnimationController>();
         healthManaBar = GetComponent<HealthManaBar>();
+        
     }
 
     public void Initialize(float hp, float mana)
@@ -51,6 +52,7 @@ public class PikamoonHealth : MonoBehaviour
 
     private void Die()
     {
+       
         animationController.PlayDeathAnimation();
         // Additional death logic here
     }

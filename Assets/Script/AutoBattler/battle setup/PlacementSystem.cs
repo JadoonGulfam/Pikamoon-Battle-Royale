@@ -97,6 +97,7 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
+        soundManager.PlaySoundByID(2);
         if (userPlacedItemsCount >= maxItemsToPlace)
         {
             Debug.Log("Maximum number of items placed.");
