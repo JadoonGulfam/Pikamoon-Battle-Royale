@@ -112,7 +112,8 @@ public class PikamoonBattleAnimationController : MonoBehaviour
             {
                 attackObject.transform.Rotate(0, 0, 0);
             }
-            attackObject.GetComponent<AttackParticles>().Initialize(pikamoonController.targetPosition, 5, pikamoonController.isAIPikamoon, 1);                        
+            attackObject.GetComponent<AttackParticles>().Initialize(pikamoonController.targetPosition, 5, pikamoonController.isAIPikamoon, 1);
+            audioManager.PlayDeathSound();
             attackObject.SetActive(true);
         }
     }
@@ -163,7 +164,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     public void PlayDeathAnimation()
     {
         Deathparticales.SetActive(true);
-        audioManager.PlayDeathSound();
+        //audioManager.PlayDeathSound();
         pikamoonController.isPikamoonLive = false;
         ResetTriggers();
         _animator.SetTrigger(Death);
