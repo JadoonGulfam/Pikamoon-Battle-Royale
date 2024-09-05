@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class ApplyColorPicker:MonoBehaviour
+public class ApplyColorPicker : MonoBehaviour
 {
     //[SerializeField] Slider slider;
     //[SerializeField] Image output;
@@ -21,18 +21,21 @@ public class ApplyColorPicker:MonoBehaviour
     //public Material material;
     private void OnEnable()
     {
-        SetRelatedData();
         //slider.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
         //SaveCurrentColor();
 
         fcp.onColorChange.AddListener(OnChangeColor);
     }
+    void Start()
+    {
+        SetRelatedData();
 
+    }
     private void OnDisable()
     {
         fcp.onColorChange.RemoveAllListeners();
 
-    }   
+    }
     //public void ValueChangeCheck()
     //{
     //    {
@@ -73,7 +76,7 @@ public class ApplyColorPicker:MonoBehaviour
     }
     public Color GetHairColor()
     {
-            return characterCustomizationManager.currentCharacterData.hairColor;
+        return characterCustomizationManager.currentCharacterData.hairColor;
     }
     void SetRelatedData()
     {
@@ -86,7 +89,7 @@ public class ApplyColorPicker:MonoBehaviour
 
             case ColorType.LipsColor:
                 ChangeColor(GetLipColor());
-               // outputTxt.text = ConvertColorToHex(GetLipColor());
+                // outputTxt.text = ConvertColorToHex(GetLipColor());
                 break;
             case ColorType.EyebrowColor:
                 ChangeColor(GetEyebrowColor());

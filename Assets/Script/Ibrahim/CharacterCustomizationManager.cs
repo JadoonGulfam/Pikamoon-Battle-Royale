@@ -18,7 +18,6 @@ public class CharacterCustomizationManager : MonoBehaviour
     public AvatarController avatarController;
     void Start()
     {
-        PlayerPrefs.SetInt("Guest", 1);
         LoadCharacterCustomization();
     }
     public void SaveCharacterCustomization()
