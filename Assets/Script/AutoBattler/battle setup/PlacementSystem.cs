@@ -97,17 +97,12 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
-        soundManager.PlaySoundByID(2);
         if (userPlacedItemsCount >= maxItemsToPlace)
         {
-            Debug.Log("Maximum number of items placed.");
-            autoBattlerUIManager.BattleInProgressPanel();
-            autoBattlerUIManager.TeamSelectionCompleted();
-            AutoBattlerEvents.TriggerPlacementComplete();
-            OnPlacementComplete?.Invoke();
+            startBattle();
             return;
         }
-
+        soundManager.PlaySoundByID(2);
         isPreviewEnabled = true;
         StopPlacement();
         selectedObjectIndex = database.objectData.FindIndex(data => data.ID == ID);
@@ -126,6 +121,7 @@ public class PlacementSystem : MonoBehaviour
 
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
+        print("charactor cuont" + userPlacedItemsCount);
     }
 
     private void PlaceStructure()
@@ -150,6 +146,15 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
+    public void startBattle()
+    {
+        Debug.Log("Maximum number of items placed.");
+        autoBattlerUIManager.BattleInProgressPanel();
+        autoBattlerUIManager.TeamSelectionCompleted();
+        AutoBattlerEvents.TriggerPlacementComplete();
+        OnPlacementComplete?.Invoke();
+        
+    }
     private void PlaceStructureAt(int objectIndex, Vector3Int gridPosition, bool isAIPlacement)
     {
         try
@@ -197,6 +202,11 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"Error placing structure at index {objectIndex}: {ex.Message}");
         }
         soundManager.PlaySoundByID(0);
+
+        if(userPlacedItemsCount==5)
+        {
+            startBattle();
+        }
     }
 
 
