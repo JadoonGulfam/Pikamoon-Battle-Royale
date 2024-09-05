@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.Rendering;
@@ -13,8 +14,7 @@ public class AvatarController : MonoBehaviour
     public GameObject wornHair, wornPant, wornShirt, wornShoes;
     void Start()
     {
-        stitcher = new Stitcher();
-        SetAvatarClothDefault(this.gameObject, "Male");
+        stitcher = new Stitcher();      
     }
 
     // Update is called once per frame
@@ -28,10 +28,7 @@ public class AvatarController : MonoBehaviour
         WearDefaultItem("Chest", applyOn.gameObject,_gender);
         WearDefaultItem("Feet", applyOn.gameObject, _gender);
         WearDefaultItem("Hair", applyOn.gameObject, _gender);
-        TextureForEyes(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
-        ColorForSkin(defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
-        ColorForLips(defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
-        ColorForEyeBrow(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
+        SetDefaultTexture();
     }
     public void WearDefaultItem(string type, GameObject applyOn, string gender)
     {      
@@ -104,6 +101,16 @@ public class AvatarController : MonoBehaviour
                 Destroy(wornShoes);
                 break;          
         }
+    }
+
+    public void SetDefaultTexture() 
+    {
+        eye.SetTexture("_BaseMap", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
+
+        body.materials[0].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
+        body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
+
+        body.materials[1].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
     }
     public void TextureForSkin(Texture texture)
     {

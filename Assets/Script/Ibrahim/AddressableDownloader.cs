@@ -6,11 +6,21 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AddressableDownloader : MonoBehaviour
 {
+    public static AddressableDownloader Instance;
     public AddressableMemoryReleaser MemoryManager;
     public CharacterCustomizationManager characterCustomizationManager;
-    void Start()
+    private void Awake()
     {
-        MemoryManager = GetComponent<AddressableMemoryReleaser>();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            MemoryManager = GetComponent<AddressableMemoryReleaser>();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public IEnumerator DownloadAddressableObject(string key, bodyType type)

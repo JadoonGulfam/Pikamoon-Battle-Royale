@@ -3110,9 +3110,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1890072817}
   - {fileID: 686738737}
   - {fileID: 2001446174}
-  - {fileID: 1890072817}
   m_Father: {fileID: 1347754798}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -14275,7 +14275,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 35
+    m_MaxSize: 20
     m_Alignment: 4
     m_AlignByGeometry: 1
     m_RichText: 1
@@ -14433,7 +14433,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 35
+    m_MaxSize: 20
     m_Alignment: 4
     m_AlignByGeometry: 1
     m_RichText: 1
@@ -16075,7 +16075,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dda233eaa062e434cae0d844b2310202, type: 3}
   - {fileID: 21300000, guid: 7f7bf995d8f4ffc489061658bbbe371d, type: 3}
   - {fileID: 21300000, guid: 70f194dd3b5bc754d9a1153445b604f4, type: 3}
-  startingColor: {r: 1, g: 0, b: 0, a: 1}
+  startingColor: {r: 0, g: 1, b: 0.008023262, a: 1}
   staticMode: 0
   multiInstance: 1
   onColorChange:
@@ -16288,7 +16288,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 351.2213, y: -395.19336}
+  m_AnchoredPosition: {x: 351.2213, y: -462.4001}
   m_SizeDelta: {x: 462.3819, y: 47.0489}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &686738738
@@ -16374,7 +16374,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 1
+      - m_Target: {fileID: 696732126}
+        m_TargetAssemblyTypeName: CameraCustomizationController, Assembly-CSharp
+        m_MethodName: ChangeCameraPosition
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Arm
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &694775573
 GameObject:
   m_ObjectHideFlags: 0
@@ -16678,6 +16690,12 @@ MonoBehaviour:
     rotation: {x: 0, y: 169.641, z: 0}
   - customizationOption: Body
     position: {x: -2.38, y: 0.38, z: 8.52}
+    rotation: {x: 3.756, y: 174.99, z: -0.329}
+  - customizationOption: Leg
+    position: {x: -2.38, y: 0.24, z: 5.99}
+    rotation: {x: 3.756, y: 174.99, z: -0.329}
+  - customizationOption: Arm
+    position: {x: -2.38, y: 0.87, z: 4.19}
     rotation: {x: 3.756, y: 174.99, z: -0.329}
   - customizationOption: Trouser
     position: {x: -2.87, y: 0.02, z: 5.16}
@@ -17547,7 +17565,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 35
+    m_MaxSize: 20
     m_Alignment: 4
     m_AlignByGeometry: 1
     m_RichText: 1
@@ -18350,6 +18368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 812460893}
   - component: {fileID: 812460892}
+  - component: {fileID: 812460894}
   m_Layer: 0
   m_Name: CharacterCustomizationManager
   m_TagString: Untagged
@@ -18389,10 +18408,7 @@ MonoBehaviour:
     lipsColor: {r: 0, g: 0, b: 0, a: 0}
     characterPreset: 
   eyebrowMaterial: {fileID: 2100000, guid: eda0e23f2e499c948ba82ac7fe9b0e3b, type: 2}
-  addressableDownloader: {fileID: 966698884}
   loader: {fileID: 451987458}
-  _curretClickedBtn: {fileID: 0}
-  _lastAvatarClickedBtn: {fileID: 0}
   currentCharacterData:
     gender: 
     faceShape: 0
@@ -18428,6 +18444,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &812460894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812460891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0947f857753bf5f4e926d26e001799aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _curretClickedBtn: {fileID: 0}
+  _lastAvatarClickedBtn: {fileID: 0}
 --- !u!1 &814805893
 GameObject:
   m_ObjectHideFlags: 0
@@ -24375,7 +24405,7 @@ MonoBehaviour:
     dynamicMaterial: {fileID: 2100000, guid: d122a9ab83052a844bff54d706f46330, type: 2}
   hexInput: {fileID: 466113469}
   modeDropdown: {fileID: 199692289}
-  mode: 0
+  mode: 1
   staticSpriteMain:
   - {fileID: 21300000, guid: 9eeaa26afcff5404d9a837ac9bf644d7, type: 3}
   - {fileID: 21300000, guid: 818f373e223bc044b95f83ad796bbec0, type: 3}
@@ -36773,7 +36803,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1643539670}
   - component: {fileID: 1643539669}
-  - component: {fileID: 1643539671}
   m_Layer: 0
   m_Name: Cloth DataBase
   m_TagString: Untagged
@@ -36830,20 +36859,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1643539671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643539668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0947f857753bf5f4e926d26e001799aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _curretClickedBtn: {fileID: 0}
-  _lastAvatarClickedBtn: {fileID: 0}
 --- !u!1 &1643646802
 GameObject:
   m_ObjectHideFlags: 0
@@ -42442,7 +42457,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 351.2213, y: -529.6068}
+  m_AnchoredPosition: {x: 351.2213, y: -395.19336}
   m_SizeDelta: {x: 462.3819, y: 47.0489}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1890072818
@@ -42528,7 +42543,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  m_IsOn: 0
+      - m_Target: {fileID: 696732126}
+        m_TargetAssemblyTypeName: CameraCustomizationController, Assembly-CSharp
+        m_MethodName: ChangeCameraPosition
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Body
+          m_BoolArgument: 1
+        m_CallState: 2
+  m_IsOn: 1
 --- !u!1 &1890160676
 GameObject:
   m_ObjectHideFlags: 0
@@ -44886,7 +44913,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 351.2213, y: -462.4}
+  m_AnchoredPosition: {x: 351.2213, y: -529.6068}
   m_SizeDelta: {x: 462.3819, y: 47.0489}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001446175
@@ -44970,6 +44997,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 696732126}
+        m_TargetAssemblyTypeName: CameraCustomizationController, Assembly-CSharp
+        m_MethodName: ChangeCameraPosition
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Leg
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
@@ -48440,6 +48479,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7247579365638956424, guid: 0c6d1b6b42e2b3d40a2be42e468fb45e,
         type: 3}
+      propertyPath: eye
+      value: 
+      objectReference: {fileID: 2100000, guid: 62af010b452c2e941917c8e0f75dca6b, type: 2}
+    - target: {fileID: 7247579365638956424, guid: 0c6d1b6b42e2b3d40a2be42e468fb45e,
+        type: 3}
+      propertyPath: eyeBrow
+      value: 
+      objectReference: {fileID: 2100000, guid: eda0e23f2e499c948ba82ac7fe9b0e3b, type: 2}
+    - target: {fileID: 7247579365638956424, guid: 0c6d1b6b42e2b3d40a2be42e468fb45e,
+        type: 3}
       propertyPath: defaultClothDatabase
       value: 
       objectReference: {fileID: 1643539669}
@@ -50445,7 +50494,7 @@ MonoBehaviour:
     dynamicMaterial: {fileID: 2100000, guid: d122a9ab83052a844bff54d706f46330, type: 2}
   hexInput: {fileID: 2130943086003606790}
   modeDropdown: {fileID: 2130943085459726144}
-  mode: 0
+  mode: 1
   staticSpriteMain:
   - {fileID: 21300000, guid: 9eeaa26afcff5404d9a837ac9bf644d7, type: 3}
   - {fileID: 21300000, guid: 818f373e223bc044b95f83ad796bbec0, type: 3}
@@ -50453,7 +50502,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dda233eaa062e434cae0d844b2310202, type: 3}
   - {fileID: 21300000, guid: 7f7bf995d8f4ffc489061658bbbe371d, type: 3}
   - {fileID: 21300000, guid: 70f194dd3b5bc754d9a1153445b604f4, type: 3}
-  startingColor: {r: 1, g: 0, b: 0, a: 1}
+  startingColor: {r: 1, g: 0.056943767, b: 0, a: 1}
   staticMode: 0
   multiInstance: 1
   onColorChange:

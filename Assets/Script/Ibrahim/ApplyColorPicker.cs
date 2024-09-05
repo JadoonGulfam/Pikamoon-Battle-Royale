@@ -65,15 +65,15 @@ public class ApplyColorPicker:MonoBehaviour
     //}
     public Color GetLipColor()
     {
-        return characterCustomizationManager.avatarController.body.materials[1].color;
+        return characterCustomizationManager.currentCharacterData.lipsColor;
     }
     public Color GetEyebrowColor()
     {
-        return characterCustomizationManager.eyebrowMaterial.color;
+        return characterCustomizationManager.currentCharacterData.eyeBrowColor;
     }
     public Color GetHairColor()
     {
-            return characterCustomizationManager.avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].GetColor("_Root_Color");
+            return characterCustomizationManager.currentCharacterData.hairColor;
     }
     void SetRelatedData()
     {

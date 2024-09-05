@@ -11,18 +11,14 @@ public class CharacterCustomizationManager : MonoBehaviour
 {
     public CharacterData defaultCharacterdata;
     public Material eyebrowMaterial;
-    public AddressableDownloader addressableDownloader;
     public GameObject loader;
     private GameObject presetObject;
-    [HideInInspector]
-    public GameObject _curretClickedBtn;
-    [HideInInspector]
-    public GameObject _lastAvatarClickedBtn;
 
     public CharacterData currentCharacterData;
-    public AvatarController avatarController;  
+    public AvatarController avatarController;
     void Start()
     {
+        PlayerPrefs.SetInt("Guest", 1);
         LoadCharacterCustomization();
     }
     public void SaveCharacterCustomization()
@@ -39,33 +35,41 @@ public class CharacterCustomizationManager : MonoBehaviour
             string json = File.ReadAllText(Application.persistentDataPath + "/characterCustom.json");
             defaultCharacterdata = JsonUtility.FromJson<CharacterData>(json);
             Debug.Log("Character customization loaded from " + Application.persistentDataPath + "/characterCustom.json");
-
-            ApplyCharacterCustomization();
+            int isGuest = PlayerPrefs.GetInt("Guest", 0) == 1 ? 1 : 0;
+            Debug.Log(isGuest);
+            if (isGuest == 1)
+                ApplyCharacterCustomization();
+            else
+                avatarController.SetAvatarClothDefault(avatarController.gameObject, "Male");
         }
         else
         {
             Debug.Log("No character customization file found at " + Application.persistentDataPath + "/characterCustom.json");
+            avatarController.SetAvatarClothDefault(avatarController.gameObject, "Male");
         }
     }
     private void ApplyCharacterCustomization()
     {
-        // Apply the loaded customization settings to your character
-        // Example:
-        // characterMesh.SetBlendShapeWeight(0, characterCustom.faceShape);
-        // skinMaterial.color = characterCustom.skinColor;
-        // Implement other settings as needed
-        currentCharacterData =  defaultCharacterdata.Clone();
-        Debug.Log("faceshape    " + defaultCharacterdata.faceShape);
+
+        currentCharacterData = defaultCharacterdata.Clone();
+        if (defaultCharacterdata.hairPreset != null && defaultCharacterdata.hairPreset != "")
+        {
+            DownloadPresetAddressableObject(defaultCharacterdata.hairPreset, bodyType.Hair);
+        }
+        else 
+        {
+            avatarController.WearDefaultItem("Hair", avatarController.gameObject, "Male");
+        }
     }
     public void DownloadPresetAddressableObject(string key, bodyType type)
     {
         loader.SetActive(true);
-        addressableDownloader.StartCoroutine(addressableDownloader.DownloadAddressableObject(key, type));
+        AddressableDownloader.Instance.StartCoroutine(AddressableDownloader.Instance.DownloadAddressableObject(key, type));
     }
     public void DownloadPresetAddressableTexture(string key, bodyType type)
     {
         loader.SetActive(true);
-        addressableDownloader.StartCoroutine(addressableDownloader.DownloadAddressableTexture(key, type));
+        AddressableDownloader.Instance.StartCoroutine(AddressableDownloader.Instance.DownloadAddressableTexture(key, type));
     }
     public void ApplySkinColor(string color, bodyType type)
     {
@@ -110,7 +114,7 @@ public class CharacterCustomizationManager : MonoBehaviour
         currentCharacterData.shoespreset = _key;
         loader.SetActive(false);
     }
-    public void ApplyOnPreset(GameObject _preset, string _key, string _type) 
+    public void ApplyOnPreset(GameObject _preset, string _key, string _type)
     {
         if (presetObject != null)
             Destroy(presetObject);

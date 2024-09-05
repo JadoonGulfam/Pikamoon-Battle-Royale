@@ -59,18 +59,18 @@ public class ButtonPress : MonoBehaviour
                 break;
         }
 
-        CharacterCustomization.characterCustomizationManager._curretClickedBtn = this.gameObject;
-        if (CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn && CharacterCustomization.characterCustomizationManager._curretClickedBtn == CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn)
+        Constants.Instance._curretClickedBtn = this.gameObject;
+        if (Constants.Instance._lastAvatarClickedBtn && Constants.Instance._curretClickedBtn == Constants.Instance._lastAvatarClickedBtn)
             return;
 
-        CharacterCustomization.characterCustomizationManager._curretClickedBtn.GetComponent<Image>().color = new Color(0f, 0f, 1f, 1f);
+        Constants.Instance._curretClickedBtn.GetComponent<Image>().color = new Color(0f, 0f, 1f, 1f);
 
-        if (CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn)
+        if (Constants.Instance._lastAvatarClickedBtn)
         {
-            if (CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn.GetComponent<ButtonPress>())
-                CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+            if (Constants.Instance._lastAvatarClickedBtn.GetComponent<ButtonPress>())
+                Constants.Instance._lastAvatarClickedBtn.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
         }
 
-        CharacterCustomization.characterCustomizationManager._lastAvatarClickedBtn = this.gameObject;
+        Constants.Instance._lastAvatarClickedBtn = this.gameObject;
     }
 }
