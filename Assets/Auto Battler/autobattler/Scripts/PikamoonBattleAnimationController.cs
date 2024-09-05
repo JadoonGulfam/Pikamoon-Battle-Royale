@@ -59,7 +59,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         PlayCastAnimation(2);
 
         // Wait for a random time between 1 and 4 seconds
-        float randomWaitTime = Random.Range(2f, 4f);
+        float randomWaitTime = Random.Range(2f, 2.8f);
         yield return new WaitForSeconds(randomWaitTime);
         if(pikamoonController.isBattleStarted && pikamoonController.isPikamoonLive)
         {

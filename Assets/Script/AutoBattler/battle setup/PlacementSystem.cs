@@ -20,8 +20,8 @@ public class PlacementSystem : MonoBehaviour
     [Header("Placement Settings")]
     private int selectedObjectIndex = -1;
     private bool isPreviewEnabled = false;
-    private int userPlacedItemsCount = 0;
-    private int maxItemsToPlace = 5;
+    private int userPlacedPlayerCount = 0;
+    private int maxPlayerToPlace = 6;
     private List<GameObject> placedGameObjects = new List<GameObject>();
     private Vector3 lastDetectedPosition = Vector3.zero;
     private GridData floorData, objectData;
@@ -63,11 +63,11 @@ public class PlacementSystem : MonoBehaviour
     private IEnumerator AIPlaceObjects()
     {
         const float duration = 10f;
-        const int itemsToPlace = 5;
+        const int AIPlayerToPlace = 6;
         float endTime = Time.time + duration;
         int placedItems = 0;
 
-        while (Time.time < endTime && placedItems < itemsToPlace)
+        while (Time.time < endTime && placedItems < AIPlayerToPlace)
         {
             int randomIndex = UnityEngine.Random.Range(0, database.objectData.Count);
             Vector3Int randomPosition = new Vector3Int(
@@ -97,7 +97,7 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
-        if (userPlacedItemsCount >= maxItemsToPlace)
+        if (userPlacedPlayerCount >= maxPlayerToPlace)
         {
             startBattle();
             return;
@@ -121,7 +121,7 @@ public class PlacementSystem : MonoBehaviour
 
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
-        print("charactor cuont" + userPlacedItemsCount);
+        print("charactor cuont" + userPlacedPlayerCount);
     }
 
     private void PlaceStructure()
@@ -181,7 +181,7 @@ public class PlacementSystem : MonoBehaviour
             }
             else
             {
-                userPlacedItemsCount++;
+                userPlacedPlayerCount++;
                 playerPika.Add(gameObject);
                 pikamoonController.isAIPikamoon = false;
             }
@@ -203,7 +203,7 @@ public class PlacementSystem : MonoBehaviour
         }
         soundManager.PlaySoundByID(0);
 
-        if(userPlacedItemsCount==5)
+        if(userPlacedPlayerCount== 7)
         {
             startBattle();
         }

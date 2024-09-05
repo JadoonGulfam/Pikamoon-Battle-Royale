@@ -25,7 +25,7 @@ public class AutoBattlerUIManager : MonoBehaviour
     }
     public void TeamSelectionCompleted()
     {
-        
+        playerTeamSelectionUI.SetActive(false);
     }
     public void StartStartBattel()
     {
