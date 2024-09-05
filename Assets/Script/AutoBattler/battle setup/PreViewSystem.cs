@@ -28,20 +28,28 @@ public class PreViewSystem : MonoBehaviour
     public void StartShowingPlacementPreview(GameObject prefab, Vector2Int size)
     {
         preViewObject = Instantiate(prefab);
+
+        // Calculate the offset to center the preview object
+        Vector3 offset = new Vector3(size.x / 2f, 0, size.y / 2f);
+        preViewObject.transform.position += offset;
+
         PreparePreView(preViewObject);
         PrepareCurser(size);
         cellIndicator.SetActive(true);
     }
 
+
     private void PrepareCurser(Vector2Int size)
     {
-       if(size.x>0 || size.y>0)
+        if (size.x > 0 || size.y > 0)
         {
-            cellIndicator.transform.localPosition = new Vector3(size.x, 1, size.y);
+            Vector3 offset = new Vector3(size.x / 2f, 0, size.y / 2f);
+            cellIndicator.transform.localPosition = offset;
             cellIndicatorRenderer.material.mainTextureScale = size;
         }
     }
-    
+
+
     private void PreparePreView(GameObject preViewObject)
     {
         Renderer[] renderers = preViewObject.GetComponentsInChildren<Renderer>();
@@ -85,9 +93,9 @@ public class PreViewSystem : MonoBehaviour
 
     private void MovePreView(Vector3 position)
     {
-        preViewObject.transform.position = new Vector3(
-            position.x,
-            0,
-            position.z);
+        // Assuming grid cell size is 1x1, adjust accordingly if different
+        Vector3 offset = new Vector3(0.5f, 0, 0.5f); // Center offset for a 1x1 cell
+        preViewObject.transform.position = position + offset;
     }
+
 }

@@ -1,176 +1,200 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Collections;
 
 [RequireComponent(typeof(PikamoonMovement))]
 [RequireComponent(typeof(PikamoonCombat))]
+[RequireComponent(typeof(PikamoonHealth))]
+[RequireComponent(typeof(HealthManaBar))]
 public class PikamoonController : MonoBehaviour
 {
     [Header("General Settings")]
-    public bool isAIPikamood = false;
-    public int pikamoonID; // Added this field to store the Pikamoon ID
+    [SerializeField] public bool isAIPikamoon = false;
+    [SerializeField] public int pikamoonID;
+    [SerializeField] public bool isPikamoonLive=true;
+    [SerializeField] private ObjectDatabaseSO objectDatabase;
+    public Transform targetPosition;
+    
+    [Header("State")]
     private List<GameObject> opponents;
     private GameObject nearestOpponent;
-    private bool isBattleStarted;
+    public bool isBattleStarted;
 
     [Header("Components")]
     private PikamoonMovement movement;
     private PikamoonCombat combat;
+    private PikamoonHealth health;
 
-    [SerializeField]
-    private ObjectDatabaseSO objectDatabase; // Serialized field to assign ObjectDatabaseSO
-
-    private void OnEnable()
-    {
-        PlacementSystem.OnPlacementComplete += StartFindingOpponent;
-    }
+    public PikamoonBattleAnimationController pikamoonBattleAnimationController;
+    public DamageHndler damageHndler;
+    //private void OnEnable()
+    //{
+    //    PlacementSystem.OnPlacementComplete += StartFindingOpponent;
+    //}
 
     private void OnDisable()
     {
         PlacementSystem.OnPlacementComplete -= StartFindingOpponent;
     }
 
-    private void Awake()
-    {
-        // Initialize components
-        movement = GetComponent<PikamoonMovement>();
-        combat = GetComponent<PikamoonCombat>();
-
-        // Initialize attributes
-        InitializeAttributes();
-    }
     private void Start()
     {
-        PrintPikamoonAttributes();
+        //InitializeComponents();
+        //InitializePikamoonAttributes();
+        PlacementSystem.OnPlacementComplete += StartFindingOpponent;
     }
-    private void InitializeAttributes()
+    private void Awake()
     {
-        if (objectDatabase == null)
-        {
-            Debug.LogError("ObjectDatabase is not assigned in PikamoonController");
-            return;
-        }
-
-        var pikamoonData = objectDatabase.objectData.Find(data => data.ID == pikamoonID);
-        if (pikamoonData == null)
-        {
-            Debug.LogError($"No Pikamoon data found with ID: {pikamoonID}");
-            return;
-        }
-        movement.Initialize(pikamoonData.MoveSpeed);
-        // Here you can initialize your Pikamoon attributes with pikamoonData
-        // For example:
-       // Debug.Log($"Initializing Pikamoon {pikamoonData.DisplayName} with ID {pikamoonData.ID}");
-        // Set attributes like HP, Attack, etc.
-        // hp = pikamoonData.Hp;
-        // attack = pikamoonData.Attack;
-        // And so on...
+        InitializeComponents();
+        InitializePikamoonAttributes();
     }
-
-    public void PrintPikamoonAttributes()
+    private void OnTriggerEnter(Collider other)
     {
-        if (objectDatabase == null)
-        {
-            Debug.LogError("ObjectDatabase is not assigned in PikamoonController");
-            return;
-        }
-
-        var pikamoonData = objectDatabase.objectData.Find(data => data.ID == pikamoonID);
-        if (pikamoonData == null)
-        {
-            Debug.LogError($"No Pikamoon data found with ID: {pikamoonID}");
-            return;
-        }
-        
-
-        // Print Pikamoon attributes
-        //Debug.Log($"Pikamoon Attributes for ID {pikamoonID}:");
-        //Debug.Log($"DisplayName: {pikamoonData.DisplayName}");
-        //Debug.Log($"Rarity: {pikamoonData.Rarity}");
-        //Debug.Log($"Level: {pikamoonData.Level}");
-        //Debug.Log($"ElementalClass: {pikamoonData.ElementalClass}");
-        //Debug.Log($"CombatClass: {pikamoonData.CombatClass}");
-        //Debug.Log($"Attack: {pikamoonData.Attack}");
-        //Debug.Log($"Magic: {pikamoonData.Magic}");
-        //Debug.Log($"Hp: {pikamoonData.Hp}");
-        //Debug.Log($"PhysicalDefense: {pikamoonData.PhysicalDefense}");
-        //Debug.Log($"MagicalDefense: {pikamoonData.MagicalDefense}");
-        //Debug.Log($"Evasion: {pikamoonData.Evasion}");
-        //Debug.Log($"MoveSpeed: {pikamoonData.MoveSpeed}");
-        //Debug.Log($"AttackInterval: {pikamoonData.AttackInterval}");
-        //Debug.Log($"AttackRange: {pikamoonData.AttackRange}");
-        //Debug.Log($"MaxMana: {pikamoonData.MaxMana}");
-        //Debug.Log($"BaseManaGeneration: {pikamoonData.BaseManaGeneration}");
-        //Debug.Log($"ManaGainAttackMultiplier: {pikamoonData.ManaGainAttackMultiplier}");
-        //Debug.Log($"ManaGainDamageMultiplier: {pikamoonData.ManaGainDamageMultiplier}");
-        //Debug.Log($"CriticalChance: {pikamoonData.CriticalChance}");
-        //Debug.Log($"SpecialAbility: {pikamoonData.SpecialAbility}");
-        //Debug.Log($"Description: {pikamoonData.Description}");
+        //if (other.gameObject.CompareTag("obstical"))
+        //{
+        //    other.gameObject.SetActive(false);
+        //    bool isAIAttack = other.gameObject.GetComponent<AttackParticles>().casterType;
+        //    if ((isAIPikamoon && !isAIAttack) || (!isAIPikamoon && isAIAttack))
+        //    {
+        //        pikamoonBattleAnimationController.PlayHitAnimation();
+        //    }
+        //}
     }
+
+
+
+    public void InitializeComponents()
+    {
+        movement = GetComponent<PikamoonMovement>();
+        combat = GetComponent<PikamoonCombat>();
+        health = GetComponent<PikamoonHealth>();
+    }
+
+    public void InitializePikamoonAttributes()
+    {
+        try
+        {
+            if (objectDatabase == null)
+                throw new ArgumentNullException(nameof(objectDatabase), "ObjectDatabase is not assigned.");
+
+            var pikamoonData = objectDatabase.GetPikamoonDataByID(pikamoonID);
+            if (pikamoonData == null)
+                throw new KeyNotFoundException($"No Pikamoon data found with ID: {pikamoonID}");
+            print("pikamoon id" + pikamoonID);
+            movement.Initialize(pikamoonData.MoveSpeed);
+            health.Initialize(pikamoonData.Hp, pikamoonData.MaxMana);
+            combat.Initialize(pikamoonData.Attack, pikamoonData.AttackRange, pikamoonData.ManaRegenRate);
+        }
+        catch (ArgumentNullException ex)
+        {
+            Debug.LogError(ex.Message);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            Debug.LogError(ex.Message);
+        }
+        catch (Exception ex) // General exception handling for unexpected errors
+        {
+            Debug.LogError($"An unexpected error occurred: {ex.Message}");
+        }
+    }
+
 
     private void StartFindingOpponent()
     {
-        Debug.Log("StartFindingOpponent event raised");
-        Initialize();
+        damageHndler.Initialize(isAIPikamoon);
+        InitializeOpponents();
+        pikamoonBattleAnimationController.StartAttack();
+        Debug.Log("Battle started. Finding opponents...");
+        
         isBattleStarted = true;
+        
     }
 
-    public void Initialize()
+    private void InitializeOpponents()
     {
-        opponents = isAIPikamood ? PlacementSystem.Instance.playerPika : PlacementSystem.Instance.aIPikas;
-        Debug.Log($"{gameObject.name} total opponents {opponents.Count}");
+        opponents = isAIPikamoon ? PlacementSystem.Instance.playerPika : PlacementSystem.Instance.aIPikas;
         FindAndSetNearestOpponent();
     }
 
     private void Update()
     {
-        if (isBattleStarted)
+        if (isBattleStarted && isPikamoonLive)
         {
             if (nearestOpponent == null)
             {
-                Debug.Log("Nearest opponent destroyed");
                 FindAndSetNearestOpponent();
                 if (nearestOpponent == null)
                 {
-                    return; // No opponents to follow
+                    isBattleStarted = false;
+                    print("battle ended");
+                    return;
                 }
             }
 
-            if (movement.MoveTowardsOpponent(nearestOpponent))
-            {
-                combat.StartCombat(nearestOpponent);
-            }
+            //if (movement.MoveTowardsOpponent(nearestOpponent))
+            //{
+            //    combat.StartCombat(nearestOpponent);
+            //}
         }
     }
 
     private void FindAndSetNearestOpponent()
     {
-
         nearestOpponent = FindNearestOpponent();
         if (nearestOpponent != null)
         {
-            Debug.Log($"{gameObject.name} nearest opponent {nearestOpponent.name}");
+            Debug.Log($"{gameObject.name} found nearest opponent: {nearestOpponent.name}");
         }
+
     }
 
     private GameObject FindNearestOpponent()
     {
+        if (opponents == null || opponents.Count == 0) return null;
+
         GameObject nearest = null;
         float minDistance = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
 
         foreach (GameObject opponent in opponents)
         {
-            if (opponent != null && opponent != gameObject)
+            if (opponent == null || opponent == gameObject) continue;
+
+            float distance = Vector3.Distance(currentPosition, opponent.transform.position);
+            if (distance < minDistance)
             {
-                float distance = Vector3.Distance(currentPosition, opponent.transform.position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    nearest = opponent;
-                }
+                minDistance = distance;
+                nearest = opponent;
             }
         }
 
-        return nearest?.transform.GetChild(0).gameObject;
+        if (nearest != null)
+        {
+            // Find the specific child transform of the nearest opponent
+            Transform nearestTargetTransform = nearest.transform.GetChild(0).gameObject.transform;
+
+            // Update the target position
+            targetPosition = nearestTargetTransform;
+
+            // Calculate the direction to the nearest opponent
+            Vector3 directionToTarget = (nearestTargetTransform.position - currentPosition).normalized;
+
+            // Immediately rotate the game object to face the nearest opponent
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                transform.rotation = lookRotation; // Directly apply the rotation
+            }
+
+            return nearestTargetTransform.gameObject;
+        }
+
+        return null;
     }
+
+
+
+
 }

@@ -5,36 +5,36 @@ using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] prefabs;
-    public static PlacementSystem Instance { get; private set; }
-    public static event Action OnPlacementComplete;
+    [Header("Prefab References")]
+    [SerializeField] private GameObject[] prefabs;
+    [SerializeField] private GameObject mouseIndicator;
+    [SerializeField] private GameObject gridVisualization;
+    [SerializeField] private AutoBattlerUIManager autoBattlerUIManager;
+    [SerializeField] private PreViewSystem preview;
 
-    [SerializeField]
-    private GameObject mouseIndicator; //, cellIndicator;
-    [SerializeField]
-    private InputManager inputManager;
-    [SerializeField]
-    private Grid grid;
-    public ObjectDatabaseSO database;  // Changed from private to public
+    [Header("System References")]
+    [SerializeField] private InputManager inputManager;
+    [SerializeField] private Grid grid;
+    [SerializeField] private ObjectDatabaseSO database;
+
+    [Header("Placement Settings")]
     private int selectedObjectIndex = -1;
-    [SerializeField]
-    private GameObject gridVisualization;
-    [SerializeField]
-    private AutoBattlerUIManager autoBattlerUIManager;
-    [SerializeField]
-    private PreViewSystem preview;
-    private GridData floorData, objectData;
-
-    private List<GameObject> placedGameObjects = new();
-    private Vector3 lastDetectedPosition = Vector3.zero;
-
     private bool isPreviewEnabled = false;
     private int userPlacedItemsCount = 0;
     private int maxItemsToPlace = 5;
+    private List<GameObject> placedGameObjects = new List<GameObject>();
+    private Vector3 lastDetectedPosition = Vector3.zero;
+    private GridData floorData, objectData;
 
-    public List<GameObject> aIPikas = new List<GameObject>();
-    public List<GameObject> playerPika = new List<GameObject>();
+    public static PlacementSystem Instance { get; private set; }
+    public List<GameObject> aIPikas { get; private set; } = new List<GameObject>();
+    public List<GameObject> playerPika { get; private set; } = new List<GameObject>();
+
+    public AttackVisualPooler attackVisualPooler;
+    public SoundManager soundManager;
+
+    public static event Action OnPlacementComplete;
+
 
     private void Awake()
     {
@@ -47,12 +47,12 @@ public class PlacementSystem : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private void Start()
     {
         StopPlacement();
-        floorData = new();
-        objectData = new();
-        // StartCoroutine(AIPlaceObjects());
+        floorData = new GridData();
+        objectData = new GridData();
     }
 
     public void StartPlacement()
@@ -62,8 +62,8 @@ public class PlacementSystem : MonoBehaviour
 
     private IEnumerator AIPlaceObjects()
     {
-        float duration = 5f;
-        int itemsToPlace = 5;
+        const float duration = 10f;
+        const int itemsToPlace = 5;
         float endTime = Time.time + duration;
         int placedItems = 0;
 
@@ -71,19 +71,27 @@ public class PlacementSystem : MonoBehaviour
         {
             int randomIndex = UnityEngine.Random.Range(0, database.objectData.Count);
             Vector3Int randomPosition = new Vector3Int(
-                UnityEngine.Random.Range(-4, 5), // X range: -5 to 5
+                UnityEngine.Random.Range(-4, 5),
                 0,
-                UnityEngine.Random.Range(1, 5)  // Z range: 0 to 5
+                UnityEngine.Random.Range(1, 5)
             );
 
-            if (CheckPlacementValidity(randomPosition, randomIndex))
+            try
             {
-                PlaceStructureAt(randomIndex, randomPosition, true);
-                placedItems++;
+                if (CheckPlacementValidity(randomPosition, randomIndex))
+                {
+                    PlaceStructureAt(randomIndex, randomPosition, true);
+                    placedItems++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error during AI placement: {ex.Message}");
             }
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
+
         autoBattlerUIManager.StartPlayerTeamSelection();
     }
 
@@ -91,89 +99,120 @@ public class PlacementSystem : MonoBehaviour
     {
         if (userPlacedItemsCount >= maxItemsToPlace)
         {
-            Debug.Log("Maximum number of items placed.");
-            autoBattlerUIManager.BattleInProgressPanel();
-            autoBattlerUIManager.TeamSelectionCompleted();
-            OnPlacementComplete?.Invoke();
+            startBattle();
             return;
         }
+        soundManager.PlaySoundByID(2);
         isPreviewEnabled = true;
         StopPlacement();
         selectedObjectIndex = database.objectData.FindIndex(data => data.ID == ID);
+
         if (selectedObjectIndex < 0)
         {
-            print($"No ID found {ID}");
+            Debug.LogWarning($"No ID found for {ID}");
+            return;
         }
+
         gridVisualization.SetActive(true);
         preview.StartShowingPlacementPreview(
             prefabs[database.objectData[selectedObjectIndex].ID],
             Vector2Int.one
         );
+
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
+        print("charactor cuont" + userPlacedItemsCount);
     }
 
     private void PlaceStructure()
     {
-        if (isPreviewEnabled)
+        if (isPreviewEnabled && !inputManager.IsPointerOverUI())
         {
-            if (inputManager.IsPointerOverUI())
+            try
             {
-                return;
-            }
-            Vector3 mousePosition = inputManager.GetSelectedMapPosition();
-            Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+                Vector3 mousePosition = inputManager.GetSelectedMapPosition();
+                Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
-            if (CheckPlacementValidity(gridPosition, selectedObjectIndex))
+                if (CheckPlacementValidity(gridPosition, selectedObjectIndex))
+                {
+                    PlaceStructureAt(selectedObjectIndex, gridPosition, false);
+                    isPreviewEnabled = false;
+                }
+            }
+            catch (Exception ex)
             {
-                PlaceStructureAt(selectedObjectIndex, gridPosition, false);
-                isPreviewEnabled = false;
+                Debug.LogError($"Error placing structure: {ex.Message}");
             }
         }
     }
 
+    public void startBattle()
+    {
+        Debug.Log("Maximum number of items placed.");
+        autoBattlerUIManager.BattleInProgressPanel();
+        autoBattlerUIManager.TeamSelectionCompleted();
+        AutoBattlerEvents.TriggerPlacementComplete();
+        OnPlacementComplete?.Invoke();
+        
+    }
     private void PlaceStructureAt(int objectIndex, Vector3Int gridPosition, bool isAIPlacement)
     {
-        print("selected index" + objectIndex);
-        print("id" + database.objectData[objectIndex].ID);
-        GameObject gameObject = Instantiate(prefabs[objectIndex]);
-        Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
-
-        gameObject.transform.position = new Vector3(cellWorldPosition.x, 0, cellWorldPosition.z);
-
-        // Initialize the PikamoonController script with the appropriate ID
-        PikamoonController pikamoonController = gameObject.GetComponent<PikamoonController>();
-        pikamoonController.pikamoonID = database.objectData[objectIndex].ID;
-
-        if (isAIPlacement)
+        try
         {
-            gameObject.transform.Rotate(0, 180, 0);
-            aIPikas.Add(gameObject);
-            gameObject.GetComponent<PikamoonController>().isAIPikamood = true;
+            GameObject gameObject = Instantiate(prefabs[objectIndex]);
+            Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
+
+            // Offset to center the object in the cell
+            Vector3 offset = new Vector3(grid.cellSize.x / 2f, 0, grid.cellSize.z / 2f);
+            gameObject.transform.position = cellWorldPosition + offset;
+
+            PikamoonBattleAnimationController pikamoonController1 = gameObject.GetComponent<PikamoonBattleAnimationController>();
+            pikamoonController1.SetAttackVisualPooler(attackVisualPooler);
+
+            PikamoonController pikamoonController = gameObject.GetComponent<PikamoonController>();
+            pikamoonController.pikamoonID = database.objectData[objectIndex].ID;
+            pikamoonController.InitializeComponents();
+            pikamoonController.InitializePikamoonAttributes();
+            if (isAIPlacement)
+            {
+                gameObject.transform.Rotate(0, 180, 0);
+                aIPikas.Add(gameObject);
+                pikamoonController.isAIPikamoon = true;
+            }
+            else
+            {
+                userPlacedItemsCount++;
+                playerPika.Add(gameObject);
+                pikamoonController.isAIPikamoon = false;
+            }
+
+            preview.StopShowingPreView();
+            placedGameObjects.Add(gameObject);
+
+            GridData selectData = database.objectData[objectIndex].ID == -1 ? floorData : objectData;
+            selectData.AddOjectAt(
+                gridPosition,
+                Vector2Int.one,
+                database.objectData[objectIndex].ID,
+                placedGameObjects.Count - 1
+            );
         }
-        else
+        catch (Exception ex)
         {
-            userPlacedItemsCount++;
-            playerPika.Add(gameObject);
-            gameObject.GetComponent<PikamoonController>().isAIPikamood = false;
+            Debug.LogError($"Error placing structure at index {objectIndex}: {ex.Message}");
         }
+        soundManager.PlaySoundByID(0);
 
-        preview.StopShowingPreView();
-        placedGameObjects.Add(gameObject);
-        GridData selectData = database.objectData[objectIndex].ID == -1 ? floorData : objectData;
-
-        selectData.AddOjectAt(
-            gridPosition,
-            Vector2Int.one,
-            database.objectData[objectIndex].ID,
-            placedGameObjects.Count - 1
-        );
+        if(userPlacedItemsCount==5)
+        {
+            startBattle();
+        }
     }
+
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
         GridData selectData = database.objectData[selectedObjectIndex].ID == -1 ? floorData : objectData;
-
         return selectData.CanPlaceObjectAt(gridPosition, Vector2Int.one);
     }
 
@@ -189,17 +228,24 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
-        if (selectedObjectIndex < 0)
-            return;
-        Vector3 mousePosition = inputManager.GetSelectedMapPosition();
-        Vector3Int gridPosition = grid.WorldToCell(mousePosition);
-        if (lastDetectedPosition != gridPosition && isPreviewEnabled)
+        if (selectedObjectIndex < 0) return;
+
+        try
         {
-            bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
-            mouseIndicator.transform.position = new Vector3(mousePosition.x, 0, mousePosition.z);
-            Vector3 cellWorldPosition = grid.CellToWorld(gridPosition);
-            preview.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
-            lastDetectedPosition = gridPosition;
+            Vector3 mousePosition = inputManager.GetSelectedMapPosition();
+            Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+
+            if (lastDetectedPosition != gridPosition && isPreviewEnabled)
+            {
+                bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
+                mouseIndicator.transform.position = new Vector3(mousePosition.x, 0, mousePosition.z);
+                preview.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
+                lastDetectedPosition = gridPosition;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error during update: {ex.Message}");
         }
     }
 }

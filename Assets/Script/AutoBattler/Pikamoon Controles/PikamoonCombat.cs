@@ -4,12 +4,12 @@ using UnityEngine;
 public class PikamoonCombat : MonoBehaviour
 {
     [Header("Combat Settings")]
-    private float attackDamage;
-    private float attackRange;
-    private float manaRegenRate;
+    [SerializeField] private float attackDamage;
+    [SerializeField] private float attackRange;
+    [SerializeField] private float manaRegenRate;
 
     private float currentMana;
-    private bool isAttacking = false;
+    private bool isAttacking;
     private GameObject currentTarget;
     private PikamoonAnimation animationController;
 
@@ -23,18 +23,19 @@ public class PikamoonCombat : MonoBehaviour
         attackDamage = attack;
         attackRange = range;
         manaRegenRate = manaRegen;
-        currentMana = manaRegenRate;
+        currentMana = 0f;
     }
-
+    bool test = true;
     public void StartCombat(GameObject target)
     {
-        if (!isAttacking)
-        {
-            currentTarget = target;
-           // StartCoroutine(CombatRoutine());
-        }
-    }
+        if (isAttacking || target == null) return;
 
+        currentTarget = target;
+       
+       
+        // StartCoroutine(CombatRoutine());
+    }
+    
     private IEnumerator CombatRoutine()
     {
         isAttacking = true;
@@ -64,13 +65,14 @@ public class PikamoonCombat : MonoBehaviour
 
     private void Attack()
     {
-        if (currentTarget != null)
+        if (currentTarget == null) return;
+
+        var health = currentTarget.GetComponent<PikamoonHealth>();
+       
+
+        if (health != null)
         {
-            var health = currentTarget.GetComponent<PikamoonHealth>();
-            if (health != null)
-            {
-                health.TakeDamage(attackDamage);
-            }
+            health.TakeDamage(attackDamage);
         }
     }
 }
