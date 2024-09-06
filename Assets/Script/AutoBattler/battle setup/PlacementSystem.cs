@@ -35,7 +35,6 @@ public class PlacementSystem : MonoBehaviour
 
     public static event Action OnPlacementComplete;
 
-
     private void Awake()
     {
         if (Instance == null)
@@ -97,11 +96,13 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
-        if (userPlacedPlayerCount >= maxPlayerToPlace-1)
+        if (userPlacedPlayerCount >= maxPlayerToPlace)
         {
-            startBattle();
+            Debug.Log("Maximum number of players placed.");
+            StartCoroutine( StartBattle());  // Automatically start the battle when the player finishes placing
             return;
         }
+
         soundManager.PlaySoundByID(2);
         isPreviewEnabled = true;
         StopPlacement();
@@ -121,8 +122,6 @@ public class PlacementSystem : MonoBehaviour
 
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
-        print("charactor cuont" + userPlacedPlayerCount);
-        
     }
 
     private void PlaceStructure()
@@ -147,15 +146,6 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
-    public void startBattle()
-    {
-        Debug.Log("Maximum number of items placed.");
-        autoBattlerUIManager.BattleInProgressPanel();
-        autoBattlerUIManager.TeamSelectionCompleted();
-        AutoBattlerEvents.TriggerPlacementComplete();
-        OnPlacementComplete?.Invoke();
-        
-    }
     private void PlaceStructureAt(int objectIndex, Vector3Int gridPosition, bool isAIPlacement)
     {
         try
@@ -174,6 +164,7 @@ public class PlacementSystem : MonoBehaviour
             pikamoonController.pikamoonID = database.objectData[objectIndex].ID;
             pikamoonController.InitializeComponents();
             pikamoonController.InitializePikamoonAttributes();
+
             if (isAIPlacement)
             {
                 gameObject.transform.Rotate(0, 180, 0);
@@ -202,15 +193,15 @@ public class PlacementSystem : MonoBehaviour
         {
             Debug.LogError($"Error placing structure at index {objectIndex}: {ex.Message}");
         }
+
         soundManager.PlaySoundByID(0);
 
-        //if(userPlacedPlayerCount== maxPlayerToPlace)
-        //{
-        //    startBattle();
-        //    return;
-        //}
+        // Automatically start the battle when the maximum number of players are placed
+        if (userPlacedPlayerCount >= maxPlayerToPlace)
+        {
+            StartCoroutine(StartBattle());
+        }
     }
-
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
@@ -249,5 +240,15 @@ public class PlacementSystem : MonoBehaviour
         {
             Debug.LogError($"Error during update: {ex.Message}");
         }
+    }
+
+    private IEnumerator StartBattle()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Starting the battle...");
+        autoBattlerUIManager.BattleInProgressPanel();
+        autoBattlerUIManager.TeamSelectionCompleted();
+        AutoBattlerEvents.TriggerPlacementComplete();
+        OnPlacementComplete?.Invoke();
     }
 }
