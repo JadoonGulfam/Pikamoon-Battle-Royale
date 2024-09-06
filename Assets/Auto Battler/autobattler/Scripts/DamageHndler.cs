@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DamageHndler : MonoBehaviour
 {
+    
     public enum CharacterType
     {
         Player,
@@ -19,7 +20,6 @@ public class DamageHndler : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Attack")) return;
-
         AttackParticles attackParticles = other.GetComponent<AttackParticles>();
         if (attackParticles == null) return;
 

@@ -26,6 +26,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     private CharacterAudioManager audioManager;
 
     [SerializeField] private GameObject Deathparticales;
+    [SerializeField] private GameObject TakeDamageCotroller;
     private void Awake()
     {
         pikamoonController = this.gameObject.GetComponent<PikamoonController>();
@@ -168,6 +169,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         pikamoonController.isPikamoonLive = false;
         ResetTriggers();
         _animator.SetTrigger(Death);
+        TakeDamageCotroller.GetComponent<CapsuleCollider>().enabled = false;
         //Destroy(this.gameObject,2.5f);
         print("charater die");
     }
