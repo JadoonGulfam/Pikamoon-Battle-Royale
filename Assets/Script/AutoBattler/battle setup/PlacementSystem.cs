@@ -97,7 +97,7 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
-        if (userPlacedPlayerCount >= maxPlayerToPlace)
+        if (userPlacedPlayerCount >= maxPlayerToPlace-1)
         {
             startBattle();
             return;
@@ -122,6 +122,7 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
         print("charactor cuont" + userPlacedPlayerCount);
+        
     }
 
     private void PlaceStructure()
@@ -203,10 +204,11 @@ public class PlacementSystem : MonoBehaviour
         }
         soundManager.PlaySoundByID(0);
 
-        if(userPlacedPlayerCount== 7)
-        {
-            startBattle();
-        }
+        //if(userPlacedPlayerCount== maxPlayerToPlace)
+        //{
+        //    startBattle();
+        //    return;
+        //}
     }
 
 
