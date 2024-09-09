@@ -128,6 +128,7 @@ public class PikamoonController : MonoBehaviour
                 if (nearestOpponent == null)
                 {
                     isBattleStarted = false;
+                    
                     print("battle ended");
                     return;
                 }

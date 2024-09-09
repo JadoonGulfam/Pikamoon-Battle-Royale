@@ -20,8 +20,8 @@ public class PlacementSystem : MonoBehaviour
     [Header("Placement Settings")]
     private int selectedObjectIndex = -1;
     private bool isPreviewEnabled = false;
-    private int userPlacedItemsCount = 0;
-    private int maxItemsToPlace = 5;
+    private int userPlacedPlayerCount = 0;
+    private int maxPlayerToPlace = 6;
     private List<GameObject> placedGameObjects = new List<GameObject>();
     private Vector3 lastDetectedPosition = Vector3.zero;
     private GridData floorData, objectData;
@@ -34,7 +34,6 @@ public class PlacementSystem : MonoBehaviour
     public SoundManager soundManager;
 
     public static event Action OnPlacementComplete;
-
 
     private void Awake()
     {
@@ -63,11 +62,11 @@ public class PlacementSystem : MonoBehaviour
     private IEnumerator AIPlaceObjects()
     {
         const float duration = 10f;
-        const int itemsToPlace = 5;
+        const int AIPlayerToPlace = 6;
         float endTime = Time.time + duration;
         int placedItems = 0;
 
-        while (Time.time < endTime && placedItems < itemsToPlace)
+        while (Time.time < endTime && placedItems < AIPlayerToPlace)
         {
             int randomIndex = UnityEngine.Random.Range(0, database.objectData.Count);
             Vector3Int randomPosition = new Vector3Int(
@@ -97,11 +96,13 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
-        if (userPlacedItemsCount >= maxItemsToPlace)
+        if (userPlacedPlayerCount >= maxPlayerToPlace)
         {
-            startBattle();
+            Debug.Log("Maximum number of players placed.");
+            StartCoroutine( StartBattle());  // Automatically start the battle when the player finishes placing
             return;
         }
+
         soundManager.PlaySoundByID(2);
         isPreviewEnabled = true;
         StopPlacement();
@@ -121,7 +122,6 @@ public class PlacementSystem : MonoBehaviour
 
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
-        print("charactor cuont" + userPlacedItemsCount);
     }
 
     private void PlaceStructure()
@@ -146,15 +146,6 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
-    public void startBattle()
-    {
-        Debug.Log("Maximum number of items placed.");
-        autoBattlerUIManager.BattleInProgressPanel();
-        autoBattlerUIManager.TeamSelectionCompleted();
-        AutoBattlerEvents.TriggerPlacementComplete();
-        OnPlacementComplete?.Invoke();
-        
-    }
     private void PlaceStructureAt(int objectIndex, Vector3Int gridPosition, bool isAIPlacement)
     {
         try
@@ -173,6 +164,7 @@ public class PlacementSystem : MonoBehaviour
             pikamoonController.pikamoonID = database.objectData[objectIndex].ID;
             pikamoonController.InitializeComponents();
             pikamoonController.InitializePikamoonAttributes();
+
             if (isAIPlacement)
             {
                 gameObject.transform.Rotate(0, 180, 0);
@@ -181,7 +173,7 @@ public class PlacementSystem : MonoBehaviour
             }
             else
             {
-                userPlacedItemsCount++;
+                userPlacedPlayerCount++;
                 playerPika.Add(gameObject);
                 pikamoonController.isAIPikamoon = false;
             }
@@ -201,14 +193,15 @@ public class PlacementSystem : MonoBehaviour
         {
             Debug.LogError($"Error placing structure at index {objectIndex}: {ex.Message}");
         }
+
         soundManager.PlaySoundByID(0);
 
-        if(userPlacedItemsCount==5)
+        // Automatically start the battle when the maximum number of players are placed
+        if (userPlacedPlayerCount >= maxPlayerToPlace)
         {
-            startBattle();
+            StartCoroutine(StartBattle());
         }
     }
-
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
@@ -247,5 +240,15 @@ public class PlacementSystem : MonoBehaviour
         {
             Debug.LogError($"Error during update: {ex.Message}");
         }
+    }
+
+    private IEnumerator StartBattle()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Starting the battle...");
+        autoBattlerUIManager.BattleInProgressPanel();
+        autoBattlerUIManager.TeamSelectionCompleted();
+        AutoBattlerEvents.TriggerPlacementComplete();
+        OnPlacementComplete?.Invoke();
     }
 }

@@ -26,6 +26,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
     private CharacterAudioManager audioManager;
 
     [SerializeField] private GameObject Deathparticales;
+    [SerializeField] private GameObject TakeDamageCotroller;
     private void Awake()
     {
         pikamoonController = this.gameObject.GetComponent<PikamoonController>();
@@ -59,7 +60,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         PlayCastAnimation(2);
 
         // Wait for a random time between 1 and 4 seconds
-        float randomWaitTime = Random.Range(2f, 4f);
+        float randomWaitTime = Random.Range(2f, 2.8f);
         yield return new WaitForSeconds(randomWaitTime);
         if(pikamoonController.isBattleStarted && pikamoonController.isPikamoonLive)
         {
@@ -168,6 +169,7 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         pikamoonController.isPikamoonLive = false;
         ResetTriggers();
         _animator.SetTrigger(Death);
+        TakeDamageCotroller.GetComponent<CapsuleCollider>().enabled = false;
         //Destroy(this.gameObject,2.5f);
         print("charater die");
     }

@@ -73,8 +73,8 @@ public class PreViewSystem : MonoBehaviour
     public void UpdatePosition(Vector3 position, bool validity)
     {
         if(isActiveAndEnabled)
-            MovePreView(position);
         MoveCurser(position);
+        MovePreView(position);
         ApplyFeedback(validity);
     }
 

@@ -10,7 +10,7 @@ public class AttackParticles : MonoBehaviour
     }
 
     [Header("Particle Settings")]
-    public float speed = 10f; // Speed of the movement
+    public float speed = 8f; // Speed of the movement
 
 
     [Header("Attack Data")]
@@ -46,7 +46,7 @@ public class AttackParticles : MonoBehaviour
     }
     private IEnumerator MoveTowardsTarget()
     {
-        float duration = 2f; // Duration to move towards the target (2 seconds)
+        float duration = 2.5f; // Duration to move towards the target (2 seconds)
         float elapsedTime = 0f;
 
         while (target != null && elapsedTime < duration)
