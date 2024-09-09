@@ -14,13 +14,13 @@ public class PreViewSystem : MonoBehaviour
 
     [SerializeField]
     private Material preViewMaterialPrefab;
-    private Material preViewmaterialInstance;
+    //private Material preViewmaterialInstance;
 
     private Renderer cellIndicatorRenderer;
 
     private void Start()
     {
-        preViewmaterialInstance = new Material(preViewMaterialPrefab);
+        //preViewmaterialInstance = new Material(preViewMaterialPrefab);
         cellIndicator.SetActive(false);
         cellIndicatorRenderer = cellIndicator.GetComponentInChildren<Renderer>();
     }
@@ -59,7 +59,7 @@ public class PreViewSystem : MonoBehaviour
             Material[] materials = renderer.materials;
             for (int i = 0; i < materials.Length; i++)
             {
-                materials[i] = preViewmaterialInstance;
+                //materials[i] = preViewmaterialInstance;
             }
             renderer.materials = materials;
         }
@@ -83,7 +83,7 @@ public class PreViewSystem : MonoBehaviour
         Color c = validity ? Color.white : Color.red;
         cellIndicatorRenderer.material.color = c;
         c.a = 0.5f;
-        preViewmaterialInstance.color = c;
+        //preViewmaterialInstance.color = c;
     }
 
     private void MoveCurser(Vector3 position)
