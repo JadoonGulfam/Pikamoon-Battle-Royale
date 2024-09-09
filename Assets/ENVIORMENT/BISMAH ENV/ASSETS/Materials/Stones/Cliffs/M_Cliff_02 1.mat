@@ -7,12 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Chains
-  m_Shader: {fileID: 4800000, guid: 9965e7dabb0b116409c8824a014842dc, type: 3}
+  m_Name: M_Cliff_02 1
+  m_Shader: {fileID: 4800000, guid: 851b9bdec21a4834f82b7f61302f24f7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _EDGEBLENDING_VERTEXBLENDING
+  - _EDGEBLENDING_NOISEBLENDING
+  - _USETRIPLANAR_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -24,8 +25,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BotTexture4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ColorMap:
-        m_Texture: {fileID: 2800000, guid: e9cb6b48dee950d41b500bb536052528, type: 3}
+        m_Texture: {fileID: 2800000, guid: d4c035fc82bf9b847b79e627760762a9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CoverageColorMap:
@@ -40,16 +45,28 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailColorMap:
+        m_Texture: {fileID: 2800000, guid: ec8ee5f91cfd4d94badc416a88494b8a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissiveMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MidTexture4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 04e1894ed59942148b397cccdaa2fa68, type: 3}
+        m_Texture: {fileID: 2800000, guid: 83472f29a63d9f440b9107824f06ff2d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ORMMap:
-        m_Texture: {fileID: 2800000, guid: 388d7bb2c0349c74b9dd1653cbe3c884, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9e23ea53cbc479b4fb0e68fc492f5130, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SlopeNoiseTexture:
@@ -62,25 +79,33 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AOIntensity: 1
+    - _AOIntensity: 2
     - _AlphaCutoff: 0.5
     - _CoverageMetallicIntensity: 0
     - _CoverageNormalIntensity: 1
-    - _CoverageRoughnessIntensity: 1
-    - _CoverageSize: 100
-    - _EdgeBlending: 0
+    - _CoverageRoughnessIntensity: 0.982
+    - _CoverageSize: 31.78
+    - _DetailColorIntensity: 0.55
+    - _DetailDistance: 1321.79
+    - _DetailNormalIntensity: 0.674
+    - _DetailSize: 3000
+    - _EdgeBlending: 2
     - _EmissiveIntensity: 0
     - _EnableCoverage: 0
-    - _MetallicIntensity: 1
-    - _NoiseTextureSize: 100
+    - _MetallicIntensity: 0
+    - _NoiseTextureSize: 0.3
     - _NormalIntensity: 1
-    - _RoughnessIntensity: 1
-    - _SlopeContrast: 1
-    - _SlopeOffset: 0
+    - _RoughnessIntensity: 2
+    - _SlopeContrast: 3.2
+    - _SlopeOffset: -0.52
     - _TextureSize: 100
+    - _TriplanarContrast: 103.07
+    - _UseDetailMaps: 0
+    - _UseTriplanar: 1
     - __dirty: 0
     m_Colors:
-    - _ColorTint: {r: 1, g: 1, b: 1, a: 0}
+    - _ColorTint: {r: 0.44025147, g: 0.44025147, b: 0.44025147, a: 0}
+    - _DetailSize: {r: 10000, g: 8000, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
