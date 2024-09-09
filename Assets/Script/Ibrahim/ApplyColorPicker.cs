@@ -116,20 +116,20 @@ public class ApplyColorPicker : MonoBehaviour
 
         }
     }
-    public void ChangeHairColor(Color color)
+    public void ChangeHairColor(Color _color)
     {
-        characterCustomizationManager.avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].color = color;
-        characterCustomizationManager.avatarBodyParts.currentCharacterData.hairColor = color;
+        characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), bodyType.Hair); //wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].color = color;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.hairColor = _color;
     }
-    public void ChangeLipColor(Color color)
+    public void ChangeLipColor(Color _color)
     {
-        characterCustomizationManager.avatarController.body.materials[1].color = color;
-        characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor = color;
+        characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color),bodyType.Lips);//   .body.materials[1].color = color;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor = _color;
     }
-    public void ChangeEyebrowColor(Color color)
+    public void ChangeEyebrowColor(Color _color)
     {
-        characterCustomizationManager.avatarController.eyeBrow.color = color;
-        characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor = color;
+        characterCustomizationManager.avatarController.eyeBrow.color = _color;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor = _color;
     }
     //Color GetCurrentColor()
     //{

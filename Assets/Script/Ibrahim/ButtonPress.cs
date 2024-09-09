@@ -23,6 +23,7 @@ public class ButtonPress : MonoBehaviour
     {
         if (GetComponent<Image>().color.a is 1f) return;
         string type = bodyType.ToString();
+        Constants.Instance.bodyType = bodyType;
         switch (type) 
         {
             case "Face":

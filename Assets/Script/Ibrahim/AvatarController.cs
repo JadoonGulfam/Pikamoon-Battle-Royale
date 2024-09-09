@@ -12,26 +12,26 @@ public class AvatarController : MonoBehaviour
     public SkinnedMeshRenderer body;
     public Material eye, eyeBrow;
     public GameObject wornHair, wornPant, wornShirt, wornShoes;
+    AvatarBodyParts avatarBodyParts;
+    private void Awake()
+    {
+        stitcher = new Stitcher();
+        avatarBodyParts = GetComponent<AvatarBodyParts>();        
+    }
     void Start()
     {
-        stitcher = new Stitcher();      
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void SetAvatarClothDefault(GameObject applyOn, string _gender)
     {
         WearDefaultItem("Legs", applyOn.gameObject, _gender);
-        WearDefaultItem("Chest", applyOn.gameObject,_gender);
+        WearDefaultItem("Chest", applyOn.gameObject, _gender);
         WearDefaultItem("Feet", applyOn.gameObject, _gender);
         WearDefaultItem("Hair", applyOn.gameObject, _gender);
         SetDefaultTexture();
     }
     public void WearDefaultItem(string type, GameObject applyOn, string gender)
-    {      
+    {
         if (gender == "Male") // if avatar is Male
         {
             switch (type)
@@ -52,6 +52,10 @@ public class AvatarController : MonoBehaviour
                     if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair != null)
                         StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, type, applyOn);
                     break;
+                case "Eyes":
+                    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes != null)
+                        avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, "");
+                    break;
                 default:
                     break;
             }
@@ -61,27 +65,29 @@ public class AvatarController : MonoBehaviour
     {
 
         UnStichItem(type);
-     
+
         item = this.stitcher.Stitch(item, applyOn);
         switch (type)
         {
             case "Chest":
                 wornShirt = item;
-               // wornShirt.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+                // wornShirt.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
             case "Legs":
                 wornPant = item;
-               // wornPant.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+                // wornPant.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
             case "Hair":
                 wornHair = item;
+                if (avatarBodyParts.currentCharacterData.hairColor != Color.black && applyHairColor)
+                    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), bodyType.Hair);
                 break;
             case "Feet":
-                wornShoes = item;              
-               // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+                wornShoes = item;
+                // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
         }
-       
+
     }
 
     public void UnStichItem(string type)
@@ -99,11 +105,11 @@ public class AvatarController : MonoBehaviour
                 break;
             case "Feet":
                 Destroy(wornShoes);
-                break;          
+                break;
         }
     }
 
-    public void SetDefaultTexture() 
+    public void SetDefaultTexture()
     {
         eye.SetTexture("_BaseMap", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
 
@@ -111,35 +117,5 @@ public class AvatarController : MonoBehaviour
         body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
 
         body.materials[1].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
-    }
-    public void TextureForSkin(Texture texture)
-    {
-        body.materials[0].SetTexture("_BaseMap", texture);
-        body.materials[2].SetTexture("_BaseMap", texture);
-    }
-    public void ColorForSkin(Color _color)
-    {
-        body.materials[0].SetColor("_BaseColor", _color);
-        body.materials[2].SetColor("_BaseColor", _color);
-    }
-    public void ColorForLips(Color _color)
-    {
-        body.materials[1].SetColor("_BaseColor", _color);
-    }
-    public void ColorForEyeBrow(Color _color)
-    {
-        //body.materials[1].SetColor("_BaseColor", _color);
-    }
-    public void TextureForEyes(Texture texture)
-    {
-        eye.SetTexture("_BaseMap", texture);
-    }
-    public void ColorForHairs(Color _color)
-    {
-        if (wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].HasProperty("Root Color") && wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].HasProperty("Tip Color"))
-        {
-            wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("Root Color", _color);
-            wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("Tip Color", _color);
-        }
     }
 }

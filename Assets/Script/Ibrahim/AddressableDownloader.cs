@@ -10,16 +10,8 @@ public class AddressableDownloader : MonoBehaviour
     public CharacterCustomizationManager characterCustomizationManager;
     private void Awake()
     {
-        //if (Instance == null)
-        //{
-        //    Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-            MemoryManager = GetComponent<AddressableMemoryReleaser>();
-        //}
-       // else
-        //{
-         //   Destroy(this.gameObject);
-        //}
+        DontDestroyOnLoad(this.gameObject);
+        MemoryManager = GetComponent<AddressableMemoryReleaser>();
     }
     private void OnEnable()
     {
@@ -31,7 +23,7 @@ public class AddressableDownloader : MonoBehaviour
         Constants.downloadAddressableObject -= DownloadAddressableObject;
         Constants.downloadAddressableTexture -= DownloadAddressableTexture;
     }
-    IEnumerator DownloadAddressableObject(string key, bodyType type, GameObject applyOn)
+    IEnumerator DownloadAddressableObject(string key, bodyType type, GameObject applyOn, bool applyColor = false)
     {
         Debug.Log(type + "    " + key);
         characterCustomizationManager.loader.SetActive(true);
@@ -68,8 +60,8 @@ public class AddressableDownloader : MonoBehaviour
                             switch (type)
                             {
                                 case bodyType.Hair:
-                                   // characterCustomizationManager.ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString());
-                                    applyOn.GetComponent<AvatarBodyParts>().ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    // characterCustomizationManager.ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    applyOn.GetComponent<AvatarBodyParts>().ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString(), applyColor);
                                     break;
                                 case bodyType.Shirt:
                                     // characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());

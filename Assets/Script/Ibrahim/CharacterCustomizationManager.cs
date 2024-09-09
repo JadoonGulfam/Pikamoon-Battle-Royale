@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CharacterCustomizationManager : MonoBehaviour
 {
@@ -51,7 +50,7 @@ public class CharacterCustomizationManager : MonoBehaviour
         {
             if (defaultCharacterdata.hairPreset != null && defaultCharacterdata.hairPreset != "")
             {
-                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.hairPreset, bodyType.Hair, avatarBodyParts.gameObject));
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.hairPreset, bodyType.Hair, avatarBodyParts.gameObject, true));
             }
             else
             {
@@ -59,7 +58,7 @@ public class CharacterCustomizationManager : MonoBehaviour
             }
             if (defaultCharacterdata.trouserPreset != null && defaultCharacterdata.trouserPreset != "")
             {
-                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.trouserPreset, bodyType.Trouser, avatarBodyParts.gameObject));
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.trouserPreset, bodyType.Trouser, avatarBodyParts.gameObject, false));
             }
             else
             {
@@ -67,7 +66,7 @@ public class CharacterCustomizationManager : MonoBehaviour
             }
             if (defaultCharacterdata.shirtPreset != null && defaultCharacterdata.shirtPreset != "")
             {
-                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shirtPreset, bodyType.Shirt, avatarBodyParts.gameObject));
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shirtPreset, bodyType.Shirt, avatarBodyParts.gameObject, false));
             }
             else
             {
@@ -75,23 +74,48 @@ public class CharacterCustomizationManager : MonoBehaviour
             }
             if (defaultCharacterdata.shoespreset != null && defaultCharacterdata.shoespreset != "")
             {
-                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoespreset, bodyType.Shoes, avatarBodyParts.gameObject));
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoespreset, bodyType.Shoes, avatarBodyParts.gameObject, false));
             }
             else
             {
                 avatarController.WearDefaultItem("Shoes", avatarController.gameObject, "Male");
             }
+            if (defaultCharacterdata.eyeColor != null && defaultCharacterdata.eyeColor != "")
+            {
+                StartCoroutine(Constants.downloadAddressableTexture(defaultCharacterdata.eyeColor, bodyType.EyeColor, avatarBodyParts.gameObject));
+            }
+            else
+            {
+                avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
+            }
+            if (defaultCharacterdata.skinColor != null)
+            {
+                avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.skinColor), bodyType.SkinColor);
+                //  avatarBodyParts.ApplyColor(defaultCharacterdata.skinColor.ToString(), bodyType.SkinColor);
+
+            }
+            else
+            {
+                //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
+            }
+            if (defaultCharacterdata.lipsColor != null)
+            {
+                avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.lipsColor), bodyType.Lips);
+            }
+            else
+            {
+                //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
+            }
+            //if (defaultCharacterdata.hairColor != null)
+            //{
+            //    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.hairColor), bodyType.Hair);
+            //}
+            //else
+            //{
+            //    //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
+            //}
         }
     }
-    //public void ApplyHairColor(string color, bodyType type)
-    //{
-    //    Color newColor;
-    //    if (ColorUtility.TryParseHtmlString(color, out newColor))
-    //    {
-    //        hairMaterial.color = newColor;
-    //        characterCustom.hairColor = newColor;
-    //    }
-    //}  
     public void ApplyChanges()
     {
         defaultCharacterdata = avatarBodyParts.currentCharacterData.Clone();
@@ -99,13 +123,51 @@ public class CharacterCustomizationManager : MonoBehaviour
     }
     public void ResetChanges()
     {
-        // currentCharacterData =  defaultCharacterdata;
-        avatarBodyParts.ApplyEyeTexture(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, "");
-        avatarBodyParts.ApplyColor(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor.ToString(), bodyType.Lips);
-        avatarBodyParts.ApplyColor(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor.ToString(), bodyType.SkinColor);
-        avatarBodyParts.ApplyHairPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, "", bodyType.Hair.ToString());
-        avatarBodyParts.ApplyShirtPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, "", bodyType.Shirt.ToString());
-        avatarBodyParts.ApplyTrouserPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, "", bodyType.Trouser.ToString());
-        avatarBodyParts.ApplyShoesPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes, "", bodyType.Shoes.ToString());
+        switch (Constants.Instance.bodyType)
+        {
+            case bodyType.Face:
+                break;
+            case bodyType.Hair:
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.hairPreset, bodyType.Hair, avatarBodyParts.gameObject, false));
+                avatarBodyParts.currentCharacterData.hairPreset = defaultCharacterdata.hairPreset;
+                break;
+            case bodyType.Lips:
+                break;
+            case bodyType.Eyes:
+                break;
+            case bodyType.Nose:
+                break;
+            case bodyType.SkinColor:
+                break;
+            case bodyType.EyeColor:
+                break;
+            case bodyType.Shirt:
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shirtPreset, bodyType.Shirt, avatarBodyParts.gameObject, false));
+                avatarBodyParts.currentCharacterData.shirtPreset = defaultCharacterdata.shirtPreset;
+                break;
+            case bodyType.Trouser:
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.trouserPreset, bodyType.Trouser, avatarBodyParts.gameObject, false));
+                avatarBodyParts.currentCharacterData.trouserPreset = defaultCharacterdata.trouserPreset;
+                break;
+            case bodyType.Shoes:
+                StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoespreset, bodyType.Shoes, avatarBodyParts.gameObject, false));
+                avatarBodyParts.currentCharacterData.shoespreset = defaultCharacterdata.shoespreset;
+                break;
+            case bodyType.Preset:
+                break;
+            case bodyType.Arms:
+                break;
+            case bodyType.Legs:
+                break;
+            case bodyType.Torso:
+                break;
+        }
+        //avatarBodyParts.ApplyEyeTexture(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, "");
+        //avatarBodyParts.ApplyColor(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor.ToString(), bodyType.Lips);
+        //avatarBodyParts.ApplyColor(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor.ToString(), bodyType.SkinColor);
+        //avatarBodyParts.ApplyHairPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, "", bodyType.Hair.ToString(), false);
+        //avatarBodyParts.ApplyShirtPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, "", bodyType.Shirt.ToString());
+        //avatarBodyParts.ApplyTrouserPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, "", bodyType.Trouser.ToString());
+        //avatarBodyParts.ApplyShoesPreset(avatarController.defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes, "", bodyType.Shoes.ToString());
     }
 }

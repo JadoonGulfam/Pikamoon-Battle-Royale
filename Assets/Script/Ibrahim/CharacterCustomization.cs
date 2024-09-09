@@ -6,18 +6,18 @@ using UnityEngine.InputSystem;
 public class CharacterCustomization : MonoBehaviour
 {
     public List<int> blendShapes;
-    SkinnedMeshRenderer characterMesh;
     public CharacterCustomizationManager characterCustomizationManager;
     void Start()
     {
         blendShapes = new List<int>();
     }
 
-    public void ChangeFaceBlendShapes(string index) 
+    public void ChangeFaceBlendShapes(string _index) 
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = int.Parse(index);
+       // characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = int.Parse(_index);
 
     }
     public void ChangeLipsBlendShapes(string index)
@@ -63,28 +63,22 @@ public class CharacterCustomization : MonoBehaviour
 
     }
     public void downloadPresetObject(string key, bodyType type)
-    {
-        // characterCustomizationManager.DownloadPresetAddressableObject(key, type);      
+    {   
         if (Constants.downloadAddressableObject != null)
         {
-            StartCoroutine(Constants.downloadAddressableObject(key, type, characterCustomizationManager.avatarBodyParts.gameObject));
+            StartCoroutine(Constants.downloadAddressableObject(key, type, characterCustomizationManager.avatarBodyParts.gameObject, false));
         }
     }
     public void ChangeSkinColor(string color, bodyType type)
     {
-        // characterMesh.SetBlendShapeWeight(index, 100);
         characterCustomizationManager.avatarBodyParts.ApplyColor(color, type);
-
     }
     public void ChangeLipsColor(string color, bodyType type)
     {
-        // characterMesh.SetBlendShapeWeight(index, 100);
         characterCustomizationManager.avatarBodyParts.ApplyColor(color, type);
-
     }
     public void downloadPresetTexture(string key, bodyType type)
     {
-       // characterCustomizationManager.DownloadPresetAddressableTexture(key, type);
         if (Constants.downloadAddressableTexture != null)
         {
             StartCoroutine(Constants.downloadAddressableTexture(key, type, characterCustomizationManager.avatarBodyParts.gameObject));
@@ -95,7 +89,7 @@ public class CharacterCustomization : MonoBehaviour
     {
         for (int i = 0; i < blendShapes.Count; i++) 
         {
-            characterMesh.SetBlendShapeWeight(i, 0);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(i, 0);
         }
     }
 }
