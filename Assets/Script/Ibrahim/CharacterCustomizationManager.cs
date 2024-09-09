@@ -10,9 +10,9 @@ public class CharacterCustomizationManager : MonoBehaviour
     public GameObject loader;
     public AvatarController avatarController;
     public AvatarBodyParts avatarBodyParts;
+    public int isGuest = 0;
     void Start()
     {
-       // PlayerPrefs.SetInt("Guest", 1);
         LoadCharacterCustomization();
     }
     public void SaveCharacterCustomization()
@@ -30,7 +30,7 @@ public class CharacterCustomizationManager : MonoBehaviour
             defaultCharacterdata = JsonUtility.FromJson<CharacterData>(json);
             avatarBodyParts.currentCharacterData = defaultCharacterdata.Clone();
             Debug.Log("Character customization loaded from " + Application.persistentDataPath + "/characterCustom.json");
-            int isGuest = PlayerPrefs.GetInt("Guest", 0) == 1 ? 1 : 0;
+            //int isGuest = PlayerPrefs.GetInt("Guest", 0) == 1 ? 1 : 0;
             if (isGuest == 1)
                 ApplyCharacterCustomization();
             else
