@@ -91,7 +91,7 @@ public class PlacementSystem : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        autoBattlerUIManager.StartPlayerTeamSelection();
+        //autoBattlerUIManager.StartPlayerTeamSelection();
     }
 
     public void StartPlacement(int ID)
@@ -247,8 +247,8 @@ public class PlacementSystem : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Starting the battle...");
         autoBattlerUIManager.BattleInProgressPanel();
-        autoBattlerUIManager.TeamSelectionCompleted();
         AutoBattlerEvents.TriggerPlacementComplete();
+        AutoBattlerEvents.TriggerBattleStart();
         OnPlacementComplete?.Invoke();
     }
 }

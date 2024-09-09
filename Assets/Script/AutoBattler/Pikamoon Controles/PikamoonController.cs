@@ -19,7 +19,7 @@ public class PikamoonController : MonoBehaviour
     [Header("State")]
     private List<GameObject> opponents;
     private GameObject nearestOpponent;
-    public bool isBattleStarted;
+    //public bool isBattleStarted;
 
     [Header("Components")]
     private PikamoonMovement movement;
@@ -108,7 +108,7 @@ public class PikamoonController : MonoBehaviour
         pikamoonBattleAnimationController.StartAttack();
         Debug.Log("Battle started. Finding opponents...");
         
-        isBattleStarted = true;
+        BattleManager.Instance.isBattleStarted = true;
         
     }
 
@@ -120,15 +120,16 @@ public class PikamoonController : MonoBehaviour
 
     private void Update()
     {
-        if (isBattleStarted && isPikamoonLive)
+        if (BattleManager.Instance.isBattleStarted && isPikamoonLive)
         {
             if (nearestOpponent == null)
             {
                 FindAndSetNearestOpponent();
                 if (nearestOpponent == null)
                 {
-                    isBattleStarted = false;
+                    //isBattleStarted = false;
                     
+                    AutoBattlerEvents.TriggerBattleEnd(isAIPikamoon);
                     print("battle ended");
                     return;
                 }

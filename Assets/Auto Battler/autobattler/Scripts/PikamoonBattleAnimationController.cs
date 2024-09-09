@@ -62,11 +62,11 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         // Wait for a random time between 1 and 4 seconds
         float randomWaitTime = Random.Range(2f, 2.8f);
         yield return new WaitForSeconds(randomWaitTime);
-        if(pikamoonController.isBattleStarted && pikamoonController.isPikamoonLive)
+        if(BattleManager.Instance.isBattleStarted && pikamoonController.isPikamoonLive)
         {
             StartCoroutine(StartAttacking());
         }
-        else if(!pikamoonController.isBattleStarted && pikamoonController.isPikamoonLive)
+        else if(!BattleManager.Instance.isBattleStarted && pikamoonController.isPikamoonLive)
         {
             print("battle ended");
             PlayVictoryAnimation();

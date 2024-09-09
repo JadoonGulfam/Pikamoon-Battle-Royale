@@ -14,6 +14,30 @@ public class AutoBattlerUIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject battleSystemInPogress;
+   
+    [SerializeField]
+    private GameObject victoryPannel;
+   
+    [SerializeField]
+    private GameObject defetPanel;
+
+    private void Awake()
+    {
+        AutoBattlerEvents.OnBattleEnd += BattleFinished;
+        AutoBattlerEvents.OnBattleStart += TeamSelectionCompleted;
+    }
+    private void BattleFinished(bool isAiWin)
+    {
+        if(isAiWin)
+        {
+            EnableDefetPanel();
+          
+        }
+        else
+        {
+            EnableVictoryPanel();
+        }
+    }
     public void StartAITeamSelection()
     {
         placementSystem.StartPlacement();
@@ -25,6 +49,7 @@ public class AutoBattlerUIManager : MonoBehaviour
     }
     public void TeamSelectionCompleted()
     {
+        print(1111111);
         playerTeamSelectionUI.SetActive(false);
     }
     public void StartStartBattel()
@@ -39,6 +64,15 @@ public class AutoBattlerUIManager : MonoBehaviour
     public void BackToLobby()
     {
         SceneManager.LoadScene("Lobby");
+    }
+
+    public void EnableVictoryPanel()
+    {
+        victoryPannel.SetActive(true);
+    }
+    public void EnableDefetPanel()
+    {
+        defetPanel.SetActive(true);
     }
     //
 }
