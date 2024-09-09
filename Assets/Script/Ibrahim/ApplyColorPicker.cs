@@ -24,12 +24,8 @@ public class ApplyColorPicker : MonoBehaviour
         //slider.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
         //SaveCurrentColor();
 
-        fcp.onColorChange.AddListener(OnChangeColor);
-    }
-    void Start()
-    {
         SetRelatedData();
-
+        fcp.onColorChange.AddListener(OnChangeColor);
     }
     private void OnDisable()
     {
@@ -57,7 +53,7 @@ public class ApplyColorPicker : MonoBehaviour
 
     void ChangeColor(Color m_color)
     {
-        if (getStartingColorFromMaterial)
+        if (getStartingColorFromMaterial)      
             fcp.color = m_color;
     }
 
@@ -68,15 +64,15 @@ public class ApplyColorPicker : MonoBehaviour
     //}
     public Color GetLipColor()
     {
-        return characterCustomizationManager.currentCharacterData.lipsColor;
+        return characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor;
     }
     public Color GetEyebrowColor()
     {
-        return characterCustomizationManager.currentCharacterData.eyeBrowColor;
+        return characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor;
     }
     public Color GetHairColor()
     {
-        return characterCustomizationManager.currentCharacterData.hairColor;
+        return characterCustomizationManager.avatarBodyParts.currentCharacterData.hairColor;
     }
     void SetRelatedData()
     {
@@ -123,17 +119,17 @@ public class ApplyColorPicker : MonoBehaviour
     public void ChangeHairColor(Color color)
     {
         characterCustomizationManager.avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].color = color;
-        characterCustomizationManager.currentCharacterData.hairColor = color;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.hairColor = color;
     }
     public void ChangeLipColor(Color color)
     {
         characterCustomizationManager.avatarController.body.materials[1].color = color;
-        characterCustomizationManager.currentCharacterData.lipsColor = color;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor = color;
     }
     public void ChangeEyebrowColor(Color color)
     {
-        characterCustomizationManager.eyebrowMaterial.color = color;
-        characterCustomizationManager.currentCharacterData.eyeBrowColor = color;
+        characterCustomizationManager.avatarController.eyeBrow.color = color;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor = color;
     }
     //Color GetCurrentColor()
     //{

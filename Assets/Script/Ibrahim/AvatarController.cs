@@ -67,18 +67,18 @@ public class AvatarController : MonoBehaviour
         {
             case "Chest":
                 wornShirt = item;
-                wornShirt.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+               // wornShirt.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
             case "Legs":
                 wornPant = item;
-                wornPant.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+               // wornPant.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
             case "Hair":
                 wornHair = item;
                 break;
             case "Feet":
                 wornShoes = item;              
-                wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+               // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
         }
        

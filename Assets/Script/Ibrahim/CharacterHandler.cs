@@ -111,3 +111,7 @@ public class CharacterData
 }
 public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso }
 public enum genderType { male, female }
+public enum SliderType
+{
+    Arms, Legs, Torso
+}

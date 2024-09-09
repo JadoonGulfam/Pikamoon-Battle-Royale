@@ -37,22 +37,18 @@ public class BlendShapeSliderController : MonoBehaviour
         switch (bodyType)
         {
             case SliderType.Arms:
-              blendShapeSlider.value = characterCustomization.characterCustomizationManager.currentCharacterData.armShape;
+              blendShapeSlider.value = characterCustomization.characterCustomizationManager.avatarBodyParts.currentCharacterData.armShape;
                 break;
 
             case SliderType.Legs:
-                blendShapeSlider.value = characterCustomization.characterCustomizationManager.currentCharacterData.legShape;
+                blendShapeSlider.value = characterCustomization.characterCustomizationManager.avatarBodyParts.currentCharacterData.legShape;
                 break;
             case SliderType.Torso:
-                blendShapeSlider.value = characterCustomization.characterCustomizationManager.currentCharacterData.torsoShape;
+                blendShapeSlider.value = characterCustomization.characterCustomizationManager.avatarBodyParts.currentCharacterData.torsoShape;
                 break;
             default:
                 break;
         }
     }
 
-}
-public enum SliderType
-{
-    Arms, Legs, Torso
 }

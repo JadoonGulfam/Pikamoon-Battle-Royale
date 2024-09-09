@@ -17,78 +17,78 @@ public class CharacterCustomization : MonoBehaviour
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.faceShape = int.Parse(index);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = int.Parse(index);
 
     }
     public void ChangeLipsBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.lipsShape = int.Parse(index);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsShape = int.Parse(index);
 
     }
     public void ChangeEyeBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.eyeShape = int.Parse(index);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeShape = int.Parse(index);
 
     }
     public void ChangeNoseBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.noseShape = int.Parse(index);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.noseShape = int.Parse(index);
 
     }
     public void ChangeArmsBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.armShape = index;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.armShape = index;
 
     }
     public void ChangeLegsBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.legShape = index;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.legShape = index;
 
     }
     public void ChangeTorsoBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.torsoShape = index;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.torsoShape = index;
 
     }
     public void downloadPresetObject(string key, bodyType type)
     {
-        // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.DownloadPresetAddressableObject(key, type);      
-
+        // characterCustomizationManager.DownloadPresetAddressableObject(key, type);      
+        if (Constants.downloadAddressableObject != null)
+        {
+            StartCoroutine(Constants.downloadAddressableObject(key, type, characterCustomizationManager.avatarBodyParts.gameObject));
+        }
     }
     public void ChangeSkinColor(string color, bodyType type)
     {
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.ApplySkinColor(color, type);
+        characterCustomizationManager.avatarBodyParts.ApplyColor(color, type);
 
     }
-    //public void ChangeHairColor(string color, bodyType type)
-    //{
-    //    // characterMesh.SetBlendShapeWeight(index, 100);
-    //    characterCustomizationManager.ApplyHairColor(color, type);
-
-    //}
     public void ChangeLipsColor(string color, bodyType type)
     {
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.ApplyLipsColor(color, type);
+        characterCustomizationManager.avatarBodyParts.ApplyColor(color, type);
 
     }
     public void downloadPresetTexture(string key, bodyType type)
     {
-        characterCustomizationManager.DownloadPresetAddressableTexture(key, type);       
+       // characterCustomizationManager.DownloadPresetAddressableTexture(key, type);
+        if (Constants.downloadAddressableTexture != null)
+        {
+            StartCoroutine(Constants.downloadAddressableTexture(key, type, characterCustomizationManager.avatarBodyParts.gameObject));
+        }
 
     }
     private void ResetBlendShapes()

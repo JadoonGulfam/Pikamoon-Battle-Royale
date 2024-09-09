@@ -249,7 +249,7 @@ public class FlexibleColorPicker : MonoBehaviour {
         MakeModeOptions();
         UpdateMarkers();
         UpdateHex();
-        onColorChange.Invoke(startingColor);
+       // onColorChange.Invoke(startingColor);
     }
 
     private void Update() {
