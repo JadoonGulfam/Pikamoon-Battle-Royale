@@ -5,7 +5,7 @@ public static class AutoBattlerEvents
 {
 
     public static event Action OnBattleStart;
-    public static event Action<bool> OnBattleEnd;
+    public static event Action OnBattleEnd;
     public static event Action OnPlacementComplete;
   
     public static void TriggerBattleStart()
@@ -13,9 +13,9 @@ public static class AutoBattlerEvents
         OnBattleStart?.Invoke();
     }
 
-    public static void TriggerBattleEnd(bool isPlayerWin)
+    public static void TriggerBattleEnd()
     {
-        OnBattleEnd?.Invoke(isPlayerWin);
+        OnBattleEnd?.Invoke();
     }
 
     public static void TriggerPlacementComplete()

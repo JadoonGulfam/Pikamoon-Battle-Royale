@@ -2,19 +2,6 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    public static BattleManager Instance;
-    public  bool isBattleStarted;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     private void Start()
     {
         AutoBattlerEvents.OnPlacementComplete += StartBattle;
@@ -29,19 +16,14 @@ public class BattleManager : MonoBehaviour
 
     private void StartBattle()
     {
-        isBattleStarted = true;
-       // AutoBattlerEvents.TriggerBattleStart();
-        print("111111");
+        AutoBattlerEvents.TriggerBattleStart();
+        print("battle started");
         
     }
 
-    private void EndBattle(bool isPlayerWin)
+    private void EndBattle()
     {
-        isBattleStarted = false;
-        print("IsAiWin" + isPlayerWin);
-        //AutoBattlerEvents.TriggerBattleEnd();
-        print("EndBattle");
-        
+        AutoBattlerEvents.TriggerBattleEnd();
         
     }
 
