@@ -12,7 +12,7 @@ public class CharacterCustomizationManager : MonoBehaviour
     public AvatarBodyParts avatarBodyParts;
     void Start()
     {
-        PlayerPrefs.SetInt("Guest", 1);
+       // PlayerPrefs.SetInt("Guest", 1);
         LoadCharacterCustomization();
     }
     public void SaveCharacterCustomization()
