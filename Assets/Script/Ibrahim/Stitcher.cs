@@ -31,7 +31,11 @@ public class Stitcher
 		target.transform.localPosition = source.transform.localPosition;
 		target.transform.localRotation = source.transform.localRotation;
 		target.transform.localScale = source.transform.localScale;
-		return target;
+
+        // Copy all components from source to target
+        CopyAllComponents(source, target);
+
+        return target;
 	}
 
 	private SkinnedMeshRenderer AddSkinnedMeshRenderer (SkinnedMeshRenderer source, GameObject parent)
@@ -50,9 +54,30 @@ public class Stitcher
 		return targets;
 	}
 
+    /// <summary>
+    /// Copies all components (including scripts) from the source to the target GameObject.
+    /// </summary>
+    private void CopyAllComponents(GameObject source, GameObject target)
+    {
+        foreach (Component component in source.GetComponents<Component>())
+        {
+            if (component is Transform)
+                continue;  // Skip copying Transform, it's handled separately.
 
+            System.Type type = component.GetType();
+            Component copy = target.AddComponent(type);  // Add component of the same type.
+
+            // Copy field values from source component to target component.
+            foreach (var field in type.GetFields(System.Reflection.BindingFlags.Public |
+                                                 System.Reflection.BindingFlags.NonPublic |
+                                                 System.Reflection.BindingFlags.Instance))
+            {
+                field.SetValue(copy, field.GetValue(component));
+            }
+        }
+    }
     #region TransformCatalog
-	private class TransformCatalog : Dictionary<string, Transform>
+    private class TransformCatalog : Dictionary<string, Transform>
 	{
         #region Constructors
 		public TransformCatalog (Transform transform)
