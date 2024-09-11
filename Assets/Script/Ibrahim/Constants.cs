@@ -9,6 +9,7 @@ public class Constants : MonoBehaviour
     public GameObject _lastAvatarClickedBtn;
     public static Func<string, bodyType,GameObject,bool, IEnumerator> downloadAddressableObject;
     public static Func<string, bodyType,GameObject, IEnumerator> downloadAddressableTexture;
+    public static Action getColorObject;
     public bodyType bodyType;
     private void Awake()
     {

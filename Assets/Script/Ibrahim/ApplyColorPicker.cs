@@ -23,12 +23,13 @@ public class ApplyColorPicker : MonoBehaviour
     {
         //slider.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
         //SaveCurrentColor();
-
+        Constants.getColorObject += SetRelatedData;
         SetRelatedData();
         fcp.onColorChange.AddListener(OnChangeColor);
     }
     private void OnDisable()
     {
+        Constants.getColorObject -= SetRelatedData;
         fcp.onColorChange.RemoveAllListeners();
 
     }
@@ -72,9 +73,11 @@ public class ApplyColorPicker : MonoBehaviour
     }
     public Color GetHairColor()
     {
-        return characterCustomizationManager.avatarBodyParts.currentCharacterData.hairColor;
+        Renderer hairRenderer = characterCustomizationManager.avatarController.wornHair.GetComponent<Renderer>();
+        return hairRenderer.materials[0].GetColor("_Root_Color");
+       // return characterCustomizationManager.avatarController.wornHair.  .avatarBodyParts.currentCharacterData.hairColor;
     }
-    void SetRelatedData()
+    public void SetRelatedData()
     {
         switch (colorCategory)
         {

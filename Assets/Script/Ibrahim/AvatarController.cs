@@ -81,6 +81,7 @@ public class AvatarController : MonoBehaviour
                 wornHair = item;
                 if (avatarBodyParts.currentCharacterData.hairColor != Color.black && applyHairColor)
                     avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), bodyType.Hair);
+                Constants.getColorObject.Invoke();
                 break;
             case "Feet":
                 wornShoes = item;

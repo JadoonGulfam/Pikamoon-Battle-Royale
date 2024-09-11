@@ -67,9 +67,9 @@ public class AvatarBodyParts : MonoBehaviour
             case bodyType.Hair:
                 if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
                 {
-                    avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_BaseColor", newColor);
-                    avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_EmissionColor", newColor);
-
+                    avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Root_Color", newColor);
+                    avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Tip_Color", newColor);
+                    avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[1].SetColor("_BaseColor", newColor);
                 }
                 break;
         }
