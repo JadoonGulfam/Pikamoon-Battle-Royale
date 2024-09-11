@@ -169,11 +169,15 @@ public class PikamoonBattleAnimationController : MonoBehaviour
         pikamoonController.isPikamoonLive = false;
         ResetTriggers();
         _animator.SetTrigger(Death);
-        TakeDamageCotroller.GetComponent<CapsuleCollider>().enabled = false;
+        StartCoroutine(DisableCapsuleCollider());
         //Destroy(this.gameObject,2.5f);
         print("charater die");
     }
-
+    IEnumerator DisableCapsuleCollider()
+    {
+        yield return new WaitForSeconds(0.5f);
+        TakeDamageCotroller.GetComponent<CapsuleCollider>().enabled = false;
+    }
     private void ResetTriggers()
     {
         _animator.ResetTrigger(Knockback);

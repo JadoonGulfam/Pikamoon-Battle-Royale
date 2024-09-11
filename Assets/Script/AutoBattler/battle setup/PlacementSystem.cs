@@ -91,7 +91,7 @@ public class PlacementSystem : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        //autoBattlerUIManager.StartPlayerTeamSelection();
+        autoBattlerUIManager.StartPlayerTeamSelection();
     }
 
     public void StartPlacement(int ID)
