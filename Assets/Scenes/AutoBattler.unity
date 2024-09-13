@@ -402,6 +402,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AutoBattler
       objectReference: {fileID: 0}
+    - target: {fileID: 380170541690312556, guid: d4ef32d0d961c894e9786ac5a797e00c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1609561992621894154, guid: d4ef32d0d961c894e9786ac5a797e00c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4451483073072880352, guid: d4ef32d0d961c894e9786ac5a797e00c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -452,11 +462,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6229910213011782491, guid: d4ef32d0d961c894e9786ac5a797e00c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1609561992621894154, guid: d4ef32d0d961c894e9786ac5a797e00c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1405645744}
   m_SourcePrefab: {fileID: 100100000, guid: d4ef32d0d961c894e9786ac5a797e00c, type: 3}
+--- !u!4 &294262817 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3075558462146031823, guid: d4ef32d0d961c894e9786ac5a797e00c,
+    type: 3}
+  m_PrefabInstance: {fileID: 204301882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &356274338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -942,6 +967,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f0280904312f5b46920ba0a83b40dc9, type: 3}
+--- !u!1 &1405645734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1609561992621894154, guid: d4ef32d0d961c894e9786ac5a797e00c,
+    type: 3}
+  m_PrefabInstance: {fileID: 204301882}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1405645744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405645734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9858b6643e110004d91a0c6ab017943c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 294262817}
+  orbitDistance: 10
+  cameraHeight: 5
+  orbitDuration: 20
+  orbitSpeedMultiplier: 0.5
+  sineWaveAmplitude: 2
+  sineWaveFrequency: 1
+  positionLerpSpeed: 5
+  rotationLerpSpeed: 5
 --- !u!1001 &1411634805
 PrefabInstance:
   m_ObjectHideFlags: 0
