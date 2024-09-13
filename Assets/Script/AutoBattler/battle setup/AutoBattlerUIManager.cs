@@ -14,6 +14,9 @@ public class AutoBattlerUIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject battleSystemInPogress;
+
+    [SerializeField]
+    private GameObject PikamoomSelection;
     public void StartAITeamSelection()
     {
         placementSystem.StartPlacement();
@@ -34,10 +37,10 @@ public class AutoBattlerUIManager : MonoBehaviour
     }
     public void BattleInProgressPanel()
     {
-        print("disable");
-        playerTeamSelectionUI.SetActive(false);
+        print("disable"); 
         battleSystemInPogress.SetActive(true);
-        playerTeamSelectionUI.SetActive(false);
+        PikamoomSelection.SetActive(false);
+       
     }
 
     public void BackToLobby()
