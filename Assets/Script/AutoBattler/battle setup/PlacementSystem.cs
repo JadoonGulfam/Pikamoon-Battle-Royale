@@ -21,7 +21,7 @@ public class PlacementSystem : MonoBehaviour
     private int selectedObjectIndex = -1;
     private bool isPreviewEnabled = false;
     private int userPlacedItemsCount = 0;
-    private int maxItemsToPlace = 5;
+    private int maxItemsToPlace = 3;
     private List<GameObject> placedGameObjects = new List<GameObject>();
     private Vector3 lastDetectedPosition = Vector3.zero;
     private GridData floorData, objectData;
@@ -63,7 +63,7 @@ public class PlacementSystem : MonoBehaviour
     private IEnumerator AIPlaceObjects()
     {
         const float duration = 10f;
-        const int itemsToPlace = 5;
+         int itemsToPlace = maxItemsToPlace;
         float endTime = Time.time + duration;
         int placedItems = 0;
 
@@ -203,7 +203,7 @@ public class PlacementSystem : MonoBehaviour
         }
         soundManager.PlaySoundByID(0);
 
-        if(userPlacedItemsCount==5)
+        if(userPlacedItemsCount==maxItemsToPlace)
         {
             startBattle();
         }
