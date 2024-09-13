@@ -106,14 +106,14 @@ public class CharacterCustomizationManager : MonoBehaviour
             {
                 //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
             }
-            //if (defaultCharacterdata.hairColor != null)
-            //{
-            //    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.hairColor), bodyType.Hair);
-            //}
-            //else
-            //{
+            if (defaultCharacterdata.eyeBrowColor != null)
+            {
+                avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.eyeBrowColor), bodyType.EyebrowColor);
+            }
+            else
+            {
             //    //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
-            //}
+            }
         }
     }
     public void ApplyChanges()

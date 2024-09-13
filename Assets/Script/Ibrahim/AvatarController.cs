@@ -10,13 +10,13 @@ public class AvatarController : MonoBehaviour
     public DefaultClothDatabase defaultClothDatabase;
     public Stitcher stitcher;
     public SkinnedMeshRenderer body;
-    public Material eye, eyeBrow;
+    public Material eye;
     public GameObject wornHair, wornPant, wornShirt, wornShoes;
     AvatarBodyParts avatarBodyParts;
     private void Awake()
     {
         stitcher = new Stitcher();
-        avatarBodyParts = GetComponent<AvatarBodyParts>();        
+        avatarBodyParts = GetComponent<AvatarBodyParts>();
     }
     void Start()
     {
@@ -81,7 +81,8 @@ public class AvatarController : MonoBehaviour
                 wornHair = item;
                 if (avatarBodyParts.currentCharacterData.hairColor != Color.black && applyHairColor)
                     avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), bodyType.Hair);
-                Constants.getColorObject.Invoke();
+                if (Constants.getColorObject != null)
+                    Constants.getColorObject.Invoke();
                 break;
             case "Feet":
                 wornShoes = item;
@@ -114,9 +115,9 @@ public class AvatarController : MonoBehaviour
     {
         eye.SetTexture("_BaseMap", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
 
-        body.materials[0].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
-        body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
-
-        body.materials[1].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
+        body.materials[1].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
+        body.materials[3].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
+        body.materials[0].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
+        body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
     }
 }

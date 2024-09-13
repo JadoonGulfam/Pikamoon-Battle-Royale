@@ -48,7 +48,7 @@ public class CharacterData
         return (CharacterData)this.MemberwiseClone();
     }
 }
-public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso }
+public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso, EyebrowColor }
 public enum genderType { male, female }
 public enum SliderType
 {

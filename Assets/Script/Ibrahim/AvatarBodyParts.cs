@@ -52,15 +52,15 @@ public class AvatarBodyParts : MonoBehaviour
             case bodyType.SkinColor:
                 if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
                 {
-                    avatarController.body.materials[0].SetColor("_BaseColor", newColor);
-                    avatarController.body.materials[2].SetColor("_BaseColor", newColor);
+                    avatarController.body.materials[1].SetColor("_BaseColor", newColor);
+                    avatarController.body.materials[3].SetColor("_BaseColor", newColor);
                     currentCharacterData.skinColor = newColor;
                 }
                 break;
             case bodyType.Lips:
                 if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
                 {
-                    avatarController.body.materials[1].SetColor("_BaseColor", newColor);
+                    avatarController.body.materials[2].SetColor("_BaseColor", newColor);
                     currentCharacterData.lipsColor = newColor;
                 }
                 break;
@@ -70,6 +70,12 @@ public class AvatarBodyParts : MonoBehaviour
                     avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Root_Color", newColor);
                     avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Tip_Color", newColor);
                     avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[1].SetColor("_BaseColor", newColor);
+                }
+                break;
+                case bodyType.EyebrowColor:
+                if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
+                {
+                    avatarController.body.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_BaseColor", newColor);
                 }
                 break;
         }

@@ -24,8 +24,8 @@ public class ApplyColorPicker : MonoBehaviour
         //slider.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
         //SaveCurrentColor();
         Constants.getColorObject += SetRelatedData;
-        SetRelatedData();
         fcp.onColorChange.AddListener(OnChangeColor);
+        SetRelatedData();
     }
     private void OnDisable()
     {
@@ -54,6 +54,22 @@ public class ApplyColorPicker : MonoBehaviour
 
     void ChangeColor(Color m_color)
     {
+        //float h, s, v;
+        //Color.RGBToHSV(m_color, out h, out s, out v);
+        //if (IsHV(h, v))
+        //{
+        //    Debug.Log("The color is HV (Hue-Value)");
+        //    fcp.ChangeMode(0);
+        //}
+        //else if (IsHS(h, s))
+        //{
+        //    Debug.Log("The color is HS (Hue-Saturation)");
+        //    fcp.ChangeMode(1);
+        //}
+        //else
+        //{
+        //    fcp.ChangeMode(1);
+        //}
         if (getStartingColorFromMaterial)      
             fcp.color = m_color;
     }
@@ -65,11 +81,13 @@ public class ApplyColorPicker : MonoBehaviour
     //}
     public Color GetLipColor()
     {
-        return characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor;
+        Renderer lipsRenderer = characterCustomizationManager.avatarController.body.GetComponent<Renderer>();
+        return lipsRenderer.materials[2].GetColor("_BaseColor");
     }
     public Color GetEyebrowColor()
     {
-        return characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor;
+        Renderer eyebrowRenderer = characterCustomizationManager.avatarController.body.GetComponent<Renderer>();
+        return eyebrowRenderer.materials[0].GetColor("_BaseColor");
     }
     public Color GetHairColor()
     {
@@ -98,7 +116,18 @@ public class ApplyColorPicker : MonoBehaviour
                 break;
         }
     }
+    bool IsHV(float hue, float value)
+    {
+        // You can customize this threshold based on your needs
+        return value > 0.7f; // Consider it HV if Value is relatively high
+    }
 
+    // Helper function to check if it's HS (Hue-Saturation)
+    bool IsHS(float hue, float saturation)
+    {
+        // You can customize this threshold based on your needs
+        return saturation > 0.7f; // Consider it HS if Saturation is relatively high
+    }
     //private Color currentColor;
     //public bool addToList = true;
     void OnChangeColor(Color _color)
@@ -131,7 +160,7 @@ public class ApplyColorPicker : MonoBehaviour
     }
     public void ChangeEyebrowColor(Color _color)
     {
-        characterCustomizationManager.avatarController.eyeBrow.color = _color;
+        characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), bodyType.EyebrowColor);
         characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor = _color;
     }
     //Color GetCurrentColor()
