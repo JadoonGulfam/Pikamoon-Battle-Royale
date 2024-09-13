@@ -20,6 +20,7 @@ public class AutoBattlerUIManager : MonoBehaviour
     }
     public void StartPlayerTeamSelection()
     {
+        print("active");
         playerTeamSelectionUI.SetActive(true);
         
     }
@@ -33,7 +34,10 @@ public class AutoBattlerUIManager : MonoBehaviour
     }
     public void BattleInProgressPanel()
     {
+        print("disable");
+        playerTeamSelectionUI.SetActive(false);
         battleSystemInPogress.SetActive(true);
+        playerTeamSelectionUI.SetActive(false);
     }
 
     public void BackToLobby()
