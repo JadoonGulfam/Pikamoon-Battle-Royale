@@ -80,10 +80,6 @@ public class AvatarBodyParts : MonoBehaviour
                 break;
         }
     }
-    public void ColorForEyeBrow(Color _color)
-    {
-        //body.materials[1].SetColor("_BaseColor", _color);
-    }
     //public void ApplyLipsColor(string color, bodyType type)
     //{
     //    Color newColor;

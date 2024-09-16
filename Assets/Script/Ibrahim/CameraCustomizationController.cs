@@ -19,6 +19,9 @@ public class CameraCustomizationController : MonoBehaviour
     public float rotateSpeed = 1.0f;         // Speed of player rotation on mouse drag
     public float rotationResetSpeed = 1.0f;  // Speed at which the player's rotation resets
 
+    public RectTransform dragArea;           // The UI panel/area where dragging is allowed
+    public GameObject customizationPanel;    // The specific panel that controls when dragging is active
+
     private Vector3 targetPosition;
     private Quaternion targetRotation;
     private Quaternion originalPlayerRotation;  // Store the original rotation of the player
@@ -47,8 +50,11 @@ public class CameraCustomizationController : MonoBehaviour
         mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetPosition, transitionSpeed * Time.deltaTime);
         mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, targetRotation, transitionSpeed * Time.deltaTime);
 
-        // Check for mouse dragging to rotate the player
-        HandleMouseDrag();
+        // Check if the customization panel is open before handling drag
+        if (customizationPanel.activeSelf)
+        {
+            HandleMouseDrag();
+        }
 
         // Smoothly reset the player rotation if needed
         if (resetRotation)
@@ -77,29 +83,43 @@ public class CameraCustomizationController : MonoBehaviour
 
     void HandleMouseDrag()
     {
-        if (Input.GetMouseButtonDown(0))  // Left mouse button pressed
+        // Check if the mouse is within the drag area (panel)
+        if (IsMouseWithinDragArea())
         {
-            lastMousePosition = Input.mousePosition;
-            isDragging = true;
+            if (Input.GetMouseButtonDown(0))  // Left mouse button pressed
+            {
+                lastMousePosition = Input.mousePosition;
+                isDragging = true;
+            }
+            else if (Input.GetMouseButtonUp(0))  // Left mouse button released
+            {
+                isDragging = false;
+            }
+
+            if (isDragging)
+            {
+                Vector3 deltaMousePosition = Input.mousePosition - lastMousePosition;
+                float rotationX = deltaMousePosition.x * rotateSpeed;
+
+                // Rotate the player horizontally when dragging along the X-axis
+                player.Rotate(Vector3.up, rotationX * Time.deltaTime * rotateSpeed);
+
+                lastMousePosition = Input.mousePosition;  // Update the last mouse position
+
+                // Stop resetting rotation while manually rotating the player
+                resetRotation = false;
+            }
         }
-        else if (Input.GetMouseButtonUp(0))  // Left mouse button released
-        {
-            isDragging = false;
-        }
+    }
 
-        if (isDragging)
-        {
-            Vector3 deltaMousePosition = Input.mousePosition - lastMousePosition;
-            float rotationX = deltaMousePosition.x * rotateSpeed;
+    bool IsMouseWithinDragArea()
+    {
+        // Convert mouse position to the RectTransform's local space
+        Vector2 localMousePosition;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(dragArea, Input.mousePosition, null, out localMousePosition);
 
-            // Rotate the player horizontally when dragging along the X-axis
-            player.Rotate(Vector3.up, rotationX * Time.deltaTime * rotateSpeed);
-
-            lastMousePosition = Input.mousePosition;  // Update the last mouse position
-
-            // Stop resetting rotation while manually rotating the player
-            resetRotation = false;
-        }
+        // Check if the local mouse position is within the bounds of the RectTransform
+        return dragArea.rect.Contains(localMousePosition);
     }
 
     void SmoothResetPlayerRotation()

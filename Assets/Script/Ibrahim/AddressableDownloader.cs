@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -90,7 +91,7 @@ public class AddressableDownloader : MonoBehaviour
             }
         }
     }
-    IEnumerator DownloadAddressableTexture(string key, bodyType type, GameObject applyOn)
+    async Task DownloadAddressableTexture(string key, bodyType type, GameObject applyOn)
     {
         Debug.Log(type + "    " + key);
         characterCustomizationManager.loader.SetActive(true);
@@ -105,12 +106,12 @@ public class AddressableDownloader : MonoBehaviour
                     loadAd = MemoryManager.GetReferenceIfExist(key.ToLower(), ref flag);
                     if (!flag)
                         loadAd = Addressables.LoadAssetAsync<Texture2D>(key.ToLower());
-                    yield return loadAd;
+                    await loadAd.Task;
                     if (loadAd.Status == AsyncOperationStatus.Failed)
                     {
                         Debug.Log("Fail To load");
                         characterCustomizationManager.loader.SetActive(false);
-                        yield break;
+                        return;
                     }
                     else if (loadAd.Status == AsyncOperationStatus.Succeeded)
                     {
@@ -134,7 +135,7 @@ public class AddressableDownloader : MonoBehaviour
                             MemoryManager.AddToReferenceList(loadAd, key.ToLower());
 
                         }
-                        yield break;
+                        return;
                     }
                 }
             }
