@@ -3,29 +3,29 @@ using UnityEngine;
 public class FreeLookCamera : MonoBehaviour
 {
     [Header("Camera Settings")]
-    [SerializeField] private float baseMoveSpeed = 10f;          // Base speed for camera movement
-    [SerializeField] private float baseZoomSpeed = 5f;           // Base speed for zooming in and out
-    [SerializeField] private float accelerationFactor = 3f;      // Factor by which the speed increases over time
-    [SerializeField] private float maxSpeedMultiplier = 4f;      // Max multiplier for speed
-    [SerializeField] private float movementSmoothTime = 0.2f;    // Smoothing time for movement
-    [SerializeField] private float zoomSmoothTime = 0.2f;        // Smoothing time for zooming
-    [SerializeField] private float rotationSmoothTime = 0.2f;    // Smoothing time for rotation
-    [SerializeField] private float panSpeed = 0.3f;              // Speed for panning the camera with middle mouse button
-    [SerializeField] private float rotationSpeed = 100f;         // Speed of camera rotation
+    [SerializeField] private float baseMoveSpeed = 10f;
+    [SerializeField] private float baseZoomSpeed = 5f;
+    [SerializeField] private float accelerationFactor = 3f;
+    [SerializeField] private float maxSpeedMultiplier = 4f;
+    [SerializeField] private float movementSmoothTime = 0.2f;
+    [SerializeField] private float zoomSmoothTime = 0.2f;
+    [SerializeField] private float rotationSmoothTime = 0.2f;
+    [SerializeField] private float rotationSpeed = 100f;
 
     [Header("Input Settings")]
     [SerializeField] private KeyCode forwardKey = KeyCode.W;
     [SerializeField] private KeyCode backwardKey = KeyCode.S;
     [SerializeField] private KeyCode leftKey = KeyCode.A;
     [SerializeField] private KeyCode rightKey = KeyCode.D;
-    [SerializeField] private KeyCode upKey = KeyCode.E;           // Up movement key
-    [SerializeField] private KeyCode downKey = KeyCode.Q;         // Down movement key
-    [SerializeField] private KeyCode shiftKey = KeyCode.LeftShift; // Key to increase speed
+    [SerializeField] private KeyCode upKey = KeyCode.E;
+    [SerializeField] private KeyCode downKey = KeyCode.Q;
+    [SerializeField] private KeyCode shiftKey = KeyCode.LeftShift;
 
-    private Vector3 currentVelocity = Vector3.zero;              // Velocity for movement smoothing
-    private float currentMoveSpeed;                              // Current movement speed
-    private float currentZoomSpeed;                              // Current zoom speed
+    private Vector3 currentVelocity = Vector3.zero;
+    private float currentMoveSpeed;
+    private float currentZoomSpeed;
     private Vector3 lastMousePosition;
+    private bool isRotating;
 
     private void Start()
     {
@@ -57,7 +57,7 @@ public class FreeLookCamera : MonoBehaviour
         // Normalize direction to prevent faster diagonal movement
         if (direction.magnitude > 1f) direction.Normalize();
 
-        // Increase or reset the movement speed based on input
+        // Adjust movement speed
         if (Input.GetKey(shiftKey))
         {
             currentMoveSpeed = baseMoveSpeed * maxSpeedMultiplier;
@@ -79,20 +79,30 @@ public class FreeLookCamera : MonoBehaviour
 
     private void HandleRotation()
     {
-        if (Input.GetMouseButton(1)) // Right mouse button to rotate
+        if (Input.GetMouseButtonDown(1)) // Right mouse button pressed
         {
-            Vector3 mouseDelta = Input.mousePosition - lastMousePosition;
+            isRotating = true;
+            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen
+            Cursor.visible = false; // Hide the cursor while rotating
+        }
 
-            // Calculate target rotation based on mouse movement
-            float yaw = mouseDelta.x * rotationSpeed * Time.deltaTime;
-            float pitch = -mouseDelta.y * rotationSpeed * Time.deltaTime;
+        if (Input.GetMouseButtonUp(1)) // Right mouse button released
+        {
+            isRotating = false;
+            Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+            Cursor.visible = true; // Show the cursor again
+        }
+
+        if (isRotating)
+        {
+            // Get mouse movement delta
+            float yaw = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+            float pitch = -Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
 
             // Apply rotation with smoothing
             Quaternion targetRotation = Quaternion.Euler(transform.eulerAngles + new Vector3(pitch, yaw, 0f));
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSmoothTime);
         }
-
-        lastMousePosition = Input.mousePosition;
     }
 
     private void HandleZoom()
@@ -100,7 +110,6 @@ public class FreeLookCamera : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         bool isZooming = Mathf.Abs(scroll) > 0;
 
-        // Gradually increase zoom speed when scrolling
         if (isZooming)
         {
             currentZoomSpeed += accelerationFactor * Time.deltaTime;

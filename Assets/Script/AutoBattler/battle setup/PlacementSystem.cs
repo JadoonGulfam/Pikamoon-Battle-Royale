@@ -99,7 +99,7 @@ public class PlacementSystem : MonoBehaviour
     {
         if (userPlacedItemsCount >= maxItemsToPlace)
         {
-            startBattle();
+            StartCoroutine(startBattle());
             return;
         }
         soundManager.PlaySoundByID(2);
@@ -146,9 +146,10 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
-    public void startBattle()
+    IEnumerator startBattle()
     {
         Debug.Log("Maximum number of items placed.");
+        yield return new WaitForSeconds(0.1f);
         autoBattlerUIManager.BattleInProgressPanel();
         autoBattlerUIManager.TeamSelectionCompleted();
         AutoBattlerEvents.TriggerPlacementComplete();
@@ -205,7 +206,7 @@ public class PlacementSystem : MonoBehaviour
 
         if(userPlacedItemsCount==maxItemsToPlace)
         {
-            startBattle();
+            StartCoroutine(startBattle());
         }
     }
 
