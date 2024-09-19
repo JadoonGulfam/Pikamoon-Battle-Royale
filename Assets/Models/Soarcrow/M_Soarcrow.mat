@@ -34,6 +34,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 320b52b1cf83e234995982c522536134, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ColorMap:
+        m_Texture: {fileID: 2800000, guid: fd700e5173791c14c96b97e6741b386c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -50,11 +54,23 @@ Material:
         m_Texture: {fileID: 2800000, guid: fd700e5173791c14c96b97e6741b386c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _HeightMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: fd700e5173791c14c96b97e6741b386c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ORMMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -67,6 +83,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VariationMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WindNoiseTexture:
+        m_Texture: {fileID: 2800000, guid: ecd0578dd5d2cb54e90e298c6fbe1019, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -84,7 +112,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AOIntensity: 1
     - _AlphaClip: 0
+    - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -92,26 +122,37 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorBottomLevel: 0
+    - _ColorBottomMaskFade: 0
     - _ColorMask: 15
     - _Cull: 0
     - _Culling: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DitherBottomLevel: 0
+    - _DitherFade: 0
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _FoliageRoughness: 0.1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Metallic: 0
+    - _LockPositionGradient: 2
+    - _Metallic: 0.4
+    - _MetallicIntensity: 0
     - _Mode: 0
+    - _NormalIntensity: 1
     - _OcclusionStrength: 1
     - _Offset: 0
+    - _OffsetScale: 0.02
     - _Parallax: 0.005
+    - _ParallaxOcclusionScale: 0.02
     - _QueueOffset: 0
     - _ReadMask: 255
     - _ReceiveShadows: 1
+    - _RoughnessIntensity: 1
     - _SampleGI: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
@@ -124,15 +165,32 @@ Material:
     - _StencilOp: 0
     - _StencilZFail: 0
     - _Surface: 0
+    - _TextureTiling: 1
     - _UVSec: 0
+    - _UseDithering: 0
+    - _UseGlobalSetting: 0
+    - _UseGlobalWindSettings: 0
+    - _UseVertexColor: 0
+    - _UsesParallaxOcclusion: 0
+    - _UsesParallaxOffset: 0
+    - _VariationMapScale: 15
+    - _VertexColorGradient: 1
+    - _VertexColorOffset: 0
+    - _WindNoise01Multiplier: 1
+    - _WindNoise01Size: 0
+    - _WindNoise02Multiplier: 1
+    - _WindNoise02Size: 0
     - _WorkflowMode: 1
     - _WriteMask: 255
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.6226415, g: 0.61383057, b: 0.61383057, a: 1}
+    - _BaseColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    - _Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    - _ColorBottom: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorTop: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorTopVariation: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7237360206190902460

@@ -13,7 +13,6 @@ using SickscoreGames.HUDNavigationSystem;
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] Transform playerCameraRoot;
-    // Start is called before the first frame update
     public TMP_Text playerName;
     public GameObject PikaMoon_Barkian, PikaMoon_Blazeving,PikaMoon_Sylvolt,PikaMoon_Dracodilla,PikaMoon_Soarcrow,PikaMoon_Torrentar;
     public GameObject canvasData;
