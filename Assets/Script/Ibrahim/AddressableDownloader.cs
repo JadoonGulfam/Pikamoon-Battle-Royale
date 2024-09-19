@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -6,26 +7,27 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AddressableDownloader : MonoBehaviour
 {
-    public static AddressableDownloader Instance;
     public AddressableMemoryReleaser MemoryManager;
     public CharacterCustomizationManager characterCustomizationManager;
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-            MemoryManager = GetComponent<AddressableMemoryReleaser>();
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        DontDestroyOnLoad(this.gameObject);
+        MemoryManager = GetComponent<AddressableMemoryReleaser>();
     }
-
-    public IEnumerator DownloadAddressableObject(string key, bodyType type)
+    private void OnEnable()
+    {
+        Constants.downloadAddressableObject += DownloadAddressableObject;
+        Constants.downloadAddressableTexture += DownloadAddressableTexture;
+    }
+    private void OnDisable()
+    {
+        Constants.downloadAddressableObject -= DownloadAddressableObject;
+        Constants.downloadAddressableTexture -= DownloadAddressableTexture;
+    }
+    IEnumerator DownloadAddressableObject(string key, bodyType type, GameObject applyOn, bool applyColor = false)
     {
         Debug.Log(type + "    " + key);
+        characterCustomizationManager.loader.SetActive(true);
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
             if (!string.IsNullOrEmpty(key))
@@ -59,21 +61,27 @@ public class AddressableDownloader : MonoBehaviour
                             switch (type)
                             {
                                 case bodyType.Hair:
-                                    characterCustomizationManager.ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    // characterCustomizationManager.ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    applyOn.GetComponent<AvatarBodyParts>().ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString(), applyColor);
                                     break;
                                 case bodyType.Shirt:
-                                    characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    // characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    applyOn.GetComponent<AvatarBodyParts>().ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                                 case bodyType.Trouser:
-                                    characterCustomizationManager.ApplyTrouserPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    // characterCustomizationManager.ApplyTrouserPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    applyOn.GetComponent<AvatarBodyParts>().ApplyTrouserPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                                 case bodyType.Shoes:
-                                    characterCustomizationManager.ApplyShoesPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    // characterCustomizationManager.ApplyShoesPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    applyOn.GetComponent<AvatarBodyParts>().ApplyShoesPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                                 case bodyType.Preset:
-                                    characterCustomizationManager.ApplyOnPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    // characterCustomizationManager.ApplyOnPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    applyOn.GetComponent<AvatarBodyParts>().ApplyOnPreset(loadAd.Result as GameObject, key, type.ToString());
                                     break;
                             }
+                            characterCustomizationManager.loader.SetActive(false);
                             MemoryManager.AddToReferenceList(loadAd, key.ToLower());
 
                         }
@@ -83,9 +91,10 @@ public class AddressableDownloader : MonoBehaviour
             }
         }
     }
-    public IEnumerator DownloadAddressableTexture(string key, bodyType type)
+    async Task DownloadAddressableTexture(string key, bodyType type, GameObject applyOn)
     {
         Debug.Log(type + "    " + key);
+        characterCustomizationManager.loader.SetActive(true);
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
             if (!string.IsNullOrEmpty(key))
@@ -97,12 +106,12 @@ public class AddressableDownloader : MonoBehaviour
                     loadAd = MemoryManager.GetReferenceIfExist(key.ToLower(), ref flag);
                     if (!flag)
                         loadAd = Addressables.LoadAssetAsync<Texture2D>(key.ToLower());
-                    yield return loadAd;
+                    await loadAd.Task;
                     if (loadAd.Status == AsyncOperationStatus.Failed)
                     {
                         Debug.Log("Fail To load");
                         characterCustomizationManager.loader.SetActive(false);
-                        yield break;
+                        return;
                     }
                     else if (loadAd.Status == AsyncOperationStatus.Succeeded)
                     {
@@ -119,13 +128,14 @@ public class AddressableDownloader : MonoBehaviour
                             switch (type)
                             {
                                 case bodyType.EyeColor:
-                                    characterCustomizationManager.ApplyEyeTexture(loadAd.Result as Texture2D, key);
+                                    applyOn.GetComponent<AvatarBodyParts>().ApplyEyeTexture(loadAd.Result as Texture2D, key);
                                     break;
                             }
+                            characterCustomizationManager.loader.SetActive(false);
                             MemoryManager.AddToReferenceList(loadAd, key.ToLower());
 
                         }
-                        yield break;
+                        return;
                     }
                 }
             }

@@ -23,6 +23,7 @@ public class ButtonPress : MonoBehaviour
     {
         if (GetComponent<Image>().color.a is 1f) return;
         string type = bodyType.ToString();
+        Constants.Instance.bodyType = bodyType;
         switch (type) 
         {
             case "Face":
@@ -48,12 +49,21 @@ public class ButtonPress : MonoBehaviour
                 break;
           //  case "HairColor":
           //     CharacterCustomization.ChangeHairColor(currentIndex, bodyType.SkinColor);
-                break;
+           //     break;
             case "EyeColor":
                 CharacterCustomization.downloadPresetTexture(currentIndex, bodyType.EyeColor);
                 break;
             case "Preset":
                 CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Preset);
+                break;
+            case "Trouser":
+                CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Trouser);
+                break;
+            case "Shirt":
+                CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Shirt);
+                break;
+            case "Shoes":
+                CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Shoes);
                 break;
             default:
                 break;

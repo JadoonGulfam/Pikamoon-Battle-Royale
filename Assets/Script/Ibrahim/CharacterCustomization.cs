@@ -6,96 +6,120 @@ using UnityEngine.InputSystem;
 public class CharacterCustomization : MonoBehaviour
 {
     public List<int> blendShapes;
-    SkinnedMeshRenderer characterMesh;
     public CharacterCustomizationManager characterCustomizationManager;
+    private void OnEnable()
+    {
+        Constants.resetBlendShapes += ResetBlendShapes;
+    }
+    private void OnDisable()
+    {
+        Constants.resetBlendShapes -= ResetBlendShapes;
+    }
     void Start()
     {
         blendShapes = new List<int>();
     }
 
-    public void ChangeFaceBlendShapes(string index) 
+    public void ChangeFaceBlendShapes(string _index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.faceShape = int.Parse(index);
+        //characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = int.Parse(_index);
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     public void ChangeLipsBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.lipsShape = int.Parse(index);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsShape = int.Parse(index);
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     public void ChangeEyeBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.eyeShape = int.Parse(index);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeShape = int.Parse(index);
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     public void ChangeNoseBlendShapes(string index)
     {
         ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.noseShape = int.Parse(index);
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.noseShape = int.Parse(index);
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     public void ChangeArmsBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.armShape = index;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.armShape = index;
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     public void ChangeLegsBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.legShape = index;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.legShape = index;
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     public void ChangeTorsoBlendShapes(float index)
     {
         //ResetBlendShapes();
         // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.currentCharacterData.torsoShape = index;
+        characterCustomizationManager.avatarBodyParts.currentCharacterData.torsoShape = index;
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     public void downloadPresetObject(string key, bodyType type)
     {
-        // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.DownloadPresetAddressableObject(key, type);      
-
+        if (Constants.downloadAddressableObject != null)
+        {
+            _ = StartCoroutine(Constants.downloadAddressableObject(key, type, characterCustomizationManager.avatarBodyParts.gameObject, false));
+        }
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
     }
     public void ChangeSkinColor(string color, bodyType type)
     {
-        // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.ApplySkinColor(color, type);
-
+        characterCustomizationManager.avatarBodyParts.ApplyColor(color, type);
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
     }
-    //public void ChangeHairColor(string color, bodyType type)
-    //{
-    //    // characterMesh.SetBlendShapeWeight(index, 100);
-    //    characterCustomizationManager.ApplyHairColor(color, type);
-
-    //}
     public void ChangeLipsColor(string color, bodyType type)
     {
-        // characterMesh.SetBlendShapeWeight(index, 100);
-        characterCustomizationManager.ApplyLipsColor(color, type);
-
+        characterCustomizationManager.avatarBodyParts.ApplyColor(color, type);
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
     }
-    public void downloadPresetTexture(string key, bodyType type)
+    public async void downloadPresetTexture(string key, bodyType type)
     {
-        characterCustomizationManager.DownloadPresetAddressableTexture(key, type);       
+        if (Constants.downloadAddressableTexture != null)
+        {
+            await Constants.downloadAddressableTexture(key, type, characterCustomizationManager.avatarBodyParts.gameObject);
+        }
+        characterCustomizationManager.save.interactable = true;
+        characterCustomizationManager.reset.interactable = true;
 
     }
     private void ResetBlendShapes()
     {
-        for (int i = 0; i < blendShapes.Count; i++) 
+        for (int i = 0; i < blendShapes.Count; i++)
         {
-            characterMesh.SetBlendShapeWeight(i, 0);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(i, 0);
         }
     }
 }
