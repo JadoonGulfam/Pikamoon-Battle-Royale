@@ -85,9 +85,9 @@ public class CharacterCustomizationManager : MonoBehaviour
             {
                 avatarController.WearDefaultItem("Shirt", avatarController.gameObject, "Male");
             }
-            if (defaultCharacterdata.shoespreset != null && defaultCharacterdata.shoespreset != "")
+            if (defaultCharacterdata.shoesPreset != null && defaultCharacterdata.shoesPreset != "")
             {
-                _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoespreset, bodyType.Shoes, avatarBodyParts.gameObject, false));
+                _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoesPreset, bodyType.Shoes, avatarBodyParts.gameObject, false));
             }
             else
             {
@@ -183,8 +183,8 @@ public class CharacterCustomizationManager : MonoBehaviour
                 avatarBodyParts.currentCharacterData.trouserPreset = defaultCharacterdata.trouserPreset;
                 break;
             case bodyType.Shoes:
-                _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoespreset, bodyType.Shoes, avatarBodyParts.gameObject, false));
-                avatarBodyParts.currentCharacterData.shoespreset = defaultCharacterdata.shoespreset;
+                _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoesPreset, bodyType.Shoes, avatarBodyParts.gameObject, false));
+                avatarBodyParts.currentCharacterData.shoesPreset = defaultCharacterdata.shoesPreset;
                 break;
             case bodyType.Preset:
                 break;

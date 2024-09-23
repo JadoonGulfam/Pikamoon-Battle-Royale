@@ -24,13 +24,23 @@ public class AvatarBodyParts : MonoBehaviour
     }
     public void ApplyTrouserPreset(GameObject _preset, string _key, string _type)
     {
-        avatarController.StichItem(-1, _preset, "Legs", this.gameObject);
+        avatarController.StichItem(-1, _preset, "Hips", this.gameObject);
         currentCharacterData.trouserPreset = _key;
+    }
+    public void ApplyArmsPreset(GameObject _preset, string _key, string _type)
+    {
+        avatarController.StichItem(-1, _preset, "Arms", this.gameObject);
+        currentCharacterData.armPreset = _key;
+    }
+    public void ApplyLegsPreset(GameObject _preset, string _key, string _type)
+    {
+        avatarController.StichItem(-1, _preset, "Legs", this.gameObject);
+        currentCharacterData.legPreset = _key;
     }
     public void ApplyShoesPreset(GameObject _preset, string _key, string _type)
     {
         avatarController.StichItem(-1, _preset, "Feet", this.gameObject);
-        currentCharacterData.shoespreset = _key;
+        currentCharacterData.shoesPreset = _key;
     }
     public void ApplyOnPreset(GameObject _preset, string _key, string _type)
     {
@@ -44,13 +54,13 @@ public class AvatarBodyParts : MonoBehaviour
         avatarController.eye.SetTexture("_BaseMap", _texture);
         currentCharacterData.eyeColor = _key;
     }
-    public void ApplyColor(string color, bodyType _type)
+    public void ApplyColor(string _color, bodyType _type)
     {
         Color newColor;
         switch (_type)
         {
             case bodyType.SkinColor:
-                if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
+                if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                 {
                     avatarController.body.materials[1].SetColor("_BaseColor", newColor);
                     avatarController.body.materials[3].SetColor("_BaseColor", newColor);
@@ -58,22 +68,23 @@ public class AvatarBodyParts : MonoBehaviour
                 }
                 break;
             case bodyType.Lips:
-                if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
+                if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                 {
                     avatarController.body.materials[2].SetColor("_BaseColor", newColor);
                     currentCharacterData.lipsColor = newColor;
                 }
                 break;
             case bodyType.Hair:
-                if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
+                if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                 {
                     avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Root_Color", newColor);
                     avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Tip_Color", newColor);
+                   if( avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[1]!=null)
                     avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[1].SetColor("_BaseColor", newColor);
                 }
                 break;
                 case bodyType.EyebrowColor:
-                if (ColorUtility.TryParseHtmlString("#" + color, out newColor))
+                if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                 {
                     avatarController.body.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_BaseColor", newColor);
                 }

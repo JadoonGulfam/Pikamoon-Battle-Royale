@@ -44,9 +44,9 @@ public class ButtonPress : MonoBehaviour
             case "SkinColor":
                 CharacterCustomization.ChangeSkinColor(currentIndex, bodyType.SkinColor);
                 break;
-            case "LipsColor":
-                CharacterCustomization.ChangeLipsColor(currentIndex, bodyType.Lips);
-                break;
+            //case "LipsColor":
+            //    CharacterCustomization.ChangeLipsColor(currentIndex, bodyType.Lips);
+            //    break;
           //  case "HairColor":
           //     CharacterCustomization.ChangeHairColor(currentIndex, bodyType.SkinColor);
            //     break;
@@ -64,6 +64,12 @@ public class ButtonPress : MonoBehaviour
                 break;
             case "Shoes":
                 CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Shoes);
+                break;
+            case "Arms":
+                CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Arms);
+                break;
+            case "Legs":
+                CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Legs);
                 break;
             default:
                 break;

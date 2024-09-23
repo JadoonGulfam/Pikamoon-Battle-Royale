@@ -11,7 +11,7 @@ public class AvatarController : MonoBehaviour
     public Stitcher stitcher;
     public SkinnedMeshRenderer body;
     public Material eye;
-    public GameObject wornHair, wornPant, wornShirt, wornShoes;
+    public GameObject wornHair, wornPant, wornShirt, wornShoes, wornArms, wornLegs;
     AvatarBodyParts avatarBodyParts;
     private void Awake()
     {
@@ -24,10 +24,12 @@ public class AvatarController : MonoBehaviour
 
     public void SetAvatarClothDefault(GameObject applyOn, string _gender)
     {
+        WearDefaultItem("Hips", applyOn.gameObject, _gender);
         WearDefaultItem("Legs", applyOn.gameObject, _gender);
         WearDefaultItem("Chest", applyOn.gameObject, _gender);
         WearDefaultItem("Feet", applyOn.gameObject, _gender);
         WearDefaultItem("Hair", applyOn.gameObject, _gender);
+        WearDefaultItem("Arms", applyOn.gameObject, _gender);
         SetDefaultTexture();
     }
     public void WearDefaultItem(string type, GameObject applyOn, string gender)
@@ -36,7 +38,7 @@ public class AvatarController : MonoBehaviour
         {
             switch (type)
             {
-                case "Legs":
+                case "Hips":
                     if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent != null)
                         StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, type, applyOn);
                     break;
@@ -56,6 +58,22 @@ public class AvatarController : MonoBehaviour
                     if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes != null)
                         avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, "");
                     break;
+                case "Arms":
+                    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
+                        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, type, applyOn);
+                    else if (wornArms != null)
+                    {
+                        UnStichItem(type);
+                    }
+                    break;
+                case "Legs":
+                    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs != null)
+                        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, type, applyOn);
+                    else if (wornLegs != null)
+                    {
+                        UnStichItem(type);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -73,7 +91,7 @@ public class AvatarController : MonoBehaviour
                 wornShirt = item;
                 // wornShirt.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
-            case "Legs":
+            case "Hips":
                 wornPant = item;
                 // wornPant.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
@@ -88,6 +106,14 @@ public class AvatarController : MonoBehaviour
                 wornShoes = item;
                 // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                 break;
+            case "Arms":
+                wornArms = item;
+                // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+                break;
+            case "Legs":
+                wornLegs = item;
+                // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+                break;
         }
 
     }
@@ -99,7 +125,7 @@ public class AvatarController : MonoBehaviour
             case "Chest":
                 Destroy(wornShirt);
                 break;
-            case "Legs":
+            case "Hips":
                 Destroy(wornPant);
                 break;
             case "Hair":
@@ -107,6 +133,12 @@ public class AvatarController : MonoBehaviour
                 break;
             case "Feet":
                 Destroy(wornShoes);
+                break;
+            case "Arms":
+                Destroy(wornArms);
+                break;
+            case "Legs":
+                Destroy(wornLegs);
                 break;
         }
     }

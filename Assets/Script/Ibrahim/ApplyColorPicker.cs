@@ -115,21 +115,7 @@ public class ApplyColorPicker : MonoBehaviour
             default:
                 break;
         }
-    }
-    bool IsHV(float hue, float value)
-    {
-        // You can customize this threshold based on your needs
-        return value > 0.7f; // Consider it HV if Value is relatively high
-    }
-
-    // Helper function to check if it's HS (Hue-Saturation)
-    bool IsHS(float hue, float saturation)
-    {
-        // You can customize this threshold based on your needs
-        return saturation > 0.7f; // Consider it HS if Saturation is relatively high
-    }
-    //private Color currentColor;
-    //public bool addToList = true;
+    }  
     void OnChangeColor(Color _color)
     {
         switch (colorCategory)
