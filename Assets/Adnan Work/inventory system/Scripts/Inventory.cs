@@ -1,76 +1,76 @@
-using UnityEngine;
 using System.Collections.Generic;
-[System.Serializable]
+using UnityEngine;
+
 public class Inventory : MonoBehaviour
 {
-    private const string saveFileName = "player_inventory.json";
+    public ItemDatabase itemDatabase;
+    private List<Item> collectedItems = new List<Item>();
 
-    public List<Item> items = new List<Item>();
-    public int maxInventorySize = 20;
-
-    // Delegate to notify UI and other systems when inventory changes
-    public delegate void OnInventoryChanged();
-    public event OnInventoryChanged InventoryChanged;
-
-    // Add item to the inventory
-    public bool AddItem(Item item)
+    public void CollectItem(string itemName)
     {
-        if (items.Count >= maxInventorySize)
+        Item item = itemDatabase.GetItem(itemName);
+        if (item != null)
         {
-            Debug.Log("Inventory is full!");
-            return false;
+            collectedItems.Add(item);
+            Debug.Log("Collected: " + item.itemName);
         }
-
-        items.Add(item);
-        InventoryChanged?.Invoke();
-        return true;
-    }
-
-    // Remove item from inventory
-    public void RemoveItem(Item item)
-    {
-        if (items.Contains(item))
+        else
         {
-            items.Remove(item);
-            InventoryChanged?.Invoke();
+            Debug.Log("Item not found in database.");
         }
     }
 
-    // Use an item from inventory
-    public void UseItem(Item item)
+    public void UseItem(string itemName)
     {
-        item.Use();
-        RemoveItem(item);
+        Item item = collectedItems.Find(i => i.itemName == itemName);
+        if (item != null)
+        {
+            item.Use();
+        }
+        else
+        {
+            Debug.Log("Item not found in inventory.");
+        }
     }
 
-    // Save inventory to a JSON file
     public void SaveInventory()
     {
-        InventoryData data = new InventoryData(items);
+        InventoryData data = new InventoryData(collectedItems);
         string json = JsonUtility.ToJson(data, true);
         System.IO.File.WriteAllText(GetSavePath(), json);
         Debug.Log("Inventory saved.");
     }
 
-    // Load inventory from a JSON file
     public void LoadInventory()
     {
-        if (System.IO.File.Exists(GetSavePath()))
+        string path = GetSavePath();
+        if (System.IO.File.Exists(path))
         {
-            string json = System.IO.File.ReadAllText(GetSavePath());
+            string json = System.IO.File.ReadAllText(path);
             InventoryData data = JsonUtility.FromJson<InventoryData>(json);
-            items = data.ToItemList();
-            InventoryChanged?.Invoke();
+
+            // Clear the current inventory before loading
+            collectedItems.Clear();
+
+            // Load the items based on their names and retrieve them from the ItemDatabase
+            foreach (var itemName in data.items)
+            {
+                Item item = itemDatabase.GetItem(itemName);
+                if (item != null)
+                {
+                    collectedItems.Add(item);
+                }
+                else
+                {
+                    Debug.LogWarning("Item not found in database: " + itemName);
+                }
+            }
             Debug.Log("Inventory loaded.");
-        }
-        else
-        {
-            Debug.Log("No save file found.");
         }
     }
 
     private string GetSavePath()
     {
-        return System.IO.Path.Combine(Application.persistentDataPath, saveFileName);
+        return Application.persistentDataPath + "/inventory.json";
     }
 }
