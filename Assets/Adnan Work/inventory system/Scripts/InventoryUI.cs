@@ -23,21 +23,21 @@ public class InventoryUI : MonoBehaviour
     public void AddItemToUI(Item item)
     {
         // Check if the item already exists in the UI
-        if (uiSlots.ContainsKey(item.itemName))
-        {
-            Debug.LogWarning($"{item.itemName} is already present in the UI.");
-            return;
-        }
+        //if (uiSlots.ContainsKey(item.itemName))
+        //{
+        //    Debug.LogWarning($"{item.itemName} is already present in the UI.");
+        //    return;
+        //}
 
         // Instantiate a new inventory slot UI
         GameObject newSlot = Instantiate(inventorySlotPrefab, inventoryPanel);
 
         // Set item icon and name
-        Image icon = newSlot.transform.Find("Icon").GetComponent<Image>();
-        Text itemName = newSlot.transform.Find("ItemName").GetComponent<Text>();
+        Image icon = newSlot.transform.GetComponent<Image>();
+        //Text itemName = newSlot.transform.Find("ItemName").GetComponent<Text>();
 
         icon.sprite = item.icon;
-        itemName.text = item.itemName;
+        //itemName.text = item.itemName;
 
         // Store reference to the UI slot for later management
         uiSlots[item.itemName] = newSlot;
