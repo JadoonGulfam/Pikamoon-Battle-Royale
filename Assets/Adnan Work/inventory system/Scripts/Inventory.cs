@@ -5,7 +5,11 @@ public class Inventory : MonoBehaviour
 {
     public ItemDatabase itemDatabase;
     private List<Item> collectedItems = new List<Item>();
-
+    private void Start()
+    {
+        CollectItem("1");
+        UseItem("1");
+    }
     public void CollectItem(string itemName)
     {
         Item item = itemDatabase.GetItem(itemName);
