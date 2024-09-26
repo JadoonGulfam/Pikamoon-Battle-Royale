@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using TMPro;
 /// <summary>
 /// Manages the UI for the inventory system, allowing for dynamic display of collected items.
 /// </summary>
@@ -13,40 +13,76 @@ public class InventoryUI : MonoBehaviour
 
     [Tooltip("Panel where all the inventory items will be displayed.")]
     public Transform inventoryPanel;
-
+    public Inventory inventory;
     private Dictionary<string, GameObject> uiSlots = new Dictionary<string, GameObject>();
 
-    /// <summary>
-    /// Adds an item to the UI inventory panel.
-    /// </summary>
-    /// <param name="item">The item to add to the UI.</param>
     public void AddItemToUI(Item item)
     {
         // Check if the item already exists in the UI
-        //if (uiSlots.ContainsKey(item.itemName))
-        //{
-        //    Debug.LogWarning($"{item.itemName} is already present in the UI.");
-        //    return;
-        //}
 
-        // Instantiate a new inventory slot UI
-        GameObject newSlot = Instantiate(inventorySlotPrefab, inventoryPanel);
+        if (uiSlots.ContainsKey(item.itemName))
+        {
+            IncrementItemUI(item);
+        }
 
-        // Set item icon and name
-        Image icon = newSlot.transform.GetComponent<Image>();
-        //Text itemName = newSlot.transform.Find("ItemName").GetComponent<Text>();
+        // Create a new slot if the item doesn't already exist in the UI
+        GameObject slot = Instantiate(inventorySlotPrefab, inventoryPanel);
 
-        icon.sprite = item.icon;
-        //itemName.text = item.itemName;
+        slot.GetComponent<Image>().sprite = item.icon;
 
-        // Store reference to the UI slot for later management
-        uiSlots[item.itemName] = newSlot;
+        slot.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = item.itemName;
+
+        TextMeshProUGUI quantityTextComponent = slot.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        if(item.quantity <= 1)
+             item.quantity = 1;
+        quantityTextComponent.text = item.quantity.ToString();
+
+        // Add the new slot to the uiSlots dictionary
+        uiSlots[item.itemName] = slot;
+
+        // Add button functionality for item usage
+        Button button = slot.GetComponent<Button>();
+        button.onClick.AddListener(() => UseItem(item));
+
+        Debug.Log($"{item.itemName} added to the UI with quantity: {item.quantity}.");
+    }
+    public void IncrementItemUI(Item item)
+    {
+        // Update the quantity for the existing item
+        GameObject existingSlot = uiSlots[item.itemName];
+
+        // Assuming there's a TextMeshProUGUI component in the slot's child that displays the quantity
+        TextMeshProUGUI quantityText = existingSlot.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
+        // Update the item quantity
+
+        item.quantity++;
+        quantityText.text = item.quantity.ToString();
+
+        Debug.Log($"{item.itemName} quantity updated to {item.quantity} in the UI.");
+        return;
+
+    }
+    public void DecrementItemUI(Item item)
+    {
+        // Update the quantity for the existing item
+        GameObject existingSlot = uiSlots[item.itemName];
+
+        // Assuming there's a TextMeshProUGUI component in the slot's child that displays the quantity
+        TextMeshProUGUI quantityText = existingSlot.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
+        // Update the item quantity
+
+        
+        quantityText.text = item.quantity.ToString();
+
+        Debug.Log($"{item.itemName} quantity updated to {item.quantity} in the UI.");
+        return;
+
     }
 
-    /// <summary>
-    /// Removes an item from the UI inventory panel.
-    /// </summary>
-    /// <param name="itemName">Name of the item to remove from the UI.</param>
+
+
     public void RemoveItemFromUI(string itemName)
     {
         if (uiSlots.ContainsKey(itemName))
@@ -60,10 +96,18 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Clears the entire inventory UI panel.
-    /// Useful when loading a new game or resetting the inventory.
-    /// </summary>
+    private void UseItem(Item item)
+    {
+        
+        inventory.UseItem(item.itemName);  // Calls the UseItem method in Inventory
+        item.quantity--;
+        print("remaining items "+item.quantity);
+        if (item.quantity > 0)
+            DecrementItemUI(item);
+        else
+            inventory.RemoveItem(item.itemName);
+        
+    }
     public void ClearInventoryUI()
     {
         foreach (var slot in uiSlots.Values)

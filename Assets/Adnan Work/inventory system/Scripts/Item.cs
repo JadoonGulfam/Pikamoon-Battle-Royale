@@ -12,6 +12,6 @@ public abstract class Item : ScriptableObject, IUsableItem
     public Sprite icon;
     public ItemCategory category;
     public string description;
-
+    public int quantity;
     public abstract void Use();
 }

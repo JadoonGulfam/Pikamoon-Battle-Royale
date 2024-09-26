@@ -7,7 +7,14 @@ public class FightingItem : Item
 
     public override void Use()
     {
-        Debug.Log("Using Fighting Item: " + itemName);
-        // Logic to increase player attack power
+        // Perform item-specific logic
+        if (quantity > 0)
+        {
+            Debug.Log($"{itemName} used. Remaining quantity: {quantity}");
+        }
+        else
+        {
+            Debug.LogWarning($"{itemName} has no quantity left to use.");
+        }
     }
 }

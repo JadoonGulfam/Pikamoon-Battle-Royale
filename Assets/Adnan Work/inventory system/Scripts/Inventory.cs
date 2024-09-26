@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Handles the player's inventory system, including collecting, removing, and saving items.
+/// Manages the player's inventory, handles item collection and removal,
+/// and stores session data for better performance.
 /// </summary>
 public class Inventory : MonoBehaviour
 {
@@ -14,36 +15,49 @@ public class Inventory : MonoBehaviour
     [Tooltip("Reference to the UI script to update the inventory panel.")]
     public InventoryUI inventoryUI;
 
-    // List to store all collected items
+    // List to store all collected items in the current session.
     private List<Item> collectedItems = new List<Item>();
+
+    // In-memory storage to improve performance for frequent accesses during gameplay.
+    private Dictionary<string, Item> itemCache = new Dictionary<string, Item>();
+
 
     private void Start()
     {
-        LoadInventory();
-       // StartCoroutine(addItem());
+        // ClearAllItems();
+         LoadInventory();
+       //  StartCoroutine(addItem());
+        // CollectItem("1");
+       // ClearSavedInventoryData();
+
+
     }
-    int count = 5;
+    int i = 5;
     IEnumerator addItem()
     {
-        count--;
         yield return new WaitForSeconds(1);
         CollectItem("1");
-        SaveInventory();
-        if (count != 0)
+        i--;
+        if (i > 0)
             StartCoroutine(addItem());
+        
     }
-    /// <summary>
-    /// Collects an item and adds it to the inventory.
-    /// Also updates the inventory UI panel to display the collected item.
-    /// </summary>
-    /// <param name="itemName">The name of the item to collect.</param>
+
     public void CollectItem(string itemName)
     {
-        // Retrieve item from the database
         Item item = itemDatabase.GetItem(itemName);
+        if (itemCache.ContainsKey(itemName))
+        {
+            inventoryUI.IncrementItemUI(item);
+            //Debug.Log($"Item already collected: {itemName}");
+            return;
+        }
+
+        
         if (item != null)
         {
             collectedItems.Add(item);
+            itemCache[itemName] = item;
             Debug.Log($"Collected: {item.itemName}");
 
             // Update UI
@@ -55,16 +69,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Removes an item from the inventory and the UI.
-    /// </summary>
-    /// <param name="itemName">The name of the item to remove.</param>
+
     public void RemoveItem(string itemName)
     {
-        Item item = collectedItems.Find(i => i.itemName == itemName);
-        if (item != null)
+        if (itemCache.ContainsKey(itemName))
         {
+            Item item = itemCache[itemName];
             collectedItems.Remove(item);
+            itemCache.Remove(itemName);
             Debug.Log($"Removed: {item.itemName}");
 
             // Update UI
@@ -76,21 +88,39 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Saves the player's inventory to a JSON file.
-    /// </summary>
+    public void UseItem(string itemName)
+    {
+        Item item = collectedItems.Find(i => i.itemName == itemName);
+        if (item != null)
+        {
+            item.Use(); // Call the Use method of the item
+          //  RemoveItem(itemName);
+            Debug.Log($"Used: {item.itemName}");
+        }
+        else
+        {
+            Debug.LogWarning($"Item not found in inventory: {itemName}");
+        }
+    }
+    public void ClearAllItems()
+    {
+        // Clear the session inventory
+        collectedItems.Clear();
+        itemCache.Clear();
+
+        // Update the UI to reflect the cleared inventory
+        inventoryUI.ClearInventoryUI();
+
+        Debug.Log("All items removed from the inventory and UI.");
+    }
     public void SaveInventory()
     {
         InventoryData data = new InventoryData(collectedItems);
         string json = JsonUtility.ToJson(data, true);
         System.IO.File.WriteAllText(GetSavePath(), json);
-        Debug.Log("Inventory saved.");
+        Debug.Log("Inventory saved with quantities and categories.");
     }
 
-    /// <summary>
-    /// Loads the player's inventory from a saved JSON file.
-    /// Also updates the UI to reflect the loaded items.
-    /// </summary>
     public void LoadInventory()
     {
         string path = GetSavePath();
@@ -99,34 +129,54 @@ public class Inventory : MonoBehaviour
             string json = System.IO.File.ReadAllText(path);
             InventoryData data = JsonUtility.FromJson<InventoryData>(json);
 
-            // Clear current inventory and UI
+            // Clear current session data and UI
             collectedItems.Clear();
+            itemCache.Clear();
             inventoryUI.ClearInventoryUI();
 
-            // Load items from save
-            foreach (var itemName in data.items)
+            // Load items with quantities and categories
+            foreach (var itemData in data.items)
             {
-                Item item = itemDatabase.GetItem(itemName);
+                Item item = itemDatabase.GetItem(itemData.itemName);
                 if (item != null)
                 {
+                    item.quantity = itemData.quantity;
+                    item.category = itemData.category;
+
                     collectedItems.Add(item);
-                    inventoryUI.AddItemToUI(item); // Update UI for loaded items
+                    itemCache[item.itemName] = item;
+                    inventoryUI.AddItemToUI(item);
                 }
                 else
                 {
-                    Debug.LogWarning($"Item not found in database: {itemName}");
+                    Debug.LogWarning($"Item not found in database: {itemData.itemName}");
                 }
             }
-            Debug.Log("Inventory loaded.");
+            Debug.Log("Inventory loaded with quantities and categories.");
         }
     }
 
-    /// <summary>
-    /// Retrieves the path to the save file where the inventory data is stored.
-    /// </summary>
-    /// <returns>A string representing the save file path.</returns>
+    public void ClearSavedInventoryData()
+    {
+        string path = GetSavePath();
+        if (System.IO.File.Exists(path))
+        {
+            System.IO.File.Delete(path);
+            Debug.Log("Inventory data cleared.");
+        }
+        else
+        {
+            Debug.LogWarning("No saved inventory data found to clear.");
+        }
+    }
+   
     private string GetSavePath()
     {
-        return Application.persistentDataPath + "/inventory.json";
+        return Application.persistentDataPath + "/inventory1.json";
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveInventory();
     }
 }
