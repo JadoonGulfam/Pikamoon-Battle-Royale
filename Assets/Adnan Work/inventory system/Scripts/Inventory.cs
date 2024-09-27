@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
     {
         // ClearAllItems();
          LoadInventory();
-       //  StartCoroutine(addItem());
+         StartCoroutine(addItem());
         // CollectItem("1");
        // ClearSavedInventoryData();
 
