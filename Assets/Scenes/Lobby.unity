@@ -4226,12 +4226,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93038971}
   m_CullTransparentMesh: 1
---- !u!137 &95181017 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -3267540848242170720, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-    type: 3}
-  m_PrefabInstance: {fileID: 1841297962}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &101581454
 GameObject:
   m_ObjectHideFlags: 0
@@ -22578,7 +22572,7 @@ MonoBehaviour:
   - customizationOption: Legs
     position: {x: -3.36, y: -0.56, z: 7.13}
     rotation: {x: 0, y: 169.641, z: 0}
-  player: {fileID: 1182516525}
+  player: {fileID: 973745661}
   transitionSpeed: 2
   rotateSpeed: 5
   rotationResetSpeed: 2
@@ -25437,8 +25431,8 @@ MonoBehaviour:
     lipsColor: {r: 0, g: 0, b: 0, a: 0}
     characterPreset: 
   loader: {fileID: 451987458}
-  avatarController: {fileID: 1182516524}
-  avatarBodyParts: {fileID: 1182516523}
+  avatarController: {fileID: 1798367235}
+  avatarBodyParts: {fileID: 1798367234}
   isGuest: 0
   save: {fileID: 417934207}
   reset: {fileID: 314689137}
@@ -30333,6 +30327,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971834601}
   m_CullTransparentMesh: 1
+--- !u!4 &973745661 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b7c5e282cb4cd1349ad72dceeb33d289,
+    type: 3}
+  m_PrefabInstance: {fileID: 1798367231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &979021100
 GameObject:
   m_ObjectHideFlags: 0
@@ -36580,93 +36580,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1175812759}
   m_CullTransparentMesh: 1
---- !u!1 &1182516522 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-    type: 3}
-  m_PrefabInstance: {fileID: 1841297962}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1182516523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182516522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1b433e4ed8008e49ae12fb88b2d898d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentCharacterData:
-    gender: 
-    faceShape: 
-    eyeShape: 
-    lipsShape: 
-    noseShape: 
-    armShape: 0
-    legShape: 0
-    torsoShape: 0
-    hairPreset: 
-    shirtPreset: 
-    trouserPreset: 
-    shoesPreset: 
-    armPreset: 
-    legPreset: 
-    eyeColor: 
-    eyeBrowColor: {r: 0, g: 0, b: 0, a: 0}
-    skinColor: {r: 0, g: 0, b: 0, a: 0}
-    hairColor: {r: 0, g: 0, b: 0, a: 0}
-    lipsColor: {r: 0, g: 0, b: 0, a: 0}
-    characterPreset: 
---- !u!114 &1182516524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182516522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultClothDatabase: {fileID: 1643539669}
-  body: {fileID: 1798367236}
-  eye: {fileID: 2100000, guid: 30bfd0d4225470f458e00c9af0492e77, type: 2}
-  wornHair: {fileID: 0}
-  wornPant: {fileID: 0}
-  wornShirt: {fileID: 0}
-  wornShoes: {fileID: 0}
-  wornArms: {fileID: 0}
-  wornLegs: {fileID: 0}
---- !u!4 &1182516525 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-    type: 3}
-  m_PrefabInstance: {fileID: 1841297962}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1182516526
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182516522}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: fe2bcb2e80c513e47bffda42c7710bc1, type: 3}
-  m_Controller: {fileID: 9100000, guid: 68119eb72f1dcfc4a8efb889c014b692, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1183047112
 GameObject:
   m_ObjectHideFlags: 0
@@ -52070,16 +51983,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maleAvatarDefaultCostume:
     DefaultEyes: {fileID: 2800000, guid: 37040e236c04c2849bdf8f04934b2b75, type: 3}
-    DefaultPent: {fileID: 3682735263484552692, guid: c766f796c5af2aa49ba3ebb00cd1b220,
+    DefaultPent: {fileID: 1592569782975563051, guid: 9ba44c30e9cfc384ab9386db0a82c2df,
       type: 3}
-    DefaultShoes: {fileID: 3532070316865590603, guid: e9605b8417f20d14586a6b6c231e7a5a,
+    DefaultShoes: {fileID: 577518882008025341, guid: 10e215b75782637418aeeac18a6168ad,
       type: 3}
-    DefaultShirt: {fileID: 31312037845446194, guid: ca1d5ae95f892a740a49ea4e888e93b6,
+    DefaultShirt: {fileID: 1423948365182600534, guid: 8b07e0454b4575a4e9030b8a3822a850,
       type: 3}
-    DefaultHair: {fileID: 919132149155446097, guid: aad73d8a4fe534440be36b57b71e156a,
+    DefaultHair: {fileID: 6128544689655923852, guid: 6a1eceda69f8db04798e7a17c918d490,
       type: 3}
-    DefaultArms: {fileID: 0}
-    DefaultLegs: {fileID: 0}
+    DefaultArms: {fileID: 4786680268459850129, guid: 2fd311aff2ee13a4181b382fa45f1d41,
+      type: 3}
+    DefaultLegs: {fileID: 1187178803855354671, guid: ff7eed42209293242a57e49a2bda3767,
+      type: 3}
     DefaultSkinColor: {r: 1, g: 1, b: 1, a: 1}
     DefaultLipsColor: {r: 1, g: 1, b: 1, a: 1}
     DefaultEyebrowColor: {r: 0, g: 0, b: 0, a: 1}
@@ -56314,7 +56229,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b7c5e282cb4cd1349ad72dceeb33d289,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6566826685306686538, guid: b7c5e282cb4cd1349ad72dceeb33d289, type: 3}
@@ -56392,7 +56307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultClothDatabase: {fileID: 1643539669}
-  body: {fileID: 95181017}
+  body: {fileID: 1798367236}
   eye: {fileID: 2100000, guid: 30bfd0d4225470f458e00c9af0492e77, type: 2}
   wornHair: {fileID: 0}
   wornPant: {fileID: 0}
@@ -58190,101 +58105,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838076613}
   m_CullTransparentMesh: 1
---- !u!1001 &1841297962
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.62
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.22
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      propertyPath: m_Name
-      value: shakoor_body
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1182516524}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1182516523}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe2bcb2e80c513e47bffda42c7710bc1,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1182516526}
-  m_SourcePrefab: {fileID: 100100000, guid: fe2bcb2e80c513e47bffda42c7710bc1, type: 3}
 --- !u!1 &1841437376
 GameObject:
   m_ObjectHideFlags: 0
@@ -67639,4 +67459,3 @@ SceneRoots:
   - {fileID: 1643539670}
   - {fileID: 991674855}
   - {fileID: 1798367231}
-  - {fileID: 1841297962}
