@@ -21,56 +21,56 @@ namespace CharacterCustomization
         {
         }
 
-        public void SetAvatarClothDefault(GameObject applyOn, string _gender)
+        public void SetAvatarClothDefault(GameObject applyOn, GenderType _gender)
         {
-            WearDefaultItem("Hips", applyOn.gameObject, _gender);
-            WearDefaultItem("Legs", applyOn.gameObject, _gender);
-            WearDefaultItem("Chest", applyOn.gameObject, _gender);
-            WearDefaultItem("Feet", applyOn.gameObject, _gender);
-            WearDefaultItem("Hair", applyOn.gameObject, _gender);
-            WearDefaultItem("Arms", applyOn.gameObject, _gender);
+            WearDefaultItem(BodyPartsType.Hips, applyOn.gameObject, _gender);
+            WearDefaultItem(BodyPartsType.Legs, applyOn.gameObject, _gender);
+            WearDefaultItem(BodyPartsType.Chest, applyOn.gameObject, _gender);
+            WearDefaultItem(BodyPartsType.Feet, applyOn.gameObject, _gender);
+            WearDefaultItem(BodyPartsType.Hair, applyOn.gameObject, _gender);
+            WearDefaultItem(BodyPartsType.Arms, applyOn.gameObject, _gender);
             SetDefaultTexture();
         }
-        public void WearDefaultItem(string type, GameObject applyOn, string gender)
+        public void WearDefaultItem(BodyPartsType _type, GameObject _applyOn, GenderType _gender)
         {
-            if (gender == "Male") // if avatar is Male
+            if (_gender == GenderType.male) // if avatar is Male
             {
-                switch (type)
+                switch (_type)
                 {
-                    case "Hips":
+                    case BodyPartsType.Hips:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, type, applyOn);
+                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, _type, _applyOn);
                         break;
-                    case "Chest":
+                    case BodyPartsType.Chest:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, type, applyOn);
+                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, _type, _applyOn);
                         break;
-                    case "Feet":
+                    case BodyPartsType.Feet:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes, type, applyOn);
+                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes, _type, _applyOn);
                         break;
-                    case "Hair":
+                    case BodyPartsType.Hair:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, type, applyOn);
+                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
                         break;
-                    case "Eyes":
+                    case BodyPartsType.Eyes:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes != null)
-                            avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, "");
+                            avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, string.Empty);
                         break;
-                    case "Arms":
+                    case BodyPartsType.Arms:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, type, applyOn);
+                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
                         else if (wornArms != null)
                         {
-                            UnStichItem(type);
+                            UnStichItem(_type);
                         }
                         break;
-                    case "Legs":
+                    case BodyPartsType.Legs:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, type, applyOn);
+                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, _type,_applyOn);
                         else if (wornLegs != null)
                         {
-                            UnStichItem(type);
+                            UnStichItem(_type);
                         }
                         break;
                     default:
@@ -78,38 +78,38 @@ namespace CharacterCustomization
                 }
             }
         }
-        public void StichItem(int itemId, GameObject item, string type, GameObject applyOn, bool applyHairColor = true)
+        public void StichItem(int itemId, GameObject item, BodyPartsType _type, GameObject applyOn, bool applyHairColor = true)
         {
 
-            UnStichItem(type);
+            UnStichItem(_type);
 
             item = this.stitcher.Stitch(item, applyOn);
-            switch (type)
+            switch (_type)
             {
-                case "Chest":
+                case BodyPartsType.Chest:
                     wornShirt = item;
                     // wornShirt.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                     break;
-                case "Hips":
+                case BodyPartsType.Hips:
                     wornPant = item;
                     // wornPant.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                     break;
-                case "Hair":
+                case BodyPartsType.Hair:
                     wornHair = item;
                     if (avatarBodyParts.currentCharacterData.hairColor != Color.black && applyHairColor)
-                        avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), bodyType.Hair);
+                        avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), BodyType.Hair);
                     if (Constants.getColorObject != null)
                         Constants.getColorObject.Invoke();
                     break;
-                case "Feet":
+                case BodyPartsType.Feet:
                     wornShoes = item;
                     // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                     break;
-                case "Arms":
+                case BodyPartsType.Arms:
                     wornArms = item;
                     // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                     break;
-                case "Legs":
+                case BodyPartsType.Legs:
                     wornLegs = item;
                     // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
                     break;
@@ -117,26 +117,26 @@ namespace CharacterCustomization
 
         }
 
-        public void UnStichItem(string type)
+        public void UnStichItem(BodyPartsType _type)
         {
-            switch (type)
+            switch (_type)
             {
-                case "Chest":
+                case BodyPartsType.Chest:
                     Destroy(wornShirt);
                     break;
-                case "Hips":
+                case BodyPartsType.Hips:
                     Destroy(wornPant);
                     break;
-                case "Hair":
+                case BodyPartsType.Hair:
                     Destroy(wornHair);
                     break;
-                case "Feet":
+                case BodyPartsType.Feet:
                     Destroy(wornShoes);
                     break;
-                case "Arms":
+                case BodyPartsType.Arms:
                     Destroy(wornArms);
                     break;
-                case "Legs":
+                case BodyPartsType.Legs:
                     Destroy(wornLegs);
                     break;
             }

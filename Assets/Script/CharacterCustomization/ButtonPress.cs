@@ -6,7 +6,7 @@ namespace CharacterCustomization
     public class ButtonPress : MonoBehaviour
     {
         public string currentIndex;
-        public bodyType bodyType;
+        public BodyType bodyType;
         public CharacterCustomization CharacterCustomization;
         void Start()
         {
@@ -23,54 +23,47 @@ namespace CharacterCustomization
         public void OnButtonClick()
         {
             if (GetComponent<Image>().color.a is 1f) return;
-            string type = bodyType.ToString();
             Constants.Instance.bodyType = bodyType;
-            switch (type)
+            switch (bodyType)
             {
-                case "Face":
+                case BodyType.Face:
                     CharacterCustomization.ChangeFaceBlendShapes(currentIndex);
                     break;
-                case "Lips":
+                case BodyType.Lips:
                     CharacterCustomization.ChangeLipsBlendShapes(currentIndex);
                     break;
-                case "Eyes":
+                case BodyType.Eyes:
                     CharacterCustomization.ChangeEyeBlendShapes(currentIndex);
                     break;
-                case "Hair":
-                    CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Hair);
+                case BodyType.Hair:
+                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Hair);
                     break;
-                case "Nose":
+                case BodyType.Nose:
                     CharacterCustomization.ChangeNoseBlendShapes(currentIndex);
                     break;
-                case "SkinColor":
-                    CharacterCustomization.ChangeSkinColor(currentIndex, bodyType.SkinColor);
+                case BodyType.SkinColor:
+                    CharacterCustomization.ChangeSkinColor(currentIndex, BodyType.SkinColor);
                     break;
-                //case "LipsColor":
-                //    CharacterCustomization.ChangeLipsColor(currentIndex, bodyType.Lips);
-                //    break;
-                //  case "HairColor":
-                //     CharacterCustomization.ChangeHairColor(currentIndex, bodyType.SkinColor);
-                //     break;
-                case "EyeColor":
-                    CharacterCustomization.downloadPresetTexture(currentIndex, bodyType.EyeColor);
+                case BodyType.EyeColor:
+                    CharacterCustomization.downloadPresetTexture(currentIndex, BodyType.EyeColor);
                     break;
-                case "Preset":
-                    CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Preset);
+                case BodyType.Preset:
+                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Preset);
                     break;
-                case "Trouser":
-                    CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Trouser);
+                case BodyType.Trouser:
+                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Trouser);
                     break;
-                case "Shirt":
-                    CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Shirt);
+                case BodyType.Shirt:
+                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Shirt);
                     break;
-                case "Shoes":
-                    CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Shoes);
+                case BodyType.Shoes:
+                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Shoes);
                     break;
-                case "Arms":
-                    CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Arms);
+                case BodyType.Arms:
+                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Arms);
                     break;
-                case "Legs":
-                    CharacterCustomization.downloadPresetObject(currentIndex, bodyType.Legs);
+                case BodyType.Legs:
+                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Legs);
                     break;
                 default:
                     break;

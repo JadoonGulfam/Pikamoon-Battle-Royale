@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 namespace CharacterCustomization
 {
     public class CharacterCustomization : MonoBehaviour
@@ -104,7 +103,7 @@ namespace CharacterCustomization
             characterCustomizationManager.reset.interactable = true;
 
         }
-        public void downloadPresetObject(string _key, bodyType _type)
+        public void downloadPresetObject(string _key, BodyType _type)
         {
             if (Constants.downloadAddressableObject != null)
             {
@@ -114,28 +113,28 @@ namespace CharacterCustomization
                 {
                     switch (_type)
                     {
-                        case bodyType.Trouser:
-                            characterCustomizationManager.avatarController.WearDefaultItem("Hips", characterCustomizationManager.avatarController.gameObject, "Male");
+                        case BodyType.Trouser:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Hips, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.trouserPreset = _key;
                             break;
-                        case bodyType.Shirt:
-                            characterCustomizationManager.avatarController.WearDefaultItem("Chest", characterCustomizationManager.avatarController.gameObject, "Male");
+                        case BodyType.Shirt:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Chest, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.shirtPreset = _key;
                             break;
-                        case bodyType.Shoes:
-                            characterCustomizationManager.avatarController.WearDefaultItem("Feet", characterCustomizationManager.avatarController.gameObject, "Male");
+                        case BodyType.Shoes:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Feet, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.shoesPreset = _key;
                             break;
-                        case bodyType.Hair:
-                            characterCustomizationManager.avatarController.WearDefaultItem("Hair", characterCustomizationManager.avatarController.gameObject, "Male");
+                        case BodyType.Hair:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Hair, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.hairPreset = _key;
                             break;
-                        case bodyType.Arms:
-                            characterCustomizationManager.avatarController.WearDefaultItem("Arms", characterCustomizationManager.avatarController.gameObject, "Male");
+                        case BodyType.Arms:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Arms, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.armPreset = _key;
                             break;
-                        case bodyType.Legs:
-                            characterCustomizationManager.avatarController.WearDefaultItem("Legs", characterCustomizationManager.avatarController.gameObject, "Male");
+                        case BodyType.Legs:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Legs, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.legPreset = _key;
                             break;
                     }
@@ -144,7 +143,7 @@ namespace CharacterCustomization
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
         }
-        public void ChangeSkinColor(string _color, bodyType _type)
+        public void ChangeSkinColor(string _color, BodyType _type)
         {
             if (_color != "default")
             {
@@ -163,7 +162,7 @@ namespace CharacterCustomization
         //        characterCustomizationManager.save.interactable = true;
         //        characterCustomizationManager.reset.interactable = true;
         //}
-        public async void downloadPresetTexture(string _key, bodyType _type)
+        public async void downloadPresetTexture(string _key, BodyType _type)
         {
             if (Constants.downloadAddressableTexture != null)
             {
@@ -173,8 +172,8 @@ namespace CharacterCustomization
                 {
                     switch (_type)
                     {
-                        case bodyType.EyeColor:
-                            characterCustomizationManager.avatarController.WearDefaultItem("Eyes", characterCustomizationManager.avatarController.gameObject, "Male");
+                        case BodyType.EyeColor:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Eyes, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeColor = _key;
                             break;
                     }

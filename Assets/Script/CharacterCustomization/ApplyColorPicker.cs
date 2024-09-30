@@ -137,21 +137,21 @@ namespace CharacterCustomization
         }
         public void ChangeHairColor(Color _color)
         {
-            characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), bodyType.Hair); //wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].color = color;
+            characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), BodyType.Hair); //wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].color = color;
             characterCustomizationManager.avatarBodyParts.currentCharacterData.hairColor = _color;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
         }
         public void ChangeLipColor(Color _color)
         {
-            characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), bodyType.Lips);//   .body.materials[1].color = color;
+            characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), BodyType.Lips);//   .body.materials[1].color = color;
             characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor = _color;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
         }
         public void ChangeEyebrowColor(Color _color)
         {
-            characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), bodyType.EyebrowColor);
+            characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), BodyType.EyebrowColor);
             characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor = _color;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;

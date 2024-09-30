@@ -9,7 +9,7 @@ namespace CharacterCustomization
         [Serializable]
         public class AvatarData
         {
-            public genderType avatar_Gender;
+            public GenderType avatar_Gender;
             public GameObject avatar_parent;
             public SkinnedMeshRenderer avatar_body;
             public Animator avatar_animator;
@@ -52,8 +52,10 @@ namespace CharacterCustomization
         }
     }
 }
-public enum bodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso, EyebrowColor, Cap  }
-public enum genderType { male, female }
+public enum BodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso, EyebrowColor, Cap  }
+public enum GenderType { male, female }
+
+public enum BodyPartsType { Chest, Hips, Hair, Feet, Arms, Legs, Eyes }
 public enum SliderType
 {
     Arms, Legs, Torso

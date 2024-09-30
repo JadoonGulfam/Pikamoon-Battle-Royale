@@ -9,11 +9,11 @@ namespace CharacterCustomization
         public static Constants Instance;
         public GameObject _curretClickedBtn;
         public GameObject _lastAvatarClickedBtn;
-        public static Func<string, bodyType, GameObject, bool, IEnumerator> downloadAddressableObject;
-        public static Func<string, bodyType, GameObject, Task> downloadAddressableTexture;
+        public static Func<string, BodyType, GameObject, bool, IEnumerator> downloadAddressableObject;
+        public static Func<string, BodyType, GameObject, Task> downloadAddressableTexture;
         public static Action getColorObject;
         public static Action resetBlendShapes;
-        public bodyType bodyType;
+        public BodyType bodyType;
         private void Awake()
         {
             if (Instance == null)
