@@ -2,26 +2,28 @@ using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
-
-public class Constants : MonoBehaviour
+namespace CharacterCustomization
 {
-    public static Constants Instance;
-    public GameObject _curretClickedBtn;
-    public GameObject _lastAvatarClickedBtn;
-    public static Func<string, bodyType,GameObject,bool, IEnumerator> downloadAddressableObject;
-    public static Func<string, bodyType,GameObject, Task> downloadAddressableTexture;
-    public static Action getColorObject;
-    public static Action resetBlendShapes;
-    public bodyType bodyType;
-    private void Awake()
+    public class Constants : MonoBehaviour
     {
-        if (Instance == null)
+        public static Constants Instance;
+        public GameObject _curretClickedBtn;
+        public GameObject _lastAvatarClickedBtn;
+        public static Func<string, bodyType, GameObject, bool, IEnumerator> downloadAddressableObject;
+        public static Func<string, bodyType, GameObject, Task> downloadAddressableTexture;
+        public static Action getColorObject;
+        public static Action resetBlendShapes;
+        public bodyType bodyType;
+        private void Awake()
         {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
-
-public class DefaultClothDatabase : MonoBehaviour
+namespace CharacterCustomization
 {
-    public AvatarDefaultClothes maleAvatarDefaultCostume;
-    public AvatarDefaultClothes femaleAvatarDefaultCostume;
 
+    public class DefaultClothDatabase : MonoBehaviour
+    {
+        public AvatarDefaultClothes maleAvatarDefaultCostume;
+        public AvatarDefaultClothes femaleAvatarDefaultCostume;
+
+    }
 }
