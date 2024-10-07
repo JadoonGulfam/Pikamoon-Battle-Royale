@@ -216,7 +216,7 @@ public class AgoraChat : MonoBehaviour
             _videoSample.myUId = connection.localUid;
             GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().agoraStreaming_UID = connection.localUid;
             GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().channel_ID = connection.channelId;
-            GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().enabled = true;
+          //  GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().enabled = true;
             
         }
         
