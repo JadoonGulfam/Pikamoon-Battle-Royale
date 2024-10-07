@@ -23,6 +23,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
         {
             videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
             videoSurface.SetEnable(true);
+            
         }
         else
         {
@@ -37,40 +38,61 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-           StreamingCall(true);
+        //   StreamingCall(true);
+        {
+            Streamingstatus = true;
+            DealDamageRpc();
+        }
         else if (Input.GetKeyDown(KeyCode.V))
-                 StreamingCall(false);
+        {
+            
+            Streamingstatus = false;
+            DealDamageRpc();
+        }
     }
     public void StreamingCall(bool status)
     {
         videoStreamStatus = status;
-        VideoStream(status);
+      //  VideoStream(status);
     }
 
 
     // [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-
-     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void VideoStream(bool status)
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void DealDamageRpc()
     {
+        VideoStream();
+    }
+
+    bool Streamingstatus;
+    //  [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void VideoStream()
+    {
+
+
+
+
+         playerStream.enabled=Streamingstatus;
+
         if (HasStateAuthority == false)
         {
             videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
-            videoSurface.SetEnable(status);
+            videoSurface.SetEnable(Streamingstatus);
+            
+           // return 0;
         }
         else
         {
-            if (status)
+            if (Streamingstatus)
             
                 GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelf();
-            
             else
-            
                 GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelfOFF();
             
             videoSurface.SetForUser(0, "");
             
-            videoSurface.SetEnable(status);
+            videoSurface.SetEnable(Streamingstatus);
+         //   return 0;
           //  }
         }
     }

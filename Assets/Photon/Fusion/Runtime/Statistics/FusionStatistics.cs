@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.EventSystems;
 using UnityEngine.Profiling;
-
+  using UnityEngine.Serialization;
+  
   [RequireComponent(typeof(NetworkRunner))]
   [AddComponentMenu("Fusion/Statistics/Fusion Statistics")]
   public class FusionStatistics : SimulationBehaviour, ISpawned {
-
+    internal List<FusionStatsGraphBase> ActiveGraphs => _statsGraph;
+    
     // Setup prefabs
     private GameObject _statsCanvasPrefab;
     private FusionNetworkObjectStatsGraphCombine _objectGraphCombinePrefab;
@@ -19,17 +21,29 @@ using UnityEngine.Profiling;
     
     private List<FusionStatsGraphBase> _statsGraph;
     private FusionStatsPanelHeader _header;
+    private FusionStatsConfig _config;
     private FusionStatsCanvas _statsCanvas;
     private GameObject _statsPanelObject;
     private Dictionary<FusionNetworkObjectStatistics, FusionNetworkObjectStatsGraphCombine> _objectStatsGraphCombines;
 
-    [Header("Editor side toggle for the stats.")]
+    [InlineHelp]
+    [ExpandableEnum]
     [SerializeField] private RenderSimStats _statsEnabled;
 
-    [SerializeField]
-    private List<FusionStatisticsStatCustomConfig> _statsConfig = new List<FusionStatisticsStatCustomConfig>();
+    [InlineHelp]
+    [SerializeField] private CanvasAnchor _canvasAnchor = CanvasAnchor.TopRight;
+    
 
-    internal List<FusionStatisticsStatCustomConfig> StatsConfig => _statsConfig;
+    [FormerlySerializedAs("_statsConfig")] [SerializeField]
+    [Header("Custom configuration to override default values.\nSelect only one stat flag per configuration.")]
+    private List<FusionStatisticsStatCustomConfig> _statsCustomConfig = new List<FusionStatisticsStatCustomConfig>();
+
+    internal List<FusionStatisticsStatCustomConfig> StatsCustomConfig => _statsCustomConfig;
+
+    /// <summary>
+    /// Gets a value indicating whether the statistics panel is active.
+    /// </summary>
+    public bool IsPanelActive => _statsPanelObject != false;
 
     [System.Serializable]
     public struct FusionStatisticsStatCustomConfig {
@@ -37,6 +51,9 @@ using UnityEngine.Profiling;
       public float Threshold1;
       public float Threshold2;
       public float Threshold3;
+      public bool IgnoreZeroOnBuffer;
+      public bool IgnoreZeroOnAverageCalculation;
+      public int AccumulateTimeMs;
     }
     
     private void Awake() {
@@ -64,13 +81,23 @@ using UnityEngine.Profiling;
         return;
       }
       
-      _statsConfig = customConfig;
+      _statsCustomConfig = customConfig;
       ApplyCustomConfig();
+    }
+
+    /// <summary>
+    /// Sets the anchor position of the Fusion Statistics canvas.
+    /// </summary>
+    /// <param name="anchor">The anchor position of the canvas (TopLeft or TopRight).</param>
+    public void SetCanvasAnchor(CanvasAnchor anchor) {
+      _canvasAnchor = anchor;
+      if (_statsCanvas == false) return;
+      _statsCanvas.SetCanvasAnchor(anchor);
     }
 
     private void ApplyCustomConfig() {
       if (!_header) return;
-      _header.ApplyStatsConfig(_statsConfig);
+      _header.ApplyStatsConfig(_statsCustomConfig);
     }
 
     /// <summary>
@@ -80,10 +107,11 @@ using UnityEngine.Profiling;
     public void OnEditorChange() {
       RenderEnabledStats();
       ApplyCustomConfig();
+      SetCanvasAnchor(_canvasAnchor);
     }
     
     private void RenderEnabledStats() {
-      if (!_header) return;
+      if (IsPanelActive == false) return;
       _header.SetStatsToRender(_statsEnabled);
     }
     
@@ -95,7 +123,7 @@ using UnityEngine.Profiling;
     /// Sets up the statistics panel for Fusion statistic tracking.
     /// </summary>
     public void SetupStatisticsPanel() {
-      if (_statsPanelObject != null) return;
+      if (IsPanelActive) return;
 
       // Was not registered on the Runner yet
       if (Runner == null) {
@@ -115,12 +143,15 @@ using UnityEngine.Profiling;
       
       _statsPanelObject = Instantiate(_statsCanvasPrefab, transform);
       _statsCanvas = _statsPanelObject.GetComponentInChildren<FusionStatsCanvas>();
-      _statsCanvas.SetupStatsCanvas(this, CloseButtonAction);
+      _statsCanvas.SetupStatsCanvas(this, _canvasAnchor, DestroyStatisticsPanel);
       _header = _statsPanelObject.GetComponentInChildren<FusionStatsPanelHeader>();
       _header.SetupHeader(Runner.LocalPlayer.ToString(), this);
+      _config = _statsPanelObject.GetComponentInChildren<FusionStatsConfig>(true);
 
       _statsPanelObject.AddComponent<FusionBasicBillboard>();
       ApplyCustomConfig();
+
+      Runner.AddVisibilityNodes(_statsPanelObject);
       
       if (_statsEnabled != 0)
         RenderEnabledStats();
@@ -132,19 +163,42 @@ using UnityEngine.Profiling;
       }
     }
 
-    private void CloseButtonAction() {
-      var keys = _objectStatsGraphCombines.Keys.ToArray();
-      foreach (var fusionNetworkObjectStatistics in keys) {
-        MonitorNetworkObject(fusionNetworkObjectStatistics.NetworkObject, fusionNetworkObjectStatistics, false);
+    /// <summary>
+    /// Sets the world anchor for Fusion Statistics. Set null to return to screen space overlay.
+    /// </summary>
+    /// <param name="anchor">The FusionStatsWorldAnchor component that defines the anchor object. Null to return to screen space overlay.</param>
+    /// <param name="scale">The scale of the statistics panel.</param>
+    public void SetWorldAnchor(FusionStatsWorldAnchor anchor, float scale) {
+      _config.SetWorldCanvasScale(scale);
+
+      if (anchor == null) {
+        _config.ResetToCanvasAnchor();
+      } else {
+        _config.SetWorldAnchor(anchor.transform);
       }
-      _objectStatsGraphCombines.Clear();
+    }
+
+    /// <summary>
+    /// Destroys the statistics panel.
+    /// </summary>
+    public void DestroyStatisticsPanel() {
+      var keys = _objectStatsGraphCombines?.Keys.ToArray();
+      if (keys != null) {
+        foreach (var fusionNetworkObjectStatistics in keys) {
+          MonitorNetworkObject(fusionNetworkObjectStatistics.NetworkObject, fusionNetworkObjectStatistics, false);
+        }
+      }
+
+      _objectStatsGraphCombines?.Clear();
       _statsGraph.Clear();
       
       Destroy(_statsPanelObject);
       _statsPanelObject = null;
 
-      if (Runner.TryGetFusionStatistics(out var statisticsManager)) {
-        statisticsManager.ObjectStatisticsManager.ClearMonitoredNetworkObjects();
+      if (Runner) {
+        if (Runner.TryGetFusionStatistics(out var statisticsManager)) {
+          statisticsManager.ObjectStatisticsManager.ClearMonitoredNetworkObjects();
+        }
       }
     }
 

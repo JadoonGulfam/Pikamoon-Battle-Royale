@@ -32,6 +32,11 @@
             Returns the total size in bytes used by the allocator segments.
             </summary>
         </member>
+        <member name="M:Fusion.Allocator.GetMemorySnapshot(Fusion.Statistics.MemoryStatisticsSnapshot@,Fusion.Allocator*)">
+            <summary>
+            Fills the given MemoryStatisticsSnapshot object with memory allocation statistics.
+            </summary>
+        </member>
         <member name="M:Fusion.Allocator.CanAllocSizeAssert_Temp(System.Int32)">
             <summary>
             Check size of bytes to be allocated
@@ -3124,6 +3129,12 @@
             Triggers found in the current AnimatorController, converted to hashes.
             </summary>
         </member>
+        <member name="F:Fusion.NetworkMecanimAnimator.BITS_PER_BOOL">
+            <summary>
+            To ensure triggers are synced consistently, 1 bit is used for true/false and 3 more are used
+            to differentiate the state (these are incremented with every change to the underlying bool).
+            </summary>
+        </member>
         <member name="M:Fusion.NetworkMecanimAnimator.Spawned">
             <inheritdoc cref="M:Fusion.NetworkBehaviour.Spawned"/>
         </member>
@@ -3155,8 +3166,8 @@
         <member name="T:Fusion.SimulationBehaviour">
             <summary>
             Base class for a Fusion aware Behaviour (derived from UnityEngine.MonoBehavour).
-            Objects derived from this object can be associated with a <see cref="T:Fusion.NetworkRunner"/> and <see cref="T:Fusion.Simulation"/>.
-            If a parent <see cref="T:Fusion.NetworkObject"/> is found, this component will also be associated with that network entity.
+            If a SimulationBehaviour is found on a <see cref="T:Fusion.NetworkRunner"/> game object during the runner initialisation, the SimulationBehaviour is automatically registered.
+            Objects derived from this object can be associated with a <see cref="T:Fusion.NetworkRunner"/> and <see cref="T:Fusion.Simulation"/> using NetworkRunner.AddGlobal().
             </summary>
         </member>
         <member name="P:Fusion.SimulationBehaviour.CanReceiveRenderCallback">
@@ -3666,6 +3677,41 @@
             <typeparam name="T">Type of array.</typeparam>
             <returns>Pointer to allocated memory.</returns>
         </member>
+        <member name="T:Fusion.Statistics.BehaviourStatisticsManager">
+            <summary>
+            Behaviour statistics manager will provide access to the behaviour statistics snapshots.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.BehaviourStatisticsManager.CompletedSnapshot">
+            <summary>
+            The completed snapshot of statistics related to Fusion Behaviour type execution from the previous update.
+            </summary>
+        </member>
+        <member name="T:Fusion.Statistics.BehaviourStatisticsSnapshot">
+            <summary>
+            Represents a snapshot of statistics related to Fusion Behaviour type execution.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.BehaviourStatisticsSnapshot.FixedUpdateNetworkExecutionCount">
+            <summary>
+            Gets the count of FixedUpdateNetwork executions.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.BehaviourStatisticsSnapshot.RenderExecutionCount">
+            <summary>
+            Gets the count of Render executions.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.BehaviourStatisticsSnapshot.FixedUpdateNetworkExecutionTime">
+            <summary>
+            Gets the total execution time of FixedUpdateNetwork in milliseconds.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.BehaviourStatisticsSnapshot.RenderExecutionTime">
+            <summary>
+            Gets the total execution time of Render in milliseconds.
+            </summary>
+        </member>
         <member name="T:Fusion.Statistics.FusionStatisticsManager">
             <summary>
             Represents a fusion statistics manager.
@@ -3746,12 +3792,42 @@
         </member>
         <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.ObjectsAllocMemoryUsedInBytes">
             <summary>
-            The number of segments allocated for objects on the simulation.
+            The number of used segments allocated for objects on the simulation.
             </summary>
         </member>
         <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.GeneralAllocMemoryUsedInBytes">
             <summary>
-            The number of segments allocated for general purposes on the simulation.
+            The number of used segments allocated for general purposes on the simulation.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.ObjectsAllocMemoryFreeInBytes">
+            <summary>
+            The number of free segments allocated for objects on the simulation.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.GeneralAllocMemoryFreeInBytes">
+            <summary>
+            The number of free segments allocated for general purposes on the simulation.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.WordsWrittenCount">
+            <summary>
+            The number of words that were written.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.WordsReadCount">
+            <summary>
+            The number of words that were read.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.WordsWrittenSize">
+            <summary>
+            The total size in bytes of all written words.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.WordsReadSize">
+            <summary>
+            The total size in bytes of all read words.
             </summary>
         </member>
         <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.InputReceiveDelta">
@@ -3787,6 +3863,101 @@
         <member name="P:Fusion.Statistics.FusionStatisticsSnapshot.InterpolationSpeed">
             <summary>
             Gets the Interpolation Speed.
+            </summary>
+        </member>
+        <member name="T:Fusion.Statistics.LagCompensationStatisticsSnapshot">
+            <summary>
+            Represents a snapshot of lag compensation statistics.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.TotalElapsedTime">
+            <summary>
+            Represents the total time taken to advance, add and update all hitboxes on the Lag Compensation system.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.BVHMaxDeep">
+            <summary>
+            Represents the deeper level reached by the BVH.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.BVHNodesCount">
+            <summary>
+            Represents total nodes count on the BVH.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.HitboxesCount">
+            <summary>
+            Represents the total number of HitBoxCollider on the HitBoxSnapshot colliders buffer, including both used and free ones.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.AddOnBufferTime">
+            <summary>
+            Represents the amount of time taken to register new hitboxes on the HitboxBuffer.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.AddOnBVHTime">
+            <summary>
+            Represents the amount of time taken to register new hitboxes on the BVH.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.UpdateBVHTime">
+            <summary>
+            Represents the amount of time taken to update the BVH.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.UpdateBufferTime">
+            <summary>
+            Represents the amount of time taken to update the HitboxBuffer.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.AdvanceBufferTime">
+            <summary>
+            Represents the amount of time taken to advance the hitbox buffer and copy previous snapshot information.
+            </summary>
+        </member>
+        <member name="P:Fusion.Statistics.LagCompensationStatisticsSnapshot.RefitBVHTime">
+            <summary>
+            Represents the amount of time taken to refit the BVH bounds after the nodes update.
+            </summary>
+        </member>
+        <member name="M:Fusion.Statistics.LagCompensationStatisticsSnapshot.ClearSnapshot">
+            <summary>
+            Clear the snapshot
+            </summary>
+        </member>
+        <member name="T:Fusion.Statistics.MemoryStatisticsSnapshot">
+            <summary>
+            Represents a snapshot of specific memory statistics. For basic total allocated memory and total free memory check the Fusion Statistics.
+            </summary>
+        </member>
+        <member name="T:Fusion.Statistics.MemoryStatisticsSnapshot.TargetAllocator">
+            <summary>
+            Enum representing the target allocator for memory statistics.
+            </summary>
+        </member>
+        <member name="F:Fusion.Statistics.MemoryStatisticsSnapshot.BUCKET_COUNT">
+            <summary>
+            The number of buckets used in the allocator.
+            </summary>
+        </member>
+        <member name="F:Fusion.Statistics.MemoryStatisticsSnapshot.TotalFreeBlocks">
+            <summary>
+            Represents the total number of free blocks in the allocator.
+            </summary>
+        </member>
+        <member name="F:Fusion.Statistics.MemoryStatisticsSnapshot.BucketFullBlocksCount">
+            <summary>
+            Represents the number of full blocks in each bucket of the allocator.
+            </summary>
+        </member>
+        <member name="F:Fusion.Statistics.MemoryStatisticsSnapshot.BucketUsedBlocksCount">
+            <summary>
+            Represents the number of used blocks in each bucket of the allocator.
+            </summary>
+        </member>
+        <member name="F:Fusion.Statistics.MemoryStatisticsSnapshot.BucketFreeBlocksCount">
+            <summary>
+            Represents the number of free blocks in each bucket of the allocator.
             </summary>
         </member>
         <member name="T:Fusion.Statistics.NetworkObjectStatisticsManager">
@@ -4990,6 +5161,12 @@
             <param name="tickFrom">The tick value from which to interpolate.</param>
             <param name="tickTo">The tick value to which to interpolate.</param>
             <param name="alpha">The interpolation alpha value.</param>
+        </member>
+        <member name="M:Fusion.HitboxManager.GetStatisticsSnapshot">
+            <summary>
+            Gets a snapshot of the lag compensation statistics.
+            </summary>
+            <returns>The lag compensation statistics snapshot.</returns>
         </member>
         <member name="M:Fusion.HitboxManager.RegisterHitboxSnapshot(System.Int32,System.Int32)">
             <summary>
@@ -8351,12 +8528,34 @@
         </member>
         <member name="M:Fusion.RingBuffer`1.Front">
             <summary>
-            The front item in the buffer.
+            Returns a read-only reference to the front item in the buffer.
+            </summary>
+        </member>
+        <member name="M:Fusion.RingBuffer`1.FrontMut">
+            <summary>
+            Returns a reference to the front item in the buffer.
+            </summary>
+        </member>
+        <member name="M:Fusion.RingBuffer`1.Get(System.Int32)">
+            <summary>
+            <para>Returns a read-only reference to the item in the buffer at <c>index</c>.</para>
+            <para>Indexes follow insertion order, i.e. <c>this[0]</c> returns the front item and <c>this[Count - 1]</c> returns the back item.</para>
+            </summary>
+        </member>
+        <member name="M:Fusion.RingBuffer`1.GetMut(System.Int32)">
+            <summary>
+            <para>Returns a reference to the item in the buffer at <c>index</c>.</para>
+            <para>Indexes follow insertion order, i.e. <c>this[0]</c> returns the front item and <c>this[Count - 1]</c> returns the back item.</para>
             </summary>
         </member>
         <member name="M:Fusion.RingBuffer`1.Back">
             <summary>
-            The back item in the buffer.
+            Returns a read-only reference to the back item in the buffer.
+            </summary>
+        </member>
+        <member name="M:Fusion.RingBuffer`1.BackMut">
+            <summary>
+            Returns a reference to the back item in the buffer.
             </summary>
         </member>
         <member name="M:Fusion.RingBuffer`1.PushBack(`0)">
@@ -8954,6 +9153,9 @@
             <summary>
             Gets the stride of the client tick rate. This is always 1.
             </summary>
+        </member>
+        <member name="M:Fusion.TickRate.Resolved.ToString">
+            <inheritdoc />
         </member>
         <member name="T:Fusion.TickRate.ValidateResult">
             <summary>
@@ -10357,7 +10559,7 @@
         </member>
         <member name="F:Fusion.NetworkObjectHeader.WordCount">
             <summary>
-            The number of words in the network object header.
+            The size of the network object's data in words.
             </summary>
         </member>
         <member name="F:Fusion.NetworkObjectHeader.BehaviourCount">
@@ -10407,7 +10609,7 @@
         </member>
         <member name="P:Fusion.NetworkObjectHeader.ByteCount">
             <summary>
-            how many bytes this headers object is
+            The size of the network object's data in bytes.
             </summary>
         </member>
         <member name="M:Fusion.NetworkObjectHeader.GetDataPointer(Fusion.NetworkObjectHeader*)">
@@ -12289,6 +12491,9 @@
             Returns the <see cref="T:Fusion.INetworkObjectProvider"/> instance.
             </summary>
         </member>
+        <member name="P:Fusion.NetworkRunner.ReliableDataSendRate">
+            <inheritdoc cref="P:Fusion.Simulation.ReliableDataSendRate"/>
+        </member>
         <member name="P:Fusion.NetworkRunner.SceneManager">
             <summary>
             Returns the <see cref="T:Fusion.INetworkSceneManager"/> instance.
@@ -12402,6 +12607,14 @@
             <param name="behaviour">The reference behaviour to get the next one</param>
             <returns>Gives the next behaviour</returns>
         </member>
+        <member name="M:Fusion.NetworkRunner.GetAvailableRegions(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Starts an operation to retrieves the list of available regions.
+            </summary>
+            <param name="appId">Optional App ID. If not provided, the method will use the global App ID from the PhotonAppSettings.</param>
+            <param name="cancellationToken">Optional CancellationToken parameter that can be used to cancel the operation.</param>
+            <returns>Returns a list with information about all the available regions.</returns>
+        </member>
         <member name="M:Fusion.NetworkRunner.GetPlayerActorId(Fusion.PlayerRef)">
             <summary>
             Gets Player's Actor Number (ID).
@@ -12450,6 +12663,12 @@
             </summary>
             <typeparam name="T"><see cref="T:Fusion.SimulationBehaviour"/> type</typeparam>
             <returns>The result list</returns>
+        </member>
+        <member name="M:Fusion.NetworkRunner.GetAllNetworkObjects">
+            <summary>
+            Retrieves a list of all network objects in the simulation.
+            </summary>
+            <returns>A list of NetworkObject instances.</returns>
         </member>
         <member name="M:Fusion.NetworkRunner.GetAllBehaviours``1(System.Collections.Generic.List{``0})">
             <summary>
@@ -12519,6 +12738,13 @@
             Unregister an <see cref="T:Fusion.INetworkRunnerCallbacks"/> instance for callbacks from this <see cref="T:Fusion.NetworkRunner"/>.
             </summary>
             <param name="callbacks">Callbacks to unregister</param>
+        </member>
+        <member name="M:Fusion.NetworkRunner.GetMemorySnapshot(Fusion.Statistics.MemoryStatisticsSnapshot.TargetAllocator,Fusion.Statistics.MemoryStatisticsSnapshot@)">
+            <summary>
+            Gets a memory snapshot of the simulation.
+            </summary>
+            <param name="targetAllocator">The target allocator for the memory statistics. Must be a valid value from the MemoryStatisticsSnapshot.TargetAllocator enum.</param>
+            <param name="snapshot">A reference to the MemoryStatisticsSnapshot struct that will store the memory snapshot.</param>
         </member>
         <member name="M:Fusion.NetworkRunner.RenderInternal">
             <summary>
@@ -12670,6 +12896,13 @@
             <param name="size">Size of the cell</param>
             <exception cref="T:System.Exception">Can't change cell size in shared mode</exception>
         </member>
+        <member name="M:Fusion.NetworkRunner.GetObjectsInAreaOfInterestForPlayer(Fusion.PlayerRef)">
+            <summary>
+            Retrieves a list of network object IDs that are in the area of interest for the specified player. Server only.
+            </summary>
+            <param name="player">The player for whom the area of interest is being queried.</param>
+            <returns>A list of network object IDs in the area of interest for the player.</returns>
+        </member>
         <member name="M:Fusion.NetworkRunner.GetAreaOfInterestGizmoData(System.Collections.Generic.List{System.ValueTuple{UnityEngine.Vector3,UnityEngine.Vector3,System.Int32,System.Int32}})">
             <summary>
             Populates the provided list with data about the current Area of Interest (AOI) cells.
@@ -12683,6 +12916,14 @@
             </summary>
             <param name="statisticsManager">The FusionStatisticsManager returned by the method</param>
             <returns>True if the FusionStatisticsManager is successfully retrieved, otherwise false</returns>
+        </member>
+        <member name="M:Fusion.NetworkRunner.TryGetBehaviourStatistics(System.Type,Fusion.Statistics.BehaviourStatisticsSnapshot@)">
+            <summary>
+            Tries to get the statistics snapshot for a specified behaviour type.
+            </summary>
+            <param name="behaviourType">The type of the behaviour for which to get the statistics snapshot.</param>
+            <param name="behaviourStatisticsSnapshot">When this method returns, contains the statistics snapshot for the specified behaviour type, if found; otherwise, the default value.</param>
+            <returns><c>true</c> if the statistics snapshot for the specified behaviour type is found; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:Fusion.NetworkRunner.Exists(Fusion.NetworkObject)">
             <summary>
@@ -12818,6 +13059,12 @@
             <summary>
             A list of all <see cref="T:Fusion.NetworkRunner"/>s.
             </summary>
+        </member>
+        <member name="M:Fusion.NetworkRunner.SetSimulateMultiPeerPhysics(System.Boolean)">
+            <summary>
+            Set the value for simulating physics scenes when using multi-peer. Restores the default physics simulation settings if false, overrides the default if true. (2D: SimulationMode2D.Script | 3D: AutoSimulation = false)
+            </summary>
+            <param name="value">The value to set. True to simulate physics scenes, false otherwise.</param>
         </member>
         <member name="M:Fusion.NetworkRunner.TryGetPhysicsInfo(Fusion.NetworkPhysicsInfo@)">
             <summary>
@@ -13296,10 +13543,27 @@
             <param name="flags">Spawn flags</param>, 
             <param name="onCompleted">A callback to fire once the spawn is done.</param>
         </member>
+        <member name="T:Fusion.NetworkRunner.CloudConnectionLostHandler">
+            <summary>
+            If this callback is implemented, the default behavior of disconnecting
+            when the cloud connection is lost in server/client or host/client mode
+            is disabled. This callback will be invoked instead, leaving the decision
+            up to the user. It is called both on the server/host and on the client.
+            </summary>
+            <param name="networkRunner">NetworkRunner instance</param>
+            <param name="shutdownReason">Shutdown reason for the connection loss</param>
+            <param name="reconnecting">Flag to signal if the peer is attempting to reconnect to the Photon Cloud</param>
+        </member>
+        <member name="F:Fusion.NetworkRunner.CloudConnectionLost">
+            <inheritdoc cref="T:Fusion.NetworkRunner.CloudConnectionLostHandler"/>
+        </member>
         <member name="P:Fusion.NetworkRunner.IsCloudReady">
             <summary>
             Signal if the Local Peer is connected to Photon Cloud and is able to Create/Join Room but also receive Lobby Updates
             </summary>
+        </member>
+        <member name="P:Fusion.NetworkRunner.IsInSession">
+            <inheritdoc cref="P:Fusion.CloudServices.IsInRoom"/>
         </member>
         <member name="P:Fusion.NetworkRunner.UserId">
             <summary>
@@ -13788,6 +14052,13 @@
             can be used to control whether these guards are visible in the hierarchy or not.
             </summary>
         </member>
+        <member name="F:Fusion.NetworkProjectConfig.AllowClientServerModesInWebGL">
+            <summary>
+            Allow the use of Client-Server modes in WebGL builds. This is not recommended, as it can lead to degraded performance.
+            Client-Server modes are not supported in WebGL builds by default, this setting allows its usage despite the limitations.
+            Read more about the limitations of WebGL builds in the Fusion documentation at https://doc.photonengine.com/fusion/v2/fusion-intro.
+            </summary>
+        </member>
         <member name="F:Fusion.NetworkProjectConfig.PrefabTable">
             <summary>
             Reference to the <see cref="T:Fusion.NetworkPrefabTable"/> instance for this <see cref="T:Fusion.NetworkProjectConfig"/>.
@@ -13959,6 +14230,11 @@
             An auto-generated list containing meta information about all the <see cref="T:Fusion.SimulationBehaviour"/>s in the project, e.g. execution order.
             </summary>
         </member>
+        <member name="M:Fusion.NetworkProjectConfigAsset.OnDisable">
+            <summary>
+            Unloads all prefabs.
+            </summary>
+        </member>
         <member name="T:Fusion.NetworkSpawnStatus">
             <summary>
             Network Spawn Status
@@ -13994,12 +14270,13 @@
         </member>
         <member name="F:Fusion.NetworkSpawnFlags.SharedModeStateAuthMasterClient">
             <summary>
-            In shared mode, override the state authority to <see cref="P:Fusion.PlayerRef.MasterClient"/>. 
+            In shared mode, override the state authority to <see cref="P:Fusion.PlayerRef.MasterClient"/>, ignoring "Is Master Client Object" inspector setting.
+            If used by a non-master client, object will be spawned with local player authority and an error message will be logged.
             </summary>
         </member>
         <member name="F:Fusion.NetworkSpawnFlags.SharedModeStateAuthLocalPlayer">
             <summary>
-            In shared mode, override the state authority to local player.
+            In shared mode, override the state authority to local player, ignoring "Is Master Client Object" inspector setting.
             </summary>
         </member>
         <member name="T:Fusion.NetworkSpawnOp">
@@ -14589,14 +14866,14 @@
         </member>
         <member name="F:Fusion.StartGameArgs.PlayerCount">
             <summary>
-            Number of players allowed to connect to this peer, when running in Server/Host Mode
+            Number of players allowed to connect to the session.
             
             Default: DefaultPlayers from the Global NetworkProjectConfig
             </summary>
         </member>
         <member name="F:Fusion.StartGameArgs.Scene">
             <summary>
-            Scene that will be set as the starting Scene when running in Server/Host Mode
+            Scene that will be set as the starting Scene.
             
             Default: null (no scene set)
             </summary>
@@ -14680,6 +14957,7 @@
         <member name="F:Fusion.StartGameArgs.CustomSTUNServer">
             <summary>
             Specify a Custom STUN Server used to Resolve the peer Reflexive Addresses
+            It can be used to specify multiple STUN Servers separated by semicolon (;)
             
             Default: null (no custom STUN Server)
             </summary>
@@ -14730,7 +15008,7 @@
              <summary>
              Enables the usage of the previous cached regions pings. This speeds up the region ping process and the runner startup process.
             
-             Defaults: false
+             Defaults: true
              </summary>
         </member>
         <member name="M:Fusion.StartGameArgs.ToString">
@@ -15342,6 +15620,13 @@
             </summary>
             <param name="result">The list to be populated with AOI cell data.</param>
         </member>
+        <member name="M:Fusion.Simulation.GetObjectsInAreaOfInterestForPlayer(Fusion.PlayerRef)">
+            <summary>
+            Retrieves a list of network object IDs that are in the area of interest for the specified player.
+            </summary>
+            <param name="player">The player for whom the area of interest is being queried.</param>
+            <returns>A list of network object IDs in the area of interest for the player.</returns>
+        </member>
         <member name="M:Fusion.Simulation.GetObjectsAndPlayersInAreaOfInterestCell(System.Int32,System.Collections.Generic.List{Fusion.PlayerRef},System.Collections.Generic.List{Fusion.NetworkId})">
             <summary>
             Used by RunnerAOIGizmos component. Supplies data about current active AOI cells.
@@ -15816,6 +16101,13 @@
             <param name="dt">Delta Time used to forward the simulation</param>
             <returns>How many Ticks executed on this Update</returns>
         </member>
+        <member name="P:Fusion.Simulation.ReliableDataSendRate">
+            <summary>
+            Set the rate at which reliable data is sent in hz.
+            Minimum value is 1hz, maximum value is the same as the <see cref="P:Fusion.Simulation.SendRate"/>
+            Increasing this value increases the throughput when sending reliable data such as with <see cref="M:Fusion.NetworkRunner.SendReliableDataToPlayer(Fusion.PlayerRef,Fusion.Sockets.ReliableKey,System.Byte[])"/>.
+            </summary>
+        </member>
         <member name="P:Fusion.Simulation.ObjectCount">
             <summary>Returns the number of objects in the simulation.</summary>
         </member>
@@ -15980,6 +16272,21 @@
             </para>
             </summary>
         </member>
+        <member name="T:Fusion.SimulationConfig.SimulationTimeMode">
+            <summary>
+            The time mode that the <see cref="T:Fusion.NetworkRunnerUpdaterDefault"/> uses to calculate the delta time for the simulation update.
+            </summary>
+        </member>
+        <member name="F:Fusion.SimulationConfig.SimulationTimeMode.UnscaledDeltaTime">
+            <summary>
+            Use Time.UnscaledDeltaTime. Time is not affected by timescale and keeps running when the editor is paused.
+            </summary>
+        </member>
+        <member name="F:Fusion.SimulationConfig.SimulationTimeMode.DeltaTime">
+            <summary>
+            Use Time.DeltaTime. Only for <see cref="F:Fusion.GameMode.Single"/>. Can be used to allow for timescale changes in gameplay or to pause the game and continue without interruption when stopping at a debug breakpoint.
+            </summary>
+        </member>
         <member name="F:Fusion.SimulationConfig.InputDataWordCount">
             <summary>Input Data Word Count</summary>
         </member>
@@ -16005,6 +16312,11 @@
             How the server chooses to send <see cref="T:Fusion.NetworkObject"/> updates to balance consistency and bandwidth consumption.
             </summary>
         </member>
+        <member name="F:Fusion.SimulationConfig.SimulationUpdateTimeMode">
+            <summary>
+            The time mode that the Runner uses to update the simulation.
+            </summary>-
+        </member>
         <member name="F:Fusion.SimulationConfig.PlayerCount">
             <summary>
             The default number of players allowed to join a game instance. Can also be changed in code when starting Fusion.
@@ -16028,6 +16340,11 @@
         <member name="P:Fusion.SimulationConfig.InputTotalWordCount">
             <summary>
             
+            </summary>
+        </member>
+        <member name="F:Fusion.SimulationConfig.EnableSerializers">
+            <summary>
+            Enable Serializers
             </summary>
         </member>
         <member name="M:Fusion.SimulationConfig.Init(System.Nullable{System.Int32},System.Nullable{System.Int32})">
@@ -16126,11 +16443,6 @@
         <member name="F:Fusion.NetworkConfiguration.ConnectionShutdownTime">
             <summary>
             Default delay between connection changes status to Shutdown (disconnected/invalid), and it actually being released (freeing all references to that particular connection).
-            </summary>
-        </member>
-        <member name="P:Fusion.NetworkConfiguration.MtuDefault">
-            <summary>
-            Max number of bytes that can be used by Fusion to fill up a UDP package.
             </summary>
         </member>
         <member name="F:Fusion.NetworkConfiguration.ReliableDataTransferModes">
