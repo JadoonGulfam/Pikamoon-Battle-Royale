@@ -19,7 +19,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (HasStateAuthority == false)
+       /* if (HasStateAuthority == false)
         {
             videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
             videoSurface.SetEnable(true);
@@ -33,7 +33,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
             //   LocalView.SetEnable(true);
             videoSurface.SetEnable(true);
             //   gameObject.GetComponent<AgoraPlayer_SetUP>().enabled = false;
-        }
+        }*/
     }
     private void Update()
     {
