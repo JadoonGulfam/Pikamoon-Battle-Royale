@@ -53,7 +53,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     {
         if(status)
         {
-            VideoStreamON();
+           StartCoroutine(VideoStreamON());
         }
         else
             VideoStreamOFF();
@@ -61,7 +61,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
 
     bool Streamingstatus;
     //  [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void VideoStreamON()
+    public IEnumerator VideoStreamON()
     {
     
         if(HasInputAuthority)
@@ -69,9 +69,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
          //   if (Streamingstatus)
             
                 GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelf();
-          //  else
-            //    GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelfOFF();
-            
+          
             videoSurface.SetForUser(0, "");
             videoSurface.SetEnable(true);
 
@@ -80,6 +78,10 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
         else
         {
             videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
+            videoSurface.Uid = agoraStreaming_UID;
+            videoSurface.ChannelId = channel_ID;
+            print("MyChanel id is " + channel_ID);
+           yield return new WaitForSeconds(2);
             videoSurface.SetEnable(true);
             print("i am on client");
             // return 0;
