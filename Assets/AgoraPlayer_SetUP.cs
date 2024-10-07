@@ -12,7 +12,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     public RawImage playerStream;
     public VideoSurface videoSurface;
     public string channel_ID="pikamoon";
-
+    
     public bool videoStreamStatus;
     [Networked]
     public uint agoraStreaming_UID { get; set; } = 0;
@@ -48,7 +48,9 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     }
 
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    // [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+
+     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void VideoStream(bool status)
     {
         if (HasStateAuthority == false)

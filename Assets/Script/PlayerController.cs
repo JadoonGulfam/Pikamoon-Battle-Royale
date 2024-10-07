@@ -133,9 +133,11 @@ public class PlayerController : NetworkBehaviour
         pikaMoon_CharacterList.Clear();
     }
 
-  //  [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-  //  public void DealDamageRpc()
-  //  {
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void DealDamageRpc()
+    { }
+
+        //  {
         // The code inside here will run on the client which owns this object (has state and input authority).
     //    Debug.Log("Received DealDamageRpc on StateAuthority, modifying Networked variable");
     //    myHealth = myHealth - 1;//  damage;
