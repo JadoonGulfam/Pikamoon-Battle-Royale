@@ -19,21 +19,6 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       /* if (HasStateAuthority == false)
-        {
-            videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
-            videoSurface.SetEnable(true);
-            
-        }
-        else
-        {
-            GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelf();
-            videoSurface.SetForUser(0, "");
-            // Start rendering video
-            //   LocalView.SetEnable(true);
-            videoSurface.SetEnable(true);
-            //   gameObject.GetComponent<AgoraPlayer_SetUP>().enabled = false;
-        }*/
     }
     private void Update()
     {
@@ -43,14 +28,14 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             //   StreamingCall(true);
             {
-                Streamingstatus = true;
-                DealDamageRpc();
+             //   Streamingstatus = true;
+                DealDamageRpc(true);
             }
             else if (Input.GetKeyDown(KeyCode.V))
             {
 
-                Streamingstatus = false;
-                DealDamageRpc();
+              //  Streamingstatus = false;
+                DealDamageRpc(false);
             }
         }
     }
@@ -64,40 +49,62 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     // [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
    // [Rpc(RpcSources.All, RpcTargets.All)]
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    public void DealDamageRpc()
+    public void DealDamageRpc(bool status)
     {
-        VideoStream();
+        if(status)
+        {
+            VideoStreamON();
+        }
+        else
+            VideoStreamOFF();
     }
 
     bool Streamingstatus;
     //  [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void VideoStream()
+    public void VideoStreamON()
     {
-
-
-
-
-         playerStream.enabled=Streamingstatus;
-
-        if (HasStateAuthority == false)
+    
+        if(HasInputAuthority)
         {
-            videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
-            videoSurface.SetEnable(Streamingstatus);
+         //   if (Streamingstatus)
             
-           // return 0;
+                GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelf();
+          //  else
+            //    GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelfOFF();
+            
+            videoSurface.SetForUser(0, "");
+            videoSurface.SetEnable(true);
+
+            print("i am on state authority On");
         }
         else
         {
-            if (Streamingstatus)
-            
-                GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelf();
-            else
-                GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelfOFF();
-            
-            videoSurface.SetForUser(0, "");
-            videoSurface.SetEnable(Streamingstatus);
+            videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
+            videoSurface.SetEnable(true);
+            print("i am on client");
+            // return 0;
         }
     }
+    public void VideoStreamOFF()
+    {
 
+        if (HasInputAuthority)
+        {
+            
+                GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelfOFF();
+
+            videoSurface.SetForUser(0, "");
+            videoSurface.SetEnable(false);
+            print("i am on state authority OFF");
+        }
+        else
+        {
+            print("i am on client Off");
+            videoSurface.SetForUser(agoraStreaming_UID, channel_ID, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
+            videoSurface.SetEnable(false);
+
+            // return 0;
+        }
+    }
 
 }
