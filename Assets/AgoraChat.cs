@@ -46,6 +46,7 @@ public class AgoraChat : MonoBehaviour
         //go = GameObject.Find("Join");
         temp.transform.Find("Join").GetComponent<Button>().onClick.AddListener(Join);
 
+
       //  go.GetComponent<Button>().onClick.AddListener(Join);
 
     }
@@ -200,6 +201,9 @@ public class AgoraChat : MonoBehaviour
             //  myUId = connection.localUid;
 
             _videoSample.myUId = connection.localUid;
+            GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().agoraStreaming_UID = connection.localUid;
+            GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().channel_ID = connection.channelId;
+            GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().enabled = true;
             
         }
         

@@ -279,7 +279,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         //  throw new NotImplementedException();
     }
-
+    public GameObject LocalplayerRef;
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         print("Onplayer Joinned");
@@ -289,6 +289,8 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
             //      NetworkObject playerNetworkObject= runner.Spawn(PlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
             NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab, PlayerPrefab.transform.position, Quaternion.identity, player);
             runner.SetPlayerObject(player, playerNetworkObject);
+            LocalplayerRef = playerNetworkObject.gameObject;
+
             //print( player. .GetComponent<PlayerController>().myHealth);
         }
         //  throw new NotImplementedException();
