@@ -23,7 +23,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
         }
         else
         {
-            GameManager.instance.gameObject.GetComponent<AgoraChat>().PreviewSelf();
+            GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelf();
             videoSurface.SetForUser(0, "");
             // Start rendering video
             //   LocalView.SetEnable(true);
