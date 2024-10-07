@@ -103,10 +103,23 @@ public class AgoraChat : MonoBehaviour
         // Start local video preview
         RtcEngine.StartPreview();
         // Set local video display
-        LocalView.SetForUser(0, "");
+    //    LocalView.SetForUser(0, "");
         // Start rendering video
-        LocalView.SetEnable(true);
+   //     LocalView.SetEnable(true);
     }
+    public void PreviewSelfOFF()
+    {
+        // Enable video module
+        RtcEngine.DisableVideo();
+        RtcEngine.StopPreview();
+        // Start local video preview
+   //     RtcEngine.StartPreview();
+        // Set local video display
+        //    LocalView.SetForUser(0, "");
+        // Start rendering video
+        //     LocalView.SetEnable(true);
+    }
+
 
     private void SetupUI()
     {
