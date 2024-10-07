@@ -37,17 +37,21 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        //   StreamingCall(true);
+
+        if (HasStateAuthority)
         {
-            Streamingstatus = true;
-            DealDamageRpc();
-        }
-        else if (Input.GetKeyDown(KeyCode.V))
-        {
-            
-            Streamingstatus = false;
-            DealDamageRpc();
+            if (Input.GetKeyDown(KeyCode.Space))
+            //   StreamingCall(true);
+            {
+                Streamingstatus = true;
+                DealDamageRpc();
+            }
+            else if (Input.GetKeyDown(KeyCode.V))
+            {
+
+                Streamingstatus = false;
+                DealDamageRpc();
+            }
         }
     }
     public void StreamingCall(bool status)
