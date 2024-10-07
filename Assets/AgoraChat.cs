@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Agora.Rtc;
 
+using System;
+
 #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
 using UnityEngine.Android;
 #endif
@@ -13,14 +15,15 @@ public class AgoraChat : MonoBehaviour
     // Fill in your app ID
     public string _appID = "";
     // Fill in your channel name
-    public string _channelName = "";
+    public string _channelName = "pikamoon";
     // Fill in your Token
     public string _token = "";
     internal VideoSurface LocalView;
     internal VideoSurface RemoteView;
     internal IRtcEngine RtcEngine;
-
+    public uint myUId;
     //public GameObject remoteuser_;
+    public GameObject canvasAgora;
 
 #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     private ArrayList permissionList = new ArrayList() { Permission.Camera, Permission.Microphone };
@@ -28,15 +31,41 @@ public class AgoraChat : MonoBehaviour
 
     IEnumerator Start()
     {
+
+       GameObject temp= Instantiate(canvasAgora);
+
         SetupVideoSDKEngine();
         InitEventHandler();
-        SetupUI();
-        PreviewSelf();
-        yield return new WaitForSeconds(6);
-       // remoteuser_.SetActive(true);
-        
+     //   SetupUI();
+      //  PreviewSelf();
+        yield return new WaitForSeconds(0.1f);
+        // remoteuser_.SetActive(true);
+
+        temp.transform.Find("Leave").GetComponent<Button>().onClick.AddListener(Leave);
+        //go.GetComponent<Button>().onClick.AddListener(Leave);
+        //go = GameObject.Find("Join");
+        temp.transform.Find("Join").GetComponent<Button>().onClick.AddListener(Join);
+
+      //  go.GetComponent<Button>().onClick.AddListener(Join);
+
     }
 
+   // public void InitilizeAgora()
+     public void Preview_Me()
+    {
+        PreviewSelf();
+    }
+
+    public void JoinRoomAgora()
+    {
+
+        Join();
+    }
+
+    public void LeaveRoom()
+    {
+        Leave();
+    }
     void Update()
     {
         CheckPermissions();
@@ -66,7 +95,7 @@ public class AgoraChat : MonoBehaviour
 #endif
     }
 
-    private void PreviewSelf()
+    public void PreviewSelf()
     {
         // Enable video module
         RtcEngine.EnableVideo();
@@ -113,10 +142,11 @@ public class AgoraChat : MonoBehaviour
 
     public void Join()
     {
+        print("Calling Join");
         // Set channel media options
         ChannelMediaOptions options = new ChannelMediaOptions();
         // Start video rendering
-        LocalView.SetEnable(true);
+       // LocalView.SetEnable(true);
         // Publish microphone audio stream
         options.publishMicrophoneTrack.SetValue(true);
         // Publish camera video stream
@@ -131,7 +161,7 @@ public class AgoraChat : MonoBehaviour
         options.clientRoleType.SetValue(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
         
         // Join the channel
-        RtcEngine.JoinChannel(_token, _channelName, 0, options);
+       print(RtcEngine.JoinChannel(_token, _channelName, 0, options));
     
     }
 
@@ -143,7 +173,7 @@ public class AgoraChat : MonoBehaviour
         // Leave the channel
         RtcEngine.LeaveChannel();
         // Stop remote video rendering
-        RemoteView.SetEnable(false);
+       // RemoteView.SetEnable(false);
     }
 
     // Implement your own callback class by inheriting from the IRtcEngineEventHandler interface class
@@ -167,6 +197,10 @@ public class AgoraChat : MonoBehaviour
             print("Yes i have joined");
             print(connection.channelId);
             print(connection.localUid);
+            //  myUId = connection.localUid;
+
+            _videoSample.myUId = connection.localUid;
+            
         }
         
         public override void OnUserInfoUpdated(uint uid, UserInfo info)
@@ -177,15 +211,13 @@ public class AgoraChat : MonoBehaviour
         // OnUserJoined callback is triggered when the SDK receives and successfully decodes the first frame of remote video
         public override void OnUserJoined(RtcConnection connection, uint uid, int elapsed)
         {
-
             print("What is this");
             // Set remote video display
-            _videoSample.RemoteView.SetForUser(uid, connection.channelId, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
+       //     _videoSample.RemoteView.SetForUser(uid, connection.channelId, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
             // Start video rendering
-            _videoSample.RemoteView.SetEnable(true);
+         //   _videoSample.RemoteView.SetEnable(true);
             Debug.Log("Remote user joined" + uid);
         }
-
         // Callback triggered when a remote user leaves the current channel
         public override void OnUserOffline(RtcConnection connection, uint uid, USER_OFFLINE_REASON_TYPE reason)
         {

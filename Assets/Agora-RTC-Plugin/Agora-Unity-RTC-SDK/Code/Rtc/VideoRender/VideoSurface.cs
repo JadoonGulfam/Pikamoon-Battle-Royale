@@ -15,8 +15,8 @@ namespace Agora.Rtc
         [SerializeField] protected VideoSurfaceType VideoSurfaceType = VideoSurfaceType.Renderer;
         [SerializeField] protected bool Enable = false;
 
-        [SerializeField] protected uint Uid = 1234;
-        [SerializeField] protected string ChannelId = "pikamoon";
+        [SerializeField] public uint Uid = 0;
+        [SerializeField] public string ChannelId = "";
         [SerializeField] protected VIDEO_SOURCE_TYPE SourceType = VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA_PRIMARY;
         protected VIDEO_OBSERVER_FRAME_TYPE FrameType = VIDEO_OBSERVER_FRAME_TYPE.FRAME_TYPE_RGBA;
 
