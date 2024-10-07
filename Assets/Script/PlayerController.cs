@@ -145,10 +145,7 @@ public class PlayerController : NetworkBehaviour
    // }
 
   /*  [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    void Test2ndRPC()
-    {
-        print("Test");
-    }*/
+    */
     void Spawn_PikaMoon(int pika)
     {
         NetworkObject temp;

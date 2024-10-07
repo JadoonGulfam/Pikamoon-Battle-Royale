@@ -58,7 +58,8 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
 
 
     // [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+   // [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void DealDamageRpc()
     {
         VideoStream();
@@ -90,10 +91,7 @@ public class AgoraPlayer_SetUP : NetworkBehaviour
                 GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelfOFF();
             
             videoSurface.SetForUser(0, "");
-            
             videoSurface.SetEnable(Streamingstatus);
-         //   return 0;
-          //  }
         }
     }
 
