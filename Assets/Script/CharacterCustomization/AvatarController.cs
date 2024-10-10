@@ -146,10 +146,10 @@ namespace CharacterCustomization
         {
             eye.SetTexture("_BaseMap", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
 
-            body.materials[1].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
             body.materials[3].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
-            body.materials[0].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
-            body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
+            body.materials[5].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
+            body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
+            body.materials[4].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
         }
     }
 }

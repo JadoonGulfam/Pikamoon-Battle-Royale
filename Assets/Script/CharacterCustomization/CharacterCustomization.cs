@@ -17,7 +17,7 @@ namespace CharacterCustomization
         }
         void Start()
         {
-            blendShapes = new List<int>();
+           // blendShapes = new List<int>();
         }
 
         public void ChangeFaceBlendShapes(string _index)
@@ -25,8 +25,7 @@ namespace CharacterCustomization
             ResetBlendShapes();
             if (_index != "default")
             {
-                // characterMesh.SetBlendShapeWeight(index, 100);
-                //characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
+                characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
@@ -186,8 +185,8 @@ namespace CharacterCustomization
         private void ResetBlendShapes()
         {
             for (int i = 0; i < blendShapes.Count; i++)
-            {
-                characterCustomizationManager.avatarController.body.SetBlendShapeWeight(i, 0);
+            {                
+                characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[i], 0);
             }
         }
     }

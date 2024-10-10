@@ -63,15 +63,15 @@ namespace CharacterCustomization
                 case BodyType.SkinColor:
                     if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                     {
-                        avatarController.body.materials[1].SetColor("_BaseColor", newColor);
                         avatarController.body.materials[3].SetColor("_BaseColor", newColor);
+                        avatarController.body.materials[5].SetColor("_BaseColor", newColor);
                         currentCharacterData.skinColor = newColor;
                     }
                     break;
                 case BodyType.Lips:
                     if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                     {
-                        avatarController.body.materials[2].SetColor("_BaseColor", newColor);
+                        avatarController.body.materials[4].SetColor("_BaseColor", newColor);
                         currentCharacterData.lipsColor = newColor;
                     }
                     break;
@@ -87,7 +87,8 @@ namespace CharacterCustomization
                 case BodyType.EyebrowColor:
                     if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                     {
-                        avatarController.body.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_BaseColor", newColor);
+                        avatarController.body.GetComponent<SkinnedMeshRenderer>().materials[2].SetColor("_BaseColor", newColor);
+                        Debug.Log("111111");
                     }
                     break;
             }
