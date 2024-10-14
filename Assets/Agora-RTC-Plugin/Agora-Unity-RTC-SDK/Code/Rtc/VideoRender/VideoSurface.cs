@@ -13,15 +13,15 @@ namespace Agora.Rtc
     public class VideoSurface : MonoBehaviour
     {
         [SerializeField] protected VideoSurfaceType VideoSurfaceType = VideoSurfaceType.Renderer;
-        [SerializeField] protected bool Enable = false;
+        [SerializeField] public bool Enable = false;
 
         [SerializeField] public uint Uid = 0;
         [SerializeField] public string ChannelId = "";
-        [SerializeField] protected VIDEO_SOURCE_TYPE SourceType = VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA_PRIMARY;
+        [SerializeField] public VIDEO_SOURCE_TYPE SourceType = VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA_PRIMARY;
         protected VIDEO_OBSERVER_FRAME_TYPE FrameType = VIDEO_OBSERVER_FRAME_TYPE.FRAME_TYPE_RGBA;
 
         protected Component _renderer;
-        protected bool _needUpdateInfo = true;
+        public bool _needUpdateInfo = true;
         protected bool _hasAttach = false;
 
         protected GameObject _TextureManagerGameObject;
@@ -214,9 +214,11 @@ namespace Agora.Rtc
         public virtual void SetForUser(uint uid = 0, string channelId = "", VIDEO_SOURCE_TYPE source_type = VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA_PRIMARY)
         {
             Uid = uid;
+           // enabled = true;
             ChannelId = uid == 0 ? "" : channelId;
             SourceType = source_type;
             _needUpdateInfo = false;
+            Enable = true;
         }
 
         ///

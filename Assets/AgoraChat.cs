@@ -18,12 +18,11 @@ public class AgoraChat : MonoBehaviour
     public string _channelName = "pikamoon";
     // Fill in your Token
     public string _token = "";
-    internal VideoSurface LocalView;
-    internal VideoSurface RemoteView;
+    public VideoSurface LocalView;
     internal IRtcEngine RtcEngine;
     public uint myUId;
     //public GameObject remoteuser_;
-    public GameObject canvasAgora;
+    
 
 #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     private ArrayList permissionList = new ArrayList() { Permission.Camera, Permission.Microphone };
@@ -32,41 +31,20 @@ public class AgoraChat : MonoBehaviour
     IEnumerator Start()
     {
 
-       GameObject temp= Instantiate(canvasAgora);
-
+       
         SetupVideoSDKEngine();
         InitEventHandler();
-     //   SetupUI();
-      //  PreviewSelf();
-        yield return new WaitForSeconds(0.1f);
-        // remoteuser_.SetActive(true);
-
-        temp.transform.Find("Leave").GetComponent<Button>().onClick.AddListener(Leave);
-        //go.GetComponent<Button>().onClick.AddListener(Leave);
-        //go = GameObject.Find("Join");
-        temp.transform.Find("Join").GetComponent<Button>().onClick.AddListener(Join);
-
-
-      //  go.GetComponent<Button>().onClick.AddListener(Join);
-
-    }
-
-   // public void InitilizeAgora()
-     public void Preview_Me()
-    {
         PreviewSelf();
-    }
-
-    public void JoinRoomAgora()
-    {
-
+        yield return new WaitForSeconds(10f);
         Join();
     }
 
-    public void LeaveRoom()
-    {
-        Leave();
-    }
+   // public void InitilizeAgora()
+    
+
+    
+
+    
     void Update()
     {
         CheckPermissions();
@@ -103,7 +81,7 @@ public class AgoraChat : MonoBehaviour
         // Start local video preview
         RtcEngine.StartPreview();
         // Set local video display
-    //    LocalView.SetForUser(0, "");
+     //   LocalView.SetForUser(0, "");
         // Start rendering video
    //     LocalView.SetEnable(true);
     }
@@ -123,16 +101,7 @@ public class AgoraChat : MonoBehaviour
 
     private void SetupUI()
     {
-        GameObject go = GameObject.Find("LocalView");
-        LocalView = go.AddComponent<VideoSurface>();
-        go.transform.Rotate(0.0f, 0.0f, -180.0f);
-        go = GameObject.Find("RemoteView");
-        RemoteView = go.AddComponent<VideoSurface>();
-        go.transform.Rotate(0.0f, 0.0f, -180.0f);
-        go = GameObject.Find("Leave");
-        go.GetComponent<Button>().onClick.AddListener(Leave);
-        go = GameObject.Find("Join");
-        go.GetComponent<Button>().onClick.AddListener(Join);
+       
     }
 
     private void SetupVideoSDKEngine()
@@ -193,7 +162,7 @@ public class AgoraChat : MonoBehaviour
     // Implement your own callback class by inheriting from the IRtcEngineEventHandler interface class
     internal class UserEventHandler : IRtcEngineEventHandler
     {
-        private readonly AgoraChat _videoSample;
+        internal readonly AgoraChat _videoSample;
 
         internal UserEventHandler(AgoraChat videoSample)
         {
@@ -203,6 +172,7 @@ public class AgoraChat : MonoBehaviour
         // Callback triggered when an error occurs
         public override void OnError(int err, string msg)
         {
+
         }
 
         // Callback triggered when the local user successfully joins the channel
@@ -212,11 +182,11 @@ public class AgoraChat : MonoBehaviour
             print(connection.channelId);
             print(connection.localUid);
             //  myUId = connection.localUid;
-
-            _videoSample.myUId = connection.localUid;
-            GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().agoraStreaming_UID = connection.localUid;
-            GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().channel_ID = connection.channelId;
-          //  GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().enabled = true;
+         // _videoSample.PreviewSelf();
+          //  _videoSample.myUId = connection.localUid;
+            GameManager.instance.LocalplayerRef.GetComponent<PlayerController>().myUID = (int)connection.localUid;
+            GameManager.instance.LocalplayerRef.GetComponent<PlayerController>().isVideoCallAvailable.GetComponent<Button>().interactable = true;//  myVideoStream.SetForUser(   connection.channelId;
+            //GameManager.instance.LocalplayerRef.GetComponent<AgoraPlayer_SetUP>().enabled = true;
             
         }
         
@@ -235,10 +205,12 @@ public class AgoraChat : MonoBehaviour
          //   _videoSample.RemoteView.SetEnable(true);
             Debug.Log("Remote user joined" + uid);
         }
+
+        //public override void on
         // Callback triggered when a remote user leaves the current channel
         public override void OnUserOffline(RtcConnection connection, uint uid, USER_OFFLINE_REASON_TYPE reason)
         {
-            _videoSample.RemoteView.SetEnable(false);
+          //  _videoSample.RemoteView.SetEnable(false);
             Debug.Log("Remote user offline");
         }
     }

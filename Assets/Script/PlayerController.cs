@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 using SickscoreGames.HUDNavigationSystem;
+using Agora.Rtc;
+
 
 public class PlayerController : NetworkBehaviour
 {
@@ -25,13 +27,17 @@ public class PlayerController : NetworkBehaviour
     public string userName { get; set; } = " ";
     [Networked]
     public int myCharacterindex { get; set; } = 0;
-
- 
+    [Networked]
+    public int myUID { get; set; } = 0;
+    public VideoSurface myVideoStream;
     public DisplayItems myItems; //show items on screem
     public GameObject virtualCamera;
+    public GameObject isVideoCallAvailable;
+
     IEnumerator Start()
     {
         myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
+       
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
         ConstraintSource sc = new ConstraintSource();
         sc.weight = 1.0f;
@@ -55,6 +61,8 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
+            isVideoCallAvailable = myItems.transform.Find("Streaming").gameObject;
+            isVideoCallAvailable.GetComponent<Button>().onClick.AddListener(SetupAgoraLocal_Remote);
             GetComponent<HNSPlayerController>().enabled = true;
             myCharacterindex = GameManager.instance.myCharacter;
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
@@ -91,8 +99,37 @@ public class PlayerController : NetworkBehaviour
     private double[] _roundTripTimes = new double[100];
     private int _averageRTT;
 
+
+    void SetupAgoraLocal_Remote()
+    {
+        RpcDisplayRemoteView();
+    }
+
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+
+    void RpcDisplayRemoteView()
+    {
+        if (HasStateAuthority)
+        {
+            myVideoStream.SetForUser(0, "");
+            myVideoStream.gameObject.SetActive(true);
+            print("I am state");
+        }
+        else
+        {
+            int intValue = myUID;
+            uint uintValue = (uint)intValue;
+            myVideoStream.SetForUser(uintValue, "pikamoon", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
+            myVideoStream.gameObject.SetActive(true);
+            //  myVideoStream._needUpdateInfo = false;
+            print("I am client");
+        }
+
+    }
     private void Update()
     {
+;
+
         if (Runner != null)
         {
             _roundTripTimes[Time.frameCount % _roundTripTimes.Length] = Runner.GetPlayerRtt(PlayerRef.None);
@@ -110,9 +147,17 @@ public class PlayerController : NetworkBehaviour
                 myItems.networkPing.text = "<color=green>" + _averageRTT + " ms" + "</color>";
                 else if (_averageRTT > 180)
                     myItems.networkPing.text = "<color=red>"+ _averageRTT +  " ms" + "</color>";
-                
+
+
+            //    if (Input.GetKeyDown(KeyCode.P))
+             //       GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelf();
+               // if (Input.GetKeyDown(KeyCode.O))
+                 //   GameManager.instance.transform.GetChild(0).GetComponent<AgoraChat>().PreviewSelfOFF();
+
+
             }
         }
+      
     }
 
 

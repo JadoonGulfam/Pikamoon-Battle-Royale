@@ -182,7 +182,6 @@ GameObject:
   - component: {fileID: 5668733640816484710}
   - component: {fileID: 8396275989117354449}
   - component: {fileID: 8230806735239028362}
-  - component: {fileID: 5897609205987537271}
   m_Layer: 8
   m_Name: PlayerController Agora
   m_TagString: Player
@@ -315,7 +314,6 @@ MonoBehaviour:
   - {fileID: 4777134190489290811}
   - {fileID: 3274578323521136867}
   - {fileID: -7649945902918050967}
-  - {fileID: 5897609205987537271}
 --- !u!114 &3274578323521136867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,8 +355,11 @@ MonoBehaviour:
   pikaMoon_CharacterList: []
   _userName: ' '
   _myCharacterindex: 0
+  _myUID: 0
+  myVideoStream: {fileID: 4952920307873647811}
   myItems: {fileID: 0}
   virtualCamera: {fileID: 0}
+  isVideoCallAvailable: {fileID: 0}
 --- !u!114 &-7649945902918050967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,23 +594,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &5897609205987537271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 505059675166667281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55a347a5e61a5a64f87a178ffc606d51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerStream: {fileID: 6870234435202573969}
-  videoSurface: {fileID: 2184346638124794808}
-  channel_ID: 
-  videoStreamStatus: 0
-  _agoraStreaming_UID: 0
 --- !u!1 &672677928793979730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,14 +2461,14 @@ GameObject:
   - component: {fileID: 3791905223142810312}
   - component: {fileID: 7852826584165461180}
   - component: {fileID: 6870234435202573969}
-  - component: {fileID: 2184346638124794808}
+  - component: {fileID: 4952920307873647811}
   m_Layer: 8
   m_Name: RawImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3791905223142810312
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2539,7 +2523,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &2184346638124794808
+--- !u!114 &4952920307873647811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2554,8 +2538,9 @@ MonoBehaviour:
   VideoSurfaceType: 1
   Enable: 0
   Uid: 0
-  ChannelId: pikamoon
+  ChannelId: 
   SourceType: 0
+  _needUpdateInfo: 1
 --- !u!1 &6136767253207392112
 GameObject:
   m_ObjectHideFlags: 0

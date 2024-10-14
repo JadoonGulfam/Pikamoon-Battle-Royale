@@ -108,6 +108,8 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
         if (runner != null)
         {
             if (runner.IsCloudReady && !runner.IsConnectedToServer)
