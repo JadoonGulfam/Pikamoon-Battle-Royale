@@ -137,6 +137,9 @@ namespace CharacterCustomization
                                     case BodyType.EyeColor:
                                         applyOn.GetComponent<AvatarBodyParts>().ApplyEyeTexture(loadAd.Result as Texture2D, key);
                                         break;
+                                    case BodyType.Eyebrow:
+                                        applyOn.GetComponent<AvatarBodyParts>().ApplyEyebrowTexture(loadAd.Result as Texture2D, key);
+                                        break;
                                 }
                                 characterCustomizationManager.loader.SetActive(false);
                                 MemoryManager.AddToReferenceList(loadAd, key.ToLower());

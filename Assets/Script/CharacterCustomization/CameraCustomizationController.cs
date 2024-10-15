@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 namespace CharacterCustomization
 {
     public class CameraCustomizationController : MonoBehaviour
@@ -21,7 +22,7 @@ namespace CharacterCustomization
         public float rotationResetSpeed = 1.0f;  // Speed at which the player's rotation resets
 
         public RectTransform dragArea;           // The UI panel/area where dragging is allowed
-        public GameObject customizationPanel;    // The specific panel that controls when dragging is active
+       // public GameObject customizationPanel;    // The specific panel that controls when dragging is active
 
         private Vector3 targetPosition;
         private Quaternion targetRotation;
@@ -52,10 +53,10 @@ namespace CharacterCustomization
             mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, targetRotation, transitionSpeed * Time.deltaTime);
 
             // Check if the customization panel is open before handling drag
-            if (customizationPanel.activeSelf)
-            {
+           // if (customizationPanel.activeSelf)
+           // {
                 HandleMouseDrag();
-            }
+           // }
 
             // Smoothly reset the player rotation if needed
             if (resetRotation)
@@ -84,6 +85,11 @@ namespace CharacterCustomization
 
         void HandleMouseDrag()
         {
+            // Check if the mouse is over a UI element
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;  // Prevent dragging if the mouse is over UI
+            }
             // Check if the mouse is within the drag area (panel)
             if (IsMouseWithinDragArea())
             {

@@ -85,11 +85,11 @@ namespace CharacterCustomization
             Renderer lipsRenderer = characterCustomizationManager.avatarController.body.GetComponent<Renderer>();
             return lipsRenderer.materials[2].GetColor("_BaseColor");
         }
-        public Color GetEyebrowColor()
-        {
-            Renderer eyebrowRenderer = characterCustomizationManager.avatarController.body.GetComponent<Renderer>();
-            return eyebrowRenderer.materials[0].GetColor("_BaseColor");
-        }
+        //public Color GetEyebrowColor()
+        //{
+        //    Renderer eyebrowRenderer = characterCustomizationManager.avatarController.body.GetComponent<Renderer>();
+        //    return eyebrowRenderer.materials[0].GetColor("_BaseColor");
+        //}
         public Color GetHairColor()
         {
             Renderer hairRenderer = characterCustomizationManager.avatarController.wornHair.GetComponent<Renderer>();
@@ -109,10 +109,10 @@ namespace CharacterCustomization
                     ChangeColor(GetLipColor());
                     // outputTxt.text = ConvertColorToHex(GetLipColor());
                     break;
-                case ColorType.EyebrowColor:
-                    ChangeColor(GetEyebrowColor());
-                    //outputTxt.text = ConvertColorToHex(GetEyebrowColor());
-                    break;
+                //case ColorType.EyebrowColor:
+                //    ChangeColor(GetEyebrowColor());
+                //    //outputTxt.text = ConvertColorToHex(GetEyebrowColor());
+                //    break;
                 default:
                     break;
             }
@@ -127,9 +127,9 @@ namespace CharacterCustomization
                 case ColorType.LipsColor:
                     ChangeLipColor(_color);
                     break;
-                case ColorType.EyebrowColor:
-                    ChangeEyebrowColor(_color);
-                    break;
+                //case ColorType.EyebrowColor:
+                //    ChangeEyebrowColor(_color);
+                //    break;
                 default:
                     break;
 
@@ -149,13 +149,13 @@ namespace CharacterCustomization
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
         }
-        public void ChangeEyebrowColor(Color _color)
-        {
-            characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), BodyType.EyebrowColor);
-            characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor = _color;
-            characterCustomizationManager.save.interactable = true;
-            characterCustomizationManager.reset.interactable = true;
-        }
+        //public void ChangeEyebrowColor(Color _color)
+        //{
+        //    characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), BodyType.EyebrowColor);
+        //    characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowColor = _color;
+        //    characterCustomizationManager.save.interactable = true;
+        //    characterCustomizationManager.reset.interactable = true;
+        //}
         //Color GetCurrentColor()
         //{
         //    Color tempColor = Color.white;
@@ -197,5 +197,5 @@ namespace CharacterCustomization
 }
 public enum ColorType
 {
-    HairColor, LipsColor, EyebrowColor
+    HairColor, LipsColor
 }

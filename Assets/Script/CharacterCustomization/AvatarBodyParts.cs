@@ -55,6 +55,11 @@ namespace CharacterCustomization
             avatarController.eye.SetTexture("_BaseMap", _texture);
             currentCharacterData.eyeColor = _key;
         }
+        public void ApplyEyebrowTexture(Texture2D _texture, string _key)
+        {
+            avatarController.body.materials[2].SetTexture("_BaseMap", _texture);
+            currentCharacterData.eyeBrowShape = _key;
+        }
         public void ApplyColor(string _color, BodyType _type)
         {
             Color newColor;
@@ -84,13 +89,13 @@ namespace CharacterCustomization
                             avatarController.wornHair.GetComponent<SkinnedMeshRenderer>().materials[1].SetColor("_BaseColor", newColor);
                     }
                     break;
-                case BodyType.EyebrowColor:
-                    if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
-                    {
-                        avatarController.body.GetComponent<SkinnedMeshRenderer>().materials[2].SetColor("_BaseColor", newColor);
-                        Debug.Log("111111");
-                    }
-                    break;
+                //case BodyType.Eyebrow:
+                //    if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
+                //    {
+                //        avatarController.body.GetComponent<SkinnedMeshRenderer>().materials[2].SetColor("_BaseColor", newColor);
+                //        Debug.Log("111111");
+                //    }
+                //    break;
             }
         }
         //public void ApplyLipsColor(string color, bodyType type)

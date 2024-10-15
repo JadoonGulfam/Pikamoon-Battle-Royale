@@ -39,7 +39,7 @@ namespace CharacterCustomization
             ResetBlendShapes();
             if (_index != "default")
             {
-                // characterMesh.SetBlendShapeWeight(index, 100);
+                characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
@@ -53,7 +53,7 @@ namespace CharacterCustomization
             ResetBlendShapes();
             if (_index != "default")
             {
-                // characterMesh.SetBlendShapeWeight(index, 100);
+                characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
@@ -66,7 +66,7 @@ namespace CharacterCustomization
             ResetBlendShapes();
             if (_index != "default")
             {
-                // characterMesh.SetBlendShapeWeight(index, 100);
+                characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.noseShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
@@ -79,6 +79,7 @@ namespace CharacterCustomization
         {
             //ResetBlendShapes();
             // characterMesh.SetBlendShapeWeight(index, 100);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
             characterCustomizationManager.avatarBodyParts.currentCharacterData.armShape = _index;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
@@ -88,6 +89,7 @@ namespace CharacterCustomization
         {
             //ResetBlendShapes();
             // characterMesh.SetBlendShapeWeight(index, 100);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
             characterCustomizationManager.avatarBodyParts.currentCharacterData.legShape = _index;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
@@ -97,6 +99,7 @@ namespace CharacterCustomization
         {
             //ResetBlendShapes();
             // characterMesh.SetBlendShapeWeight(index, 100);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
             characterCustomizationManager.avatarBodyParts.currentCharacterData.torsoShape = _index;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
@@ -174,6 +177,10 @@ namespace CharacterCustomization
                         case BodyType.EyeColor:
                             characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Eyes, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeColor = _key;
+                            break;
+                        case BodyType.Eyebrow:
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Eyebrow, characterCustomizationManager.avatarController.gameObject, GenderType.male);
+                            characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowShape = _key;
                             break;
                     }
                 }

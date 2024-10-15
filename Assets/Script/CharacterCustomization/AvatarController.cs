@@ -57,6 +57,10 @@ namespace CharacterCustomization
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes != null)
                             avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, string.Empty);
                         break;
+                    case BodyPartsType.Eyebrow:
+                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow != null)
+                            avatarBodyParts.ApplyEyebrowTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
+                        break;
                     case BodyPartsType.Arms:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
                             StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
@@ -144,11 +148,11 @@ namespace CharacterCustomization
 
         public void SetDefaultTexture()
         {
-            eye.SetTexture("_BaseMap", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
+           // eye.SetTexture("_BaseMap", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
 
             body.materials[3].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
             body.materials[5].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
-            body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
+          //  body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
             body.materials[4].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
         }
     }

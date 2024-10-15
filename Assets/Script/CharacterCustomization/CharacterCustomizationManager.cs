@@ -120,9 +120,9 @@ namespace CharacterCustomization
                 {
                     //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
                 }
-                if (defaultCharacterdata.eyeBrowColor != null)
+                if (defaultCharacterdata.eyeBrowShape != null && defaultCharacterdata.eyeBrowShape != string.Empty)
                 {
-                    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.eyeBrowColor), BodyType.EyebrowColor);
+                    await Constants.downloadAddressableTexture(defaultCharacterdata.eyeBrowShape, BodyType.Eyebrow, avatarBodyParts.gameObject);
                 }
                 else
                 {
@@ -166,8 +166,11 @@ namespace CharacterCustomization
                 case BodyType.SkinColor:
                     avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.skinColor), BodyType.SkinColor);
                     break;
-                case BodyType.EyebrowColor:
-                    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.eyeBrowColor), BodyType.EyebrowColor);
+                case BodyType.Eyebrow:
+                    if (Constants.downloadAddressableTexture != null)
+                    {
+                        await Constants.downloadAddressableTexture(defaultCharacterdata.eyeBrowShape, BodyType.Eyebrow, avatarBodyParts.gameObject);
+                    }
                     break;
                 case BodyType.EyeColor:
                     if (Constants.downloadAddressableTexture != null)

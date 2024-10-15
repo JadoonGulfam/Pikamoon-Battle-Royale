@@ -47,6 +47,9 @@ namespace CharacterCustomization
                 case BodyType.EyeColor:
                     CharacterCustomization.downloadPresetTexture(currentIndex, BodyType.EyeColor);
                     break;
+                case BodyType.Eyebrow:
+                    CharacterCustomization.downloadPresetTexture(currentIndex, BodyType.Eyebrow);
+                    break;
                 case BodyType.Preset:
                     CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Preset);
                     break;
