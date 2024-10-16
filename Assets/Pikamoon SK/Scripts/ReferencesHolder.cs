@@ -9,7 +9,7 @@ namespace Pikamoon.Controller
 
         public PlayerController _playerController;
 
-        public Transform _Camera;
+        public Camera _Camera;
         void Awake()
         {
             Instance = this;

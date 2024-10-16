@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] CinemachineFreeLook BasicCam;
     [SerializeField] CinemachineFreeLook SprintCam;
+    [SerializeField] CinemachineVirtualCamera AimCam;
 
 
     private void Start()
