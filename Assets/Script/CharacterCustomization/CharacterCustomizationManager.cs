@@ -8,8 +8,7 @@ namespace CharacterCustomization
 {
     public class CharacterCustomizationManager : MonoBehaviour
     {
-        public CharacterData defaultCharacterdata;
-        public GameObject loader;
+        public CharacterData defaultCharacterdata;      
         public AvatarController avatarController;
         public AvatarBodyParts avatarBodyParts;
         public int isGuest = 0;
@@ -47,13 +46,13 @@ namespace CharacterCustomization
                 //int isGuest = PlayerPrefs.GetInt("Guest", 0) == 1 ? 1 : 0;
                 if (isGuest == 1)
                     ApplyCharacterCustomization();
-                else
-                    avatarController.SetAvatarClothDefault(avatarController.gameObject, GenderType.male);
+                else { }
+                  //  avatarController.SetAvatarClothDefault(avatarController.gameObject, GenderType.male);
             }
             else
             {
                 Debug.Log("No character customization file found at " + Application.persistentDataPath + "/characterCustom.json");
-                avatarController.SetAvatarClothDefault(avatarController.gameObject, GenderType.male);
+                //avatarController.SetAvatarClothDefault(avatarController.gameObject, GenderType.male);
             }
         }
         private async void ApplyCharacterCustomization()

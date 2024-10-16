@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,7 +10,6 @@ namespace CharacterCustomization
     public class AddressableDownloader : MonoBehaviour
     {
         public AddressableMemoryReleaser MemoryManager;
-        public CharacterCustomizationManager characterCustomizationManager;
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
@@ -27,7 +27,7 @@ namespace CharacterCustomization
         }
         IEnumerator DownloadAddressableObject(string _key, BodyType _type, GameObject _applyOn, bool _applyColor = false)
         {
-            characterCustomizationManager.loader.SetActive(true);
+            GameManager.instance.loader.SetActive(true);
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 if (!string.IsNullOrEmpty(_key))
@@ -43,7 +43,7 @@ namespace CharacterCustomization
                         if (loadAd.Status == AsyncOperationStatus.Failed)
                         {
                             Debug.Log("Fail To load");
-                            characterCustomizationManager.loader.SetActive(false);
+                            GameManager.instance.loader.SetActive(false);
                             yield break;
                         }
                         else if (loadAd.Status == AsyncOperationStatus.Succeeded)
@@ -89,7 +89,7 @@ namespace CharacterCustomization
                                         _applyOn.GetComponent<AvatarBodyParts>().ApplyLegsPreset(loadAd.Result as GameObject, _key, BodyPartsType.Legs);
                                         break;
                                 }
-                                characterCustomizationManager.loader.SetActive(false);
+                                GameManager.instance.loader.SetActive(false);
                                 MemoryManager.AddToReferenceList(loadAd, _key.ToLower());
 
                             }
@@ -101,7 +101,7 @@ namespace CharacterCustomization
         }
         async Task DownloadAddressableTexture(string key, BodyType _type, GameObject applyOn)
         {
-            characterCustomizationManager.loader.SetActive(true);
+            GameManager.instance.loader.SetActive(true);
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 if (!string.IsNullOrEmpty(key))
@@ -117,7 +117,7 @@ namespace CharacterCustomization
                         if (loadAd.Status == AsyncOperationStatus.Failed)
                         {
                             Debug.Log("Fail To load");
-                            characterCustomizationManager.loader.SetActive(false);
+                            GameManager.instance.loader.SetActive(false);
                             return;
                         }
                         else if (loadAd.Status == AsyncOperationStatus.Succeeded)
@@ -141,7 +141,7 @@ namespace CharacterCustomization
                                         applyOn.GetComponent<AvatarBodyParts>().ApplyEyebrowTexture(loadAd.Result as Texture2D, key);
                                         break;
                                 }
-                                characterCustomizationManager.loader.SetActive(false);
+                                GameManager.instance.loader.SetActive(false);
                                 MemoryManager.AddToReferenceList(loadAd, key.ToLower());
 
                             }

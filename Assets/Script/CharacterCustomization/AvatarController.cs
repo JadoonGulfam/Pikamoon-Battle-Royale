@@ -6,19 +6,21 @@ namespace CharacterCustomization
 {
     public class AvatarController : MonoBehaviour
     {
-        public DefaultClothDatabase defaultClothDatabase;
+        private DefaultClothDatabase defaultClothDatabase;
         public Stitcher stitcher;
-        public SkinnedMeshRenderer body;
-        public Material eye;
+        public SkinnedMeshRenderer body, eye;
+       // public Material eye;
         public GameObject wornHair, wornPant, wornShirt, wornShoes, wornArms, wornLegs;
         AvatarBodyParts avatarBodyParts;
         private void Awake()
         {
             stitcher = new Stitcher();
             avatarBodyParts = GetComponent<AvatarBodyParts>();
+            defaultClothDatabase = GetComponent<DefaultClothDatabase>();
         }
         void Start()
         {
+            SetAvatarClothDefault(this.gameObject, GenderType.male);
         }
 
         public void SetAvatarClothDefault(GameObject applyOn, GenderType _gender)
