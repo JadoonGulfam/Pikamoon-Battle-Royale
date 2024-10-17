@@ -17,7 +17,8 @@ using UnityEngine.UI;
     [SerializeField] private Text _description;
     private NetworkId _id;
     private NetworkObjectStat _stat;
-    
+    private FusionNetworkObjectStatsGraphCombine _combineParentGraph;
+
     public override void UpdateGraph(NetworkRunner runner, FusionStatisticsManager statisticsManager, ref DateTime now) {
       AddValueToBuffer(GetNetworkObjectStatValue(statisticsManager), ref now);
     }
@@ -52,16 +53,15 @@ using UnityEngine.UI;
       float threshold1 = 0, threshold2 = 0, threshold3 = 0;
       float valueTextMultiplier = 1;
       bool ignoreZeroOnAverage = false, ignoreZeroOnBuffer = false;
-      TimeSpan bufferTimeSpan = TimeSpan.Zero;
-      TimeSpan refreshTimeSpan = TimeSpan.Zero;
+      int accumulateTimeMs = 0;
 
       switch (stat) {
         
         case NetworkObjectStat.InBandwidth:
         case NetworkObjectStat.OutBandwidth:
           valueTextFormat = "{0:0} B";
-          bufferTimeSpan = TimeSpan.FromSeconds(1);
-          refreshTimeSpan = TimeSpan.FromMilliseconds(50);
+          accumulateTimeMs = 1000;
+          _description.text += " (Per second)";
           break;
         case NetworkObjectStat.AverageInPacketSize:
         case NetworkObjectStat.AverageOutPacketSize:
@@ -73,8 +73,8 @@ using UnityEngine.UI;
         case NetworkObjectStat.InPackets:
         case NetworkObjectStat.OutPackets:
           valueTextFormat = "{0:0}";
-          bufferTimeSpan = TimeSpan.FromSeconds(1);
-          refreshTimeSpan = TimeSpan.FromMilliseconds(50);
+          accumulateTimeMs = 1000;
+          _description.text += " (Per second)";
           break;
           
         default:
@@ -86,7 +86,7 @@ using UnityEngine.UI;
       SetValueTextMultiplier(valueTextMultiplier);
       SetThresholds(threshold1, threshold2, threshold3);
       SetIgnoreZeroValues(ignoreZeroOnAverage, ignoreZeroOnBuffer);
-      Initialize(bufferTimeSpan, refreshTimeSpan);
+      Initialize(accumulateTimeMs);
     }
   }
 }

@@ -457,11 +457,6 @@
             <seealso href="https://github.com/nxrighthere/NanoSockets/blob/master/Source/Native/nanosockets.h#L213"/>
             </summary>
         </member>
-        <member name="F:Fusion.Sockets.NetConfig.DefaultMtu">
-            <summary>
-            default Maximum Transmission Unit
-            </summary>
-        </member>
         <member name="F:Fusion.Sockets.NetConfig.PacketSize">
             <summary>
             UDP Packet Size in Bytes
@@ -571,24 +566,49 @@
             IPv6 header: 40 bytes, UDP header: 8 bytes, Realtime Header: 96 bytes
             </summary>
         </member>
-        <member name="F:Fusion.Sockets.NetPeer.MIN_MTU_BYTES">
+        <member name="F:Fusion.Sockets.NetPeer.MAX_MTU_BYTES_TOTAL">
+             <summary>
+             MaximumTransferUnit total bytes.
+            
+             The maximum size of bytes that can be sent in a single UDP packet.
+             </summary>
+        </member>
+        <member name="F:Fusion.Sockets.NetPeer.MAX_MTU_BYTES_PAYLOAD">
+             <summary>
+             MaximumTransferUnit payload bytes.
+            
+             The maximum number of bytes available for data(payload) in a single UDP packet.
+             </summary>
+        </member>
+        <member name="F:Fusion.Sockets.NetPeer.MAX_MTU_BITS_PAYLOAD">
+             <summary>
+             MaximumTransferUnit bits. (ipv6 header: 40 bytes, udp header: 8 bytes)
+            
+             Same as <see cref="F:Fusion.Sockets.NetPeer.MAX_MTU_BYTES_PAYLOAD"/> but in bits.
+             </summary>
+        </member>
+        <member name="F:Fusion.Sockets.NetPeer.MAX_PACKET_BYTES_PAYLOAD">
+             <summary>
+             Max packet payload size in bytes. (Considering the NetNotifyHeader size for each fragment)
+            
+             The maximum number of bytes available for data that can be fragmented into multiple packets of size <see cref="F:Fusion.Sockets.NetPeer.MAX_MTU_BYTES_PAYLOAD"/>.
+             </summary>
+        </member>
+        <member name="F:Fusion.Sockets.NetPeer.MAX_PACKET_BYTES_TOTAL">
+             <summary>
+             Max packet total size in bytes.
+            
+             The maximum number of bytes that can be fragmented into multiple packets of size <see cref="F:Fusion.Sockets.NetPeer.MAX_MTU_BYTES_TOTAL"/>.
+             </summary>
+        </member>
+        <member name="F:Fusion.Sockets.NetPeer.FRAG_MAX_COUNT">
             <summary>
-            MinimumTransferUnit bytes. 
+            Maximum number of fragments.
             </summary>
         </member>
-        <member name="F:Fusion.Sockets.NetPeer.MIN_MTU_BITS">
+        <member name="F:Fusion.Sockets.NetPeer.FRAG_END_BIT">
             <summary>
-            MinimumTransferUnit bits.
-            </summary>
-        </member>
-        <member name="F:Fusion.Sockets.NetPeer.MAX_MTU_BYTES">
-            <summary>
-            MaximumTransferUnit bytes.
-            </summary>
-        </member>
-        <member name="F:Fusion.Sockets.NetPeer.MAX_MTU_BITS">
-            <summary>
-            MaximumTransferUnit bits. (ipv6 header: 40 bytes, udp header: 8 bytes)
+            Flag for the last fragment.
             </summary>
         </member>
         <member name="M:Fusion.Sockets.NetSequencer.Distance(System.UInt64,System.UInt64)">
@@ -877,7 +897,7 @@
             <param name="data">SIP message data.</param>
             <param name="offset">Offset in data.</param>
         </member>
-        <member name="M:Fusion.Sockets.Stun.StunMessage.ParseEndPoint(System.Byte[],System.Int32@)">
+        <member name="M:Fusion.Sockets.Stun.StunMessage.ParseEndPoint(System.Byte*,System.Int32@)">
             <summary>
             Pasrses IP endpoint attribute.
             </summary>
@@ -1056,6 +1076,16 @@
             Stores the Current Fusion Serialization Version
             </summary>
         </member>
+        <member name="P:Fusion.Protocol.Message.IsValid">
+            <summary>
+            Signal if this Message is Valid or not
+            </summary>
+        </member>
+        <member name="P:Fusion.Protocol.Message.HasValidVersion">
+            <summary>
+            Signal if this Message has a valid Protocol Version and Fusion Serialization Version
+            </summary>
+        </member>
         <member name="P:Fusion.Protocol.Message.CustomData">
             <summary>
             Custom data send along side any Protocol Message
@@ -1085,12 +1115,13 @@
             </summary>
             <param name="stream">Buffer to read from or write into the data of the Message</param>
         </member>
-        <member name="M:Fusion.Protocol.Message.CheckCompability(Fusion.Protocol.ProtocolMessageVersion,System.Version)">
+        <member name="M:Fusion.Protocol.Message.CheckCompability(Fusion.Protocol.ProtocolMessageVersion,System.Version,System.Version)">
             <summary>
             Check if this Message is compatible with target versions
             </summary>
-            <param name="targetProtocolVersion">Target Protocol Message Version</param>
-            <param name="pluginSerializationVersion">Target Fusion Serialization Version</param>
+            <param name="pluginProtocolVersion">Target Protocol Message Version</param>
+            <param name="pluginVersion">Plugin Version</param>
+            <param name="sessionSerializationVersion">Target Fusion Serialization Version</param>
             <returns>True if message is compatible with versions</returns>
         </member>
         <member name="T:Fusion.Protocol.Disconnect">
@@ -1157,6 +1188,21 @@
         <member name="F:Fusion.Protocol.DisconnectReason.Error">
             <summary>
             An error occured on the Plugin
+            </summary>
+        </member>
+        <member name="P:Fusion.Protocol.DummyTrafficSync.SendInterval">
+            <summary>
+            Dummy Traffic Send Interval
+            </summary>
+        </member>
+        <member name="P:Fusion.Protocol.DummyTrafficSync.Size">
+            <summary>
+            Dummy Traffic Size
+            </summary>
+        </member>
+        <member name="P:Fusion.Protocol.DummyTrafficSync.IsValid">
+            <summary>
+            Flag to signal if the Dummy Traffic is valid
             </summary>
         </member>
         <member name="F:Fusion.Protocol.HostMigration.PeerMode">
@@ -1495,6 +1541,11 @@
             Data Event Code
             </summary>
         </member>
+        <member name="F:Fusion.Protocol.EventCodes.DUMMY">
+            <summary>
+            Dummy Event Code
+            </summary>
+        </member>
         <member name="F:Fusion.Protocol.PhotonConstants.SERVER_ACTOR_ID">
             <summary>
             Zero (0) means: if it should be the room itself (authorative event).
@@ -1529,21 +1580,6 @@
             <param name="stream">Stream containing a Protocol Message</param>
             <param name="msg">Deserialized Protocol Message</param>
             <returns>True if a Protocol Message was deserialized</returns>
-        </member>
-        <member name="T:Fusion.Protocol.Versioning">
-            <summary>
-            Versioning Information
-            </summary>
-        </member>
-        <member name="P:Fusion.Protocol.Versioning.GetCurrentVersion">
-            <summary>
-            Get the current version
-            </summary>
-        </member>
-        <member name="P:Fusion.Protocol.Versioning.GetProductVersion">
-            <summary>
-            Get the current product version
-            </summary>
         </member>
         <member name="F:Fusion.Protocol.ProtocolMessageVersion.Invalid">
             <summary>
@@ -1593,6 +1629,11 @@
         <member name="F:Fusion.Protocol.ProtocolMessageVersion.V1_5_0">
             <summary>
             Added Encryption Support
+            </summary>
+        </member>
+        <member name="F:Fusion.Protocol.ProtocolMessageVersion.V1_6_0">
+            <summary>
+            Added Dummy Traffic Support
             </summary>
         </member>
         <member name="F:Fusion.Protocol.ProtocolMessageVersion.LATEST">
