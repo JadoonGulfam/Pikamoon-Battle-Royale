@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BarkianPlayerFollowAI : NetworkBehaviour
+public class BarkianPlayerFollowAI : MonoBehaviour
 {
 
 
@@ -30,25 +30,25 @@ public class BarkianPlayerFollowAI : NetworkBehaviour
     {
 
         animator = GetComponent<Animator>();
-        if (HasStateAuthority)
-        {
+      //  if (HasStateAuthority)
+       // {
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.enabled = true;
-        }
+       // }
     }
     // Update is called once per frame
     void Update()
     {
-        if (HasStateAuthority == true)
-        {
+       // if (HasStateAuthority == true)
+       // {
          //   bool isJumping = animator.get("Slash");
             //Debug.Log("IsJumping: " + isJumping);
             // navMeshAgent.SetDestination(followMaster.position);
-              if (chkAnimTrigger)
-             {
+       //       if (chkAnimTrigger)
+        //     {
                Debug.Log("Slash is playing");
-            return;
-            }
+         //   return;
+           // }
 
             if (navMeshAgent.velocity.magnitude > 0.1f)
             {
@@ -93,7 +93,7 @@ public class BarkianPlayerFollowAI : NetworkBehaviour
                 }
                 print("Do AI thing");
             }
-        }
+        
     }
 
 
@@ -103,7 +103,6 @@ public class BarkianPlayerFollowAI : NetworkBehaviour
         return currentAnimatorState.IsName(animName);
     }
 
-    // public GameObject Eggs;
     bool chkAnimTrigger;
     IEnumerator TriggerSplash()
     {
