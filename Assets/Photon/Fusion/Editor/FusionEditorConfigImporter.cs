@@ -4,7 +4,7 @@ namespace Fusion.Editor {
   using UnityEngine;
 
   [ScriptedImporter(0, "editorconfig")]
-  public class FusionEditorConfigImporter : ScriptedImporter {
+  class FusionEditorConfigImporter : ScriptedImporter {
     public override void OnImportAsset(AssetImportContext ctx) {
       var path      = ctx.assetPath;
       var contents  = File.ReadAllText(path);

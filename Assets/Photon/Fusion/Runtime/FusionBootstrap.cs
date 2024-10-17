@@ -49,6 +49,7 @@ namespace Fusion {
       public string RoomName;
       public SceneRef InitialScene;
       public int ClientCount;
+      public bool IsShared;
 
       public override void Execute() { 
         Instance = this;
@@ -494,7 +495,12 @@ namespace Fusion {
 
       // If NDS is starting more than 1 shared or auto client, they need to use the same Session Name, otherwise, they will end up on different Rooms
       // as Fusion creates a Random Session Name when no name is passed on the args
-      if (string.IsNullOrEmpty(DefaultRoomName)) {
+      var localMultipeerCheck = (serverMode == GameMode.Shared || serverMode == GameMode.AutoHostOrClient || serverMode == GameMode.Server || serverMode == GameMode.Host) &&
+                                clientCount     > 1                                                                                                                        &&
+                                config.PeerMode == NetworkProjectConfig.PeerModes.Multiple;
+      var isMppmMainInstance = FusionMppm.Status == FusionMppmStatus.MainInstance;
+      
+      if ((localMultipeerCheck || isMppmMainInstance) && string.IsNullOrEmpty(DefaultRoomName)) {
         DefaultRoomName = Guid.NewGuid().ToString();
         Debug.Log($"Generated Session Name: {DefaultRoomName}");
       }
@@ -540,10 +546,11 @@ namespace Fusion {
         if (VirtualInstanceConnectDelay > 0) {
           yield return new WaitForSecondsRealtime(VirtualInstanceConnectDelay);
         }
-        FusionMppm.Broadcast(new StartCommand {
+        FusionMppm.MainEditor?.Send(new StartCommand {
           RoomName = DefaultRoomName,
           InitialScene = sceneRef,
-          ClientCount =  1
+          ClientCount =  1,
+          IsShared = serverMode == GameMode.Shared
         });
       }
     }
@@ -557,7 +564,7 @@ namespace Fusion {
       StartCommand.Instance = null;
       
       DefaultRoomName = command.RoomName;
-      yield return StartClients(command.ClientCount, GameMode.Client, command.InitialScene);
+      yield return StartClients(command.ClientCount, command.IsShared ? GameMode.Shared : GameMode.Client, command.InitialScene);
     }
 
     [EditorButton("Add Additional Client", EditorButtonVisibility.PlayMode)]
