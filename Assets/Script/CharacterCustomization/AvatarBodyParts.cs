@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 namespace CharacterCustomization
 {
     public class AvatarBodyParts : MonoBehaviour
@@ -52,7 +51,7 @@ namespace CharacterCustomization
         }
         public void ApplyEyeTexture(Texture2D _texture, string _key)
         {
-            avatarController.eye.SetTexture("_BaseMap", _texture);
+            avatarController.eye.material.SetTexture("_BaseMap", _texture);
             currentCharacterData.eyeColor = _key;
         }
         public void ApplyEyebrowTexture(Texture2D _texture, string _key)

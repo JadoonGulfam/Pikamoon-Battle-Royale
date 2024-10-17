@@ -1,3 +1,85 @@
+# 2.0.3
+
+## Stable
+
+### Build 858 (Sep 10, 2024)
+
+**What's New**
+
+- Flag to enable ClientServer Modes in WebGL builds
+
+**Bug Fixes**
+
+- Fixed: `FusionAddressablePrefablsPreloader.Start` return type changed from `Task` to `void`
+- Fixed: Warning in FusionAddressablePrefabsPreloader
+- Fixed: TaskManager Delay for WebGL Builds
+- Fixed: Destroyed Objects on Host Migration
+- Fixed: NetworkRunner.TryFindBehaviour Out Of Range Exception
+- Fixed: Internal Protocol Message Validation Check
+
+# 2.0.2
+
+## Stable
+
+### Build 851 (Aug 16, 2024)
+
+**Breaking Changes**
+
+- Changed the return type of NetworkSceneManagerDefault.GetAddressableScenes. The new return type (GetAddressableScenesResult) can also store a delegate to be invoked before a synchronous wait
+
+**What's New**
+
+- Behaviour statistics accessible from the NetworkRunner
+- NetworkRunner.CloudConnectionLost
+- Support to quick Reconnect and Rejoin Session
+- NetworkRunner.IsInSession
+- NetworkRunner can now get a list of objects in the area of interest for a specific player on the server
+- NetworkRunner.ReliableDataSendRate
+- Fusion Statistics simulation stats word count and word total size
+- Access to a list with all network objects in the simulation from the NetworkRunner API
+- Support for multiple Custom STUN Servers
+- Option to run simulation using DeltaTime instead of UnscaledDeltaTime
+- Warning when Shared Mode is started with a different tickrate than the Shared Mode tickrate
+- Now possible to get the available regions from NetworkRunner API
+- Lag Compensation statistics snapshot accessible from the Lag Compensation API
+- Memory statistics snapshot accessible from the NetworkRunner API to provide detailed allocation information
+- Fusion Statistics free memory stats
+
+**Changes**
+
+- Photon Cloud Ping Interval to 200ms
+- Photon Realtime SDK to 4.1.8.8
+- Review Realtime Disconnect Timeout
+- An error message is logged if a non-master client spawns a prefab with `NetworkSpawnFlags.SharedModeStateAuthMasterClient` flag or with "Is Master Client Object" selected without passing `NetworkSpawnFlags.SharedModeStateAuthLocalPlayer` flag. The prefab will be spawned regardless, but with authority set to the local player
+- Fusion Statistics panel now has an offset to make it easier to see other panels in multi-peer
+- StartGameArgs use cached regions is now default to true
+- Fusion Statistics can now be moved to world anchor object from code
+- Fusion Statistics canvas can now be resized
+
+**Bug Fixes**
+
+- Fixed: Fusion Bootstrap Multipeer Mode Session names
+- Fixed: Shared mode - RPCs sent immediately after object is spawned are no longer rejected
+- Fixed: Shared mode clients sometimes using different pairs of snapshots to interpolate different NBs on the same remote object
+- Fixed: Network Objects not following Master Client if update happens on Player Join
+- Fixed: Error when despawning an NO with nested proxy object in shared mode
+- Fixed: Fusion statistics graph shader only rendering in one eye in VR
+- Fixed: `NetworkSceneManagerDefault` timing out its addressable scenes resolution in some cases
+- Fixed: HitboxRoot throwing exception when destroyed directly
+- Fixed: Fusion statistics canvas snap back when out of screen
+- Fixed: Out of Range on NetworkBehaviour.NetworkDeserialize
+- Fixed: `NetworkObjectProviderDefault` always returns `Retry` if a returned prefab is null. This restores functionality of config's `EnqueueIncompleteSynchronousSpawns` option
+- Fixed: `NetworkPrefabTable` correctly awaits a synchronous load that follows an asynchronous one
+- Fixed: Client crashing on `InvalidOperationException: Cannot take items from an empty buffer.` (again)
+- Fixed: Parse Words greater than Word Count
+- Fixed: Scene info inconsistencies when `NetworkRunner.LoadScene` is called immediately after starting a runner
+- Fixed: `AssertException` when syncing `NetworkMecanimAnimator` without any bool parameters
+- Fixed: Failed to Forward Simulation Message to a Missing Connection
+- Fixed: Hardened ReadObjectDataIntoPtr against malformed packets
+- Fixed: Default Unity physics not being autosimulated in multi-peer
+- Fixed: MPPM now supports starting FusionBootstrap in shared mode
+- Fixed: Occasional NullRef when spawning network objects under certain conditions
+
 # 2.0.1
 
 ## Stable
