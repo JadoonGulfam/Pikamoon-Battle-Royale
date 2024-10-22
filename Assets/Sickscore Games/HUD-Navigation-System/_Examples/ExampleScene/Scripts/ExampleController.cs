@@ -43,7 +43,7 @@ namespace SickscoreGames.ExampleScene
 				targetVelocity = _transform.TransformDirection (targetVelocity) * moveSpeed;
 
 				// calculate velocity and max velocity change
-				Vector3 velocity = _rigidbody.velocity;
+				Vector3 velocity = _rigidbody.linearVelocity;
 				Vector3 velocityChange = (targetVelocity - velocity);
 				velocityChange.x = Mathf.Clamp (velocityChange.x, -8f, 8f);
 				velocityChange.z = Mathf.Clamp (velocityChange.z, -8f, 8f);
@@ -52,7 +52,7 @@ namespace SickscoreGames.ExampleScene
 
 				// jump input
 				if (Input.GetKeyDown (KeyCode.Space))
-					_rigidbody.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
+					_rigidbody.linearVelocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
 			}
 
 			// apply force to rigidbody
