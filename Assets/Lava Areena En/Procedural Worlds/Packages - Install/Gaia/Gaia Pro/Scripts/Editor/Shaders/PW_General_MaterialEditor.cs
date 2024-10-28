@@ -132,7 +132,7 @@ public class PW_General_MaterialEditor : ShaderGUI
 		var matShaderID = FindProperty("_PW_ShaderID", props);
 		if (matShaderID != null)
 		{
-			if (GraphicsSettings.renderPipelineAsset == null) // check for SRP
+			if (GraphicsSettings.defaultRenderPipeline == null) // check for SRP
 			{
 
 				var matShader = targetMat.shader.name;

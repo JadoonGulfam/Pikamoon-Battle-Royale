@@ -98,7 +98,7 @@ namespace Pikamoon.Controller
             rigidBody.isKinematic = false;
 
             this.gameObject.SetActive(_speed > 0);
-            rigidBody.velocity = transform.forward * speed;
+            rigidBody.linearVelocity = transform.forward * speed;
             collider.enabled = true;
 
             if(bulletRoutine != null)
@@ -156,7 +156,7 @@ namespace Pikamoon.Controller
                 damageable.OnDamage(damage,this.transform);
             }
 
-            rigidBody.velocity = Vector3.zero;
+            rigidBody.linearVelocity = Vector3.zero;
             rigidBody.isKinematic = true;
 
             transform.position = transform.position + transform.forward.normalized;

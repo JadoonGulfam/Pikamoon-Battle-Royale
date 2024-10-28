@@ -143,7 +143,7 @@ namespace Gaia.Pipeline.URP
         /// <param name="profile"></param>
         public static void SetPipelineAsset(UnityPipelineProfile profile)
         {
-            if (GraphicsSettings.renderPipelineAsset == null)
+            if (GraphicsSettings.defaultRenderPipeline == null)
             {
                 try
                 {
@@ -160,7 +160,7 @@ namespace Gaia.Pipeline.URP
                         pipelineAssetName = profile.m_universalPipelineProfiles.Last().m_pipelineAssetName;
                     }
 
-                    GraphicsSettings.renderPipelineAsset = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(GaiaUtils.GetAssetPath(pipelineAssetName + GaiaConstants.gaiaFileFormatAsset));
+                    GraphicsSettings.defaultRenderPipeline = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(GaiaUtils.GetAssetPath(pipelineAssetName + GaiaConstants.gaiaFileFormatAsset));
                     profile.m_pipelineSwitchUpdates = true;
                 }
                 catch (Exception e)
@@ -726,7 +726,7 @@ namespace Gaia.Pipeline.URP
                     Object.DestroyImmediate(LWRPReflections);
                 }
 
-                GraphicsSettings.renderPipelineAsset = null;
+                GraphicsSettings.defaultRenderPipeline = null;
                 QualitySettings.renderPipeline = null;
 
                 if (GaiaGlobal.Instance != null)

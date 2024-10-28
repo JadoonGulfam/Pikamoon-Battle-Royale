@@ -134,7 +134,7 @@ public class RamBuoyancy : MonoBehaviour
 
             int verticesCount = 0;
 
-            Vector3 velocity = rigidbody.velocity;
+            Vector3 velocity = rigidbody.linearVelocity;
 
             Vector3 velocityDirection = velocity.normalized;
 

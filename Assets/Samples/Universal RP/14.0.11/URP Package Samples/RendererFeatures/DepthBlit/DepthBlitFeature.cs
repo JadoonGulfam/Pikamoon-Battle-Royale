@@ -60,7 +60,7 @@ public class DepthBlitFeature : ScriptableRendererFeature
             if (m_CopyDepthMaterial == null)
                 m_CopyDepthMaterial = CoreUtils.CreateEngineMaterial(copyDepthShader);
             if (m_CopyDepthPass == null)
-                m_CopyDepthPass = new CopyDepthPass(evt_Depth, m_CopyDepthMaterial);
+                m_CopyDepthPass = new CopyDepthPass(evt_Depth, copyDepthShader);
             renderer.EnqueuePass(m_CopyDepthPass);
         }
         else

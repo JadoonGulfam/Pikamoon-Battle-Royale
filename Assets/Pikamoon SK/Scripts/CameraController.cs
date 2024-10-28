@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine;
 using DG.Tweening;
 
@@ -38,10 +38,10 @@ namespace Pikamoon.Controller
         [Space]
         [SerializeField] Cam activeCam;
         [Space]
-        [SerializeField] CinemachineFreeLook DefaultCam;
+        [SerializeField][System.Obsolete] CinemachineFreeLook DefaultCam;
         [SerializeField] CinemachineCameraOffset camOffsetter;
 
-        [SerializeField] CinemachineFreeLook SprintCam;
+        [SerializeField][System.Obsolete] CinemachineFreeLook SprintCam;
         //[SerializeField] CinemachineFreeLook AimCam;
 
         [Space]
@@ -75,7 +75,7 @@ namespace Pikamoon.Controller
         {
             //CheckIfSprinting();
 
-            camOffsetter.m_Offset = Vector3.Lerp(camOffsetter.m_Offset,aimer,Time.deltaTime * 3);
+            camOffsetter.Offset = Vector3.Lerp(camOffsetter.Offset, aimer,Time.deltaTime * 3);
             DefaultCam.m_Lens.FieldOfView = Mathf.Lerp(DefaultCam.m_Lens.FieldOfView, fov,Time.deltaTime *2);
         }
 

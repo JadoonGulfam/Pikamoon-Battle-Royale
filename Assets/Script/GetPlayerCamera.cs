@@ -1,6 +1,4 @@
-using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Cinemachine;
 
 using UnityEngine;
 using Fusion;
@@ -20,6 +18,8 @@ public class GetPlayerCamera : NetworkBehaviour
 
 
     }
+
+    [System.Obsolete]
     void Start()
     {
 

@@ -442,7 +442,7 @@ namespace Gaia
 #if GAIA_CINEMACHINE
                 if (spawnedObject != null)
                 {
-                    Cinemachine.CinemachineVirtualCamera cVCam = spawnedObject.GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
+                    Unity.Cinemachine.CinemachineVirtualCamera cVCam = spawnedObject.GetComponentInChildren<Unity.Cinemachine.CinemachineVirtualCamera>();
                     if (cVCam != null)
                     {
                         cVCam.m_Lens.FarClipPlane = 2000;
