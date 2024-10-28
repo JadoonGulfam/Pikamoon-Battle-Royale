@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using SickscoreGames.HUDNavigationSystem;
 using UnityEngine;
 using UnityEngine.UI;

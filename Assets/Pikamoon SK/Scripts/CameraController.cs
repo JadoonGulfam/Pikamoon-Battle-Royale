@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using Pikamoon.Controller;
 using UnityEngine;
 namespace Pikamoon.Controller
