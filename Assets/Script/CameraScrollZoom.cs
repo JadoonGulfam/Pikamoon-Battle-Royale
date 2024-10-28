@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using System.Collections;
 using UnityEngine;
 public class CameraScrollZoom : MonoBehaviour
@@ -6,14 +6,17 @@ public class CameraScrollZoom : MonoBehaviour
     public float minDistance = 4f;
     public float maxDistance = 15f;
     public float sensitivity = 10f;
-
+    [System.Obsolete]
     private CinemachineFreeLook setDistance;
+
+    [System.Obsolete]
     IEnumerator Start()
     {
         yield return new WaitForSeconds(1.0f);
         setDistance = GetComponent<CinemachineFreeLook>();
     }
 
+    [System.Obsolete]
     void Update()
     {
         if (setDistance != null)

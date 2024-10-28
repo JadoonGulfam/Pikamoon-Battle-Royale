@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using SickscoreGames.HUDNavigationSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +11,8 @@ public class SinglePlayerController : MonoBehaviour
     public GameObject virtualCamera;
     Button Destroypika;
     Button[] PikaButtons = new Button[6];
+
+    [System.Obsolete]
     void Start()
     {
 

@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +29,8 @@ public class PlayerController : NetworkBehaviour
  
     public DisplayItems myItems; //show items on screem
     public GameObject virtualCamera;
+
+    [System.Obsolete]
     IEnumerator Start()
     {
         myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
