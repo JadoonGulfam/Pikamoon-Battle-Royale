@@ -9,11 +9,22 @@ namespace Pikamoon.Controller
 
         public PlayerController _playerController;
 
-        public Camera _Camera;
+        public CameraController _CameraController;
         void Awake()
         {
             Instance = this;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Locked ;
+
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            Cursor.visible = !focus;
+            Cursor.lockState = focus ? CursorLockMode.Locked:CursorLockMode.None;
         }
     }
+
+
 }
 

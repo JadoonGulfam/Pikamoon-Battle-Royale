@@ -65,7 +65,7 @@ namespace Pikamoon.Controller
 
                 playerController.Move(new Vector3(slideDirection.x * speed, PlayerInput.JumpVelocity, slideDirection.z * speed));
 
-                if (playerController.Velocity.magnitude <= 5)
+                if (playerController.Velocity.magnitude <= 10)
                 {
                     PlayerInput.isSliding = false;
                 }

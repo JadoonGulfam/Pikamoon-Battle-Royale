@@ -28,7 +28,8 @@ namespace Pikamoon.Controller
         [SerializeField] bool isGrounded;
         [SerializeField] Vector3 groundCheckColliderScale;
         public LayerMask groundLayer;
-
+        
+        public float Speed;
         Transform _camera;
         PlayerInput input;
 
@@ -95,7 +96,7 @@ namespace Pikamoon.Controller
             ReferencesHolder.Instance._playerController = this;
             input = ReferencesHolder.Instance._playerInput;
             characterController = this.GetComponent<CharacterController>(); 
-            _camera = ReferencesHolder.Instance._Camera.transform;
+            _camera = ReferencesHolder.Instance._CameraController.camera.transform;
 
             defaultHeight = characterController.height;
             defaultRadius = characterController.radius;

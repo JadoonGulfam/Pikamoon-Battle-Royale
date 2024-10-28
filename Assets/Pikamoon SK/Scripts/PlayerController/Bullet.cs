@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Pikamoon.Controller
@@ -9,6 +10,7 @@ namespace Pikamoon.Controller
         [Space]
         [SerializeField] Rigidbody rigidBody;
         [SerializeField] Collider collider;
+        [SerializeField] float disableAfter;
 
         [Space]
         [Header("Particles")]
@@ -16,14 +18,19 @@ namespace Pikamoon.Controller
         [SerializeField] ParticleSystem ProjectileFlash;
         [SerializeField] ParticleSystem HitParticle;
 
+        Coroutine bulletRoutine;
+
         IDamageable damageable;
         float damage;
         float speed;
+        bool isShooted;
 
         private void OnEnable()
         {
+            HitParticle.transform.parent = transform;
             HitParticle.transform.localPosition = Vector3.zero;
             HitParticle.transform.localRotation = Quaternion.identity;
+
         }
 
 
@@ -56,10 +63,10 @@ namespace Pikamoon.Controller
 
         public void Shoot(Vector3 spawnpoint, Vector3 AimPosition, float _speed, float Damage)
         {
-            this.gameObject.SetActive(false);
-            rigidBody.velocity = Vector3.zero;
+            gameObject.SetActive(false);
             transform.position = spawnpoint;
             rigidBody.isKinematic = true;
+            
 
             damage = Damage;
             speed = _speed;
@@ -93,27 +100,74 @@ namespace Pikamoon.Controller
             this.gameObject.SetActive(_speed > 0);
             rigidBody.velocity = transform.forward * speed;
             collider.enabled = true;
+
+            if(bulletRoutine != null)
+                StopCoroutine(bulletRoutine);
+            bulletRoutine = StartCoroutine(Disabler());
+
         }
 
-        private void OnCollisionEnter(Collision collision)
+        IEnumerator Disabler()
+        {
+            yield return new WaitForSeconds(disableAfter);
+            this.gameObject.SetActive(false);
+        }
+
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    ProjectileFlash?.gameObject.SetActive(false);
+
+        //    if (HitParticle)
+        //    {
+        //        HitParticle.transform.parent = null;
+        //        HitParticle.gameObject.SetActive(true);
+        //    }
+
+
+        //    damageable = collision.gameObject.GetComponent<IDamageable>();
+        //    if (damageable != null)
+        //    {
+        //        damageable.OnDamage(damage);
+        //    }
+            
+        //    rigidBody.velocity = Vector3.zero;
+        //    rigidBody.isKinematic = true;
+
+        //    transform.position = transform.position + transform.forward.normalized;
+
+        //    collider.enabled = false;
+        //}
+
+        private void OnTriggerEnter(Collider other)
         {
             //ProjectileFlash?.gameObject.SetActive(false);
 
-            //if (HitParticle)
-            //{
-            //    HitParticle.transform.parent = null;
-            //    HitParticle.gameObject.SetActive(true);
-            //}
-            
-            
-            //damageable = collision.gameObject.GetComponent<IDamageable>();
-            //if (damageable != null)
-            //{
-            //    damageable.OnDamage(damage);
-            //}
+
+            if (HitParticle)
+            {
+                HitParticle.transform.parent = null;
+                HitParticle.gameObject.SetActive(true);
+            }
 
 
-            //collider.enabled = false;
+            damageable = other.gameObject.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.OnDamage(damage,this.transform);
+            }
+
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.isKinematic = true;
+
+            transform.position = transform.position + transform.forward.normalized;
+
+            collider.enabled = false;
+        }
+
+        private void OnDestroy()
+        {
+            if (bulletRoutine != null)
+                StopCoroutine(bulletRoutine);
         }
     }
 }
