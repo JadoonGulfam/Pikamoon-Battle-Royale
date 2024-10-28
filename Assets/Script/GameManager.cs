@@ -7,6 +7,7 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using CharacterCustomization;
 public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 {
 
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject PlayerPrefabForSinglePlayer;
     public int myCharacter;
     public GameObject loader;
+
+    public CharacterData characterdata;
     private void Awake()
     {
         if (instance == null) { instance = this; }

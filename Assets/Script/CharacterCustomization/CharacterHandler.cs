@@ -13,14 +13,14 @@ namespace CharacterCustomization
             public GameObject avatar_parent;
             public SkinnedMeshRenderer avatar_body;
             public Animator avatar_animator;
-            public Texture DShirt_Texture, DPent_Texture, DShoe_Texture, DEye_texture, DFace_Texture, DSkin_Texture;
+            public Texture  DEye_texture, DSkin_Texture;
         }
     }
     [Serializable]
     public class AvatarDefaultClothes
     {
-        public Texture2D DefaultEyes,DefaultEyebrow;
-        public GameObject DefaultPent, DefaultShoes, DefaultShirt, DefaultHair, DefaultArms, DefaultLegs;
+        public Texture2D DefaultEyes,DefaultEyebrow, DefaultSkin;
+        public GameObject DefaultBody, DefaultHair;
         public Color DefaultSkinColor, DefaultLipsColor;
     }
     [Serializable]
@@ -31,9 +31,9 @@ namespace CharacterCustomization
         public string eyeShape;
         public string lipsShape;
         public string noseShape;
-        public float armShape;
-        public float legShape;
-        public float torsoShape;
+      // public float armShape;
+       // public float legShape;
+        public string torsoShape;
         public string hairPreset;
         public string shirtPreset;
         public string trouserPreset;
@@ -42,9 +42,9 @@ namespace CharacterCustomization
         public string legPreset;
         public string eyeColor;
         public string eyeBrowShape;
-        public Color skinColor;
+        public string skinColor;
         public Color hairColor;
-        public Color lipsColor;
+      //  public Color lipsColor;
         public string characterPreset;
         public CharacterData Clone()
         {
@@ -52,11 +52,11 @@ namespace CharacterCustomization
         }
     }
 }
-public enum BodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Shirt, Trouser, Shoes, Preset, Arms, Legs, Torso, Eyebrow, Cap  }
+public enum BodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Outfit , Preset, Torso, Eyebrow, Cap, Body  }
 public enum GenderType { male, female }
 
 public enum BodyPartsType { Chest, Hips, Hair, Feet, Arms, Legs, Eyes, Eyebrow }
-public enum SliderType
-{
-    Arms, Legs, Torso
-}
+//public enum SliderType
+//{
+//    Arms, Legs, Torso
+//}

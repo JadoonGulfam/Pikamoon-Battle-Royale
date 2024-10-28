@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;

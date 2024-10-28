@@ -77,18 +77,18 @@ namespace Fusion.Addons.Physics {
     /// <inheritdoc/>
     protected override void CaptureExtras(Rigidbody2D rb, ref NetworkRBData data) {
       data.Mass              = rb.mass;
-      data.Drag              = rb.drag;
-      data.AngularDrag       = rb.angularDrag;
-      data.LinearVelocity    = rb.velocity;
+      data.Drag              = rb.linearDamping;
+      data.AngularDrag       = rb.angularDamping;
+      data.LinearVelocity    = rb.linearVelocity;
       data.AngularVelocity2D = rb.angularVelocity;
       data.GravityScale2D    = rb.gravityScale;
     }
     /// <inheritdoc/>
     protected override void ApplyExtras(Rigidbody2D rb, ref NetworkRBData data) {
       rb.mass            = data.Mass;
-      rb.drag            = data.Drag;
-      rb.angularDrag     = data.AngularDrag;
-      rb.velocity        = data.LinearVelocity;
+      rb.linearDamping            = data.Drag;
+      rb.angularDamping     = data.AngularDrag;
+      rb.linearVelocity        = data.LinearVelocity;
       rb.angularVelocity = data.AngularVelocity.Z;
       rb.gravityScale    = data.GravityScale2D;
     }
@@ -97,7 +97,7 @@ namespace Fusion.Addons.Physics {
     public override void ResetRigidbody() {
       base.ResetRigidbody();
       var rb = _rigidbody;
-      rb.velocity        = default;
+      rb.linearVelocity        = default;
       rb.angularVelocity = default;
     }
 
@@ -111,7 +111,7 @@ namespace Fusion.Addons.Physics {
     /// <inheritdoc/>
     protected override bool IsRigidbodyBelowSleepingThresholds(Rigidbody2D rb) {
       // Linear threshold
-      if (rb.velocity.sqrMagnitude > Physics2D.linearSleepTolerance * Physics2D.linearSleepTolerance) {
+      if (rb.linearVelocity.sqrMagnitude > Physics2D.linearSleepTolerance * Physics2D.linearSleepTolerance) {
         return false;
       }
 

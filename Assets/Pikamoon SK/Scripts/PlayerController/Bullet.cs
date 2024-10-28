@@ -57,7 +57,7 @@ namespace Pikamoon.Controller
         public void Shoot(Vector3 spawnpoint, Vector3 AimPosition, float _speed, float Damage)
         {
             this.gameObject.SetActive(false);
-            rigidBody.velocity = Vector3.zero;
+            rigidBody.linearVelocity = Vector3.zero;
             transform.position = spawnpoint;
             rigidBody.isKinematic = true;
 
@@ -91,7 +91,7 @@ namespace Pikamoon.Controller
             rigidBody.isKinematic = false;
 
             this.gameObject.SetActive(_speed > 0);
-            rigidBody.velocity = transform.forward * speed;
+            rigidBody.linearVelocity = transform.forward * speed;
             collider.enabled = true;
         }
 

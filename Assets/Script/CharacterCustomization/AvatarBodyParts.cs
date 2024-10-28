@@ -69,14 +69,14 @@ namespace CharacterCustomization
                     {
                         avatarController.body.materials[3].SetColor("_BaseColor", newColor);
                         avatarController.body.materials[5].SetColor("_BaseColor", newColor);
-                        currentCharacterData.skinColor = newColor;
+                       // currentCharacterData.skinColor = newColor;
                     }
                     break;
                 case BodyType.Lips:
                     if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                     {
                         avatarController.body.materials[4].SetColor("_BaseColor", newColor);
-                        currentCharacterData.lipsColor = newColor;
+                        //currentCharacterData.lipsColor = newColor;
                     }
                     break;
                 case BodyType.Hair:

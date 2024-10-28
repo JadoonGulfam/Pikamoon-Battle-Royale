@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using System.Collections;
 using UnityEngine;
 public class CameraScrollZoom : MonoBehaviour

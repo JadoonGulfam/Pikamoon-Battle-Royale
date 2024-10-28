@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using Pikamoon.Controller;
 using UnityEngine;
 namespace Pikamoon.Controller
@@ -7,9 +7,9 @@ public class CameraController : MonoBehaviour
 {
     PlayerInput input;
 
-    [SerializeField] CinemachineFreeLook BasicCam;
-    [SerializeField] CinemachineFreeLook SprintCam;
-    [SerializeField] CinemachineVirtualCamera AimCam;
+    [SerializeField][System.Obsolete] CinemachineFreeLook BasicCam;
+    [SerializeField][System.Obsolete] CinemachineFreeLook SprintCam;
+    [SerializeField][System.Obsolete] CinemachineVirtualCamera AimCam;
 
 
     private void Start()
@@ -34,7 +34,8 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void ToggleSprintCam(bool flag)
+        [System.Obsolete]
+        public void ToggleSprintCam(bool flag)
     {
         if(flag)
         {

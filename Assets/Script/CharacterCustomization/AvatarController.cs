@@ -39,18 +39,18 @@ namespace CharacterCustomization
             {
                 switch (_type)
                 {
-                    case BodyPartsType.Hips:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, _type, _applyOn);
-                        break;
-                    case BodyPartsType.Chest:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, _type, _applyOn);
-                        break;
-                    case BodyPartsType.Feet:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes, _type, _applyOn);
-                        break;
+                    //case BodyPartsType.Hips:
+                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent != null)
+                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, _type, _applyOn);
+                    //    break;
+                    //case BodyPartsType.Chest:
+                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt != null)
+                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, _type, _applyOn);
+                    //    break;
+                    //case BodyPartsType.Feet:
+                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes != null)
+                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes, _type, _applyOn);
+                    //    break;
                     case BodyPartsType.Hair:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair != null)
                             StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
@@ -63,22 +63,22 @@ namespace CharacterCustomization
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow != null)
                             avatarBodyParts.ApplyEyebrowTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
                         break;
-                    case BodyPartsType.Arms:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
-                        else if (wornArms != null)
-                        {
-                            UnStichItem(_type);
-                        }
-                        break;
-                    case BodyPartsType.Legs:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, _type,_applyOn);
-                        else if (wornLegs != null)
-                        {
-                            UnStichItem(_type);
-                        }
-                        break;
+                    //case BodyPartsType.Arms:
+                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
+                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
+                    //    else if (wornArms != null)
+                    //    {
+                    //        UnStichItem(_type);
+                    //    }
+                    //    break;
+                    //case BodyPartsType.Legs:
+                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs != null)
+                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, _type,_applyOn);
+                    //    else if (wornLegs != null)
+                    //    {
+                    //        UnStichItem(_type);
+                    //    }
+                    //    break;
                     default:
                         break;
                 }

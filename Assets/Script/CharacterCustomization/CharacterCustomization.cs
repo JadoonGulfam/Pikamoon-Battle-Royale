@@ -17,9 +17,10 @@ namespace CharacterCustomization
         }
         void Start()
         {
-           // blendShapes = new List<int>();
+            // blendShapes = new List<int>();
         }
-
+        public void ChangeBodyBlendShapes(string _index)
+        { }
         public void ChangeFaceBlendShapes(string _index)
         {
             ResetBlendShapes();
@@ -75,31 +76,31 @@ namespace CharacterCustomization
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.noseShape = _index;
 
         }
-        public void ChangeArmsBlendShapes(float _index)
-        {
-            //ResetBlendShapes();
-            // characterMesh.SetBlendShapeWeight(index, 100);
-            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
-            characterCustomizationManager.avatarBodyParts.currentCharacterData.armShape = _index;
-            characterCustomizationManager.save.interactable = true;
-            characterCustomizationManager.reset.interactable = true;
+        //public void ChangeArmsBlendShapes(float _index)
+        //{
+        //    //ResetBlendShapes();
+        //    // characterMesh.SetBlendShapeWeight(index, 100);
+        //    characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
+        //    characterCustomizationManager.avatarBodyParts.currentCharacterData.armShape = _index;
+        //    characterCustomizationManager.save.interactable = true;
+        //    characterCustomizationManager.reset.interactable = true;
 
-        }
-        public void ChangeLegsBlendShapes(float _index)
-        {
-            //ResetBlendShapes();
-            // characterMesh.SetBlendShapeWeight(index, 100);
-            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
-            characterCustomizationManager.avatarBodyParts.currentCharacterData.legShape = _index;
-            characterCustomizationManager.save.interactable = true;
-            characterCustomizationManager.reset.interactable = true;
+        //}
+        //public void ChangeLegsBlendShapes(float _index)
+        //{
+        //    //ResetBlendShapes();
+        //    // characterMesh.SetBlendShapeWeight(index, 100);
+        //    characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
+        //    characterCustomizationManager.avatarBodyParts.currentCharacterData.legShape = _index;
+        //    characterCustomizationManager.save.interactable = true;
+        //    characterCustomizationManager.reset.interactable = true;
 
-        }
-        public void ChangeTorsoBlendShapes(float _index)
+        //}
+        public void ChangeTorsoBlendShapes(string _index)
         {
             //ResetBlendShapes();
             // characterMesh.SetBlendShapeWeight(index, 100);
-            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0], _index);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[0],int.Parse(_index));
             characterCustomizationManager.avatarBodyParts.currentCharacterData.torsoShape = _index;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
@@ -115,30 +116,30 @@ namespace CharacterCustomization
                 {
                     switch (_type)
                     {
-                        case BodyType.Trouser:
+                        case BodyType.Body:
                             characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Hips, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.trouserPreset = _key;
                             break;
-                        case BodyType.Shirt:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Chest, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.shirtPreset = _key;
-                            break;
-                        case BodyType.Shoes:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Feet, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.shoesPreset = _key;
-                            break;
+                        //case BodyType.Shirt:
+                        //    characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Chest, characterCustomizationManager.avatarController.gameObject, GenderType.male);
+                        //    characterCustomizationManager.avatarBodyParts.currentCharacterData.shirtPreset = _key;
+                        //    break;
+                        //case BodyType.Shoes:
+                        //    characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Feet, characterCustomizationManager.avatarController.gameObject, GenderType.male);
+                        //    characterCustomizationManager.avatarBodyParts.currentCharacterData.shoesPreset = _key;
+                        //    break;
                         case BodyType.Hair:
                             characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Hair, characterCustomizationManager.avatarController.gameObject, GenderType.male);
                             characterCustomizationManager.avatarBodyParts.currentCharacterData.hairPreset = _key;
                             break;
-                        case BodyType.Arms:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Arms, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.armPreset = _key;
-                            break;
-                        case BodyType.Legs:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Legs, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.legPreset = _key;
-                            break;
+                        //case BodyType.Arms:
+                        //    characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Arms, characterCustomizationManager.avatarController.gameObject, GenderType.male);
+                        //    characterCustomizationManager.avatarBodyParts.currentCharacterData.armPreset = _key;
+                        //    break;
+                        //case BodyType.Legs:
+                        //    characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Legs, characterCustomizationManager.avatarController.gameObject, GenderType.male);
+                        //    characterCustomizationManager.avatarBodyParts.currentCharacterData.legPreset = _key;
+                        //    break;
                     }
                 }
             }
@@ -192,7 +193,7 @@ namespace CharacterCustomization
         private void ResetBlendShapes()
         {
             for (int i = 0; i < blendShapes.Count; i++)
-            {                
+            {
                 characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[i], 0);
             }
         }
