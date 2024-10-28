@@ -3,17 +3,18 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public class PikamoonFollow : MonoBehaviour
 {
     public Transform followMaster;
     private NavMeshAgent navMeshAgent;
+    private Animator animator;
     private bool isFollowing = false;
-    private Animator animator; // Reference to the Animator
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); // Initialize the Animator
+        animator = GetComponent<Animator>();
         navMeshAgent.enabled = true;
     }
 
@@ -22,7 +23,10 @@ public class PikamoonFollow : MonoBehaviour
         if (isFollowing && followMaster != null)
         {
             navMeshAgent.SetDestination(followMaster.position);
-            animator.SetFloat("Move", navMeshAgent.velocity.magnitude > 0.1f ? 1 : 0); // Enable walk animation
+
+            // Smooth animation blend between walking and idle based on speed
+            float moveBlend = navMeshAgent.velocity.magnitude > 0.1f ? 1.0f : 0.0f;
+            animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 3));
         }
     }
 
@@ -34,7 +38,7 @@ public class PikamoonFollow : MonoBehaviour
     public void DisableFollowing()
     {
         isFollowing = false;
-        navMeshAgent.ResetPath(); // Reset the NavMeshAgent path when stopped
-        animator.SetFloat("Move", 0); // Stop walk animation
+        navMeshAgent.ResetPath(); // Stop the NavMeshAgent
+        animator.SetFloat("Move", 0); // Set to idle animation
     }
 }

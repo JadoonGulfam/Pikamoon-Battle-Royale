@@ -2,18 +2,35 @@ using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    // Method to handle player inputs
-    void Update()
-    {
-        // Add input handling logic here, e.g., capturing Pikamoon, releasing, etc.
-        if (Input.GetKeyDown(KeyCode.E))  // Example key to capture
-        {
-            // Call a method from PikamoonInventory to capture a Pikamoon
-        }
+    public PikamoonCommandHandler commandHandler; // Reference to the PikamoonCommandHandler
 
-        if (Input.GetKeyDown(KeyCode.Q))  // Example key to release
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F)) // Follow command
         {
-            // Call a method from PikamoonInventory to release a Pikamoon
+            commandHandler.ExecuteCommand(PikamoonCommand.Follow);
         }
+        if (Input.GetKeyDown(KeyCode.A)) // Attack command
+        {
+            Transform target = GetTargetEnemy(); // Get target enemy
+            if (target != null)
+            {
+                commandHandler.ExecuteCommand(PikamoonCommand.Attack, target);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.R)) // Roam command
+        {
+            commandHandler.ExecuteCommand(PikamoonCommand.Roam);
+        }
+        if (Input.GetKeyDown(KeyCode.E)) // Release command
+        {
+            commandHandler.ExecuteCommand(PikamoonCommand.Release);
+        }
+    }
+
+    private Transform GetTargetEnemy()
+    {
+        // Implement logic to get target enemy based on player's selection
+        return null;
     }
 }
