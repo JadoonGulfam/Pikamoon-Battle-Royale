@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 using SickscoreGames.HUDNavigationSystem;
+using Photon.Voice.Unity;
+using Photon.Voice.Fusion;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -29,6 +31,11 @@ public class PlayerController : NetworkBehaviour
  
     public DisplayItems myItems; //show items on screem
     public GameObject virtualCamera;
+
+    public GameObject voiceImageDetection;
+    private Recorder recorder;
+
+
     IEnumerator Start()
     {
         myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
@@ -51,6 +58,7 @@ public class PlayerController : NetworkBehaviour
             GetComponent<CharacterController>().enabled = false;
            // GetComponent<CameraScrollZoom>().enabled = false;
             GetComponent<PersonController>().enabled = false;
+            GetComponent<VoiceNetworkObject>().enabled = false;
 
         }
         else
@@ -65,10 +73,9 @@ public class PlayerController : NetworkBehaviour
             virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
             virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
 
-            //   GetComponent<PersonController>().enabled = true;
-            //  GetComponent<PlayerInput>().enabled = true;
+        
             userName = GameManager.instance._playerName;
-            //   StartCoroutine(SpawnTest());// userName);
+      
 
             // Temp button for pika to spawn in environment
             Transform temp = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1);
@@ -82,8 +89,16 @@ public class PlayerController : NetworkBehaviour
                 PikaButtons[x].onClick.AddListener(delegate { Spawn_PikaMoon(x); });
             }
 
+
+
+            //Recorder 
+            if (recorder == null)
+                recorder = GameManager.instance.gameObject.transform.Find("Recorder").GetComponent<Recorder>();
+            voiceImageDetection= canvasData.transform.Find("mic").gameObject;
+            GetComponent<VoiceNetworkObject>().enabled = true;
+
             //Get text for ping 
-            
+
 
         }
         canvasData.SetActive(true);
@@ -112,6 +127,20 @@ public class PlayerController : NetworkBehaviour
                     myItems.networkPing.text = "<color=red>"+ _averageRTT +  " ms" + "</color>";
                 
             }
+
+            if (recorder.VoiceDetector.Detected)
+            {
+                Debug.Log("VoiceDetected");
+                voiceImageDetection.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("VoiceDetected Failed");
+                voiceImageDetection.SetActive(false);
+            }
+
+
+
         }
     }
 
