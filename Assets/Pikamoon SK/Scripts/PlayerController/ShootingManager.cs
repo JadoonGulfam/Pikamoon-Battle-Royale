@@ -56,8 +56,9 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            if (!playerController.IsInAttack)
+            if (!playerController.IsInAttack || playerController.activeWeapon.Type != WeaponType.Ranged)
                 return;
+
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
 
@@ -85,14 +86,14 @@ namespace Pikamoon.Controller
 
         void OnZoomedAim()
         {
-            if(ActiveWeapon.Type == WeaponType.Ranged)
+            if(playerController.activeWeapon.Type == WeaponType.Ranged)
             {
                 ReferencesHolder.Instance._CameraController.ChangeAimZoom(true);
             }
         }
         void OnZoomedAimCancel()
         {
-            if (ActiveWeapon.Type == WeaponType.Ranged)
+            if (playerController.activeWeapon.Type == WeaponType.Ranged)
             {
                 ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
             }
@@ -142,7 +143,7 @@ namespace Pikamoon.Controller
 
         public void PlayFireAnimation()
         {
-            if (!AllowFire || playerController.activeWeapon.Type == WeaponType.Melee)
+            if (!AllowFire || playerController.activeWeapon.Type != WeaponType.Ranged)
                 return;
 
             playerController.IsInAttack = true;

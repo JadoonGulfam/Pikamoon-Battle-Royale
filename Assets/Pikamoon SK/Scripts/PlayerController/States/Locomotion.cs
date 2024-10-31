@@ -100,7 +100,7 @@ namespace Pikamoon.Controller
                 else
                 {
                     moveToSpeed = input.walkRunState == WalkRunState.Walking ? playerController.Data.WalkSpeed : playerController.Data.RunSpeed;
-                    moveToBlendValue = input.walkRunState == WalkRunState.Walking ? 0.4f : 1f;
+                    moveToBlendValue = input.walkRunState == WalkRunState.Walking ? 0.2f : 1f;
                 }
             }
             else

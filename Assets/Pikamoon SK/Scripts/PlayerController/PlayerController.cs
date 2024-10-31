@@ -54,8 +54,8 @@ namespace Pikamoon.Controller
         {
             get
             {
-                //return Physics.CheckBox(this.transform.position, groundCheckColliderScale, Quaternion.identity, groundLayer);
-                return characterController.isGrounded;
+                return Physics.CheckBox(this.transform.position+(Vector3.down * (groundCheckColliderScale.y/2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
+                //return characterController.isGrounded;
             }
         }
         public bool CanExitCrouch
