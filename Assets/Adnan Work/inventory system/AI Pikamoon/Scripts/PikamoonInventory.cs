@@ -9,11 +9,16 @@ public class PikamoonInventory : MonoBehaviour
     // Adds Pikamoon to the player's inventory and deactivates it in the world
     public void AddPikamoon(GameObject pikamoon)
     {
+        print("0000");
         if (!capturedPikamoons.Contains(pikamoon))
         {
+            print("111111");
             capturedPikamoons.Add(pikamoon);
+            print("22222");
             pikamoon.SetActive(false);
+            print("333333");
             Debug.Log($"Pikamoon {pikamoon.name} added to inventory.");
+            print("4444");
         }
     }
 

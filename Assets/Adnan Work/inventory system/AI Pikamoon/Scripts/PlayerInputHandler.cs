@@ -8,23 +8,23 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F)) // Follow command
         {
-            commandHandler.ExecuteCommand(PikamoonCommand.Follow);
+           // commandHandler.ExecuteCommand(PikamoonCommand.Follow);
         }
-        if (Input.GetKeyDown(KeyCode.A)) // Attack command
+        if (Input.GetKeyDown(KeyCode.Q)) // Attack command
         {
             Transform target = GetTargetEnemy(); // Get target enemy
             if (target != null)
             {
-                commandHandler.ExecuteCommand(PikamoonCommand.Attack, target);
+               // commandHandler.ExecuteCommand(PikamoonCommand.Attack, target);
             }
         }
         if (Input.GetKeyDown(KeyCode.R)) // Roam command
         {
-            commandHandler.ExecuteCommand(PikamoonCommand.Roam);
+            //commandHandler.ExecuteCommand(PikamoonCommand.Roam);
         }
         if (Input.GetKeyDown(KeyCode.E)) // Release command
         {
-            commandHandler.ExecuteCommand(PikamoonCommand.Release);
+           // commandHandler.ExecuteCommand(PikamoonCommand.Release);
         }
     }
 

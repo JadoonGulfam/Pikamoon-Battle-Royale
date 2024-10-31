@@ -16,6 +16,7 @@ public class PikamoonFollow : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.enabled = true;
+        
     }
 
     private void Update()

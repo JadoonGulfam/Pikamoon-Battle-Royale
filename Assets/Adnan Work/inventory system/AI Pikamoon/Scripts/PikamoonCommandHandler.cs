@@ -11,12 +11,17 @@ public enum PikamoonCommand
 public class PikamoonCommandHandler : MonoBehaviour
 {
     private PikamoonAI pikamoonAI;
-
+    public PikamoonInventory pikamoonInventory;
     private void Awake()
     {
         pikamoonAI = GetComponent<PikamoonAI>();
     }
 
+    private void OnMouseDown()
+    {
+        print("captured");
+        pikamoonInventory.AddPikamoon(this.gameObject);
+    }
     public void ExecuteCommand(PikamoonCommand command, Transform target = null)
     {
         if (pikamoonAI == null) return;
@@ -37,4 +42,5 @@ public class PikamoonCommandHandler : MonoBehaviour
                 break;
         }
     }
+
 }
