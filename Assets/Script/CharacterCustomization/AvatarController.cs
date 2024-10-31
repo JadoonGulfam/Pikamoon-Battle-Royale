@@ -10,7 +10,7 @@ namespace CharacterCustomization
         public Stitcher stitcher;
         public SkinnedMeshRenderer body, eye;
        // public Material eye;
-        public GameObject wornHair, wornPant, wornShirt, wornShoes, wornArms, wornLegs;
+        public GameObject wornHair, wornCloth;
         AvatarBodyParts avatarBodyParts;
         private void Awake()
         {
@@ -25,12 +25,8 @@ namespace CharacterCustomization
 
         public void SetAvatarClothDefault(GameObject applyOn, GenderType _gender)
         {
-            WearDefaultItem(BodyPartsType.Hips, applyOn.gameObject, _gender);
-            WearDefaultItem(BodyPartsType.Legs, applyOn.gameObject, _gender);
-            WearDefaultItem(BodyPartsType.Chest, applyOn.gameObject, _gender);
-            WearDefaultItem(BodyPartsType.Feet, applyOn.gameObject, _gender);
+            WearDefaultItem(BodyPartsType.Body, applyOn.gameObject, _gender);
             WearDefaultItem(BodyPartsType.Hair, applyOn.gameObject, _gender);
-            WearDefaultItem(BodyPartsType.Arms, applyOn.gameObject, _gender);
             SetDefaultTexture();
         }
         public void WearDefaultItem(BodyPartsType _type, GameObject _applyOn, GenderType _gender)
@@ -39,18 +35,10 @@ namespace CharacterCustomization
             {
                 switch (_type)
                 {
-                    //case BodyPartsType.Hips:
-                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent != null)
-                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultPent, _type, _applyOn);
-                    //    break;
-                    //case BodyPartsType.Chest:
-                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt != null)
-                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShirt, _type, _applyOn);
-                    //    break;
-                    //case BodyPartsType.Feet:
-                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes != null)
-                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultShoes, _type, _applyOn);
-                    //    break;
+                    case BodyPartsType.Body:
+                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultBody != null)
+                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultBody, _type, _applyOn);
+                        break;
                     case BodyPartsType.Hair:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair != null)
                             StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
@@ -92,33 +80,17 @@ namespace CharacterCustomization
             item = this.stitcher.Stitch(item, applyOn);
             switch (_type)
             {
-                case BodyPartsType.Chest:
-                    wornShirt = item;
-                    // wornShirt.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
-                    break;
-                case BodyPartsType.Hips:
-                    wornPant = item;
-                    // wornPant.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
-                    break;
+                case BodyPartsType.Body:
+                    wornCloth = item;
+                    wornCloth.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
+                    break;            
                 case BodyPartsType.Hair:
                     wornHair = item;
                     if (avatarBodyParts.currentCharacterData.hairColor != Color.black && applyHairColor)
                         avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), BodyType.Hair);
                     if (Constants.getColorObject != null)
                         Constants.getColorObject.Invoke();
-                    break;
-                case BodyPartsType.Feet:
-                    wornShoes = item;
-                    // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
-                    break;
-                case BodyPartsType.Arms:
-                    wornArms = item;
-                    // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
-                    break;
-                case BodyPartsType.Legs:
-                    wornLegs = item;
-                    // wornShoes.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
-                    break;
+                    break;               
             }
 
         }
@@ -127,34 +99,19 @@ namespace CharacterCustomization
         {
             switch (_type)
             {
-                case BodyPartsType.Chest:
-                    Destroy(wornShirt);
-                    break;
-                case BodyPartsType.Hips:
-                    Destroy(wornPant);
+                case BodyPartsType.Body:
+                    Destroy(wornCloth);
                     break;
                 case BodyPartsType.Hair:
                     Destroy(wornHair);
-                    break;
-                case BodyPartsType.Feet:
-                    Destroy(wornShoes);
-                    break;
-                case BodyPartsType.Arms:
-                    Destroy(wornArms);
-                    break;
-                case BodyPartsType.Legs:
-                    Destroy(wornLegs);
                     break;
             }
         }
 
         public void SetDefaultTexture()
         {
-           // eye.SetTexture("_BaseMap", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes);
-
             body.materials[3].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
             body.materials[5].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
-          //  body.materials[2].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrowColor);
             body.materials[4].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
         }
     }

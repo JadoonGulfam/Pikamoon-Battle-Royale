@@ -54,7 +54,7 @@ namespace CharacterCustomization
                     CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Preset);
                     break;
                 case BodyType.Body:
-                    CharacterCustomization.ChangeBodyBlendShapes(currentIndex);
+                    CharacterCustomization.ChangeBodyBlendShapes(int.Parse(currentIndex));
                     break;
                 //case BodyType.Shirt:
                 //    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Shirt);

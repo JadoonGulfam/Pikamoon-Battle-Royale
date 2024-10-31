@@ -19,8 +19,15 @@ namespace CharacterCustomization
         {
             // blendShapes = new List<int>();
         }
-        public void ChangeBodyBlendShapes(string _index)
-        { }
+        public void ChangeBodyBlendShapes(int _index)
+        {
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(100, _index);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(101, _index);
+            characterCustomizationManager.avatarController.body.SetBlendShapeWeight(102, _index);
+            characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(0, _index);
+            characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(1, _index);
+            characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(2, _index);
+        }
         public void ChangeFaceBlendShapes(string _index)
         {
             ResetBlendShapes();
@@ -117,8 +124,8 @@ namespace CharacterCustomization
                     switch (_type)
                     {
                         case BodyType.Body:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Hips, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.trouserPreset = _key;
+                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Body, characterCustomizationManager.avatarController.gameObject, GenderType.male);
+                            characterCustomizationManager.avatarBodyParts.currentCharacterData.clothPreset = _key;
                             break;
                         //case BodyType.Shirt:
                         //    characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Chest, characterCustomizationManager.avatarController.gameObject, GenderType.male);

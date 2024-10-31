@@ -179,7 +179,7 @@ namespace CharacterCustomization
                     break;
                 case BodyType.Body:
                     _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.torsoShape, BodyType.Body, avatarBodyParts.gameObject, false));
-                    avatarBodyParts.currentCharacterData.shirtPreset = defaultCharacterdata.shirtPreset;
+                    avatarBodyParts.currentCharacterData.clothPreset = defaultCharacterdata.clothPreset;
                     break;
                 //case BodyType.Trouser:
                 //    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.trouserPreset, BodyType.Trouser, avatarBodyParts.gameObject, false));
@@ -189,8 +189,8 @@ namespace CharacterCustomization
                 //    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoesPreset, BodyType.Shoes, avatarBodyParts.gameObject, false));
                 //    avatarBodyParts.currentCharacterData.shoesPreset = defaultCharacterdata.shoesPreset;
                 //    break;
-                case BodyType.Preset:
-                    break;
+                //case BodyType.Preset:
+                //    break;
                 //case BodyType.Arms:
                 //    //Constants.resetBlendShapes.Invoke();
                 //    //avatarController.body.SetBlendShapeWeight((int)defaultCharacterdata.armShape, 100);
@@ -201,11 +201,11 @@ namespace CharacterCustomization
                 //    //avatarController.body.SetBlendShapeWeight((int)defaultCharacterdata.legShape, 100);
                 //    //avatarBodyParts.currentCharacterData.legShape = defaultCharacterdata.legShape;
                 //    break;
-                case BodyType.Torso:
+               // case BodyType.Torso:
                     //Constants.resetBlendShapes.Invoke();
                     //avatarController.body.SetBlendShapeWeight((int)defaultCharacterdata.torsoShape, 100);
                     //avatarBodyParts.currentCharacterData.torsoShape = defaultCharacterdata.torsoShape;
-                    break;
+                //    break;
             }
             reset.interactable = false;
         }

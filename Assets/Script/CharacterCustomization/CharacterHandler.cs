@@ -35,11 +35,11 @@ namespace CharacterCustomization
        // public float legShape;
         public string torsoShape;
         public string hairPreset;
-        public string shirtPreset;
-        public string trouserPreset;
-        public string shoesPreset;
-        public string armPreset;
-        public string legPreset;
+        public string clothPreset;
+       // public string trouserPreset;
+       // public string shoesPreset;
+       // public string armPreset;
+       // public string legPreset;
         public string eyeColor;
         public string eyeBrowShape;
         public string skinColor;
@@ -55,8 +55,4 @@ namespace CharacterCustomization
 public enum BodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Outfit , Preset, Torso, Eyebrow, Cap, Body  }
 public enum GenderType { male, female }
 
-public enum BodyPartsType { Chest, Hips, Hair, Feet, Arms, Legs, Eyes, Eyebrow }
-//public enum SliderType
-//{
-//    Arms, Legs, Torso
-//}
+public enum BodyPartsType { Body, Hair, Eyes, Eyebrow }
