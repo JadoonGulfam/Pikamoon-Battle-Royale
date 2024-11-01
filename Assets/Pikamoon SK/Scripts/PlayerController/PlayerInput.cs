@@ -10,6 +10,8 @@ namespace Pikamoon.Controller
         Running
     }
     public delegate void OnAttack();
+    public delegate void OnAttackBtnDown();
+    public delegate void OnAttackBtnUp();
 
     public class PlayerInput : MonoBehaviour
     {
@@ -20,7 +22,15 @@ namespace Pikamoon.Controller
 
         protected static PlayerInput s_Instance;
         public OnAttack onAttack1_Clicked;
-        public OnAttack onAttack2_Clicked;
+        public OnAttackBtnDown onAttack1_Down;
+        public OnAttackBtnUp onAttack1_Up;
+
+
+        public OnAttack onAttack2_Clicked; 
+        public OnAttackBtnDown onAttack2_Down;
+        public OnAttackBtnUp onAttack2_Up;
+
+
 
 
         [HideInInspector]
@@ -131,6 +141,7 @@ namespace Pikamoon.Controller
                 {
                     isSliding = false;
                     isSprinting = false;
+                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
                 }
                 else if(isSprinting)
                 {
@@ -160,11 +171,23 @@ namespace Pikamoon.Controller
             if (Input.GetButtonDown("Fire1"))
             {
                 onAttack1_Clicked?.Invoke();
+                onAttack1_Down?.Invoke();
             }
+            else if (Input.GetButtonUp("Fire1"))
+            {
+                onAttack1_Up?.Invoke();
+            }
+
+
 
             if (Input.GetButtonDown("Fire2"))
             {
                 onAttack2_Clicked?.Invoke();
+                onAttack2_Down?.Invoke();
+            }
+            else if (Input.GetButtonUp("Fire2"))
+            {
+                onAttack2_Up?.Invoke();
             }
         }
 
@@ -192,13 +215,15 @@ namespace Pikamoon.Controller
         public void ToggleSprinting()
         {
             if(!isCrouching)
-                if(!isSprinting)
+                if(!isSprinting && !m_Controller.IsInAttack)
                 {
                     isSprinting = true;
+                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Sprint);
                 }
                 else
                 {
                     isSprinting = false;
+                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
                 }
         }
 
