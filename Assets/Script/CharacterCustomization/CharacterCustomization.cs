@@ -31,7 +31,7 @@ namespace CharacterCustomization
         public void ChangeFaceBlendShapes(string _index)
         {
             ResetBlendShapes();
-            if (_index != "default")
+            if (_index != "0")
             {
                 characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = _index;
@@ -45,7 +45,7 @@ namespace CharacterCustomization
         public void ChangeLipsBlendShapes(string _index)
         {
             ResetBlendShapes();
-            if (_index != "default")
+            if (_index != "0")
             {
                 characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsShape = _index;
@@ -59,7 +59,7 @@ namespace CharacterCustomization
         public void ChangeEyeBlendShapes(string _index)
         {
             ResetBlendShapes();
-            if (_index != "default")
+            if (_index != "0")
             {
                 characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeShape = _index;
@@ -72,7 +72,7 @@ namespace CharacterCustomization
         public void ChangeNoseBlendShapes(string _index)
         {
             ResetBlendShapes();
-            if (_index != "default")
+            if (_index != "0")
             {
                 characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 characterCustomizationManager.avatarBodyParts.currentCharacterData.noseShape = _index;
@@ -117,7 +117,7 @@ namespace CharacterCustomization
         {
             if (Constants.downloadAddressableObject != null)
             {
-                if (_key != "default")
+                if (_key != "0")
                     _ = StartCoroutine(Constants.downloadAddressableObject(_key, _type, characterCustomizationManager.avatarBodyParts.gameObject, false));
                 else
                 {
@@ -176,7 +176,7 @@ namespace CharacterCustomization
         {
             if (Constants.downloadAddressableTexture != null)
             {
-                if (_key != "default")
+                if (_key != "0")
                     await Constants.downloadAddressableTexture(_key, _type, characterCustomizationManager.avatarBodyParts.gameObject);
                 else
                 {
