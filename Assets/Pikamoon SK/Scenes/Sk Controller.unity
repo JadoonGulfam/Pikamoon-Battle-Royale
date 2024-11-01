@@ -13962,9 +13962,8 @@ GameObject:
   - component: {fileID: 854108400}
   - component: {fileID: 854108399}
   - component: {fileID: 854108398}
-  - component: {fileID: 854108397}
-  - component: {fileID: 854108396}
   - component: {fileID: 854108395}
+  - component: {fileID: 854108396}
   - component: {fileID: 854108394}
   m_Layer: 0
   m_Name: EllenMovementCamera
@@ -14079,7 +14078,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b,
           type: 3}
-        Gain: 0.02
+        Gain: -0.02
         LegacyInput: Mouse Y
         LegacyGain: 0.02
         CancelDeltaTime: 0
@@ -14103,46 +14102,6 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
---- !u!114 &854108397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 854108390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Modifiers:
-  - rid: 8554464379788329034
-  references:
-    version: 2
-    RefIds:
-    - rid: 8554464379788329034
-      type: {class: CinemachineFreeLookModifier/CompositionModifier, ns: Unity.Cinemachine,
-        asm: Unity.Cinemachine}
-      data:
-        Composition:
-          Top:
-            ScreenPosition: {x: 0, y: 0}
-            DeadZone:
-              Enabled: 1
-              Size: {x: 0, y: 0}
-            HardLimits:
-              Enabled: 1
-              Size: {x: 0.8, y: 0.8}
-              Offset: {x: 0, y: 0}
-          Bottom:
-            ScreenPosition: {x: 0, y: 0}
-            DeadZone:
-              Enabled: 1
-              Size: {x: 0, y: 0}
-            HardLimits:
-              Enabled: 1
-              Size: {x: 0.8, y: 0.8}
-              Offset: {x: 0, y: 0}
 --- !u!114 &854108398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14162,7 +14121,7 @@ MonoBehaviour:
       Size: {x: 0, y: 0}
     HardLimits:
       Enabled: 1
-      Size: {x: 0.8, y: 0.8}
+      Size: {x: 0.4, y: 0.4}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 0
   TargetOffset: {x: 0, y: 0, z: 0}
@@ -14803,10 +14762,10 @@ GameObject:
   m_Component:
   - component: {fileID: 887847885}
   - component: {fileID: 887847890}
-  - component: {fileID: 887847889}
   - component: {fileID: 887847888}
-  - component: {fileID: 887847887}
   - component: {fileID: 887847886}
+  - component: {fileID: 887847889}
+  - component: {fileID: 887847887}
   m_Layer: 0
   m_Name: SprintCamera
   m_TagString: Untagged
