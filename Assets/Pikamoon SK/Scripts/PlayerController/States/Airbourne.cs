@@ -70,7 +70,7 @@ namespace Pikamoon.Controller
             {
                 if (playerInput.JumpVelocity < 0)
                 {
-                    playerInput.JumpVelocity = -9.8f;
+                    playerInput.JumpVelocity = -5f;
                 }
 
                 isJumping = false;

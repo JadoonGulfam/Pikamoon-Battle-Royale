@@ -1,13 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Pikamoon.Controller;
 public class AnimationKeyEventSender : MonoBehaviour
 {
     Combat combat;
-    ShootingManager shootingManager;
+
     private void Start()
     {
         combat = GetComponentInParent<Combat>();
-        shootingManager = GetComponentInParent<ShootingManager>();
     }
 
     void GiveImapact()
@@ -25,8 +26,4 @@ public class AnimationKeyEventSender : MonoBehaviour
         combat.ToggleNextComboAttckStatus(false);
     }
 
-    public void Shoot()
-    {
-        shootingManager.ShootArrow();
-    }
 }

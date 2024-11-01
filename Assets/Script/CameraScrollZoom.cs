@@ -6,7 +6,8 @@ public class CameraScrollZoom : MonoBehaviour
     public float minDistance = 4f;
     public float maxDistance = 15f;
     public float sensitivity = 10f;
-    [System.Obsolete] private CinemachineFreeLook setDistance;
+
+    private CinemachineFreeLook setDistance;
     IEnumerator Start()
     {
         yield return new WaitForSeconds(1.0f);

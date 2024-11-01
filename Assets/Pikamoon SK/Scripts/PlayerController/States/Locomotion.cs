@@ -46,6 +46,7 @@ namespace Pikamoon.Controller
         PlayerController playerController;
         Sliding sliding;
 
+        float Speed;
         float moveToSpeed;
         float animSpeed;
         float moveToBlendValue;
@@ -56,11 +57,11 @@ namespace Pikamoon.Controller
         private void Start()
         {
             input = ReferencesHolder.Instance._playerInput;
-            _camera = ReferencesHolder.Instance._CameraController.camera.transform;
+            _camera = ReferencesHolder.Instance._Camera.transform;
             playerController = this.GetComponent<PlayerController>();
 
             moveToSpeed = 0;
-            playerController.Speed = 0;
+            Speed = 0;
             animSpeed = 0;
             moveToBlendValue = 0;
 
@@ -92,15 +93,10 @@ namespace Pikamoon.Controller
                     moveToSpeed = playerController.Data.WalkSpeed;
                     moveToBlendValue = 1;
                 }
-                else if(playerController.IsInAttack)
-                {
-                    moveToSpeed = playerController.Data.WalkSpeed;
-                    moveToBlendValue = .2f;
-                }
                 else
                 {
                     moveToSpeed = input.walkRunState == WalkRunState.Walking ? playerController.Data.WalkSpeed : playerController.Data.RunSpeed;
-                    moveToBlendValue = input.walkRunState == WalkRunState.Walking ? 0.2f : 1f;
+                    moveToBlendValue = input.walkRunState == WalkRunState.Walking ? 0.4f : 1f;
                 }
             }
             else
@@ -114,7 +110,7 @@ namespace Pikamoon.Controller
                 //moveToBlendValue = sliding.
             }
 
-            playerController.Speed = Mathf.Lerp(playerController.Speed, moveToSpeed, Time.deltaTime * Acceleration);
+            Speed = Mathf.Lerp(Speed, moveToSpeed, Time.deltaTime * Acceleration);
 
             animSpeed = Mathf.Lerp(animSpeed, moveToBlendValue, Time.deltaTime * AnimationChangeDampening);
         }
@@ -130,10 +126,9 @@ namespace Pikamoon.Controller
         void MovementAndRotationHandler()
         {
             if (input.isSliding || playerController.IsInAttack)
+            {
                 return;
-
-
-            playerController.Anim.SetFloat("YVal", 1);
+            }
 
             Vector3 direction = playerController.GetDirectionAccordingToCameraWhenMoving();
 
@@ -141,7 +136,7 @@ namespace Pikamoon.Controller
 
             
             // Always apply vertical velocity (for gravity or jumping)
-            Vector3 finalMove = new Vector3(direction.x * playerController.Speed, input.JumpVelocity, direction.z * playerController.Speed);
+            Vector3 finalMove = new Vector3(direction.x * Speed, input.JumpVelocity, direction.z * Speed);
 
             // Move the character based on calculated velocity and speed
             playerController.Move(finalMove);

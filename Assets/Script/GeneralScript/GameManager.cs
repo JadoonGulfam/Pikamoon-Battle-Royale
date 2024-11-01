@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public void SetPlayerName()
     {
 
-        myCharacter = 0;//UnityEngine.Random.Range(0,10);
+        myCharacter = 9;//UnityEngine.Random.Range(0,10);
         StartCoroutine(ConnectToLobby(userInputField.text));
 
     }
@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public void SinglePlayer()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        myCharacter = 0;
+        myCharacter = 9;
         SceneManager.LoadScene("Environment");
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
