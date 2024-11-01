@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 
   public class FusionNetworkObjectStatsGraphCombine : MonoBehaviour {
+    
     [SerializeField] private Text _titleText;
     [SerializeField] private Dropdown _statDropdown;
     [SerializeField] private NetworkObjectStat _statsToRender;

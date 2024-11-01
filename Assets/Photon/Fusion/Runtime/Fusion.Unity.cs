@@ -7,7 +7,7 @@
 #region RegisterResourcesLoader.cs
 
 // register a default loader; it will attempt to load the asset from their default paths if they happen to be Resources
-[assembly:Fusion.FusionGlobalScriptableObjectResource(typeof(Fusion.FusionGlobalScriptableObject), Order = 2000, AllowFallback = true)]
+[assembly: Fusion.FusionGlobalScriptableObjectResource(typeof(Fusion.FusionGlobalScriptableObject), Order = 2000, AllowFallback = true)]
 
 #endregion
 
@@ -25,21 +25,48 @@
 #if (FUSION_ADDRESSABLES || FUSION_ENABLE_ADDRESSABLES) && !FUSION_DISABLE_ADDRESSABLES
 namespace Fusion {
   using System;
-#if UNITY_EDITOR
-  using UnityEditor;
-#endif
   using UnityEngine;
   using UnityEngine.AddressableAssets;
   using UnityEngine.ResourceManagement.AsyncOperations;
-  using Object = UnityEngine.Object;
 
+  /// <summary>
+  /// An Addressables-based implementation of the asset source pattern. The asset is loaded from the Addressables system.
+  /// </summary>
+  /// <typeparam name="T"></typeparam>
   [Serializable]
   public partial class NetworkAssetSourceAddressable<T> where T : UnityEngine.Object {
-    public AssetReference Address;
+    
+    /// <see cref="RuntimeKey"/>
+    [Obsolete("Use RuntimeKey instead")]
+    public AssetReference Address {
+      get {
+        if (string.IsNullOrEmpty(RuntimeKey)) {
+          return default;
+        }
+        return FusionAddressablesUtils.CreateAssetReference(RuntimeKey);
+      }
+      set {
+        if (value.IsValid()) {
+          RuntimeKey = (string)value.RuntimeKey;
+        } else {
+          RuntimeKey = string.Empty;
+        }
+      }
+    }
+    
+    /// <summary>
+    /// Addressables runtime key. Can be used in any form Addressables supports, such as asset name, label, or address.
+    /// </summary>
+    [UnityAddressablesRuntimeKey]
+    public string RuntimeKey;
     
     [NonSerialized]
     private int _acquireCount;
 
+    [NonSerialized] 
+    private AsyncOperationHandle _op;
+
+    /// <inheritdoc cref="NetworkAssetSourceResource{T}.Acquire"/>
     public void Acquire(bool synchronous) {
       if (_acquireCount == 0) {
         LoadInternal(synchronous);
@@ -47,6 +74,7 @@ namespace Fusion {
       _acquireCount++;
     }
 
+    /// <inheritdoc cref="NetworkAssetSourceResource{T}.Release"/>
     public void Release() {
       if (_acquireCount <= 0) {
         throw new Exception("Asset is not loaded");
@@ -56,63 +84,66 @@ namespace Fusion {
       }
     }
 
-    public bool IsCompleted => Address.IsDone;
+    /// <inheritdoc cref="NetworkAssetSourceResource{T}.IsCompleted"/>
+    public bool IsCompleted => _op.IsDone;
 
+    /// <inheritdoc cref="NetworkAssetSourceResource{T}.WaitForResult"/>
     public T WaitForResult() {
-      Debug.Assert(Address.IsValid());
-      var op = Address.OperationHandle;
-      if (!op.IsDone) {
+      Debug.Assert(_op.IsValid());
+      if (!_op.IsDone) {
         try {
-          op.WaitForCompletion();
+          _op.WaitForCompletion();
         } catch (Exception e) when (!Application.isPlaying && typeof(Exception) == e.GetType()) {
-          Debug.LogError($"An exception was thrown when loading asset: {Address}; since this method " +
+          Debug.LogError($"An exception was thrown when loading asset: {RuntimeKey}; since this method " +
             $"was called from the editor, it may be due to the fact that Addressables don't have edit-time load support. Please use EditorInstance instead.");
           throw;
         }
       }
       
-      if (op.OperationException != null) {
-        throw new InvalidOperationException($"Failed to load asset: {Address}", op.OperationException);
+      if (_op.OperationException != null) {
+        throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}", _op.OperationException);
       }
       
-      Debug.AssertFormat(op.Result != null, "op.Result != null");
-      return ValidateResult(op.Result);
+      Debug.AssertFormat(_op.Result != null, "_op.Result != null");
+      return ValidateResult(_op.Result);
     }
     
     private void LoadInternal(bool synchronous) {
-      Debug.Assert(!Address.IsValid());
+      Debug.Assert(!_op.IsValid());
 
-      var op = Address.LoadAssetAsync<UnityEngine.Object>();
-      if (!op.IsValid()) {
-        throw new Exception($"Failed to load asset: {Address}");
+      _op = Addressables.LoadAssetAsync<UnityEngine.Object>(RuntimeKey);
+      if (!_op.IsValid()) {
+        throw new Exception($"Failed to load asset: {RuntimeKey}");
       }
-      if (op.Status == AsyncOperationStatus.Failed) {
-        throw new Exception($"Failed to load asset: {Address}", op.OperationException);
+      if (_op.Status == AsyncOperationStatus.Failed) {
+        throw new Exception($"Failed to load asset: {RuntimeKey}", _op.OperationException);
       }
       
       if (synchronous) {
-        op.WaitForCompletion();
+        _op.WaitForCompletion();
       }
     }
 
     private void UnloadInternal() {
-      if (Address.IsValid()) {
-        Address.ReleaseAsset();  
+      if (_op.IsValid()) {
+        var op = _op;
+        _op = default;
+        Addressables.Release(op);  
       }
     }
 
     private T ValidateResult(object result) {
       if (result == null) {
-        throw new InvalidOperationException($"Failed to load asset: {Address}; asset is null");
+        throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}; asset is null");
       }
       if (typeof(T).IsSubclassOf(typeof(Component))) {
         if (result is GameObject gameObject == false) {
-          throw new InvalidOperationException($"Failed to load asset: {Address}; asset is not a GameObject, but a {result.GetType()}");
+          throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}; asset is not a GameObject, but a {result.GetType()}");
         }
         
         var component = ((GameObject)result).GetComponent<T>();
         if (!component) {
-          throw new InvalidOperationException($"Failed to load asset: {Address}; asset does not contain component {typeof(T)}");
+          throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}; asset does not contain component {typeof(T)}");
         }
 
         return component;
@@ -122,30 +153,15 @@ namespace Fusion {
         return asset;
       }
       
-      throw new InvalidOperationException($"Failed to load asset: {Address}; asset is not of type {typeof(T)}, but {result.GetType()}");
+      throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}; asset is not of type {typeof(T)}, but {result.GetType()}");
     }
     
-    public string Description => "Address: " + Address.RuntimeKey;
+    /// <inheritdoc cref="NetworkAssetSourceResource{T}.Description"/>
+    public string Description => "RuntimeKey: " + RuntimeKey;
     
 #if UNITY_EDITOR
-    public T EditorInstance {
-      get {
-        var editorAsset = Address.editorAsset;
-        if (string.IsNullOrEmpty(Address.SubObjectName)) {
-          return ValidateResult(editorAsset);
-        } else {
-          var assetPath = AssetDatabase.GUIDToAssetPath(Address.AssetGUID);
-          var assets    = AssetDatabase.LoadAllAssetsAtPath(assetPath);
-          foreach (var asset in assets) {
-            if (asset.name == Address.SubObjectName) {
-              return ValidateResult(asset);
-            }
-          }
-
-          return null;
-        }
-      }
-    }
+    /// <inheritdoc cref="NetworkAssetSourceResource{T}.EditorInstance"/>
+    public T EditorInstance => (T)FusionAddressablesUtils.LoadEditorInstance(RuntimeKey);
 #endif
   }
 }
@@ -163,10 +179,21 @@ namespace Fusion {
   using Object = UnityEngine.Object;
   using UnityResources = UnityEngine.Resources;
 
+  /// <summary>
+  /// Resources-based implementation of the asset source pattern.
+  /// </summary>
+  /// <typeparam name="T"></typeparam>
   [Serializable]
   public partial class NetworkAssetSourceResource<T> where T : UnityEngine.Object {
+    
+    /// <summary>
+    /// Resource path. Note that this is a Unity resource path, not a file path.
+    /// </summary>
     [UnityResourcePath(typeof(Object))]
     public string ResourcePath;
+    /// <summary>
+    /// Sub-object name. If empty, the main object is loaded.
+    /// </summary>
     public string SubObjectName;
 
     [NonSerialized]
@@ -174,6 +201,10 @@ namespace Fusion {
     [NonSerialized]
     private int    _acquireCount;
 
+    /// <summary>
+    /// Loads the asset. In synchronous mode, the asset is loaded immediately. In asynchronous mode, the asset is loaded in the background.
+    /// </summary>
+    /// <param name="synchronous"></param>
     public void Acquire(bool synchronous) {
       if (_acquireCount == 0) {
         LoadInternal(synchronous);
@@ -181,6 +212,11 @@ namespace Fusion {
       _acquireCount++;
     }
 
+    /// <summary>
+    /// Unloads the asset. If the asset is not loaded, an exception is thrown. If the asset is loaded multiple times, it is only
+    /// unloaded when the last acquire is released.
+    /// </summary>
+    /// <exception cref="Exception"></exception>
     public void Release() {
       if (_acquireCount <= 0) {
         throw new Exception("Asset is not loaded");
@@ -190,6 +226,9 @@ namespace Fusion {
       }
     }
 
+    /// <summary>
+    /// Returns <see langword="true"/> if the asset is loaded.
+    /// </summary>
     public bool IsCompleted {
       get {
         if (_state == null) {
@@ -206,6 +245,10 @@ namespace Fusion {
       }
     }
 
+    /// <summary>
+    /// Blocks until the asset is loaded. If the asset is not loaded, an exception is thrown.
+    /// </summary>
+    /// <returns>The loaded asset</returns>
     public T WaitForResult() {
       Debug.Assert(_state != null);
       if (_state is ResourceRequest asyncOp) {
@@ -289,9 +332,15 @@ namespace Fusion {
       _state = null;
     }
     
+    /// <summary>
+    /// The description of the asset source. Used for debugging.
+    /// </summary>
     public string Description => $"Resource: {ResourcePath}{(!string.IsNullOrEmpty(SubObjectName) ? $"[{SubObjectName}]" : "")}";
     
 #if UNITY_EDITOR
+    /// <summary>
+    /// Returns the asset instance for Editor purposes. Does not call <see cref="Acquire"/>.
+    /// </summary>
     public T EditorInstance => string.IsNullOrEmpty(SubObjectName) ? UnityResources.Load<T>(ResourcePath) : LoadNamedResource(ResourcePath, SubObjectName);
 #endif
   }
@@ -304,35 +353,52 @@ namespace Fusion {
 
 namespace Fusion {
   using System;
-#if UNITY_EDITOR
-  using UnityEditor;
-#endif
-  using UnityEngine;
   using UnityEngine.Serialization;
-  using Object = UnityEngine.Object;
 
+  /// <summary>
+  /// Hard reference-based implementation of the asset source pattern. This asset source forms a hard reference to the asset and never releases it.
+  /// This type is meant to be used at runtime. For edit-time, prefer <see cref="NetworkAssetSourceStaticLazy{T}"/>, as it delays
+  /// actually loading the asset, improving the editor performance.
+  /// </summary>
+  /// <typeparam name="T"></typeparam>
   [Serializable]
   public partial class NetworkAssetSourceStatic<T> where T : UnityEngine.Object {
 
+    /// <summary>
+    /// The asset reference. Can point to an asset or to a runtime-created object.
+    /// </summary>
     [FormerlySerializedAs("Prefab")]
     public T Object;
-
+    
+    /// <see cref="Object"/>
     [Obsolete("Use Asset instead")]
     public T Prefab {
       get => Object;
       set => Object = value;
     }
     
+    /// <summary>
+    /// Returns <see langword="true"/>.
+    /// </summary>
     public bool IsCompleted => true;
 
+    /// <summary>
+    /// Does nothing, the asset is always loaded.
+    /// </summary>
     public void Acquire(bool synchronous) {
       // do nothing
     }
 
+    /// <summary>
+    /// Does nothing, the asset is always loaded.
+    /// </summary>
     public void Release() {
       // do nothing
     }
 
+    /// <summary>
+    /// Returns <seealso cref="Object"/> or throws an exception if the reference is missing.
+    /// </summary>
     public T WaitForResult() {
       if (Object == null) {
         throw new InvalidOperationException("Missing static reference");
@@ -341,6 +407,7 @@ namespace Fusion {
       return Object;
     }
     
+    /// <inheritdoc cref="NetworkAssetSourceResource{T}.Description"/>
     public string Description {
       get {
         if (Object) {
@@ -357,6 +424,9 @@ namespace Fusion {
     }
     
 #if UNITY_EDITOR
+    /// <summary>
+    /// Returns <seealso cref="Object"/>.
+    /// </summary>
     public T EditorInstance => Object;
 #endif
   }
@@ -369,35 +439,45 @@ namespace Fusion {
 
 namespace Fusion {
   using System;
-#if UNITY_EDITOR
-  using UnityEditor;
-#endif
   using UnityEngine;
   using UnityEngine.Serialization;
-  using Object = UnityEngine.Object;
 
+  /// <summary>
+  /// An edit-time optimised version of <see cref="NetworkAssetSourceStatic{T}"/>, taking advantage of Unity's lazy loading of
+  /// assets. At runtime, this type behaves exactly like <see cref="NetworkAssetSourceStatic{T}"/>, except for the inability
+  /// to use runtime-created objects.
+  /// </summary>
+  /// <typeparam name="T"></typeparam>
   [Serializable]
   public partial class NetworkAssetSourceStaticLazy<T> where T : UnityEngine.Object {
     
+    /// <summary>
+    /// The asset reference. Can only point to an asset, runtime-created objects will not work.
+    /// </summary>
     [FormerlySerializedAs("Prefab")] 
     public LazyLoadReference<T> Object;
     
+    /// <inheritdoc cref="NetworkAssetSourceStatic{T}.Prefab"/>
     [Obsolete("Use Object instead")]
     public LazyLoadReference<T> Prefab {
       get => Object;
       set => Object = value;
     }
     
+    /// <inheritdoc cref="NetworkAssetSourceStatic{T}.IsCompleted"/>
     public bool IsCompleted => true;
-
+    
+    /// <inheritdoc cref="NetworkAssetSourceStatic{T}.Acquire"/>
     public void Acquire(bool synchronous) {
       // do nothing
     }
-
+    
+    /// <inheritdoc cref="NetworkAssetSourceStatic{T}.Release"/>
     public void Release() {
       // do nothing
     }
-
+    
+    /// <inheritdoc cref="NetworkAssetSourceStatic{T}.WaitForResult"/>
     public T WaitForResult() {
       if (Object.asset == null) {
         throw new InvalidOperationException("Missing static reference");
@@ -406,6 +486,7 @@ namespace Fusion {
       return Object.asset;
     }
     
+    /// <inheritdoc cref="NetworkAssetSourceStatic{T}.Description"/>
     public string Description {
       get {
         if (Object.isBroken) {
@@ -424,6 +505,7 @@ namespace Fusion {
     }
     
 #if UNITY_EDITOR
+    /// <inheritdoc cref="NetworkAssetSourceStatic{T}.EditorInstance"/>
     public T EditorInstance => Object.asset;
 #endif
   }
@@ -437,20 +519,31 @@ namespace Fusion {
 namespace Fusion {
   using System;
   using UnityEngine.Scripting;
-
 #if (FUSION_ADDRESSABLES || FUSION_ENABLE_ADDRESSABLES) && !FUSION_DISABLE_ADDRESSABLES 
   using UnityEngine.AddressableAssets;
   using UnityEngine.ResourceManagement.AsyncOperations;
 #endif
   
+  /// <summary>
+  /// If applied at the assembly level, allows <see cref="FusionGlobalScriptableObject{T}"/> to be loaded with Addressables.
+  /// </summary>
   [Preserve]
   public class FusionGlobalScriptableObjectAddressAttribute : FusionGlobalScriptableObjectSourceAttribute {
+    /// <param name="objectType">The type this attribute will attempt to load.</param>
+    /// <param name="address">The address to load from.</param>
     public FusionGlobalScriptableObjectAddressAttribute(Type objectType, string address) : base(objectType) {
       Address = address;
     }
 
+    /// <summary>
+    /// The address to load from.
+    /// </summary>
     public string Address { get; }
     
+    /// <summary>
+    /// Loads the asset from the <see cref="Address"/>. Uses WaitForCompletion internally, so platforms that do not support it need
+    /// to preload the address prior to loading.
+    /// </summary>
     public override FusionGlobalScriptableObjectLoadResult Load(Type type) {
 #if (FUSION_ADDRESSABLES || FUSION_ENABLE_ADDRESSABLES) && !FUSION_DISABLE_ADDRESSABLES
       Assert.Check(!string.IsNullOrEmpty(Address));
@@ -479,22 +572,38 @@ namespace Fusion {
 
 namespace Fusion {
   using System;
-  using System.Diagnostics.CodeAnalysis;
   using System.IO;
   using System.Reflection;
   using UnityEngine;
   using UnityEngine.Scripting;
   using Object = UnityEngine.Object;
   
+  /// <summary>
+  /// If applied at the assembly level, allows <see cref="FusionGlobalScriptableObject{T}"/> to be loaded with Resources.
+  /// There is a default registration for this attribute, which attempts to load the asset from Resources using path from
+  /// <see cref="FusionGlobalScriptableObjectAttribute"/>.
+  /// </summary>
   [Preserve]
   public class FusionGlobalScriptableObjectResourceAttribute : FusionGlobalScriptableObjectSourceAttribute {
+    /// <param name="objectType">The type this attribute will attempt to load.</param>
+    /// <param name="resourcePath">Resources path or <see langword="null"/>/empty if path from <see cref="FusionGlobalScriptableObjectAttribute"/>
+    /// is to be used.</param>
     public FusionGlobalScriptableObjectResourceAttribute(Type objectType, string resourcePath = "") : base(objectType) {
       ResourcePath = resourcePath;
     }
     
+    /// <summary>
+    /// Path in Resources.
+    /// </summary>
     public string ResourcePath { get; }
+    /// <summary>
+    /// If loaded in the editor, should the result be instantiated instead of returning the asset itself? The default is <see langword="true"/>. 
+    /// </summary>
     public bool InstantiateIfLoadedInEditor { get; set; } = true;
     
+    /// <summary>
+    /// Loads the asset from Resources synchronously.
+    /// </summary>
     public override FusionGlobalScriptableObjectLoadResult Load(Type type) {
       
       var attribute = type.GetCustomAttribute<FusionGlobalScriptableObjectAttribute>();
@@ -1071,19 +1180,39 @@ namespace Fusion {
   using System.Text.RegularExpressions;
   using UnityEngine;
 
+  /// <summary>
+  /// Extends capabilities of <see cref="JsonUtility"/> by adding type annotations to the serialized JSON, Unity object reference
+  /// handling and integer enquotement.
+  /// </summary>
   public static class JsonUtilityExtensions {
     
+    /// <see cref="JsonUtilityExtensions.FromJsonWithTypeAnnotation"/>
     public delegate Type TypeResolverDelegate(string typeName);
+    /// <see cref="JsonUtilityExtensions.ToJsonWithTypeAnnotation(object,Fusion.JsonUtilityExtensions.InstanceIDHandlerDelegate)"/>
     public delegate string TypeSerializerDelegate(Type type);
+    /// <see cref="JsonUtilityExtensions.ToJsonWithTypeAnnotation(object,Fusion.JsonUtilityExtensions.InstanceIDHandlerDelegate)"/>
     public delegate string InstanceIDHandlerDelegate(object context, int value);
     
     private const string TypePropertyName = "$type";
 
+    /// <summary>
+    /// Enquotes integers in the JSON string that are at least <paramref name="minDigits"/> long. This is useful for parsers that
+    /// interpret large integers as floating point numbers.
+    /// </summary>
+    /// <param name="json">JSON to process</param>
+    /// <param name="minDigits">Digit threshold to perfom the enquoting</param>
+    /// <returns><paramref name="json"/> with long integers enquoted.</returns>
     public static string EnquoteIntegers(string json, int minDigits = 8) {
       var result = Regex.Replace(json, $@"(?<="":\s*)(-?[0-9]{{{minDigits},}})(?=[,}}\n\r\s])", "\"$1\"", RegexOptions.Compiled);
       return result;
     }
 
+    /// <summary>
+    /// Converts the object to JSON with type annotations.
+    /// </summary>
+    /// <param name="obj">Object to be serialized.</param>
+    /// <param name="instanceIDHandler">Handler for UnityEngine.Object references. If the handler returns an empty string,
+    /// the reference is removed from the final result.</param>
     public static string ToJsonWithTypeAnnotation(object obj, InstanceIDHandlerDelegate instanceIDHandler = null) {
       var sb = new StringBuilder(1000);
       using (var writer = new StringWriter(sb)) {
@@ -1092,6 +1221,16 @@ namespace Fusion {
       return sb.ToString();
     }
 
+    /// <summary>
+    /// Converts the object/IList to JSON with type annotations.
+    /// </summary>
+    /// <param name="obj">Object to be serialized.</param>
+    /// <param name="writer">The output TextWriter.</param>
+    /// <param name="integerEnquoteMinDigits"><see cref="EnquoteIntegers"/></param>
+    /// <param name="typeSerializer">Handler for obtaining serialized type names. If <see langword="null"/>, the short assembly
+    /// qualified name (namespace + name + assembly name) will be used.</param>
+    /// <param name="instanceIDHandler">Handler for UnityEngine.Object references. If the handler returns an empty string,
+    /// the reference is removed from the final result.</param>
     public static void ToJsonWithTypeAnnotation(object obj, TextWriter writer, int? integerEnquoteMinDigits = null, TypeSerializerDelegate typeSerializer = null, InstanceIDHandlerDelegate instanceIDHandler = null) {
       if (obj == null) {
         writer.Write("null");
@@ -1115,7 +1254,12 @@ namespace Fusion {
     }
     
     
-    
+    /// <summary>
+    /// Converts JSON with type annotation to an instance of <typeparamref name="T"/>. If the JSON contains type annotations, they need to match
+    /// the expected result type. If there are no type annotations, use <paramref name="typeResolver"/> to return the expected type.
+    /// </summary>
+    /// <param name="json">JSON to be parsed</param>
+    /// <param name="typeResolver">Converts type name to a type instance.</param>
     public static T FromJsonWithTypeAnnotation<T>(string json, TypeResolverDelegate typeResolver = null) {
       if (typeof(T).IsArray) {
         var listType = typeof(List<>).MakeGenericType(typeof(T).GetElementType());
@@ -1136,6 +1280,11 @@ namespace Fusion {
       return (T)FromJsonWithTypeAnnotationInternal(json, typeResolver);
     }
 
+    /// <summary>
+    /// Converts JSON with type annotation. If there are no type annotations, use <paramref name="typeResolver"/> to return the expected type.
+    /// </summary>
+    /// <param name="json">JSON to be parsed</param>
+    /// <param name="typeResolver">Converts type name to a type instance.</param>
     public static object FromJsonWithTypeAnnotation(string json, TypeResolverDelegate typeResolver = null) {
       Assert.Check(json != null);
 
@@ -1377,10 +1526,120 @@ namespace Fusion {
     
     [Serializable]
     private class TypeNameWrapper {
+#pragma warning disable CS0649 // Set by serialization
+      // ReSharper disable once InconsistentNaming
       public string __TypeName;
+#pragma warning restore CS0649
     }
   }
 }
+
+#endregion
+
+
+#region FusionAddressablesUtils.cs
+
+#if (FUSION_ADDRESSABLES || FUSION_ENABLE_ADDRESSABLES) && !FUSION_DISABLE_ADDRESSABLES
+namespace Fusion {
+  using System;
+  using UnityEngine.AddressableAssets;
+  using Object = UnityEngine.Object;
+
+  /// <summary>
+  /// Utility class for addressables.
+  /// </summary>
+  public static class FusionAddressablesUtils {
+    /// <summary>
+    /// Tries to parse the address into main part and sub object name.
+    /// </summary>
+    /// <param name="address">The address to parse.</param>
+    /// <param name="mainPart">The main part of the address.</param>
+    /// <param name="subObjectName">The sub object name.</param>
+    /// <returns><see langword="true"/> if the address is successfully parsed; otherwise, <see langword="false"/>.</returns>
+    public static bool TryParseAddress(string address, out string mainPart, out string subObjectName) {
+      if (string.IsNullOrEmpty(address)) {
+        mainPart = null;
+        subObjectName = null;
+        return false;
+      }
+
+      var indexOfSquareBracket = address.IndexOf('[');
+      var indexOfClosingSquareBracket = address.IndexOf(']');
+
+      // addresses can only use square brackets for sub object names
+      // so only such usage is valid:
+      // - mainAddress[SubObjectName]
+      // this is not valid:
+      // - mainAddress[SubObjectName
+      // - mainAddressSubObjectName]
+      // - mainAddress[SubObjectName]a
+      // - mainAddress[]
+      if ((indexOfSquareBracket == 0) ||
+          (indexOfSquareBracket < 0 && (indexOfClosingSquareBracket >= 0)) ||
+          (indexOfSquareBracket > 0 && (indexOfClosingSquareBracket != address.Length - 1)) ||
+          (indexOfSquareBracket > 0 && (indexOfClosingSquareBracket - indexOfSquareBracket <= 1))) {
+        mainPart = default;
+        subObjectName = default;
+        return false;
+      }
+
+      if (indexOfSquareBracket < 0) {
+        mainPart = address;
+        subObjectName = default;
+        return true;
+      }
+
+      mainPart = address.Substring(0, indexOfSquareBracket);
+      subObjectName = address.Substring(indexOfSquareBracket + 1, address.Length - indexOfSquareBracket - 2);
+      return true;
+    }
+
+    /// <summary>
+    /// Creates an asset reference from the given address.
+    /// </summary>
+    /// <param name="address">The address to create the asset reference from.</param>
+    /// <returns>The created asset reference.</returns>
+    /// <exception cref="System.ArgumentException">Thrown when the main part of the address is not a guid or the address is not valid.</exception>
+    public static AssetReference CreateAssetReference(string address) {
+      if (TryParseAddress(address, out var mainPart, out var subObjectName)) {
+        if (System.Guid.TryParse(mainPart, out _)) {
+          // ok, the main part is a guid, can create asset reference
+          return new AssetReference(mainPart) {
+            SubObjectName = subObjectName,
+          };
+        } else {
+          throw new System.ArgumentException($"The main part of the address is not a guid: {mainPart}", nameof(address));
+        }
+      } else {
+        throw new System.ArgumentException($"Not a valid address: {address}", nameof(address));
+      }
+    }
+
+#if UNITY_EDITOR
+    private static Func<string, Object> s_loadEditorInstance;
+
+    /// <summary>
+    /// Loads the editor instance for the given runtime key.
+    /// </summary>
+    /// <param name="runtimeKey">The runtime key.</param>
+    /// <returns>The loaded editor instance.</returns>
+    /// <exception cref="System.InvalidOperationException">Thrown when the load editor instance handler is not set.</exception>
+    public static Object LoadEditorInstance(string runtimeKey) {
+      Assert.Check(s_loadEditorInstance != null, $"Call {nameof(SetLoadEditorInstanceHandler)} before using this method");
+      return s_loadEditorInstance(runtimeKey);
+    }
+
+    /// <summary>
+    /// Sets the load editor instance handler.
+    /// </summary>
+    /// <param name="loadEditorInstance">The load editor instance handler.</param>
+    public static void SetLoadEditorInstanceHandler(Func<string, Object> loadEditorInstance) {
+      s_loadEditorInstance = loadEditorInstance;
+    }
+#endif
+  }
+}
+#endif
 
 #endregion
 
@@ -1389,20 +1648,22 @@ namespace Fusion {
 
 namespace Fusion {
   using System;
-  using System.Collections.Generic;
   using System.Diagnostics;
+  using JetBrains.Annotations;
+#if FUSION_ENABLE_MPPM
+  using System.Collections.Generic;
   using System.IO;
   using System.Linq;
   using System.Text.RegularExpressions;
   using System.Threading;
-  using System.Threading.Tasks;
-  using UnityEngine;
-  using Debug = UnityEngine.Debug;
-#if FUSION_ENABLE_MPPM && UNITY_EDITOR
   using UnityEditor;
+#if UNITY_EDITOR
   using UnityEditor.MPE;
 #endif
-
+  using UnityEngine;
+  using Debug = UnityEngine.Debug;
+#endif
+  
   // ReSharper disable once IdentifierTypo
   /// <summary>
   /// The current status of MPPM. If the package is not enabled, this will always be <see cref="FusionMppmStatus.Disabled"/>.
@@ -1413,7 +1674,7 @@ namespace Fusion {
     /// </summary>
     Disabled,
     /// <summary>
-    /// This instance is the main instance. Can use <see cref="FusionMppm.Broadcast{T}"/> to send commands.
+    /// This instance is the main instance. Can use <see cref="FusionMppm.Send{T}"/> to send commands.
     /// </summary>
     MainInstance,
     /// <summary>
@@ -1430,56 +1691,62 @@ namespace Fusion {
   [InitializeOnLoad]
 #endif
   // ReSharper disable once IdentifierTypo
-  public static partial class FusionMppm {
+  public partial class FusionMppm {
     
+    /// <summary>
+    /// The current status of MPPM.
+    /// </summary>
     public static readonly FusionMppmStatus Status = FusionMppmStatus.Disabled;
     
+    /// <summary>
+    /// If <see cref="Status"/> is <see cref="FusionMppmStatus.MainInstance"/>, this static field can be used to send commands.
+    /// </summary>
+    [CanBeNull]
+    public static readonly FusionMppm MainEditor = null;
+
+    /// <summary>
+    /// Sends a command to all virtual instances. Use as:
+    /// <code>FusionMppm.MainEditor?.Send</code>
+    /// </summary>
+    /// <param name="data"></param>
+    /// <typeparam name="T"></typeparam>
+    [Conditional("UNITY_EDITOR")]
+    public void Send<T>(T data) where T : FusionMppmCommand {
+#if FUSION_ENABLE_MPPM && UNITY_EDITOR
+      Assert.Check(Status == FusionMppmStatus.MainInstance, "Only the main instance can send commands");
+      BroadcastInternal(data);
+#endif
+    }
+
+    
+    /// <summary>
+    /// Broadcasts a command to all virtual instances.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="data"></param>
 #if FUSION_ENABLE_MPPM
     [Conditional("UNITY_EDITOR")]
 #else
     [Conditional("FUSION_ENABLE_MPPM")]
 #endif
+    [Obsolete("Use FusionMppm.Broadcaster?.Send instead")]
     public static void Broadcast<T>(T data) where T : FusionMppmCommand {
-#if FUSION_ENABLE_MPPM && UNITY_EDITOR
-      Assert.Check(Status == FusionMppmStatus.MainInstance, "Only the main instance can send commands");
-      
-      var guid = Guid.NewGuid().ToString();
-      var wrapper = new CommandWrapper() {
-        Guid = guid,
-        Data = data
-      };
-      
-      var str = JsonUtility.ToJson(wrapper);
-      var bytes = System.Text.Encoding.UTF8.GetBytes(str);
-      
-      FusionEditorLog.TraceMppm($"Broadcasting command {str}");
-      ChannelService.BroadcastBinary(s_MPEChannelId, bytes);
+      MainEditor?.Send(data);
+    }
 
-      var persistentKey = data.PersistentKey;
-      if (!string.IsNullOrEmpty(persistentKey)) {
-        var fileName = $"{s_invalidFileCharactersRegex.Replace(persistentKey, "_")}.json";
-        var filePath = Path.Combine(s_persistentCommandsFolderPath, fileName);
-        FusionEditorLog.TraceMppm($"Saving persistent command to {filePath}");
-        File.WriteAllText(filePath, str);
-      }
+    private FusionMppm() {
       
-      if (data.NeedsAck) {
-        // well, we need to wait
-        var channels = ChannelService.GetChannelClientList();
-        // how many acks do we need?
-        var numAcks = channels.Count(x => x.name == s_MPEChannelName);
-        WaitForAcks(numAcks, guid);
-      }
-#endif
     }
     
 #if FUSION_ENABLE_MPPM && UNITY_EDITOR
     private static readonly string s_mainInstancePath = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
-    private static readonly string s_persistentCommandsFolderPath = "Temp/FusionMppm";
-    private static readonly string s_MPEChannelName = "FusionMppm";
-    private static readonly int s_MPEChannelId = ChannelService.ChannelNameToId(s_MPEChannelName);
-    private static List<(int connectionId, string guid)> s_acks = new List<(int, string)>();
-    private static readonly Regex s_invalidFileCharactersRegex = new Regex(string.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(new string(Path.GetInvalidFileNameChars()))));
+    
+    private const string PersistentCommandsFolderPath = "Temp/FusionMppm";
+    private const string MpeChannelName = "FusionMppm";
+    
+    private readonly int _mpeChannelId = ChannelService.ChannelNameToId(MpeChannelName);
+    private readonly List<(int connectionId, string guid)> _acks = new List<(int, string)>();
+    private readonly Regex _invalidFileCharactersRegex = new Regex(string.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(new string(Path.GetInvalidFileNameChars()))));
     
     static FusionMppm() {
       
@@ -1494,41 +1761,35 @@ namespace Fusion {
       FusionEditorLog.TraceMppm($"Status: {Status}, MainInstancePath: {s_mainInstancePath}");
       
       if (Status == FusionMppmStatus.MainInstance) {
+        
+        MainEditor = new FusionMppm();
         // set up MPE channel
-        var disconnect = ChannelService.GetOrCreateChannel(s_MPEChannelName, (connectionId, data) => {
-          var json = System.Text.Encoding.UTF8.GetString(data);
-          var message = JsonUtility.FromJson<AckMessage>(json);
-          lock (s_acks) {
-            s_acks.Add((connectionId, message.Guid));
-          }
-          FusionEditorLog.TraceMppm($"Received ack {json}");
-        });
+        var disconnect = ChannelService.GetOrCreateChannel(MpeChannelName, MainEditor.ReceiveAck);
         Debug.Assert(disconnect != null);
         
         // ... but since new instances need to e.g. receive all the dependency hashes, set up a folder;
         // it needs to be cleared on every Unity start but survive between domain reloads
-        string folderOwnedKey = $"Owns_{s_persistentCommandsFolderPath}";
+        string folderOwnedKey = $"Owns_{PersistentCommandsFolderPath}";
         
-        if (Directory.Exists(s_persistentCommandsFolderPath) && !SessionState.GetBool(folderOwnedKey, false)) {
-          FusionEditorLog.TraceMppm($"Deleting leftover files from {s_persistentCommandsFolderPath}");
-          foreach (var file in Directory.GetFiles(s_persistentCommandsFolderPath)) {
+        if (Directory.Exists(PersistentCommandsFolderPath) && !SessionState.GetBool(folderOwnedKey, false)) {
+          FusionEditorLog.TraceMppm($"Deleting leftover files from {PersistentCommandsFolderPath}");
+          foreach (var file in Directory.GetFiles(PersistentCommandsFolderPath)) {
             File.Delete(file);
           }
         }
         
-        if (!Directory.Exists(s_persistentCommandsFolderPath)) {
-          FusionEditorLog.TraceMppm($"Creating command folder {s_persistentCommandsFolderPath}");
-          Directory.CreateDirectory(s_persistentCommandsFolderPath);
+        if (!Directory.Exists(PersistentCommandsFolderPath)) {
+          FusionEditorLog.TraceMppm($"Creating command folder {PersistentCommandsFolderPath}");
+          Directory.CreateDirectory(PersistentCommandsFolderPath);
         }
         SessionState.SetBool(folderOwnedKey, true);
         
       } else {
         // where is the main instance located?
         s_mainInstancePath = Application.dataPath.Substring(0, indexOfMppmPrefix);
-        s_persistentCommandsFolderPath = Path.Combine(s_mainInstancePath, s_persistentCommandsFolderPath);
         
         // start the MPE client to await commands
-        var client = ChannelClient.GetOrCreateClient(s_MPEChannelName);
+        var client = ChannelClient.GetOrCreateClient(MpeChannelName);
         client.Start(true);
         var disconnect = client.RegisterMessageHandler(data => {
           var json = System.Text.Encoding.UTF8.GetString(data);
@@ -1549,8 +1810,9 @@ namespace Fusion {
         Debug.Assert(disconnect != null);
         
         // read persistent commands from the main instance
-        Debug.Assert(Directory.Exists(s_persistentCommandsFolderPath));
-        foreach (var file in Directory.GetFiles(s_persistentCommandsFolderPath, "*.json")) {
+        var mainInstanceCommandsFolderPath = Path.Combine(s_mainInstancePath, PersistentCommandsFolderPath);
+        Debug.Assert(Directory.Exists(mainInstanceCommandsFolderPath));
+        foreach (var file in Directory.GetFiles(mainInstanceCommandsFolderPath, "*.json")) {
           var json = File.ReadAllText(file);
           var wrapper = JsonUtility.FromJson<CommandWrapper>(json);
           FusionEditorLog.TraceMppm($"Received persistent command {wrapper.Data}");
@@ -1559,17 +1821,58 @@ namespace Fusion {
       }
     }
     
-    private static void WaitForAcks(int numAcks, string guid) {
+    private void BroadcastInternal<T>(T data) where T : FusionMppmCommand {
+      Assert.Check(Status == FusionMppmStatus.MainInstance, "Only the main instance can send commands");
+      
+      var guid = Guid.NewGuid().ToString();
+      var wrapper = new CommandWrapper() {
+        Guid = guid,
+        Data = data
+      };
+      
+      var str   = JsonUtility.ToJson(wrapper);
+      var bytes = System.Text.Encoding.UTF8.GetBytes(str);
+      
+      FusionEditorLog.TraceMppm($"Broadcasting command {str}");
+      ChannelService.BroadcastBinary(_mpeChannelId, bytes);
+
+      var persistentKey = data.PersistentKey;
+      if (!string.IsNullOrEmpty(persistentKey)) {
+        var fileName = $"{_invalidFileCharactersRegex.Replace(persistentKey, "_")}.json";
+        var filePath = Path.Combine(PersistentCommandsFolderPath, fileName);
+        FusionEditorLog.TraceMppm($"Saving persistent command to {filePath}");
+        File.WriteAllText(filePath, str);
+      }
+      
+      if (data.NeedsAck) {
+        // well, we need to wait
+        var channels = ChannelService.GetChannelClientList();
+        // how many acks do we need?
+        var numAcks = channels.Count(x => x.name == MpeChannelName);
+        WaitForAcks(numAcks, guid);
+      }
+    }
+    
+    private void ReceiveAck(int connectionId, byte[] data) {
+      var json    = System.Text.Encoding.UTF8.GetString(data);
+      var message = JsonUtility.FromJson<AckMessage>(json);
+      lock (_acks) {
+        _acks.Add((connectionId, message.Guid));
+      }
+      FusionEditorLog.TraceMppm($"Received ack {json}");
+    }
+    
+    private void WaitForAcks(int numAcks, string guid) {
       var timer   = Stopwatch.StartNew();
       var timeout = TimeSpan.FromSeconds(2);
       
       FusionEditorLog.TraceMppm($"Waiting for {numAcks} acks for {guid}");
       
       while (timer.Elapsed < timeout) {
-        for (int i = 0; numAcks > 0 && i < s_acks.Count; i++) {
-          var ack = s_acks[i];
+        for (int i = 0; numAcks > 0 && i < _acks.Count; i++) {
+          var ack = _acks[i];
           if (ack.guid == guid) {
-            s_acks.RemoveAt(i);
+            _acks.RemoveAt(i);
             numAcks--;
               
             FusionEditorLog.TraceMppm($"Received ack for {guid} from {ack.connectionId}, {numAcks} left");
@@ -1628,28 +1931,42 @@ namespace Fusion {
 
 #region FusionMppmRegisterCustomDependencyCommand.cs
 
+#if UNITY_EDITOR
 namespace Fusion {
   using System;
   using UnityEngine;
 
-#if UNITY_EDITOR
+  /// <summary>
+  /// A command implementing a workaround for MPPM not syncing custom dependencies.
+  /// </summary>
   [Serializable]
   public class FusionMppmRegisterCustomDependencyCommand : FusionMppmCommand {
+    /// <summary>
+    /// Name of the custom dependency.
+    /// </summary>
     public string DependencyName;
+    /// <summary>
+    /// Hash of the custom dependency.
+    /// </summary>
     public string Hash;
       
+    /// <inheritdoc cref="FusionMppmCommand.NeedsAck"/>
     public override bool NeedsAck => true;
 
+    /// <inheritdoc cref="FusionMppmCommand.PersistentKey"/>
     public override string PersistentKey => $"Dependency_{DependencyName}";
       
+    /// <summary>
+    /// Registers a custom dependency with the given name and hash.
+    /// </summary>
     public override void Execute() {
       FusionEditorLog.TraceMppm($"Registering custom dependency {DependencyName} with hash {Hash}");
       var hash = Hash128.Parse(Hash);
       UnityEditor.AssetDatabase.RegisterCustomDependency(DependencyName, hash);
     }
   }
-#endif
 }
+#endif
 
 #endregion
 
@@ -1657,8 +1974,13 @@ namespace Fusion {
 #region FusionUnityExtensions.cs
 
 namespace Fusion {
+#if UNITY_2022_1_OR_NEWER && !UNITY_2022_2_OR_NEWER
   using UnityEngine;
+#endif
 
+  /// <summary>
+  /// Provides backwards compatibility for Unity API.
+  /// </summary>
   public static class FusionUnityExtensions {
     
     #region New Find API
@@ -2191,14 +2513,16 @@ namespace Fusion.Statistics {
   using UnityEngine;
 
   internal static class FusionStatisticsHelper {
-    internal static void GetStatGraphDefaultSettings(RenderSimStats stat, out string valueTextFormat, out float valueTextMultiplier, out bool ignoreZeroOnAverage, out bool ignoreZeroOnBuffer, out TimeSpan bufferTimeSpan, out TimeSpan refreshTimeSpan) {
+    public const float DEFAULT_GRAPH_HEIGHT = 150F;
+    public const float DEFAULT_HEADER_HEIGHT = 50F;
+    
+    internal static void GetStatGraphDefaultSettings(RenderSimStats stat, out string valueTextFormat, out float valueTextMultiplier, out bool ignoreZeroOnAverage, out bool ignoreZeroOnBuffer, out int accumulateTimeMs) {
 
       valueTextFormat = "{0:0}";
       valueTextMultiplier = 1f;
       ignoreZeroOnAverage = false; 
       ignoreZeroOnBuffer = false;
-      bufferTimeSpan = TimeSpan.Zero; // Default is every update, so span zero.
-      refreshTimeSpan = TimeSpan.Zero; // Default is every update, so span zero.
+      accumulateTimeMs = 0; // Default is every update, so zero.
       
       switch (stat) {
             case RenderSimStats.InPackets:
@@ -2206,8 +2530,7 @@ namespace Fusion.Statistics {
             case RenderSimStats.InObjectUpdates:
             case RenderSimStats.OutObjectUpdates:
               valueTextFormat = "{0:0}";
-              bufferTimeSpan = TimeSpan.FromSeconds(1);
-              refreshTimeSpan = TimeSpan.FromMilliseconds(50);
+              accumulateTimeMs = 1000;
               break;
             
             case RenderSimStats.RTT:
@@ -2221,8 +2544,7 @@ namespace Fusion.Statistics {
             case RenderSimStats.InputInBandwidth:
             case RenderSimStats.InputOutBandwidth:
               valueTextFormat = "{0:0} B";
-              bufferTimeSpan = TimeSpan.FromSeconds(1);
-              refreshTimeSpan = TimeSpan.FromMilliseconds(50);
+              accumulateTimeMs = 1000;
               break;
             
             case RenderSimStats.AverageInPacketSize:
@@ -2256,7 +2578,22 @@ namespace Fusion.Statistics {
             
             case RenderSimStats.GeneralAllocatedMemoryInUse:
             case RenderSimStats.ObjectsAllocatedMemoryInUse:
+            case RenderSimStats.ObjectsAllocatedMemoryFree:
+            case RenderSimStats.GeneralAllocatedMemoryFree:
               valueTextFormat = "{0:0} B";
+              break;
+            
+            case RenderSimStats.WordsWrittenCount:
+            case RenderSimStats.WordsReadCount:
+              valueTextFormat = "{0:0}";
+              ignoreZeroOnBuffer = true;
+              accumulateTimeMs = 1000;
+              break;
+            case RenderSimStats.WordsWrittenSize:
+            case RenderSimStats.WordsReadSize:
+              valueTextFormat = "{0:0} B";
+              ignoreZeroOnBuffer = true;
+              accumulateTimeMs = 1000;
               break;
             
             default:
@@ -2298,6 +2635,18 @@ namespace Fusion.Statistics {
               return simulationStatsSnapshot.ObjectsAllocMemoryUsedInBytes;
             case RenderSimStats.GeneralAllocatedMemoryInUse:
               return simulationStatsSnapshot.GeneralAllocMemoryUsedInBytes;
+            case RenderSimStats.ObjectsAllocatedMemoryFree:
+              return simulationStatsSnapshot.ObjectsAllocMemoryFreeInBytes;
+            case RenderSimStats.GeneralAllocatedMemoryFree:
+              return simulationStatsSnapshot.GeneralAllocMemoryFreeInBytes;
+            case RenderSimStats.WordsWrittenCount:
+              return simulationStatsSnapshot.WordsWrittenCount;
+            case RenderSimStats.WordsWrittenSize:
+              return simulationStatsSnapshot.WordsWrittenSize;
+            case RenderSimStats.WordsReadCount:
+              return simulationStatsSnapshot.WordsReadCount;
+            case RenderSimStats.WordsReadSize:
+              return simulationStatsSnapshot.WordsReadSize;
             
             // Time stats
             case RenderSimStats.InputReceiveDelta:
@@ -2333,6 +2682,7 @@ namespace Fusion.Statistics {
   using System.Globalization;
 
   public abstract partial class FusionStatsGraphBase : MonoBehaviour {
+    
     private static readonly int Samples = Shader.PropertyToID(SHADER_PROPERTY_SAMPLES);
     private static readonly IFormatProvider _formatProvider = CultureInfo.GetCultureInfo("en-US");
 
@@ -2349,30 +2699,30 @@ namespace Fusion.Statistics {
     private int _threshold3ShaderPropertyID = Shader.PropertyToID(SHADER_PROPERTY_THRESHOLD_3);
     private int _averageShaderPropertyID = Shader.PropertyToID(SHADER_PROPERTY_AVERAGE);
 
+    // serialize private
     [SerializeField] private RectTransform _render;
     [SerializeField] private RectTransform _header;
     [SerializeField] private Image _targetImage;
     [SerializeField] private Button _toggleButton;
-    [SerializeField] protected bool _ignoreZeroedValuesOnAverageCalculation;
-    [SerializeField] protected bool _ignoreZeroedValuesOnBuffer;
-    [SerializeField] protected float _valuesTextUpdateDelay = .1f;
-    [Space] [SerializeField] private float _valueTextMultiplier = 1f;
     [SerializeField] private Text _averageValueText;
     [SerializeField] private Text _peakValueText;
     [SerializeField] private Text _currentValueText;
-    [SerializeField] private float _threshold1;
-    [SerializeField] private float _threshold2;
-    [SerializeField] private float _threshold3;
     [Space] [SerializeField] private Text _threshold1Text;
     [SerializeField] private Text _threshold2Text;
     [SerializeField] private Text _threshold3Text;
-
+    
+    //protected
+    [Space] [SerializeField] protected float _valueTextMultiplier = 1f;
     [SerializeField] [Range(60, 540)] protected int _maxSamples = 300;
+    [SerializeField] protected float _threshold1;
+    [SerializeField] protected float _threshold2;
+    [SerializeField] protected float _threshold3;
+    [SerializeField] protected bool _ignoreZeroedValuesOnAverageCalculation;
+    [SerializeField] protected bool _ignoreZeroedValuesOnBuffer;
+    [SerializeField] protected float _valuesTextUpdateDelay = .1f;
+
     private FusionStatBuffer _bufferValues;
     private float[] _bufferNormalizedValues;
-
-    private int _bufferHead;
-    private int _bufferTail;
 
     private float _headerHeight = 25;
     private float _renderHeight = 125;
@@ -2384,10 +2734,10 @@ namespace Fusion.Statistics {
 
     private bool Initialized => _bufferNormalizedValues != null;
 
-    protected virtual void Initialize(TimeSpan bufferTimeSpan, TimeSpan refreshTimeSpan) {
+    protected virtual void Initialize(int accumulateTimeMs) {
       _material = new Material(_targetImage.material);
       _targetImage.material = _material;
-      _bufferValues = new FusionStatBuffer(_maxSamples, bufferTimeSpan, refreshTimeSpan);
+      _bufferValues = new FusionStatBuffer(_maxSamples, _ignoreZeroedValuesOnAverageCalculation, accumulateTimeMs);
       _bufferNormalizedValues = new float[_maxSamples];
       _parentLayoutGroup = GetComponentInParent<VerticalLayoutGroup>();
 
@@ -2436,20 +2786,6 @@ namespace Fusion.Statistics {
       }
     }
 
-    protected void SetValueTextFormat(string value) {
-      _valueTextFormat = value;
-    }
-
-    protected void SetValueTextMultiplier(float value) {
-      _valueTextMultiplier = value;
-    }
-
-    protected void SetIgnoreZeroValues(bool ignoreZeroOnAverage, bool ignoreZeroOnBuffer) {
-      _ignoreZeroedValuesOnAverageCalculation = ignoreZeroOnAverage;
-      _ignoreZeroedValuesOnBuffer = ignoreZeroOnBuffer;
-    }
-
-
     protected virtual void AddValueToBuffer(float value, ref DateTime now) {
       if (_ignoreZeroedValuesOnBuffer && value == 0) return;
       
@@ -2485,9 +2821,6 @@ namespace Fusion.Statistics {
       if (Initialized == false) return;
       
       _material.SetInteger(Samples, _maxSamples);
-      // No need to clear the values buffer because it's a ring buffer, just reset head and tail.
-      _bufferHead = 0;
-      _bufferTail = 0;
       // The normalized one needs to be cleaned.
       Array.Clear(_bufferNormalizedValues, 0, _maxSamples);
       Refit();
@@ -2534,6 +2867,30 @@ namespace Fusion.Statistics {
       UpdateThresholdPosition(_threshold2Text, normalizedThreshold2);
       UpdateThresholdPosition(_threshold3Text, normalizedThreshold3);
     }
+    
+    protected void SetThresholds(float threshold1, float threshold2, float threshold3) {
+      _threshold1 = threshold1 / _valueTextMultiplier;
+      _threshold2 = threshold2 / _valueTextMultiplier;
+      _threshold3 = threshold3 / _valueTextMultiplier;
+    }
+
+    protected void SetIgnoreZeroValues(bool ignoreZeroOnAverage, bool ignoreZeroOnBuffer) {
+      _ignoreZeroedValuesOnAverageCalculation = ignoreZeroOnAverage;
+      _ignoreZeroedValuesOnBuffer = ignoreZeroOnBuffer;
+      _bufferValues.SetIgnoreZeroOnAverage(ignoreZeroOnAverage);
+    }
+
+    protected void SetValueTextFormat(string value) {
+      _valueTextFormat = value;
+    }
+
+    protected void SetValueTextMultiplier(float value) {
+      _valueTextMultiplier = value;
+    }
+
+    protected void SetAccumulateTime(int accumulateTimeMs) {
+      _bufferValues.SetAccumulateTime(accumulateTimeMs);
+    }
 
     private void UpdateThresholdPosition(Text text, float thresholdNormalized) {
       Vector3 position = text.rectTransform.anchoredPosition3D;
@@ -2542,18 +2899,6 @@ namespace Fusion.Statistics {
       position.y = RemapValue(thresholdNormalized, 0, 1, -renderHalfHeight, renderHalfHeight);
       text.rectTransform.anchoredPosition3D = position;
       text.gameObject.SetActive(thresholdNormalized < 1 && thresholdNormalized > 0);
-    }
-
-    /// <summary>
-    /// Sets the thresholds for the graph.
-    /// </summary>
-    /// <param name="threshold1">The value for threshold 1.</param>
-    /// <param name="threshold2">The value for threshold 2.</param>
-    /// <param name="threshold3">The value for threshold 3.</param>
-    public void SetThresholds(float threshold1, float threshold2, float threshold3) {
-      _threshold1 = threshold1 / _valueTextMultiplier;
-      _threshold2 = threshold2 / _valueTextMultiplier;
-      _threshold3 = threshold3 / _valueTextMultiplier;
     }
 
     protected virtual void SetGraphValues(float[] values) {
@@ -2577,53 +2922,52 @@ namespace Fusion.Statistics {
       private readonly float[] _buffer;
       private int _index;
       private int _count;
-      private readonly TimeSpan _accumulateTimeSpan;
-      private readonly TimeSpan _refreshTimeSpan;
+      private int _zeroCount;
+      private bool _ignoreZeroOnAverage;
+      private TimeSpan _accumulateTimeSpan;
 
       private float _sum;
       private float _max;
       private float _accumulated;
       private DateTime _lastBufferInsertTime;
-      private DateTime _lastRefreshTime;
 
       public int Index => _index;
       public int Length => _buffer.Length;
       public float MaxValue => _max;
 
 
-      public FusionStatBuffer(int size, TimeSpan accumulateTimeSpan, TimeSpan refreshTimeSpan) {
+      public FusionStatBuffer(int size, bool ignoreZeroOnAverage, int accumulateTimeMs) {
         _buffer = new float[size];
         _index = 0;
         _count = 0;
-        _accumulateTimeSpan = accumulateTimeSpan;
-        _refreshTimeSpan = refreshTimeSpan;
+        _zeroCount = 0;
+        _ignoreZeroOnAverage = ignoreZeroOnAverage;
+        _accumulateTimeSpan = TimeSpan.FromMilliseconds(accumulateTimeMs);
         _sum = 0;
         _max = float.MinValue;
         _accumulated = 0;
         _lastBufferInsertTime = DateTime.MinValue;
-        _lastRefreshTime = DateTime.MinValue;
+      }
+      
+      public void SetAccumulateTime(int accumulateTimeMs) {
+        _accumulateTimeSpan = TimeSpan.FromMilliseconds(accumulateTimeMs);
+      }
+
+      public void SetIgnoreZeroOnAverage(bool value) {
+        _ignoreZeroOnAverage = value;
       }
 
       public float this[int index] => _buffer[index];
 
       public void Add(float value, ref DateTime now) {
+
         _accumulated += value;
         
-        // Only accumulate on graph that accumulate for timespan
-        if (now - _lastBufferInsertTime < _accumulateTimeSpan) {
-          // Re-apply latest value to move graphic if refresh time span is ok
-          if (now - _lastRefreshTime >= _refreshTimeSpan) {
-            AddOnBuffer(LatestValue);
-            _lastRefreshTime = now;
-          }
-          
-          return;
-        }
-       
-        AddOnBuffer(_accumulated);
-
-        _accumulated = 0;
-        _lastBufferInsertTime = now;
+        if (now - _lastBufferInsertTime >= _accumulateTimeSpan) {
+          AddOnBuffer(_accumulated);
+          _accumulated = 0;
+          _lastBufferInsertTime = now;
+        } 
       }
 
       private void AddOnBuffer(float value) {
@@ -2633,6 +2977,9 @@ namespace Fusion.Statistics {
         if (_count == _buffer.Length) {
           var removingValue = _buffer[_index];
           _sum -= removingValue;
+          
+          if (removingValue == 0)
+            _zeroCount = Mathf.Max(0, _zeroCount-1);
 
           if (removingValue >= _max) {
             recalculateMax = true;
@@ -2641,9 +2988,14 @@ namespace Fusion.Statistics {
           _count++;
         }
 
+        if (value == 0)
+          _zeroCount = Mathf.Min(_count-1, _zeroCount+1);
+
         _buffer[_index] = value;
+        
         _sum += value;
-        if (_accumulated > _max) {
+        
+        if (value > _max) {
           _max = value;
         }
 
@@ -2657,7 +3009,7 @@ namespace Fusion.Statistics {
       public float LatestValue {
         get {
           if (_count == 0)
-            throw new InvalidOperationException("Buffer is empty");
+            return 0;
           return _buffer[(_index - 1 + _buffer.Length) % _buffer.Length];
         }
       }
@@ -2666,7 +3018,8 @@ namespace Fusion.Statistics {
         get {
           if (_count == 0)
             return 0f;
-          return _sum / _count;
+            
+          return _sum / (_ignoreZeroOnAverage ? _count - _zeroCount : _count);
         }
       }
 
@@ -3519,10 +3872,10 @@ namespace Fusion
         public LinkedList<RunnerVisibilityLink> Nodes = new LinkedList<RunnerVisibilityLink>();
       }
 
-      public static bool CommonLinksWithMissingInputAuthNeedRefresh { get; private set; }
+      private static bool _commonLinksWithMissingInputAuthNeedRefresh;
 
       public static void RetryRefreshCommonLinks() {
-        CommonLinksWithMissingInputAuthNeedRefresh = false;
+        _commonLinksWithMissingInputAuthNeedRefresh = false;
         RefreshCommonObjectVisibilities();
       }
 
@@ -3616,7 +3969,7 @@ namespace Fusion
           foreach (var existingNode in existingNodes)
             if (existingNode.Component == comp) {
               nodeAlreadyExists = true;
-              if (existingNode.PreferredRunner != RunnerVisibilityLink.PreferredRunners.None) {
+              if (existingNode.IsOnSingleRunner) {
                 AddNodeToCommonLookup(existingNode);
                 RegisterNode(existingNode, runner, comp);
                 commonsNeedRefresh = true;
@@ -3637,8 +3990,10 @@ namespace Fusion
           }
         }
 
-        if (commonsNeedRefresh)
+        if (commonsNeedRefresh) {
+          _commonLinksWithMissingInputAuthNeedRefresh = true;
           RefreshCommonObjectVisibilities();
+        }
       }
 
       internal static bool IsRecognizedByRunnerVisibility(this System.Type type) {
@@ -3757,12 +4112,12 @@ namespace Fusion
       /// </summary>
       [StaticField]
       private readonly static Dictionary<string, List<RunnerVisibilityLink>> CommonObjectLookup = new Dictionary<string, List<RunnerVisibilityLink>>();
-
       
       internal static void RefreshCommonObjectVisibilities() {
         var runners = NetworkRunner.GetInstancesEnumerator();
         NetworkRunner serverRunner = null;
         NetworkRunner clientRunner = null;
+        NetworkRunner firstRunner = null;
         bool foundInputAuth = false;
 
         // First find the runner for each preference.
@@ -3775,8 +4130,13 @@ namespace Fusion
           if (runner.IsServer) {
             serverRunner = runner;
           }
-          else if (!clientRunner) {
+          
+          if (!clientRunner && runner.GameMode != GameMode.Server) {
             clientRunner = runner;
+          }
+
+          if (!firstRunner) {
+            firstRunner = runner;
           }
         }
 
@@ -3794,6 +4154,9 @@ namespace Fusion
               case RunnerVisibilityLink.PreferredRunners.Client:
                 prefRunner = clientRunner;
                 break;
+              case RunnerVisibilityLink.PreferredRunners.Auto:
+                prefRunner = firstRunner;
+                break;
               default:
                 prefRunner = null;
                 break;
@@ -3802,17 +4165,19 @@ namespace Fusion
             foundInputAuth = false;
             foreach (var clone in clones) {
               if (clone.PreferredRunner == RunnerVisibilityLink.PreferredRunners.InputAuthority) {
-                clone.Enabled = clone.IsInputAuth();
-                foundInputAuth |= clone.Enabled;
-              }
-              else
+                var inputFound = clone.IsInputAuth();
+                clone.Enabled = inputFound && clone._runner.GetVisible();
+                foundInputAuth |= inputFound;
+              } else {
                 clone.Enabled = ReferenceEquals(clone._runner, prefRunner);
+              }
             }
 
             if (firstClone.PreferredRunner == RunnerVisibilityLink.PreferredRunners.InputAuthority) {
-              if (foundInputAuth == false) {
+              if (foundInputAuth == false && _commonLinksWithMissingInputAuthNeedRefresh) {
                 // Signal to refresh later when the object has input information.
-                CommonLinksWithMissingInputAuthNeedRefresh = true;
+                _commonLinksWithMissingInputAuthNeedRefresh = false;
+                firstClone.InvokeRefreshCommonObjectVisibilities(1f);
               }
             }
           }
