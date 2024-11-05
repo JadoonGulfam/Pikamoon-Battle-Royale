@@ -9,7 +9,6 @@ namespace CharacterCustomization
         private DefaultClothDatabase defaultClothDatabase;
         public Stitcher stitcher;
         public SkinnedMeshRenderer body, eye;
-       // public Material eye;
         public GameObject wornHair, wornCloth;
         AvatarBodyParts avatarBodyParts;
         private void Awake()
@@ -50,6 +49,13 @@ namespace CharacterCustomization
                     case BodyPartsType.Eyebrow:
                         if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow != null)
                             avatarBodyParts.ApplyEyebrowTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
+                        break;
+                    case BodyPartsType.Skin:
+                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkin != null && defaultClothDatabase.maleAvatarDefaultCostume.DefaultFace != null)
+                        {
+                            avatarBodyParts.ApplyFaceTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultFace, string.Empty);
+                            avatarBodyParts.ApplySkinTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkin, string.Empty);
+                        }
                         break;
                     //case BodyPartsType.Arms:
                     //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
@@ -107,11 +113,8 @@ namespace CharacterCustomization
                     break;
             }
         }
-
         public void SetDefaultTexture()
         {
-            body.materials[3].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
-            body.materials[5].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkinColor);
             body.materials[4].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
         }
     }

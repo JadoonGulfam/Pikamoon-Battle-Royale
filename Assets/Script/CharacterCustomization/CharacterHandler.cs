@@ -19,7 +19,7 @@ namespace CharacterCustomization
     [Serializable]
     public class AvatarDefaultClothes
     {
-        public Texture2D DefaultEyes,DefaultEyebrow, DefaultSkin;
+        public Texture2D DefaultEyes,DefaultEyebrow, DefaultSkin, DefaultFace;
         public GameObject DefaultBody, DefaultHair;
         public Color DefaultSkinColor, DefaultLipsColor;
     }
@@ -30,16 +30,12 @@ namespace CharacterCustomization
         public string faceShape;
         public string eyeShape;
         public string lipsShape;
+        public string earsShape;
         public string noseShape;
-      // public float armShape;
-       // public float legShape;
         public string torsoShape;
         public string hairPreset;
         public string clothPreset;
        // public string trouserPreset;
-       // public string shoesPreset;
-       // public string armPreset;
-       // public string legPreset;
         public string eyeColor;
         public string eyeBrowShape;
         public string skinColor;
@@ -52,7 +48,7 @@ namespace CharacterCustomization
         }
     }
 }
-public enum BodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Outfit , Preset, Torso, Eyebrow, Cap, Body  }
+public enum BodyType { Face, Hair, Lips, Eyes, Nose, SkinColor, EyeColor, Outfit , Preset, Torso, Eyebrow, Cap, Body, Ears  }
 public enum GenderType { male, female }
 
-public enum BodyPartsType { Body, Hair, Eyes, Eyebrow }
+public enum BodyPartsType { Body, Hair, Eyes, Eyebrow, Skin }
