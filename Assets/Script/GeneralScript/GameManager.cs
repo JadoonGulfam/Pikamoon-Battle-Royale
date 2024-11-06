@@ -217,11 +217,15 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
             // Instantiate the player when the "Environment" scene is loaded
             GetComponent<NetworkRunner>().enabled = false;
             GameObject singlePlayer = Instantiate(PlayerPrefabForSinglePlayer, PlayerPrefabForSinglePlayer.transform.position, Quaternion.identity);
+           
         }
     }
+    public GameObject myLocalPlayer;
     public void OnConnectedToServer(NetworkRunner runner)
     {
         print("connected to server");
+        //;
+      //  myLocalPlayer = 
         connectionStatus.text = "Connected to Server";
         //    throw new NotImplementedException();
     }
@@ -287,6 +291,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
             //      NetworkObject playerNetworkObject= runner.Spawn(PlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
             NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab, PlayerPrefab.transform.position, Quaternion.identity, player);
             runner.SetPlayerObject(player, playerNetworkObject);
+            myLocalPlayer = playerNetworkObject.gameObject;
             //print( player. .GetComponent<PlayerController>().myHealth);
         }
         //  throw new NotImplementedException();
