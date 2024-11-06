@@ -22,7 +22,7 @@ public class EmojiSetUp : NetworkBehaviour
 
         }
     }
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
    public void RPC_DisplayEmoji(string emojiName)
     {
         Debug.Log(emojiName);

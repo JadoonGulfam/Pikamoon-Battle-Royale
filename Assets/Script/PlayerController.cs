@@ -127,16 +127,18 @@ public class PlayerController : NetworkBehaviour
                     myItems.networkPing.text = "<color=red>"+ _averageRTT +  " ms" + "</color>";
                 
             }
-
-            if (recorder.VoiceDetector.Detected)
+            if (HasStateAuthority)
             {
-                Debug.Log("VoiceDetected");
-                voiceImageDetection.SetActive(true);
-            }
-            else
-            {
-                Debug.Log("VoiceDetected Failed");
-                voiceImageDetection.SetActive(false);
+                if (recorder.VoiceDetector.Detected)
+                {
+                    Debug.Log("VoiceDetected");
+                    voiceImageDetection.SetActive(true);
+                }
+                else
+                {
+                  //  Debug.Log("VoiceDetected Failed");
+                    voiceImageDetection.SetActive(false);
+                }
             }
 
 
