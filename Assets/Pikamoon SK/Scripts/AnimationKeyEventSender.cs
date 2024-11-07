@@ -3,11 +3,11 @@ using Pikamoon.Controller;
 public class AnimationKeyEventSender : MonoBehaviour
 {
     Combat combat;
-    ShootingManager shootingManager;
+    Shooting shootingManager;
     private void Start()
     {
         combat = GetComponentInParent<Combat>();
-        shootingManager = GetComponentInParent<ShootingManager>();
+        shootingManager = GetComponentInParent<Shooting>();
     }
 
     void GiveImapact()

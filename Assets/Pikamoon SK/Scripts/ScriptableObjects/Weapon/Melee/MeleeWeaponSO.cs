@@ -11,7 +11,8 @@ public struct MeleeCombo
 public enum WeaponType
 {
     Melee,
-    Ranged
+    Ranged,
+    Throwable
 }
 
 
