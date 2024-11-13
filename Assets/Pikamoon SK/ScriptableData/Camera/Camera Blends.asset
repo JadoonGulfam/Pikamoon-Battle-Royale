@@ -12,37 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36baaa8bdcb9d8b49b9199833965d2c3, type: 3}
   m_Name: Camera Blends
   m_EditorClassIdentifier: 
-  m_CustomBlends:
-  - m_From: '**ANY CAMERA**'
-    m_To: MovementCamera
-    m_Blend:
-      m_Style: 1
-      m_Time: 1
-      m_CustomCurve:
+  CustomBlends:
+  - From: EllenMovementCamera
+    To: SprintCamera
+    Blend:
+      Style: 1
+      Time: 1
+      CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: EllenMovementCamera
-    m_To: SprintCamera
-    m_Blend:
-      m_Style: 1
-      m_Time: 1
-      m_CustomCurve:
+        m_RotationOrder: 4
+  - From: SprintCamera
+    To: EllenMovementCamera
+    Blend:
+      Style: 1
+      Time: 1
+      CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: SprintCamera
-    m_To: EllenMovementCamera
-    m_Blend:
-      m_Style: 1
-      m_Time: 1
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
+        m_RotationOrder: 4
