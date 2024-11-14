@@ -11,24 +11,25 @@ using UnityEngine.UI;
 using SickscoreGames.HUDNavigationSystem;
 using Photon.Voice.Unity;
 using Photon.Voice.Fusion;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] Transform playerCameraRoot;
     public TMP_Text playerName;
-    public GameObject PikaMoon_Barkian, PikaMoon_Blazeving,PikaMoon_Sylvolt,PikaMoon_Dracodilla,PikaMoon_Soarcrow,PikaMoon_Torrentar;
+    public GameObject PikaMoon_Barkian, PikaMoon_Blazeving, PikaMoon_Sylvolt, PikaMoon_Dracodilla, PikaMoon_Soarcrow, PikaMoon_Torrentar;
     public GameObject canvasData;
     Button Destroypika;
-    Button[] PikaButtons=new Button[6];
+    Button[] PikaButtons = new Button[6];
     public GameObject[] characters;
-   // public NetworkObject myPikamoon;
+    // public NetworkObject myPikamoon;
     public List<NetworkObject> pikaMoon_CharacterList;
     [Networked]
     public string userName { get; set; } = " ";
     [Networked]
     public int myCharacterindex { get; set; } = 0;
 
- 
+
     public DisplayItems myItems; //show items on screem
     public GameObject virtualCamera;
 
@@ -38,13 +39,16 @@ public class PlayerController : NetworkBehaviour
 
     IEnumerator Start()
     {
-        myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
+        if (SceneManager.loadedSceneCount == 3)
+        {
+            myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
+        }
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
         ConstraintSource sc = new ConstraintSource();
         sc.weight = 1.0f;
         sc.sourceTransform = Camera.main.transform;
         canvasData.GetComponent<LookAtConstraint>().SetSource(0, sc);
-      //  HealthChanged();
+        //  HealthChanged();
         // AttackButton.onClick.AddListener(DealDamageRpc);
 
 
@@ -56,7 +60,7 @@ public class PlayerController : NetworkBehaviour
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
             GetComponent<CharacterController>().enabled = false;
-           // GetComponent<CameraScrollZoom>().enabled = false;
+            // GetComponent<CameraScrollZoom>().enabled = false;
             GetComponent<PersonController>().enabled = false;
             GetComponent<VoiceNetworkObject>().enabled = false;
 
@@ -73,30 +77,31 @@ public class PlayerController : NetworkBehaviour
             virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
             virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
 
-        
+
             userName = GameManager.instance._playerName;
-      
 
-            // Temp button for pika to spawn in environment
-            Transform temp = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1);
-            Destroypika = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).transform.GetChild(2).GetComponent<Button>();
-            Destroypika.onClick.AddListener(DeSpawnPikamoon);
-
-            for (int i = 0; i < PikaButtons.Length; i++)
+            if (SceneManager.loadedSceneCount == 3)
             {
-                var x = i;
-                PikaButtons[x] = temp.transform.GetChild(x).GetComponent<Button>();
-                PikaButtons[x].onClick.AddListener(delegate { Spawn_PikaMoon(x); });
+                // Temp button for pika to spawn in environment
+                Transform temp = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1);
+                Destroypika = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).transform.GetChild(2).GetComponent<Button>();
+                Destroypika.onClick.AddListener(DeSpawnPikamoon);
+
+                for (int i = 0; i < PikaButtons.Length; i++)
+                {
+                    var x = i;
+                    PikaButtons[x] = temp.transform.GetChild(x).GetComponent<Button>();
+                    PikaButtons[x].onClick.AddListener(delegate { Spawn_PikaMoon(x); });
+                }
+
+
+
+                //Recorder 
+                if (recorder == null)
+                    recorder = GameManager.instance.gameObject.transform.Find("Recorder").GetComponent<Recorder>();
+                voiceImageDetection = canvasData.transform.Find("mic").gameObject;
+                GetComponent<VoiceNetworkObject>().enabled = true;
             }
-
-
-
-            //Recorder 
-            if (recorder == null)
-                recorder = GameManager.instance.gameObject.transform.Find("Recorder").GetComponent<Recorder>();
-            voiceImageDetection= canvasData.transform.Find("mic").gameObject;
-            GetComponent<VoiceNetworkObject>().enabled = true;
-
             //Get text for ping 
 
 
@@ -108,43 +113,49 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (Runner != null)
+        if (SceneManager.loadedSceneCount == 3)
         {
-            _roundTripTimes[Time.frameCount % _roundTripTimes.Length] = Runner.GetPlayerRtt(PlayerRef.None);
+            if (Runner != null)
+            {
+                _roundTripTimes[Time.frameCount % _roundTripTimes.Length] = Runner.GetPlayerRtt(PlayerRef.None);
 
-            double averageRTT = 0.0;
-            for (int i = 0, count = _roundTripTimes.Length; i < count; ++i)
-            {
-                averageRTT += _roundTripTimes[i];
-            }
-            if (HasStateAuthority)
-            {
-                _averageRTT = Mathf.RoundToInt((float)(averageRTT * (1000.0 / _roundTripTimes.Length)));
-             //   Debug.LogError(_averageRTT + " ms");
-             if(_averageRTT <180)
-                myItems.networkPing.text = "<color=green>" + _averageRTT + " ms" + "</color>";
-                else if (_averageRTT > 180)
-                    myItems.networkPing.text = "<color=red>"+ _averageRTT +  " ms" + "</color>";
-                
-            }
-            if (HasStateAuthority)
-            {
-                if (recorder.VoiceDetector.Detected)
+                double averageRTT = 0.0;
+                for (int i = 0, count = _roundTripTimes.Length; i < count; ++i)
                 {
-                    Debug.Log("VoiceDetected");
-                    voiceImageDetection.SetActive(true);
+                    averageRTT += _roundTripTimes[i];
                 }
-                else
+                if (HasStateAuthority)
                 {
-                  //  Debug.Log("VoiceDetected Failed");
-                    voiceImageDetection.SetActive(false);
+                    _averageRTT = Mathf.RoundToInt((float)(averageRTT * (1000.0 / _roundTripTimes.Length)));
+                    //   Debug.LogError(_averageRTT + " ms");
+                    if (_averageRTT < 180)
+                        myItems.networkPing.text = "<color=green>" + _averageRTT + " ms" + "</color>";
+                    else if (_averageRTT > 180)
+                        myItems.networkPing.text = "<color=red>" + _averageRTT + " ms" + "</color>";
+
+                }
+                //   if (SceneManager.loadedSceneCount == 3)
+                // {
+                if (HasStateAuthority)
+                {
+                    if (recorder.VoiceDetector.Detected)
+                    {
+                        Debug.Log("VoiceDetected");
+                        voiceImageDetection.SetActive(true);
+                    }
+                    else
+                    {
+                        //  Debug.Log("VoiceDetected Failed");
+                        voiceImageDetection.SetActive(false);
+                    }
                 }
             }
-
-
-
         }
+
+        //            }
+
     }
+
 
 
     // void HealthChanged()

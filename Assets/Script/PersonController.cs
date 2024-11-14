@@ -44,8 +44,8 @@ public class PersonController : MonoBehaviour
         animator = GetComponent<Animator>();
         characterSound = GetComponent<AudioSource>();
 
-        terrain = Terrain.activeTerrain;
-        terrainPos = terrain.transform.position;
+      //  terrain = Terrain.activeTerrain;
+      //  terrainPos = terrain.transform.position;
     }
 
     // Update is called once per frame
@@ -116,7 +116,7 @@ public class PersonController : MonoBehaviour
         // Update animator with blend value
         animator.SetFloat("MotionSpeed", animationBlend);
         // animator.SetFloat("JumpSpeed", velocity.y); // Update vertical speed for in-air animation
-        DetectTerrainTexture();
+     //   DetectTerrainTexture();
     }
     void DetectTerrainTexture()
     {
