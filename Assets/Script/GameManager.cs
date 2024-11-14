@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using CharacterCustomization;
+using System.IO;
 public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 {
 
@@ -35,7 +36,12 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public int myCharacter;
     public GameObject loader;
 
+    public List<GameObject> instantiatedPlayers = new List<GameObject>();
+    public Transform allPlayerParentTransform;
+    public List<GameObject> allPlayer;
     public CharacterData characterdata;
+    public GameObject _player;
+    private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>(); // Store original positions
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -44,6 +50,38 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     void Start()
     {
         createSessionBtn.onClick.AddListener(CreateSession);
+        InitPlayer();
+    }
+
+    public void InitPlayer()
+    {
+        // Check if players are already instantiated
+        if (instantiatedPlayers.Count == allPlayer.Count)
+        {
+            // If all players are already instantiated, simply enable them and return
+            foreach (GameObject player in instantiatedPlayers)
+            {
+                player.transform.position = originalPositions[player];
+                if (!player.activeSelf)
+                {
+                    player.SetActive(true);
+                }
+            }
+            CharacterHoverEffect.isSelected = false; // Reset selection
+            return;
+        }
+
+        // Instantiate and store references to players
+        for (int i = 0; i < allPlayer.Count; i++)
+        {
+            GameObject playerInstance = Instantiate(allPlayer[i], allPlayerParentTransform);
+            playerInstance.SetActive(true);
+            instantiatedPlayers.Add(playerInstance);
+            // Store the original position of the instantiated player
+            originalPositions[playerInstance] = playerInstance.transform.position;
+        }
+
+        CharacterHoverEffect.isSelected = false; // Reset selection state
     }
     public void StartAutoBattler()
     {
@@ -339,5 +377,13 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     // Start is called before the first frame update
 
+    public void SaveCharacterCustomization()
+    {
+        characterdata = _player.GetComponent<AvatarBodyParts>().currentCharacterData.Clone();
+        string json = JsonUtility.ToJson(characterdata, true);
+        File.WriteAllText(Application.persistentDataPath + "/characterCustom.json", json);
+        Debug.Log("Character customization saved to " + Application.persistentDataPath + "/characterCustom.json");
+        //save.interactable = false;
+    }
 
 }

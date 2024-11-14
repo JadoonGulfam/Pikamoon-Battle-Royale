@@ -7,6 +7,8 @@ namespace CharacterCustomization
     {
         public List<int> blendShapes;
         public CharacterCustomizationManager characterCustomizationManager;
+        AvatarController avatarController;
+        AvatarBodyParts avatarBodyParts;
         private void OnEnable()
         {
             Constants.resetBlendShapes += ResetBlendShapes;
@@ -15,29 +17,40 @@ namespace CharacterCustomization
         {
             Constants.resetBlendShapes -= ResetBlendShapes;
         }
+        private void Start()
+        {
+            avatarController = GameManager.instance._player.GetComponent<AvatarController>();
+            avatarBodyParts = GameManager.instance._player.GetComponent<AvatarBodyParts>();
+        }
         public void ChangeBodyBlendShapes(int _index)
         {
-            characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(0, _index);
-            characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(1, _index);
-            characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(2, _index);
+            // characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(0, _index);
+            //  characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(1, _index);
+            // characterCustomizationManager.avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(2, _index);
 
-            _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, 100, _index, 1f));
-            _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, 101, _index, 1f));
-            _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, 102, _index, 1f));
+            _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, 100, _index, 1f));
+            _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, 101, _index, 1f));
+            _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, 102, _index, 1f));
+
+            _ = StartCoroutine(LerpBlendShapeWeight(avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>(), 0, _index, 1f));
+            _ = StartCoroutine(LerpBlendShapeWeight(avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>(), 1, _index, 1f));
+            _ = StartCoroutine(LerpBlendShapeWeight(avatarController.wornCloth.GetComponent<SkinnedMeshRenderer>(), 2, _index, 1f));
         }
         public void ChangeFaceBlendShapes(string _index)
         {
+            Debug.Log("1");
             ResetBlendShapes();
             if (_index != "0")
             {
                 int blendShapeIndex = int.Parse(_index);
-                _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, blendShapeIndex, 100f, 1f));
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = _index;
+                Debug.Log(avatarController.body.name);
+                _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, blendShapeIndex, 100f, 1f));
+                avatarBodyParts.currentCharacterData.faceShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
             }
             else
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.faceShape = _index;
+                avatarBodyParts.currentCharacterData.faceShape = _index;
 
         }
         public void ChangeLipsBlendShapes(string _index)
@@ -48,14 +61,14 @@ namespace CharacterCustomization
                 int blendShapeIndex = int.Parse(_index);
                 //characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 // Start a coroutine to smoothly change the blend shape weight
-                _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, blendShapeIndex, 100f, 1f));
+                _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, blendShapeIndex, 100f, 1f));
 
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsShape = _index;
+                avatarBodyParts.currentCharacterData.lipsShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
             }
             else
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsShape = _index;
+                avatarBodyParts.currentCharacterData.lipsShape = _index;
 
         }
         public void ChangeEarsBlendShapes(string _index)
@@ -66,29 +79,29 @@ namespace CharacterCustomization
                 int blendShapeIndex = int.Parse(_index);
                 //characterCustomizationManager.avatarController.body.SetBlendShapeWeight(int.Parse(_index), 100);
                 // Start a coroutine to smoothly change the blend shape weight
-                _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, blendShapeIndex, 100f, 1f));
+                _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, blendShapeIndex, 100f, 1f));
 
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.earsShape = _index;
+                avatarBodyParts.currentCharacterData.earsShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
             }
             else
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.earsShape = _index;
+                avatarBodyParts.currentCharacterData.earsShape = _index;
 
-        }        
+        }
         public void ChangeEyeBlendShapes(string _index)
         {
             ResetBlendShapes();
             if (_index != "0")
             {
                 int blendShapeIndex = int.Parse(_index);
-                _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, blendShapeIndex, 100f, 1f));
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeShape = _index;
+                _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, blendShapeIndex, 100f, 1f));
+                avatarBodyParts.currentCharacterData.eyeShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
             }
             else
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeShape = _index;
+                avatarBodyParts.currentCharacterData.eyeShape = _index;
         }
         public void ChangeNoseBlendShapes(string _index)
         {
@@ -96,15 +109,15 @@ namespace CharacterCustomization
             if (_index != "0")
             {
                 int blendShapeIndex = int.Parse(_index);
-                _ = StartCoroutine(LerpBlendShapeWeight(characterCustomizationManager.avatarController.body, blendShapeIndex, 100f, 1f));
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.noseShape = _index;
+                _ = StartCoroutine(LerpBlendShapeWeight(avatarController.body, blendShapeIndex, 100f, 1f));
+                avatarBodyParts.currentCharacterData.noseShape = _index;
                 characterCustomizationManager.save.interactable = true;
                 characterCustomizationManager.reset.interactable = true;
             }
             else
-                characterCustomizationManager.avatarBodyParts.currentCharacterData.noseShape = _index;
+                avatarBodyParts.currentCharacterData.noseShape = _index;
 
-        }      
+        }
         //public void ChangeTorsoBlendShapes(string _index)
         //{
         //    //ResetBlendShapes();
@@ -137,18 +150,18 @@ namespace CharacterCustomization
             if (Constants.downloadAddressableObject != null)
             {
                 if (_key != "0")
-                    _ = StartCoroutine(Constants.downloadAddressableObject(_key, _type, characterCustomizationManager.avatarBodyParts.gameObject, false));
+                    _ = StartCoroutine(Constants.downloadAddressableObject(_key, _type, avatarBodyParts.gameObject, false));
                 else
                 {
                     switch (_type)
                     {
                         case BodyType.Body:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Body, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.clothPreset = _key;
+                            avatarController.WearDefaultItem(BodyPartsType.Body, avatarController.gameObject, GenderType.male);
+                            avatarBodyParts.currentCharacterData.clothPreset = _key;
                             break;
                         case BodyType.Hair:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Hair, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.hairPreset = _key;
+                            avatarController.WearDefaultItem(BodyPartsType.Hair, avatarController.gameObject, GenderType.male);
+                            avatarBodyParts.currentCharacterData.hairPreset = _key;
                             break;
                             //case BodyType.Arms:
                             //    characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Arms, characterCustomizationManager.avatarController.gameObject, GenderType.male);
@@ -184,22 +197,22 @@ namespace CharacterCustomization
             if (Constants.downloadAddressableTexture != null)
             {
                 if (_key != "0")
-                    await Constants.downloadAddressableTexture(_key, _type, characterCustomizationManager.avatarBodyParts.gameObject);
+                    await Constants.downloadAddressableTexture(_key, _type, avatarBodyParts.gameObject);
                 else
                 {
                     switch (_type)
                     {
                         case BodyType.EyeColor:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Eyes, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeColor = _key;
+                            avatarController.WearDefaultItem(BodyPartsType.Eyes, avatarController.gameObject, GenderType.male);
+                            avatarBodyParts.currentCharacterData.eyeColor = _key;
                             break;
                         case BodyType.Eyebrow:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Eyebrow, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.eyeBrowShape = _key;
+                            avatarController.WearDefaultItem(BodyPartsType.Eyebrow, avatarController.gameObject, GenderType.male);
+                            avatarBodyParts.currentCharacterData.eyeBrowShape = _key;
                             break;
                         case BodyType.SkinColor:
-                            characterCustomizationManager.avatarController.WearDefaultItem(BodyPartsType.Skin, characterCustomizationManager.avatarController.gameObject, GenderType.male);
-                            characterCustomizationManager.avatarBodyParts.currentCharacterData.skinColor = _key;
+                            avatarController.WearDefaultItem(BodyPartsType.Skin, avatarController.gameObject, GenderType.male);
+                            avatarBodyParts.currentCharacterData.skinColor = _key;
                             break;
                     }
                 }
@@ -212,7 +225,7 @@ namespace CharacterCustomization
         {
             for (int i = 0; i < blendShapes.Count; i++)
             {
-                characterCustomizationManager.avatarController.body.SetBlendShapeWeight(blendShapes[i], 0);
+                avatarController.body.SetBlendShapeWeight(blendShapes[i], 0);
             }
         }
     }

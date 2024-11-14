@@ -23,18 +23,14 @@ namespace CharacterCustomization
             save.onClick.RemoveListener(ApplyChanges);
             reset.onClick.RemoveListener(ResetChanges);
         }
-        void Start()
+        IEnumerator Start()
         {
-            LoadCharacterCustomization();
+            yield return new WaitForSeconds(1);
+           // avatarController = GameManager.instance._player.GetComponent<AvatarController>();
+           // avatarBodyParts = GameManager.instance._player.GetComponent<AvatarBodyParts>();
+            // LoadCharacterCustomization();
         }
-        public void SaveCharacterCustomization()
-        {
-            string json = JsonUtility.ToJson(defaultCharacterdata, true);
-            File.WriteAllText(Application.persistentDataPath + "/characterCustom.json", json);
-            Debug.Log("Character customization saved to " + Application.persistentDataPath + "/characterCustom.json");
-            save.interactable = false;
-        }
-
+       
         public void LoadCharacterCustomization()
         {
             if (File.Exists(Application.persistentDataPath + "/characterCustom.json"))
@@ -132,7 +128,7 @@ namespace CharacterCustomization
         public void ApplyChanges()
         {
             defaultCharacterdata = avatarBodyParts.currentCharacterData.Clone();
-            SaveCharacterCustomization();
+           // SaveCharacterCustomization();
         }
         public async void ResetChanges()
         {

@@ -21,7 +21,7 @@ namespace CharacterCustomization
     {
         public Texture2D DefaultEyes,DefaultEyebrow, DefaultSkin, DefaultFace;
         public GameObject DefaultBody, DefaultHair;
-        public Color DefaultSkinColor, DefaultLipsColor;
+        public Color DefaultLipsColor;
     }
     [Serializable]
     public class CharacterData
