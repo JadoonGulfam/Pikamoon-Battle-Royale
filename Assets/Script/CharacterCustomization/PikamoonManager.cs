@@ -6,7 +6,7 @@ using System;
 using CharacterCustomization;
 public class PikamoonManager : MonoBehaviour
 {
-    public Pikamoon[] pikaTypes;  // Array to store different Pika types
+    public Pikamoons[] pikaTypes;  // Array to store different Pika types
     private Dictionary<string, GameObject> pikaPool = new Dictionary<string, GameObject>();  // Object pool to avoid re-instantiating
     GameObject activePikaObject;
     public Transform pikaTransform;
@@ -38,7 +38,7 @@ public class PikamoonManager : MonoBehaviour
             Debug.LogError("Invalid Pika type index.");
             return;
         }
-        Pikamoon selectedPika = pikaTypes[_pikaTypeIndex]; // Get the Pika from the array
+        Pikamoons selectedPika = pikaTypes[_pikaTypeIndex]; // Get the Pika from the array
         GameObject pikaPrefab = selectedPika.GetLevel(_level); // Get the specific level
         if (pikaPrefab == null)
         {
@@ -70,7 +70,7 @@ public class PikamoonManager : MonoBehaviour
 }
 public enum Pika { barken, salvet, lava }
 [Serializable]
-public class Pikamoon
+public class Pikamoons
 {
     public Pika pika;
     public GameObject[] levels;  // Array to store the Pika's different evolution levels

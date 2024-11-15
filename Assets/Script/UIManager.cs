@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject mainPanel, loadingPanel;
+    public GameObject mainPanel, loadingPanel, genderSelectionPanel;
     public Image loadingSprite;
     private bool isLoading=false;
     private void Start()
@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
             if (loadingSprite.fillAmount >= 0.9f)
             {
                 loadingPanel.SetActive(false);
-                mainPanel.SetActive(true);
+                genderSelectionPanel.SetActive(true);
                 isLoading = false;
             }
         }

@@ -61,32 +61,14 @@ namespace CharacterCustomization
                                 switch (_type)
                                 {
                                     case BodyType.Hair:
-                                        // characterCustomizationManager.ApplyHairPreset(loadAd.Result as GameObject, key, type.ToString());
                                         _applyOn.GetComponent<AvatarBodyParts>().ApplyHairPreset(loadAd.Result as GameObject, _key, BodyPartsType.Hair, _applyColor);
                                         break;
-                                    case BodyType.Shirt:
-                                        // characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());
-                                        _applyOn.GetComponent<AvatarBodyParts>().ApplyShirtPreset(loadAd.Result as GameObject, _key, BodyPartsType.Chest);
-                                        break;
-                                    case BodyType.Trouser:
-                                        // characterCustomizationManager.ApplyTrouserPreset(loadAd.Result as GameObject, key, type.ToString());
-                                        _applyOn.GetComponent<AvatarBodyParts>().ApplyTrouserPreset(loadAd.Result as GameObject, _key, BodyPartsType.Hips);
-                                        break;
-                                    case BodyType.Shoes:
-                                        // characterCustomizationManager.ApplyShoesPreset(loadAd.Result as GameObject, key, type.ToString());
-                                        _applyOn.GetComponent<AvatarBodyParts>().ApplyShoesPreset(loadAd.Result as GameObject, _key, BodyPartsType.Feet);
-                                        break;
+                                    //case BodyType.Shirt:
+                                    //    // characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());
+                                    //    _applyOn.GetComponent<AvatarBodyParts>().ApplyShirtPreset(loadAd.Result as GameObject, _key, BodyPartsType.Chest);
+                                    //    break;
                                     case BodyType.Preset:
-                                        // characterCustomizationManager.ApplyOnPreset(loadAd.Result as GameObject, key, type.ToString());
                                         _applyOn.GetComponent<AvatarBodyParts>().ApplyOnPreset(loadAd.Result as GameObject, _key, _type);
-                                        break;
-                                    case BodyType.Arms:
-                                        // characterCustomizationManager.ApplyTrouserPreset(loadAd.Result as GameObject, key, type.ToString());
-                                        _applyOn.GetComponent<AvatarBodyParts>().ApplyArmsPreset(loadAd.Result as GameObject, _key, BodyPartsType.Arms);
-                                        break;
-                                    case BodyType.Legs:
-                                        // characterCustomizationManager.ApplyTrouserPreset(loadAd.Result as GameObject, key, type.ToString());
-                                        _applyOn.GetComponent<AvatarBodyParts>().ApplyLegsPreset(loadAd.Result as GameObject, _key, BodyPartsType.Legs);
                                         break;
                                 }
                                 GameManager.instance.loader.SetActive(false);
@@ -139,6 +121,9 @@ namespace CharacterCustomization
                                         break;
                                     case BodyType.Eyebrow:
                                         applyOn.GetComponent<AvatarBodyParts>().ApplyEyebrowTexture(loadAd.Result as Texture2D, key);
+                                        break;
+                                    case BodyType.SkinColor:
+                                        applyOn.GetComponent<AvatarBodyParts>().ApplyFaceTexture(loadAd.Result as Texture2D, key);
                                         break;
                                 }
                                 GameManager.instance.loader.SetActive(false);
