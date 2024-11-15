@@ -9,7 +9,7 @@ namespace Pikamoon.Controller
 
         private void Start()
         {
-            cam = ReferencesHolder.Instance._Camera;
+            cam = ReferencesHolder.Instance._CameraController.camera;
         }
 
         public void AimStarted()

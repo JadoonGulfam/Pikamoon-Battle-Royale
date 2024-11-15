@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 54934405680233552}
   - component: {fileID: 135364644469035946}
   - component: {fileID: 848010758941474713}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SK__Projectile 21 red arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
@@ -74,14 +74,14 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
@@ -100,6 +100,7 @@ MonoBehaviour:
   IndexInManager: 0
   rigidBody: {fileID: 54934405680233552}
   collider: {fileID: 135364644469035946}
+  disableAfter: 1.5
   MuzzleFlash: {fileID: 0}
   ProjectileFlash: {fileID: 8688125984069837451}
   HitParticle: {fileID: 5097750903042910338}
@@ -114,7 +115,7 @@ GameObject:
   - component: {fileID: 4898191602666726}
   - component: {fileID: 198069135479939308}
   - component: {fileID: 199180784667957070}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SubEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4965,7 +4966,7 @@ GameObject:
   - component: {fileID: 1497989257119015387}
   - component: {fileID: 7944128278679844695}
   - component: {fileID: 4584916462864100333}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5048,7 +5049,7 @@ GameObject:
   - component: {fileID: 8606528212528082246}
   - component: {fileID: 8688125984069837451}
   - component: {fileID: 8606188886196500359}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MovingProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9946,13 +9947,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4010747606481394}
     m_Modifications:
+    - target: {fileID: 1005265700081186, guid: 2036e77062e38794c8337908e546c288, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1448707677214384, guid: 2036e77062e38794c8337908e546c288, type: 3}
       propertyPath: m_Name
       value: HitParticle
       objectReference: {fileID: 0}
     - target: {fileID: 1448707677214384, guid: 2036e77062e38794c8337908e546c288, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448707677214384, guid: 2036e77062e38794c8337908e546c288, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531403593223330, guid: 2036e77062e38794c8337908e546c288, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574867172224180, guid: 2036e77062e38794c8337908e546c288, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1652568723096516, guid: 2036e77062e38794c8337908e546c288, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4810319003502962, guid: 2036e77062e38794c8337908e546c288, type: 3}
       propertyPath: m_RootOrder
@@ -10013,27 +10034,27 @@ PrefabInstance:
     - target: {fileID: 198087755774879948, guid: 2036e77062e38794c8337908e546c288,
         type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198513744960559534, guid: 2036e77062e38794c8337908e546c288,
         type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198608772997189650, guid: 2036e77062e38794c8337908e546c288,
         type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198851932539179560, guid: 2036e77062e38794c8337908e546c288,
         type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198974363916223348, guid: 2036e77062e38794c8337908e546c288,
         type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 199223198700103386, guid: 2036e77062e38794c8337908e546c288,
         type: 3}

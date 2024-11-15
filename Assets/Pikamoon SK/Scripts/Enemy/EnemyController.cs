@@ -20,7 +20,6 @@ public class EnemyController : MonoBehaviour,IDamageable
     }
     public void OnDamage(float damageAmount)
     {
-        throw new System.NotImplementedException();
     }
 
     public void OnDamage(float damageAmount, Transform hitPoint)
@@ -35,6 +34,9 @@ public class EnemyController : MonoBehaviour,IDamageable
         Health -= damageAmount;
 
         HealthBar.DOFillAmount(Health/100, .1f);
+
+        if(isKilled())
+            this.gameObject.SetActive(false);
 
     }
 
