@@ -17,10 +17,30 @@ namespace CharacterCustomization
             avatarController.StichItem(-1, _preset, _type, this.gameObject, _applyColor);
             currentCharacterData.hairPreset = _key;
         }
-        public void ApplyClothPreset(GameObject _preset, string _key, BodyPartsType _type)
+        public void ApplyShirtPreset(GameObject _preset, string _key, BodyPartsType _type)
         {
             avatarController.StichItem(-1, _preset, _type, this.gameObject);
-            currentCharacterData.clothPreset = _key;
+            currentCharacterData.shirtPreset = _key;
+        }
+        public void ApplyTrouserPreset(GameObject _preset, string _key, BodyPartsType _type)
+        {
+            avatarController.StichItem(-1, _preset, _type, this.gameObject);
+            currentCharacterData.trouserPreset = _key;
+        }
+        public void ApplyArmsPreset(GameObject _preset, string _key, BodyPartsType _type)
+        {
+            avatarController.StichItem(-1, _preset, _type, this.gameObject);
+            currentCharacterData.armPreset = _key;
+        }
+        public void ApplyLegsPreset(GameObject _preset, string _key, BodyPartsType _type)
+        {
+            avatarController.StichItem(-1, _preset, _type, this.gameObject);
+            currentCharacterData.legPreset = _key;
+        }
+        public void ApplyShoesPreset(GameObject _preset, string _key, BodyPartsType _type)
+        {
+            avatarController.StichItem(-1, _preset, _type, this.gameObject);
+            currentCharacterData.shoesPreset = _key;
         }
         public void ApplyOnPreset(GameObject _preset, string _key, BodyType _type)
         {
@@ -34,16 +54,6 @@ namespace CharacterCustomization
             avatarController.eye.material.SetTexture("_BaseMap", _texture);
             currentCharacterData.eyeColor = _key;
         }
-        public void ApplySkinTexture(Texture2D _texture, string _key)
-        {
-            avatarController.body.materials[5].SetTexture("_BaseMap", _texture);
-            currentCharacterData.skinColor = _key;
-        }
-        public void ApplyFaceTexture(Texture2D _texture, string _key)
-        {
-            avatarController.body.materials[3].SetTexture("_BaseMap", _texture);
-            currentCharacterData.skinColor = _key;
-        }
         public void ApplyEyebrowTexture(Texture2D _texture, string _key)
         {
             avatarController.body.materials[2].SetTexture("_BaseMap", _texture);
@@ -54,11 +64,19 @@ namespace CharacterCustomization
             Color newColor;
             switch (_type)
             {
+                case BodyType.SkinColor:
+                    if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
+                    {
+                        avatarController.body.materials[3].SetColor("_BaseColor", newColor);
+                        avatarController.body.materials[5].SetColor("_BaseColor", newColor);
+                        currentCharacterData.skinColor = newColor;
+                    }
+                    break;
                 case BodyType.Lips:
                     if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
                     {
                         avatarController.body.materials[4].SetColor("_BaseColor", newColor);
-                        //currentCharacterData.lipsColor = newColor;
+                        currentCharacterData.lipsColor = newColor;
                     }
                     break;
                 case BodyType.Hair:

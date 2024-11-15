@@ -90,8 +90,8 @@ public class FirstPersonController_Dreamscape : MonoBehaviour
     {
         playerCamera = GetComponentInChildren<Camera>();
         characterController = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+       // Cursor.visible = true;
         defaultYPos = playerCamera.transform.localPosition.y;
     }
 

@@ -9,12 +9,15 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: StylizedWater2_Ocean
   m_Shader: {fileID: 482279110045391116, guid: d7b0192b9bf19c949900035fa781fdc4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ADVANCED_SHADING
   - _DISTANCE_NORMALS
   - _FOAM
   - _NORMALMAP
   - _REFRACTION
+  - _RIVER
   - _SHARP_INERSECTION
   - _TRANSLUCENCY
   - _WAVES
@@ -33,6 +36,7 @@ Material:
   m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -145,7 +149,7 @@ Material:
     - _CausticsOn: 0
     - _CausticsSpeed: 0.1
     - _CausticsTiling: 0.5
-    - _ColorAbsorption: 0
+    - _ColorAbsorption: 0.01
     - _CrossPan_IntersectionOn: 0
     - _Cull: 2
     - _Cutoff: 0.5
@@ -154,7 +158,7 @@ Material:
     - _DepthHorizontal: 0.01
     - _DepthMode: 0
     - _DepthTexture: 1
-    - _DepthVertical: 8
+    - _DepthVertical: 0.2
     - _DisableDepthTexture: 0
     - _DistanceNormalsOn: 1
     - _DistanceNormalsTiling: 0.079999976
@@ -205,7 +209,7 @@ Material:
     - _NormalMap: 1
     - _NormalMapOn: 1
     - _NormalSpeed: 1
-    - _NormalStrength: 0.274
+    - _NormalStrength: 0.22
     - _NormalSubSpeed: 0.01
     - _NormalSubTiling: 1
     - _NormalTiling: 0.16000009
@@ -231,19 +235,19 @@ Material:
     - _RefractionStrength: 0.228
     - _RimRize: 1
     - _RimTiling: 0.025
-    - _RiverModeOn: 0
+    - _RiverModeOn: 1
     - _SHARP_INERSECTIONOn: 1
     - _ShadingMode: 1
-    - _ShadowStrength: 1
+    - _ShadowStrength: 0.52
     - _ShoreLineLength: 3.1
     - _ShoreLineWaveDistance: 6
     - _ShoreLineWaveStr: 0
     - _SimpleLighting: 1
-    - _SlopeAngleFalloff: 25
-    - _SlopeAngleThreshold: 15
+    - _SlopeAngleFalloff: 15
+    - _SlopeAngleThreshold: 26
     - _SlopeFoam: 1
     - _SlopeSpeed: 4
-    - _SlopeStretching: 0.5
+    - _SlopeStretching: 0.19
     - _SlopeThreshold: 0.25
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -289,7 +293,7 @@ Material:
     - _ZClip: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.08962265, b: 0.1792453, a: 1}
+    - _BaseColor: {r: 0, g: 0.061671626, b: 0.18039216, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _DepthMapBounds: {r: -402.3, g: -459.43, b: 0.0012693577, a: 0}
     - _Direction: {r: 1, g: 1, b: 0, a: 0}

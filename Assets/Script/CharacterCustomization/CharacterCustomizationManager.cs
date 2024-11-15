@@ -23,12 +23,18 @@ namespace CharacterCustomization
             save.onClick.RemoveListener(ApplyChanges);
             reset.onClick.RemoveListener(ResetChanges);
         }
-        IEnumerator Start()
+        void Start()
         {
-            yield return new WaitForSeconds(1);
-            // LoadCharacterCustomization();
+            LoadCharacterCustomization();
         }
-       
+        public void SaveCharacterCustomization()
+        {
+            string json = JsonUtility.ToJson(defaultCharacterdata, true);
+            File.WriteAllText(Application.persistentDataPath + "/characterCustom.json", json);
+            Debug.Log("Character customization saved to " + Application.persistentDataPath + "/characterCustom.json");
+            save.interactable = false;
+        }
+
         public void LoadCharacterCustomization()
         {
             if (File.Exists(Application.persistentDataPath + "/characterCustom.json"))
@@ -62,7 +68,31 @@ namespace CharacterCustomization
                 else
                 {
                     avatarController.WearDefaultItem(BodyPartsType.Hair, avatarController.gameObject, GenderType.male);
-                }               
+                }
+                if (defaultCharacterdata.trouserPreset != null && defaultCharacterdata.trouserPreset != string.Empty)
+                {
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.trouserPreset, BodyType.Trouser, avatarBodyParts.gameObject, false));
+                }
+                else
+                {
+                    avatarController.WearDefaultItem(BodyPartsType.Hips, avatarController.gameObject, GenderType.male);
+                }
+                if (defaultCharacterdata.shirtPreset != null && defaultCharacterdata.shirtPreset != string.Empty)
+                {
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shirtPreset, BodyType.Shirt, avatarBodyParts.gameObject, false));
+                }
+                else
+                {
+                    avatarController.WearDefaultItem(BodyPartsType.Chest, avatarController.gameObject, GenderType.male);
+                }
+                if (defaultCharacterdata.shoesPreset != null && defaultCharacterdata.shoesPreset != string.Empty)
+                {
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoesPreset, BodyType.Shoes, avatarBodyParts.gameObject, false));
+                }
+                else
+                {
+                    avatarController.WearDefaultItem(BodyPartsType.Feet, avatarController.gameObject, GenderType.male);
+                }
                 if (defaultCharacterdata.eyeColor != null && defaultCharacterdata.eyeColor != string.Empty)
                 {
                     await Constants.downloadAddressableTexture(defaultCharacterdata.eyeColor, BodyType.EyeColor, avatarBodyParts.gameObject);
@@ -73,7 +103,7 @@ namespace CharacterCustomization
                 }
                 if (defaultCharacterdata.skinColor != null)
                 {
-                  //  avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.skinColor), BodyType.SkinColor);
+                    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.skinColor), BodyType.SkinColor);
                     //  avatarBodyParts.ApplyColor(defaultCharacterdata.skinColor.ToString(), bodyType.SkinColor);
 
                 }
@@ -81,14 +111,14 @@ namespace CharacterCustomization
                 {
                     //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
                 }
-                //if (defaultCharacterdata.lipsColor != null)
-                //{
-                //    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.lipsColor), BodyType.Lips);
-                //}
-                //else
-                //{
-                //    //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
-                //}
+                if (defaultCharacterdata.lipsColor != null)
+                {
+                    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.lipsColor), BodyType.Lips);
+                }
+                else
+                {
+                    //avatarController.WearDefaultItem("Eyes", avatarController.gameObject, "Male");
+                }
                 if (defaultCharacterdata.eyeBrowShape != null && defaultCharacterdata.eyeBrowShape != string.Empty)
                 {
                     await Constants.downloadAddressableTexture(defaultCharacterdata.eyeBrowShape, BodyType.Eyebrow, avatarBodyParts.gameObject);
@@ -102,7 +132,7 @@ namespace CharacterCustomization
         public void ApplyChanges()
         {
             defaultCharacterdata = avatarBodyParts.currentCharacterData.Clone();
-           // SaveCharacterCustomization();
+            SaveCharacterCustomization();
         }
         public async void ResetChanges()
         {
@@ -133,7 +163,7 @@ namespace CharacterCustomization
                     //avatarBodyParts.currentCharacterData.noseShape = defaultCharacterdata.noseShape;
                     break;
                 case BodyType.SkinColor:
-                  //  avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.skinColor), BodyType.SkinColor);
+                    avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(defaultCharacterdata.skinColor), BodyType.SkinColor);
                     break;
                 case BodyType.Eyebrow:
                     if (Constants.downloadAddressableTexture != null)
@@ -147,15 +177,35 @@ namespace CharacterCustomization
                         await Constants.downloadAddressableTexture(defaultCharacterdata.eyeColor, BodyType.EyeColor, avatarBodyParts.gameObject);
                     }
                     break;
-                case BodyType.Body:
-                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.torsoShape, BodyType.Body, avatarBodyParts.gameObject, false));
-                    avatarBodyParts.currentCharacterData.clothPreset = defaultCharacterdata.clothPreset;
+                case BodyType.Shirt:
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shirtPreset, BodyType.Shirt, avatarBodyParts.gameObject, false));
+                    avatarBodyParts.currentCharacterData.shirtPreset = defaultCharacterdata.shirtPreset;
                     break;
-                //case BodyType.Arms:
-                //    //Constants.resetBlendShapes.Invoke();
-                //    //avatarController.body.SetBlendShapeWeight((int)defaultCharacterdata.armShape, 100);
-                //    //avatarBodyParts.currentCharacterData.armShape = defaultCharacterdata.armShape;
-                //    break;
+                case BodyType.Trouser:
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.trouserPreset, BodyType.Trouser, avatarBodyParts.gameObject, false));
+                    avatarBodyParts.currentCharacterData.trouserPreset = defaultCharacterdata.trouserPreset;
+                    break;
+                case BodyType.Shoes:
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.shoesPreset, BodyType.Shoes, avatarBodyParts.gameObject, false));
+                    avatarBodyParts.currentCharacterData.shoesPreset = defaultCharacterdata.shoesPreset;
+                    break;
+                case BodyType.Preset:
+                    break;
+                case BodyType.Arms:
+                    //Constants.resetBlendShapes.Invoke();
+                    //avatarController.body.SetBlendShapeWeight((int)defaultCharacterdata.armShape, 100);
+                    //avatarBodyParts.currentCharacterData.armShape = defaultCharacterdata.armShape;
+                    break;
+                case BodyType.Legs:
+                    //Constants.resetBlendShapes.Invoke();
+                    //avatarController.body.SetBlendShapeWeight((int)defaultCharacterdata.legShape, 100);
+                    //avatarBodyParts.currentCharacterData.legShape = defaultCharacterdata.legShape;
+                    break;
+                case BodyType.Torso:
+                    //Constants.resetBlendShapes.Invoke();
+                    //avatarController.body.SetBlendShapeWeight((int)defaultCharacterdata.torsoShape, 100);
+                    //avatarBodyParts.currentCharacterData.torsoShape = defaultCharacterdata.torsoShape;
+                    break;
             }
             reset.interactable = false;
         }

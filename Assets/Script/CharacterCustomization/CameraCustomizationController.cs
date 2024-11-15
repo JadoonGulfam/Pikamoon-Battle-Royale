@@ -43,8 +43,7 @@ namespace CharacterCustomization
             }
 
             // Store the player's original rotation
-            // if(player != null)
-            originalPlayerRotation = Quaternion.Euler(-2.62f,-2.22f,-0.8f);//player.rotation;
+            originalPlayerRotation = player.rotation;
         }
 
         void Update()
@@ -54,12 +53,9 @@ namespace CharacterCustomization
             mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, targetRotation, transitionSpeed * Time.deltaTime);
 
             // Check if the customization panel is open before handling drag
-            // if (customizationPanel.activeSelf)
-            // {
-            if (CharacterHoverEffect.isSelected) // Proceed only if not already selected
-            {
+           // if (customizationPanel.activeSelf)
+           // {
                 HandleMouseDrag();
-            }
            // }
 
             // Smoothly reset the player rotation if needed
@@ -89,11 +85,6 @@ namespace CharacterCustomization
 
         void HandleMouseDrag()
         {
-            if(player == null) 
-            {
-                if (GameManager.instance._player == null) return;
-                player = GameManager.instance._player.transform;
-            }
             // Check if the mouse is over a UI element
             if (EventSystem.current.IsPointerOverGameObject())
             {
@@ -140,11 +131,6 @@ namespace CharacterCustomization
 
         void SmoothResetPlayerRotation()
         {
-            if (player == null)
-            {
-                if (GameManager.instance._player == null) return;
-                player = GameManager.instance._player.transform;
-            }
             // Smoothly reset the player's rotation using Lerp
             player.rotation = Quaternion.Lerp(player.rotation, originalPlayerRotation, rotationResetSpeed * Time.deltaTime);
 

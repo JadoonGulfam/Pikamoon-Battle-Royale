@@ -12,4 +12,13 @@ public class PikUp : MonoBehaviour
         inventory.CollectItem(name);
         Destroy(this.gameObject);
     }
+
+    private void OnMouseExit()
+    {
+        print("exict" + this.gameObject.name);
+    }
+    private void OnMouseEnter()
+    {
+        print("enter" + this.gameObject.name);
+    }
 }

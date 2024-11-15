@@ -145,7 +145,7 @@ namespace CharacterCustomization
         public void ChangeLipColor(Color _color)
         {
             characterCustomizationManager.avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), BodyType.Lips);//   .body.materials[1].color = color;
-           // characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor = _color;
+            characterCustomizationManager.avatarBodyParts.currentCharacterData.lipsColor = _color;
             characterCustomizationManager.save.interactable = true;
             characterCustomizationManager.reset.interactable = true;
         }
