@@ -6,7 +6,7 @@ namespace Pikamoon.Controller
     public class ThrowableWeaponSO : WeaponSO
     {
         [Space]
-        public ThrowableWeapon weapon;
+        public GameObject weapon;
         [Space]
         public float Power;
         public float Damage;

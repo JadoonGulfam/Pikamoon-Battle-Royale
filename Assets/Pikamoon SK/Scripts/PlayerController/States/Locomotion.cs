@@ -139,7 +139,6 @@ namespace Pikamoon.Controller
 
             playerController.RotatePlayerTowardDirection(direction, turnSmoothTime);
 
-            
             // Always apply vertical velocity (for gravity or jumping)
             Vector3 finalMove = new Vector3(direction.x * playerController.Speed, input.JumpVelocity, direction.z * playerController.Speed);
 

@@ -9,7 +9,7 @@ namespace Pikamoon.Controller
 
         public virtual void Initialize()
         {
-            Controller = GetComponent<PlayerController>();
+            Controller  = GetComponent<PlayerController>();
             playerInput = ReferencesHolder.Instance._playerInput;
         }
 

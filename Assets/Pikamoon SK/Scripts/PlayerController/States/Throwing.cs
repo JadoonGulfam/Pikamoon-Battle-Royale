@@ -9,205 +9,162 @@ namespace Pikamoon.Controller
 {
     public class Throwing : State
     {
-        ThrowableWeaponSO ActiveWeapon;
-
         private Rigidbody weaponRb;
         private float returnTime;
 
         private Vector3 origLocPos;
         private Vector3 origLocRot;
         private Vector3 pullPosition;
+        [Space]
+        [SerializeField] float AdditionalAimRotation;
 
         [Header("Public References")]
-        public Transform weaponObject;
-        public Transform hand;
+        public ThrowableWeapon ActiveWeapon;
+        public Transform HoldingPoint;
         public Transform curvePoint;
+        [SerializeField] LayerMask AimableMask;
+
         [Space]
-        [Header("Parameters")]
-        public float throwPower = 30;
-        public float cameraZoomOffset = .3f;
+        [Header("Animation Variables")]
+        int Anim_isAimingHash;
+        int Anim_ThrowHash;
+        int Anim_SecondaryStateHash;
+        int Anim_InCombatHash;
+
         [Space]
         [Header("Bools")]
         public bool walking = true;
         public bool aiming = false;
         public bool hasWeapon = true;
         public bool pulling = false;
-        [Space]
-        [Header("Particles and Trails")]
-        public ParticleSystem glowParticle;
-        public ParticleSystem catchParticle;
-        public ParticleSystem trailParticle;
-        public TrailRenderer trailRenderer;
+
         [Space]
         [Header("UI")]
-        public Image reticle;
+        //public Image reticle;
+        bool isActiveWeaponInHand;
+        bool isAimButtonHeld;
 
-        [Space]
-        //Cinemachine Shake
-        public CinemachineFreeLook virtualCamera;
-        public CinemachineImpulseSource impulseSource;
+        bool inAttack;
 
-
-
+        Vector3 DefaultPos;
+        Quaternion DefaultRot;
 
         void Start()
         {
-            Initialize();
-            ////animator = GetComponent<Animator>();
-            //weaponRb = weapon.GetComponent<Rigidbody>();
-            //origLocPos = weapon.localPosition;
-            //origLocRot = weapon.localEulerAngles;
-            reticle.DOFade(0, 0);
+            base.Initialize();
+            isActiveWeaponInHand = true;
+            Anim_ThrowHash = Animator.StringToHash("Shoot");
+            Anim_isAimingHash = Animator.StringToHash("isAiming");
+            Anim_SecondaryStateHash = Animator.StringToHash("SecondaryState");
 
+            if (Controller.activeWeapon.Type == WeaponType.Ranged)
+            {
+                //Initialize(Controller.GetWeaponAs<RangedWeaponSO>());
+            }
 
+            DefaultPos = ActiveWeapon.transform.localPosition;
+            DefaultRot = ActiveWeapon.transform.localRotation;
+            //reticle.DOFade(0, 0);
+
+            playerInput.onAttack2_Down += StartAim;
+            playerInput.onAttack2_Up   += CancelAim;
+
+            playerInput.onAttack1_Down += DecideToAttackOrCatch;
 
         }
-
-        void Update()
+        private void Update()
         {
+            if (!Controller.IsInAttack || Controller.activeWeapon.Type != WeaponType.Throwable)
+                return;
 
-
-
-            //Animation States
-            //animator.SetBool("pulling", pulling);
-            //animator.SetBool("walking", walking);
-
-
-            if (Input.GetMouseButtonDown(1) && hasWeapon)
-            {
-                Aim(true, true, 0);
-            }
-
-            if (Input.GetMouseButtonUp(1) && hasWeapon)
-            {
-                Aim(false, true, 0);
-            }
-
-            if (hasWeapon)
-            {
-
-                if (aiming && Input.GetMouseButtonDown(0))
-                {
-                    //animator.SetTrigger("throw");
-                }
-
-            }
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    WeaponStartPull();
-                }
-            }
-
-            if (pulling)
-            {
-                if (returnTime < 1)
-                {
-                    weaponObject.position = GetQuadraticCurvePoint(returnTime, pullPosition, curvePoint.position, hand.position);
-                    returnTime += Time.deltaTime * 1.5f;
-                }
-                else
-                {
-                    WeaponCatch();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-            }
+            MoveDuringAim();
+            RotatePlayerTowardsCamFor();
         }
-
 
         public void StartAim()
         {
+            if (Controller.activeWeapon.Type != WeaponType.Throwable || !isActiveWeaponInHand || !isActiveWeaponInHand)
+                return;
 
+            ReferencesHolder.Instance._CameraController.ChangeAimZoom(true);
+
+            Controller.Anim.SetLayerWeight(2, 1);
+
+            isAimButtonHeld = true;
+            
+            Controller.Anim.SetBool("isWalkRun", true);
+            Controller.Anim.SetBool(Anim_isAimingHash, true);
+
+            //if (inAttack)
+            //{
+            //}
+
+            Controller.IsInAttack = true;
         }
 
         public void CancelAim()
         {
+            if (Controller.activeWeapon.Type != WeaponType.Throwable)
+                return;
 
+            ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
+
+            isAimButtonHeld = false;
+
+            Controller.Anim.SetBool(Anim_isAimingHash, false);
+
+            //Controller.Anim.SetLayerWeight(2, 0);
+
+            Controller.Anim.SetFloat("XVal", 0);
+         
+            Controller.IsInAttack = false;
         }
 
-        void Aim(bool state, bool changeCamera, float delay)
+        public void DecideToAttackOrCatch()
         {
-
-            if (walking)
+            if (Controller.activeWeapon.Type != WeaponType.Throwable)
                 return;
 
-            aiming = state;
+            inAttack = true;
 
-            //animator.SetBool("aiming", aiming);
-
-            //UI
-            float fade = state ? 1 : 0;
-            reticle.DOFade(fade, .2f);
-
-            if (!changeCamera)
-                return;
-
-            //Camera Offset
-            float newAim = state ? cameraZoomOffset : 0;
-            float originalAim = !state ? cameraZoomOffset : 0;
-            DOVirtual.Float(originalAim, newAim, .5f, CameraOffset).SetDelay(delay);
-
-            //Particle
-            if (state)
+            if (isActiveWeaponInHand)
             {
-                glowParticle.Play();
+                Controller.Anim.SetLayerWeight(2, 1);
+                
+                Controller.IsInAttack = true;
+
+                Controller.Anim.SetTrigger(Anim_ThrowHash);
             }
             else
             {
-                glowParticle.Stop();
+                Controller.Anim.SetInteger(Anim_SecondaryStateHash,1);
+                ActiveWeapon.CallItBack(curvePoint);
             }
 
+            Controller.IsInAttack = true;    
         }
 
-        public void WeaponThrow()
+        public void ThrowFromAimPoint()
         {
-            Aim(false, true, 1f);
+            isActiveWeaponInHand = false;
 
-            hasWeapon = false;
-            weaponRb.isKinematic = false;
-            weaponRb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            weaponObject.parent = null;
-            weaponObject.eulerAngles = new Vector3(0, -90 + transform.eulerAngles.y, 0);
-            weaponObject.transform.position += transform.right / 5;
-            weaponRb.AddForce(Camera.main.transform.forward * throwPower + transform.up * 2, ForceMode.Impulse);
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-            //Trail
-            trailRenderer.emitting = true;
-            trailParticle.Play();
-        }
+            Ray ray = ReferencesHolder.Instance._CameraController.camera.ScreenPointToRay(screenCenterPoint);
 
-        public void WeaponStartPull()
-        {
-            pullPosition = weaponObject.position;
-            weaponRb.Sleep();
-            weaponRb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-            weaponRb.isKinematic = true;
-            weaponObject.DORotate(new Vector3(-90, -90, 0), .2f).SetEase(Ease.InOutSine);
-            weaponObject.DOBlendableLocalRotateBy(Vector3.right * 90, .5f);
-            pulling = true;
-        }
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 999f, AimableMask))
+            {
+                ActiveWeapon.Throw(this,HoldingPoint,hit.point);
+                //DebugTransform.transform.position = hit.point;
+            }
 
-        public void WeaponCatch()
-        {
-            returnTime = 0;
-            pulling = false;
-            weaponObject.parent = hand;
-            weaponObject.localEulerAngles = origLocRot;
-            weaponObject.localPosition = origLocPos;
-            hasWeapon = true;
-
-            //Particle and trail
-            catchParticle.Play();
-            trailRenderer.emitting = false;
-            trailParticle.Stop();
-
-            //Shake
-            impulseSource.GenerateImpulse(Vector3.right);
+            if (!isAimButtonHeld)
+            {
+                Controller.Anim.SetBool(Anim_isAimingHash, false);
+            }
+            inAttack = false;
+            CancelAim();
 
         }
 
@@ -219,16 +176,45 @@ namespace Pikamoon.Controller
             return (uu * p0) + (2 * u * t * p1) + (tt * p2);
         }
 
-        void CameraOffset(float offset)
+        void MoveDuringAim()
         {
-            virtualCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>().m_TrackedObjectOffset = new Vector3(offset, 1.5f, 0);
-            virtualCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>().m_TrackedObjectOffset = new Vector3(offset, 1.5f, 0);
-            virtualCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>().m_TrackedObjectOffset = new Vector3(offset, 1.5f, 0);
+            Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
+
+            Controller.Anim.SetFloat("XVal", playerInput.Horizontal);
+            Controller.Anim.SetFloat("YVal", playerInput.Vertical);
+
+            // Always apply vertical velocity (for gravity or jumping)
+            Vector3 finalMove = new Vector3(direction.x * Controller.Speed, playerInput.JumpVelocity, direction.z * Controller.Speed);
+
+            // Move the character based on calculated velocity and speed
+            Controller.Move(finalMove);
+        }
+        void RotatePlayerTowardsCamFor()
+        {
+            Vector3 forward = Controller._camera.transform.forward + (Controller._camera.transform.right * AdditionalAimRotation);
+            forward.y = 0f;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * 10);
+        }
+
+        public void WeaponCatchSuccessfully()
+        {
+            isActiveWeaponInHand = true;
+
+            ActiveWeapon.transform.parent = HoldingPoint;
+
+            ActiveWeapon.transform.localPosition = DefaultPos;
+            ActiveWeapon.transform.localRotation = DefaultRot;
+            
+            Controller.Anim.SetInteger(Anim_SecondaryStateHash, 2);
+
+            //Controller.Anim.SetLayerWeight(2, 0);
         }
 
         public override void OnEnd()
         {
         }
+
         public override void OnUpdate()
         {
         }
@@ -237,6 +223,8 @@ namespace Pikamoon.Controller
         {
         }
 
-
+        private void OnDestroy()
+        {
+        }
     }
 }

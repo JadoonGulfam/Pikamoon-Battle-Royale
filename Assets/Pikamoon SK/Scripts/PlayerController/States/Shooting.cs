@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,24 +35,20 @@ namespace Pikamoon.Controller
         bool AllowFire;
         int bulletIndex;
         Camera cam;
-        PlayerController playerController;
-        PlayerInput playerinput;
-
         Coroutine cancelAimRoutine;
 
         private void Start()
         {
-            playerController = GetComponent<PlayerController>();
-            playerinput = ReferencesHolder.Instance._playerInput;
-           
-            if(playerController.activeWeapon.Type == WeaponType.Ranged)
+            Initialize();
+
+            if(Controller.activeWeapon.Type == WeaponType.Ranged)
             {
-                Initialize(playerController.GetWeaponAs<RangedWeaponSO>());
+                Initialize(Controller.GetWeaponAs<RangedWeaponSO>());
             }
 
-            playerinput.onAttack1_Clicked += PlayFireAnimation;
-            playerinput.onAttack2_Down += OnZoomedAim;
-            playerinput.onAttack2_Up += OnZoomedAimCancel;
+            playerInput.onAttack1_Clicked += PlayFireAnimation;
+            playerInput.onAttack2_Down += StartAim;
+            playerInput.onAttack2_Up += CancelAim;
 
 
             AllowFire = true;
@@ -59,12 +56,11 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            if (!playerController.IsInAttack || playerController.activeWeapon.Type != WeaponType.Ranged)
+            if (!Controller.IsInAttack || Controller.activeWeapon.Type != WeaponType.Ranged)
                 return;
 
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
-
         }
 
         public void Initialize(RangedWeaponSO rangedWeapon)
@@ -80,23 +76,20 @@ namespace Pikamoon.Controller
         {
             if(LookTowardCameraForward)
             {
-                Vector3 forward = cam.transform.right + (cam.transform.forward * Value);
-                forward.y = 0f;
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * 10);
+                Controller.RotatePlayerTowardsCameraForwardDirectionDuringAim(10,Value);
             }
         }
 
-        void OnZoomedAim()
+        void StartAim()
         {
-            if(playerController.activeWeapon.Type == WeaponType.Ranged)
+            if(Controller.activeWeapon.Type == WeaponType.Ranged)
             {
                 ReferencesHolder.Instance._CameraController.ChangeAimZoom(true);
             }
         }
-        void OnZoomedAimCancel()
+        void CancelAim()
         {
-            if (playerController.activeWeapon.Type == WeaponType.Ranged)
+            if (Controller.activeWeapon.Type == WeaponType.Ranged)
             {
                 ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
             }
@@ -108,35 +101,32 @@ namespace Pikamoon.Controller
             yield return new WaitForSeconds(CancelAimAfterSeconds);
 
             AR_LockedOnTargetAimer.weight = 0;
-            playerController.Anim.SetBool("isAiming", false);
+            Controller.Anim.SetBool("isAiming", false);
             ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-            playerController.IsInAttack = false;
+            Controller.IsInAttack = false;
 
             yield return new WaitForSeconds (CancelAttackAfterSeconds);
 
-            playerController.Anim.SetBool("inCombat", false);
-            playerController.Anim.SetLayerWeight(1, 0);
-
-
-
+            Controller.Anim.SetBool("inCombat", false);
+            Controller.Anim.SetLayerWeight(1, 0);
         }
 
 
         void MoveDuringAim()
         {
 
-            Vector3 direction = playerController.GetDirectionAccordingToCameraWhenMoving();
+            Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
             
 
-            playerController.Anim.SetFloat("XVal", playerinput.Horizontal);
-            playerController.Anim.SetFloat("YVal", playerinput.Vertical);
+            Controller.Anim.SetFloat("XVal", playerInput.Horizontal);
+            Controller.Anim.SetFloat("YVal", playerInput.Vertical);
 
 
             // Always apply vertical velocity (for gravity or jumping)
-            Vector3 finalMove = new Vector3(direction.x * playerController.Speed, playerinput.JumpVelocity, direction.z * playerController.Speed);
+            Vector3 finalMove = new Vector3(direction.x * Controller.Speed, playerInput.JumpVelocity, direction.z * Controller.Speed);
 
             // Move the character based on calculated velocity and speed
-            playerController.Move(finalMove);
+            Controller.Move(finalMove);
         }
 
 
@@ -147,19 +137,20 @@ namespace Pikamoon.Controller
 
         public void PlayFireAnimation()
         {
-            if (!AllowFire || playerController.activeWeapon.Type != WeaponType.Ranged)
+            if (!AllowFire || Controller.activeWeapon.Type != WeaponType.Ranged)
                 return;
+
 
             AR_LockedOnTargetAimer.weight = 1;
 
-            playerController.IsInAttack = true;
+            Controller.IsInAttack = true;
 
             ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Aim);
 
-            playerController.Anim.SetLayerWeight(1, 1);
-            playerController.Anim.SetBool("isAiming", true);
-            playerController.Anim.SetBool("isWalkRun", true);
-            playerController.Anim.SetTrigger("Shoot");
+            Controller.Anim.SetLayerWeight(1, 1);
+            Controller.Anim.SetBool("isAiming", true);
+            Controller.Anim.SetBool("isWalkRun", true);
+            Controller.Anim.SetTrigger("Shoot");
             
             LookTowardCameraForward = true;
 
@@ -223,9 +214,9 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
-            playerinput.onAttack1_Clicked -= PlayFireAnimation;
-            playerinput.onAttack2_Down -= OnZoomedAim;
-            playerinput.onAttack2_Up -= OnZoomedAimCancel;
+            playerInput.onAttack1_Clicked -= PlayFireAnimation;
+            playerInput.onAttack2_Down -= StartAim;
+            playerInput.onAttack2_Up -= CancelAim;
         }
 
         public override void OnEnd()
