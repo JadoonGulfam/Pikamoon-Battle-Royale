@@ -28,7 +28,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -37,9 +37,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Wall_Bricks_04_Comb
-  m_Shader: {fileID: -6465566751694194690, guid: 21e6e40bc12ee454fb9891fecb1ba842,
-    type: 3}
-  m_ValidKeywords: []
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _NORMALMAP
+  - _OCCLUSIONMAP
+  - _PARALLAXMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -54,6 +58,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -66,7 +71,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 01bf442d0ca5bad4ca5b7e64ca036fc7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -82,7 +87,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3344063738ef77747b488960514260aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ClearCoatMap:
@@ -150,14 +155,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 01bf442d0ca5bad4ca5b7e64ca036fc7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2f7a4191458ad7c45a68f634403d9edd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_1d535d9efe3e4fa5aa78d1fd574f57d6_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 5338d1bfe759cc149b2989c81bc068f8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_1d535d9efe3e4fa5aa78d1fd574f57d6_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 5338d1bfe759cc149b2989c81bc068f8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -165,7 +174,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 42b79937eb9efe44692451f9da516b41, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_25382c3534c8423ba86ded5e57f287cd_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 42b79937eb9efe44692451f9da516b41, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_41c19a4dd22a4ae29cc2c091b56e86b9_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 42b79937eb9efe44692451f9da516b41, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_41c19a4dd22a4ae29cc2c091b56e86b9_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 42b79937eb9efe44692451f9da516b41, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -173,7 +190,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: e15065c91cc523d4e8e7a144e6214ac8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_68187fc79f8c41178b77c7a14ccc8eef_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: e15065c91cc523d4e8e7a144e6214ac8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_938556565c24483897e18cc581bf735e_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 6a615efce881c1c4b9b3681070592e7d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_938556565c24483897e18cc581bf735e_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 6a615efce881c1c4b9b3681070592e7d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -181,7 +206,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 3e88b25a61817e84f965f7cddc8132af, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a0d22e7635664cf9bc4abb14913b3477_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 3e88b25a61817e84f965f7cddc8132af, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_d573b604121049a384efaa0b77f2c640_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 42b79937eb9efe44692451f9da516b41, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d573b604121049a384efaa0b77f2c640_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 42b79937eb9efe44692451f9da516b41, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -262,6 +295,7 @@ Material:
     - _Blend: 0
     - _BlendContrast: 1
     - _BlendMode: 0
+    - _BlendModePreserveSpecular: 0
     - _BlendOp: 0
     - _BumpScale: 1
     - _CastShadows: 1
@@ -289,6 +323,7 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
+    - _DstBlendAlpha: 0
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
@@ -298,6 +333,9 @@ Material:
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
     - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
     - _GroundRoughness: 1
     - _Ground_Contrast: 0.36
     - _Ground_Hue: 0
@@ -357,6 +395,7 @@ Material:
     - _SpecularHighlights: 1
     - _SpecularOcclusionMode: 1
     - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
     - _StencilRef: 0
     - _StencilRefDepth: 8
     - _StencilRefDistortionVec: 4
@@ -420,3 +459,4 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

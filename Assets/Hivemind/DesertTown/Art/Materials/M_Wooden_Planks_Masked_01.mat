@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -23,6 +23,8 @@ Material:
   m_Name: M_Wooden_Planks_Masked_01
   m_Shader: {fileID: -6465566751694194690, guid: e63cd271b5c2fb040bf18241e5d6d770,
     type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _DETAIL_MAP
@@ -43,6 +45,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -126,7 +129,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 280ba427deeddc741bbaf54cf23c1c5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_11c822a7aed34e26a600de5dbb779dff_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 280ba427deeddc741bbaf54cf23c1c5f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_31372413a706472d89e5a5df4ef770c7_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 57383959d845aaf42bb5c24f1646da58, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_31372413a706472d89e5a5df4ef770c7_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 57383959d845aaf42bb5c24f1646da58, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -134,11 +145,23 @@ Material:
         m_Texture: {fileID: 2800000, guid: ec13c2d87a19f2844a4f8d4f2e7133ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7467f48cf36049c289a45fdb591de523_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ec13c2d87a19f2844a4f8d4f2e7133ec, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_dd7f8acb816b485e973fcb0a5f25e2c1_Texture_1:
         m_Texture: {fileID: 2800000, guid: 6fe58f4d3ad006342948c5518291df50, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_dd7f8acb816b485e973fcb0a5f25e2c1_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6fe58f4d3ad006342948c5518291df50, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_df80213b1e604fd7a4aa88cc4f2198b7_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 1b9d8d5161a37384392681ccdcc2cc4e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_df80213b1e604fd7a4aa88cc4f2198b7_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 1b9d8d5161a37384392681ccdcc2cc4e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -202,6 +225,7 @@ Material:
     - _Anisotropy: 0
     - _Blend: 0
     - _BlendMode: 0
+    - _BlendModePreserveSpecular: 0
     - _CastShadows: 1
     - _CoatMask: 0
     - _ConservativeDepthOffsetEnable: 0
@@ -337,6 +361,7 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &7286979785379517606
 MonoBehaviour:
   m_ObjectHideFlags: 11
