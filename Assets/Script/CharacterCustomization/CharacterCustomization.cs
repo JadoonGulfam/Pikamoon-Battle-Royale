@@ -38,7 +38,6 @@ namespace CharacterCustomization
         }
         public void ChangeFaceBlendShapes(string _index)
         {
-            Debug.Log("1");
             ResetBlendShapes();
             if (_index != "0")
             {
