@@ -8,10 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_TreeLeaves
-  m_Shader: {fileID: 4800000, guid: 418a5281d3f8eab4f99d89dfa09c84eb, type: 3}
+  m_Shader: {fileID: 4800000, guid: 99134b1f0c27d54469a840832a28fadf, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _WINDQUALITY_NONE
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
@@ -23,11 +24,23 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ColorMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissiveMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ExtraTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -47,6 +60,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: b3d39ee9858a70c4f8f0fe93e432b3b0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 261d6a1f0b491ac4fb3c0b39f1adbfe5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
         m_Texture: {fileID: 2800000, guid: d5c189d1879805542bfc315efacf4db4, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -56,6 +73,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ORMMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SubsurfaceTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -77,7 +98,11 @@ Material:
     - _AlphaClip: 0.5
     - _AlphaCutoff: 0.5
     - _Bend: 4
+    - _BillboardKwToggle: 0
+    - _BillboardShadowFade: 0.5
+    - _Cull: 2
     - _Culling: 0
+    - _Cutoff: 0.333
     - _EmissiveIntensity: 0
     - _Float1: 1
     - _Float2: 1
@@ -85,15 +110,21 @@ Material:
     - _FoliageNormalIntensity: 1
     - _FoliageRoughness: 0.914
     - _FoliageSize: 100
+    - _Glossiness: 0.5
     - _GradientFallout: 0.2
     - _GradientOffset: -6.19
     - _GustFreq: 1
+    - _HueVariationKwToggle: 0
     - _Jitter: 0.05
     - _MaskClipValue: 0.255
+    - _Metallic: 0
     - _NoiseSize: 0.02
     - _NormalIntensity: 1
+    - _NormalMapKwToggle: 0
     - _RoughnessIntensity: 1
     - _SSSSizw: 3.02
+    - _SubsurfaceIndirect: 0.25
+    - _SubsurfaceKwToggle: 0
     - _TextureSize: 100
     - _TransAmbient: 1
     - _TransDirect: 1
@@ -106,6 +137,7 @@ Material:
     - _TransmissionAmount: 0.44
     - _TransmissionSize: 1.67
     - _TrunkMaterial: 0
+    - _TwoSided: 2
     - _UseGlobalWindSettings: 0
     - _UsedforTrunk: 0
     - _UsesGlobalWindSettings: 0
@@ -118,6 +150,7 @@ Material:
     - _WindIntensity: 5
     - _WindJitterSpeed: 0.05
     - _WindOffsetIntensity: 1
+    - _WindQuality: 0
     - _WindRustleSize: 0.035
     - _WindScale: 0.2588236
     - _WindScroll: 0.05
@@ -128,6 +161,7 @@ Material:
     - _ada: 1
     - _add: 1
     m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorTint: {r: 1, g: 1, b: 1, a: 0}
     - _Direction: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
@@ -135,7 +169,11 @@ Material:
     - _FoliageColorBottom: {r: 0.49353263, g: 0.61635214, b: 0.35469314, a: 1}
     - _FoliageColorTop: {r: 0.54088044, g: 0.5372824, b: 0.27044016, a: 1}
     - _FoliageEmissiveColor: {r: 0.7484276, g: 0.636481, b: 0.32714283, a: 0}
+    - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
+    - _HueVariationColor: {r: 1, g: 0.5, b: 0, a: 0.1}
     - _SSS: {r: 0.08388898, g: 0.11320752, b: 0, a: 0}
+    - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _WindDIr: {r: 1, g: 0, b: 0, a: 0}
     - _WindSwayDirection: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -42,7 +42,7 @@ namespace CharacterCustomization
                     CharacterCustomization.ChangeNoseBlendShapes(currentIndex);
                     break;
                 case BodyType.SkinColor:
-                    CharacterCustomization.ChangeSkinColor(currentIndex, BodyType.SkinColor);
+                    CharacterCustomization.downloadPresetTexture(currentIndex, BodyType.SkinColor);
                     break;
                 case BodyType.EyeColor:
                     CharacterCustomization.downloadPresetTexture(currentIndex, BodyType.EyeColor);
@@ -53,21 +53,15 @@ namespace CharacterCustomization
                 case BodyType.Preset:
                     CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Preset);
                     break;
-                case BodyType.Trouser:
-                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Trouser);
+                case BodyType.Body:
+                    CharacterCustomization.ChangeBodyBlendShapes(int.Parse(currentIndex));
                     break;
-                case BodyType.Shirt:
-                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Shirt);
+                case BodyType.Ears:
+                    CharacterCustomization.ChangeEarsBlendShapes(currentIndex);
                     break;
-                case BodyType.Shoes:
-                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Shoes);
-                    break;
-                case BodyType.Arms:
-                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Arms);
-                    break;
-                case BodyType.Legs:
-                    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Legs);
-                    break;
+                //case BodyType.Shirt:
+                //    CharacterCustomization.downloadPresetObject(currentIndex, BodyType.Shirt);
+                //    break;
                 default:
                     break;
             }
