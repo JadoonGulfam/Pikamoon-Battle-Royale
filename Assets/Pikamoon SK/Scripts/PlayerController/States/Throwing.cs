@@ -125,15 +125,17 @@ namespace Pikamoon.Controller
             if (Controller.activeWeapon.Type != WeaponType.Throwable)
                 return;
 
+
             inAttack = true;
 
             if (isActiveWeaponInHand)
             {
+                Debug.Log("RMB Down");
                 Controller.Anim.SetLayerWeight(2, 1);
+                Controller.Anim.SetTrigger(Anim_ThrowHash);
                 
                 Controller.IsInAttack = true;
 
-                Controller.Anim.SetTrigger(Anim_ThrowHash);
             }
             else
             {

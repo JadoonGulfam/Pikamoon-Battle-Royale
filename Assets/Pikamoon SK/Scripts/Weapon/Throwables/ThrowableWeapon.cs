@@ -34,7 +34,7 @@ namespace Pikamoon.Controller
         float returnTime;
 
         Throwing throwing;
-
+        IDamageable damageable;
         private void Start()
         {
             returnTime = 0;
@@ -64,16 +64,7 @@ namespace Pikamoon.Controller
 
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            //if (collision.gameObject.layer == 11)
-            //{
-                GetComponent<Rigidbody>().Sleep();
-                GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-                GetComponent<Rigidbody>().isKinematic = true;
-                activated = false;
-            //}
-        }
+
 
         public void Throw(Throwing _thrower,Transform defaultHoldingPos,Vector3 TargetPos)
         {
@@ -130,9 +121,24 @@ namespace Pikamoon.Controller
             float uu = u * u;
             return (uu * p0) + (2 * u * t * p1) + (tt * p2);
         }
+
         private void OnTriggerEnter(Collider other)
         {
+            //if (collision.gameObject.layer == 11)
+            //{
+            GetComponent<Rigidbody>().Sleep();
+            GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            GetComponent<Rigidbody>().isKinematic = true;
+            activated = false;
 
+            damageable = other.gameObject.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.OnDamage(data.Damage, this.transform);
+            }
+
+            //}
         }
+
     }
 }

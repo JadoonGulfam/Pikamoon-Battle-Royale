@@ -127,6 +127,7 @@ namespace Pikamoon.Controller
                 playerController.Anim.SetBool(_walkRunAnimHash, input.isMoving);
             }
         }
+
         void MovementAndRotationHandler()
         {
             if (input.isSliding || playerController.IsInAttack)

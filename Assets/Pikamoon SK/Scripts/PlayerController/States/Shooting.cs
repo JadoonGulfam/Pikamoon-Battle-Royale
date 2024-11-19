@@ -46,7 +46,7 @@ namespace Pikamoon.Controller
                 Initialize(Controller.GetWeaponAs<RangedWeaponSO>());
             }
 
-            playerInput.onAttack1_Clicked += PlayFireAnimation;
+            playerInput.onAttack1_Down += PlayFireAnimation;
             playerInput.onAttack2_Down += StartAim;
             playerInput.onAttack2_Up += CancelAim;
 
