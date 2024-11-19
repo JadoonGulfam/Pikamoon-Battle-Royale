@@ -31,6 +31,11 @@ public class PlayerController : NetworkBehaviour
     public GameObject virtualCamera;
     IEnumerator Start()
     {
+
+        if(GameManager.instance.LobbyEnvironment.activeSelf)
+        {
+            transform.position = GameManager.instance.LobbyTransform.position;
+        }
         myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
         ConstraintSource sc = new ConstraintSource();
@@ -75,6 +80,7 @@ public class PlayerController : NetworkBehaviour
             Destroypika = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).transform.GetChild(2).GetComponent<Button>();
             Destroypika.onClick.AddListener(DeSpawnPikamoon);
 
+
             for (int i = 0; i < PikaButtons.Length; i++)
             {
                 var x = i;
@@ -82,8 +88,9 @@ public class PlayerController : NetworkBehaviour
                 PikaButtons[x].onClick.AddListener(delegate { Spawn_PikaMoon(x); });
             }
 
+           
             //Get text for ping 
-            
+            // Runner.SceneManager.LoadScene(3);
 
         }
         canvasData.SetActive(true);
