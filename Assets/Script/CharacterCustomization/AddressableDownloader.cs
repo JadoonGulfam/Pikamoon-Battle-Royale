@@ -27,7 +27,7 @@ namespace CharacterCustomization
         }
         IEnumerator DownloadAddressableObject(string _key, BodyType _type, GameObject _applyOn, bool _applyColor = false)
         {
-            GameManager.instance.loader.SetActive(true);
+            LoadingManager.Instance.ActivateLoading("Circle_Loading");
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 if (!string.IsNullOrEmpty(_key))
@@ -43,7 +43,7 @@ namespace CharacterCustomization
                         if (loadAd.Status == AsyncOperationStatus.Failed)
                         {
                             Debug.Log("Fail To load");
-                            GameManager.instance.loader.SetActive(false);
+                            LoadingManager.Instance.DeactivateAll();
                             yield break;
                         }
                         else if (loadAd.Status == AsyncOperationStatus.Succeeded)
@@ -71,7 +71,7 @@ namespace CharacterCustomization
                                         _applyOn.GetComponent<AvatarBodyParts>().ApplyOnPreset(loadAd.Result as GameObject, _key, _type);
                                         break;
                                 }
-                                GameManager.instance.loader.SetActive(false);
+                                LoadingManager.Instance.DeactivateAll();
                                 MemoryManager.AddToReferenceList(loadAd, _key.ToLower());
 
                             }
@@ -83,7 +83,7 @@ namespace CharacterCustomization
         }
         async Task DownloadAddressableTexture(string key, BodyType _type, GameObject applyOn)
         {
-            GameManager.instance.loader.SetActive(true);
+            LoadingManager.Instance.ActivateLoading("Circle_Loading");
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 if (!string.IsNullOrEmpty(key))
@@ -99,7 +99,7 @@ namespace CharacterCustomization
                         if (loadAd.Status == AsyncOperationStatus.Failed)
                         {
                             Debug.Log("Fail To load");
-                            GameManager.instance.loader.SetActive(false);
+                            LoadingManager.Instance.DeactivateAll();
                             return;
                         }
                         else if (loadAd.Status == AsyncOperationStatus.Succeeded)
@@ -126,7 +126,7 @@ namespace CharacterCustomization
                                         applyOn.GetComponent<AvatarBodyParts>().ApplyFaceTexture(loadAd.Result as Texture2D, key);
                                         break;
                                 }
-                                GameManager.instance.loader.SetActive(false);
+                                LoadingManager.Instance.DeactivateAll();
                                 MemoryManager.AddToReferenceList(loadAd, key.ToLower());
 
                             }
