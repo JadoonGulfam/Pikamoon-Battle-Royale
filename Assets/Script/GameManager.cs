@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using CharacterCustomization;
 using System.IO;
+using WebSocketSharp;
 public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 {
 
@@ -154,16 +155,16 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (PlayerPrefabForSinglePlayer == null)
         {
-            Debug.Log("Player is already initialized!");
+            Debug.Log("Player not exit!");
             return;
         }
         Camera.main.GetComponent<CameraCustomizationController>().enabled=false;
         followCamera.SetActive(true);
         // Instantiate the player's character prefab
         GameObject player = Instantiate(PlayerPrefabForSinglePlayer, lobbyPlayerTransform.position, Quaternion.identity, lobbyPlayerTransform);
+        if(string.IsNullOrEmpty(_playerName))
         player.name = _playerName;
 
-        Debug.Log($"Player '{_playerName}' instantiated at position {player.transform.position}.");
         LoadingManager.Instance.DeactivateAll();
     }
 
