@@ -30,7 +30,7 @@ namespace Pikamoon.Controller
         public LayerMask groundLayer;
         
         public float Speed;
-        Transform _camera;
+        [HideInInspector] public Transform _camera;
         PlayerInput input;
 
         CharacterController characterController;
@@ -87,9 +87,6 @@ namespace Pikamoon.Controller
                 return characterController.velocity;
             }
         }
-
-
-
 
         private void Awake()
         {
@@ -156,6 +153,15 @@ namespace Pikamoon.Controller
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Dir), Time.deltaTime * Speed);
         }
+
+        public void RotatePlayerTowardsCameraForwardDirectionDuringAim(float Speed,float AdditionalVal)
+        {
+            Vector3 forward = _camera.transform.right + (_camera.transform.forward * AdditionalVal);
+            forward.y = 0f;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * Speed);
+        }
+
 
 
         public void Move(Vector3 direction)

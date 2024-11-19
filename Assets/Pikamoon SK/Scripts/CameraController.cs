@@ -38,14 +38,17 @@ namespace Pikamoon.Controller
         [Space]
         [SerializeField] Cam activeCam;
         [Space]
-        [SerializeField][System.Obsolete] CinemachineFreeLook DefaultCam;
+        [SerializeField] CinemachineCamera DefaultCam;
+        [SerializeField] CinemachineOrbitalFollow DefaultCamOrbitalFollow;
+
         [SerializeField] CinemachineCameraOffset camOffsetter;
 
-        [SerializeField][System.Obsolete] CinemachineFreeLook SprintCam;
+        [SerializeField] CinemachineCamera SprintCam;
+        [SerializeField] CinemachineOrbitalFollow SprintCamOrbitalFollow;
         //[SerializeField] CinemachineFreeLook AimCam;
 
         [Space]
-        public CamSettings[] camRigSettings; 
+        public CamSettings[] camRigSettings;
 
         public float Default_X_Axis;
         public float Default_Y_Axis;
@@ -69,14 +72,15 @@ namespace Pikamoon.Controller
             //DefaultCam.m_Orbits[0].m_Radius = camRigSettings[0].rigs[0].Radius;
             //DefaultCam.m_Orbits[1].m_Radius = camRigSettings[0].rigs[1].Radius;
             //DefaultCam.m_Orbits[2].m_Radius = camRigSettings[0].rigs[2].Radius;
+
         }
 
         private void Update()
         {
             //CheckIfSprinting();
 
-            camOffsetter.Offset = Vector3.Lerp(camOffsetter.Offset, aimer,Time.deltaTime * 3);
-            DefaultCam.m_Lens.FieldOfView = Mathf.Lerp(DefaultCam.m_Lens.FieldOfView, fov,Time.deltaTime *2);
+            camOffsetter.Offset = Vector3.Lerp(camOffsetter.Offset, aimer, Time.deltaTime * 3);
+            DefaultCam.Lens.FieldOfView = Mathf.Lerp(DefaultCam.Lens.FieldOfView, fov, Time.deltaTime * 2);
         }
 
         void CheckIfSprinting()
@@ -97,16 +101,16 @@ namespace Pikamoon.Controller
             {
                 if (SprintCam.Priority == 0)
                 {
-                    SprintCam.m_XAxis.Value = DefaultCam.m_XAxis.Value;
-                    SprintCam.m_YAxis.Value = DefaultCam.m_YAxis.Value;
+                    SprintCamOrbitalFollow.HorizontalAxis.Value = DefaultCamOrbitalFollow.HorizontalAxis.Value;
+                    SprintCamOrbitalFollow.VerticalAxis.Value = DefaultCamOrbitalFollow.VerticalAxis.Value;
                 }
             }
             else
             {
                 if (DefaultCam.Priority == 0)
                 {
-                    DefaultCam.m_XAxis.Value = SprintCam.m_XAxis.Value;
-                    DefaultCam.m_YAxis.Value = SprintCam.m_YAxis.Value;
+                    DefaultCamOrbitalFollow.HorizontalAxis.Value = SprintCamOrbitalFollow.HorizontalAxis.Value;
+                    DefaultCamOrbitalFollow.VerticalAxis.Value = SprintCamOrbitalFollow.VerticalAxis.Value;
                 }
             }
 
@@ -118,27 +122,27 @@ namespace Pikamoon.Controller
 
         public void ChangeCam(Cam changeTo)
         {
-            if(changeTo == activeCam)
+            if (changeTo == activeCam)
                 return;
 
 
-            if(activeCam == Cam.Default)
+            if (activeCam == Cam.Default)
             {
-                Default_X_Axis = DefaultCam.m_XAxis.Value;
-                Default_Y_Axis = DefaultCam.m_YAxis.Value;
+                Default_X_Axis = DefaultCamOrbitalFollow.HorizontalAxis.Value;
+                Default_Y_Axis = DefaultCamOrbitalFollow.VerticalAxis.Value;
 
             }
-            else if(activeCam == Cam.Sprint)
+            else if (activeCam == Cam.Sprint)
             {
-                Default_X_Axis = SprintCam.m_XAxis.Value;
-                Default_Y_Axis = SprintCam.m_YAxis.Value;
+                Default_X_Axis = SprintCamOrbitalFollow.HorizontalAxis.Value;
+                Default_Y_Axis = SprintCamOrbitalFollow.VerticalAxis.Value;
 
                 SprintCam.gameObject.SetActive(false);
             }
-            else if(activeCam == Cam.Aim)
+            else if (activeCam == Cam.Aim)
             {
-                Default_X_Axis = DefaultCam.m_XAxis.Value;
-                Default_Y_Axis = DefaultCam.m_YAxis.Value;
+                Default_X_Axis = DefaultCamOrbitalFollow.HorizontalAxis.Value;
+                Default_Y_Axis = DefaultCamOrbitalFollow.VerticalAxis.Value;
             }
 
 
@@ -146,8 +150,8 @@ namespace Pikamoon.Controller
 
             if (changeTo == Cam.Default)
             {
-                DefaultCam.m_XAxis.Value = Default_X_Axis;
-                DefaultCam.m_YAxis.Value = Default_Y_Axis;
+                DefaultCamOrbitalFollow.HorizontalAxis.Value = Default_X_Axis;
+                DefaultCamOrbitalFollow.VerticalAxis.Value = Default_Y_Axis;
 
                 aimer = camRigSettings[0].CamOffset;
                 fov = camRigSettings[0].FOV;
@@ -160,15 +164,15 @@ namespace Pikamoon.Controller
             }
             else if (changeTo == Cam.Sprint)
             {
-                SprintCam.m_XAxis.Value = Default_X_Axis;
-                SprintCam.m_YAxis.Value = Default_Y_Axis;
+                SprintCamOrbitalFollow.HorizontalAxis.Value = Default_X_Axis;
+                SprintCamOrbitalFollow.VerticalAxis.Value = Default_Y_Axis;
 
                 SprintCam.gameObject.SetActive(true);
             }
             else if (changeTo == Cam.Aim)
             {
-                DefaultCam.m_XAxis.Value = Default_X_Axis;
-                DefaultCam.m_YAxis.Value = Default_Y_Axis;
+                DefaultCamOrbitalFollow.HorizontalAxis.Value = Default_X_Axis;
+                DefaultCamOrbitalFollow.VerticalAxis.Value = Default_Y_Axis;
 
                 aimer = camRigSettings[isAim ? 2 : 1].CamOffset;
 
@@ -187,7 +191,7 @@ namespace Pikamoon.Controller
 
         public void ChangeAimZoom(bool isAiming)
         {
-            if(activeCam == Cam.Aim)
+            if (activeCam == Cam.Aim)
             {
                 isAim = isAiming;
                 if (isAiming)

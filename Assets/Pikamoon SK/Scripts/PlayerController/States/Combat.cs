@@ -103,6 +103,11 @@ namespace Pikamoon.Controller
             playerInput.onAttack2_Clicked += DoVerticalAttack;
         }
 
+        private void Update()
+        {
+            ActiveStateName.text = playerController.Anim.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
+            ActiveStateProgress.text = playerController.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
+        }
 
 
         void SettingHashes()
@@ -154,11 +159,6 @@ namespace Pikamoon.Controller
         }
 
 
-        private void Update()
-        {
-            ActiveStateName.text = playerController.Anim.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
-            ActiveStateProgress.text = playerController.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
-        }
 
         void StartAttack(CombatMoveType combatMoveType)
         {

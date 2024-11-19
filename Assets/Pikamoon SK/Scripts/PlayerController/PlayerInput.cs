@@ -170,23 +170,26 @@ namespace Pikamoon.Controller
 
             if (Input.GetButtonDown("Fire1"))
             {
+                //Debug.Log("LMB Down");
                 onAttack1_Clicked?.Invoke();
                 onAttack1_Down?.Invoke();
             }
             else if (Input.GetButtonUp("Fire1"))
             {
+                //Debug.Log("LMB Up");
                 onAttack1_Up?.Invoke();
             }
 
 
-
             if (Input.GetButtonDown("Fire2"))
             {
+                //Debug.Log("RMB Down");
                 onAttack2_Clicked?.Invoke();
                 onAttack2_Down?.Invoke();
             }
             else if (Input.GetButtonUp("Fire2"))
             {
+                //Debug.Log("RMB Up");
                 onAttack2_Up?.Invoke();
             }
         }
