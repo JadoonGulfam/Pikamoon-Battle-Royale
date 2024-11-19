@@ -80,7 +80,7 @@ public class CharacterHoverEffect : MonoBehaviour
             {
                 if (character != this.gameObject)
                 {
-                    Debug.Log("char "+ character.name);
+                    //Debug.Log("char "+ character.name);
                     character.SetActive(false);
                 }
             }

@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using CharacterCustomization;
 using System.IO;
+using WebSocketSharp;
 public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 {
 
@@ -34,7 +35,6 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     //  public SceneAsset gamePlayScene;
     public GameObject PlayerPrefabForSinglePlayer;
     public int myCharacter;
-    public GameObject loader;
 
     public List<GameObject> instantiatedPlayers = new List<GameObject>();
     public Transform allPlayerParentTransform;
@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public CharacterData characterdata;
     public GameObject _player;
     private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>(); // Store original positions
+    public Transform lobbyPlayerTransform;
+    public GameObject environmentObject;
+   // public Camera mainCamera;
+    public GameObject followCamera;
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -127,6 +131,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
 
         myCharacter = 0;//UnityEngine.Random.Range(0,10);
+        LoadingManager.Instance.ActivateLoading("Main_Loading");
         StartCoroutine(ConnectToLobby(userInputField.text));
 
     }
@@ -141,9 +146,27 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
             runner = gameObject.AddComponent<NetworkRunner>();
         }
         runner.JoinSessionLobby(SessionLobby.Shared);
+        environmentObject.SetActive(true);
+        _roomList.SetActive(false);
+        LobbyPlayer();
     }
 
+    void LobbyPlayer() 
+    {
+        if (PlayerPrefabForSinglePlayer == null)
+        {
+            Debug.Log("Player not exit!");
+            return;
+        }
+        Camera.main.GetComponent<CameraCustomizationController>().enabled=false;
+        followCamera.SetActive(true);
+        // Instantiate the player's character prefab
+        GameObject player = Instantiate(PlayerPrefabForSinglePlayer, lobbyPlayerTransform.position, Quaternion.identity, lobbyPlayerTransform);
+        if(string.IsNullOrEmpty(_playerName))
+        player.name = _playerName;
 
+        LoadingManager.Instance.DeactivateAll();
+    }
 
     void Update()
     {
