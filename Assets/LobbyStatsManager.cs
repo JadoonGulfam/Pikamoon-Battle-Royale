@@ -1,4 +1,5 @@
 using Fusion;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,13 +17,24 @@ public class LobbyStatsManager : NetworkBehaviour
     void Start()
     {
         startSesson.interactable = false;
-        startSesson.onClick.AddListener(EnableButton);
+        startSesson.onClick.AddListener(() => StartCoroutine(EnableButton()));
+
+//        startSesson.onClick.AddListener(  { (StartCoroutine(EnableButton)) });
     }
 
 
-    void EnableButton()
+    IEnumerator EnableButton()
     {
-       //Start Game
+        //Start Game
+
+
+
+GameManager.instance.environmentprefabs.transform.GetChild(1).gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(1);
+        GameManager.instance.environmentprefabs.transform.GetChild(0).gameObject.SetActive(true);
+
+        GameManager.instance.MyLocalPlayer.GetComponent<PlayerController>().SetPositionAsPerEnvironment(GameManager.instance.gamePlayTransform);
     }
     // Update is called once per frame
     void Update()

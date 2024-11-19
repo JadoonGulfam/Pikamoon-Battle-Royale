@@ -34,7 +34,7 @@ public class PlayerController : NetworkBehaviour
 
         if(GameManager.instance.LobbyEnvironment.activeSelf)
         {
-            transform.position = GameManager.instance.LobbyTransform.position;
+            SetPositionAsPerEnvironment (GameManager.instance.LobbyTransform);
         }
         myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
@@ -60,12 +60,14 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
+
             GetComponent<HNSPlayerController>().enabled = true;
             myCharacterindex = GameManager.instance.myCharacter;
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
 
             playerName.text = GameManager.instance._playerName;
+            GameManager.instance.MyLocalPlayer = gameObject;
             virtualCamera = GameObject.Find("PlayerFollowCamera");
             virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
             virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
@@ -97,6 +99,13 @@ public class PlayerController : NetworkBehaviour
     }
     private double[] _roundTripTimes = new double[100];
     private int _averageRTT;
+
+
+
+    public void SetPositionAsPerEnvironment(Transform mypos)
+    {
+        gameObject.transform.position = mypos.position;
+    }
 
     private void Update()
     {

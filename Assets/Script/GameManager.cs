@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
    // public Camera mainCamera;
     public GameObject followCamera;
     public GameObject LobbyEnvironment;
+    
     public Transform LobbyTransform, gamePlayTransform;
 
 
@@ -368,13 +369,16 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         //  throw new NotImplementedException();
     }
 
+    public GameObject environmentprefabs;
+    public GameObject MyLocalPlayer;
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         print("Onplayer Joinned");
 
 
-        Instantiate(LobbyEnvironment);
-       // StartCoroutine(playerspawnToRoom(runner,player));
+        environmentprefabs = GameObject.FindGameObjectWithTag("Environment");
+        environmentprefabs.transform.GetChild(1).gameObject.SetActive(true);
+     
         
         if (player == runner.LocalPlayer)
         {
