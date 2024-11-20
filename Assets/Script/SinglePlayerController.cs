@@ -22,6 +22,7 @@ public class SinglePlayerController : MonoBehaviour
         virtualCamera = GameObject.Find("PlayerFollowCamera");
         virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
         virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
+       if(GameObject.FindGameObjectWithTag("Canvas"))
         GameObject.FindGameObjectWithTag("Canvas").SetActive(false);
         // Temp button for pika to spawn in environment
         //Transform temp = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1);

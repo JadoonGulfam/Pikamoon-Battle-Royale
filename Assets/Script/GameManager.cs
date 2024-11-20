@@ -46,6 +46,12 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject environmentObject;
    // public Camera mainCamera;
     public GameObject followCamera;
+    public GameObject LobbyEnvironment;
+    
+    public Transform LobbyTransform, gamePlayTransform;
+
+
+
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -53,7 +59,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     }
     void Start()
     {
-        createSessionBtn.onClick.AddListener(CreateSession);
+  
         InitPlayer();
     }
 
@@ -164,7 +170,6 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         GameObject player = Instantiate(PlayerPrefabForSinglePlayer, lobbyPlayerTransform.position, Quaternion.identity, lobbyPlayerTransform);
         if(string.IsNullOrEmpty(_playerName))
         player.name = _playerName;
-
         LoadingManager.Instance.DeactivateAll();
     }
 
@@ -239,7 +244,14 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 
         });
     }
-    public async void CreateSession()
+
+
+    public void CreateSession()
+    {
+        CreateGameSession();
+    }
+
+    private async void CreateGameSession()
     {
         //_roomList.SetActive(false);
         createSessionBtn.enabled = false;
@@ -262,6 +274,21 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 
         });
     }
+    public async void CreateCustomSession(string SessionName,int maxUser,int SessionTime)
+    {
+        if (runner == null)
+        {
+            runner = gameObject.AddComponent<NetworkRunner>();
+        }
+        await runner.StartGame(new StartGameArgs()
+        {
+            Scene = SceneRef.FromIndex(2),
+            GameMode = GameMode.Shared,
+            SessionName = SessionName,
+            PlayerCount = maxUser,   
+        });
+    }
+
     void OnDestroy()
     {
         // Unregister the callback to avoid memory leaks
@@ -279,8 +306,8 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         if (scene.name == "Environment")
         {
             // Instantiate the player when the "Environment" scene is loaded
-            GetComponent<NetworkRunner>().enabled = false;
-            GameObject singlePlayer = Instantiate(PlayerPrefabForSinglePlayer, PlayerPrefabForSinglePlayer.transform.position, Quaternion.identity);
+           // GetComponent<NetworkRunner>().enabled = false;
+           // GameObject singlePlayer = Instantiate(PlayerPrefabForSinglePlayer, PlayerPrefabForSinglePlayer.transform.position, Quaternion.identity);
         }
     }
     public void OnConnectedToServer(NetworkRunner runner)
@@ -342,19 +369,33 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         //  throw new NotImplementedException();
     }
 
+    public GameObject environmentprefabs;
+    public GameObject MyLocalPlayer;
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         print("Onplayer Joinned");
+
+
+        environmentprefabs = GameObject.FindGameObjectWithTag("Environment");
+        environmentprefabs.transform.GetChild(1).gameObject.SetActive(true);
+     
+        
         if (player == runner.LocalPlayer)
         {
-            //     SceneManager.LoadScene(gamePlayScene.name);
-            //      NetworkObject playerNetworkObject= runner.Spawn(PlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
-            NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab, PlayerPrefab.transform.position, Quaternion.identity, player);
+          
+            NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab, LobbyTransform.position, Quaternion.identity, player);
+            
             runner.SetPlayerObject(player, playerNetworkObject);
-            //print( player. .GetComponent<PlayerController>().myHealth);
+          
+          //  playerNetworkObject.gameObject.transform.position= LobbyTransform.position;
+
+
         }
-        //  throw new NotImplementedException();
+      //  throw new NotImplementedException();
     }
+
+   
+
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {

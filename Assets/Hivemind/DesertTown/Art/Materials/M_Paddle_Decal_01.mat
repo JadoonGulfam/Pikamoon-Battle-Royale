@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 9
 --- !u!114 &-5361911868125109066
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -39,12 +39,14 @@ Material:
   m_Name: M_Paddle_Decal_01
   m_Shader: {fileID: -6465566751694194690, guid: 55ca6a6fd2eb6e74bb6eeeea53fae347,
     type: 3}
-  m_ValidKeywords:
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _DISABLE_SSR_TRANSPARENT
   - _MATERIAL_AFFECTS_ALBEDO
   - _MATERIAL_AFFECTS_MASKMAP
   - _MATERIAL_AFFECTS_NORMAL
-  m_InvalidKeywords:
-  - _DISABLE_SSR_TRANSPARENT
   - _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -57,6 +59,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -335,3 +338,4 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

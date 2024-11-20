@@ -31,6 +31,11 @@ public class PlayerController : NetworkBehaviour
     public GameObject virtualCamera;
     IEnumerator Start()
     {
+
+        if(GameManager.instance.LobbyEnvironment.activeSelf)
+        {
+            SetPositionAsPerEnvironment (GameManager.instance.LobbyTransform);
+        }
         myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
         ConstraintSource sc = new ConstraintSource();
@@ -55,12 +60,14 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
+
             GetComponent<HNSPlayerController>().enabled = true;
             myCharacterindex = GameManager.instance.myCharacter;
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
 
             playerName.text = GameManager.instance._playerName;
+            GameManager.instance.MyLocalPlayer = gameObject;
             virtualCamera = GameObject.Find("PlayerFollowCamera");
             virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
             virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
@@ -75,6 +82,7 @@ public class PlayerController : NetworkBehaviour
             Destroypika = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).transform.GetChild(2).GetComponent<Button>();
             Destroypika.onClick.AddListener(DeSpawnPikamoon);
 
+
             for (int i = 0; i < PikaButtons.Length; i++)
             {
                 var x = i;
@@ -82,14 +90,22 @@ public class PlayerController : NetworkBehaviour
                 PikaButtons[x].onClick.AddListener(delegate { Spawn_PikaMoon(x); });
             }
 
+           
             //Get text for ping 
-            
+            // Runner.SceneManager.LoadScene(3);
 
         }
         canvasData.SetActive(true);
     }
     private double[] _roundTripTimes = new double[100];
     private int _averageRTT;
+
+
+
+    public void SetPositionAsPerEnvironment(Transform mypos)
+    {
+        gameObject.transform.position = mypos.position;
+    }
 
     private void Update()
     {
