@@ -41,12 +41,12 @@ GameManager.instance.environmentprefabs.transform.GetChild(1).gameObject.SetActi
     {
         if (countCheck)
         {
-
-            countdowntimer_ -= Time.deltaTime;
-
-            CountDownTimer.text = countdowntimer_.ToString();
-            if(countdowntimer_ == 0)
+            if (countdowntimer_ >= 0)
+                countdowntimer_ -= Time.deltaTime;
+            else
+            if(countdowntimer_ <= 0)
                 startSesson.interactable = true;
+            CountDownTimer.text = countdowntimer_.ToString();
 
         }
         if(runner)
