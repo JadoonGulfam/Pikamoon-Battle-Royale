@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject environmentObject;
    // public Camera mainCamera;
     public GameObject followCamera;
+
+    public UIManager uiManager;
     private void Awake()
     {
         if (instance == null) { instance = this; }

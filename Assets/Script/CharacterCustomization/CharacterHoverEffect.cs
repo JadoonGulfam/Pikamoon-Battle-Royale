@@ -90,6 +90,7 @@ public class CharacterHoverEffect : MonoBehaviour
             // or triggering an animation on the selected character.
             this.enabled = false; // Disable this script to prevent further selection
             GameManager.instance.characterdata.gender = gendertype.ToString();
+            GameManager.instance.uiManager.startBtn.interactable = true;
         }
     }
     IEnumerator MoveToPosition(Vector3 targetPosition)
