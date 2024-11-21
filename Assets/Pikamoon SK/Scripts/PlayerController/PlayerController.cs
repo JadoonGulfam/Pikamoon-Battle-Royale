@@ -31,7 +31,10 @@ namespace Pikamoon.Controller
         
         public float Speed;
         [HideInInspector] public Transform _camera;
-        PlayerInput input;
+        PlayerInput input
+        {
+            get { return ReferencesHolder.Instance._playerInput; }
+        }
 
         CharacterController characterController;
 
@@ -91,7 +94,7 @@ namespace Pikamoon.Controller
         private void Awake()
         {
             ReferencesHolder.Instance._playerController = this;
-            input = ReferencesHolder.Instance._playerInput;
+            //input = ReferencesHolder.Instance._playerInput;
             characterController = this.GetComponent<CharacterController>(); 
             _camera = ReferencesHolder.Instance._CameraController.camera.transform;
 

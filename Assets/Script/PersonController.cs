@@ -28,7 +28,7 @@ public class PersonController : MonoBehaviour
     public AudioClip grassFootStepSound;
     public AudioClip jumpSound;
 
-    private Terrain terrain;
+  //  private Terrain terrain;
     private Vector3 terrainPos;
     private string currentTextureName;
 
@@ -44,8 +44,8 @@ public class PersonController : MonoBehaviour
         animator = GetComponent<Animator>();
         characterSound = GetComponent<AudioSource>();
 
-        terrain = Terrain.activeTerrain;
-        terrainPos = terrain.transform.position;
+      //  terrain = Terrain.activeTerrain;
+    //    terrainPos = terrain.transform.position;
     }
 
     // Update is called once per frame
@@ -120,18 +120,18 @@ public class PersonController : MonoBehaviour
     }
     void DetectTerrainTexture()
     {
-        Vector3 playerPos = transform.position;
-        Vector3 terrainCoord = playerPos - terrainPos;
-        Vector3 mapCoord = new Vector3(terrainCoord.x / terrain.terrainData.size.x, 0, terrainCoord.z / terrain.terrainData.size.z);
+    //    Vector3 playerPos = transform.position;
+      //  Vector3 terrainCoord = playerPos - terrainPos;
+      //  Vector3 mapCoord = new Vector3(terrainCoord.x / terrain.terrainData.size.x, 0, terrainCoord.z / terrain.terrainData.size.z);
 
-        int xMap = Mathf.RoundToInt(mapCoord.x * terrain.terrainData.alphamapWidth);
-        int zMap = Mathf.RoundToInt(mapCoord.z * terrain.terrainData.alphamapHeight);
+    //    int xMap = Mathf.RoundToInt(mapCoord.x * terrain.terrainData.alphamapWidth);
+     //   int zMap = Mathf.RoundToInt(mapCoord.z * terrain.terrainData.alphamapHeight);
 
-        float[,,] splatmapData = terrain.terrainData.GetAlphamaps(xMap, zMap, 1, 1);
+      //  float[,,] splatmapData = terrain.terrainData.GetAlphamaps(xMap, zMap, 1, 1);
 
-        float[] textureMix = new float[splatmapData.GetUpperBound(2) + 1];
-        for (int i = 0; i < textureMix.Length; i++)
-        {
+     //   float[] textureMix = new float[splatmapData.GetUpperBound(2) + 1];
+    //    for (int i = 0; i < textureMix.Length; i++)
+     /*   {
             textureMix[i] = splatmapData[0, 0, i];
         }
 
@@ -153,7 +153,7 @@ public class PersonController : MonoBehaviour
         {
             currentTextureName = newTextureName;
             ChangeAnimationAndSound(newTextureName);
-        }
+        }*/
     }
     void PlayFootstepSound()
     {
