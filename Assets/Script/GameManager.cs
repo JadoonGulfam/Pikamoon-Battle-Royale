@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public Transform LobbyTransform, gamePlayTransform;
 
 
-
+    public UIManager uiManager;
     private void Awake()
     {
         if (instance == null) { instance = this; }
