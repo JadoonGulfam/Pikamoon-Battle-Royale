@@ -37,7 +37,7 @@ public class EmojiManager : NetworkBehaviour
         //}
     }
 
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_Emoji(int _index)
     {
        // The code inside here will run on the client which owns this object(has state and input authority).
