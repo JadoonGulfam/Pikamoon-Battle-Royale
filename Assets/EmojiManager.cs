@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EmojiManager : NetworkBehaviour
 {
+    
     public Canvas emojiCanvas;
     public GameObject emojiPrefab;
     private GameObject currentEmoji;
@@ -12,22 +13,29 @@ public class EmojiManager : NetworkBehaviour
     List<Button> emojiButtons = new List<Button>();
     private void Start()
     {
-        Transform temp = GameObject.FindGameObjectWithTag("Canvas").transform;
-        // Get the emoji list from the GameManager
-        List<GameObject> emojis = GameManager.instance.emojiList;
-        // Loop through the emojis and create buttons
-        for (int i = 0; i < emojis.Count; i++)
+        if (Object.HasStateAuthority)
         {
-            // Instantiate the button prefab
-            GameObject button = Instantiate(buttonPrefab, temp.GetChild(2));
+            Transform temp = GameObject.FindGameObjectWithTag("Canvas").transform;
+            // Get the emoji list from the GameManager
+            List<GameObject> emojis = GameManager.instance.emojiList;
+            // Loop through the emojis and create buttons
+            for (int i = 0; i < emojis.Count; i++)
+            {
+                // Instantiate the button prefab
+                GameObject button = Instantiate(buttonPrefab, temp.GetChild(2));
 
-            // Set the emoji sprite on the button's Image
-            Image buttonImage = button.GetComponent<Image>();
-           // buttonImage.sprite = emojis[i].GetComponent<Image>().sprite;
+                // Set the emoji sprite on the button's Image
+                Image buttonImage = button.GetComponent<Image>();
+                // buttonImage.sprite = emojis[i].GetComponent<Image>().sprite;
 
-            // Add a click listener to the button
-            int emojiIndex = i; // Cache the index to avoid closure issues
-            button.GetComponent<Button>().onClick.AddListener(delegate { RPC_Emoji(emojiIndex); });
+                // Add a click listener to the button
+                int emojiIndex = i; // Cache the index to avoid closure issues
+                button.GetComponent<Button>().onClick.AddListener(delegate { RPC_Emoji(emojiIndex); });
+            }
+        }
+        else
+        {
+            Debug.Log("I am client do nothing please");
         }
         //for (int i = 0; i < emojiButtons.Count; i++)
         //{
