@@ -86,7 +86,7 @@ namespace THOR
         Color colorPoolSettings = new Color(1.0f, 0.5f, 0.0f, 0.3f);
         Color colorAssetReferences = new Color(1.0f, 0.0f, 0.0f, 0.3f);
         GUIContent guiC = new GUIContent();
-        Texture2D logoTex;
+       // Texture2D logoTex;
         THOR_Thunderstorm thor;
         //==========================================================================================
 
@@ -160,7 +160,7 @@ namespace THOR
             installPath = scriptLocation.Replace("/Sources/Scripts/Editor/THOR_ThunderstormEditor.cs", "");
             inspectorGUIPath = installPath + "/Sources/Scripts/Editor/EditorGUI";
 
-            logoTex = AssetDatabase.LoadAssetAtPath(inspectorGUIPath + "/THOR_Logo.png", typeof(Texture2D)) as Texture2D;
+          //  logoTex = AssetDatabase.LoadAssetAtPath(inspectorGUIPath + "/THOR_Logo.png", typeof(Texture2D)) as Texture2D;
 
             thor = (THOR_Thunderstorm)target;
             SetupSerializedProperties();
@@ -170,9 +170,9 @@ namespace THOR
         public override void OnInspectorGUI()
         {
             currentViewWidth = EditorGUIUtility.currentViewWidth;
-            Rect bgRect = EditorGUILayout.GetControlRect(GUILayout.Width(0), GUILayout.Height(70));
-            bgRect = new Rect(bgRect.x + 34, bgRect.y - 4, currentViewWidth - 87, bgRect.height + 1);
-            GUI.DrawTexture(new Rect((currentViewWidth / 2) - 194, bgRect.y + 0, 388, 142), logoTex);
+           // Rect bgRect = EditorGUILayout.GetControlRect(GUILayout.Width(0), GUILayout.Height(70));
+           // bgRect = new Rect(bgRect.x + 34, bgRect.y - 4, currentViewWidth - 87, bgRect.height + 1);
+          //  GUI.DrawTexture(new Rect((currentViewWidth / 2) - 194, bgRect.y + 0, 388, 142), logoTex);
 
             // Set Label Width
             EditorGUIUtility.labelWidth = currentViewWidth - 150 - scrollBarWidth;
