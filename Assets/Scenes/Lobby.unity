@@ -5590,7 +5590,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 172519612}
   m_OnClick:
     m_PersistentCalls:
@@ -15561,6 +15561,7 @@ MonoBehaviour:
   mainPanel: {fileID: 1223544737}
   loadingPanel: {fileID: 577871715}
   genderSelectionPanel: {fileID: 555224062}
+  startBtn: {fileID: 172519611}
   loadingSprite: {fileID: 70256530}
 --- !u!4 &587941250
 Transform:
@@ -191547,6 +191548,11 @@ PrefabInstance:
       objectReference: {fileID: 875993068}
     - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
         type: 3}
+      propertyPath: uiManager
+      value: 
+      objectReference: {fileID: 587941249}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
       propertyPath: followCamera
       value: 
       objectReference: {fileID: 1799940780}
@@ -191572,6 +191578,11 @@ PrefabInstance:
       objectReference: {fileID: 6046628187179975228}
     - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
         type: 3}
+      propertyPath: environmentprefabs
+      value: 
+      objectReference: {fileID: 6046628187179975228}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
       propertyPath: sessionListContent
       value: 
       objectReference: {fileID: 1150836554}
@@ -191580,6 +191591,11 @@ PrefabInstance:
       propertyPath: createSessionButton
       value: 
       objectReference: {fileID: 1789249258}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: emojiList.Array.size
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
         type: 3}
       propertyPath: lobbyPlayerTransform
@@ -191592,9 +191608,285 @@ PrefabInstance:
       objectReference: {fileID: 276437544}
     - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
         type: 3}
+      propertyPath: 'emojiList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 856037824181794435, guid: c492133b084944be2b00935dee292c1a,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3063475192219849646, guid: 1f95dabf2072d4c24a413dab1ed7a029,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6374637013135950497, guid: 58191a0e365014587b5b5c62e8bac5e0,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1922155656426699401, guid: ffe94f3e3c5c048738dcf6f22d902ca4,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[4]'
+      value: 
+      objectReference: {fileID: 7159123720317457276, guid: 9ba052c5567b54b608ea53d350893754,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1557855083673041446, guid: 257f76ef20b664aea99b3569ef9c27e8,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[6]'
+      value: 
+      objectReference: {fileID: 3301192953113592492, guid: 78fb4f798b7814681a219326b82fc7e2,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[7]'
+      value: 
+      objectReference: {fileID: 47780859239434886, guid: d87fe31534aba4777ad3120e7812ab40,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[8]'
+      value: 
+      objectReference: {fileID: 2419961267839269658, guid: 79e7b4ac9d43143a19beaefc7c56ec65,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[9]'
+      value: 
+      objectReference: {fileID: 2175823555580686611, guid: a12417a0ab26841beaf3c6e8b2d5a1a1,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
       propertyPath: allPlayerParentTransform
       value: 
       objectReference: {fileID: 666336891}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[10]'
+      value: 
+      objectReference: {fileID: 3864002356917789333, guid: 203da6594f9f34ca495c27a721968e46,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[11]'
+      value: 
+      objectReference: {fileID: 1671428114195028216, guid: 6845c448e58dd44a1b6ecf4fbca705dc,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[12]'
+      value: 
+      objectReference: {fileID: 332030219902816739, guid: 7b3ab4e89b01c4649b926e6e64ee3073,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[13]'
+      value: 
+      objectReference: {fileID: 1403179444765217491, guid: ee3113aa85b924a41a26eba4b1c7d286,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[14]'
+      value: 
+      objectReference: {fileID: 3066322674982548644, guid: 2bb261a7622fd476c80c3774842d0f3e,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[15]'
+      value: 
+      objectReference: {fileID: 4515485828302087427, guid: 8898a7ad51b64451fbbb7b2d4425d370,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[16]'
+      value: 
+      objectReference: {fileID: 3866681255132165938, guid: 7814c8b8e936d4db78b12a5811ee4abb,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[17]'
+      value: 
+      objectReference: {fileID: 2382634566208557457, guid: e4e4787b8ebcd463d8fdb5b893344f11,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[18]'
+      value: 
+      objectReference: {fileID: 9037884370851157187, guid: 8089de8a52d1542eb87701759768e901,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[19]'
+      value: 
+      objectReference: {fileID: 4334996322438075839, guid: 37822549eeca44f508d92049665c2543,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[20]'
+      value: 
+      objectReference: {fileID: 1926444035358962470, guid: 0d789f8ace2664da8bd6352cacd54296,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[21]'
+      value: 
+      objectReference: {fileID: 1685308322758621528, guid: 7ff7831c03c7a4ca1ac105f687ae60b1,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[22]'
+      value: 
+      objectReference: {fileID: 7469336419035895268, guid: 6694834950415409bb56c5904ac856dd,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[23]'
+      value: 
+      objectReference: {fileID: 7290782559317134404, guid: 4462bb5ce7a444448b180d2f3e386793,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[24]'
+      value: 
+      objectReference: {fileID: 2955217198413450994, guid: aa4cfb243ab434a9b8784e0dc4f3d04d,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[25]'
+      value: 
+      objectReference: {fileID: 4115914933881838739, guid: df6a68be6dbcc443bb5898353637b89e,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[26]'
+      value: 
+      objectReference: {fileID: 3523583382234173414, guid: db69cc0640d7846559fa97f42bcf0972,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[27]'
+      value: 
+      objectReference: {fileID: 577032370890365190, guid: b9d483eccc2b7405eb436826e72903b3,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[28]'
+      value: 
+      objectReference: {fileID: 656196149132915329, guid: e5f6b3e55bb804d53a685f02efd355fa,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[29]'
+      value: 
+      objectReference: {fileID: 8765627646636577328, guid: 2ba67205a8d874bd6908d49846b9a508,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[30]'
+      value: 
+      objectReference: {fileID: 5225489503010605301, guid: 63f7863799dfd49eea0bdc7dd3844ac3,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[31]'
+      value: 
+      objectReference: {fileID: 2788644369541967394, guid: c5311de2d2eb640aebabc458e9004ed2,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[32]'
+      value: 
+      objectReference: {fileID: 5630639366283600990, guid: 2b0914c9c37364b8786fdc06efc66d99,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[33]'
+      value: 
+      objectReference: {fileID: 3008665227488025714, guid: d5b78714f1f03425c8470e0e000ffb09,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[34]'
+      value: 
+      objectReference: {fileID: 42644848401494431, guid: 083fd304b081a4515bbbacf0ef0c3d65,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[35]'
+      value: 
+      objectReference: {fileID: 7804178213853944822, guid: 8595d2e352626442c815584191cc2386,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[36]'
+      value: 
+      objectReference: {fileID: 8557865060299932553, guid: 6635cfadb90e44e728f95859e8312e7c,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[37]'
+      value: 
+      objectReference: {fileID: 6273654811203769524, guid: 65761570a353a4a67bec65889d5d4e47,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[38]'
+      value: 
+      objectReference: {fileID: 5698278742371928866, guid: 5d0f0d3c6d86845a4b52afb14c201f93,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[39]'
+      value: 
+      objectReference: {fileID: 4729922896274364365, guid: 547f44571aab741a1a7eb92fdb67174b,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[40]'
+      value: 
+      objectReference: {fileID: 203500093711328390, guid: 3770f07facf8e448bb56a11298e95861,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[41]'
+      value: 
+      objectReference: {fileID: 4433123455358465591, guid: e393301aacce9460eb2164b0d8f73bcc,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[42]'
+      value: 
+      objectReference: {fileID: 92992107459242324, guid: 8f108c262e6844159ada9d6206e586f7,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[43]'
+      value: 
+      objectReference: {fileID: 7426660897996764226, guid: ecc1be975c7be4880814fd03a4cbf17f,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[44]'
+      value: 
+      objectReference: {fileID: 1641887933489367357, guid: ae82f59ee0e5d4770b8c4b9de771dd3b,
+        type: 3}
+    - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
+        type: 3}
+      propertyPath: 'emojiList.Array.data[45]'
+      value: 
+      objectReference: {fileID: 1641887933489367357, guid: ae82f59ee0e5d4770b8c4b9de771dd3b,
+        type: 3}
     - target: {fileID: 4336569001547267307, guid: 72d1d18ab3925254a9c9d24ebd413ba1,
         type: 3}
       propertyPath: _canvasCharacterSelection

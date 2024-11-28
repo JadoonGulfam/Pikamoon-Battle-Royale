@@ -49,9 +49,9 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject LobbyEnvironment;
     
     public Transform LobbyTransform, gamePlayTransform;
+    public List<GameObject> emojiList = new List<GameObject>();
 
-
-
+    public UIManager uiManager;
     private void Awake()
     {
         if (instance == null) { instance = this; }

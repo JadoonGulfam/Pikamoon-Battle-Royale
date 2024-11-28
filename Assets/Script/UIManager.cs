@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public GameObject mainPanel, loadingPanel, genderSelectionPanel;
+    public Button startBtn;
     public Image loadingSprite;
     private bool isLoading=false;
     private void Start()
