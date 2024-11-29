@@ -1,0 +1,301 @@
+
+BEGIN_OPTIONS
+	name "Hidden/ProceduralRoad_Base"
+END_OPTIONS
+
+BEGIN_PROPERTIES
+	[Header(Main)]
+	_Asphalt_Albedo("Albedo", 2D) = "white" {}
+	_Asphalt_Tint("Tint", Color) = (1,1,1,1) 
+	_Asphalt_NormalSAO("NSAO (Smoothness, NormalY, AO, NormalX)", 2D) = "bump" {}
+	_Asphalt_MaskMap("Mask Map", 2D) = "black" {}
+	_Asphalt_NormalStrength("Normal Strength", Range(0,1)) = 1
+	_Asphalt_Smoothness("Smoothness Modifier", Range(-1,1)) = 0
+	_Asphalt_Metallic ("Metallic Modifier", Range(-1,1)) = 0
+	_AsphaltStochasticContrast("Asphalt Stochastic Contrast", Range(0.01, 0.99)) = 0.7
+    _AsphaltStochasticScale("Asphalt Stochastic Scale", Range(0,2)) = 1
+
+	_Mask("LineA/LineB/WearUV/WearWorld", 2D) = "black" {}
+
+	[Header(Lines)]
+	_LineColorA("Line Color A", Color) = (1,1,1,1)
+	_LineColorB("Line Color B", Color) = (1,1,0,1)
+	_LineEmissiveA("Line Emission", Float) = 0
+	_LineEmissiveB("Line Emission", Float) = 0
+
+	[Header(Wear Noise)]
+	_WearNoise("Wear Noise Texture", 2D) = "black" {}
+	_LineWear("Line Wear", Range(0,1)) = 0.5
+	
+	[Header(WearA)]
+	_WearMapA("Normal", 2D) = "bump" {}
+	_WearA_Tint("Tint", Color) = (0.5,0.5,0.5,0.5)
+	_WearA_PBR("Smoothness, Occlusion, Normal", Vector) = (0, 0, 0, 1)
+	_WearA_NoiseParams("Contrast, Invert", Vector) = (8, 0, 0, 0)
+
+	[Header(WearB)]
+	_WearMapB("Normal", 2D) = "bump" {}
+	_WearB_Tint("Tint", Color) = (0.5,0.5,0.5,0.5)
+	_WearB_PBR("Smoothness, Occlusion, Normal, Strength", Vector) = (0, 0, 0, 1)
+	_WearB_NoiseParams("Contrast, Invert", Vector) = (8, 0, 0, 0)
+
+	[Header(Overlay)]
+	_Overlay_Albedo("Overlay Albedo", 2D) = "white" {}
+	_Overlay_Normal("Overlay Normal", 2D) = "bump" {}
+	_Overlay_Mask("Overlay Mask", 2D) = "black" {}
+	_Overlay_VariationMask("Variation Mask", 2D) = "white" {}
+
+END_PROPERTIES
+
+BEGIN_DEFINES
+
+	#pragma shader_feature_local _ _WEAR_A
+	#pragma shader_feature_local _ _WEAR_B
+
+	#pragma shader_feature_local _ _PACKEDFAST
+	#pragma shader_feature_local _ _ASPHALTSTOCHASTIC
+	#pragma shader_feature_local _ _ASPHALT_WORLDTRIPLANAR
+
+	#pragma shader_feature_local _ _OVERLAY
+
+	#define __ROADSHADER__ 1
+	#define _ROADWEAR 1
+
+END_DEFINES
+
+BEGIN_CBUFFER
+	
+	half4 _Asphalt_Tint;
+	half _Asphalt_Metallic;
+	half _Asphalt_Smoothness;
+	float4 _Asphalt_Albedo_ST;
+	half _Asphalt_NormalStrength;
+	half _AsphaltStochasticScale;
+	half _AsphaltStochasticContrast;
+
+	half4 _WearA_Tint;
+	half4 _WearA_PBR;
+	float4 _WearMapA_ST;
+	half4 _WearA_NoiseParams;
+	
+
+	half4 _WearB_Tint;
+	half4 _WearB_PBR;
+	float4 _WearMapB_ST;
+	half4 _WearB_NoiseParams;
+
+	float4 _WearNoise_ST;
+
+	half4 _LineColorA;
+	half4 _LineColorB;
+	half _LineEmissiveA;
+	half _LineEmissiveB;
+	half _LineWear;
+
+	float4 _Mask_TexelSize;
+
+	float4 _Overlay_Albedo_ST;
+	float4 _Overlay_VariationMask_ST;
+
+END_CBUFFER
+
+BEGIN_BLACKBOARD
+	half roadWear;
+END_BLACKBOARD
+
+
+BEGIN_CODE
+
+	sampler2D _Asphalt_Albedo;
+	sampler2D _Asphalt_NormalSAO;
+	sampler2D _Asphalt_MaskMap;
+
+	TEXTURE2D(_WearMapA);
+	TEXTURE2D(_WearMapB);
+	TEXTURE2D(_WearNoise);
+	sampler2D _Mask;
+	TEXTURE2D(_Overlay_Albedo);
+	TEXTURE2D(_Overlay_Normal);
+	TEXTURE2D(_Overlay_Mask);
+	TEXTURE2D(_Overlay_VariationMask);
+
+	SamplerState road_linear_repeat_sampler;
+	SamplerState road_linear_clamp_sampler;
+
+	void SurfaceFunction(inout Surface o, inout ShaderData d)
+	{
+
+		float2 uv = d.texcoord0.xy;
+
+		#if _ASPHALT_WORLDTRIPLANAR
+			// base layer, triplanar
+			half3 triblend = saturate(pow(d.worldSpaceNormal, 4));
+			triblend /= max(dot(triblend, half3(1,1,1)), 0.0001);
+
+			float2 uvX = d.worldSpacePosition.zy * _Asphalt_Albedo_ST.xy + _Asphalt_Albedo_ST.zy;
+			float2 uvY = d.worldSpacePosition.xz * _Asphalt_Albedo_ST.xy + _Asphalt_Albedo_ST.zy;
+			float2 uvZ = d.worldSpacePosition.xy * _Asphalt_Albedo_ST.xy + _Asphalt_Albedo_ST.zy;
+			uvY += 0.33;
+			uvZ += 0.67;
+			half3 axisSign = d.worldSpaceNormal < 0 ? -1 : 1;
+			uvX.x *= axisSign.x;
+			uvY.x *= axisSign.y;
+			uvZ.x *= -axisSign.z;
+
+			// 1 sample triplanar
+			float2 uvT = uvZ;
+			if (triblend.x > triblend.y && triblend.x > triblend.z)
+			{
+				uvT = uvX;
+			}
+			else if (triblend.y > triblend.z)
+			{
+				uvT = uvY;
+			}
+		#else
+			float2 uvT = uv * _Asphalt_Albedo_ST.xy + _Asphalt_Albedo_ST.zy;
+		#endif
+
+		#if _ASPHALTSTOCHASTIC
+           float w1, w2, w3;
+           int2 vertex1, vertex2, vertex3;
+		   float2 dx = ddx(uvT);
+		   float2 dy = ddy(uvT);
+           TriangleGrid(uv, _AsphaltStochasticScale, w1, w2, w3, vertex1, vertex2, vertex3);
+
+           // Assign random offset to each triangle vertex
+           float2 uv0 = uvT;
+           float2 uv1 = uvT;
+           float2 uv2 = uvT;
+   
+           uv0.xy += SimpleHash2(vertex1);
+           uv1.xy += SimpleHash2(vertex2);
+           uv2.xy += SimpleHash2(vertex3);
+           half3 weights = half3(w1, w2, w3);
+
+           half4 albedo0 = tex2Dgrad(_Asphalt_Albedo, uv0, dx, dy);
+           half4 albedo1 = tex2Dgrad(_Asphalt_Albedo, uv1, dx, dy);
+           half4 albedo2 = tex2Dgrad(_Asphalt_Albedo, uv2, dx, dy);
+
+		   weights = BaryWeightBlend(weights, albedo0.a, albedo1.a, albedo2.a, _AsphaltStochasticContrast);
+		   half4 col = albedo0 * weights.x + albedo1 * weights.y + albedo2 * weights.z;
+           half4 norm0 = tex2Dgrad(_Asphalt_NormalSAO, uv0, dx, dy);
+           half4 norm1 = tex2Dgrad(_Asphalt_NormalSAO, uv1, dx, dy);
+           half4 norm2 = tex2Dgrad(_Asphalt_NormalSAO, uv2, dx, dy);
+		   half4 nsao = norm0 * weights.x + norm1 * weights.y + norm2 * weights.z;
+
+		   half metallic = 0;
+		   #if !_PACKEDFAST
+		      half4 mmap0 = tex2Dgrad(_Asphalt_MaskMap, uv0, dx, dy);
+		      half4 mmap1 = tex2Dgrad(_Asphalt_MaskMap, uv1, dx, dy);
+              half4 mmap2 = tex2Dgrad(_Asphalt_MaskMap, uv2, dx, dy);
+		      half4 mmap = mmap0 * weights.x + mmap1 * weights.y + mmap2 * weights.z;
+		      nsao.r = mmap.a;
+			  nsao.b = mmap.g;
+			  metallic = mmap.r;
+		   #endif
+
+		   
+		#else
+		   half4 col = tex2D(_Asphalt_Albedo, uvT);
+		   half4 nsao = tex2D(_Asphalt_NormalSAO, uvT);
+		   half metallic = 0;
+		   #if !_PACKEDFAST
+		       half4 mmap = tex2D(_Asphalt_MaskMap, uvT);
+			   nsao.r = mmap.a;
+			   nsao.b = mmap.g;
+			   metallic = mmap.r;
+		   #endif
+		#endif
+
+		o.Albedo = col.rgb * _Asphalt_Tint.rgb;
+		o.Height = col.a;
+		
+		fixed3 normal;
+		normal.xy = nsao.wy * 2 - 1;
+		normal.xy *= _Asphalt_NormalStrength;
+		normal.z = sqrt(1 - saturate(dot(normal.xy, normal.xy)));
+
+		o.Normal = normal;
+
+		o.Smoothness = saturate(nsao.r + _Asphalt_Smoothness);
+		o.Metallic = metallic + _Asphalt_Metallic;
+		o.Occlusion = nsao.b;
+
+		// lines
+		float fw = fwidth(d.texcoord0.xy);
+		float lod = saturate(fw * _Mask_TexelSize.zw);
+		half4 mask = tex2D(_Mask, d.texcoord0.xy);
+		// soften in mips to prevent aliasing
+		mask.xy = lerp(smoothstep(0.25-fw, 0.75+fw, mask.xy), mask.xy, lod);
+		
+		half4 noise = _WearNoise.Sample(road_linear_repeat_sampler, d.worldSpacePosition.xz * _WearNoise_ST.xy + _WearNoise_ST.zw);
+
+		float2 maskStr = (1.0 - (smoothstep(0., 0.8, noise.z) * _LineWear)) * mask.xy;
+		o.Albedo = lerp(o.Albedo, _LineColorA.rgb, mask.x * maskStr.x * _LineColorA.a);
+		o.Albedo = lerp(o.Albedo, _LineColorB.rgb, mask.y * maskStr.y * _LineColorB.a);
+
+		o.Normal.xy = lerp(o.Normal, float3(0,0,1), maskStr);
+		o.Smoothness = lerp(o.Smoothness, 0, maskStr);
+		o.Metallic *= 1.0 - maskStr;
+		o.Occlusion = lerp(o.Occlusion, 1, maskStr);
+		o.Emission += _LineColorA.rgb * maskStr.x * _LineEmissiveA;
+		o.Emission += _LineColorB.rgb * maskStr.y * _LineEmissiveB;
+
+		// wear
+		#if _WEAR_A
+			mask.z = abs(_WearA_NoiseParams.y - mask.z);
+			float2 wAUV = d.worldSpacePosition.xz;
+			wAUV = wAUV * _WearMapA_ST.xy + _WearMapA_ST.zw;
+			float noiseA = saturate(lerp(0.5, noise, _WearA_NoiseParams.x)).x;
+			half3 wearA = UnpackNormal(_WearMapA.Sample(road_linear_repeat_sampler, wAUV));
+			half heightA = (wearA.x < 0.5 ? (2.0 * wearA.x * wearA.y) : (1.0 - 2.0 * (1.0 - wearA.x) * (1.0 - wearA.y)));
+			heightA = saturate(heightA * 4);
+			half wearAWeight = _WearA_PBR.w * noiseA * mask.z;
+
+			o.Albedo = lerp(o.Albedo, o.Albedo * _WearA_Tint.rgb * 2, wearAWeight * heightA);
+			o.Normal = lerp(o.Normal, wearA, _WearA_PBR.z * wearAWeight);	
+			o.Occlusion += wearAWeight * _WearA_PBR.y;
+			o.Smoothness += wearAWeight * _WearA_PBR.x;
+			d.blackboard.roadWear = wearAWeight;
+
+        #endif
+
+		#if _WEAR_B
+			mask.w = abs(_WearB_NoiseParams.y - mask.w);
+			float2 wBUV = d.worldSpacePosition.xz;
+			wBUV = wBUV * _WearMapB_ST.xy + _WearMapB_ST.zw;
+			float noiseB = saturate(lerp(0.5, noise, _WearB_NoiseParams.x)).y;
+			half3 wearB = UnpackNormal(_WearMapB.Sample(road_linear_repeat_sampler, wBUV));
+			half heightB = (wearB.x < 0.5 ? (2.0 * wearB.x * wearB.y) : (1.0 - 2.0 * (1.0 - wearB.x) * (1.0 - wearB.y)));
+			heightB = saturate(heightB * 4);
+			half wearBWeight = _WearB_PBR.w * noiseB * mask.w;
+		
+			o.Albedo = lerp(o.Albedo, o.Albedo * _WearB_Tint.rgb * 2, wearBWeight * heightB);
+			o.Normal = lerp(o.Normal, wearB, _WearB_PBR.z * wearBWeight);	
+			o.Occlusion += wearBWeight * _WearB_PBR.y;
+			o.Smoothness += wearBWeight * _WearB_PBR.x;
+		#endif
+
+		#if _OVERLAY
+			float2 ouv = d.worldSpacePosition.xz * _Overlay_Albedo_ST.xy + _Overlay_Albedo_ST.zw;
+			half4 oAlbedo = _Overlay_Albedo.Sample(road_linear_repeat_sampler, ouv);
+			half3 oNormal = UnpackNormal(_Overlay_Normal.Sample(road_linear_repeat_sampler, ouv));
+			half4 oMask = _Overlay_Mask.Sample(road_linear_repeat_sampler, ouv);
+			float2 vwsUV = d.worldSpacePosition.xz * _Overlay_VariationMask_ST.xy + _Overlay_VariationMask_ST.zw;
+			half varyWorldSpace = _Overlay_VariationMask.Sample(road_linear_repeat_sampler, vwsUV).g;
+			oAlbedo.a *= varyWorldSpace;
+			o.Albedo = lerp(o.Albedo, oAlbedo.rgb, oAlbedo.a);
+			o.Normal = lerp(o.Normal, oNormal.rgb, oAlbedo.a);
+			o.Smoothness = lerp(o.Smoothness, oMask.a, oAlbedo.a);
+			o.Occlusion = lerp(o.Occlusion, oMask.g, oAlbedo.a);
+			o.Metallic = lerp(o.Metallic, oMask.r, oAlbedo.a);
+		#endif
+
+		o.Albedo = saturate(o.Albedo);
+		o.Smoothness = saturate(o.Smoothness);
+		o.Occlusion = saturate(o.Occlusion);
+	}
+
+END_CODE
+
