@@ -33,6 +33,7 @@ public class PikamoonAI : MonoBehaviour
         {
             if (!navMeshAgent.hasPath)
             {
+                //no path found 
                 StartCoroutine(IdleBeforeNextRoam());
             }
         }
@@ -47,10 +48,13 @@ public class PikamoonAI : MonoBehaviour
             animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), 1.0f, Time.deltaTime * 3));
             //animator.SetFloat("Move", 1); // Walking animation
         }
+
+        // player is null 
     }
 
     public void AttackEnemy(Transform enemy)
     {
+        // add attach logic here
         if (enemy != null)
         {
             navMeshAgent.SetDestination(enemy.position);
@@ -60,13 +64,16 @@ public class PikamoonAI : MonoBehaviour
 
     public void StartRoaming()
     {
+        // move random in enve
         isFollowingPlayer = false;
         isRoaming = true;
         SetNewRoamDestination();
     }
 
+    // release pikamoon logic here 
     public void ReleasePikamoon()
     {
+
         isFollowingPlayer = false;
         isRoaming = true;
         navMeshAgent.ResetPath();
@@ -74,6 +81,7 @@ public class PikamoonAI : MonoBehaviour
         animator.SetFloat("Move", 0); // Idle animation
     }
 
+    // find new positioin in open world  to go 
     private void SetNewRoamDestination()
     {
         Vector3 randomDirection = Random.insideUnitSphere * 10f;

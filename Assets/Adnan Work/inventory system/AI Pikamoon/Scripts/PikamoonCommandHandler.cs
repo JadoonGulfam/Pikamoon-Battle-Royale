@@ -16,11 +16,18 @@ public class PikamoonCommandHandler : MonoBehaviour
     {
         pikamoonAI = GetComponent<PikamoonAI>();
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("built"))
+        {
+            print("captured");
+            pikamoonInventory.AddPikamoon(this.gameObject);
+        }
+    }
     private void OnMouseDown()
     {
-        print("captured");
-        pikamoonInventory.AddPikamoon(this.gameObject);
+        //print("captured");
+       // pikamoonInventory.AddPikamoon(this.gameObject);
     }
     public void ExecuteCommand(PikamoonCommand command, Transform target = null)
     {
