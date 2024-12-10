@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 6
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -21,7 +21,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ellen_Hair_Mat 1
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _NORMALMAP
   m_InvalidKeywords: []
@@ -29,8 +31,11 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -117,12 +122,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _AdaptiveThicnkess: 0
+    - _AddPrecomputedVelocity: 0
     - _AdditionalLightsAmount: 1
     - _AdditionalLightsFaloff: 1
     - _AdditionalLightsIntesity: 1
     - _AdditionalLightsSmoothnessMultiplier: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _AlphaToMask: 0
     - _AnisoOffset: 0.04
     - _AnisoOffset2: -0.19
     - _Anisotropy: 1
@@ -193,8 +200,8 @@ Material:
     - _numSteps: 4
     - _value: 0
     m_Colors:
-    - _BaseColor: {r: 0.4784314, g: 0.1137255, b: 0.121568635, a: 1}
-    - _Color: {r: 0.47843134, g: 0.11372546, b: 0.12156858, a: 1}
+    - _BaseColor: {r: 0.47843128, g: 0.11372543, b: 0.12156855, a: 1}
+    - _Color: {r: 0.47843128, g: 0.11372539, b: 0.12156852, a: 1}
     - _Color2: {r: 1, g: 0.45588237, b: 0.45588237, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighlightColor: {r: 0.8018868, g: 0.094562106, b: 0.21537162, a: 1}
@@ -205,3 +212,4 @@ Material:
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
