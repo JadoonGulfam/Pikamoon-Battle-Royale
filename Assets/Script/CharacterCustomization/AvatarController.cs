@@ -11,6 +11,7 @@ namespace CharacterCustomization
         public SkinnedMeshRenderer body, eye;
         public GameObject wornHair, wornCloth;
         AvatarBodyParts avatarBodyParts;
+        public GenderType genderType;
         private void Awake()
         {
             stitcher = new Stitcher();
@@ -19,7 +20,8 @@ namespace CharacterCustomization
         }
         void Start()
         {
-            SetAvatarClothDefault(this.gameObject, GenderType.male);
+
+            SetAvatarClothDefault(this.gameObject, genderType);
         }
 
         public void SetAvatarClothDefault(GameObject applyOn, GenderType _gender)
@@ -77,6 +79,53 @@ namespace CharacterCustomization
                         break;
                 }
             }
+            if (_gender == GenderType.female) // if avatar is Male
+            {
+                switch (_type)
+                {
+                    case BodyPartsType.Body:
+                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultBody != null)
+                            StichItem(-1, defaultClothDatabase.femaleAvatarDefaultCostume.DefaultBody, _type, _applyOn);
+                        break;
+                    case BodyPartsType.Hair:
+                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultHair != null)
+                            StichItem(-1, defaultClothDatabase.femaleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
+                        break;
+                    case BodyPartsType.Eyes:
+                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyes != null)
+                            avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyes, string.Empty);
+                        break;
+                    case BodyPartsType.Eyebrow:
+                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyebrow != null)
+                            avatarBodyParts.ApplyEyebrowTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
+                        break;
+                    case BodyPartsType.Skin:
+                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultSkin != null && defaultClothDatabase.femaleAvatarDefaultCostume.DefaultFace != null)
+                        {
+                            avatarBodyParts.ApplyFaceTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultFace, string.Empty);
+                            avatarBodyParts.ApplySkinTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultSkin, string.Empty);
+                        }
+                        break;
+                    //case BodyPartsType.Arms:
+                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
+                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
+                    //    else if (wornArms != null)
+                    //    {
+                    //        UnStichItem(_type);
+                    //    }
+                    //    break;
+                    //case BodyPartsType.Legs:
+                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs != null)
+                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, _type,_applyOn);
+                    //    else if (wornLegs != null)
+                    //    {
+                    //        UnStichItem(_type);
+                    //    }
+                    //    break;
+                    default:
+                        break;
+                }
+            }
         }
         public void StichItem(int itemId, GameObject item, BodyPartsType _type, GameObject applyOn, bool applyHairColor = true)
         {
@@ -89,14 +138,14 @@ namespace CharacterCustomization
                 case BodyPartsType.Body:
                     wornCloth = item;
                     wornCloth.GetComponent<SkinnedMeshRenderer>().updateWhenOffscreen = true;
-                    break;            
+                    break;
                 case BodyPartsType.Hair:
                     wornHair = item;
                     if (avatarBodyParts.currentCharacterData.hairColor != Color.black && applyHairColor)
                         avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), BodyType.Hair);
                     if (Constants.getColorObject != null)
                         Constants.getColorObject.Invoke();
-                    break;               
+                    break;
             }
 
         }
