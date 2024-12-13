@@ -61,14 +61,14 @@ namespace CharacterCustomization
                                 switch (_type)
                                 {
                                     case BodyType.Hair:
-                                        _applyOn.GetComponent<AvatarBodyParts>().ApplyHairPreset(loadAd.Result as GameObject, _key, BodyPartsType.Hair, _applyColor);
+                                        _applyOn.GetComponent<AvatarController>().ApplyHairPreset(loadAd.Result as GameObject, _key, BodyPartsType.Hair, _applyColor);
                                         break;
                                     //case BodyType.Shirt:
                                     //    // characterCustomizationManager.ApplyShirtPreset(loadAd.Result as GameObject, key, type.ToString());
                                     //    _applyOn.GetComponent<AvatarBodyParts>().ApplyShirtPreset(loadAd.Result as GameObject, _key, BodyPartsType.Chest);
                                     //    break;
                                     case BodyType.Preset:
-                                        _applyOn.GetComponent<AvatarBodyParts>().ApplyOnPreset(loadAd.Result as GameObject, _key, _type);
+                                        _applyOn.GetComponent<AvatarController>().ApplyOnPreset(loadAd.Result as GameObject, _key, _type);
                                         break;
                                 }
                                 LoadingManager.Instance.DeactivateAll();
@@ -117,13 +117,13 @@ namespace CharacterCustomization
                                 switch (_type)
                                 {
                                     case BodyType.EyeColor:
-                                        applyOn.GetComponent<AvatarBodyParts>().ApplyEyeTexture(loadAd.Result as Texture2D, key);
+                                        applyOn.GetComponent<AvatarController>().ApplyEyeTexture(loadAd.Result as Texture2D, key);
                                         break;
                                     case BodyType.Eyebrow:
-                                        applyOn.GetComponent<AvatarBodyParts>().ApplyEyebrowTexture(loadAd.Result as Texture2D, key);
+                                        applyOn.GetComponent<AvatarController>().ApplyEyebrowTexture(loadAd.Result as Texture2D, key);
                                         break;
                                     case BodyType.SkinColor:
-                                        applyOn.GetComponent<AvatarBodyParts>().ApplyFaceTexture(loadAd.Result as Texture2D, key);
+                                        applyOn.GetComponent<AvatarController>().ApplyFaceTexture(loadAd.Result as Texture2D, key);
                                         break;
                                 }
                                 LoadingManager.Instance.DeactivateAll();

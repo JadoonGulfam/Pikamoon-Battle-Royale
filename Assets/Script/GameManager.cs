@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void SaveCharacterCustomization()
     {
-        characterdata = _player.GetComponent<AvatarBodyParts>().currentCharacterData.Clone();
+        characterdata = _player.GetComponent<AvatarController>().currentCharacterData.Clone();
         string json = JsonUtility.ToJson(characterdata, true);
         File.WriteAllText(Application.persistentDataPath + "/characterCustom.json", json);
         Debug.Log("Character customization saved to " + Application.persistentDataPath + "/characterCustom.json");

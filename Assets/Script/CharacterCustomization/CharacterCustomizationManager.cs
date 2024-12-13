@@ -10,7 +10,7 @@ namespace CharacterCustomization
     {
         public CharacterData defaultCharacterdata;      
         public AvatarController avatarController;
-        public AvatarBodyParts avatarBodyParts;
+        //public AvatarBodyParts avatarBodyParts;
         public int isGuest = 0;
         public Button save, reset;
         private void OnEnable()
@@ -35,7 +35,7 @@ namespace CharacterCustomization
             {
                 string json = File.ReadAllText(Application.persistentDataPath + "/characterCustom.json");
                 defaultCharacterdata = JsonUtility.FromJson<CharacterData>(json);
-                avatarBodyParts.currentCharacterData = defaultCharacterdata.Clone();
+                avatarController.currentCharacterData = defaultCharacterdata.Clone();
                 Debug.Log("Character customization loaded from " + Application.persistentDataPath + "/characterCustom.json");
                 //int isGuest = PlayerPrefs.GetInt("Guest", 0) == 1 ? 1 : 0;
                 if (isGuest == 1)
@@ -52,12 +52,12 @@ namespace CharacterCustomization
         private async void ApplyCharacterCustomization()
         {
 
-            avatarBodyParts.currentCharacterData = defaultCharacterdata.Clone();
+            avatarController.currentCharacterData = defaultCharacterdata.Clone();
             if (Constants.downloadAddressableObject != null)
             {
                 if (defaultCharacterdata.hairPreset != null && defaultCharacterdata.hairPreset != string.Empty)
                 {
-                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.hairPreset, BodyType.Hair, avatarBodyParts.gameObject, true));
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.hairPreset, BodyType.Hair, avatarController.gameObject, true));
                 }
                 else
                 {
@@ -65,7 +65,7 @@ namespace CharacterCustomization
                 }               
                 if (defaultCharacterdata.eyeColor != null && defaultCharacterdata.eyeColor != string.Empty)
                 {
-                    await Constants.downloadAddressableTexture(defaultCharacterdata.eyeColor, BodyType.EyeColor, avatarBodyParts.gameObject);
+                    await Constants.downloadAddressableTexture(defaultCharacterdata.eyeColor, BodyType.EyeColor, avatarController.gameObject);
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace CharacterCustomization
                 //}
                 if (defaultCharacterdata.eyeBrowShape != null && defaultCharacterdata.eyeBrowShape != string.Empty)
                 {
-                    await Constants.downloadAddressableTexture(defaultCharacterdata.eyeBrowShape, BodyType.Eyebrow, avatarBodyParts.gameObject);
+                    await Constants.downloadAddressableTexture(defaultCharacterdata.eyeBrowShape, BodyType.Eyebrow, avatarController.gameObject);
                 }
                 else
                 {
@@ -101,7 +101,7 @@ namespace CharacterCustomization
         }
         public void ApplyChanges()
         {
-            defaultCharacterdata = avatarBodyParts.currentCharacterData.Clone();
+            defaultCharacterdata = avatarController.currentCharacterData.Clone();
            // SaveCharacterCustomization();
         }
         public async void ResetChanges()
@@ -114,8 +114,8 @@ namespace CharacterCustomization
                     //avatarBodyParts.currentCharacterData.faceShape = defaultCharacterdata.faceShape;
                     break;
                 case BodyType.Hair:
-                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.hairPreset, BodyType.Hair, avatarBodyParts.gameObject, false));
-                    avatarBodyParts.currentCharacterData.hairPreset = defaultCharacterdata.hairPreset;
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.hairPreset, BodyType.Hair, avatarController.gameObject, false));
+                    avatarController.currentCharacterData.hairPreset = defaultCharacterdata.hairPreset;
                     break;
                 case BodyType.Lips:
                     //Constants.resetBlendShapes.Invoke();
@@ -138,18 +138,18 @@ namespace CharacterCustomization
                 case BodyType.Eyebrow:
                     if (Constants.downloadAddressableTexture != null)
                     {
-                        await Constants.downloadAddressableTexture(defaultCharacterdata.eyeBrowShape, BodyType.Eyebrow, avatarBodyParts.gameObject);
+                        await Constants.downloadAddressableTexture(defaultCharacterdata.eyeBrowShape, BodyType.Eyebrow, avatarController.gameObject);
                     }
                     break;
                 case BodyType.EyeColor:
                     if (Constants.downloadAddressableTexture != null)
                     {
-                        await Constants.downloadAddressableTexture(defaultCharacterdata.eyeColor, BodyType.EyeColor, avatarBodyParts.gameObject);
+                        await Constants.downloadAddressableTexture(defaultCharacterdata.eyeColor, BodyType.EyeColor, avatarController.gameObject);
                     }
                     break;
                 case BodyType.Body:
-                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.torsoShape, BodyType.Body, avatarBodyParts.gameObject, false));
-                    avatarBodyParts.currentCharacterData.clothPreset = defaultCharacterdata.clothPreset;
+                    _ = StartCoroutine(Constants.downloadAddressableObject(defaultCharacterdata.torsoShape, BodyType.Body, avatarController.gameObject, false));
+                    avatarController.currentCharacterData.clothPreset = defaultCharacterdata.clothPreset;
                     break;
                 //case BodyType.Arms:
                 //    //Constants.resetBlendShapes.Invoke();

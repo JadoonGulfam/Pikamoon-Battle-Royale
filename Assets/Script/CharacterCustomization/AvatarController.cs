@@ -6,17 +6,23 @@ namespace CharacterCustomization
 {
     public class AvatarController : MonoBehaviour
     {
-        private DefaultClothDatabase defaultClothDatabase;
+        public AvatarDefaultClothes maleAvatarDefaultCostume;
+        public AvatarDefaultClothes femaleAvatarDefaultCostume;
+
+        //private DefaultClothDatabase defaultClothDatabase;
         public Stitcher stitcher;
         public SkinnedMeshRenderer body, eye;
         public GameObject wornHair, wornCloth;
-        AvatarBodyParts avatarBodyParts;
+        //AvatarBodyParts avatarBodyParts;
         public GenderType genderType;
+
+        public CharacterData currentCharacterData;
+        private GameObject presetObject;
         private void Awake()
         {
             stitcher = new Stitcher();
-            avatarBodyParts = GetComponent<AvatarBodyParts>();
-            defaultClothDatabase = GetComponent<DefaultClothDatabase>();
+           //avatarBodyParts = GetComponent<AvatarBodyParts>();
+           // defaultClothDatabase = GetComponent<DefaultClothDatabase>();
         }
         void Start()
         {
@@ -37,26 +43,26 @@ namespace CharacterCustomization
                 switch (_type)
                 {
                     case BodyPartsType.Body:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultBody != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultBody, _type, _applyOn);
+                        if (maleAvatarDefaultCostume.DefaultBody != null)
+                            StichItem(-1, maleAvatarDefaultCostume.DefaultBody, _type, _applyOn);
                         break;
                     case BodyPartsType.Hair:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair != null)
-                            StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
+                        if (maleAvatarDefaultCostume.DefaultHair != null)
+                            StichItem(-1, maleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
                         break;
                     case BodyPartsType.Eyes:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes != null)
-                            avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyes, string.Empty);
+                        if (maleAvatarDefaultCostume.DefaultEyes != null)
+                            ApplyEyeTexture(maleAvatarDefaultCostume.DefaultEyes, string.Empty);
                         break;
                     case BodyPartsType.Eyebrow:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow != null)
-                            avatarBodyParts.ApplyEyebrowTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
+                        if (maleAvatarDefaultCostume.DefaultEyebrow != null)
+                            ApplyEyebrowTexture(maleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
                         break;
                     case BodyPartsType.Skin:
-                        if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkin != null && defaultClothDatabase.maleAvatarDefaultCostume.DefaultFace != null)
+                        if (maleAvatarDefaultCostume.DefaultSkin != null && maleAvatarDefaultCostume.DefaultFace != null)
                         {
-                            avatarBodyParts.ApplyFaceTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultFace, string.Empty);
-                            avatarBodyParts.ApplySkinTexture(defaultClothDatabase.maleAvatarDefaultCostume.DefaultSkin, string.Empty);
+                            ApplyFaceTexture(maleAvatarDefaultCostume.DefaultFace, string.Empty);
+                            ApplySkinTexture(maleAvatarDefaultCostume.DefaultSkin, string.Empty);
                         }
                         break;
                     //case BodyPartsType.Arms:
@@ -84,26 +90,26 @@ namespace CharacterCustomization
                 switch (_type)
                 {
                     case BodyPartsType.Body:
-                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultBody != null)
-                            StichItem(-1, defaultClothDatabase.femaleAvatarDefaultCostume.DefaultBody, _type, _applyOn);
+                        if (femaleAvatarDefaultCostume.DefaultBody != null)
+                            StichItem(-1, femaleAvatarDefaultCostume.DefaultBody, _type, _applyOn);
                         break;
                     case BodyPartsType.Hair:
-                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultHair != null)
-                            StichItem(-1, defaultClothDatabase.femaleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
+                        if (femaleAvatarDefaultCostume.DefaultHair != null)
+                            StichItem(-1, femaleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
                         break;
                     case BodyPartsType.Eyes:
-                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyes != null)
-                            avatarBodyParts.ApplyEyeTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyes, string.Empty);
+                        if (femaleAvatarDefaultCostume.DefaultEyes != null)
+                            ApplyEyeTexture(femaleAvatarDefaultCostume.DefaultEyes, string.Empty);
                         break;
                     case BodyPartsType.Eyebrow:
-                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyebrow != null)
-                            avatarBodyParts.ApplyEyebrowTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
+                        if (femaleAvatarDefaultCostume.DefaultEyebrow != null)
+                            ApplyEyebrowTexture(femaleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
                         break;
                     case BodyPartsType.Skin:
-                        if (defaultClothDatabase.femaleAvatarDefaultCostume.DefaultSkin != null && defaultClothDatabase.femaleAvatarDefaultCostume.DefaultFace != null)
+                        if (femaleAvatarDefaultCostume.DefaultSkin != null && femaleAvatarDefaultCostume.DefaultFace != null)
                         {
-                            avatarBodyParts.ApplyFaceTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultFace, string.Empty);
-                            avatarBodyParts.ApplySkinTexture(defaultClothDatabase.femaleAvatarDefaultCostume.DefaultSkin, string.Empty);
+                            ApplyFaceTexture(femaleAvatarDefaultCostume.DefaultFace, string.Empty);
+                            ApplySkinTexture(femaleAvatarDefaultCostume.DefaultSkin, string.Empty);
                         }
                         break;
                     //case BodyPartsType.Arms:
@@ -141,8 +147,8 @@ namespace CharacterCustomization
                     break;
                 case BodyPartsType.Hair:
                     wornHair = item;
-                    if (avatarBodyParts.currentCharacterData.hairColor != Color.black && applyHairColor)
-                        avatarBodyParts.ApplyColor(ColorUtility.ToHtmlStringRGB(avatarBodyParts.currentCharacterData.hairColor), BodyType.Hair);
+                    if (currentCharacterData.hairColor != Color.black && applyHairColor)
+                        ApplyColor(ColorUtility.ToHtmlStringRGB(currentCharacterData.hairColor), BodyType.Hair);
                     if (Constants.getColorObject != null)
                         Constants.getColorObject.Invoke();
                     break;
@@ -164,7 +170,75 @@ namespace CharacterCustomization
         }
         public void SetDefaultTexture()
         {
-            body.materials[4].SetColor("_BaseColor", defaultClothDatabase.maleAvatarDefaultCostume.DefaultLipsColor);
+            body.materials[4].SetColor("_BaseColor", maleAvatarDefaultCostume.DefaultLipsColor);
+        }
+
+        public void ApplyHairPreset(GameObject _preset, string _key, BodyPartsType _type, bool _applyColor)
+        {
+            StichItem(-1, _preset, _type, this.gameObject, _applyColor);
+            currentCharacterData.hairPreset = _key;
+        }
+        public void ApplyClothPreset(GameObject _preset, string _key, BodyPartsType _type)
+        {
+            StichItem(-1, _preset, _type, this.gameObject);
+            currentCharacterData.clothPreset = _key;
+        }
+        public void ApplyOnPreset(GameObject _preset, string _key, BodyType _type)
+        {
+            if (presetObject != null)
+                Destroy(presetObject);
+            presetObject = Instantiate(_preset);
+            currentCharacterData.characterPreset = _key;
+        }
+        public void ApplyEyeTexture(Texture2D _texture, string _key)
+        {
+            eye.material.SetTexture("_BaseMap", _texture);
+            currentCharacterData.eyeColor = _key;
+        }
+        public void ApplySkinTexture(Texture2D _texture, string _key)
+        {
+            body.materials[5].SetTexture("_BaseMap", _texture);
+            currentCharacterData.skinColor = _key;
+        }
+        public void ApplyFaceTexture(Texture2D _texture, string _key)
+        {
+            body.materials[3].SetTexture("_BaseMap", _texture);
+            currentCharacterData.skinColor = _key;
+        }
+        public void ApplyEyebrowTexture(Texture2D _texture, string _key)
+        {
+            body.materials[2].SetTexture("_BaseMap", _texture);
+            currentCharacterData.eyeBrowShape = _key;
+        }
+        public void ApplyColor(string _color, BodyType _type)
+        {
+            Color newColor;
+            switch (_type)
+            {
+                case BodyType.Lips:
+                    if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
+                    {
+                        body.materials[4].SetColor("_BaseColor", newColor);
+                        //currentCharacterData.lipsColor = newColor;
+                    }
+                    break;
+                case BodyType.Hair:
+                    if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
+                    {
+                        wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Root_Color", newColor);
+                        wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].SetColor("_Tip_Color", newColor);
+                        if (wornHair.GetComponent<SkinnedMeshRenderer>().materials[1] != null)
+                            wornHair.GetComponent<SkinnedMeshRenderer>().materials[1].SetColor("_BaseColor", newColor);
+                    }
+                    break;
+                    //case BodyType.Eyebrow:
+                    //    if (ColorUtility.TryParseHtmlString("#" + _color, out newColor))
+                    //    {
+                    //        avatarController.body.GetComponent<SkinnedMeshRenderer>().materials[2].SetColor("_BaseColor", newColor);
+                    //        Debug.Log("111111");
+                    //    }
+                    //    break;
+            }
         }
     }
 }
