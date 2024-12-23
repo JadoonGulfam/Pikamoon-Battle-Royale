@@ -212,7 +212,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: -173.257, z: 0}
 --- !u!95 &6532938970154889937
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -226,6 +226,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -246,7 +247,6 @@ CharacterController:
     serializedVersion: 2
     m_Bits: 16
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -349,8 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e,
-    type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -378,7 +377,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 6bc1aaf4-b110-4ff7-891e-5b9fe6f32c4d
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick]
+    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 505059675166667290}
@@ -394,7 +393,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 2690c379-f54d-45be-a724-414123833eb4
-    m_ActionName: Player/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
+    m_ActionName: 'Player/Look[/Mouse/delta,/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 505059675166667290}
@@ -410,7 +409,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 8c4abdf8-4099-493a-aa1a-129acec7c3df
-    m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
+    m_ActionName: 'Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 505059675166667290}
@@ -426,7 +425,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 980e881e-182c-404c-8cbf-3d09fdb48fef
-    m_ActionName: Player/Sprint[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger]
+    m_ActionName: 'Player/Sprint[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e4ce1614-c754-48c1-9103-33130441661f
@@ -448,6 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0.15
   SyncScale: 0
   SyncParent: 0
   _autoAOIOverride: 1
@@ -472,6 +472,7 @@ MonoBehaviour:
   - {fileID: 4777134190489290811}
   - {fileID: 3274578323521136867}
   - {fileID: -7649945902918050967}
+  ForceRemoteRenderTimeframe: 0
 --- !u!114 &3274578323521136867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,18 +487,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCameraRoot: {fileID: 5328970212448078669}
   playerName: {fileID: 4399739963407058280}
-  PikaMoon_Barkian: {fileID: 8706876668061419797, guid: b7c40ed7ef72abd459541d20de8be63c,
-    type: 3}
-  PikaMoon_Blazeving: {fileID: 8007243249918823574, guid: 83ee445fe0878eb44b50f918aa5b72f7,
-    type: 3}
-  PikaMoon_Sylvolt: {fileID: 4454572566789570489, guid: 454ff95fc0cb34049997b2eb0cf092b1,
-    type: 3}
-  PikaMoon_Dracodilla: {fileID: 2705821859349728127, guid: 5141e568e44d60047a55cc03ebd806bd,
-    type: 3}
-  PikaMoon_Soarcrow: {fileID: 8094961872711702112, guid: b63f3b6d0b2c23240a60063ac2a2cc62,
-    type: 3}
-  PikaMoon_Torrentar: {fileID: 5200295727484133333, guid: ec37b2ae6b8a03744aab1f828a5d06b3,
-    type: 3}
+  PikaMoon_Barkian: {fileID: 8706876668061419797, guid: b7c40ed7ef72abd459541d20de8be63c, type: 3}
+  PikaMoon_Blazeving: {fileID: 8007243249918823574, guid: 83ee445fe0878eb44b50f918aa5b72f7, type: 3}
+  PikaMoon_Sylvolt: {fileID: 4454572566789570489, guid: 454ff95fc0cb34049997b2eb0cf092b1, type: 3}
+  PikaMoon_Dracodilla: {fileID: 2705821859349728127, guid: 5141e568e44d60047a55cc03ebd806bd, type: 3}
+  PikaMoon_Soarcrow: {fileID: 8094961872711702112, guid: b63f3b6d0b2c23240a60063ac2a2cc62, type: 3}
+  PikaMoon_Torrentar: {fileID: 5200295727484133333, guid: ec37b2ae6b8a03744aab1f828a5d06b3, type: 3}
   canvasData: {fileID: 7129484302008918036}
   characters:
   - {fileID: 1901944441222039956, guid: bb17423d7a492284cb4f3d775889236a, type: 3}
@@ -511,8 +506,6 @@ MonoBehaviour:
   - {fileID: 5716420430996070289, guid: 4648e98851a35bd4db5c29e39aaed468, type: 3}
   - {fileID: 215935656376665215, guid: 93e2544a52bf7484397f05148cca35c5, type: 3}
   pikaMoon_CharacterList: []
-  _userName: ' '
-  _myCharacterindex: 0
   myItems: {fileID: 0}
   virtualCamera: {fileID: 0}
 --- !u!114 &-7649945902918050967
@@ -528,11 +521,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 6532938970154889937}
-  TotalWords: 3
   ApplyTiming: 2
   SyncSettings: 79
   StateHashes: 0000000084ca1cc0f9c6230b1c6a54339e2518b671a7e1076b36dbedb1afdc305a6c54cd
   TriggerHashes: 00000000
+  TotalWords: 2
 --- !u!208 &8806149260138939447
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -561,10 +554,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac53300c4bd666041a8ede7d8b25d7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFov: 30
-  maxFov: 60
+  minDistance: 4
+  maxDistance: 15
   sensitivity: 20
-  virtualCameraDistance: {fileID: 0}
 --- !u!114 &2326007521212581909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,14 +583,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Settings: {fileID: 0}
   Prefabs:
-    RadarPrefab: {fileID: 114649513964931752, guid: 7df08e2a2fd0940469fa781e26554019,
-      type: 3}
-    CompassBarPrefab: {fileID: 114875581833013858, guid: d04e4256c86dfc4439da3d1b4407458e,
-      type: 3}
-    IndicatorPrefab: {fileID: 114774112296258654, guid: a6a30f54a2a73b44188b37b26acba8fd,
-      type: 3}
-    MinimapPrefab: {fileID: 114416010850775958, guid: 1a49a06b982118e419d1430157c20d2c,
-      type: 3}
+    RadarPrefab: {fileID: 114649513964931752, guid: 7df08e2a2fd0940469fa781e26554019, type: 3}
+    CompassBarPrefab: {fileID: 114875581833013858, guid: d04e4256c86dfc4439da3d1b4407458e, type: 3}
+    IndicatorPrefab: {fileID: 114774112296258654, guid: a6a30f54a2a73b44188b37b26acba8fd, type: 3}
+    MinimapPrefab: {fileID: 114416010850775958, guid: 1a49a06b982118e419d1430157c20d2c, type: 3}
   hideInRadar: 0
   ignoreRadarRadius: 1
   ignoreRadarScaling: 0
@@ -1232,15 +1220,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1462,15 +1452,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -2005,15 +1997,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -2557,6 +2551,9 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3649,15 +3646,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
