@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Break Visual Data
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.6.3\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19603\nNode;AmplifyShaderEditor.FunctionInput;6;-896,128;Inherit;False;Data;14;0;False;1;0;OBJECT;0;False;1;OBJECT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;4;-640,128;Inherit;False;Out_Dummy
+    = Data.Dummy@$Out_Albedo = Data.Albedo@$Out_AlbedoRaw = Data.AlbedoRaw@$Out_NormalTS
+    = Data.NormalTS@$Out_NormalWS = Data.NormalWS@$Out_Shader = Data.Shader@$Out_Emissive=
+    Data.Emissive@$$Out_MultiMask = Data.MultiMask@$Out_Grayscale = Data.Grayscale@$Out_Luminosity=
+    Data.Luminosity@$$Out_AlphaClip = Data.AlphaClip@$Out_AlphaFade = Data.AlphaFade@$$Out_Translucency
+    = Data.Translucency@$Out_Transmission = Data.Transmission@$Out_Thickness = Data.Thickness@$Out_Diffusion
+    = Data.Diffusion@$;7;Call;17;True;Data;OBJECT;0,0,0,0;In;TVEVisualData;Half;False;True;Out_Dummy;FLOAT;0;Out;;Half;False;True;Out_Albedo;FLOAT3;0,0,0;Out;;Half;False;True;Out_AlbedoRaw;FLOAT3;0,0,0;Out;;Half;False;True;Out_NormalTS;FLOAT2;0,0;Out;;Half;False;True;Out_NormalWS;FLOAT3;0,0,0;Out;;Half;False;True;Out_Shader;FLOAT4;0,0,0,0;Out;;Half;False;True;Out_Emissive;FLOAT4;0,0,0,0;Out;;Half;False;True;Out_MultiMask;FLOAT;0;Out;;Half;False;True;Out_Grayscale;FLOAT;0;Out;;Half;False;True;Out_Luminosity;FLOAT;0;Out;;Half;False;True;Out_AlphaClip;FLOAT;0;Out;;Half;False;True;Out_AlphaFade;FLOAT;0;Out;;Half;False;True;Out_Translucency;FLOAT3;0,0,0;Out;;Half;False;True;Out_Transmission;FLOAT;0;Out;;Half;False;True;Out_Thickness;FLOAT;0;Out;;Half;False;True;Out_Diffusion;FLOAT;0;Out;;Half;False;BreakData;False;False;0;;False;18;0;FLOAT;0;False;1;OBJECT;0,0,0,0;False;2;FLOAT;0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT2;0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT4;0,0,0,0;False;8;FLOAT4;0,0,0,0;False;9;FLOAT;0;False;10;FLOAT;0;False;11;FLOAT;0;False;12;FLOAT;0;False;13;FLOAT;0;False;14;FLOAT3;0,0,0;False;15;FLOAT;0;False;16;FLOAT;0;False;17;FLOAT;0;False;17;FLOAT;0;FLOAT;3;FLOAT3;4;FLOAT3;5;FLOAT2;6;FLOAT3;7;FLOAT4;8;FLOAT4;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT3;15;FLOAT;16;FLOAT;17;FLOAT;18\nNode;AmplifyShaderEditor.FunctionOutput;14;-128,-128;Inherit;False;False;-1;Dummy;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;21;-128,128;Inherit;False;False;-1;NormalWS;4;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;5;-128,64;Inherit;False;False;-1;NormalTS;3;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionOutput;7;-128,192;Inherit;False;False;-1;Shader;5;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;22;-128,256;Inherit;False;False;-1;Emissive;6;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;11;-128,352;Inherit;False;False;-1;MultiMask;7;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;12;-128,416;Inherit;False;False;-1;Grayscale;8;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;9;-128,576;Inherit;False;False;-1;AlphaClip;10;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;10;-128,640;Inherit;False;False;-1;AlphaFade;11;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;20;-128,928;Inherit;False;False;-1;Diffusion;15;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;18;-128,800;Inherit;False;False;-1;Transmission;13;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;19;-128,864;Inherit;False;False;-1;Thickness;14;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;16;-128,736;Inherit;False;False;-1;Translucency;12;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;15;-128,480;Inherit;False;False;-1;Luminosity;9;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;-128,-64;Inherit;False;True;-1;Albedo;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;23;-128,0;Inherit;False;False;-1;AlbedoRaw;2;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nWireConnection;4;1;6;0\nWireConnection;14;0;4;3\nWireConnection;21;0;4;7\nWireConnection;5;0;4;6\nWireConnection;7;0;4;8\nWireConnection;22;0;4;9\nWireConnection;11;0;4;10\nWireConnection;12;0;4;11\nWireConnection;9;0;4;13\nWireConnection;10;0;4;14\nWireConnection;20;0;4;18\nWireConnection;18;0;4;16\nWireConnection;19;0;4;17\nWireConnection;16;0;4;15\nWireConnection;15;0;4;12\nWireConnection;0;0;4;4\nWireConnection;23;0;4;5\nASEEND*/\n//CHKSM=ED8B1CE34712153217D5962E88C4478AEB4E9F2F"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_headerStyle: 2
+  m_headerColor: {r: 0.25098038, g: 0.6945275, b: 1, a: 1}
+  m_customNodeCategory: The Visual Engine
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 

@@ -1,0 +1,792 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Seaweed (TVE Material)
+  m_Shader: {fileID: 4800000, guid: a933075b367f9b24981408633f72ff34, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - TVE_ALPHA_CLIP
+  - TVE_CUTOUT_ELEMENT
+  - TVE_DRYNESS_ELEMENT
+  - TVE_EMISSIVE_ELEMENT
+  - TVE_EMISSIVE_SAMPLE_MAIN_UV
+  - TVE_FILTER_DEFAULT
+  - TVE_GRADIENT
+  - TVE_LEGACY
+  - TVE_MAIN_SAMPLE_MAIN_UV
+  - TVE_MOTION_BASE_BENDING
+  - TVE_MOTION_HIGHLIGHT
+  - TVE_MOTION_PUSH_BENDING
+  - TVE_MOTION_WIND_ADVANCED
+  - TVE_OVERLAY_ELEMENT
+  - TVE_OVERLAY_GLITTER
+  - TVE_OVERLAY_MASK_SAMPLE_MAIN_UV
+  - TVE_OVERLAY_SAMPLE_PLANAR_2D
+  - TVE_PIPELINE_UNIVERSAL
+  - TVE_PIVOT_BAKED
+  - TVE_SECOND_MASK_SAMPLE_MAIN_UV
+  - TVE_SECOND_SAMPLE_MAIN_UV
+  - TVE_SIZEFADE
+  - TVE_SIZEFADE_ELEMENT
+  - TVE_SUBSURFACE
+  - TVE_THIRD_MASK_SAMPLE_MAIN_UV
+  - TVE_THIRD_SAMPLE_MAIN_UV
+  - TVE_TINTING_ELEMENT
+  - TVE_WETNESS_ELEMENT
+  m_InvalidKeywords:
+  - TVE_CUTOUT_NOISE
+  - TVE_CUTOUT_VERT
+  - TVE_DRYNESS_VERT
+  - TVE_EMISSIVE_MASK
+  - TVE_FEATURE_CLIP
+  - TVE_MOTION_BASE_VERT
+  - TVE_MOTION_PUSH_VERT
+  - TVE_MOTION_SMALL_VERT
+  - TVE_MOTION_TINY_VERT
+  - TVE_OVERLAY_PROJ
+  - TVE_SECOND_MASK
+  - TVE_SECOND_VERT
+  - TVE_THIRD_MASK
+  - TVE_TINTING_VERT
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    NatureRendererInstancing: true
+    RenderType: AlphaTest
+  disabledShaderPasses:
+  - TransparentBackface
+  - TransparentBackfaceDebugDisplay
+  - TransparentDepthPrepass
+  - TransparentDepthPostpass
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissiveMaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissiveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainAlbedoTex:
+        m_Texture: {fileID: 2800000, guid: 2f997c4f8efbec447a4f9c0030922b77, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainMaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainNormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainShaderTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 2f997c4f8efbec447a4f9c0030922b77, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MotionNoiseTex:
+        m_Texture: {fileID: 2800000, guid: 9881e099480439147ba51cc2d31303b6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MotionNoiseTexRT:
+        m_Texture: {fileID: 8600000, guid: f1dda7bbb52bc174aad312d92cd1c060, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex3D:
+        m_Texture: {fileID: 11700000, guid: 038de154ac2857945b4e07ea7b2c8629, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexSS:
+        m_Texture: {fileID: 2800000, guid: f1a365de37df7dc4ca1aa45a448194b6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayAlbedoTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayGlitterTex:
+        m_Texture: {fileID: 8600000, guid: ed18ac83a54984648a77ce96b2a7f401, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayGlitterTexRT:
+        m_Texture: {fileID: 8600000, guid: ed18ac83a54984648a77ce96b2a7f401, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayMaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayNormalTex:
+        m_Texture: {fileID: 2800000, guid: 918024ada31e4e043bd2d6e6a4242b4c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondAlbedoTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondMaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondNormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondShaderTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThirdAlbedoTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThirdMaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThirdNormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThirdShaderTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WetnessDropsTex:
+        m_Texture: {fileID: 8600000, guid: 850320bc8bbc8d44bb079c52a6432852, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WetnessDropsTexRT:
+        m_Texture: {fileID: 8600000, guid: 850320bc8bbc8d44bb079c52a6432852, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClipValue: 0.5
+    - _AlphaFeatherValue: 0.5
+    - _AlphaVariationValue: 1
+    - _CategoryDetail: 0
+    - _CategoryEmissive: 1
+    - _CategoryGlobal: 1
+    - _CategoryGlobals: 1
+    - _CategoryGradient: 1
+    - _CategoryMain: 1
+    - _CategoryMatcap: 1
+    - _CategoryMotion: 1
+    - _CategoryNoise: 0
+    - _CategoryOcclusion: 1
+    - _CategoryPerspective: 1
+    - _CategoryRender: 1
+    - _CategoryRimLight: 1
+    - _CategorySizeFade: 1
+    - _CategorySubsurface: 1
+    - _ColorsIntensityValue: 1
+    - _ColorsMaskMaxValue: 0
+    - _ColorsMaskMinValue: 0
+    - _ColorsMaskMode: 0
+    - _ColorsPositionMode: 0
+    - _ColorsVariationValue: 0
+    - _Cutoff: 0.5
+    - _CutoutAlphaValue: 0
+    - _CutoutBakeMode: 0
+    - _CutoutCategory: 1
+    - _CutoutElementMode: 1
+    - _CutoutEnd: 1
+    - _CutoutIntensityValue: 0
+    - _CutoutMeshMode: 0
+    - _CutoutMeshValue: 0
+    - _CutoutMultiValue: 1
+    - _CutoutNoiseTillingValue: 1
+    - _CutoutNoiseValue: 1
+    - _DetailAlphaMode: 1
+    - _DetailBlendMaxValue: 0.6
+    - _DetailBlendMinValue: 0.4
+    - _DetailBlendMode: 1
+    - _DetailCategory: 0
+    - _DetailCoordMode: 0
+    - _DetailEnd: 1
+    - _DetailFadeMode: 1
+    - _DetailMaskInvertMode: 0
+    - _DetailMaskMaxValue: 1
+    - _DetailMaskMinValue: 0
+    - _DetailMaskMode: 0
+    - _DetailMeshInvertMode: 0
+    - _DetailMeshMaxValue: 1
+    - _DetailMeshMinValue: 0
+    - _DetailMeshMode: 0
+    - _DetailMode: 0
+    - _DetailNormalValue: 1
+    - _DetailOpaqueMode: 0
+    - _DetailTypeMode: 0
+    - _DetailValue: 1
+    - _DitherCategory: 1
+    - _DitherConstantValue: 0
+    - _DitherDistanceMaxValue: 0
+    - _DitherDistanceMinValue: 0
+    - _DitherDistanceValue: 0
+    - _DitherEnd: 1
+    - _DitherGlancingAngleValue: 1
+    - _DitherGlancingValue: 0
+    - _DitherMultiValue: 1
+    - _DitherNoiseTillingValue: 20
+    - _DitherProximityDistValue: 1
+    - _DitherProximityMaxValue: 1
+    - _DitherProximityMinValue: 1
+    - _DitherProximityValue: 0
+    - _DrynessBakeMode: 0
+    - _DrynessCategory: 0
+    - _DrynessElementMode: 1
+    - _DrynessEnd: 1
+    - _DrynessGrayValue: 1
+    - _DrynessIntensityValue: 0
+    - _DrynessLumaValue: 1
+    - _DrynessMeshMode: 3
+    - _DrynessMeshValue: 0
+    - _DrynessMultiValue: 1
+    - _DrynessShiftValue: 0
+    - _DrynessSmoothnessValue: 0.5
+    - _DrynessSpace: 1
+    - _DrynessSubsurfaceValue: 0.5
+    - _EmissiveAlphaValue: 0
+    - _EmissiveCategory: 1
+    - _EmissiveColorMode: 0
+    - _EmissiveCoordMode: 0
+    - _EmissiveElementMode: 1
+    - _EmissiveEnd: 1
+    - _EmissiveFlagMode: 0
+    - _EmissiveIntensityMode: 0
+    - _EmissiveIntensityValue: 0
+    - _EmissiveMaskValue: 1
+    - _EmissiveMeshMode: 0
+    - _EmissiveMeshValue: 0
+    - _EmissiveMode: 0
+    - _EmissivePhaseValue: 1
+    - _EmissivePowerMode: 0
+    - _EmissivePowerValue: 0
+    - _EmissiveSampleMode: 0
+    - _EmissiveTexMaxValue: 1
+    - _EmissiveTexMinValue: 0
+    - _ExtrasPositionMode: 0
+    - _FadeCameraValue: 1
+    - _FadeConstantValue: 0
+    - _FadeGlancingValue: 0
+    - _GlobalAlpha: 1
+    - _GlobalAtmoLayerValue: 0
+    - _GlobalAtmoPivotValue: 0
+    - _GlobalCategory: 1
+    - _GlobalCoatLayerValue: 0
+    - _GlobalCoatPivotValue: 0
+    - _GlobalColors: 1
+    - _GlobalEmissive: 1
+    - _GlobalEnd: 1
+    - _GlobalFadeLayerValue: 0
+    - _GlobalFadePivotValue: 0
+    - _GlobalFormLayerValue: 0
+    - _GlobalFormPivotValue: 1
+    - _GlobalGlowLayerValue: 0
+    - _GlobalGlowPivotValue: 0
+    - _GlobalOverlay: 1
+    - _GlobalPaintLayerValue: 0
+    - _GlobalPaintPivotValue: 0
+    - _GlobalPushLayerValue: 0
+    - _GlobalSize: 1
+    - _GlobalWetness: 1
+    - _GlobalWindLayerValue: 0
+    - _GradientBakeMode: 1
+    - _GradientCategory: 0
+    - _GradientEnd: 1
+    - _GradientIntensityValue: 1
+    - _GradientMaxValue: 1
+    - _GradientMeshMode: 3
+    - _GradientMinValue: 0
+    - _GradientMultiValue: 1
+    - _HasDefaultTextures: 0
+    - _HasEmissive: 1
+    - _HasGradient: 1
+    - _HasOcclusion: 1
+    - _InteractionAmplitude: 0.2
+    - _InteractionMaskValue: 1
+    - _IsCollected: 1
+    - _IsConverted: 1
+    - _IsCoreShader: 1
+    - _IsCustomShader: 0
+    - _IsGeneralShader: 1
+    - _IsGrassShader: 1
+    - _IsIdentifier: 271
+    - _IsLeafShader: 1
+    - _IsPlantShader: 1
+    - _IsShared: 0
+    - _IsSubsurfaceShader: 1
+    - _IsTVEShader: 1
+    - _IsVersion: 2040
+    - _LayerCategory: 0
+    - _LayerColorsValue: 0
+    - _LayerEnd: 1
+    - _LayerExtrasValue: 0
+    - _LayerMotionValue: 0
+    - _LayerVertexValue: 0
+    - _MainAlbedoValue: 1
+    - _MainAlphaClipValue: 0.5
+    - _MainCategory: 1
+    - _MainColorMode: 0
+    - _MainCoordMode: 0
+    - _MainEnd: 1
+    - _MainMaskMaxValue: 1
+    - _MainMaskMinValue: 0
+    - _MainMetallicValue: 0
+    - _MainMultiMaskInfo: 0
+    - _MainNormalValue: 1
+    - _MainOcclusionValue: 1
+    - _MainSampleMode: 0
+    - _MainSmoothnessValue: 0
+    - _MessageGlobalsVariation: 0
+    - _MessageMainMask: 0
+    - _MessageMotionVariation: 0
+    - _MessageOcclusion: 0
+    - _MessageSecondMask: 0
+    - _MessageSubsurface: 0
+    - _MotionAmplitude_10: 0.2
+    - _MotionAmplitude_20: 0
+    - _MotionAmplitude_22: 0
+    - _MotionAmplitude_32: 0
+    - _MotionBaseDelayValue: 0
+    - _MotionBaseIntensityValue: 0.6
+    - _MotionBaseMaskMode: 3
+    - _MotionBaseNoiseValue: 1
+    - _MotionBasePhaseValue: 0
+    - _MotionBasePivotValue: 0
+    - _MotionBaseSpeedValue: 0.5
+    - _MotionBaseTillingValue: 3
+    - _MotionDistValue: 100
+    - _MotionFacingValue: 1
+    - _MotionFrontValue: 1
+    - _MotionHighlightDelayValue: 1
+    - _MotionHighlightValue: 0.2
+    - _MotionIntensityValue: 1
+    - _MotionInteractionCategory: 1
+    - _MotionInteractionEnd: 1
+    - _MotionNoisePositionValue: 0.5
+    - _MotionNoiseValue: 0.5
+    - _MotionObjectVariation: 0
+    - _MotionPosition_10: 0.5
+    - _MotionPushCategory: 1
+    - _MotionPushElementMode: 1
+    - _MotionPushEnd: 1
+    - _MotionPushIntensityValue: 1.5
+    - _MotionPushMaskMode: 3
+    - _MotionPushMaskValue: 1
+    - _MotionPushPhaseValue: 0
+    - _MotionPushPivotValue: 0.3
+    - _MotionScale_10: 6
+    - _MotionScale_20: 50
+    - _MotionScale_32: 10
+    - _MotionSmallDelayValue: 0
+    - _MotionSmallIntensityValue: 0
+    - _MotionSmallMaskMode: 1
+    - _MotionSmallNoiseValue: 0.5
+    - _MotionSmallPhaseValue: 0
+    - _MotionSmallPivotValue: 0
+    - _MotionSmallSpeedValue: 2
+    - _MotionSmallTillingValue: 3
+    - _MotionSpeedValue: 2
+    - _MotionSpeed_10: 1
+    - _MotionSpeed_20: 6
+    - _MotionSpeed_32: 30
+    - _MotionTillingValue: 3
+    - _MotionTinyDelayValue: 0.5
+    - _MotionTinyIntensityValue: 0
+    - _MotionTinyMaskMode: 2
+    - _MotionTinySpeedValue: 30
+    - _MotionTinyTillingValue: 10
+    - _MotionValue_20: 0
+    - _MotionValue_30: 1
+    - _MotionVariation_10: 0
+    - _MotionVariation_20: 0
+    - _MotionVariation_32: 10
+    - _MotionWindAdvancedInfo: 0
+    - _MotionWindCategory: 1
+    - _MotionWindElementMode: 0
+    - _MotionWindEnd: 1
+    - _MotionWindMode: 2
+    - _MotionWindOffInfo: 0
+    - _MotionWindOptimizedInfo: 0
+    - _NoiseCategory: 1
+    - _NoiseEnd: 1
+    - _NormalCategory: 1
+    - _NormalComputeValue: 0
+    - _NormalEnd: 1
+    - _NormalFlattenValue: 0
+    - _NormalMeshMode: 2
+    - _NormalMeshValue: 0
+    - _NormalProjValue: 0
+    - _NormalSpace: 1
+    - _NormalSphereValue: 0
+    - _ObjectBoundsInfo: 0
+    - _ObjectCategory: 1
+    - _ObjectEnd: 1
+    - _ObjectHeightValue: 1
+    - _ObjectModelMode: 0
+    - _ObjectPhaseMode: 0
+    - _ObjectPivotMode: 1
+    - _ObjectRadiusValue: 0.51
+    - _OcclusionBakeMode: 1
+    - _OcclusionCategory: 0
+    - _OcclusionEnd: 1
+    - _OcclusionIntensityValue: 0
+    - _OcclusionMeshMode: 1
+    - _OverlayBakeMode: 0
+    - _OverlayCategory: 1
+    - _OverlayCoordMode: 0
+    - _OverlayElementMode: 1
+    - _OverlayEnd: 1
+    - _OverlayGlitterDistValue: 100
+    - _OverlayGlitterIntensityValue: 1
+    - _OverlayGlitterTillingValue: 4
+    - _OverlayIntensityValue: 0
+    - _OverlayLumaValue: 1
+    - _OverlayMaskCoordMode: 0
+    - _OverlayMaskMaxValue: 0.55
+    - _OverlayMaskMinValue: 0.45
+    - _OverlayMaskSampleMode: 0
+    - _OverlayMaskValue: 0
+    - _OverlayMeshMode: 1
+    - _OverlayMeshValue: 0
+    - _OverlayNormalValue: 1
+    - _OverlayProjValue: 0.6
+    - _OverlayProjectionValue: 0.6
+    - _OverlaySampleMode: 0
+    - _OverlaySmoothnessValue: 0.5
+    - _OverlaySpace: 1
+    - _OverlaySubsurfaceValue: 0.5
+    - _OverlayTextureMode: 0
+    - _OverlayVariationValue: 0
+    - _PerspectiveAngleValue: 1
+    - _PerspectiveCategory: 1
+    - _PerspectiveEnd: 1
+    - _PerspectiveIntensityValue: 0
+    - _PerspectiveNoiseValue: 0
+    - _PerspectivePushValue: 0
+    - _RenderAmbient: 1
+    - _RenderBakeGI: 0
+    - _RenderCategory: 1
+    - _RenderClip: 1
+    - _RenderCoverage: 0
+    - _RenderCull: 0
+    - _RenderDecals: 0
+    - _RenderDirect: 1
+    - _RenderEnd: 1
+    - _RenderFilter: 0
+    - _RenderMode: 0
+    - _RenderMotion: 0
+    - _RenderNormal: 0
+    - _RenderNormals: 0
+    - _RenderPriority: 0
+    - _RenderQueue: 0
+    - _RenderSSR: 0
+    - _RenderShadow: 1
+    - _RenderSpecular: 1
+    - _RenderZWrite: 1
+    - _SecondAlbedoValue: 1
+    - _SecondAlphaClipValue: 0.5
+    - _SecondBakeMode: 1
+    - _SecondBlendAlbedoValue: 0
+    - _SecondBlendIntensityValue: 1
+    - _SecondBlendNormalValue: 1
+    - _SecondBlendShaderValue: 0
+    - _SecondColorMode: 0
+    - _SecondCoordMode: 0
+    - _SecondElementMode: 0
+    - _SecondIntensityValue: 0
+    - _SecondMaskCoordMode: 0
+    - _SecondMaskMaxValue: 0
+    - _SecondMaskMinValue: 0
+    - _SecondMaskMode: 0
+    - _SecondMaskSampleMode: 0
+    - _SecondMaskValue: 1
+    - _SecondMeshMode: 2
+    - _SecondMeshValue: 1
+    - _SecondMetallicValue: 0
+    - _SecondNormalValue: 1
+    - _SecondOcclusionValue: 0
+    - _SecondProjValue: 0
+    - _SecondSampleMode: 0
+    - _SecondSmoothnessValue: 0
+    - _SecondUVsMode: 0
+    - _SecondUVsScaleMode: 0
+    - _SizeFadeCategory: 1
+    - _SizeFadeDistMaxValue: 0
+    - _SizeFadeDistMinValue: 0
+    - _SizeFadeElementMode: 1
+    - _SizeFadeEnd: 1
+    - _SizeFadeEndValue: 0
+    - _SizeFadeIntensityValue: 1
+    - _SizeFadeScaleMode: 0
+    - _SizeFadeScaleValue: 1
+    - _SizeFadeStartValue: 0
+    - _SpaceGlobalExtras: 0
+    - _SpaceGlobalLayers: 0
+    - _SpaceGlobalLocals: 0
+    - _SpaceGlobalOptions: 0
+    - _SpaceGlobalPosition: 0
+    - _SpaceMotionGlobals: 0
+    - _SpaceMotionLocals: 0
+    - _SpaceRenderFade: 0
+    - _SpaceSubsurface: 0
+    - _SubsurfaceAmbientValue: 0.2
+    - _SubsurfaceAngleValue: 8
+    - _SubsurfaceCategory: 1
+    - _SubsurfaceDiffusion: 0
+    - _SubsurfaceDirectValue: 1
+    - _SubsurfaceElementMode: 0
+    - _SubsurfaceEnd: 1
+    - _SubsurfaceHDRPInfo: 0
+    - _SubsurfaceIntensityValue: 1
+    - _SubsurfaceMaskMaxValue: 1
+    - _SubsurfaceMaskMinValue: 0
+    - _SubsurfaceMaskValue: 1
+    - _SubsurfaceMultiValue: 1
+    - _SubsurfaceNormalValue: 0
+    - _SubsurfaceScatteringValue: 2
+    - _SubsurfaceShadowValue: 1
+    - _SubsurfaceSpace: 0
+    - _SubsurfaceValue: 1
+    - _ThirdAlbedoValue: 1
+    - _ThirdAlphaClipValue: 0.5
+    - _ThirdBakeMode: 1
+    - _ThirdBlendAlbedoValue: 0
+    - _ThirdBlendIntensityValue: 1
+    - _ThirdBlendNormalValue: 0
+    - _ThirdBlendShaderValue: 0
+    - _ThirdColorMode: 0
+    - _ThirdCoordMode: 0
+    - _ThirdElementMode: 0
+    - _ThirdIntensityValue: 0
+    - _ThirdMaskCoordMode: 0
+    - _ThirdMaskSampleMode: 0
+    - _ThirdMaskValue: 1
+    - _ThirdMeshMode: 1
+    - _ThirdMeshValue: 0
+    - _ThirdMetallicValue: 0
+    - _ThirdNormalValue: 1
+    - _ThirdOcclusionValue: 0
+    - _ThirdProjValue: 0
+    - _ThirdSampleMode: 0
+    - _ThirdSmoothnessValue: 0
+    - _ThitdBlendIntensityValue: 1
+    - _ThitdBlendShaderValue: 0
+    - _TintingBakeMode: 0
+    - _TintingCategory: 0
+    - _TintingElementMode: 1
+    - _TintingEnd: 1
+    - _TintingGrayValue: 1
+    - _TintingIntensityValue: 0
+    - _TintingLumaValue: 1
+    - _TintingMeshMode: 3
+    - _TintingMeshValue: 0
+    - _TintingMultiValue: 1
+    - _TintingSpace: 1
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormal: 0
+    - _TransNormalDistortion: 0
+    - _TransScattering: 8
+    - _TransShadow: 1
+    - _TransStrength: 2
+    - _Translucency: 2
+    - _VariationCategory: 0
+    - _VariationEnd: 1
+    - _VariationIntensityValue: 0
+    - _VariationMultiValue: 1
+    - _VariationNoisePivotValue: 0
+    - _VariationNoiseTillingValue: 1
+    - _VertexDataMode: 0
+    - _VertexDynamicMode: 0
+    - _VertexOcclusionColorsMode: 0
+    - _VertexOcclusionMaxValue: 1
+    - _VertexOcclusionMinValue: 0
+    - _VertexOcclusionOverlayMode: 0
+    - _VertexPivotMode: 1
+    - _VertexVariationMode: 1
+    - _WetnessBakeMode: 0
+    - _WetnessCategory: 1
+    - _WetnessContrastValue: 0.5
+    - _WetnessDropsDistValue: 20
+    - _WetnessDropsIntensityValue: 0
+    - _WetnessDropsMeshMode: 2
+    - _WetnessDropsMeshValue: 0
+    - _WetnessDropsNormalValue: 1
+    - _WetnessDropsTillingValue: 0.25
+    - _WetnessElementMode: 1
+    - _WetnessEnd: 1
+    - _WetnessIntensityValue: 0
+    - _WetnessMeshMode: 0
+    - _WetnessMeshValue: 0
+    - _WetnessSmoothnessValue: 1
+    - _WetnessWaterBaseValue: 1
+    - _WetnessWaterIntensityValue: 0
+    - _WetnessWaterMeshMode: 1
+    - _WetnessWaterMeshValue: 0
+    - __dirty: 1
+    - _emissive_intensity_value: 1
+    - _emissive_power_value: 0
+    - _global_push_layer_value: 0
+    - _global_wind_layer_value: 0
+    - _motion_base_mask_mode: 0
+    - _motion_push_mask_mode: 0
+    - _motion_small_mask_mode: 0
+    - _motion_tiny_mask_mode: 0
+    - _render_coverage: 0
+    - _render_cull: 0
+    - _render_dst: 0
+    - _render_src: 1
+    - _render_zw: 1
+    m_Colors:
+    - _AlphaMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorsMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _CutoutMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _DetailMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _DetailMeshRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _DrynessBlendRemap: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - _DrynessColor: {r: 1, g: 0.7083712, b: 0.495283, a: 1}
+    - _DrynessLumaRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _DrynessMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _EmissiveColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissiveCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _EmissiveIntensityParams: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissiveMaskRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _EmissiveMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _EmissiveTexRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissiveUVs: {r: 1, g: 1, b: 0, a: 0}
+    - _GradientColorOne: {r: 1, g: 1, b: 1, a: 1}
+    - _GradientColorTwo: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
+    - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _GradientMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColorTwo: {r: 1, g: 1, b: 1, a: 1}
+    - _MainCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _MainMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _MainMultiRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
+    - _MaxBoundsInfo: {r: 0.5053743, g: 1.0000002, b: 1.0000002, a: 0}
+    - _MotionBaseMaskRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _MotionHighlightColor: {r: 2, g: 2, b: 2, a: 1}
+    - _MotionPushMaskRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _MotionSmallMaskRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _MotionTinyMaskRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _NoiseMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _NormalMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _NormalProjRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _NormalSphereOffsetValue: {r: 0, g: 0, b: 0, a: 0}
+    - _OcclusionColorOne: {r: 1, g: 1, b: 1, a: 1}
+    - _OcclusionColorTwo: {r: 1, g: 1, b: 1, a: 1}
+    - _OcclusionMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _OverlayBlendRemap1: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - _OverlayColor: {r: 0.2815503, g: 0.4009458, b: 0.5377358, a: 1}
+    - _OverlayCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _OverlayGlitterColor: {r: 1.441509, g: 3.799871, b: 5.992157, a: 1}
+    - _OverlayLumaRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _OverlayMaskCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _OverlayMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _OverlayMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _OverlayProjRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _RimLightRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondBlendRemap: {r: 0.4, g: 0.6, b: 0, a: 0}
+    - _SecondColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SecondColorTwo: {r: 1, g: 1, b: 1, a: 1}
+    - _SecondCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _SecondMaskCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _SecondMaskRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _SecondMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _SecondMultiRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondProjRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _SecondUVs: {r: 1, g: 1, b: 0, a: 0}
+    - _SubsurfaceColor: {r: 0.4, g: 0.4, b: 0.1, a: 1}
+    - _SubsurfaceDiffusion_Asset: {r: 0, g: 0, b: 0, a: 0}
+    - _SubsurfaceDiffusion_asset: {r: 0, g: 0, b: 0, a: 0}
+    - _SubsurfaceMaskRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _ThirdBlendRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _ThirdColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ThirdColorTwo: {r: 1, g: 1, b: 1, a: 1}
+    - _ThirdCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _ThirdMaskCoordValue: {r: 1, g: 1, b: 0, a: 0}
+    - _ThirdMaskRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _ThirdMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _ThirdMultiRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _ThirdProjRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _TintingBlendRemap: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - _TintingColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintingLumaRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _TintingMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _VariationColorOne: {r: 0.4573758, g: 0.6226415, b: 0.2144001, a: 1}
+    - _VariationColorTwo: {r: 0.7450981, g: 0.5238863, b: 0.1098039, a: 1}
+    - _VariationNoiseRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _VertexOcclusionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _VertexOcclusionRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _WetnessDropsMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _WetnessDropsProjRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _WetnessMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _WetnessWaterBaseRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _WetnessWaterBlendRemap: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - _WetnessWaterColor: {r: 0.5420078, g: 0.7924528, b: 0.6068289, a: 1}
+    - _WetnessWaterMeshRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _cutout_vert_mode: {r: 1, g: 0, b: 0, a: 0}
+    - _dryness_vert_mode: {r: 0, g: 0, b: 0, a: 1}
+    - _emissive_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _emissive_vert_mode: {r: 1, g: 0, b: 0, a: 0}
+    - _gradient_vert_mode: {r: 0, g: 0, b: 0, a: 1}
+    - _main_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _motion_base_proc_mode: {r: 0, g: 0, b: 0, a: 0}
+    - _motion_base_vert_mode: {r: 0, g: 0, b: 0, a: 1}
+    - _motion_highlight_color: {r: 2, g: 2, b: 2, a: 1}
+    - _motion_push_proc_mode: {r: 0, g: 0, b: 0, a: 0}
+    - _motion_push_vert_mode: {r: 0, g: 0, b: 0, a: 1}
+    - _motion_small_proc_mode: {r: 0, g: 0, b: 0, a: 0}
+    - _motion_small_vert_mode: {r: 0, g: 1, b: 0, a: 0}
+    - _motion_tiny_proc_mode: {r: 0, g: 0, b: 0, a: 0}
+    - _motion_tiny_vert_mode: {r: 0, g: 0, b: 1, a: 0}
+    - _normal_vert_mode: {r: 0, g: 0, b: 1, a: 0}
+    - _object_phase_mode: {r: 1, g: 0, b: 0, a: 0}
+    - _occlusion_vert_mode: {r: 0, g: 1, b: 0, a: 0}
+    - _overlay_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _overlay_mask_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _overlay_vert_mode: {r: 0, g: 1, b: 0, a: 0}
+    - _render_normal: {r: -1, g: -1, b: -1, a: 0}
+    - _render_normals: {r: -1, g: -1, b: -1, a: 0}
+    - _second_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _second_mask_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _second_uvs_mode: {r: 1, g: 0, b: 0, a: 0}
+    - _second_vert_mode: {r: 0, g: 0, b: 1, a: 0}
+    - _third_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _third_mask_coord_value: {r: 1, g: 1, b: 0, a: 0}
+    - _third_vert_mode: {r: 0, g: 1, b: 0, a: 0}
+    - _tinting_vert_mode: {r: 0, g: 0, b: 0, a: 1}
+    - _wetness_drops_vert_mode: {r: 0, g: 0, b: 1, a: 0}
+    - _wetness_vert_mode: {r: 1, g: 0, b: 0, a: 0}
+    - _wetness_water_vert_mode: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
