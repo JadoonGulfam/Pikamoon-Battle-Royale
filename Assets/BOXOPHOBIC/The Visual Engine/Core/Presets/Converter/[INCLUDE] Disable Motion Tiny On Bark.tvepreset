@@ -1,0 +1,13 @@
+*******************************************************************
+*                             INCLUDE                             *
+*******************************************************************
+
+Utility USE_CONVERTED_MATERIAL_AS_BASE
+
+if SHADER_NAME_CONTAINS Standard
+{
+	Material SET_FLOAT _MotionTinyIntensityValue 0
+	Material LOCK_PROP _MotionTinyIntensityValue
+}
+
+Utility USE_ORIGINAL_MATERIAL_AS_BASE

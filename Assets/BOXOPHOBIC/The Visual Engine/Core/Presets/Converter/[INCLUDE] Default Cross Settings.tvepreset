@@ -1,0 +1,19 @@
+OutputSharing FALSE
+
+Material SET_SHADER SHADER_SUBSURFACE
+Material SET_FLOAT _RenderCull 0
+Material SET_FLOAT _RenderClip 1
+
+// Qulity Settings
+Material SET_FLOAT _OverlayTextureMode 0
+Material SET_FLOAT _WetnessRainIntensityValue 0
+
+// Subsurface Settings
+Material SET_FLOAT _SubsurfaceIntensityValue 1
+
+Material SET_FLOAT _MotionBaseIntensityValue 0.05
+Material SET_FLOAT _MotionSmallIntensityValue 0.0
+Material SET_FLOAT _MotionTinyIntensityValue 0.0
+
+Material LOCK_PROP _MotionSmallIntensityValue
+Material LOCK_PROP _MotionTinyIntensityValue

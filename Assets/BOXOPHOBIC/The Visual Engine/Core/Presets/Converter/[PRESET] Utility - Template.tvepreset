@@ -1,0 +1,69 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+ 
+InfoTitle Template
+InfoPreset Use this preset to as a starting point for custom presets!
+InfoStatus ○ ○ ○ ○ ○
+//InfoOnline https://docs.google.com/document/d/145JOVlJ1tE-WODW45YoJ6Ixg23mFc56EnB_8Tbwloz8/edit#heading=h.1fsztsnbzbgj
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+// Includes 2 conversion options
+OutputOptions Without Texture Packing/With Texture Packing 2
+
+// Add additional info based on the conversion options
+if OUTPUT_OPTION_CONTAINS Without Texture Packing
+{
+	InfoWarning When the Without Texture Packing option is used, the mask texture will be used direcly, but the Occlusion texture will be missing!
+}
+
+if OUTPUT_OPTION_CONTAINS With Texture Packing
+{
+	InfoMessage When the With Texture Packing option is used, the Mask and Occlusion textures will be packed togetter and used as Main Shader Texture!
+}
+
+*******************************************************************
+
+// Include all the lines from the files referenced, located in Core > Presets > Converter folder
+Include Default Prop Masks
+Include Default Prop Settings
+
+// Filter conversion by shader name
+if SHADER_NAME_CONTAINS Object
+{
+	// Copy the barrel Color to TVE Main Color
+	Material COPY_COLOR _Color _MainColor
+	
+	// Copy the barrel Normal Intensity to TVE Main Normal Intensity
+	Material COPY_FLOAT _Normal _MainNormalValue
+	
+	// Copy the barrel Albedo texture to TVE Albedo texture
+	Material COPY_TEX _ATexture _MainAlbedoTex
+	
+	// Copy the barrel Normal texture to TVE Normal texture
+	Material COPY_TEX _NTexture _MainNormalTex
+	
+	// Copy the barrel Mask texture to TVE Shader texture
+	Material COPY_TEX _MTexture _MainShaderTex
+	
+	// Pack the barrel Occlusion and Mask textures to the TVE Shader texture
+	// Pack a grayscale mask from albedo to the TVE Shader texture blue channel usable for detail blending
+	if OUTPUT_OPTION_CONTAINS With Texture Packing
+	{
+		Texture PropName _MainShaderTex
+		Texture ImportType DEFAULT
+		Texture SetRed GET_RED _MTexture
+		Texture SetGreen GET_GREEN _OTexture
+		Texture SetBlue GET_GRAY _ATexture
+		Texture SetAlpha GET_ALPHA _MTexture
+		Utility START_TEXTURE_PACKING
+	}
+	
+	// Add default value for TVE Main Properties
+	Material SET_FLOAT _MainMetallicValue 1
+	Material SET_FLOAT _MainOcclusionValue 1
+	Material SET_FLOAT _MainSmoothnessValue 1
+}

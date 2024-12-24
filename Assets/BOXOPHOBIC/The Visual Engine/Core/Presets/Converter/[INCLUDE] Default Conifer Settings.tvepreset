@@ -1,0 +1,20 @@
+*******************************************************************
+*                             INCLUDE                             *
+*******************************************************************
+
+Utility USE_CONVERTED_MATERIAL_AS_BASE
+
+// Disable Branch and Leaves motion for bark
+if SHADER_NAME_CONTAINS Standard
+{
+	Material SET_FLOAT _MotionSmallIntensityValue 0
+	Material LOCK_PROP _MotionSmallIntensityValue
+
+	Material SET_FLOAT _MotionTinyIntensityValue 0
+	Material LOCK_PROP _MotionTinyIntensityValue
+}
+
+// Use the leaves mask for brnach
+Material COPY_FLOAT _MotionTinyMaskMode _MotionSmallMaskMode
+
+Utility USE_ORIGINAL_MATERIAL_AS_BASE

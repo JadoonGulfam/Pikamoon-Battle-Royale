@@ -1,0 +1,101 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+ 
+InfoTitle Automatic
+InfoPreset Use this preset to convert prefabs with in an automatic way.
+InfoWarning The automatic conversion might not work as expected! The preset will convert the materials only if the Unity Standard/Lit shaders are used!
+InfoStatus ○ ○ ○ ○ ○
+InfoOnline https://docs.google.com/document/d/145JOVlJ1tE-WODW45YoJ6Ixg23mFc56EnB_8Tbwloz8/edit#heading=h.1fsztsnbzbgj
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Flowers/Plants/Conifers/Trees 5
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	InfoSharing NONE
+
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	InfoSharing NONE
+
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	InfoSharing NONE
+
+	Include Use Default Flower Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	InfoSharing NONE
+
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 5
+	Mesh SetBlue GET_MASK_PROCEDURAL 5
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	
+	Mesh SetExtraCoord NONE
+	
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Conifers
+{
+	InfoSharing DEFAULT
+
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 5
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+
+	Mesh SetExtraCoord NONE
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	InfoSharing DEFAULT
+
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 5
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+
+	Mesh SetExtraCoord NONE
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+// Include Unity Default Features
+Include Unity Lit Commons
+Include Default Leaf Settings
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Use Default Flower Settings
+}

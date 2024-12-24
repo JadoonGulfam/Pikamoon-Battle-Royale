@@ -1,0 +1,185 @@
+Utility USE_MATERIAL_POST_PROCESSING
+Utility USE_CONVERTED_MATERIAL_AS_BASE
+
+Material SET_FLOAT _RenderCategory 0
+Material SET_FLOAT _NoiseCategory 0
+Material SET_FLOAT _ObjectCategory 0
+Material SET_FLOAT _GlobalCategory 0
+Material SET_FLOAT _MainCategory 1
+Material SET_FLOAT _LayerCategory 0
+Material SET_FLOAT _DetailCategory 0
+Material SET_FLOAT _TerrainCategory 0
+Material SET_FLOAT _OcclusionCategory 0
+Material SET_FLOAT _GradientCategory 0
+Material SET_FLOAT _VariationCategory 0
+Material SET_FLOAT _TintingCategory 0
+Material SET_FLOAT _DrynessCategory 0
+Material SET_FLOAT _OverlayCategory 0
+Material SET_FLOAT _WetnessCategory 0
+Material SET_FLOAT _CutoutCategory 0
+Material SET_FLOAT _DitherCategory 0
+Material SET_FLOAT _EmissiveCategory 0
+Material SET_FLOAT _SubsurfaceCategory 0
+Material SET_FLOAT _PerspectiveCategory 0
+Material SET_FLOAT _SizeFadeCategory 0
+Material SET_FLOAT _HeightCategory 0
+Material SET_FLOAT _BlanketCategory 0
+Material SET_FLOAT _MotionWindCategory 0
+Material SET_FLOAT _MotionInteractionCategory 0
+Material SET_FLOAT _NormalCategory 0
+
+if MATERIAL_FLOAT_GREATER _SecondIntensityValue 0
+{
+	Material SET_FLOAT _LayerCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _ThirdIntensityValue 0
+{
+	Material SET_FLOAT _DetailCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _TerrainIntensityValue 0
+{
+	Material SET_FLOAT _TerrainCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _TerrainIntensityValue 0
+{
+	Material SET_FLOAT _TerrainCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _OcclusionIntensityValue 0
+{
+	Material SET_FLOAT _OcclusionCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _GradientIntensityValue 0
+{
+	Material SET_FLOAT _GradientCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _VariationIntensityValue 0
+{
+	Material SET_FLOAT _VariationCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _TintingIntensityValue 0
+{
+	Material SET_FLOAT _TintingCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _DrynessIntensityValue 0
+{
+	Material SET_FLOAT _DrynessCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _OverlayIntensityValue 0
+{
+	Material SET_FLOAT _OverlayCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _WetnessIntensityValue 0
+{
+	Material SET_FLOAT _WetnessCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _CutoutIntensityValue 0
+{
+	Material SET_FLOAT _CutoutCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _DitherConstantValue 0
+{
+	Material SET_FLOAT _DitherCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _DitherDistanceValue 0
+{
+	Material SET_FLOAT _DitherCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _DitherProximityValue 0
+{
+	Material SET_FLOAT _DitherCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _DitherGlancingValue 0
+{
+	Material SET_FLOAT _DitherCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _EmissiveIntensityValue 0
+{
+	Material SET_FLOAT _EmissiveCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _SubsurfaceIntensityValue 0
+{
+	Material SET_FLOAT _SubsurfaceCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _PerspectiveIntensityValue 0
+{
+	Material SET_FLOAT _PerspectiveCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _HeightIntensityValue 0
+{
+	Material SET_FLOAT _HeightCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _BlanketConformValue 0
+{
+	Material SET_FLOAT _BlanketCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _BlanketOrientationValue 0
+{
+	Material SET_FLOAT _BlanketCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _MotionHighlightValue 0
+{
+	Material SET_FLOAT _MotionWindCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _MotionBaseIntensityValue 0
+{
+	Material SET_FLOAT _MotionWindCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _MotionSmallIntensityValue 0
+{
+	Material SET_FLOAT _MotionWindCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _MotionTinyIntensityValue 0
+{
+	Material SET_FLOAT _MotionWindCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _MotionPushIntensityValue 0
+{
+	Material SET_FLOAT _MotionInteractionCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _NormalFlattenValue 0
+{
+	Material SET_FLOAT _NormalCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _NormalSphereValue 0
+{
+	Material SET_FLOAT _NormalCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _NormalComputeValue 0
+{
+	Material SET_FLOAT _NormalCategory 1
+}
+
+if MATERIAL_FLOAT_GREATER _NormalBlanketValue 0
+{
+	Material SET_FLOAT _NormalCategory 1
+}
+

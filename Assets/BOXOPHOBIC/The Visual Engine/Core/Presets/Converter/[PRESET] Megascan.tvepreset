@@ -1,0 +1,73 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Megascan
+InfoPreset Use this preset to convert Megascan assets.
+InfoStatus ○ ○ ○ ○ ○
+InfoOnline https://quixel.com/megascans/home
+InfoWarning The automatic conversion might not work as expected! The preset will convert the materials only if the Unity Standard/Lit shaders are used!
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Flowers/Vegetation 3
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	InfoSharing NONE
+
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	InfoSharing NONE
+
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	InfoSharing NONE
+
+	Include Use Default Flower Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	InfoSharing DEFAULT
+
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_FROM_CHANNEL 0
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 1 ACTION_ONE_MINUS
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+
+	Mesh SetExtraCoord NONE
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+// Include Unity Default Features
+Include Unity Lit Commons
+Include Default Leaf Settings
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Use Default Flower Settings
+}
