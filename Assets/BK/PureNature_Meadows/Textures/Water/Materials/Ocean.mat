@@ -11,10 +11,10 @@ Material:
   m_Shader: {fileID: 4800000, guid: 6468bfbdaa889dd40a87fa06b6428b8f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _USEDISTANCEFADE_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _MULTIPLYOPACITY_ON
+  - _USEDISTANCEFADE_ON
   - _USETRANSPARENCY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -118,8 +118,21 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaCutoff: 0.5
     - _BumpScale: 1
     - _CausticOffset: 100
     - _CausticsOffset: 3.5
@@ -141,6 +154,7 @@ Material:
     - _EdgeLength: 50
     - _EdgePower: 1
     - _EdgesFade: 0.2
+    - _EnvironmentReflections: 1
     - _Float2: 1000
     - _Float3: 0.744
     - _FoamContrast: 10
@@ -171,6 +185,9 @@ Material:
     - _NormalTiling: 0.05
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _RefractionPower: 5
     - _SmoothnessPower: 1
     - _SmoothnessTextureChannel: 0
