@@ -13,6 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - TVE_CUTOUT_ELEMENT
+  - TVE_CUTOUT_SHADOW
+  - TVE_DITHER_SHADOW
   - TVE_DRYNESS_ELEMENT
   - TVE_EMISSIVE_ELEMENT
   - TVE_EMISSIVE_SAMPLE_MAIN_UV
@@ -256,10 +258,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AdvancedCat: 0
     - _AlphaClipValue: 0.5
+    - _AlphaCutoff: 0.5
     - _AlphaCutoffValue: 0.5
     - _AlphaFeatherValue: 0.5
     - _AlphaVariationValue: 0.5
@@ -308,6 +323,7 @@ Material:
     - _CutoutMultiValue: 1
     - _CutoutNoiseTillingValue: 1
     - _CutoutNoiseValue: 1
+    - _CutoutShadowMode: 1
     - _DetailAlphaMode: 1
     - _DetailBlendMaxValue: 0.1
     - _DetailBlendMinValue: 0
@@ -352,6 +368,7 @@ Material:
     - _DitherProximityMaxValue: 1
     - _DitherProximityMinValue: 1
     - _DitherProximityValue: 0
+    - _DitherShadowMode: 1
     - _DrynessBakeMode: 0
     - _DrynessCategory: 0
     - _DrynessElementMode: 1
@@ -386,6 +403,7 @@ Material:
     - _EmissiveSampleMode: 0
     - _EmissiveTexMaxValue: 1
     - _EmissiveTexMinValue: 0
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FadeCameraValue: 1
     - _FadeCat: 0
@@ -660,6 +678,9 @@ Material:
     - _PerspectiveNoiseValue: 0
     - _PerspectivePushValue: 0
     - _PivotsMessage: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReceiveSpace: 0
     - _RenderAmbient: 1
     - _RenderBakeGI: 0

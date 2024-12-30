@@ -13,6 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - TVE_CUTOUT_ELEMENT
+  - TVE_CUTOUT_SHADOW
+  - TVE_DITHER_SHADOW
   - TVE_DRYNESS_ELEMENT
   - TVE_EMISSIVE_ELEMENT
   - TVE_EMISSIVE_SAMPLE_MAIN_UV
@@ -458,6 +460,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AORemapMax: 1
@@ -526,6 +540,7 @@ Material:
     - _CutoutMultiValue: 1
     - _CutoutNoiseTillingValue: 1
     - _CutoutNoiseValue: 1
+    - _CutoutShadowMode: 1
     - _DepthOffset: 0
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 0
@@ -593,6 +608,7 @@ Material:
     - _DitherProximityMaxValue: 1
     - _DitherProximityMinValue: 1
     - _DitherProximityValue: 0
+    - _DitherShadowMode: 1
     - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 1
     - _Drag: 1
@@ -638,6 +654,7 @@ Material:
     - _EnableSpecularOcclusion: 0
     - _EnableWind: 0
     - _EnergyConservingSpecularColor: 1
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FadeCameraValue: 1
     - _FadeCat: 0
@@ -904,6 +921,9 @@ Material:
     - _PerspectiveIntensityValue: 0
     - _PivotsMessage: 0
     - _PreRefractionPass: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReceiveSpace: 0
     - _RefractionMode: 0
     - _RefractionModel: 0
@@ -991,6 +1011,7 @@ Material:
     - _SpaceSubsurface: 0
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
+    - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StencilRef: 2
     - _StencilRefMV: 128

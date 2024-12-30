@@ -13,6 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - TVE_CUTOUT_ELEMENT
+  - TVE_CUTOUT_SHADOW
+  - TVE_DITHER_SHADOW
   - TVE_DRYNESS_ELEMENT
   - TVE_EMISSIVE_SAMPLE_MAIN_UV
   - TVE_FILTER_DEFAULT
@@ -192,10 +194,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AdvancedCat: 0
     - _AlphaClipValue: 0.5
+    - _AlphaCutoff: 0.5
     - _AlphaFeatherValue: 0.5
     - _Banner: 0
     - _BatchingMessage: 0
@@ -235,6 +250,7 @@ Material:
     - _CutoutMultiValue: 1
     - _CutoutNoiseTillingValue: 1
     - _CutoutNoiseValue: 1
+    - _CutoutShadowMode: 1
     - _DetailAlphaMode: 1
     - _DetailBlendMaxValue: 0.6
     - _DetailBlendMinValue: 0.4
@@ -287,6 +303,7 @@ Material:
     - _DitherProximityMaxValue: 1
     - _DitherProximityMinValue: 1
     - _DitherProximityValue: 0
+    - _DitherShadowMode: 1
     - _DrynessBakeMode: 0
     - _DrynessCategory: 1
     - _DrynessElementMode: 1
@@ -324,6 +341,7 @@ Material:
     - _EmissiveSpace: 1
     - _EmissiveTexMaxValue: 1
     - _EmissiveTexMinValue: 0
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FadeCameraValue: 1
     - _FadeConstantValue: 0
@@ -539,6 +557,9 @@ Material:
     - _PerspectiveEnd: 1
     - _PerspectiveIntensityValue: 0
     - _PivotsMessage: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReceiveSpace: 0
     - _RenderAmbient: 1
     - _RenderBakeGI: 0
@@ -610,6 +631,7 @@ Material:
     - _SpaceMotionLocals: 0
     - _SpaceRenderFade: 0
     - _SpaceSubsurface: 0
+    - _SpecularHighlights: 1
     - _SubsurfaceAmbientValue: 0.2
     - _SubsurfaceAngleValue: 8
     - _SubsurfaceAproxInfo: 0
@@ -756,6 +778,7 @@ Material:
     - _DrynessLumaRemap: {r: 0, g: 1, b: 0, a: 0}
     - _DrynessMeshRemap: {r: 0, g: 1, b: 0, a: 0}
     - _DrynessNoiseRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissiveCoordValue: {r: 1, g: 1, b: 0, a: 0}
     - _EmissiveIntensityParams: {r: 1, g: 1, b: 1, a: 0}
