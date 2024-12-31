@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7293745175171458512
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -8,15 +21,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ElmLeaves
-  m_Shader: {fileID: 4800000, guid: 0f96a2937f6bace459a5fdaac39c0fb3, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c9fc3fbed142f7d44be23c11388ca086,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _HIDESIDES_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _BASEWINDCHANNEL_R
   - _BASEWIND_B
   - _HIDEHARDANGLES_ON
+  - _HIDESIDES_ON
   - _MICROWINDCHANNEL_B
   - _MICROWIND_R
   - _USEDITHER_ON
@@ -25,7 +39,8 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -33,6 +48,14 @@ Material:
     - _Albedo:
         m_Texture: {fileID: 2800000, guid: f702406db7a985649ade93cb60009e67, type: 3}
         m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _Alpha:
+        m_Texture: {fileID: 2800000, guid: c070e8bfa90d43c9a75e34fbe7e6800b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base:
+        m_Texture: {fileID: 2800000, guid: c070e8bfa90d43c9a75e34fbe7e6800b, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BranchMask:
         m_Texture: {fileID: 2800000, guid: 296d8bd5dac2bef43b444df76b60a97f, type: 3}
@@ -136,6 +159,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClipThreshold: 0.5
     - _AlphaCutoff: 0.5
     - _BaseWind: 2
     - _BaseWindChannel: 0
@@ -143,7 +167,7 @@ Material:
     - _BranchPhase: 0.35
     - _BranchPhase1: 1.05
     - _BumpScale: 1
-    - _ColorVariationPower: 0.4
+    - _ColorVariationPower: 0.431
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Dither: 3
@@ -208,7 +232,7 @@ Material:
     - _TransNormal: 0.5
     - _TransNormalDistortion: 0.051
     - _TransScattering: 12.6
-    - _TransShadow: 0.829
+    - _TransShadow: 0.253
     - _TransStrength: 1
     - _Translucency: 1
     - _TrunkWindAmplitude: 0.09
@@ -216,14 +240,16 @@ Material:
     - _UVSec: 0
     - _UseDither: 1
     - _VertexOcclusionPower: 0.25
+    - _WiindStrength: 1
     - _WindBurstsPower: 10
     - _WindBurstsScale: 1
     - _WindBurstsSpeed: 50
     - _WindDebugView: 0
+    - _WindDensity: 0.5
     - _WindMultiplier: 1
     - _WindMultiplier2: 1
     - _WindPower: 0.01
-    - _WindSpeed: 1
+    - _WindSpeed: 3
     - _WindTrunkContrast: 10
     - _WindTrunkContrast1: 50
     - _WindTrunkPosition: 3
@@ -231,12 +257,12 @@ Material:
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.48256445, g: 0.5031446, b: 0.07119964, a: 1}
     - _Color0: {r: 1, g: 1, b: 1, a: 0}
     - _ColorVariation: {r: 0.15408802, g: 0.5, b: 0.31852978, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GradientColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.2859978, g: 0.5, b: 0.18238991, a: 1}
+    - _MainColor: {r: 0.31553334, g: 0.5019608, b: 0.1843137, a: 1}
     - _ScatteringColor: {r: 0.56218994, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _Tiling: {r: 4, g: 4, b: 0, a: 0}
@@ -247,3 +273,4 @@ Material:
     - _Vector0: {r: 1, g: 1, b: 0, a: 0}
     - _windOrientation: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
