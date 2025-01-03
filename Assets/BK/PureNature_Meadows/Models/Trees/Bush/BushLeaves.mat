@@ -8,24 +8,19 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BushLeaves
-  m_Shader: {fileID: 4800000, guid: 0f96a2937f6bace459a5fdaac39c0fb3, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: a34c841ce9ce70e4db341272800233cd,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _HIDESIDES_ON
-  m_InvalidKeywords:
-  - _BASEWINDCHANNEL_R
-  - _BASEWIND_B
-  - _HIDEHARDANGLES_ON
-  - _MICROWINDCHANNEL_B
-  - _MICROWIND_R
-  - _USEDITHER_ON
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -33,6 +28,14 @@ Material:
     - _Albedo:
         m_Texture: {fileID: 2800000, guid: f702406db7a985649ade93cb60009e67, type: 3}
         m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _Alpha:
+        m_Texture: {fileID: 2800000, guid: 88b7acbeaf4c42e8b5a6f098e86c69e8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BranchMask:
         m_Texture: {fileID: 2800000, guid: 296d8bd5dac2bef43b444df76b60a97f, type: 3}
@@ -136,6 +139,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClipThreshold: 0.5
     - _AlphaCutoff: 0.5
     - _BaseWind: 2
     - _BaseWindChannel: 0
@@ -216,14 +220,16 @@ Material:
     - _UVSec: 0
     - _UseDither: 1
     - _VertexOcclusionPower: 0.25
+    - _WiindStrength: 0.1
     - _WindBurstsPower: 10
     - _WindBurstsScale: 1
     - _WindBurstsSpeed: 50
     - _WindDebugView: 0
+    - _WindDensity: 0.1
     - _WindMultiplier: 0
     - _WindMultiplier2: 1
     - _WindPower: 0.01
-    - _WindSpeed: 1
+    - _WindSpeed: 10
     - _WindTrunkContrast: 1
     - _WindTrunkContrast1: 50
     - _WindTrunkPosition: 1
@@ -231,7 +237,7 @@ Material:
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.38508785, g: 0.47798735, b: 0.00450924, a: 1}
     - _Color0: {r: 1, g: 1, b: 1, a: 0}
     - _ColorVariation: {r: 0.31547105, g: 0.38679248, b: 0.11555118, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
@@ -247,3 +253,17 @@ Material:
     - _Vector0: {r: 1, g: 1, b: 0, a: 0}
     - _windOrientation: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &92516202446138427
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
