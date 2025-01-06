@@ -12,13 +12,13 @@ public class PlayerPikamoonManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))  // Add Pikamoon to inventory
+        if (Input.GetKeyDown(KeyCode.C))  // Add Pikamoon to inventory
         {
             GameObject newPikamoon = GetRandomPikamoon();
             pikamoonInventory.AddPikamoon(newPikamoon);
         }
 
-        if (Input.GetKeyDown(KeyCode.S))  // Spawn first Pikamoon in inventory
+        if (Input.GetKeyDown(KeyCode.P))  // Spawn first Pikamoon in inventory
         {
             Vector3 spawnPosition = transform.position + new Vector3(2, 0, 2);
             pikamoonInventory.SpawnPikamoon(0, spawnPosition);  // Spawns first Pikamoon
