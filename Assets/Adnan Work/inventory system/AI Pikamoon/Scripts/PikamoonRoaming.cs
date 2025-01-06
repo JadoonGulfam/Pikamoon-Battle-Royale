@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+//[RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 public class PikamoonRoaming : MonoBehaviour
 {
@@ -46,7 +46,7 @@ public class PikamoonRoaming : MonoBehaviour
             {
                 // Pikamoon is moving
                 float moveBlend = navMeshAgent.velocity.magnitude > 0.1f ? 1.0f : 0.0f;
-                animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 3));
+                animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 10));
                 isIdle = false;
             }
         }
