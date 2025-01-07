@@ -14,7 +14,7 @@ public class PikamoonAI : MonoBehaviour
 
     public float followDistance = 2f;
     public float attackDistance = 1f;
-    public float idleTimeBetweenRoaming = 2f; // Delay before moving to the next roaming point
+    public float idleTimeBetweenRoaming = 1f; // Delay before moving to the next roaming point
 
     private void Start()
     {
@@ -84,7 +84,7 @@ public class PikamoonAI : MonoBehaviour
     // find new positioin in open world  to go 
     private void SetNewRoamDestination()
     {
-        Vector3 randomDirection = Random.insideUnitSphere * 10f;
+        Vector3 randomDirection = Random.insideUnitSphere * 50f;
         randomDirection += transform.position;
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomDirection, out hit, 10f, 1))
