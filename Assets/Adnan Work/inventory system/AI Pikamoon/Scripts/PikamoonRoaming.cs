@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-//[RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 public class PikamoonRoaming : MonoBehaviour
 {
@@ -9,16 +8,21 @@ public class PikamoonRoaming : MonoBehaviour
     private Animator animator;
     private bool isRoaming = false;
     private float idleTimer;
+    private float moveTimer;
     private bool isIdle = false;
 
-    public float idleTime = 2f; // Time Pikamoon stays idle before moving to the next position
+    public float idleTimeMin = 1f; // Minimum idle time
+    public float idleTimeMax = 2.5f; // Maximum idle time
+    public float moveTimeMin = 5f; // Minimum move time
+    public float moveTimeMax = 8f; // Maximum move time
+    public float maxRoamingAngle = 90f; // Maximum angle for random roaming positions
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.enabled = true;
-        idleTimer = idleTime;
+        idleTimer = Random.Range(idleTimeMin, idleTimeMax);
         EnableRoaming();
     }
 
@@ -38,16 +42,24 @@ public class PikamoonRoaming : MonoBehaviour
                     idleTimer -= Time.deltaTime;
                     if (idleTimer <= 0f)
                     {
-                        GetRandomDestination();
+                        StartMove();
                     }
                 }
             }
             else
             {
                 // Pikamoon is moving
-                float moveBlend = navMeshAgent.velocity.magnitude > 0.1f ? 1.0f : 0.0f;
-                animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 10));
-                isIdle = false;
+                moveTimer -= Time.deltaTime;
+                if (moveTimer <= 0f)
+                {
+                    StartIdle();
+                }
+                else
+                {
+                    float moveBlend = navMeshAgent.velocity.magnitude > 0.1f ? 1.0f : 0.0f;
+                    animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 10));
+                    isIdle = false;
+                }
             }
         }
     }
@@ -55,7 +67,7 @@ public class PikamoonRoaming : MonoBehaviour
     public void EnableRoaming()
     {
         isRoaming = true;
-        GetRandomDestination();
+        StartIdle();
     }
 
     public void DisableRoaming()
@@ -64,22 +76,41 @@ public class PikamoonRoaming : MonoBehaviour
         navMeshAgent.ResetPath();
         animator.SetFloat("Move", 0); // Reset to idle animation
         isIdle = false;
-        idleTimer = idleTime;
+        idleTimer = Random.Range(idleTimeMin, idleTimeMax);
     }
 
     private void StartIdle()
     {
         isIdle = true;
         animator.SetFloat("Move", 0); // Set idle animation
-        idleTimer = idleTime;
+        idleTimer = Random.Range(idleTimeMin, idleTimeMax);
+    }
+
+    private void StartMove()
+    {
+        isIdle = false;
+        moveTimer = Random.Range(moveTimeMin, moveTimeMax);
+        GetRandomDestination();
     }
 
     private void GetRandomDestination()
     {
-        Vector3 randomDirection = Random.insideUnitSphere * 5f + transform.position;
+        Vector3 forward = transform.forward;
+        float angle = Random.Range(-maxRoamingAngle, maxRoamingAngle); // Limit the random angle to within maxRoamingAngle
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+        Vector3 randomDirection = rotation * forward;
+
+        randomDirection *= Random.Range(2f, 5f); // Scale the direction to a random distance
+        randomDirection += transform.position;
 
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomDirection, out hit, 5f, NavMesh.AllAreas);
-        navMeshAgent.SetDestination(hit.position);
+        if (NavMesh.SamplePosition(randomDirection, out hit, 5f, NavMesh.AllAreas))
+        {
+            navMeshAgent.SetDestination(hit.position);
+        }
+        else
+        {
+            GetRandomDestination(); // Retry if the position is invalid
+        }
     }
 }
