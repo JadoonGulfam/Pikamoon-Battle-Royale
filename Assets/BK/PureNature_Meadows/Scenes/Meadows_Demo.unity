@@ -20885,12 +20885,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cc67bf08d7bbd4a9e5f00e4a6d12d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFollowSpeed: 120
+  cameraFollowSpeed: 50
   followTarget: {fileID: 6475834438676200958}
   followTargetOffset: {x: 0, y: 1, z: 0}
   inputSensitivity: 30
   clampAngle: 10
-  invertYAxis: 1
+  invertYAxis: 0
   FPSMode: 0
   zoomTargetOffset: {x: 0, y: 0, z: 0}
   zoomKey: 0
@@ -22361,12 +22361,12 @@ Transform:
   m_GameObject: {fileID: 7082058769324357721}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7554274, y: -0.15185063, z: -7.325862}
+  m_LocalPosition: {x: -307.60455, y: 16.30815, z: 168.97414}
   m_LocalScale: {x: 0.96153843, y: 0.96153843, z: 0.96153843}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7536370060515795725}
-  m_Father: {fileID: 4688590730723334951}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -0.47000003, y: 178.89801, z: 0}
 --- !u!1 &3800124286257944504
 GameObject:
@@ -22772,7 +22772,6 @@ Transform:
   m_Children:
   - {fileID: 5940875757214331675}
   - {fileID: 8893921202924557276}
-  - {fileID: 3797418666040340305}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4705191655563607688
@@ -37327,6 +37326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3797418666040340305}
   - component: {fileID: 957897834141391588}
+  - component: {fileID: 7082058769324357722}
   m_Layer: 0
   m_Name: ABC_Camera_TP
   m_TagString: Untagged
@@ -37334,6 +37334,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7082058769324357722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7082058769324357721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd131394704b7ea40a2e34555bf7cede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axes: 0
+  sensitivityX: 15
+  sensitivityY: 15
+  minimumX: -360
+  maximumX: 360
+  minimumY: -60
+  maximumY: 60
+  frameCounter: 20
 --- !u!4 &7132460762312961772
 Transform:
   m_ObjectHideFlags: 0
@@ -38273,6 +38293,7 @@ SceneRoots:
   - {fileID: 330960677}
   - {fileID: 1109302125}
   - {fileID: 353710242}
+  - {fileID: 3797418666040340305}
   - {fileID: 4688590730723334951}
   - {fileID: 94304315}
   - {fileID: 1518531318}
