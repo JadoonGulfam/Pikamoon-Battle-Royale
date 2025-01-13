@@ -3,20 +3,19 @@ using UnityEngine;
 
 namespace Pikamoon.Controller
 {
-    public class ThrowableWeapon : MonoBehaviour
+    public class ThrowableWeapon : Weapon
     {
-        public ThrowableWeaponSO data;
         [Space]
+        [Header("Core Class Value")]
+
         public Rigidbody rb;
         public float rotationSpeed;
-        public float Health;
 
         [Space]
         [Header("Holder Data")]
         public Throwing player;
         public Transform CurveT;
 
-        [Space]
         [Header("VFX")]
         public ParticleSystem ThrowFlash_PSys;
         public ParticleSystem Catch_PSys;
@@ -35,8 +34,13 @@ namespace Pikamoon.Controller
 
         Throwing throwing;
         IDamageable damageable;
+
+        ThrowableWeaponDataSO tWeaponData;
         private void Start()
         {
+
+            tWeaponData = GetWeaponDataAs<ThrowableWeaponDataSO>();
+
             returnTime = 0;
             activated = isReturning = false;
         }
@@ -85,7 +89,7 @@ namespace Pikamoon.Controller
             //transform.eulerAngles = new Vector3(0, -90 + transform.eulerAngles.y, 0);
             //transform.transform.position += transform.right / 5;
 
-            rb.AddForce(transform.forward * data.Power + transform.up * 2, ForceMode.Impulse);
+            rb.AddForce(transform.forward * tWeaponData.Power + transform.up * 2, ForceMode.Impulse);
 
             //Trail
             TrailTRen.emitting = true;
@@ -126,19 +130,42 @@ namespace Pikamoon.Controller
         {
             //if (collision.gameObject.layer == 11)
             //{
+            activated = false;
             GetComponent<Rigidbody>().Sleep();
             GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             GetComponent<Rigidbody>().isKinematic = true;
-            activated = false;
 
             damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.OnDamage(data.Damage, this.transform);
+                damageable.OnDamage(tWeaponData.Damage, this.transform);
             }
 
             //}
         }
 
+
+        public override void OnPicked()
+        {
+
+        }
+
+        public override void OnPicked(Transform Picker)
+        {
+        }
+
+        public override void Drop()
+        {
+        }
+
+        public override WeaponInfo GetWeaponInfo()
+        {
+            WeaponInfo info = new WeaponInfo();
+
+            info.Prefab = this;
+            info.Data = tWeaponData;
+
+            return info;
+        }
     }
 }

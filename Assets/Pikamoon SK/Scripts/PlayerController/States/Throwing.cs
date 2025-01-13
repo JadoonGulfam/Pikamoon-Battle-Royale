@@ -1,23 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using DG.Tweening;
-using UnityEngine.UI;
-using Unity.Cinemachine;
+using UnityEngine.Animations.Rigging;
 
 
 namespace Pikamoon.Controller
 {
     public class Throwing : State
     {
-        private Rigidbody weaponRb;
-        private float returnTime;
-
-        private Vector3 origLocPos;
-        private Vector3 origLocRot;
-        private Vector3 pullPosition;
-        [Space]
-        [SerializeField] float AdditionalAimRotation;
-
         [Header("Public References")]
         public ThrowableWeapon ActiveWeapon;
         public Transform HoldingPoint;
@@ -25,11 +13,21 @@ namespace Pikamoon.Controller
         [SerializeField] LayerMask AimableMask;
 
         [Space]
+        [Header("Animation Rigging")]
+
+        [SerializeField] Rig AR_LockedOnTargetAimer;
+        [SerializeField] Transform AR_LookTarget;
+        [SerializeField] float AR_LookSpeed;
+
+
+        [Space]
         [Header("Animation Variables")]
         int Anim_isAimingHash;
         int Anim_ThrowHash;
+        int Anim_isWalkRunHash;
         int Anim_SecondaryStateHash;
-        int Anim_InCombatHash;
+        int Anim_XVal;
+        int Anim_YVal;
 
         [Space]
         [Header("Bools")]
@@ -37,33 +35,52 @@ namespace Pikamoon.Controller
         public bool aiming = false;
         public bool hasWeapon = true;
         public bool pulling = false;
+        
+        [Space]
+        [SerializeField] float AdditionalAimRotation;
 
         [Space]
         [Header("UI")]
         //public Image reticle;
+
+        private Rigidbody weaponRb;
+        private float returnTime;
+
+        private Vector3 origLocPos;
+        private Vector3 origLocRot;
+        private Vector3 pullPosition;
+
+
         bool isActiveWeaponInHand;
-        bool isAimButtonHeld;
+        bool _isAiming;
 
         bool inAttack;
+        float riggingVal;
 
         Vector3 DefaultPos;
         Quaternion DefaultRot;
-
+        Transform CamTransform;
         void Start()
         {
-            base.Initialize();
+            Initialize();
+
             isActiveWeaponInHand = true;
+
             Anim_ThrowHash = Animator.StringToHash("Shoot");
             Anim_isAimingHash = Animator.StringToHash("isAiming");
             Anim_SecondaryStateHash = Animator.StringToHash("SecondaryState");
+            Anim_isWalkRunHash = Animator.StringToHash("isWalkRun");
+            Anim_XVal = Animator.StringToHash("XVal");
+            Anim_YVal = Animator.StringToHash("YVal");
 
-            if (Controller.activeWeapon.Type == WeaponType.Ranged)
+
+            if (Controller.ActiveWeapon.Data.Type == WeaponType.Ranged)
             {
                 //Initialize(Controller.GetWeaponAs<RangedWeaponSO>());
             }
 
-            DefaultPos = ActiveWeapon.transform.localPosition;
-            DefaultRot = ActiveWeapon.transform.localRotation;
+            CamTransform = Controller._cameraController._camera.transform;
+
             //reticle.DOFade(0, 0);
 
             playerInput.onAttack2_Down += StartAim;
@@ -72,28 +89,87 @@ namespace Pikamoon.Controller
             playerInput.onAttack1_Down += DecideToAttackOrCatch;
 
         }
+
+        public void ActivateWithWeapon()
+        {
+
+        }
+        
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
+                return;
+
+            ActiveWeapon = Controller.ActiveWeapon.Prefab as ThrowableWeapon;
+
+
+            DefaultPos = ActiveWeapon.transform.localPosition;
+            DefaultRot = ActiveWeapon.transform.localRotation;
+
+        }
+
         private void Update()
         {
-            if (!Controller.IsInAttack || Controller.activeWeapon.Type != WeaponType.Throwable)
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
+                return;
+
+            AimRigging();
+
+            if (!Controller.IsInAttack)
+                return;
+
+
+            if (!Controller.IsInAttack || Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
                 return;
 
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
         }
+        
+        void AimRigging()
+        {
+            if (_isAiming)
+            {
+                if (riggingVal < 1)
+                    riggingVal += Time.deltaTime * AR_LookSpeed;
+
+
+                AR_LookTarget.position = HoldingPoint.position;
+                Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
+
+                Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 999f, AimableMask))
+                {
+                    AR_LookTarget.position = hit.point;
+                }
+            }
+            else
+            {
+                if (riggingVal > 0)
+                    riggingVal -= Time.deltaTime * AR_LookSpeed;
+            }
+
+            AR_LockedOnTargetAimer.weight = riggingVal;
+        }
+
 
         public void StartAim()
         {
-            if (Controller.activeWeapon.Type != WeaponType.Throwable || !isActiveWeaponInHand || !isActiveWeaponInHand)
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable || !isActiveWeaponInHand || !isActiveWeaponInHand)
                 return;
 
             ReferencesHolder.Instance._CameraController.ChangeAimZoom(true);
 
-            Controller.Anim.SetLayerWeight(2, 1);
+            AC.PAnimator.SetLayerWeight(2, 1);
 
-            isAimButtonHeld = true;
+            _isAiming = true;
             
-            Controller.Anim.SetBool("isWalkRun", true);
-            Controller.Anim.SetBool(Anim_isAimingHash, true);
+            AC.PAnimator.SetBool(Anim_isWalkRunHash, true);
+            AC.PAnimator.SetBool(Anim_isAimingHash, true);
 
             //if (inAttack)
             //{
@@ -104,25 +180,25 @@ namespace Pikamoon.Controller
 
         public void CancelAim()
         {
-            if (Controller.activeWeapon.Type != WeaponType.Throwable)
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
                 return;
 
             ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
 
-            isAimButtonHeld = false;
+            _isAiming = false;
 
-            Controller.Anim.SetBool(Anim_isAimingHash, false);
+            AC.PAnimator.SetBool(Anim_isAimingHash, false);
 
-            //Controller.Anim.SetLayerWeight(2, 0);
+            //AC.PAnimator.SetLayerWeight(2, 0);
 
-            Controller.Anim.SetFloat("XVal", 0);
+            AC.PAnimator.SetFloat(Anim_XVal, 0);
          
             Controller.IsInAttack = false;
         }
 
         public void DecideToAttackOrCatch()
         {
-            if (Controller.activeWeapon.Type != WeaponType.Throwable)
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
                 return;
 
 
@@ -130,16 +206,15 @@ namespace Pikamoon.Controller
 
             if (isActiveWeaponInHand)
             {
-                Debug.Log("RMB Down");
-                Controller.Anim.SetLayerWeight(2, 1);
-                Controller.Anim.SetTrigger(Anim_ThrowHash);
+                AC.PAnimator.SetLayerWeight(2, 1);
+                AC.PAnimator.SetTrigger(Anim_ThrowHash);
                 
                 Controller.IsInAttack = true;
 
             }
             else
             {
-                Controller.Anim.SetInteger(Anim_SecondaryStateHash,1);
+                AC.PAnimator.SetInteger(Anim_SecondaryStateHash,1);
                 ActiveWeapon.CallItBack(curvePoint);
             }
 
@@ -152,7 +227,7 @@ namespace Pikamoon.Controller
 
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-            Ray ray = ReferencesHolder.Instance._CameraController.camera.ScreenPointToRay(screenCenterPoint);
+            Ray ray = ReferencesHolder.Instance._CameraController._camera.ScreenPointToRay(screenCenterPoint);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 999f, AimableMask))
@@ -161,9 +236,9 @@ namespace Pikamoon.Controller
                 //DebugTransform.transform.position = hit.point;
             }
 
-            if (!isAimButtonHeld)
+            if (!_isAiming)
             {
-                Controller.Anim.SetBool(Anim_isAimingHash, false);
+                AC.PAnimator.SetBool(Anim_isAimingHash, false);
             }
             inAttack = false;
             CancelAim();
@@ -182,8 +257,8 @@ namespace Pikamoon.Controller
         {
             Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
 
-            Controller.Anim.SetFloat("XVal", playerInput.Horizontal);
-            Controller.Anim.SetFloat("YVal", playerInput.Vertical);
+            AC.PAnimator.SetFloat(Anim_XVal, playerInput.Horizontal);
+            AC.PAnimator.SetFloat(Anim_YVal, playerInput.Vertical);
 
             // Always apply vertical velocity (for gravity or jumping)
             Vector3 finalMove = new Vector3(direction.x * Controller.Speed, playerInput.JumpVelocity, direction.z * Controller.Speed);
@@ -193,7 +268,8 @@ namespace Pikamoon.Controller
         }
         void RotatePlayerTowardsCamFor()
         {
-            Vector3 forward = Controller._camera.transform.forward + (Controller._camera.transform.right * AdditionalAimRotation);
+
+            Vector3 forward = CamTransform.forward + (CamTransform.right * AdditionalAimRotation);
             forward.y = 0f;
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * 10);
@@ -208,9 +284,9 @@ namespace Pikamoon.Controller
             ActiveWeapon.transform.localPosition = DefaultPos;
             ActiveWeapon.transform.localRotation = DefaultRot;
             
-            Controller.Anim.SetInteger(Anim_SecondaryStateHash, 2);
+            AC.PAnimator.SetInteger(Anim_SecondaryStateHash, 2);
 
-            //Controller.Anim.SetLayerWeight(2, 0);
+            //AC.PAnimator.SetLayerWeight(2, 0);
         }
 
         public override void OnEnd()
@@ -227,6 +303,9 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
+            playerInput.onAttack2_Down -= StartAim;
+            playerInput.onAttack2_Up -= CancelAim;
+            playerInput.onAttack1_Down -= DecideToAttackOrCatch;
         }
     }
 }

@@ -3,11 +3,8 @@ using UnityEngine;
 namespace Pikamoon.Controller
 {
     [CreateAssetMenu(fileName = "New Throwable Weapon", menuName = "Pikamoon/Weapon/Create new Throwable Weapon")]
-    public class ThrowableWeaponSO : WeaponSO
+    public class ThrowableWeaponDataSO : WeaponDataSO
     {
-        [Space]
-        public GameObject weapon;
-        [Space]
         public float Power;
         public float Damage;
         [Space]

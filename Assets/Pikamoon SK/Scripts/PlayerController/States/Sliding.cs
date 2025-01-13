@@ -1,16 +1,15 @@
-using Pikamoon.Controller;
 using UnityEngine;
+
 namespace Pikamoon.Controller
 {
-    public class Sliding : MonoBehaviour
+    public class Sliding : State
     {
-        [SerializeField] PlayerController playerController;
-        [SerializeField] PlayerInput PlayerInput;
         [SerializeField] float SlideSpeed;
         [SerializeField] float SpeedDeccelerator;
         [Space]
         [SerializeField] float colliderHeight;
         [SerializeField] float colliderRadius;
+        [Space]
         [SerializeField] Vector3 colliderCenter;
 
         Vector3 groundNormal;
@@ -18,23 +17,19 @@ namespace Pikamoon.Controller
         Vector3 slideDirection;
         float speed;
         bool isHurdleAbove;
+
         private void Start()
         {
+            base.Initialize();
             wasSliding = false;
-
-            //_playerController = GetComponent<PlayerController>();
-            //PlayerInput = ReferencesHolder.Instance.GetComponent<PlayerInput>();
         }
 
         private void Update()
         {
             if (wasSliding)
-                isHurdleAbove = Physics.CheckBox(this.transform.position + (Vector3.up*2), new Vector3(.5f, 1, .5f), Quaternion.identity, playerController.groundLayer);
+                isHurdleAbove = Physics.CheckBox(this.transform.position + (Vector3.up*2), new Vector3(.5f, 1, .5f), Quaternion.identity, Controller.groundLayer);
 
-
-            //Debug.Log("is Hurdle Above = "+ isHurdleAbove);
-
-            if (PlayerInput.isSliding && !PlayerInput.JumpInput)
+            if (playerInput.isSliding && !playerInput.JumpInput)
             {
                 if (!wasSliding)
                 {
@@ -42,8 +37,8 @@ namespace Pikamoon.Controller
                     OnStateStart();
                 }
 
-                Vector3 direction = playerController.GetDirectionAccordingToCameraWhenMoving();
-                playerController.RotatePlayerTowardDirection(direction, 8);
+                Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
+                Controller.RotatePlayerTowardDirection(direction, 8);
 
 
                 groundNormal = GetGroundNormal();
@@ -63,11 +58,11 @@ namespace Pikamoon.Controller
                         speed = SlideSpeed + (10 * slideDirection.y) * Time.deltaTime;
                     }
 
-                playerController.Move(new Vector3(slideDirection.x * speed, PlayerInput.JumpVelocity, slideDirection.z * speed));
+                Controller.Move(new Vector3(slideDirection.x * speed, playerInput.JumpVelocity, slideDirection.z * speed));
 
-                if (playerController.Velocity.magnitude <= 10)
+                if (Controller.Velocity.magnitude <= 3)
                 {
-                    PlayerInput.isSliding = false;
+                    playerInput.isSliding = false;
                 }
 
             }
@@ -79,21 +74,20 @@ namespace Pikamoon.Controller
 
         void OnStateStart()
         {
-            Debug.Log("State Start Method");
-            playerController.Anim.SetBool("isSlide", true);
+            AC.PAnimator.SetBool(AC.Parameters.isSlide.Hash, true);
             speed = SlideSpeed;
 
-            playerController.SetCharacterController(colliderHeight, colliderRadius, colliderCenter);
+            Controller.SetCharacterController(colliderHeight, colliderRadius, colliderCenter);
         }
 
         void OnStateEnd()
         {
             if (wasSliding)
             {
-                PlayerInput.isSliding = false;
+                playerInput.isSliding = false;
                 wasSliding = false;
-                playerController.Anim.SetBool("isSlide", false);
-                playerController.SetCharacterControllerDefault();
+                AC.PAnimator.SetBool(AC.Parameters.isSlide.Hash, false);
+                Controller.SetCharacterControllerDefault();
                 speed = 0; 
             }
         }
@@ -102,7 +96,7 @@ namespace Pikamoon.Controller
         Vector3 GetGroundNormal()
         {
             Vector3 normal = Vector3.zero;
-            if (Physics.Raycast(transform.position + (Vector3.up * .2f), Vector3.down, out hit, 1f, playerController.groundLayer))
+            if (Physics.Raycast(transform.position + (Vector3.up * .2f), Vector3.down, out hit, 1f, Controller.groundLayer))
             {
                 normal = hit.normal;
             }
@@ -111,7 +105,7 @@ namespace Pikamoon.Controller
         Vector3 GetGroundNormal(float rayLength)
         {
             Vector3 normal = Vector3.zero;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, rayLength, playerController.groundLayer))
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, rayLength, Controller.groundLayer))
             {
                 normal = hit.normal;
             }
@@ -134,6 +128,18 @@ namespace Pikamoon.Controller
         void checkNormalAngleToGround()
         {
 
+        }
+
+        public override void OnEnd()
+        {
+        }
+
+        public override void OnStart()
+        {
+        }
+
+        public override void OnUpdate()
+        {
         }
     }
 }

@@ -4,14 +4,9 @@ using UnityEngine;
 
 namespace Pikamoon.Controller
 {
-    public enum WalkRunState
-    {
-        Walking,
-        Running
-    }
-    public delegate void OnAttack();
-    public delegate void OnAttackBtnDown();
-    public delegate void OnAttackBtnUp();
+    public delegate void OnBtnClicked();
+    public delegate void OnBtnDown();
+    public delegate void OnBtnUp();
 
     public class PlayerInput : MonoBehaviour
     {
@@ -21,20 +16,22 @@ namespace Pikamoon.Controller
         }
 
         protected static PlayerInput s_Instance;
-        public OnAttack onAttack1_Clicked;
-        public OnAttackBtnDown onAttack1_Down;
-        public OnAttackBtnUp onAttack1_Up;
+        public OnBtnClicked onAttack1_Clicked;
+        public OnBtnDown onAttack1_Down;
+        public OnBtnUp onAttack1_Up;
 
 
-        public OnAttack onAttack2_Clicked; 
-        public OnAttackBtnDown onAttack2_Down;
-        public OnAttackBtnUp onAttack2_Up;
+        public OnBtnClicked onAttack2_Clicked; 
+        public OnBtnDown onAttack2_Down;
+        public OnBtnUp onAttack2_Up;
 
+        public OnBtnDown onSprint_Down;
+        public OnBtnUp onSprint_Up;
 
-
+        public OnBtnDown onWalkToggle_Down;
+        public OnBtnUp   onWalkToggle_Up;
 
         [HideInInspector]
-        public WalkRunState walkRunState = WalkRunState.Walking;
         public bool isSprinting;
         public bool isCrouching;
         public bool isSliding;
@@ -129,25 +126,34 @@ namespace Pikamoon.Controller
 
             jump = Input.GetButton("Jump");
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !isCrouching)
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                ToggleSprinting();
+                onSprint_Down?.Invoke();
+                if (!isCrouching)
+                {
+                    ToggleSprinting();
+                }
+            }
+
+            if(Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                onSprint_Up?.Invoke();
             }
 
 
             if (Input.GetKeyDown(KeyCode.LeftControl) && m_Controller.IsGrounded)
-            {   
+            {
                 if (isSliding)
                 {
                     isSliding = false;
                     isSprinting = false;
                     ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
                 }
-                else if(isSprinting)
+                else if (isSprinting)
                 {
                     StartSliding();
                 }
-                else 
+                else
                 {
                     ToggleCrouching();
                 }
@@ -156,7 +162,12 @@ namespace Pikamoon.Controller
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                ToggleWalkRunState();
+                onWalkToggle_Down?.Invoke();
+            }
+            
+            if(Input.GetKeyUp(KeyCode.Q))
+            {
+                onWalkToggle_Up?.Invoke();
             }
 
 
@@ -236,10 +247,12 @@ namespace Pikamoon.Controller
                 if (!isCrouching)
                 {
                     isCrouching = true;
+                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Crouch);
                 }
                 else
                 {
                     isCrouching = false;
+                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
                 }
         }
 
@@ -248,10 +261,6 @@ namespace Pikamoon.Controller
             isSliding = true;
         }
 
-        public void ToggleWalkRunState()
-        {
-            walkRunState = walkRunState == WalkRunState.Walking ? WalkRunState.Running : WalkRunState.Walking;
-        }
 
         public bool HaveControl()
         {

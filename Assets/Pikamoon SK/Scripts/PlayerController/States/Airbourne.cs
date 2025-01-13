@@ -4,7 +4,7 @@ using UnityEngine.Windows;
 
 namespace Pikamoon.Controller
 {
-    public class Airbourne : MonoBehaviour
+    public class Airbourne : State
     {
         public PlayerData playerData;
 
@@ -16,7 +16,6 @@ namespace Pikamoon.Controller
         int _fallStateHash;
         [SerializeField] string _jumpStateName = "Airbourne.Jump";
         int _jumpStateHash; 
-        int _inAirAnimHash;
 
 
         //[Header("Gliding")]
@@ -28,18 +27,14 @@ namespace Pikamoon.Controller
         public UnityEvent OnJumpStart;
         public UnityEvent OnLanded;
 
-        PlayerController playerController;
-        PlayerInput playerInput;
         bool isJumping;
 
         private void Start()
         {
-            playerController = GetComponent<PlayerController>();
-            playerInput = ReferencesHolder.Instance._playerInput;
+            base.Initialize();
 
             _fallStateHash = Animator.StringToHash(_fallStateName);
             _jumpStateHash = Animator.StringToHash(_jumpStateName);
-            _inAirAnimHash = Animator.StringToHash("inAir");
         }
 
 
@@ -60,47 +55,54 @@ namespace Pikamoon.Controller
         void Landed()
         {
             isJumping = false;
-            playerController.Anim.SetBool(_inAirAnimHash, false);
+            AC.PAnimator.SetBool(AC.Parameters.inAir.Hash, false);
             OnLanded?.Invoke();
         }
 
         void HandleGravity()
         {
-            if (playerController.IsGrounded)
+            if(Controller.IgnoreGravity)
+            {
+                playerInput.JumpVelocity = 0;
+                return;
+            }
+
+
+            if (Controller.IsGrounded)
             {
                 if (playerInput.JumpVelocity < 0)
                 {
-                    playerInput.JumpVelocity = -9.8f;
+                    playerInput.JumpVelocity = -22.8f;
                 }
 
                 isJumping = false;
 
-                if (playerInput.JumpInput && !playerController.InAir)
+                if (playerInput.JumpInput && !Controller.InAir)
                 {
                     StartJumping();
                 }
 
-                if (playerController.InAir)
+                if (Controller.InAir)
                 {
-                    playerController.InAir = false;
+                    Controller.InAir = false;
 
                     Landed();
                 }
             }
-            else
+            else 
             {
-                if(!playerController.InAir)
+                if(!Controller.InAir)
                 {
-                    playerController.InAir = true;
+                    Controller.InAir = true;
 
-                    playerController.Anim.SetBool(_inAirAnimHash, true);
+                    AC.PAnimator.SetBool(AC.Parameters.inAir.Hash, true);
                     if (isJumping)
                     {
-                        playerController.SetAnimationState(_jumpStateHash,.2f);
+                        AC.SetAnimationState(_jumpStateHash,.2f);
                     }
                     else
                     {
-                        playerController.SetAnimationState(_fallStateHash, .2f);
+                        AC.SetAnimationState(_fallStateHash, .2f);
                     }
                 }
 
@@ -108,6 +110,16 @@ namespace Pikamoon.Controller
             }
         }
 
+        public override void OnEnd()
+        {
+        }
 
+        public override void OnStart()
+        {
+        }
+
+        public override void OnUpdate()
+        {
+        }
     }
 }

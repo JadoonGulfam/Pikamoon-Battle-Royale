@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,118 +7,142 @@ namespace Pikamoon.Controller
 {
     public class Shooting : State
     {
-        RangedWeaponSO ActiveWeapon;
+        RangedWeapon ActiveWeapon;
 
         public Transform FirePoint;
+        
+        [Space]
+        [Header("Animation Rigging")]
 
+        [SerializeField] Rig AR_LockedOnTargetAimer;
+        [SerializeField] Transform AR_LookTarget;
+        [SerializeField] float AR_LookSpeed;
+        
         [Space]
         [Header("Aim")]
-        [SerializeField] Rig AR_LockedOnTargetAimer;
-        [SerializeField] Transform AimLookTarget;
+
         [SerializeField] LayerMask AimableMask;
         [SerializeField] float MaxAimRange;
+        [Space]
         [SerializeField] bool LookTowardCameraForward;
+        [SerializeField] float RotOffsetDuringAim;
+        [Space]
         [SerializeField] float CancelAimAfterSeconds;
         [SerializeField] float CancelAttackAfterSeconds;
 
         [Space]
-        [Header("Bullet")]
-        public int MaxPoolSize;
-        public List<Bullet> bulletsPool;
+        [Header("Animation Variables")]
+        int AnimParamHash_isAiming;
+        int AnimParamHash_Throw;
+        int AnimParamHash_SecondaryState;
+        int AnimParamHash_InCombat;
+        int AnimParamHash_isWalkRun;
+        int AnimParamHash_XVal;
+        int AnimParamHash_YVal;
+
 
         [Space]
         [SerializeField] Transform DebugTransform;
         [SerializeField] RectTransform DebugUITransform;
-        [SerializeField] float Value;
 
+        bool _isAiming;
+        bool _isInAttack;
         bool AllowFire;
         int bulletIndex;
-        Camera cam;
+        float riggingVal;
+        float FireRate;
         Coroutine cancelAimRoutine;
 
         private void Start()
         {
-            Initialize();
+            base.Initialize();
+            
 
-            if(Controller.activeWeapon.Type == WeaponType.Ranged)
-            {
-                Initialize(Controller.GetWeaponAs<RangedWeaponSO>());
-            }
+            AnimParamHash_Throw           =   Animator.StringToHash  (     "Shoot"           );
+            AnimParamHash_isAiming        =   Animator.StringToHash  (     "isAiming"        );
+            AnimParamHash_InCombat        =   Animator.StringToHash  (     "inCombat"        );
+            AnimParamHash_SecondaryState  =   Animator.StringToHash  (     "SecondaryState"  );
+            AnimParamHash_isWalkRun       =   Animator.StringToHash  (     "isWalkRun"       );
+            AnimParamHash_XVal            =   Animator.StringToHash  (     "XVal"            );
+            AnimParamHash_YVal            =   Animator.StringToHash  (     "YVal"            );
+
+
 
             playerInput.onAttack1_Down += PlayFireAnimation;
             playerInput.onAttack2_Down += StartAim;
             playerInput.onAttack2_Up += CancelAim;
-
 
             AllowFire = true;
         }
 
         private void Update()
         {
-            if (!Controller.IsInAttack || Controller.activeWeapon.Type != WeaponType.Ranged)
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+                return;
+
+            AimRigging();
+
+            if (!Controller.IsInAttack)
                 return;
 
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
         }
 
-        public void Initialize(RangedWeaponSO rangedWeapon)
+        public override void Initialize()
+        {
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+                return;
+
+            AssignWeapon();
+        }
+
+        void AssignWeapon()
         {
             bulletIndex = 0;
-            ActiveWeapon = rangedWeapon;
-            MakePool(ActiveWeapon.Bullet);
 
-            cam = ReferencesHolder.Instance._CameraController.camera;
+            ActiveWeapon = Controller.ActiveWeapon.Prefab as RangedWeapon;
+
+            FireRate = ActiveWeapon.GetFireRate();
         }
 
-        void RotatePlayerTowardsCamFor()
+        void AimRigging()
         {
-            if(LookTowardCameraForward)
+            if (_isAiming)
             {
-                Controller.RotatePlayerTowardsCameraForwardDirectionDuringAim(10,Value);
-            }
-        }
+                if(riggingVal < 1)
+                    riggingVal += Time.deltaTime * AR_LookSpeed;
 
-        void StartAim()
-        {
-            if(Controller.activeWeapon.Type == WeaponType.Ranged)
+
+                AR_LookTarget.position = FirePoint.position;
+                Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
+
+                Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 999f, AimableMask))
+                {
+                    AR_LookTarget.position = hit.point;
+                }
+            }
+            else
             {
-                ReferencesHolder.Instance._CameraController.ChangeAimZoom(true);
+                if (riggingVal > 0)
+                    riggingVal -= Time.deltaTime * AR_LookSpeed;
             }
+
+
+            AR_LockedOnTargetAimer.weight = riggingVal;
         }
-        void CancelAim()
-        {
-            if (Controller.activeWeapon.Type == WeaponType.Ranged)
-            {
-                ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
-            }
-        }
-
-
-        IEnumerator CancelAimAndAttack()
-        {
-            yield return new WaitForSeconds(CancelAimAfterSeconds);
-
-            AR_LockedOnTargetAimer.weight = 0;
-            Controller.Anim.SetBool("isAiming", false);
-            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-            Controller.IsInAttack = false;
-
-            yield return new WaitForSeconds (CancelAttackAfterSeconds);
-
-            Controller.Anim.SetBool("inCombat", false);
-            Controller.Anim.SetLayerWeight(1, 0);
-        }
-
 
         void MoveDuringAim()
         {
 
             Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
-            
 
-            Controller.Anim.SetFloat("XVal", playerInput.Horizontal);
-            Controller.Anim.SetFloat("YVal", playerInput.Vertical);
+
+            AC.PAnimator.SetFloat(AnimParamHash_XVal, playerInput.Horizontal);
+            AC.PAnimator.SetFloat(AnimParamHash_YVal, playerInput.Vertical);
 
 
             // Always apply vertical velocity (for gravity or jumping)
@@ -129,52 +152,121 @@ namespace Pikamoon.Controller
             Controller.Move(finalMove);
         }
 
-
-        void EndAttack()
+        void RotatePlayerTowardsCamFor()
         {
-
+            if(LookTowardCameraForward)
+            {
+                Controller.RotatePlayerTowardsCameraForwardDirectionDuringAim(10,RotOffsetDuringAim);
+            }
         }
 
+        void StartAim()
+        {
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+                return;
+
+            Controller._cameraController.ChangeCam(Cam.Aim);
+            Controller._cameraController.ChangeAimZoom(true);
+
+            AC.PAnimator.SetLayerWeight(1, 1);
+
+            Controller.IsInAttack = true;
+            _isAiming = true;
+            LookTowardCameraForward = true;
+
+            AC.PAnimator.SetBool(AnimParamHash_isWalkRun, true);
+            AC.PAnimator.SetBool(AnimParamHash_isAiming, true);
+        }
+        void CancelAim()
+        {
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+                return;
+
+            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+            ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
+
+            _isAiming = false;
+
+            AC.PAnimator.SetBool(AnimParamHash_isAiming, false);
+            AC.PAnimator.SetFloat(AnimParamHash_XVal, 0);
+
+            Controller.IsInAttack = false;
+
+            LookTowardCameraForward = false;
+        }
+
+        IEnumerator CancelAimAndAttack()
+        {
+            float waitTime = _isInAttack ? CancelAimAfterSeconds : 0f;
+
+            yield return new WaitForSeconds(waitTime);
+
+            LookTowardCameraForward = false;
+
+            if(_isAiming)
+                ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
+            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+
+            //AR_LockedOnTargetAimer.weight = 0;
+            AC.PAnimator.SetBool(AnimParamHash_isAiming, false);
+            Controller.IsInAttack = false;
+            _isInAttack = false;
+
+            yield return new WaitForSeconds (CancelAttackAfterSeconds);
+
+            AC.PAnimator.SetLayerWeight(1, 0);
+            AC.PAnimator.SetBool(AnimParamHash_InCombat, false);
+        }
+        
+        
         public void PlayFireAnimation()
         {
-            if (!AllowFire || Controller.activeWeapon.Type != WeaponType.Ranged)
+            if (!AllowFire || Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
                 return;
 
 
-            AR_LockedOnTargetAimer.weight = 1;
+            _isInAttack = true;
+
+            //AR_LockedOnTargetAimer.weight = 1;
 
             Controller.IsInAttack = true;
 
             ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Aim);
 
-            Controller.Anim.SetLayerWeight(1, 1);
-            Controller.Anim.SetBool("isAiming", true);
-            Controller.Anim.SetBool("isWalkRun", true);
-            Controller.Anim.SetTrigger("Shoot");
-            
+            AC.PAnimator.SetLayerWeight(1, 1);
+            AC.PAnimator.SetBool(AnimParamHash_isAiming, true);
+            AC.PAnimator.SetBool(AnimParamHash_isWalkRun, true);
+            AC.PAnimator.SetTrigger(AnimParamHash_Throw);
+
             LookTowardCameraForward = true;
 
             StartCoroutine(RegulateFire());
 
-            if(cancelAimRoutine != null)
+            if (cancelAimRoutine != null)
                 StopCoroutine(cancelAimRoutine);
-            cancelAimRoutine = StartCoroutine(CancelAimAndAttack());
+
+            if(!_isAiming)
+                cancelAimRoutine = StartCoroutine(CancelAimAndAttack());
         }
 
         public void ShootArrow()
         {
-            GetBulletIndex();
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
             DebugUITransform.position = screenCenterPoint;
 
-            Ray ray = cam.ScreenPointToRay(screenCenterPoint);
+            Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 999f, AimableMask))
             {
-                bulletsPool[bulletIndex].Shoot(FirePoint.position, hit.point, ActiveWeapon.BulletSpeed, ActiveWeapon.BulletDamage);
+                ActiveWeapon.ShootBullet(hit.point);
                 DebugTransform.transform.position = hit.point;
             }
+        }
+
+
+        void EndAttack()
+        {
 
         }
 
@@ -182,35 +274,10 @@ namespace Pikamoon.Controller
         {
             AllowFire = false;
 
-            yield return new WaitForSeconds(ActiveWeapon.DelayInNextFire);
+            yield return new WaitForSeconds(FireRate);
             AllowFire = true;
         }
 
-        void GetBulletIndex()
-        {
-            bulletIndex++;
-            if(bulletIndex == bulletsPool.Count)
-            {
-                bulletIndex = 0;
-            }
-        }
-
-        void MakePool(Bullet bullet)
-        {
-            bulletsPool.Clear();
-            bulletIndex = 0;
-
-            for (int i = 0; i < MaxPoolSize; ++i)
-            {
-                var _bllt = Instantiate(bullet,null);
-                
-                _bllt.transform.parent = null; 
-
-                _bllt.Initialize(this,i);
-
-                bulletsPool.Add(_bllt);
-            }
-        }
 
         private void OnDestroy()
         {

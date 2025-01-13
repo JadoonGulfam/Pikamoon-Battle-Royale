@@ -15,19 +15,16 @@ public enum CharacterStates
 namespace Pikamoon.Controller
 {
     [RequireComponent(typeof(CharacterController))]
-    public class Locomotion : MonoBehaviour
+    public class Locomotion : State
     {
         #region Public Fields
+
         [Header("References")]
         [Space]
-        [SerializeField] PlayerInput input;
         [SerializeField] Transform _camera;
 
         [Header("Animation")]
         [Space]
-        [SerializeField] string _walkRunAnimName;
-        int _walkRunAnimHash;
-        int _speedAnimHash;
         [SerializeField] float AnimationChangeDampening;
 
         [Header("Movement")]
@@ -43,34 +40,34 @@ namespace Pikamoon.Controller
 
         #region Private Fields
 
-        PlayerController playerController;
         Sliding sliding;
 
-        float moveToSpeed;
-        float animSpeed;
-        float moveToBlendValue;
+        bool isSprinting;
+        bool isWalking;
 
         #endregion
 
 
         private void Start()
         {
-            input = ReferencesHolder.Instance._playerInput;
-            _camera = ReferencesHolder.Instance._CameraController.camera.transform;
-            playerController = this.GetComponent<PlayerController>();
-
-            moveToSpeed = 0;
-            playerController.Speed = 0;
-            animSpeed = 0;
-            moveToBlendValue = 0;
+            base.Initialize();
+            _camera = ReferencesHolder.Instance._CameraController._camera.transform;
 
 
-            _walkRunAnimHash = Animator.StringToHash(_walkRunAnimName);
-            _speedAnimHash = Animator.StringToHash("Speed");
+            playerInput.onSprint_Down +=  EnableSprinting;
+            playerInput.onSprint_Up   += DisableSprinting;
+
+            playerInput.onWalkToggle_Down +=  EnableWalk;
+            playerInput.onWalkToggle_Up   += DisableWalk;
+
+
         }
 
         private void Update()
         {
+            if (playerInput.isCrouching || Controller.IsInAttack || Controller.IsSwimming)
+                return;
+
             HandleSpeed();
 
             MovementAndRotationHandler();
@@ -80,74 +77,88 @@ namespace Pikamoon.Controller
 
         void HandleSpeed()
         {
-            if (input.isMoving)
+            if (playerInput.isMoving)
             {
-                if (input.isSprinting)
+                if (isSprinting)
                 {
-                    moveToSpeed = playerController.Data.SprintSpeed;
-                    moveToBlendValue = 2f;
-                }
-                else if (input.isCrouching)
-                {
-                    moveToSpeed = playerController.Data.WalkSpeed;
-                    moveToBlendValue = 1;
-                }
-                else if(playerController.IsInAttack)
-                {
-                    moveToSpeed = playerController.Data.WalkSpeed;
-                    moveToBlendValue = .2f;
+                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Sprint);
+                    Controller.ChangeSpeed(Controller.PlayerData.SprintSpeed, 2f);
                 }
                 else
                 {
-                    moveToSpeed = input.walkRunState == WalkRunState.Walking ? playerController.Data.WalkSpeed : playerController.Data.RunSpeed;
-                    moveToBlendValue = input.walkRunState == WalkRunState.Walking ? 0.2f : 1f;
+                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                    Controller.ChangeMovementSpeed  (isWalking ? Controller.PlayerData.WalkSpeed : Controller.PlayerData.RunSpeed);
+                    Controller.ChangeAnimationSpeed (isWalking ? 0.2f : 1f);
                 }
+
+                //}
             }
             else
             {
-                moveToSpeed = 0;
-                moveToBlendValue = 0;
+                isSprinting = false;
+                ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                Controller.ChangeSpeed(0f, 0f);
             }
-
-            if(input.isSliding)
-            {
-                //moveToBlendValue = sliding.
-            }
-
-            playerController.Speed = Mathf.Lerp(playerController.Speed, moveToSpeed, Time.deltaTime * Acceleration);
-
-            animSpeed = Mathf.Lerp(animSpeed, moveToBlendValue, Time.deltaTime * AnimationChangeDampening);
         }
 
         void HandleAnimation()
         {
-            playerController.Anim.SetFloat(_speedAnimHash, animSpeed);
-            if(playerController.IsGrounded && !playerController.IsInAttack)
+            AC.PAnimator.SetFloat(AC.Parameters.Speed.Hash, Controller.AnimSpeed);
+            if(Controller.IsGrounded && !Controller.IsInAttack)
             {
-                playerController.Anim.SetBool(_walkRunAnimHash, input.isMoving);
+                AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, playerInput.isMoving);
             }
         }
 
         void MovementAndRotationHandler()
         {
-            if (input.isSliding || playerController.IsInAttack)
+            if (playerInput.isSliding || Controller.IsInAttack)
                 return;
 
 
-            playerController.Anim.SetFloat("YVal", 1);
+            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, 1);
 
-            Vector3 direction = playerController.GetDirectionAccordingToCameraWhenMoving();
+            Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
 
-            playerController.RotatePlayerTowardDirection(direction, turnSmoothTime);
+            Controller.RotatePlayerTowardDirection(direction, turnSmoothTime);
 
             // Always apply vertical velocity (for gravity or jumping)
-            Vector3 finalMove = new Vector3(direction.x * playerController.Speed, input.JumpVelocity, direction.z * playerController.Speed);
+            Vector3 finalMove = new Vector3(direction.x * Controller.Speed, playerInput.JumpVelocity, direction.z * Controller.Speed);
 
             // Move the character based on calculated velocity and speed
-            playerController.Move(finalMove);
+            Controller.Move(finalMove);
+        }
+
+        void EnableSprinting()
+        {
+            isSprinting = true;
+        }
+        void DisableSprinting()
+        {
+            isSprinting = false;
         }
 
 
+        void EnableWalk()
+        {
+            isWalking = true;
+        }
+        void DisableWalk()
+        {
+            isWalking = false;
+        }
+
+        public override void OnEnd()
+        {
+        }
+
+        public override void OnStart()
+        {
+        }
+
+        public override void OnUpdate()
+        {
+        }
 
         //private void OnDrawGizmos()
         //{

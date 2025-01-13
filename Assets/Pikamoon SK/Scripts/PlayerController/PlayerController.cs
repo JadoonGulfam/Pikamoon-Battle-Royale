@@ -2,25 +2,45 @@ using UnityEngine;
 
 namespace Pikamoon.Controller
 {
+    [System.Serializable]
+    public struct WeaponInfo
+    {
+        public Weapon Prefab;
+        public WeaponDataSO Data;
+    }
+
+    [System.Serializable]
+    public struct HoldingPoint
+    {
+        public WeaponHoldingPointType Type;
+        public Transform Point;
+    }
+
 
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
-        public PlayerData Data;
-        [SerializeField] Animator animator;
+        public PlayerData PlayerData;
         [SerializeField] bool inAir;
         [SerializeField] bool canExitCrouch;
         public bool IsInAttack;
+        public bool IsSwimming;
+        public bool IgnoreGravity;
         [SerializeField] Vector3 crouchColliderOffset;
 
-
         [Header("Weapon")]
-        public WeaponSO activeWeapon;
-        // Generic method to cast Weapon to the specific type
-        public T GetWeaponAs<T>() where T : WeaponSO
-        {
-            return activeWeapon as T; // Tries to cast the currentWeapon to the specified type
-        }
+        public WeaponInfo ActiveWeapon;
+        [Space]
+        public HoldingPoint[] holdingPoints;
+
+        //public T GetWeaponAs<T>() where T : Weapon
+        //{
+        //    return ActiveWeapon as T; // Tries to cast the currentWeapon to the specified type
+        //}
+
+        [Space]
+        [Header("Rotation Setting")]
+        public float TurnSmoothTime;
 
 
         [Header("Grounded Settings")]
@@ -29,18 +49,36 @@ namespace Pikamoon.Controller
         [SerializeField] Vector3 groundCheckColliderScale;
         public LayerMask groundLayer;
         
-        public float Speed;
-        [HideInInspector] public Transform _camera;
-        PlayerInput input
-        {
-            get { return ReferencesHolder.Instance._playerInput; }
-        }
+        [HideInInspector] public CameraController _cameraController;
+        PlayerInput input;
 
         CharacterController characterController;
 
         float defaultHeight;
         float defaultRadius;
         Vector3 defaultCenter;
+
+        float speed;
+        float animSpeed;
+
+        float moveSpeedLerper;
+        float animSpeedLerper;
+
+        public float Speed
+        {
+            get
+            {
+                return speed;
+            }
+        }
+        
+        public float AnimSpeed
+        {
+            get
+            {
+                return animSpeed;
+            }
+        }
 
         public bool InAir
         {
@@ -57,10 +95,13 @@ namespace Pikamoon.Controller
         {
             get
             {
-                return Physics.CheckBox(this.transform.position+(Vector3.down * (groundCheckColliderScale.y/2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
+                return isGrounded;
+                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
                 //return characterController.isGrounded;
             }
         }
+
+
         public bool CanExitCrouch
         {
             get
@@ -69,17 +110,6 @@ namespace Pikamoon.Controller
                     return true;
                 else
                     return false;
-            }
-        }
-        public Animator Anim
-        {
-            get
-            {
-                return animator;
-            }
-            set
-            {
-                animator = value;
             }
         }
 
@@ -94,16 +124,38 @@ namespace Pikamoon.Controller
         private void Awake()
         {
             ReferencesHolder.Instance._playerController = this;
-            //input = ReferencesHolder.Instance._playerInput;
-            characterController = this.GetComponent<CharacterController>(); 
-            _camera = ReferencesHolder.Instance._CameraController.camera.transform;
+            input = ReferencesHolder.Instance._playerInput;
+            characterController = this.GetComponent<CharacterController>();
+            _cameraController = ReferencesHolder.Instance._CameraController;
+
+            IgnoreGravity = false;
 
             defaultHeight = characterController.height;
             defaultRadius = characterController.radius;
             defaultCenter = characterController.center;
+        }
+
+        private void Update()
+        {
+            AdjustSpeed();
+            IsGroundedCheck();
+        }
+
+        #region Weapon Portion
+        public void AssignWeapon(WeaponInfo weapon)
+        {
+            ActiveWeapon = weapon;
+
+            ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
+            ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+            ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
 
         }
 
+        #endregion
+
+
+        #region Camera Portion
 
         public Vector3 GetDirectionAccordingToCameraWhenMoving()
         {
@@ -111,8 +163,8 @@ namespace Pikamoon.Controller
 
             if (input.isMoving)
             {
-                Vector3 CamForward = _camera.forward.normalized;
-                Vector3 CamRight = _camera.right.normalized;
+                Vector3 CamForward = _cameraController._camera.transform.forward.normalized;
+                Vector3 CamRight = _cameraController._camera.transform.right.normalized;
 
                 CamForward.y = 0;
                 CamRight.y = 0;
@@ -127,8 +179,8 @@ namespace Pikamoon.Controller
         {
             Vector3 direction = transform.forward;
 
-                Vector3 CamForward = _camera.forward.normalized;
-                Vector3 CamRight = _camera.right.normalized;
+                Vector3 CamForward = _cameraController._camera.transform.forward.normalized;
+                Vector3 CamRight = _cameraController._camera.transform.right.normalized;
 
                 CamForward.y = 0;
                 CamRight.y = 0;
@@ -159,13 +211,16 @@ namespace Pikamoon.Controller
 
         public void RotatePlayerTowardsCameraForwardDirectionDuringAim(float Speed,float AdditionalVal)
         {
-            Vector3 forward = _camera.transform.right + (_camera.transform.forward * AdditionalVal);
+            Vector3 forward = _cameraController._camera.transform.right + (_cameraController._camera.transform.forward * AdditionalVal);
             forward.y = 0f;
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * Speed);
         }
 
+        #endregion
 
+
+        #region Movement Portion
 
         public void Move(Vector3 direction)
         {
@@ -185,6 +240,15 @@ namespace Pikamoon.Controller
         public void MoveTowards(Transform Target, float Speed)
         {
 
+        }
+        #endregion
+
+
+        #region Character Controller Portion
+
+        public void IsGroundedCheck()
+        {
+            isGrounded =  Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
         }
 
         public void SetCharacterController(float height, float radius, Vector3 center)
@@ -206,19 +270,40 @@ namespace Pikamoon.Controller
             }
         }
 
+        #endregion
 
 
-
-        public void SetAnimationState(string stateName, float transitionDuration = 0.1f)
+        #region Speed Adjustment
+        
+        public void AdjustSpeed()
         {
-            if (animator.HasState(0, Animator.StringToHash(stateName)))
-                animator.CrossFadeInFixedTime(stateName, transitionDuration, 0);
+            speed     = Mathf.Lerp(speed     , moveSpeedLerper, Time.deltaTime * PlayerData.Acceleration         );
+            animSpeed = Mathf.Lerp(animSpeed , animSpeedLerper, Time.deltaTime * PlayerData.AnimationAcceleration);
         }
-        public void SetAnimationState(int stateHash, float transitionDuration = 0.1f)
+        
+        public void ChangeSpeed(float MovementSpeed)
         {
-            if (animator.HasState(0, stateHash))
-                animator.CrossFadeInFixedTime(stateHash, transitionDuration, 0);
+            moveSpeedLerper = MovementSpeed;
         }
 
+        public void ChangeSpeed(float MovementSpeed, float AnimationSpeed)
+        {
+            moveSpeedLerper = MovementSpeed;
+            animSpeedLerper = AnimationSpeed;
+        }
+
+        public void ChangeMovementSpeed(float val)
+        {
+
+            moveSpeedLerper = val;
+        }
+
+        public void ChangeAnimationSpeed(float val)
+        {
+            animSpeedLerper = val;
+        }
+       
+
+        #endregion
     }
 }

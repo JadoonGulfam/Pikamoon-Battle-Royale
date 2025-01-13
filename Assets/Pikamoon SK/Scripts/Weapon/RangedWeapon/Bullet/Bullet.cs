@@ -5,11 +5,13 @@ namespace Pikamoon.Controller
 {
     public class Bullet : MonoBehaviour
     {
-        Shooting shooter;
+        //Shooting shooter;
+        Weapon RootWeapon;
+
         [SerializeField] int IndexInManager;
         [Space]
         [SerializeField] Rigidbody rigidBody;
-        [SerializeField] Collider collider;
+        [SerializeField] Collider _collider;
         [SerializeField] float disableAfter;
 
         [Space]
@@ -42,9 +44,34 @@ namespace Pikamoon.Controller
             //ProjectileFlash.gameObject?.SetActive(false);
         }
 
-        public void Initialize(Shooting _shooter, int Index)
+        //public void Initialize(Shooting _shooter, int Index)
+        //{
+        //    this.transform.localPosition = Vector3.zero;
+
+        //    shooter = _shooter;
+        //    IndexInManager = Index;
+
+        //    if (MuzzleFlash)
+        //    {
+        //        MuzzleFlash.transform.localPosition = Vector3.zero;
+        //        MuzzleFlash.transform.localRotation = Quaternion.identity;
+
+        //        HitParticle.gameObject.SetActive(false);
+        //    }
+
+        //    HitParticle?.gameObject.SetActive(false);
+
+        //    ProjectileFlash?.gameObject.SetActive(false);
+
+        //}
+
+        public void Initialize(Weapon _shooter, int Index)
         {
-            shooter = _shooter;
+            //this.transform.localPosition = Vector3.zero;
+
+            _collider.enabled = false;
+
+            RootWeapon = _shooter;
             IndexInManager = Index;
 
             if (MuzzleFlash)
@@ -56,9 +83,10 @@ namespace Pikamoon.Controller
             }
 
             HitParticle?.gameObject.SetActive(false);
-            
+
             ProjectileFlash?.gameObject.SetActive(false);
 
+            this.gameObject.SetActive(false);
         }
 
         public void Shoot(Vector3 spawnpoint, Vector3 AimPosition, float _speed, float Damage)
@@ -99,7 +127,7 @@ namespace Pikamoon.Controller
 
             this.gameObject.SetActive(_speed > 0);
             rigidBody.linearVelocity = transform.forward * speed;
-            collider.enabled = true;
+            _collider.enabled = true;
 
             if(bulletRoutine != null)
                 StopCoroutine(bulletRoutine);
@@ -161,7 +189,7 @@ namespace Pikamoon.Controller
 
             transform.position = transform.position + transform.forward.normalized;
 
-            collider.enabled = false;
+            _collider.enabled = false;
         }
 
         private void OnDestroy()

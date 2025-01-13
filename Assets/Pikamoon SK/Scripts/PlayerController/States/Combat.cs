@@ -21,8 +21,9 @@ namespace Pikamoon.Controller
         public ComboMoveSO[] combatMoves;
     }
 
-    public class Combat : MonoBehaviour
+    public class Combat : State
     {
+        MeleeWeapon ActiveWeapon;
 
         [Header("Movement")]
         [Space]
@@ -77,27 +78,27 @@ namespace Pikamoon.Controller
         [SerializeField] int comboMoveCounter;
         float comboInputTimer;
 
-        PlayerController playerController;
-        PlayerInput playerInput;
         HitBehaviour hitBehaviour;
         Coroutine combatCoroutine;
         bool ComboNextAttckTrigger;
         CombatMoveType CurrentcomboType;
-        MeleeWeaponSO weapon;
+        [SerializeField] MeleeWeaponDataSO weapon;
 
-        
+
+
         private void Start()
         {
+            base.Initialize();
+
             comboMoveCounter = 1;
-            playerInput = ReferencesHolder.Instance._playerInput;
-            playerController = ReferencesHolder.Instance._playerController;
+
             hitBehaviour = GetComponent<HitBehaviour>();
 
             SettingHashes();
 
             comboInputTimer = Time.time;
 
-            weapon = playerController.GetWeaponAs<MeleeWeaponSO>();
+            ActiveWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
 
             playerInput.onAttack1_Clicked += DoHorizontalAttack;
             playerInput.onAttack2_Clicked += DoVerticalAttack;
@@ -105,8 +106,8 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            ActiveStateName.text = playerController.Anim.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
-            ActiveStateProgress.text = playerController.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
+            ActiveStateName.text = AC.PAnimator.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
+            ActiveStateProgress.text = AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
         }
 
 
@@ -127,18 +128,18 @@ namespace Pikamoon.Controller
 
         public void DoHorizontalAttack()
         {
-            if(playerController.activeWeapon.Type == WeaponType.Melee)
+            if(Controller.ActiveWeapon.Data.Type == WeaponType.Melee)
                 Attack(CombatMoveType.Horizontal);
         }
         public void DoVerticalAttack()
         {
-            if (playerController.activeWeapon.Type == WeaponType.Melee)
+            if (Controller.ActiveWeapon.Data.Type == WeaponType.Melee)
                 Attack(CombatMoveType.Vertical);
         }
 
         void Attack(CombatMoveType combatMoveType)
         {
-            if (!playerController.IsInAttack)
+            if (!Controller.IsInAttack)
             {
                 StartAttack(combatMoveType);
             }
@@ -164,7 +165,7 @@ namespace Pikamoon.Controller
         {
             CurrentcomboType = combatMoveType;
             ComboNextAttckTrigger = false;
-            playerController.IsInAttack = true;
+            Controller.IsInAttack = true;
 
             comboMoveCounter = 1;
             AttackStatusImage.enabled = true;
@@ -181,8 +182,8 @@ namespace Pikamoon.Controller
             }
 
 
-            playerController.Anim.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
-            playerController.Anim.SetBool(InCombat_Hash, true);
+            AC.PAnimator.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
+            AC.PAnimator.SetBool(InCombat_Hash, true);
 
             if (combatCoroutine != null)
                 StopCoroutine(combatCoroutine);
@@ -231,20 +232,20 @@ namespace Pikamoon.Controller
                 }
             }
 
-            playerController.Anim.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
+            AC.PAnimator.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
             
             if (comboMoveCounter == 1)
             {
-                playerController.Anim.SetInteger(AttackState_Hash, comboMoveCounter);
+                AC.PAnimator.SetInteger(AttackState_Hash, comboMoveCounter);
             }
             else
             {
-                playerController.Anim.SetInteger(AttackState_Hash, 0);
+                AC.PAnimator.SetInteger(AttackState_Hash, 0);
 
-                playerController.Anim.SetTrigger(NextAttackTrigger_Hash);
+                AC.PAnimator.SetTrigger(NextAttackTrigger_Hash);
             }
 
-            yield return new WaitUntil(() => playerController.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > .95f);
+            yield return new WaitUntil(() => AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > .95f);
 
             ComboNextAttckTrigger = false;
 
@@ -261,21 +262,21 @@ namespace Pikamoon.Controller
 
         void DecideAttackAccordingToInputQueue(CombatMoveType combatMoveType)
         {
-            //playerController.Anim.runtimeAnimatorController = weapon.combos[(int)combatMoveType].AnimOC;
+            //playerAC.PAnimator.runtimeAnimatorController = weapon.combos[(int)combatMoveType].AnimOC;
         }
 
         void ComboEnd()
         {
-            playerController.Anim.SetInteger(AttackState_Hash,1);
+            AC.PAnimator.SetInteger(AttackState_Hash,1);
             comboMoveCounter = 1;
         }
         void AttackEnd()
         {
             AttackStatusImage.enabled = false;
 
-            playerController.IsInAttack = false;
+            Controller.IsInAttack = false;
 
-            playerController.Anim.SetBool(InCombat_Hash, false);
+            AC.PAnimator.SetBool(InCombat_Hash, false);
         }
 
         bool GetNearestEnemyToLock()
@@ -326,7 +327,7 @@ namespace Pikamoon.Controller
 
         void RotateTowardsNearestEnemy(Transform Target)
         {
-            playerController.RotatePlayerTowardDirection(Target.position - this.transform.position, 50);
+            Controller.RotatePlayerTowardDirection(Target.position - this.transform.position, 50);
         }
 
         void GiveDamageToEnemy()
@@ -350,5 +351,16 @@ namespace Pikamoon.Controller
             playerInput.onAttack2_Clicked -= DoVerticalAttack;
         }
 
+        public override void OnEnd()
+        {
+        }
+
+        public override void OnStart()
+        {
+        }
+
+        public override void OnUpdate()
+        {
+        }
     }
 }
