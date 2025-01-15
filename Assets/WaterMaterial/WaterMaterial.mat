@@ -31,12 +31,12 @@ Material:
   - _ALPHATEST_ON
   - _DISABLE_DECALS
   - _DISABLE_SSR_TRANSPARENT
-  - _DOUBLESIDED_ON
+  - _ENABLE_FOG_ON_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3050
   stringTagMap:
     MotionVector: User
@@ -113,42 +113,42 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaCutoffEnable: 1
-    - _AlphaDstBlend: 1
+    - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _Blend: 0
-    - _BlendMode: 1
+    - _BlendMode: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ConservativeDepthOffsetEnable: 0
     - _Cull: 2
-    - _CullMode: 0
-    - _CullModeForward: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
     - _Cutoff: 0.5
     - _Depth: 0.58
     - _DepthOffsetEnable: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _Distance: 23.7
-    - _DoubleSidedEnable: 1
+    - _Distance: 9.92
+    - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
-    - _DstBlend: 1
+    - _DstBlend: 10
     - _DstBlend2: 10
     - _DstBlendAlpha: 0
     - _EnableBlendModePreserveSpecularLighting: 0
-    - _EnableFogOnTransparent: 0
+    - _EnableFogOnTransparent: 1
     - _EnvironmentReflections: 1
     - _ExcludeFromTUAndAA: 0
     - _Float: 1.2
-    - _Float_1: 0.8
-    - _FoamAmount: 97.4
+    - _Float_1: 0.5
+    - _FoamAmount: 0.26
     - _FoamColor: 1
-    - _FoamCutoff: 179.58
-    - _FoamScale: 750
-    - _FoamSpeed: 0.4
+    - _FoamCutoff: 0.97
+    - _FoamScale: 161.38
+    - _FoamSpeed: -0.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -165,7 +165,7 @@ Material:
     - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
-    - _RefractStrength: 50
+    - _RefractStrength: 1000
     - _RefractionModel: 0
     - _RenderQueueType: 4
     - _RequireSplitLighting: 0
@@ -207,11 +207,11 @@ Material:
     - _AbsorptionColor: {r: 0, g: 1, b: 0.38996744, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Deep: {r: 0, g: 0.52201253, b: 0.5057121, a: 1}
+    - _Deep: {r: 0.18699807, g: 0.38364768, b: 0.24468194, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Shallow: {r: 0, g: 0.5238671, b: 0.91823894, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 0.38039216}
+    - _Shallow: {r: 0.07450981, g: 0.4509804, b: 0.29201397, a: 0.99215686}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _WaterColor: {r: 0.30734533, g: 0.81031454, b: 0.9308176, a: 0}
     - _alphaclip: {r: 0, g: 0, b: 0, a: 0}
