@@ -26,8 +26,8 @@ public class PikamoonCommandHandler : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        //print("captured");
-       // pikamoonInventory.AddPikamoon(this.gameObject);
+        print("captured");
+        pikamoonInventory.AddPikamoon(this.gameObject);
     }
     public void ExecuteCommand(PikamoonCommand command, Transform target = null)
     {
