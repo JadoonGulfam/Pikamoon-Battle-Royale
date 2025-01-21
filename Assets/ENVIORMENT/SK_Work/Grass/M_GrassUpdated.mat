@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_GrassUpdated
-  m_Shader: {fileID: -6465566751694194690, guid: 489d804a4f33ba54996a29afe8715a2d, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 6ebf3b648dbde5c49b4d92087b968a44, type: 3}
   m_Parent: {fileID: 2100000, guid: 8c97e7464f07b50478891fe104913b3e, type: 2}
   m_ModifiedSerializedProperties: 28
   m_ValidKeywords:
@@ -27,8 +27,8 @@ Material:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
   - TransparentBackface
-  - RayTracingPrepass
   - MOTIONVECTORS
+  - RayTracingPrepass
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -47,12 +47,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaCutoffEnable: 1
+    - _AlphaDstBlend: 0
     - _CullMode: 0
     - _CullModeForward: 0
     - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _DstBlend2: 0
     - _NormalMapSpace: 1
     - _NormalScale: 1.64
+    - _RayTracing: 0
     - _ReceivesSSR: 1
     - _Scale: 0.05
     - _Smoothness: 0
@@ -61,6 +66,10 @@ Material:
     - _StencilRefGBuffer: 10
     - _StencilRefMV: 40
     - _SupportDecals: 1
+    - _SurfaceType: 0
+    - _ZTestDepthEqualForOpaque: 3
+    - _ZTestGBuffer: 3
+    - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
     - _C1: {r: 0.30588236, g: 0.5294118, b: 0, a: 1}
