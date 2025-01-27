@@ -11,6 +11,11 @@ public class PikamoonFollow : MonoBehaviour
     private Animator animator;
     private bool isFollowing = false;
 
+
+    public void SetMasterCharacter(Transform follower)
+    {
+        followMaster = follower;
+    }
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
