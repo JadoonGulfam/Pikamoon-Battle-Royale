@@ -117,13 +117,11 @@ namespace Pikamoon.Controller
 
             AimRigging();
 
-            if (!Controller.IsInAttack)
-                return;
-
 
             if (!Controller.IsInAttack || Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
                 return;
 
+            HandleAnimation();
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
         }
@@ -155,6 +153,7 @@ namespace Pikamoon.Controller
 
             AR_LockedOnTargetAimer.weight = riggingVal;
         }
+
 
 
         public void StartAim()
@@ -189,7 +188,7 @@ namespace Pikamoon.Controller
 
             AC.PAnimator.SetBool(Anim_isAimingHash, false);
 
-            //AC.PAnimator.SetLayerWeight(2, 0);
+            AC.PAnimator.SetLayerWeight(2, 0);
 
             AC.PAnimator.SetFloat(Anim_XVal, 0);
          
@@ -253,6 +252,15 @@ namespace Pikamoon.Controller
             return (uu * p0) + (2 * u * t * p1) + (tt * p2);
         }
 
+        void HandleAnimation()
+        {
+            AC.PAnimator.SetFloat(AC.Parameters.Speed.Hash, Controller.AnimSpeed);
+            if (Controller.IsGrounded && !Controller.IsInAttack)
+            {
+                AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, playerInput.isMoving);
+            }
+        }
+
         void MoveDuringAim()
         {
             Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
@@ -303,9 +311,9 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
-            playerInput.onAttack2_Down -= StartAim;
-            playerInput.onAttack2_Up -= CancelAim;
-            playerInput.onAttack1_Down -= DecideToAttackOrCatch;
+            //playerInput.onAttack2_Down -= StartAim;
+            //playerInput.onAttack2_Up -= CancelAim;
+            //playerInput.onAttack1_Down -= DecideToAttackOrCatch;
         }
     }
 }

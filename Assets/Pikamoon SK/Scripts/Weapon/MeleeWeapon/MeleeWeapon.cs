@@ -41,5 +41,13 @@ namespace Pikamoon.Controller
 
             return info;
         }
+
+        public override void Equip()
+        {
+        }
+
+        public override void UnEquip()
+        {
+        }
     }
 }

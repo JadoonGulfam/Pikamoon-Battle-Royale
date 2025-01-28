@@ -42,9 +42,6 @@ namespace Pikamoon.Controller
         [SerializeField] bool ReadyToAttack;
 
         int DoNextComboAction_Hash;
-        int InCombat_Hash;
-        int AttackState_Hash;
-        int ComboAttackType_Hash;
 
         int Attack1_Hash;
         int Attack2_Hash;
@@ -52,7 +49,6 @@ namespace Pikamoon.Controller
         int Attack4_Hash;
         int idle_Hash;
         int AttackCooldown_Hash;
-        int NextAttackTrigger_Hash;
 
 
 
@@ -100,8 +96,8 @@ namespace Pikamoon.Controller
 
             ActiveWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
 
-            playerInput.onAttack1_Clicked += DoHorizontalAttack;
-            playerInput.onAttack2_Clicked += DoVerticalAttack;
+            //playerInput.onAttack1_Clicked += DoHorizontalAttack;
+            //playerInput.onAttack2_Clicked += DoVerticalAttack;
         }
 
         private void Update()
@@ -113,10 +109,6 @@ namespace Pikamoon.Controller
 
         void SettingHashes()
         {
-            InCombat_Hash = Animator.StringToHash("inCombat");
-            AttackState_Hash = Animator.StringToHash("AttackState");
-            NextAttackTrigger_Hash = Animator.StringToHash("NextComboAttack");
-            ComboAttackType_Hash = Animator.StringToHash("ComboAttackType");
 
             Attack1_Hash = Animator.StringToHash("Attack1");
             Attack2_Hash = Animator.StringToHash("Attack2");
@@ -182,8 +174,8 @@ namespace Pikamoon.Controller
             }
 
 
-            AC.PAnimator.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
-            AC.PAnimator.SetBool(InCombat_Hash, true);
+            AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
+            AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, true);
 
             if (combatCoroutine != null)
                 StopCoroutine(combatCoroutine);
@@ -232,17 +224,17 @@ namespace Pikamoon.Controller
                 }
             }
 
-            AC.PAnimator.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
+            AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
             
             if (comboMoveCounter == 1)
             {
-                AC.PAnimator.SetInteger(AttackState_Hash, comboMoveCounter);
+                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, comboMoveCounter);
             }
             else
             {
-                AC.PAnimator.SetInteger(AttackState_Hash, 0);
+                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, 0);
 
-                AC.PAnimator.SetTrigger(NextAttackTrigger_Hash);
+                AC.PAnimator.SetTrigger(AC.Parameters.NexComboAttack.Hash);
             }
 
             yield return new WaitUntil(() => AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > .95f);
@@ -267,7 +259,7 @@ namespace Pikamoon.Controller
 
         void ComboEnd()
         {
-            AC.PAnimator.SetInteger(AttackState_Hash,1);
+            AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, 1);
             comboMoveCounter = 1;
         }
         void AttackEnd()
@@ -276,7 +268,7 @@ namespace Pikamoon.Controller
 
             Controller.IsInAttack = false;
 
-            AC.PAnimator.SetBool(InCombat_Hash, false);
+            AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, false);
         }
 
         bool GetNearestEnemyToLock()
@@ -347,8 +339,8 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
-            playerInput.onAttack1_Clicked -= DoHorizontalAttack;
-            playerInput.onAttack2_Clicked -= DoVerticalAttack;
+            //playerInput.onAttack1_Clicked -= DoHorizontalAttack;
+            //playerInput.onAttack2_Clicked -= DoVerticalAttack;
         }
 
         public override void OnEnd()

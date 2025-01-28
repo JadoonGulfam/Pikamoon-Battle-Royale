@@ -18,21 +18,26 @@ namespace Pikamoon.Controller
         {
             base.Initialize();
 
-            playerInput.onSprint_Down += EnableFastSprinting;
-            playerInput.onSprint_Up += DisableFastSprinting;
+            isHurdleAboveWhileCrouch = false;
+
+            playerInput.onSprint_Down +=  EnableFastSprinting;
+            playerInput.onSprint_Up   += DisableFastSprinting;
+
+            playerInput.onCrouch_Down += ToggleCrouch;
         }
         private void Update()
         {
-            if (_isCrouching)
-                isHurdleAboveWhileCrouch = Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), 
-                    Quaternion.identity, Controller.groundLayer);
+            //if (_isCrouching)
+            //    isHurdleAboveWhileCrouch = Physics.CheckBox(this.transform.position + crouchColliderOffset,
+            //                                                new Vector3(.5f, 1, .5f), Quaternion.identity,
+            //                                                Controller.groundLayer);
 
-            if (playerInput.isCrouching)
+            if (Controller.CurrentPlayerState == StateType.Crouch)
             {
                 if (!_isCrouching)
                 {
                     _isCrouching = true;
-                    StartCrouching();
+                    OnStart();
                     isHurdleAboveWhileCrouch = false;
                 }
                 HandleSpeed();
@@ -47,68 +52,31 @@ namespace Pikamoon.Controller
                     if (_isCrouching)
                     {
                         _isCrouching = false;
-                        EndCrouching();
+                        OnEnd();                   
                     }
                 }
             }
         }
 
-        public void StartCrouching()
-        {
-            _isSlowCrouch = true;
-
-            Controller.ChangeSpeed(Controller.PlayerData.CrouchWalkSpeed, .5f);
-
-            AC.PAnimator.SetBool(AC.Parameters.isCrouch.Hash, true);
-
-            Controller.SetCharacterController(height, radius, center);
-        }
-
-
-        public void EndCrouching()
-        {
-            AC.PAnimator.SetBool(AC.Parameters.isCrouch.Hash, false);
-
-            Controller.SetCharacterControllerDefault();
-        }
-
         void ToggleFastSlowCrouch()
         {
             _isSlowCrouch = !_isSlowCrouch;
+        }
 
-            //
-            //
-            //Controller.ChangeSpeed(_isSlowCrouch ? Controller.PlayerData.CrouchWalkSpeed : Controller.PlayerData.CrouchRunSpeed, _isSlowCrouch ? 0.2f : 1f);
+        void ToggleCrouch()
+        {
+            if (_isCrouching)
+            {
+                Controller.ChangeState(StateType.Locomtion);
+            }
         }
 
         void HandleSpeed()
         {
             if (playerInput.isMoving)
             {
-
-                //if (input.isSprinting)
-                //{
-                //    moveToSpeed = playerController.PlayerData.SprintSpeed;
-                //    moveToBlendValue = 2f;
-                //}
-                //else if (input.isCrouching)
-                //{
-                //    moveToSpeed = playerController.PlayerData.WalkSpeed;
-                //    moveToBlendValue = 1;
-                //}
-                //else if (playerController.IsInAttack)
-                //{
-                //    moveToSpeed = playerController.PlayerData.WalkSpeed;
-                //    moveToBlendValue = .2f;
-                //}
-                //else
-                //{
-
-                    Controller.ChangeMovementSpeed(_isSlowCrouch ? Controller.PlayerData.CrouchWalkSpeed : Controller.PlayerData.CrouchRunSpeed);
-                Controller.ChangeAnimationSpeed(_isSlowCrouch ? 0.5f : 1f);
-
-
-                //}
+                Controller.ChangeMovementSpeed(_isSlowCrouch ? Controller.PlayerData.CrouchWalkSpeed : Controller.PlayerData.CrouchRunSpeed);
+                Controller.ChangeAnimationSpeed(_isSlowCrouch ? 1 : 2);
             }
             else
             {
@@ -119,10 +87,6 @@ namespace Pikamoon.Controller
         void HandleAnimation()
         {
             AC.PAnimator.SetFloat(AC.Parameters.Speed.Hash, Controller.AnimSpeed);
-            //if (Controller.IsGrounded && !Controller.IsInAttack)
-            //{
-            //    AC.PAnimator.SetBool(_walkRunAnimHash, playerInput.isMoving);
-            //}
         }
 
         void MovementAndRotationHandler()
@@ -150,15 +114,30 @@ namespace Pikamoon.Controller
         }
 
 
-
         public override void OnEnd()
         {
+            _isSlowCrouch = false;
 
+            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+
+            AC.PAnimator.SetBool(AC.Parameters.isCrouch.Hash, false);
+
+            Controller.SetCharacterControllerDefault();
+
+            Controller.ChangeState(StateType.Locomtion);
         }
 
         public override void OnStart()
         {
+            _isSlowCrouch = true;
 
+            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Crouch);
+
+            Controller.ChangeSpeed(Controller.PlayerData.CrouchWalkSpeed, 1f);
+
+            AC.PAnimator.SetBool(AC.Parameters.isCrouch.Hash, true);
+
+            Controller.SetCharacterController(height, radius, center);
         }
 
         public override void OnUpdate()
@@ -168,7 +147,10 @@ namespace Pikamoon.Controller
 
         void OnDestroy()
         {
-            playerInput.onSprint_Down -= ToggleFastSlowCrouch;
+            playerInput.onSprint_Down -=  EnableFastSprinting;
+            playerInput.onSprint_Up   -= DisableFastSprinting;
+
+            playerInput.onCrouch_Down -= ToggleCrouch;
         }
     }
 }

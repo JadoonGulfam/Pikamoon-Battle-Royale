@@ -8,5 +8,10 @@ namespace Pikamoon.Controller
 
         public WeaponHoldingPointType HoldingPointType;
 
+        public WeaponRestingPointType restingPointType;
+
+        public Sprite icon;
+
+        public int InitialHealth;
     }
 }

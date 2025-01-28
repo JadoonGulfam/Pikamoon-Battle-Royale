@@ -7,6 +7,7 @@ namespace Pikamoon.Controller
     {
         public Weapon Prefab;
         public WeaponDataSO Data;
+        public bool isEnabled;
     }
 
     [System.Serializable]
@@ -16,11 +17,32 @@ namespace Pikamoon.Controller
         public Transform Point;
     }
 
+    [System.Serializable]
+    public struct RestingPoint
+    {
+        public WeaponRestingPointType Type;
+        public Transform Point;
+    }
+
+    public enum StateType
+    {
+        Locomtion,
+        Crouch,
+        Slide,
+        Air,
+        Combat,
+        Throwing,
+        Shooting,
+        Swimming
+    }
+
 
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
         public PlayerData PlayerData;
+        public StateType CurrentPlayerState;
+
         [SerializeField] bool inAir;
         [SerializeField] bool canExitCrouch;
         public bool IsInAttack;
@@ -32,6 +54,7 @@ namespace Pikamoon.Controller
         public WeaponInfo ActiveWeapon;
         [Space]
         public HoldingPoint[] holdingPoints;
+        public RestingPoint[] restingPoints;
 
         //public T GetWeaponAs<T>() where T : Weapon
         //{
@@ -50,7 +73,7 @@ namespace Pikamoon.Controller
         public LayerMask groundLayer;
         
         [HideInInspector] public CameraController _cameraController;
-        PlayerInput input;
+        [HideInInspector] public PlayerInput input;
 
         CharacterController characterController;
 
@@ -91,6 +114,7 @@ namespace Pikamoon.Controller
                 inAir = value;
             }
         }
+
         public bool IsGrounded
         {
             get
@@ -101,12 +125,11 @@ namespace Pikamoon.Controller
             }
         }
 
-
         public bool CanExitCrouch
         {
             get
             {
-                if (input.isCrouching && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
+                if (CurrentPlayerState == StateType.Crouch && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
                     return true;
                 else
                     return false;
@@ -142,16 +165,22 @@ namespace Pikamoon.Controller
         }
 
         #region Weapon Portion
-        public void AssignWeapon(WeaponInfo weapon)
+        public void ActivateWeapon(WeaponInfo weapon)
         {
             ActiveWeapon = weapon;
 
             ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
             ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
             ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
-
         }
-
+        public Transform GetRestingPoint(WeaponRestingPointType type)
+        {
+            return restingPoints[(int)type].Point;
+        }
+        public Transform GetRestingPoint(WeaponInfo weapon)
+        {
+            return restingPoints[(int)weapon.Data.HoldingPointType].Point;
+        }
         #endregion
 
 
@@ -271,6 +300,12 @@ namespace Pikamoon.Controller
         }
 
         #endregion
+
+
+        public void ChangeState(StateType newState)
+        {
+            CurrentPlayerState = newState;
+        }
 
 
         #region Speed Adjustment

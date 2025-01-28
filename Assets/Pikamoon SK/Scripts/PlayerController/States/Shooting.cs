@@ -84,7 +84,7 @@ namespace Pikamoon.Controller
 
             if (!Controller.IsInAttack)
                 return;
-
+            HandleAnimation();
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
         }
@@ -114,6 +114,8 @@ namespace Pikamoon.Controller
                     riggingVal += Time.deltaTime * AR_LookSpeed;
 
 
+                //HandleSpeed();
+
                 AR_LookTarget.position = FirePoint.position;
                 Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
@@ -135,8 +137,31 @@ namespace Pikamoon.Controller
             AR_LockedOnTargetAimer.weight = riggingVal;
         }
 
+        void HandleSpeed()
+        {
+            if(playerInput.isMoving)
+            {
+                Controller.ChangeSpeed(Controller.PlayerData.WalkSpeed,0.2f);
+            }
+            else
+            {
+                Controller.ChangeSpeed(0,0);
+            }
+        }
+
+        void HandleAnimation()
+        {
+            AC.PAnimator.SetFloat(AC.Parameters.Speed.Hash, Controller.AnimSpeed);
+            if (Controller.IsGrounded && !Controller.IsInAttack)
+            {
+                AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, playerInput.isMoving);
+            }
+        }
+
         void MoveDuringAim()
         {
+
+            HandleSpeed();
 
             Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
 
@@ -259,6 +284,10 @@ namespace Pikamoon.Controller
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 999f, AimableMask))
             {
+                if(ActiveWeapon == null)
+                {
+                    AssignWeapon();
+                }
                 ActiveWeapon.ShootBullet(hit.point);
                 DebugTransform.transform.position = hit.point;
             }

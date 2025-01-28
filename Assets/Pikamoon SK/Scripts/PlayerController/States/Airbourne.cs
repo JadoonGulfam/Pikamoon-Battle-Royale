@@ -33,8 +33,12 @@ namespace Pikamoon.Controller
         {
             base.Initialize();
 
+            isJumping = false;
+
             _fallStateHash = Animator.StringToHash(_fallStateName);
             _jumpStateHash = Animator.StringToHash(_jumpStateName);
+
+            playerInput.onJump_Down += StartJumping;
         }
 
 
@@ -45,11 +49,13 @@ namespace Pikamoon.Controller
 
         void StartJumping()
         {
-            playerInput.JumpVelocity = Mathf.Sqrt(playerData.JumpHeight * 2f * Gravity);
-            playerInput.JumpInput = false;
-            isJumping = true;
+            if (!Controller.InAir)// && playerInput.JumpInput)
+            {
+                playerInput.JumpVelocity = Mathf.Sqrt(playerData.JumpHeight * 2f * Gravity);
+                isJumping = true;
 
-            OnJumpStart?.Invoke();
+                OnJumpStart?.Invoke();
+            }
         }
 
         void Landed()
@@ -72,15 +78,10 @@ namespace Pikamoon.Controller
             {
                 if (playerInput.JumpVelocity < 0)
                 {
-                    playerInput.JumpVelocity = -22.8f;
+                    playerInput.JumpVelocity = -200f;
                 }
 
                 isJumping = false;
-
-                if (playerInput.JumpInput && !Controller.InAir)
-                {
-                    StartJumping();
-                }
 
                 if (Controller.InAir)
                 {
@@ -98,11 +99,11 @@ namespace Pikamoon.Controller
                     AC.PAnimator.SetBool(AC.Parameters.inAir.Hash, true);
                     if (isJumping)
                     {
-                        AC.SetAnimationState(_jumpStateHash,.2f);
+                        AC.SetAnimationState(_jumpStateHash, 0.1f);
                     }
                     else
                     {
-                        AC.SetAnimationState(_fallStateHash, .2f);
+                        AC.SetAnimationState(_fallStateHash, 0.1f);
                     }
                 }
 
@@ -120,6 +121,12 @@ namespace Pikamoon.Controller
 
         public override void OnUpdate()
         {
+        }
+
+
+        private void OnDestroy()
+        {
+            playerInput.onWalk_Up -= StartJumping;
         }
     }
 }
