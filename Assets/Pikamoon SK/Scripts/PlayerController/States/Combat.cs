@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 namespace Pikamoon.Controller
@@ -82,7 +80,7 @@ namespace Pikamoon.Controller
 
 
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -102,8 +100,8 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            ActiveStateName.text = AC.PAnimator.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
-            ActiveStateProgress.text = AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
+            //ActiveStateName.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
+            //ActiveStateProgress.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
         }
 
 

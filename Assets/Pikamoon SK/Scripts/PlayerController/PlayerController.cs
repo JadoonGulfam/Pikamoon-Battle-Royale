@@ -1,3 +1,4 @@
+using Pikamoon.UI;
 using UnityEngine;
 
 namespace Pikamoon.Controller
@@ -50,6 +51,12 @@ namespace Pikamoon.Controller
         public bool IgnoreGravity;
         [SerializeField] Vector3 crouchColliderOffset;
 
+        [Header("References")]
+        [SerializeField] State[] states;
+        public Transform Head; 
+        
+        
+        
         [Header("Weapon")]
         public WeaponInfo ActiveWeapon;
         [Space]
@@ -146,16 +153,28 @@ namespace Pikamoon.Controller
 
         private void Awake()
         {
-            ReferencesHolder.Instance._playerController = this;
-            input = ReferencesHolder.Instance._playerInput;
+
+        }
+
+        public void Inititalize(PlayerInput _input, CameraController _camera,HUDController hudController)
+        {
+            input = _input;
+            _cameraController = _camera;
             characterController = this.GetComponent<CharacterController>();
-            _cameraController = ReferencesHolder.Instance._CameraController;
+            this.GetComponent<InventoryController>().UI = hudController;
 
             IgnoreGravity = false;
 
             defaultHeight = characterController.height;
             defaultRadius = characterController.radius;
             defaultCenter = characterController.center;
+
+
+            foreach (var state in states)
+            {
+                state.Initialize();
+            }
+
         }
 
         private void Update()

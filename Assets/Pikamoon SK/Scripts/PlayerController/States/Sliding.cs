@@ -18,7 +18,7 @@ namespace Pikamoon.Controller
         float speed;
         bool isHurdleAbove;
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
             wasSliding = false;

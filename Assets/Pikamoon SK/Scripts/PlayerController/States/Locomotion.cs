@@ -19,9 +19,8 @@ namespace Pikamoon.Controller
     {
         #region Public Fields
 
-        [Header("References")]
-        [Space]
-        [SerializeField] Transform _camera;
+        //[Header("References")]
+        //[Space]
 
         [Header("Animation")]
         [Space]
@@ -49,11 +48,9 @@ namespace Pikamoon.Controller
         #endregion
 
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
-            _camera = ReferencesHolder.Instance._CameraController._camera.transform;
-
 
             playerInput.onSprint_Down +=  EnableSprinting;
             playerInput.onSprint_Up   += DisableSprinting;
@@ -102,12 +99,12 @@ namespace Pikamoon.Controller
             {
                 if (isSprinting)
                 {
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Sprint);
+                    ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Sprint);
                     Controller.ChangeSpeed(Controller.PlayerData.SprintSpeed, 2f);
                 }
                 else
                 {
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                    ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Default);
                     Controller.ChangeMovementSpeed  (isWalking ? Controller.PlayerData.WalkSpeed : Controller.PlayerData.RunSpeed);
                     Controller.ChangeAnimationSpeed (isWalking ? 0.2f : 1f);
                 }
@@ -120,7 +117,7 @@ namespace Pikamoon.Controller
                 }
 
                 isSprinting = false;
-                ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Default);
                 Controller.ChangeSpeed(0f, 0f);
             }
         }

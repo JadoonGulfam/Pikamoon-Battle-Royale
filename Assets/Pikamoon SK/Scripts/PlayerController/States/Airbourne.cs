@@ -29,7 +29,7 @@ namespace Pikamoon.Controller
 
         bool isJumping;
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
 

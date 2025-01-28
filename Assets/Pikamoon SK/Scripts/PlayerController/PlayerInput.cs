@@ -55,7 +55,7 @@ namespace Pikamoon.Controller
 
         [SerializeField] float m_AttackInputWait;
         protected bool m_ExternalInputBlocked;
-        [SerializeField] PlayerController m_Controller;
+        //[SerializeField] PlayerController m_Controller;
 
 
         Coroutine m_AttackWaitCoroutine;

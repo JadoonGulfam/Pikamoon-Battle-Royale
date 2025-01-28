@@ -24,7 +24,7 @@ namespace Pikamoon.Controller
 
     public class InventoryController : MonoBehaviour
     {
-        public HUDController HUDcontroller;
+        public HUDController UI;
 
         //[SerializeField] Bag
         [Header("Weapons")]
@@ -60,6 +60,8 @@ namespace Pikamoon.Controller
         private PlayerInput playerInput;
 
         IPickable pickableItem;
+
+
         private void Start()
         {
             EquipedWeapons = new Weapon[2];
@@ -73,6 +75,11 @@ namespace Pikamoon.Controller
 
             playerInput.onPrimaryWeaponSelect_Down += ChangeWeapon;
             playerInput.onSecondaryWeaponSelect_Down += ChangeWeapon;
+        }
+
+        public void Initialize(HUDController _ui)
+        {
+            UI = _ui;
         }
 
         private void Update()
@@ -95,13 +102,13 @@ namespace Pikamoon.Controller
                 EquipedWeapons[UsingWeaponIndex].transform.localRotation = Quaternion.identity;
 
 
-                HUDcontroller.EquipWeapon(UsingWeaponIndex, weaponInfo.Data.icon, false, EquipedWeapons[UsingWeaponIndex].Health, weaponInfo.Data.InitialHealth);
+                UI.EquipWeapon(UsingWeaponIndex, weaponInfo.Data.icon, false, EquipedWeapons[UsingWeaponIndex].Health, weaponInfo.Data.InitialHealth);
 
 
                 weaponInfo = EquipedWeapons[nextWeaponIndex].GetWeaponInfo();
 
                 Controller.ActivateWeapon(weaponInfo);
-                HUDcontroller.EquipWeapon(nextWeaponIndex, weaponInfo.Data.icon, true, EquipedWeapons[nextWeaponIndex].Health, weaponInfo.Data.InitialHealth);
+                UI.EquipWeapon(nextWeaponIndex, weaponInfo.Data.icon, true, EquipedWeapons[nextWeaponIndex].Health, weaponInfo.Data.InitialHealth);
 
 
                 UsingWeaponIndex = nextWeaponIndex;
@@ -110,14 +117,14 @@ namespace Pikamoon.Controller
 
         public void ContinuousCheckForItemsForPickup()
         {
-            if (!allowPickUp)
+            if (!allowPickUp && !UI)
                 return;
 
             nearbyItems = Physics.OverlapSphere(this.transform.position, rangeForItemPickup, pickupLayerMask);
 
             if (nearbyItems.Length != 0)
             {
-                HUDcontroller.ShowPickUp();
+                UI.ShowPickUp();
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -133,7 +140,7 @@ namespace Pikamoon.Controller
             }
             else
             {
-                HUDcontroller.HidePickUp();
+                UI.HidePickUp();
             }
         }
 
@@ -157,7 +164,7 @@ namespace Pikamoon.Controller
                         if (Controller.ActiveWeapon.Prefab == null)
                         {
                             Controller.ActivateWeapon(weaponInfo);
-                            HUDcontroller.EquipWeapon(i, weaponInfo.Data.icon,true, weapon.Health, weaponInfo.Data.InitialHealth);
+                            UI.EquipWeapon(i, weaponInfo.Data.icon,true, weapon.Health, weaponInfo.Data.InitialHealth);
                             UsingWeaponIndex = i;
                         }
                         else
@@ -169,7 +176,7 @@ namespace Pikamoon.Controller
                             weapon.transform.localRotation = Quaternion.identity;
 
 
-                            HUDcontroller.EquipWeapon(i, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
+                            UI.EquipWeapon(i, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
                         }
 
 

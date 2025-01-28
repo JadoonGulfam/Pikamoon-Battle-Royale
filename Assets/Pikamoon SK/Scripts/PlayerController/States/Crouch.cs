@@ -14,7 +14,7 @@ namespace Pikamoon.Controller
         bool _isSlowCrouch;
         bool isHurdleAboveWhileCrouch;
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -118,7 +118,7 @@ namespace Pikamoon.Controller
         {
             _isSlowCrouch = false;
 
-            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+            ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Default);
 
             AC.PAnimator.SetBool(AC.Parameters.isCrouch.Hash, false);
 
@@ -131,7 +131,7 @@ namespace Pikamoon.Controller
         {
             _isSlowCrouch = true;
 
-            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Crouch);
+            ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Crouch);
 
             Controller.ChangeSpeed(Controller.PlayerData.CrouchWalkSpeed, 1f);
 

@@ -30,15 +30,6 @@ namespace Pikamoon.Controller
         [SerializeField] float CancelAimAfterSeconds;
         [SerializeField] float CancelAttackAfterSeconds;
 
-        [Space]
-        [Header("Animation Variables")]
-        int AnimParamHash_isAiming;
-        int AnimParamHash_Throw;
-        int AnimParamHash_SecondaryState;
-        int AnimParamHash_InCombat;
-        int AnimParamHash_isWalkRun;
-        int AnimParamHash_XVal;
-        int AnimParamHash_YVal;
 
 
         [Space]
@@ -53,21 +44,10 @@ namespace Pikamoon.Controller
         float FireRate;
         Coroutine cancelAimRoutine;
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
             
-
-            AnimParamHash_Throw           =   Animator.StringToHash  (     "Shoot"           );
-            AnimParamHash_isAiming        =   Animator.StringToHash  (     "isAiming"        );
-            AnimParamHash_InCombat        =   Animator.StringToHash  (     "inCombat"        );
-            AnimParamHash_SecondaryState  =   Animator.StringToHash  (     "SecondaryState"  );
-            AnimParamHash_isWalkRun       =   Animator.StringToHash  (     "isWalkRun"       );
-            AnimParamHash_XVal            =   Animator.StringToHash  (     "XVal"            );
-            AnimParamHash_YVal            =   Animator.StringToHash  (     "YVal"            );
-
-
-
             playerInput.onAttack1_Down += PlayFireAnimation;
             playerInput.onAttack2_Down += StartAim;
             playerInput.onAttack2_Up += CancelAim;
@@ -89,13 +69,13 @@ namespace Pikamoon.Controller
             RotatePlayerTowardsCamFor();
         }
 
-        public override void Initialize()
-        {
-            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
-                return;
+        //public override void Initialize()
+        //{
+        //    if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+        //        return;
 
-            AssignWeapon();
-        }
+        //    AssignWeapon();
+        //}
 
         void AssignWeapon()
         {
@@ -166,8 +146,8 @@ namespace Pikamoon.Controller
             Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
 
 
-            AC.PAnimator.SetFloat(AnimParamHash_XVal, playerInput.Horizontal);
-            AC.PAnimator.SetFloat(AnimParamHash_YVal, playerInput.Vertical);
+            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, playerInput.Horizontal);
+            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, playerInput.Vertical);
 
 
             // Always apply vertical velocity (for gravity or jumping)
@@ -199,21 +179,21 @@ namespace Pikamoon.Controller
             _isAiming = true;
             LookTowardCameraForward = true;
 
-            AC.PAnimator.SetBool(AnimParamHash_isWalkRun, true);
-            AC.PAnimator.SetBool(AnimParamHash_isAiming, true);
+            AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, true);
+            AC.PAnimator.SetBool(AC.Parameters.isAiming.Hash, true);
         }
         void CancelAim()
         {
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
                 return;
 
-            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-            ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
+            ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Default);
+            ReferencesHolder.Instance._cameraController.ChangeAimZoom(false);
 
             _isAiming = false;
 
-            AC.PAnimator.SetBool(AnimParamHash_isAiming, false);
-            AC.PAnimator.SetFloat(AnimParamHash_XVal, 0);
+            AC.PAnimator.SetBool(AC.Parameters.isAiming.Hash, false);
+            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, 0);
 
             Controller.IsInAttack = false;
 
@@ -229,18 +209,18 @@ namespace Pikamoon.Controller
             LookTowardCameraForward = false;
 
             if(_isAiming)
-                ReferencesHolder.Instance._CameraController.ChangeAimZoom(false);
-            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                ReferencesHolder.Instance._cameraController.ChangeAimZoom(false);
+            ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Default);
 
             //AR_LockedOnTargetAimer.weight = 0;
-            AC.PAnimator.SetBool(AnimParamHash_isAiming, false);
+            AC.PAnimator.SetBool(AC.Parameters.isAiming.Hash, false);
             Controller.IsInAttack = false;
             _isInAttack = false;
 
             yield return new WaitForSeconds (CancelAttackAfterSeconds);
 
             AC.PAnimator.SetLayerWeight(1, 0);
-            AC.PAnimator.SetBool(AnimParamHash_InCombat, false);
+            AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, false);
         }
         
         
@@ -256,12 +236,12 @@ namespace Pikamoon.Controller
 
             Controller.IsInAttack = true;
 
-            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Aim);
+            ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Aim);
 
             AC.PAnimator.SetLayerWeight(1, 1);
-            AC.PAnimator.SetBool(AnimParamHash_isAiming, true);
-            AC.PAnimator.SetBool(AnimParamHash_isWalkRun, true);
-            AC.PAnimator.SetTrigger(AnimParamHash_Throw);
+            AC.PAnimator.SetBool(AC.Parameters.isAiming.Hash, true);
+            AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, true);
+            AC.PAnimator.SetTrigger(AC.Parameters.Shoot.Hash);
 
             LookTowardCameraForward = true;
 
