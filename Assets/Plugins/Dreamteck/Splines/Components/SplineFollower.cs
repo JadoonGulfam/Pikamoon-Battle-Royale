@@ -143,7 +143,6 @@ namespace Dreamteck.Splines
         private FloatEvent _unityOnBeginningReached = null;
 
         private double lastClippedPercent = -1.0;
-        
 
         protected override void Start()
         {
