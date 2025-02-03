@@ -10,7 +10,7 @@ namespace Pikamoon.Controller
 
         public GameObject Player;
 
-        [HideInInspector] public PlayerController _playerController;
+        public PlayerController _playerController;
 
         public CameraController _cameraController;
 
@@ -33,9 +33,11 @@ namespace Pikamoon.Controller
 
         void InstantiatePlayer()
         {
-            GameObject GO = Instantiate(Player) as GameObject;
-
-            _playerController = GO.GetComponent<PlayerController>();
+            if (_playerController == null)
+            {
+                GameObject GO = Instantiate(Player) as GameObject;
+                _playerController = GO.GetComponent<PlayerController>();
+            }
 
             _playerController.transform.position = _SpawnPoint.position;
             _playerController.transform.rotation = _SpawnPoint.rotation;

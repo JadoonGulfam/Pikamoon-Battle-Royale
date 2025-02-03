@@ -79,6 +79,7 @@ namespace Pikamoon.Controller
             throwing = _thrower;
             _throwingOrigin = defaultHoldingPos;
 
+            CurveT = _thrower.curvePoint;
             transform.rotation = Quaternion.LookRotation((TargetPos - _throwingOrigin.position).normalized, Vector3.up);
 
             rb.isKinematic = false;

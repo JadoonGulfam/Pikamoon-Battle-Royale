@@ -27,11 +27,11 @@ namespace Pikamoon.Controller
         [Space]
         public Transform DummyCircle;
 
-        public Image comboStatusImage;
-        public Image AttackStatusImage;
+        //public Image comboStatusImage;
+        //public Image AttackStatusImage;
 
-        public TextMeshProUGUI ActiveStateName;
-        public TextMeshProUGUI ActiveStateProgress;
+        //public TextMeshProUGUI ActiveStateName;
+        //public TextMeshProUGUI ActiveStateProgress;
 
         [Space]
         [Header("Animation")]
@@ -41,10 +41,10 @@ namespace Pikamoon.Controller
 
         int DoNextComboAction_Hash;
 
-        int Attack1_Hash;
-        int Attack2_Hash;
-        int Attack3_Hash;
-        int Attack4_Hash;
+        //int Attack1_Hash;
+        //int Attack2_Hash;
+        //int Attack3_Hash;
+        //int Attack4_Hash;
         int idle_Hash;
         int AttackCooldown_Hash;
 
@@ -94,8 +94,8 @@ namespace Pikamoon.Controller
 
             ActiveWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
 
-            //playerInput.onAttack1_Clicked += DoHorizontalAttack;
-            //playerInput.onAttack2_Clicked += DoVerticalAttack;
+            playerInput.onAttack1_Clicked += DoHorizontalAttack;
+            playerInput.onAttack2_Clicked += DoVerticalAttack;
         }
 
         private void Update()
@@ -108,10 +108,10 @@ namespace Pikamoon.Controller
         void SettingHashes()
         {
 
-            Attack1_Hash = Animator.StringToHash("Attack1");
-            Attack2_Hash = Animator.StringToHash("Attack2");
-            Attack3_Hash = Animator.StringToHash("Attack3");
-            Attack4_Hash = Animator.StringToHash("Attack4");
+            //Attack1_Hash = Animator.StringToHash("Attack1");
+            //Attack2_Hash = Animator.StringToHash("Attack2");
+            //Attack3_Hash = Animator.StringToHash("Attack3");
+            //Attack4_Hash = Animator.StringToHash("Attack4");
 
             AttackCooldown_Hash = Animator.StringToHash("Attack_CoolDown");
         }
@@ -158,7 +158,7 @@ namespace Pikamoon.Controller
             Controller.IsInAttack = true;
 
             comboMoveCounter = 1;
-            AttackStatusImage.enabled = true;
+            //AttackStatusImage.enabled = true;
 
 
 
@@ -262,7 +262,7 @@ namespace Pikamoon.Controller
         }
         void AttackEnd()
         {
-            AttackStatusImage.enabled = false;
+            //AttackStatusImage.enabled = false;
 
             Controller.IsInAttack = false;
 
@@ -331,14 +331,14 @@ namespace Pikamoon.Controller
             hitBehaviour.DisableAllHitPoints();
             ComboNextAttckTrigger = flag;
 
-            comboStatusImage.enabled = flag;
+            //comboStatusImage.enabled = flag;
         }
 
 
         private void OnDestroy()
         {
-            //playerInput.onAttack1_Clicked -= DoHorizontalAttack;
-            //playerInput.onAttack2_Clicked -= DoVerticalAttack;
+            playerInput.onAttack1_Clicked -= DoHorizontalAttack;
+            playerInput.onAttack2_Clicked -= DoVerticalAttack;
         }
 
         public override void OnEnd()

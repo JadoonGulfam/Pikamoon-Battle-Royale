@@ -69,17 +69,19 @@ namespace Pikamoon.Controller
             UsingWeaponIndex = 0;
             allowPickUp = true;
             Controller = GetComponent<PlayerController>();
-            playerInput = Controller.input;
 
 
 
-            playerInput.onPrimaryWeaponSelect_Down += ChangeWeapon;
-            playerInput.onSecondaryWeaponSelect_Down += ChangeWeapon;
         }
 
         public void Initialize(HUDController _ui)
         {
             UI = _ui;
+
+            playerInput = Controller.input;
+
+            playerInput.onPrimaryWeaponSelect_Down += ChangeWeapon;
+            playerInput.onSecondaryWeaponSelect_Down += ChangeWeapon;
         }
 
         private void Update()

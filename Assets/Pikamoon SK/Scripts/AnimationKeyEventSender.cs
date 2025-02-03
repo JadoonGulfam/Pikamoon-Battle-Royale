@@ -3,15 +3,15 @@ namespace Pikamoon.Controller
 {
     public class AnimationKeyEventSender : MonoBehaviour
     {
-        Combat combat;
-        Shooting shootingManager;
-        Throwing _throwManager;
+        [SerializeField] Combat combat;
+        [SerializeField] Shooting shootingManager;
+        [SerializeField] Throwing _throwManager;
 
         private void Start()
         {
-            combat = GetComponentInParent<Combat>();
-            shootingManager = GetComponentInParent<Shooting>();
-            _throwManager = GetComponentInParent<Throwing>();
+            //combat = GetComponentInParent<Combat>();
+            //shootingManager = GetComponentInParent<Shooting>();
+            //_throwManager = GetComponentInParent<Throwing>();
         }
 
         void GiveImapact()

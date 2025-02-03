@@ -58,12 +58,15 @@ namespace Pikamoon.Controller
         private void Update()
         {
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+            {
+                ActiveWeapon = null;
                 return;
-
+            }
             AimRigging();
 
             if (!Controller.IsInAttack)
                 return;
+
             HandleAnimation();
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
@@ -93,8 +96,6 @@ namespace Pikamoon.Controller
                 if(riggingVal < 1)
                     riggingVal += Time.deltaTime * AR_LookSpeed;
 
-
-                //HandleSpeed();
 
                 AR_LookTarget.position = FirePoint.position;
                 Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
@@ -257,7 +258,7 @@ namespace Pikamoon.Controller
         public void ShootArrow()
         {
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-            DebugUITransform.position = screenCenterPoint;
+            //DebugUITransform.position = screenCenterPoint;
 
             Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
 

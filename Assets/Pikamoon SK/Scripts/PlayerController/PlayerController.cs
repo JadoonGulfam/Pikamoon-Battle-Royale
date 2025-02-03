@@ -34,7 +34,8 @@ namespace Pikamoon.Controller
         Combat,
         Throwing,
         Shooting,
-        Swimming
+        Swimming,
+        Battle
     }
 
 
