@@ -44,7 +44,11 @@ public class PikamoonFollow : MonoBehaviour
     public void DisableFollowing()
     {
         isFollowing = false;
-        navMeshAgent.ResetPath(); // Stop the NavMeshAgent
-        animator.SetFloat("Move", 0); // Set to idle animation
+        if(navMeshAgent != null)
+        {
+            navMeshAgent.ResetPath(); // Stop the NavMeshAgent
+            animator.SetFloat("Move", 0); // Set to idle animation
+        }
+
     }
 }

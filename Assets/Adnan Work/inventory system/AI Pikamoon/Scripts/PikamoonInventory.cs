@@ -1,4 +1,6 @@
+using DG.Tweening;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputHandler))]  // Assuming PlayerInputHandler exists
@@ -29,6 +31,7 @@ public class PikamoonInventory : MonoBehaviour
         {
             GameObject pikamoonToSpawn = capturedPikamoons[index];
             pikamoonToSpawn.transform.position = spawnPosition;
+            pikamoonToSpawn.transform.localScale = Vector3.one * 2;
             pikamoonToSpawn.SetActive(true);
             PikamoonFollow followScript = pikamoonToSpawn.GetComponent<PikamoonFollow>();
             if (followScript != null) followScript.EnableFollowing();

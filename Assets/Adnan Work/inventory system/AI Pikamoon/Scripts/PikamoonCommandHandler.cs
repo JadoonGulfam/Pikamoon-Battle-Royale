@@ -1,5 +1,6 @@
+using System.Collections;
 using UnityEngine;
-
+using DG.Tweening;
 public enum PikamoonCommand
 {
     Follow,
@@ -16,19 +17,35 @@ public class PikamoonCommandHandler : MonoBehaviour
     {
         pikamoonAI = GetComponent<PikamoonAI>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("built"))
+        if (other.gameObject.CompareTag("Bullet"))
         {
             print("captured");
-            pikamoonInventory.AddPikamoon(this.gameObject);
+
+            //StartCoroutine(capture(this.gameObject));
+
+            gameObject.transform.DOScale(0, 0.5f).OnComplete(Capture);
+
         }
     }
-    private void OnMouseDown()
+    //IEnumerator capture(GameObject go)
+    //{
+    //    yield return new WaitForSeconds((0f));
+    //    pikamoonInventory.AddPikamoon(this.gameObject);
+    //}
+
+    void Capture()
     {
-        print("captured");
         pikamoonInventory.AddPikamoon(this.gameObject);
     }
+
+    //private void OnMouseDown()
+    //{
+    //    print("captured");
+    //    pikamoonInventory.AddPikamoon(this.gameObject);
+    //}
     public void ExecuteCommand(PikamoonCommand command, Transform target = null)
     {
         if (pikamoonAI == null) return;

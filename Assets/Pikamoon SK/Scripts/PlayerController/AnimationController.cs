@@ -36,7 +36,7 @@ namespace Pikamoon.Controller
         public struct ParamTrigger
         {
             public string Name;
-            public int Value;
+            public bool Value;
             [HideInInspector]
             public int Hash;
 
@@ -77,7 +77,6 @@ namespace Pikamoon.Controller
 
         public void Awake()
         {
-
             MakeHashesForParameters();
         }
 

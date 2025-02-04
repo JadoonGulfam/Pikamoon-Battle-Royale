@@ -28,15 +28,24 @@ namespace Pikamoon.Controller
         public OnBtnDown onSprint_Down;
         public OnBtnUp onSprint_Up;
 
-        public OnBtnDown onWalkToggle_Down;
-        public OnBtnUp   onWalkToggle_Up;
+        public OnBtnDown onCrouch_Down;
+        public OnBtnUp onCrouch_Up;
 
+        public OnBtnDown onWalk_Down;
+        public OnBtnUp   onWalk_Up;
+
+        public OnBtnDown onPrimaryWeaponSelect_Down;
+        public OnBtnDown onSecondaryWeaponSelect_Down;
+
+        public OnBtnDown onJump_Down;
+        
         [HideInInspector]
-        public bool isSprinting;
-        public bool isCrouching;
-        public bool isSliding;
+        //public bool isSprinting;
+        //public bool isCrouching;
+        //public bool isSliding;
         [SerializeField] float horizontal;
         [SerializeField] float vertical;
+
         [SerializeField] Vector2 m_Camera;
         [SerializeField] bool jump;
         [SerializeField] float jumpVelocity;
@@ -46,7 +55,7 @@ namespace Pikamoon.Controller
 
         [SerializeField] float m_AttackInputWait;
         protected bool m_ExternalInputBlocked;
-        [SerializeField] PlayerController m_Controller;
+        //[SerializeField] PlayerController m_Controller;
 
 
         Coroutine m_AttackWaitCoroutine;
@@ -124,15 +133,18 @@ namespace Pikamoon.Controller
             vertical   = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-            jump = Input.GetButton("Jump");
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                onJump_Down?.Invoke();
+            }
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 onSprint_Down?.Invoke();
-                if (!isCrouching)
-                {
-                    ToggleSprinting();
-                }
+                //if (!isCrouching)
+                //{
+                //    ToggleSprinting();
+                //}
             }
 
             if(Input.GetKeyUp(KeyCode.LeftShift))
@@ -141,43 +153,63 @@ namespace Pikamoon.Controller
             }
 
 
-            if (Input.GetKeyDown(KeyCode.LeftControl) && m_Controller.IsGrounded)
+            if (Input.GetKeyDown(KeyCode.LeftControl))// && m_Controller.IsGrounded)
             {
-                if (isSliding)
-                {
-                    isSliding = false;
-                    isSprinting = false;
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-                }
-                else if (isSprinting)
-                {
-                    StartSliding();
-                }
-                else
-                {
-                    ToggleCrouching();
-                }
+                Debug.Log("KSKSKSKSKSKSKSKSK");
+                onCrouch_Down?.Invoke();
+                //if (isSliding)
+                //{
+                //    isSliding = false;
+                //    isSprinting = false;
+                //    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                //}
+                //else if (isSprinting)
+                //{
+                //    StartSliding();
+                //}
+                //else
+                //{
+                //    ToggleCrouching();
+                //}
+            }
+            if (Input.GetKeyUp(KeyCode.LeftControl))// && m_Controller.IsGrounded)
+            {
+                onCrouch_Up?.Invoke();
+               
             }
 
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                onWalkToggle_Down?.Invoke();
+                onWalk_Down?.Invoke();
             }
             
             if(Input.GetKeyUp(KeyCode.Q))
             {
-                onWalkToggle_Up?.Invoke();
+                onWalk_Up?.Invoke();
             }
 
 
-            if (vertical == 0 && horizontal == 0)
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if(isSprinting)
-                {
-                    ToggleSprinting();
-                }
+                onPrimaryWeaponSelect_Down?.Invoke();
             }
+
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                onSecondaryWeaponSelect_Down?.Invoke();
+            }
+
+
+            //if (vertical == 0 && horizontal == 0)
+            //{
+            //    if(isSprinting)
+            //    {
+            //        ToggleSprinting();
+            //    }
+            //}
 
             if (Input.GetButtonDown("Fire1"))
             {
@@ -205,62 +237,56 @@ namespace Pikamoon.Controller
             }
         }
 
-        IEnumerator Attack1Wait()
-        {
-            attack1 = true;
+        //IEnumerator Attack1Wait()
+        //{
+        //    attack1 = true;
 
-            yield return new WaitForSeconds(m_AttackInputWait);
+        //    yield return new WaitForSeconds(m_AttackInputWait);
 
-            attack1 = false;
-        }
+        //    attack1 = false;
+        //}
 
-        IEnumerator Attack2Wait()
-        {
-            attack1 = true;
+        //IEnumerator Attack2Wait()
+        //{
+        //    attack1 = true;
 
-            yield return new WaitForSeconds(m_AttackInputWait);
+        //    yield return new WaitForSeconds(m_AttackInputWait);
 
-            attack1 = false;
-        }
-
-
+        //    attack1 = false;
+        //}
 
 
-        public void ToggleSprinting()
-        {
-            if(!isCrouching)
-                if(!isSprinting && !m_Controller.IsInAttack)
-                {
-                    isSprinting = true;
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Sprint);
-                }
-                else
-                {
-                    isSprinting = false;
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-                }
-        }
 
-        public void ToggleCrouching()
-        {
-            if (!isSprinting)
-                if (!isCrouching)
-                {
-                    isCrouching = true;
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Crouch);
-                }
-                else
-                {
-                    isCrouching = false;
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-                }
-        }
 
-        public void StartSliding()
-        {
-            isSliding = true;
-        }
+        //public void ToggleSprinting()
+        //{
+        //    if(!isCrouching)
+        //        if(!isSprinting && !m_Controller.IsInAttack)
+        //        {
+        //            isSprinting = true;
+        //            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Sprint);
+        //        }
+        //        else
+        //        {
+        //            isSprinting = false;
+        //            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+        //        }
+        //}
 
+        //public void ToggleCrouching()
+        //{
+        //    if (!isSprinting)
+        //        if (!isCrouching)
+        //        {
+        //            isCrouching = true;
+        //            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Crouch);
+        //        }
+        //        else
+        //        {
+        //            isCrouching = false;
+        //            ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+        //        }
+        //}
 
         public bool HaveControl()
         {

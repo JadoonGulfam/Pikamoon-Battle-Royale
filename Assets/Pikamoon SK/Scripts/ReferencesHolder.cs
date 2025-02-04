@@ -1,4 +1,7 @@
+using Pikamoon.UI;
 using UnityEngine;
+
+
 namespace Pikamoon.Controller
 {
     public class ReferencesHolder : MonoBehaviour
@@ -7,9 +10,16 @@ namespace Pikamoon.Controller
 
         public PlayerInput _playerInput;
 
-        public PlayerController _playerController;
+        public GameObject PlayerPrefab;
 
-        public CameraController _CameraController;
+        [HideInInspector] public PlayerController _playerController;
+
+        public CameraController _cameraController;
+
+        public HUDController _hudController;
+
+        [SerializeField] Transform _SpawnPoint;
+
         void Awake()
         {
             Instance = this;
@@ -17,6 +27,42 @@ namespace Pikamoon.Controller
             Cursor.lockState = CursorLockMode.Locked ;
 
         }
+
+        private void Start()
+        {
+            InstantiatePlayer();
+        }
+
+        void InstantiatePlayer()
+        {
+            if (_playerController == null)
+            {
+                GameObject GO = Instantiate(PlayerPrefab) as GameObject;
+                _playerController = GO.GetComponent<PlayerController>();
+            }
+
+            _playerController.transform.position = _SpawnPoint.position;
+            _playerController.transform.rotation = _SpawnPoint.rotation;
+
+            _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
+
+            _playerController.Inititalize(_playerInput,_cameraController, _hudController);
+        }
+
+        public void InstantiatePlayer(GameObject GO)
+        {
+
+             _playerController = GO.GetComponent<PlayerController>();
+
+            _playerController.transform.position = _SpawnPoint.position;
+            _playerController.transform.rotation = _SpawnPoint.rotation;
+
+            _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
+
+            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+        }
+
+
 
         private void OnApplicationFocus(bool focus)
         {

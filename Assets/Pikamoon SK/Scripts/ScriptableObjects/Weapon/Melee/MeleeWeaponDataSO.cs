@@ -12,6 +12,7 @@ namespace Pikamoon.Controller
     }
     public enum WeaponType
     {
+        None,
         Melee,
         Ranged,
         Throwable

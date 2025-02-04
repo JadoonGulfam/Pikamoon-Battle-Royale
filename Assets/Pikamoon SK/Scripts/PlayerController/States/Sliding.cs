@@ -18,23 +18,28 @@ namespace Pikamoon.Controller
         float speed;
         bool isHurdleAbove;
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
             wasSliding = false;
+            isHurdleAbove = false;
         }
 
         private void Update()
         {
-            if (wasSliding)
-                isHurdleAbove = Physics.CheckBox(this.transform.position + (Vector3.up*2), new Vector3(.5f, 1, .5f), Quaternion.identity, Controller.groundLayer);
+            //if (wasSliding)
+            //    isHurdleAbove = Physics.CheckBox(this.transform.position + (Vector3.up*2),
+            //                                    new Vector3(.5f, 1, .5f), 
+            //                                    Quaternion.identity, Controller.groundLayer);
 
-            if (playerInput.isSliding && !playerInput.JumpInput)
+
+            if (Controller.CurrentPlayerState == StateType.Slide && !playerInput.JumpInput)
             {
                 if (!wasSliding)
                 {
                     wasSliding = true;
-                    OnStateStart();
+                    OnStart();
+                    isHurdleAbove = false;
                 }
 
                 Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
@@ -62,33 +67,20 @@ namespace Pikamoon.Controller
 
                 if (Controller.Velocity.magnitude <= 3)
                 {
-                    playerInput.isSliding = false;
+                    OnEnd();
                 }
 
             }
             else
             {
-                OnStateEnd();
-            }
-        }
-
-        void OnStateStart()
-        {
-            AC.PAnimator.SetBool(AC.Parameters.isSlide.Hash, true);
-            speed = SlideSpeed;
-
-            Controller.SetCharacterController(colliderHeight, colliderRadius, colliderCenter);
-        }
-
-        void OnStateEnd()
-        {
-            if (wasSliding)
-            {
-                playerInput.isSliding = false;
-                wasSliding = false;
-                AC.PAnimator.SetBool(AC.Parameters.isSlide.Hash, false);
-                Controller.SetCharacterControllerDefault();
-                speed = 0; 
+                if (!isHurdleAbove)
+                {
+                    if (wasSliding)
+                    {
+                        wasSliding = false;
+                        OnEnd();
+                    }
+                }
             }
         }
 
@@ -132,10 +124,20 @@ namespace Pikamoon.Controller
 
         public override void OnEnd()
         {
+            Controller.CurrentPlayerState = StateType.Locomtion;
+            wasSliding = false;
+            AC.PAnimator.SetBool(AC.Parameters.isSlide.Hash, false);
+            Controller.SetCharacterControllerDefault();
+            speed = 0;
         }
 
         public override void OnStart()
         {
+            AC.PAnimator.SetBool(AC.Parameters.isSlide.Hash, true);
+
+            speed = SlideSpeed;
+
+            Controller.SetCharacterController(colliderHeight, colliderRadius, colliderCenter);
         }
 
         public override void OnUpdate()

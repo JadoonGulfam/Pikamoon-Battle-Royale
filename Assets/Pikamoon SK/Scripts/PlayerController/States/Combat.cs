@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 namespace Pikamoon.Controller
@@ -29,11 +27,11 @@ namespace Pikamoon.Controller
         [Space]
         public Transform DummyCircle;
 
-        public Image comboStatusImage;
-        public Image AttackStatusImage;
+        //public Image comboStatusImage;
+        //public Image AttackStatusImage;
 
-        public TextMeshProUGUI ActiveStateName;
-        public TextMeshProUGUI ActiveStateProgress;
+        //public TextMeshProUGUI ActiveStateName;
+        //public TextMeshProUGUI ActiveStateProgress;
 
         [Space]
         [Header("Animation")]
@@ -42,17 +40,13 @@ namespace Pikamoon.Controller
         [SerializeField] bool ReadyToAttack;
 
         int DoNextComboAction_Hash;
-        int InCombat_Hash;
-        int AttackState_Hash;
-        int ComboAttackType_Hash;
 
-        int Attack1_Hash;
-        int Attack2_Hash;
-        int Attack3_Hash;
-        int Attack4_Hash;
+        //int Attack1_Hash;
+        //int Attack2_Hash;
+        //int Attack3_Hash;
+        //int Attack4_Hash;
         int idle_Hash;
         int AttackCooldown_Hash;
-        int NextAttackTrigger_Hash;
 
 
 
@@ -86,7 +80,7 @@ namespace Pikamoon.Controller
 
 
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -106,22 +100,18 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            ActiveStateName.text = AC.PAnimator.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
-            ActiveStateProgress.text = AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
+            //ActiveStateName.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
+            //ActiveStateProgress.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
         }
 
 
         void SettingHashes()
         {
-            InCombat_Hash = Animator.StringToHash("inCombat");
-            AttackState_Hash = Animator.StringToHash("AttackState");
-            NextAttackTrigger_Hash = Animator.StringToHash("NextComboAttack");
-            ComboAttackType_Hash = Animator.StringToHash("ComboAttackType");
 
-            Attack1_Hash = Animator.StringToHash("Attack1");
-            Attack2_Hash = Animator.StringToHash("Attack2");
-            Attack3_Hash = Animator.StringToHash("Attack3");
-            Attack4_Hash = Animator.StringToHash("Attack4");
+            //Attack1_Hash = Animator.StringToHash("Attack1");
+            //Attack2_Hash = Animator.StringToHash("Attack2");
+            //Attack3_Hash = Animator.StringToHash("Attack3");
+            //Attack4_Hash = Animator.StringToHash("Attack4");
 
             AttackCooldown_Hash = Animator.StringToHash("Attack_CoolDown");
         }
@@ -168,7 +158,7 @@ namespace Pikamoon.Controller
             Controller.IsInAttack = true;
 
             comboMoveCounter = 1;
-            AttackStatusImage.enabled = true;
+            //AttackStatusImage.enabled = true;
 
 
 
@@ -182,8 +172,8 @@ namespace Pikamoon.Controller
             }
 
 
-            AC.PAnimator.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
-            AC.PAnimator.SetBool(InCombat_Hash, true);
+            AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
+            AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, true);
 
             if (combatCoroutine != null)
                 StopCoroutine(combatCoroutine);
@@ -232,17 +222,17 @@ namespace Pikamoon.Controller
                 }
             }
 
-            AC.PAnimator.SetInteger(ComboAttackType_Hash, (int)combatMoveType);
+            AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
             
             if (comboMoveCounter == 1)
             {
-                AC.PAnimator.SetInteger(AttackState_Hash, comboMoveCounter);
+                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, comboMoveCounter);
             }
             else
             {
-                AC.PAnimator.SetInteger(AttackState_Hash, 0);
+                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, 0);
 
-                AC.PAnimator.SetTrigger(NextAttackTrigger_Hash);
+                AC.PAnimator.SetTrigger(AC.Parameters.NexComboAttack.Hash);
             }
 
             yield return new WaitUntil(() => AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > .95f);
@@ -267,16 +257,16 @@ namespace Pikamoon.Controller
 
         void ComboEnd()
         {
-            AC.PAnimator.SetInteger(AttackState_Hash,1);
+            AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, 1);
             comboMoveCounter = 1;
         }
         void AttackEnd()
         {
-            AttackStatusImage.enabled = false;
+            //AttackStatusImage.enabled = false;
 
             Controller.IsInAttack = false;
 
-            AC.PAnimator.SetBool(InCombat_Hash, false);
+            AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, false);
         }
 
         bool GetNearestEnemyToLock()
@@ -335,13 +325,21 @@ namespace Pikamoon.Controller
 
         }
 
+        private void OnAnimatorMove()
+        {
+            if(Controller.IsRootMotionEnabled)
+            {
+
+            }
+        }
+
         public void ToggleNextComboAttckStatus(bool flag)
         {
 
             hitBehaviour.DisableAllHitPoints();
             ComboNextAttckTrigger = flag;
 
-            comboStatusImage.enabled = flag;
+            //comboStatusImage.enabled = flag;
         }
 
 

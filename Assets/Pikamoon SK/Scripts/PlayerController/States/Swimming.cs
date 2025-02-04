@@ -11,6 +11,7 @@ namespace Pikamoon.Controller
 
         bool _inWater;
         bool _isNormalSwim;
+        bool _isSwimming;
 
         float _verticalForce;
 
@@ -23,7 +24,7 @@ namespace Pikamoon.Controller
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -43,9 +44,9 @@ namespace Pikamoon.Controller
 
             if (IsInEnoughDeepToSwim())
             {
-                if(!Controller.IsSwimming)
+                if(!_isSwimming)
                 {
-                    StartSwimming();
+                    OnStart();
                 }
 
                 HandleSwimmingSpeed();
@@ -58,9 +59,9 @@ namespace Pikamoon.Controller
             }
             else
             {
-                if (Controller.IsSwimming)
+                if (_isSwimming)
                 {
-                    EndSwimming();
+                    OnEnd();
                 }
 
             }
@@ -141,62 +142,63 @@ namespace Pikamoon.Controller
 
         void EnableFastSwim()
         {
+            if (Controller.CurrentPlayerState != StateType.Swimming)
+                return;
+
             _isNormalSwim = false;
-            Controller.ChangeSpeed(Controller.PlayerData.SwimmingFastSpeed, 2f);
         }
 
         void DisbleFastSwim()
         {
+            if (Controller.CurrentPlayerState != StateType.Swimming)
+                return;
+
             _isNormalSwim = true;
-            Controller.ChangeSpeed(Controller.PlayerData.SwimmingNormalSpeed,1f);
         }
 
 
 
-        void StartSwimming()
+        public override void OnEnd()
         {
-            Controller.IgnoreGravity = true;
-            Controller.IsSwimming = true;
-            _verticalForce = 0;
-            _isNormalSwim = true;
-
-            AC.PAnimator.SetBool(AC.Parameters.isSwim.Hash, true);
-        }
-
-        void EndSwimming()
-        {
+            Controller.CurrentPlayerState = StateType.Locomtion;
+            _isSwimming = false;
             Controller.IgnoreGravity = false;
             Controller.IsSwimming = false;
 
             AC.PAnimator.SetBool(AC.Parameters.isSwim.Hash, false);
         }
-        public override void OnEnd()
-        {
-        }
 
         public override void OnStart()
         {
+            Controller.CurrentPlayerState = StateType.Swimming;
+            Controller.IgnoreGravity = true;
+            Controller.IsSwimming = true;
+            _verticalForce = 0;
+            _isNormalSwim = true;
+            _isSwimming = true;
+
+            AC.PAnimator.SetBool(AC.Parameters.isSwim.Hash, true);
         }
 
         public override void OnUpdate()
         {
         }
 
-        public void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.layer == waterLayer)
-            {
-                _inWater = true;
-            }
-        }
+        //public void OnTriggerEnter(Collider other)
+        //{
+        //    if (other.gameObject.layer == waterLayer)
+        //    {
+        //        _inWater = true;
+        //    }
+        //}
 
-        public void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.layer == waterLayer)
-            {
-                _inWater = false;
-            }
-        }
+        //public void OnTriggerExit(Collider other)
+        //{
+        //    if (other.gameObject.layer == waterLayer)
+        //    {
+        //        _inWater = false;
+        //    }
+        //}
 
     }
 }

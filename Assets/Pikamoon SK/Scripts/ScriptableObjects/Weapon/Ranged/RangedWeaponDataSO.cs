@@ -5,6 +5,7 @@ namespace Pikamoon.Controller
     [CreateAssetMenu(fileName = "New Ranged Weapon", menuName = "Pikamoon/Weapon/Create new Ranged Weapon")]
     public class RangedWeaponDataSO : WeaponDataSO
     {
+        [Space]
         public Bullet Bullet;
         
         [Space]

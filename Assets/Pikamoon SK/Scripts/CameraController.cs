@@ -1,6 +1,7 @@
 using Unity.Cinemachine;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 namespace Pikamoon.Controller
 {
@@ -55,6 +56,7 @@ namespace Pikamoon.Controller
         Vector3 aimer;
         float fov;
         bool isAim = false;
+        Transform Target;
 
         private void Start()
         {
@@ -70,10 +72,20 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
+            if ( Target == null )
+                return;
+
             camOffsetter.Offset = Vector3.Lerp(camOffsetter.Offset, aimer, Time.deltaTime * 3);
             DefaultCam.Lens.FieldOfView = Mathf.Lerp(DefaultCam.Lens.FieldOfView, fov, Time.deltaTime * 2);
         }
 
+        public void AssignPlayer(Transform FollowTarget, Transform LookTarget)
+        {
+            Target = FollowTarget;
+
+            DefaultCam.Follow = FollowTarget;
+            DefaultCam.LookAt = LookTarget;
+        }
 
         public void ChangeCam(Cam changeTo)
         {

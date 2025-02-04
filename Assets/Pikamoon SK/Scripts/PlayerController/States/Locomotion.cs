@@ -19,9 +19,8 @@ namespace Pikamoon.Controller
     {
         #region Public Fields
 
-        [Header("References")]
-        [Space]
-        [SerializeField] Transform _camera;
+        //[Header("References")]
+        //[Space]
 
         [Header("Animation")]
         [Space]
@@ -45,34 +44,53 @@ namespace Pikamoon.Controller
         bool isSprinting;
         bool isWalking;
 
+        bool _isLocomoting;
         #endregion
 
 
-        private void Start()
+        public override void Initialize()
         {
             base.Initialize();
-            _camera = ReferencesHolder.Instance._CameraController._camera.transform;
-
 
             playerInput.onSprint_Down +=  EnableSprinting;
             playerInput.onSprint_Up   += DisableSprinting;
 
-            playerInput.onWalkToggle_Down +=  EnableWalk;
-            playerInput.onWalkToggle_Up   += DisableWalk;
+            playerInput.onWalk_Down +=  EnableWalk;
+            playerInput.onWalk_Up   += DisableWalk;
 
+            playerInput.onCrouch_Down += ToggleCrouch;
+            //playerInput.onCrouch_Up += DisableCrouch;
 
         }
 
         private void Update()
         {
-            if (playerInput.isCrouching || Controller.IsInAttack || Controller.IsSwimming)
+            if (Controller.CurrentPlayerState == StateType.Crouch || Controller.IsInAttack)
                 return;
 
-            HandleSpeed();
 
-            MovementAndRotationHandler();
+            if (Controller.CurrentPlayerState == StateType.Locomtion)
+            {
+                if (!_isLocomoting)
+                {
+                    _isLocomoting = true;
+                    OnStart();
+                }
 
-            HandleAnimation();
+                HandleSpeed();
+
+                MovementAndRotationHandler();
+
+                HandleAnimation();
+            }
+            else
+            {
+                if (_isLocomoting)
+                {
+                    _isLocomoting = false;
+                    OnEnd();
+                }
+            }
         }
 
         void HandleSpeed()
@@ -81,22 +99,25 @@ namespace Pikamoon.Controller
             {
                 if (isSprinting)
                 {
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Sprint);
+                    ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Sprint);
                     Controller.ChangeSpeed(Controller.PlayerData.SprintSpeed, 2f);
                 }
                 else
                 {
-                    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                    ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Default);
                     Controller.ChangeMovementSpeed  (isWalking ? Controller.PlayerData.WalkSpeed : Controller.PlayerData.RunSpeed);
                     Controller.ChangeAnimationSpeed (isWalking ? 0.2f : 1f);
                 }
-
-                //}
             }
             else
             {
+                if(isSprinting)
+                {
+
+                }
+
                 isSprinting = false;
-                ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
+                ReferencesHolder.Instance._cameraController.ChangeCam(Cam.Default);
                 Controller.ChangeSpeed(0f, 0f);
             }
         }
@@ -112,7 +133,7 @@ namespace Pikamoon.Controller
 
         void MovementAndRotationHandler()
         {
-            if (playerInput.isSliding || Controller.IsInAttack)
+            if (Controller.CurrentPlayerState == StateType.Slide || Controller.IsInAttack)
                 return;
 
 
@@ -129,9 +150,11 @@ namespace Pikamoon.Controller
             Controller.Move(finalMove);
         }
 
+
         void EnableSprinting()
         {
-            isSprinting = true;
+            if (Controller.CurrentPlayerState == StateType.Locomtion && playerInput.isMoving)
+                isSprinting = true;
         }
         void DisableSprinting()
         {
@@ -139,9 +162,44 @@ namespace Pikamoon.Controller
         }
 
 
+        void EnableCrouch()
+        {
+            if (Controller.CurrentPlayerState != StateType.Locomtion)
+                return;
+
+            if(isSprinting)
+            {
+                Controller.ChangeState(StateType.Slide);
+            }
+            else
+            {
+                Controller.ChangeState(StateType.Crouch);
+            }
+        }
+
+
+        void ToggleCrouch()
+        {
+            if (Controller.CurrentPlayerState != StateType.Locomtion)
+                return;
+
+            if (isSprinting)
+            {
+                Debug.Log("Slide On");
+                Controller.ChangeState(StateType.Slide);
+            }
+            else
+            {
+                Debug.Log("Crouch On");
+                Controller.ChangeState(StateType.Crouch);
+            }
+
+        }
+
         void EnableWalk()
         {
-            isWalking = true;
+            if (Controller.CurrentPlayerState == StateType.Locomtion)
+                isWalking = true;
         }
         void DisableWalk()
         {
@@ -150,10 +208,13 @@ namespace Pikamoon.Controller
 
         public override void OnEnd()
         {
+            AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, false);
         }
 
         public override void OnStart()
         {
+            DisableSprinting();
+            AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, true);
         }
 
         public override void OnUpdate()

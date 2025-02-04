@@ -100,6 +100,16 @@ namespace Pikamoon.Controller
         {
         }
 
+        public override void Equip()
+        {
+            _collider.enabled = false;
+        }
+
+        public override void UnEquip()
+        {
+            _collider.enabled = true;
+        }
+
         public override WeaponInfo GetWeaponInfo()
         {
             WeaponInfo info = new WeaponInfo();

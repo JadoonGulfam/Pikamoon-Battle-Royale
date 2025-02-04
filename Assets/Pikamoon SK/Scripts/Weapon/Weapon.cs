@@ -8,8 +8,20 @@ namespace Pikamoon.Controller
         left,
         right
     }
+    public enum WeaponRestingPointType
+    {
+        leftShoulder,
+        rightShoulder,
+        leftPelvis,
+        rightPelvis,
+        leftKnee,
+        rightKnee,
+        leftBack,
+        RightBack
 
-    public abstract class Weapon : MonoBehaviour, IPickable
+    }
+
+    public abstract class Weapon : Item, IPickable
     {
         public T GetWeaponDataAs<T>() where T : WeaponDataSO
         {
@@ -24,7 +36,7 @@ namespace Pikamoon.Controller
 
         [SerializeField] protected Collider _collider;
 
-        public float Health;
+        public int Health;
 
         public abstract WeaponInfo GetWeaponInfo();
 
@@ -34,5 +46,8 @@ namespace Pikamoon.Controller
 
         public abstract void Drop();
 
+        public abstract void Equip();
+
+        public abstract void UnEquip();
     }
 }

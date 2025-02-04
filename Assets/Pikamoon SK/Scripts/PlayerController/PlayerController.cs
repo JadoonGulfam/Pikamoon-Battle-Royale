@@ -1,3 +1,4 @@
+using Pikamoon.UI;
 using UnityEngine;
 
 namespace Pikamoon.Controller
@@ -7,6 +8,7 @@ namespace Pikamoon.Controller
     {
         public Weapon Prefab;
         public WeaponDataSO Data;
+        public bool isEnabled;
     }
 
     [System.Serializable]
@@ -16,22 +18,49 @@ namespace Pikamoon.Controller
         public Transform Point;
     }
 
+    [System.Serializable]
+    public struct RestingPoint
+    {
+        public WeaponRestingPointType Type;
+        public Transform Point;
+    }
+
+    public enum StateType
+    {
+        Locomtion,
+        Crouch,
+        Slide,
+        Air,
+        Combat,
+        Throwing,
+        Shooting,
+        Swimming,
+        Battle
+    }
+
 
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
         public PlayerData PlayerData;
-        [SerializeField] bool inAir;
-        [SerializeField] bool canExitCrouch;
+        public StateType CurrentPlayerState;
+
         public bool IsInAttack;
         public bool IsSwimming;
         public bool IgnoreGravity;
         [SerializeField] Vector3 crouchColliderOffset;
 
+        [Header("References")]
+        [SerializeField] State[] states;
+        public Transform Head; 
+        
+        
+        
         [Header("Weapon")]
         public WeaponInfo ActiveWeapon;
         [Space]
         public HoldingPoint[] holdingPoints;
+        public RestingPoint[] restingPoints;
 
         //public T GetWeaponAs<T>() where T : Weapon
         //{
@@ -45,52 +74,10 @@ namespace Pikamoon.Controller
 
         [Header("Grounded Settings")]
         [Space]
-        [SerializeField] bool isGrounded;
         [SerializeField] Vector3 groundCheckColliderScale;
         public LayerMask groundLayer;
         
-        [HideInInspector] public CameraController _cameraController;
-        PlayerInput input;
-
-        CharacterController characterController;
-
-        float defaultHeight;
-        float defaultRadius;
-        Vector3 defaultCenter;
-
-        float speed;
-        float animSpeed;
-
-        float moveSpeedLerper;
-        float animSpeedLerper;
-
-        public float Speed
-        {
-            get
-            {
-                return speed;
-            }
-        }
-        
-        public float AnimSpeed
-        {
-            get
-            {
-                return animSpeed;
-            }
-        }
-
-        public bool InAir
-        {
-            get
-            {
-                return inAir;
-            }
-            set
-            {
-                inAir = value;
-            }
-        }
+        [SerializeField] bool isGrounded;
         public bool IsGrounded
         {
             get
@@ -102,11 +89,74 @@ namespace Pikamoon.Controller
         }
 
 
+        [HideInInspector] public CameraController _cameraController;
+        [HideInInspector] public PlayerInput input;
+        [HideInInspector] public InventoryController inventory;
+
+        CharacterController characterController;
+
+        float defaultHeight;
+        float defaultRadius;
+        Vector3 defaultCenter;
+
+
+        float moveSpeedLerper;
+        float animSpeedLerper;
+
+
+
+        bool isRootMotionEnabled;
+        public bool IsRootMotionEnabled
+        {
+            get { return isRootMotionEnabled; }
+            set { isRootMotionEnabled = value; }
+            
+        }
+
+
+
+        float speed;
+        public float Speed
+        {
+            get
+            {
+                return speed;
+            }
+        }
+        
+
+        float animSpeed;
+        public float AnimSpeed
+        {
+            get
+            {
+                return animSpeed;
+            }
+        }
+
+
+
+        [SerializeField] bool inAir;
+        public bool InAir
+        {
+            get
+            {
+                return inAir;
+            }
+            set
+            {
+                inAir = value;
+            }
+        }
+
+
+
+        [SerializeField] bool canExitCrouch;
         public bool CanExitCrouch
         {
             get
             {
-                if (input.isCrouching && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
+                if (CurrentPlayerState == StateType.Crouch && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
                     return true;
                 else
                     return false;
@@ -121,18 +171,27 @@ namespace Pikamoon.Controller
             }
         }
 
-        private void Awake()
+        public void Inititalize(PlayerInput _input, CameraController _camera,HUDController hudController)
         {
-            ReferencesHolder.Instance._playerController = this;
-            input = ReferencesHolder.Instance._playerInput;
+            input = _input;
+            _cameraController = _camera;
             characterController = this.GetComponent<CharacterController>();
-            _cameraController = ReferencesHolder.Instance._CameraController;
+            inventory = GetComponent<InventoryController>();
+
+            inventory.Initialize(hudController, this);
 
             IgnoreGravity = false;
 
             defaultHeight = characterController.height;
             defaultRadius = characterController.radius;
             defaultCenter = characterController.center;
+
+
+            foreach (var state in states)
+            {
+                state.Initialize();
+            }
+
         }
 
         private void Update()
@@ -142,16 +201,22 @@ namespace Pikamoon.Controller
         }
 
         #region Weapon Portion
-        public void AssignWeapon(WeaponInfo weapon)
+        public void ActivateWeapon(WeaponInfo weapon)
         {
             ActiveWeapon = weapon;
 
             ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
             ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
             ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
-
         }
-
+        public Transform GetRestingPoint(WeaponRestingPointType type)
+        {
+            return restingPoints[(int)type].Point;
+        }
+        public Transform GetRestingPoint(WeaponInfo weapon)
+        {
+            return restingPoints[(int)weapon.Data.HoldingPointType].Point;
+        }
         #endregion
 
 
@@ -271,6 +336,12 @@ namespace Pikamoon.Controller
         }
 
         #endregion
+
+
+        public void ChangeState(StateType newState)
+        {
+            CurrentPlayerState = newState;
+        }
 
 
         #region Speed Adjustment
