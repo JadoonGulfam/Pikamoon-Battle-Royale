@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEditor;
 using TMPro;
+using Pikamoon.Controller;
 
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
@@ -102,19 +103,20 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (player == runner.LocalPlayer)
         {
-            SceneManager.LoadScene("Meadows_Demo");
+            SceneManager.LoadScene("SKController_Meadows");
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Meadows_Demo")
+        if (scene.name == "SKController_Meadows")
         {
-       
+            GameObject go = GameObject.FindGameObjectWithTag("Ref");
             NetworkObject playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
-            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], Vector3.zero, Quaternion.identity);
-     
+            go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject);
+           // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], Vector3.zero, Quaternion.identity);
+
             if (playerNetworkObject.HasInputAuthority)
             {
                 print("111111111111");
