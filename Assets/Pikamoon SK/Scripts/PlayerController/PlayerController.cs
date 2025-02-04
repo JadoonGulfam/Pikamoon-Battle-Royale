@@ -45,8 +45,6 @@ namespace Pikamoon.Controller
         public PlayerData PlayerData;
         public StateType CurrentPlayerState;
 
-        [SerializeField] bool inAir;
-        [SerializeField] bool canExitCrouch;
         public bool IsInAttack;
         public bool IsSwimming;
         public bool IgnoreGravity;
@@ -76,12 +74,24 @@ namespace Pikamoon.Controller
 
         [Header("Grounded Settings")]
         [Space]
-        [SerializeField] bool isGrounded;
         [SerializeField] Vector3 groundCheckColliderScale;
         public LayerMask groundLayer;
         
+        [SerializeField] bool isGrounded;
+        public bool IsGrounded
+        {
+            get
+            {
+                return isGrounded;
+                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
+                //return characterController.isGrounded;
+            }
+        }
+
+
         [HideInInspector] public CameraController _cameraController;
         [HideInInspector] public PlayerInput input;
+        [HideInInspector] public InventoryController inventory;
 
         CharacterController characterController;
 
@@ -89,12 +99,23 @@ namespace Pikamoon.Controller
         float defaultRadius;
         Vector3 defaultCenter;
 
-        float speed;
-        float animSpeed;
 
         float moveSpeedLerper;
         float animSpeedLerper;
 
+
+
+        bool isRootMotionEnabled;
+        public bool IsRootMotionEnabled
+        {
+            get { return isRootMotionEnabled; }
+            set { isRootMotionEnabled = value; }
+            
+        }
+
+
+
+        float speed;
         public float Speed
         {
             get
@@ -103,6 +124,8 @@ namespace Pikamoon.Controller
             }
         }
         
+
+        float animSpeed;
         public float AnimSpeed
         {
             get
@@ -111,6 +134,9 @@ namespace Pikamoon.Controller
             }
         }
 
+
+
+        [SerializeField] bool inAir;
         public bool InAir
         {
             get
@@ -123,16 +149,9 @@ namespace Pikamoon.Controller
             }
         }
 
-        public bool IsGrounded
-        {
-            get
-            {
-                return isGrounded;
-                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
-                //return characterController.isGrounded;
-            }
-        }
 
+
+        [SerializeField] bool canExitCrouch;
         public bool CanExitCrouch
         {
             get
@@ -152,17 +171,14 @@ namespace Pikamoon.Controller
             }
         }
 
-        private void Awake()
-        {
-
-        }
-
         public void Inititalize(PlayerInput _input, CameraController _camera,HUDController hudController)
         {
             input = _input;
             _cameraController = _camera;
             characterController = this.GetComponent<CharacterController>();
-            this.GetComponent<InventoryController>().UI = hudController;
+            inventory = GetComponent<InventoryController>();
+
+            inventory.Initialize(hudController, this);
 
             IgnoreGravity = false;
 

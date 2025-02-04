@@ -83,10 +83,12 @@ namespace Pikamoon.Controller
         void AssignWeapon()
         {
             bulletIndex = 0;
+            if(Controller.ActiveWeapon.Prefab is RangedWeapon)
+            {
+                ActiveWeapon = Controller.ActiveWeapon.Prefab as RangedWeapon;
 
-            ActiveWeapon = Controller.ActiveWeapon.Prefab as RangedWeapon;
-
-            FireRate = ActiveWeapon.GetFireRate();
+                FireRate = ActiveWeapon.GetFireRate();
+            }
         }
 
         void AimRigging()
@@ -258,7 +260,6 @@ namespace Pikamoon.Controller
         public void ShootArrow()
         {
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-            //DebugUITransform.position = screenCenterPoint;
 
             Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
@@ -269,8 +270,11 @@ namespace Pikamoon.Controller
                 {
                     AssignWeapon();
                 }
-                ActiveWeapon.ShootBullet(hit.point);
-                DebugTransform.transform.position = hit.point;
+                else
+                {
+                    ActiveWeapon.ShootBullet(hit.point);
+                    DebugTransform.transform.position = hit.point;
+                }
             }
         }
 

@@ -325,6 +325,14 @@ namespace Pikamoon.Controller
 
         }
 
+        private void OnAnimatorMove()
+        {
+            if(Controller.IsRootMotionEnabled)
+            {
+
+            }
+        }
+
         public void ToggleNextComboAttckStatus(bool flag)
         {
 

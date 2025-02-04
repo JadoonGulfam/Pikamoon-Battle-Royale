@@ -1533,7 +1533,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.9573825, z: 0, w: 0.28882295}
   m_LocalPosition: {x: -315.80795, y: 17.44, z: 208.74464}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2965322872586009244}
@@ -1585,8 +1585,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   CurrentPlayerState: 0
-  inAir: 0
-  canExitCrouch: 0
   IsInAttack: 0
   IsSwimming: 0
   IgnoreGravity: 0
@@ -1628,13 +1626,16 @@ MonoBehaviour:
   - Type: 7
     Point: {fileID: 18960364219820660}
   TurnSmoothTime: 10
-  isGrounded: 0
   groundCheckColliderScale: {x: 0.5, y: 0.5, z: 0.5}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isGrounded: 0
   _cameraController: {fileID: 0}
   input: {fileID: 0}
+  inventory: {fileID: 0}
+  inAir: 0
+  canExitCrouch: 0
 --- !u!114 &3100185742843853252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1864,10 +1865,6 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   AC: {fileID: 0}
   DummyCircle: {fileID: 0}
-  comboStatusImage: {fileID: 0}
-  AttackStatusImage: {fileID: 0}
-  ActiveStateName: {fileID: 0}
-  ActiveStateProgress: {fileID: 0}
   animatorOverrideController: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
   ReadyToAttack: 0
   RadiusToFindEnemy: 20
@@ -1929,7 +1926,7 @@ MonoBehaviour:
   curvePoint: {fileID: 5109260464190799231}
   AimableMask:
     serializedVersion: 2
-    m_Bits: 3967
+    m_Bits: 3711
   AR_LockedOnTargetAimer: {fileID: 8188153140908651483}
   AR_LookTarget: {fileID: 1354582190921879776}
   AR_LookSpeed: 2
@@ -1956,7 +1953,7 @@ MonoBehaviour:
   waterLayer:
     serializedVersion: 2
     m_Bits: 16
-  chestDisToFeet: 1.2
+  chestDisToFeet: 1.8
   UpForce: 1
 --- !u!1 &1990838586196695450
 GameObject:

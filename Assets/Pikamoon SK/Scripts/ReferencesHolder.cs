@@ -1,5 +1,7 @@
 using Pikamoon.UI;
 using UnityEngine;
+
+
 namespace Pikamoon.Controller
 {
     public class ReferencesHolder : MonoBehaviour
@@ -8,9 +10,9 @@ namespace Pikamoon.Controller
 
         public PlayerInput _playerInput;
 
-        public GameObject Player;
+        public GameObject PlayerPrefab;
 
-        public PlayerController _playerController;
+        [HideInInspector] public PlayerController _playerController;
 
         public CameraController _cameraController;
 
@@ -35,7 +37,7 @@ namespace Pikamoon.Controller
         {
             if (_playerController == null)
             {
-                GameObject GO = Instantiate(Player) as GameObject;
+                GameObject GO = Instantiate(PlayerPrefab) as GameObject;
                 _playerController = GO.GetComponent<PlayerController>();
             }
 
@@ -46,6 +48,21 @@ namespace Pikamoon.Controller
 
             _playerController.Inititalize(_playerInput,_cameraController, _hudController);
         }
+
+        public void InstantiatePlayer(GameObject GO)
+        {
+
+             _playerController = GO.GetComponent<PlayerController>();
+
+            _playerController.transform.position = _SpawnPoint.position;
+            _playerController.transform.rotation = _SpawnPoint.rotation;
+
+            _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
+
+            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+        }
+
+
 
         private void OnApplicationFocus(bool focus)
         {
