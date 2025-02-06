@@ -108,11 +108,6 @@ namespace Pikamoon.Controller
         void SettingHashes()
         {
 
-            //Attack1_Hash = Animator.StringToHash("Attack1");
-            //Attack2_Hash = Animator.StringToHash("Attack2");
-            //Attack3_Hash = Animator.StringToHash("Attack3");
-            //Attack4_Hash = Animator.StringToHash("Attack4");
-
             AttackCooldown_Hash = Animator.StringToHash("Attack_CoolDown");
         }
 
