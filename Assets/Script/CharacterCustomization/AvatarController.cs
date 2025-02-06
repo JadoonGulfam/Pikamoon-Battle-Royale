@@ -73,19 +73,11 @@ namespace CharacterCustomization
                     //        UnStichItem(_type);
                     //    }
                     //    break;
-                    //case BodyPartsType.Legs:
-                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs != null)
-                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, _type,_applyOn);
-                    //    else if (wornLegs != null)
-                    //    {
-                    //        UnStichItem(_type);
-                    //    }
-                    //    break;
                     default:
                         break;
                 }
             }
-            if (_gender == GenderType.female) // if avatar is Male
+            if (_gender == GenderType.female) // if avatar is FeMale
             {
                 switch (_type)
                 {
@@ -107,6 +99,7 @@ namespace CharacterCustomization
                         break;
                     case BodyPartsType.Skin:
                         if (femaleAvatarDefaultCostume.DefaultSkin != null && femaleAvatarDefaultCostume.DefaultFace != null)
+
                         {
                             ApplyFaceTexture(femaleAvatarDefaultCostume.DefaultFace, string.Empty);
                             ApplySkinTexture(femaleAvatarDefaultCostume.DefaultSkin, string.Empty);
@@ -116,14 +109,6 @@ namespace CharacterCustomization
                     //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
                     //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
                     //    else if (wornArms != null)
-                    //    {
-                    //        UnStichItem(_type);
-                    //    }
-                    //    break;
-                    //case BodyPartsType.Legs:
-                    //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs != null)
-                    //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultLegs, _type,_applyOn);
-                    //    else if (wornLegs != null)
                     //    {
                     //        UnStichItem(_type);
                     //    }
