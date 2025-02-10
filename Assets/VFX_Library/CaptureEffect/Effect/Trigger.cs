@@ -21,7 +21,7 @@ public class Trigger : MonoBehaviour
         }
        */
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             capture_new.Play();
         }

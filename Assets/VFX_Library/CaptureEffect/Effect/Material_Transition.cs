@@ -15,7 +15,7 @@ public class Material_Transition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.F))
         {
             dissolve -= 0.01f;
             material.SetFloat("_Cutoff", dissolve);
