@@ -27,6 +27,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public Dictionary<string, GameObject> sessionlistUIDictionary = new Dictionary<string, GameObject>();
     public TMP_InputField pname;
     public static NetworkManager Instance; // Singleton instance
+    bool isPikamoonAdd;
+
+    public GameObject Pikamoon;
     // public string _playerName = "adnan";
     private void Awake()
     {
@@ -106,6 +109,42 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             SceneManager.LoadScene("SKController_Meadows");
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
+        if (runner.SessionInfo.PlayerCount == 1)
+        {
+            isPikamoonAdd = false;
+        }
+        else
+        {
+            isPikamoonAdd = true;
+        }
+
+    }
+
+    private void PopulatePikamoonOverNetwork()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        //print("populate pikamoon");
+        for (int i = 0; i < 10; i++)
+        {
+            // Calculate a random position near the player
+            Vector3 randomOffset = new Vector3(
+                UnityEngine.Random.Range(-5f, 5f), // Random X offset within -5 to 5
+                0f,                               // Y offset (keep it on the ground)
+                UnityEngine.Random.Range(-5f, 5f)  // Random Z offset within -5 to 5
+            );
+
+            Vector3 pikamoonPosition = player.transform.position + randomOffset;
+
+            // Spawn the Pikamoon at the calculated position
+            NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
+                Pikamoon, // Use the same prefab as the player or a specific Pikamoon prefab
+                pikamoonPosition,             // Position near the player
+                Quaternion.identity           // Default rotation
+            );
+
+            Debug.Log($"Pikamoon {i + 1} spawned at position: {pikamoonPosition}");
+        }
+
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -115,8 +154,11 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             GameObject go = GameObject.FindGameObjectWithTag("Ref");
             NetworkObject playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
             go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject);
-           // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], Vector3.zero, Quaternion.identity);
-
+            // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], Vector3.zero, Quaternion.identity);
+            if (!isPikamoonAdd) 
+            { 
+                PopulatePikamoonOverNetwork();
+            }
             if (playerNetworkObject.HasInputAuthority)
             {
                 print("111111111111");

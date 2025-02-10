@@ -5222,9 +5222,10 @@ GameObject:
   - component: {fileID: 7428428870312448113}
   - component: {fileID: 1666544894102805382}
   - component: {fileID: 1520456693859731853}
+  - component: {fileID: 856749426312453236}
   m_Layer: 7
   m_Name: Character MP
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5491,6 +5492,7 @@ MonoBehaviour:
   AnimationChangeDampening: 4
   Acceleration: 12
   turnSmoothTime: 10
+  playerSetupForMultiplayer: {fileID: 856749426312453236}
 --- !u!114 &694810621229716373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5698,6 +5700,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 7428428870312448113}
   - {fileID: 1520456693859731853}
+  - {fileID: 856749426312453236}
 --- !u!114 &1520456693859731853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5714,6 +5717,19 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 0
   DisableSharedModeInterpolation: 1
+--- !u!114 &856749426312453236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8371612306300972032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56c41205a5a5f547a3559d3c54e27d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMinePlayer: 0
 --- !u!1 &8470073357344744771
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,31 +42,38 @@ namespace Pikamoon.Controller
 
         Sliding sliding;
 
+        
         bool isSprinting;
         bool isWalking;
 
         bool _isLocomoting;
+        public PlayerSetupForMultiplayer playerSetupForMultiplayer;
         #endregion
 
 
         public override void Initialize()
         {
-            base.Initialize();
+            
+                base.Initialize();
 
-            playerInput.onSprint_Down +=  EnableSprinting;
-            playerInput.onSprint_Up   += DisableSprinting;
+                playerInput.onSprint_Down += EnableSprinting;
+                playerInput.onSprint_Up += DisableSprinting;
 
-            playerInput.onWalk_Down +=  EnableWalk;
-            playerInput.onWalk_Up   += DisableWalk;
+                playerInput.onWalk_Down += EnableWalk;
+                playerInput.onWalk_Up += DisableWalk;
 
-            playerInput.onCrouch_Down += ToggleCrouch;
-            //playerInput.onCrouch_Up += DisableCrouch;
+                playerInput.onCrouch_Down += ToggleCrouch;
+                //playerInput.onCrouch_Up += DisableCrouch;
+            
+
 
         }
 
         private void Update()
         {
-            if (Controller.CurrentPlayerState == StateType.Crouch || Controller.IsInAttack)
+            if(playerSetupForMultiplayer.isMinePlayer)
+            {
+                 if (Controller.CurrentPlayerState == StateType.Crouch || Controller.IsInAttack)
                 return;
 
 
@@ -92,6 +99,8 @@ namespace Pikamoon.Controller
                     OnEnd();
                 }
             }
+            }
+           
         }
 
         void HandleSpeed()
