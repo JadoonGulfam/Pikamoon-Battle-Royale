@@ -30,14 +30,14 @@ namespace Pikamoon.Controller
 
         private void Start()
         {
-            InstantiatePlayer();
+            InstantiatePlayer(PlayerPrefab);
         }
 
-        void InstantiatePlayer()
+        void InstantiatePlayer(GameObject GO)
         {
             if (_playerController == null)
             {
-                GameObject GO = Instantiate(PlayerPrefab) as GameObject;
+                //GameObject GO = Instantiate(PlayerPrefab) as GameObject;
                 _playerController = GO.GetComponent<PlayerController>();
             }
 
@@ -49,7 +49,7 @@ namespace Pikamoon.Controller
             _playerController.Inititalize(_playerInput,_cameraController, _hudController);
         }
 
-        public void InstantiatePlayer(GameObject GO)
+        public void InstantiatePlayerMP(GameObject GO)
         {
 
              _playerController = GO.GetComponent<PlayerController>();
