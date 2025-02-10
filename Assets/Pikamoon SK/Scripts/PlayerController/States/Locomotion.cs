@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 public enum CharacterStates
@@ -15,7 +16,7 @@ public enum CharacterStates
 namespace Pikamoon.Controller
 {
     [RequireComponent(typeof(CharacterController))]
-    public class Locomotion : State
+    public class Locomotion : State 
     {
         #region Public Fields
 
