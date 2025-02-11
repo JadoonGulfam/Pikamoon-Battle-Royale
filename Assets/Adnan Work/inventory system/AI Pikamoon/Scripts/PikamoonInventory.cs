@@ -8,6 +8,7 @@ public class PikamoonInventory : MonoBehaviour
 {
     private List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
 
+  
     // Adds Pikamoon to the player's inventory and deactivates it in the world
     public void AddPikamoon(GameObject pikamoon)
     {
@@ -34,8 +35,10 @@ public class PikamoonInventory : MonoBehaviour
             pikamoonToSpawn.transform.localScale = Vector3.one * 2;
             pikamoonToSpawn.SetActive(true);
             PikamoonFollow followScript = pikamoonToSpawn.GetComponent<PikamoonFollow>();
-            if (followScript != null) followScript.EnableFollowing();
 
+
+            if (followScript != null) followScript.EnableFollowing();
+           StartCoroutine(pikamoonToSpawn.GetComponent<PikamoonCommandHandler>().SetPikamoonMaterial());
             Debug.Log($"Pikamoon {pikamoonToSpawn.name} spawned.");
         }
     }
