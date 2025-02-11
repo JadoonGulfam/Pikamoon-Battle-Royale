@@ -978,7 +978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1147786573122502580
 Transform:
   m_ObjectHideFlags: 0
@@ -2206,7 +2206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b35ab318893307147bdfe2cea0fa4a06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explodeEffect: {fileID: 5558499565215326916, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
+  capture_new: {fileID: 5053717884449601910}
 --- !u!114 &3046496171087457860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2303,6 +2303,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pikamoonInventory: {fileID: 0}
+  capture_new: {fileID: 5053717884449601910}
+  material: {fileID: 2100000, guid: a02380d24767b1a4d9ecc7a212182222, type: 2}
 --- !u!195 &928066740235100980
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2516,7 +2518,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8855082668587383500}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55a00548da71e564faeca06fa35eecdc, type: 3}
   m_Name: 
@@ -2563,6 +2565,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 7308413426717995183}
     m_Modifications:
     - target: {fileID: 2868884350855789621, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868884350855789621, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868884350855789621, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868884350855789621, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2602,6 +2616,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2868884350855789621, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3076988816862411477, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
       propertyPath: m_Name
       value: CaptureEffect_Graph
@@ -2614,6 +2632,11 @@ PrefabInstance:
 --- !u!4 &3229638770140981127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2868884350855789621, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
+  m_PrefabInstance: {fileID: 793100021107694514}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &5053717884449601910 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 5558499565215326916, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
   m_PrefabInstance: {fileID: 793100021107694514}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4531661869987332734
