@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.VFX;
+using INab.Dissolve;
 public enum PikamoonCommand
 {
     Follow,
@@ -13,6 +15,9 @@ public class PikamoonCommandHandler : MonoBehaviour
 {
     private PikamoonAI pikamoonAI;
     public PikamoonInventory pikamoonInventory;
+
+    [SerializeField] VisualEffect capture_new;
+    public Material material;
     private void Awake()
     {
         pikamoonAI = GetComponent<PikamoonAI>();
@@ -38,9 +43,32 @@ public class PikamoonCommandHandler : MonoBehaviour
 
     void Capture()
     {
-        pikamoonInventory.AddPikamoon(this.gameObject);
+        StartCoroutine(capturePikamoon(this.gameObject));
+       // pikamoonInventory.AddPikamoon(this.gameObject);
     }
+    IEnumerator capturePikamoon(GameObject pikamoon)
+    {
+        float duration = 2f;
+        float startValue = 4;
+        float endValue = 0f; // Target value
+        float stepSize = 0.1f; // Reduce by 0.1 at a time
+        float totalSteps = (startValue - endValue) / stepSize; // Total steps required
+        float delay = duration / totalSteps; // Delay between each step
 
+        float currentValue = startValue;
+        capture_new.Play();
+        while (currentValue > endValue)
+        {
+            Debug.Log("Current Value: " + currentValue);
+            currentValue -= stepSize;
+            material.SetFloat("_Cutoff", currentValue);
+            yield return new WaitForSeconds(delay);
+        }
+        
+        pikamoonInventory.AddPikamoon(this.gameObject);
+        
+        Debug.Log("Reduction complete! Final Value: " + currentValue);
+    }
     //private void OnMouseDown()
     //{
     //    print("captured");

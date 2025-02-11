@@ -3,13 +3,13 @@ using UnityEngine.VFX;
 
 public class Trigger : MonoBehaviour
 {
-    [SerializeField] VisualEffect _explodeEffect;
-    VisualEffect capture_new;
+   // [SerializeField] VisualEffect _explodeEffect;
+   [SerializeField] VisualEffect capture_new;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Start()
     {
-        capture_new = Instantiate(_explodeEffect, transform.position, transform.rotation);
+      //  capture_new = Instantiate(_explodeEffect, transform.position, transform.rotation);
 
     }
 
@@ -23,10 +23,11 @@ public class Trigger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            capture_new.Play();
+           // print("play visal effects");
+           // capture_new.Play();
         }
         
-        Destroy(capture_new.gameObject, 4f);
+       // Destroy(capture_new.gameObject, 4f);
 
     }
    
