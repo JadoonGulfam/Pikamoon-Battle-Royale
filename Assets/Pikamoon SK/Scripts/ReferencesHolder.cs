@@ -12,7 +12,7 @@ namespace Pikamoon.Controller
 
         public GameObject PlayerPrefab;
 
-        [HideInInspector] public PlayerController _playerController;
+       public PlayerController _playerController;
 
         public CameraController _cameraController;
 

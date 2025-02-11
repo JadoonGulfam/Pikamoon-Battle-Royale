@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using static UnityEditorInternal.ReorderableList;
 
 namespace Pikamoon.Controller
 {
@@ -89,6 +90,17 @@ namespace Pikamoon.Controller
 
                 FireRate = ActiveWeapon.GetFireRate();
             }
+        }
+
+
+        public void ActivateWeapon(Weapon _weapon)
+        {
+            bulletIndex = 0;
+           
+
+            ActiveWeapon = Controller.ActiveWeapon.Prefab as RangedWeapon;
+
+            FireRate = ActiveWeapon.GetFireRate();
         }
 
         void AimRigging()

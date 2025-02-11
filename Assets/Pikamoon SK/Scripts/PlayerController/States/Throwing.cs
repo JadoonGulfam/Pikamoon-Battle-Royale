@@ -73,9 +73,15 @@ namespace Pikamoon.Controller
             AssignWeapon();
 
         }
-        public void ActivateWithWeapon()
-        {
 
+        public void ActivateWeapon( Weapon _weapon)
+        {
+            ActiveWeapon = _weapon as ThrowableWeapon; 
+            
+            DefaultPos = ActiveWeapon.transform.localPosition;
+            DefaultRot = ActiveWeapon.transform.localRotation;
+
+            isActiveWeaponInHand = true;
         }
 
         void AssignWeapon()

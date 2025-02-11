@@ -34,7 +34,7 @@ namespace Pikamoon.Controller
 
         [SerializeField] protected WeaponDataSO weaponData;
 
-        [SerializeField] protected Collider _collider;
+        [SerializeField] protected Collider[] _colliders;
 
         public int Health;
 

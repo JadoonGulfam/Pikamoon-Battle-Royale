@@ -93,6 +93,10 @@ namespace Pikamoon.Controller
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
 
+        Shooting _shooting;
+        Throwing _throwing;
+        Combat _combat;
+
         CharacterController characterController;
 
         float defaultHeight;
@@ -178,6 +182,10 @@ namespace Pikamoon.Controller
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
 
+            _combat = this.GetComponent<Combat>();
+            _throwing = this.GetComponent<Throwing>();
+            _shooting = this.GetComponent<Shooting>();
+
             inventory.Initialize(hudController, this);
 
             IgnoreGravity = false;
@@ -191,6 +199,8 @@ namespace Pikamoon.Controller
             {
                 state.Initialize();
             }
+
+
 
         }
 
@@ -208,6 +218,22 @@ namespace Pikamoon.Controller
             ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
             ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
             ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+
+            if (weapon.Data.Type == WeaponType.Melee)
+            {
+                _combat.ActivateWeapon(weapon.Prefab);
+            }
+
+            else if (weapon.Data.Type == WeaponType.Ranged)
+            {
+                _shooting.ActivateWeapon(weapon.Prefab);
+            }
+            
+            else if (weapon.Data.Type == WeaponType.Throwable)
+            {
+                _throwing.ActivateWeapon(weapon.Prefab);
+            }
+
         }
         public Transform GetRestingPoint(WeaponRestingPointType type)
         {
@@ -297,9 +323,9 @@ namespace Pikamoon.Controller
 
         }
 
-        public void Move(Vector3 direction, float Speed)
+        public void Move(Vector3 direction, float _speed)
         {
-            characterController.Move(direction * Speed * Time.deltaTime);
+            characterController.Move(direction * _speed * Time.deltaTime);
         }
 
         public void MoveTowards(Transform Target, float Speed)

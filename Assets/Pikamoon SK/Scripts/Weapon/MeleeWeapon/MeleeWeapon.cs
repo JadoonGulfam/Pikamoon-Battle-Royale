@@ -44,10 +44,18 @@ namespace Pikamoon.Controller
 
         public override void Equip()
         {
-        }
+            foreach (var collider in _colliders)
+            {
+                collider.enabled = false;
 
+            }
+        }
         public override void UnEquip()
         {
+            foreach (var collider in _colliders)
+            {
+                collider.enabled = true;
+            }
         }
     }
 }

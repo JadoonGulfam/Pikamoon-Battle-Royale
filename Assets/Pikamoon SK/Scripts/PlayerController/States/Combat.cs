@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditorInternal.ReorderableList;
 namespace Pikamoon.Controller
 {
     public enum CombatAction
@@ -75,8 +76,7 @@ namespace Pikamoon.Controller
         HitBehaviour hitBehaviour;
         Coroutine combatCoroutine;
         bool ComboNextAttckTrigger;
-        CombatMoveType CurrentcomboType;
-        [SerializeField] MeleeWeaponDataSO weapon;
+        [SerializeField] MeleeWeaponDataSO meleeWeapnonData;
 
 
 
@@ -96,6 +96,17 @@ namespace Pikamoon.Controller
 
             playerInput.onAttack1_Clicked += DoHorizontalAttack;
             playerInput.onAttack2_Clicked += DoVerticalAttack;
+
+
+        }
+
+        public void ActivateWeapon(Weapon _weapon)
+        {
+            ActiveWeapon = _weapon as MeleeWeapon;
+
+            meleeWeapnonData = ActiveWeapon.GetWeaponDataAs<MeleeWeaponDataSO>();
+
+            AC.PAnimator.runtimeAnimatorController = meleeWeapnonData.AnimOC;
         }
 
         private void Update()
@@ -113,12 +124,14 @@ namespace Pikamoon.Controller
 
         public void DoHorizontalAttack()
         {
-            if(Controller.ActiveWeapon.Data.Type == WeaponType.Melee)
+            if (Controller.ActiveWeapon.Data.Type == WeaponType.Melee || Controller.ActiveWeapon.Data.Type == WeaponType.None)
+            {
                 Attack(CombatMoveType.Horizontal);
+            }
         }
         public void DoVerticalAttack()
         {
-            if (Controller.ActiveWeapon.Data.Type == WeaponType.Melee)
+            if (Controller.ActiveWeapon.Data.Type == WeaponType.Melee || Controller.ActiveWeapon.Data.Type == WeaponType.None)
                 Attack(CombatMoveType.Vertical);
         }
 
@@ -132,7 +145,7 @@ namespace Pikamoon.Controller
             {
                 if (ComboNextAttckTrigger)
                 {
-                    if(comboMoveCounter < weapon.MaxMovesInCombo)
+                    if(comboMoveCounter < meleeWeapnonData.MaxMovesInCombo)
                     {
                         KeepAttacking(combatMoveType);
                     }
@@ -148,9 +161,11 @@ namespace Pikamoon.Controller
 
         void StartAttack(CombatMoveType combatMoveType)
         {
-            CurrentcomboType = combatMoveType;
             ComboNextAttckTrigger = false;
             Controller.IsInAttack = true;
+            Controller.IsRootMotionEnabled = true;
+
+            AC.PAnimator.applyRootMotion = true;
 
             comboMoveCounter = 1;
             //AttackStatusImage.enabled = true;
@@ -208,12 +223,19 @@ namespace Pikamoon.Controller
 
             DecideAttackAccordingToInputQueue(combatMoveType);
 
-            if (comboMoveCounter <= weapon.combos[(int)combatMoveType].moves.Length)
+            if (comboMoveCounter <= meleeWeapnonData.combos[(int)combatMoveType].moves.Length)
             {
-                int looplength = weapon.combos[(int)combatMoveType].moves[comboMoveCounter-1].combatMoveEffectPoint.Length;
+                int looplength = meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter-1].combatMoveEffectPoint.Length;
                 for (int i = 0; i < looplength; i++)
                 {
-                    hitBehaviour.EnableHitPoint(weapon.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i]);
+                    if(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i] != CombatMoveEffectPoint.Weapon)
+                    {
+                        hitBehaviour.EnableHitPoint(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i]);
+                    }
+                    else
+                    {
+                        
+                    }
                 }
             }
 
@@ -260,6 +282,8 @@ namespace Pikamoon.Controller
             //AttackStatusImage.enabled = false;
 
             Controller.IsInAttack = false;
+            AC.PAnimator.applyRootMotion = false;
+            Controller.IsRootMotionEnabled = false;
 
             AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, false);
         }
@@ -320,13 +344,16 @@ namespace Pikamoon.Controller
 
         }
 
-        private void OnAnimatorMove()
-        {
-            if(Controller.IsRootMotionEnabled)
-            {
+        //void OnAnimatorMove()
+        //{
+        //    Debug.Log("Animator Move");
+        //    //if(Controller.IsInAttack && Controller.IsRootMotionEnabled)
+        //    //{
+        //        Vector3 velocity = AC.PAnimator.deltaPosition;
 
-            }
-        }
+        //        Controller.Move(velocity, 20);
+        //    //}
+        //}
 
         public void ToggleNextComboAttckStatus(bool flag)
         {
