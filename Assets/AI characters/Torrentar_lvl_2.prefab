@@ -83,6 +83,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4379635402083587348}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7708515325465785023}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2830489876996311529}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4833418914107136969}
   m_SourcePrefab: {fileID: 100100000, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
 --- !u!1 &7615386055355094756 stripped
 GameObject:
@@ -96,7 +105,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7615386055355094756}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -180,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6366d5e43091d2a4d87709b6c7b22297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 4629147367618022670}
   idleTimeMin: 1
   idleTimeMax: 2.5
   moveTimeMin: 5
@@ -248,3 +258,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e7f677a0e9d654587c88104eae8872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7708515325465785023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7615386055355094756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2302147932
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -2830489876996311529}
+  - {fileID: 4833418914107136969}
+--- !u!114 &-2830489876996311529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7615386055355094756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 1
+--- !u!114 &4833418914107136969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7615386055355094756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 8137401178634237385}
+  TotalWords: 2
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 0000000046980c4f14c27366
+  TriggerHashes: 00000000f5680fc6

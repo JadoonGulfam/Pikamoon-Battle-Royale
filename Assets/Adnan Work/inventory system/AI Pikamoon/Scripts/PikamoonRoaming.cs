@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Animator))]
 public class PikamoonRoaming : MonoBehaviour
 {
-    private NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
     private Animator animator;
     private bool isRoaming = false;
     private float idleTimer;
@@ -21,13 +22,36 @@ public class PikamoonRoaming : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        navMeshAgent.enabled = true;
+        navMeshAgent.enabled=false;
+        // Delay enabling the agent to ensure it is placed on the NavMesh
+        StartCoroutine(InitializeNavMeshAgent());
+    }
+
+    private IEnumerator InitializeNavMeshAgent()
+    {
+        yield return new WaitForSeconds(0.1f); // Allow time for object initialization
+
+        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+        {
+            transform.position = hit.position; // Snap to closest NavMesh point
+            yield return new WaitForSeconds(0.1f); // Ensure transform updates before enabling agent
+            navMeshAgent.enabled = true;
+        }
+        else
+        {
+            Debug.LogError("Pikamoon was spawned outside of NavMesh!");
+        }
+
         idleTimer = Random.Range(idleTimeMin, idleTimeMax);
         EnableRoaming();
     }
 
     private void Update()
     {
+        if (!navMeshAgent || !navMeshAgent.isOnNavMesh)
+            return;
+
+
         if (isRoaming)
         {
             // Check if Pikamoon has reached the current destination

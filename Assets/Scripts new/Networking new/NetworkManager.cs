@@ -7,6 +7,7 @@ using System;
 using UnityEditor;
 using TMPro;
 using Pikamoon.Controller;
+using UnityEngine.AI;
 
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
@@ -122,28 +123,52 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     private void PopulatePikamoonOverNetwork()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        //print("populate pikamoon");
-        for (int i = 0; i < 10; i++)
+        //GameObject player = GameObject.FindGameObjectWithTag("Player");
+        ////print("populate pikamoon");
+        //for (int i = 0; i < 1; i++)
+        //{
+        //    // Calculate a random position near the player
+        //    Vector3 randomOffset = new Vector3(
+        //        UnityEngine.Random.Range(-5f, 5f), // Random X offset within -5 to 5
+        //        0f,                               // Y offset (keep it on the ground)
+        //        UnityEngine.Random.Range(-5f, 5f)  // Random Z offset within -5 to 5
+        //    );
+
+        //    Vector3 pikamoonPosition = player.transform.position + randomOffset;
+
+        //    if (NavMesh.SamplePosition(pikamoonPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+        //    {
+        //        pikamoonPosition = hit.position; // Adjust to closest valid NavMesh position
+        //    }
+        //    // Spawn the Pikamoon at the calculated position
+        //    NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
+        //        Pikamoon, // Use the same prefab as the player or a specific Pikamoon prefab
+        //        new Vector3(-325.952332f, 17.7971973f, 218.404419f),             // Position near the player
+        //        Quaternion.identity           // Default rotation
+        //    );
+
+        //    Debug.Log($"Pikamoon {i + 1} spawned at position: {pikamoonPosition}");
+        //}
+
+        Vector3 pikamoonPosition =new Vector3(-325.952332f, 17.7971973f, 218.404419f);
+
+        if (NavMesh.SamplePosition(pikamoonPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
         {
-            // Calculate a random position near the player
-            Vector3 randomOffset = new Vector3(
-                UnityEngine.Random.Range(-5f, 5f), // Random X offset within -5 to 5
-                0f,                               // Y offset (keep it on the ground)
-                UnityEngine.Random.Range(-5f, 5f)  // Random Z offset within -5 to 5
-            );
-
-            Vector3 pikamoonPosition = player.transform.position + randomOffset;
-
-            // Spawn the Pikamoon at the calculated position
-            NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
-                Pikamoon, // Use the same prefab as the player or a specific Pikamoon prefab
-                pikamoonPosition,             // Position near the player
-                Quaternion.identity           // Default rotation
-            );
-
-            Debug.Log($"Pikamoon {i + 1} spawned at position: {pikamoonPosition}");
+            pikamoonPosition = hit.position; // Adjust position to nearest valid NavMesh point
         }
+        else
+        {
+            Debug.LogError("No valid NavMesh position found near: " + pikamoonPosition);
+            return; // Stop spawning if no valid NavMesh position is found
+        }
+
+        // Spawn the Pikamoon
+        NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
+            Pikamoon,
+            pikamoonPosition,
+            Quaternion.identity,
+            null
+        );
 
     }
 
