@@ -67,7 +67,7 @@ public class PlayerController : NetworkBehaviour
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
 
             playerName.text = GameManager.instance._playerName;
-            GameManager.instance.MyLocalPlayer = gameObject;
+           // GameManager.instance.MyLocalPlayer = gameObject;
             virtualCamera = GameObject.Find("PlayerFollowCamera");
             virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
             virtualCamera.GetComponent<CinemachineFreeLook>().LookAt = playerCameraRoot;
