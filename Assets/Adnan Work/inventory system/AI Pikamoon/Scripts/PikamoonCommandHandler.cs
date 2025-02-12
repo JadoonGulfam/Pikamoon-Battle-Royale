@@ -13,7 +13,8 @@ public enum PikamoonCommand
 
 public class PikamoonCommandHandler : MonoBehaviour
 {
-    private PikamoonAI pikamoonAI;
+    public PikamoonRoaming pikamoonRoaming
+;    private PikamoonAI pikamoonAI;
     public PikamoonInventory pikamoonInventory;
 
     [SerializeField] VisualEffect capture_new;
@@ -77,6 +78,7 @@ public class PikamoonCommandHandler : MonoBehaviour
     }
     public IEnumerator SetPikamoonMaterial()
     {
+        pikamoonRoaming.DisableRoaming();
         float duration = 3f;
         float startValue = 0f;
         float endValue = 4f;
