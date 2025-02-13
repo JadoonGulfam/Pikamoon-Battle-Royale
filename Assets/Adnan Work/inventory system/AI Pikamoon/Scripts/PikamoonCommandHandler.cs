@@ -35,7 +35,10 @@ public class PikamoonCommandHandler : MonoBehaviour
     //    yield return new WaitForSeconds((0f));
     //    pikamoonInventory.AddPikamoon(this.gameObject);
     //}
-
+    private void Start()
+    {
+        pikamoonInventory = GameObject.FindWithTag("Player").GetComponent<PikamoonInventory>();
+    }
     void Capture()
     {
         pikamoonInventory.AddPikamoon(this.gameObject);

@@ -11,7 +11,6 @@ public class PikamoonRoaming : MonoBehaviour
     private float idleTimer;
     private float moveTimer;
     private bool isIdle = false;
-
     public float idleTimeMin = 1f; // Minimum idle time
     public float idleTimeMax = 2.5f; // Maximum idle time
     public float moveTimeMin = 5f; // Minimum move time
@@ -54,7 +53,7 @@ public class PikamoonRoaming : MonoBehaviour
 
         if (isRoaming)
         {
-            print("i am roaming");
+            //print("i am roaming");
             // Check if Pikamoon has reached the current destination
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {

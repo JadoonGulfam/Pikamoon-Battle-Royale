@@ -21,6 +21,7 @@ public class PikamoonAI : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.enabled = true;
+        player=GameObject.FindWithTag("Player").transform;
     }
 
     private void Update()

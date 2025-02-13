@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PikamoonInventory))]
@@ -7,7 +8,7 @@ public class PlayerPikamoonManager : MonoBehaviour
 
     void Awake()
     {
-        pikamoonInventory = GetComponent<PikamoonInventory>();
+       // pikamoonInventory = GetComponent<PikamoonInventory>();
     }
 
     void Update()
@@ -20,6 +21,7 @@ public class PlayerPikamoonManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))  // Spawn first Pikamoon in inventory
         {
+            
             Vector3 spawnPosition = transform.position + new Vector3(2, 0, 2);
             pikamoonInventory.SpawnPikamoon(0, spawnPosition);  // Spawns first Pikamoon
         }
@@ -30,6 +32,10 @@ public class PlayerPikamoonManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        pikamoonInventory = GameObject.FindWithTag("Player").GetComponent<PikamoonInventory>();
+    }
     private GameObject GetRandomPikamoon()
     {
         // Logic to get a Pikamoon from the world
