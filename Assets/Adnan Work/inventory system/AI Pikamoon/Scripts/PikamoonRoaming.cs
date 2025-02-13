@@ -54,6 +54,7 @@ public class PikamoonRoaming : MonoBehaviour
 
         if (isRoaming)
         {
+            print("i am roaming");
             // Check if Pikamoon has reached the current destination
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {

@@ -166,8 +166,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
             Pikamoon,
             pikamoonPosition,
-            Quaternion.identity,
-            null
+            Quaternion.identity
+           
         );
 
     }

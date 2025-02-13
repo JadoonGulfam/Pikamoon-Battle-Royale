@@ -60,7 +60,7 @@ namespace Pikamoon.Controller
         private PlayerInput playerInput;
 
         IPickable pickableItem;
-
+        public PlayerSetupForMultiplayer playerSetupForMultiplayer;
 
         private void Start()
         {
@@ -83,7 +83,11 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            ContinuousCheckForItemsForPickup();
+            if(playerSetupForMultiplayer.isMinePlayer)
+            {
+                ContinuousCheckForItemsForPickup();
+            }
+            
         }
 
         void ChangeWeapon()
