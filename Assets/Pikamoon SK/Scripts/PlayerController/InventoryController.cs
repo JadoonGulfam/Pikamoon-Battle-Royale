@@ -116,7 +116,7 @@ namespace Pikamoon.Controller
 
         public void ContinuousCheckForItemsForPickup()
         {
-            if (!allowPickUp && !UI)
+            if (!allowPickUp || !UI)
                 return;
 
             nearbyItems = Physics.OverlapSphere(this.transform.position, rangeForItemPickup, pickupLayerMask);
@@ -127,6 +127,10 @@ namespace Pikamoon.Controller
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    if(Controller.IsInAttack || Controller.InAir)
+                        return;
+
+
                     pickableItem = nearbyItems[0].GetComponent<IPickable>();
                     if (pickableItem != null)
                     {

@@ -1,4 +1,6 @@
 using UnityEngine;
+
+
 namespace Pikamoon.Controller
 {
     [System.Serializable]
@@ -13,6 +15,8 @@ namespace Pikamoon.Controller
             public int Hash;
 
         }
+
+
         [System.Serializable]
         public struct ParamBool
         {
@@ -22,6 +26,8 @@ namespace Pikamoon.Controller
             public int Hash;
 
         }
+
+
         [System.Serializable]
         public struct ParamInt
         {
@@ -32,6 +38,7 @@ namespace Pikamoon.Controller
 
         }
 
+
         [System.Serializable]
         public struct ParamTrigger
         {
@@ -41,6 +48,7 @@ namespace Pikamoon.Controller
             public int Hash;
 
         }
+
 
         public ParamBool isWalkRun;
         public ParamBool inAir;
@@ -58,6 +66,7 @@ namespace Pikamoon.Controller
         public ParamTrigger Shoot;
         public ParamBool isAiming;
         public ParamInt SecondaryState;
+        public ParamTrigger EndCombat;
 
     }
     public class AnimationController : MonoBehaviour
@@ -98,6 +107,7 @@ namespace Pikamoon.Controller
             Parameters.Shoot.Hash = Animator.StringToHash(Parameters.Shoot.Name);
             Parameters.isAiming.Hash = Animator.StringToHash(Parameters.isAiming.Name);
             Parameters.SecondaryState.Hash = Animator.StringToHash(Parameters.SecondaryState.Name);
+            Parameters.EndCombat.Hash = Animator.StringToHash(Parameters.EndCombat.Name);
         }
 
         public void SetAnimationState(string stateName, float transitionDuration = 0.1f)

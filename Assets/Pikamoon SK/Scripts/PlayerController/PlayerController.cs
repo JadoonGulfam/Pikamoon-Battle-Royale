@@ -315,6 +315,9 @@ namespace Pikamoon.Controller
 
         public void Move(Vector3 direction)
         {
+            if (IsRootMotionEnabled)
+                return;
+
             characterController.Move(direction * Time.deltaTime);
         }
 
@@ -325,7 +328,15 @@ namespace Pikamoon.Controller
 
         public void Move(Vector3 direction, float _speed)
         {
+            if (IsRootMotionEnabled)
+                return;
+
             characterController.Move(direction * _speed * Time.deltaTime);
+        }
+        
+        public void RootMove(Vector3 direction)
+        {
+            characterController.Move(direction);
         }
 
         public void MoveTowards(Transform Target, float Speed)

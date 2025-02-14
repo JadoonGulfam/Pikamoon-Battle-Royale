@@ -33,6 +33,7 @@ namespace Pikamoon.Controller
         public void DenyComboInput()
         {
             combat.ToggleNextComboAttckStatus(false);
+            combat.AttackEnd();
         }
 
         public void Shoot()
@@ -49,11 +50,18 @@ namespace Pikamoon.Controller
         {
             if (Controller.IsRootMotionEnabled)
             {
-                Debug.Log("AnimationKeyEventSender Animator Move");
-
                 Vector3 velocity = AC.PAnimator.deltaPosition;
 
-                Controller.Move(velocity, 20);
+                Debug.Log("Velocity = " + velocity.y);
+
+                //apply velocity for straight Y attacks, because by not doing this during attack the player will float in air
+                if (velocity.y >= -0.0005f && velocity.y <= 0.0005f)
+                {
+                    velocity.y = Controller.input.JumpVelocity/10;
+                }
+
+                Controller.RootMove(velocity);
+
             }
         }
     }

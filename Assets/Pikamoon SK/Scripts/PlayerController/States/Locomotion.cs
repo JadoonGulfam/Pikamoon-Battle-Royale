@@ -180,7 +180,7 @@ namespace Pikamoon.Controller
 
         void ToggleCrouch()
         {
-            if (Controller.CurrentPlayerState != StateType.Locomtion)
+            if (Controller.CurrentPlayerState != StateType.Locomtion || !Controller.IsGrounded)
                 return;
 
             if (isSprinting)

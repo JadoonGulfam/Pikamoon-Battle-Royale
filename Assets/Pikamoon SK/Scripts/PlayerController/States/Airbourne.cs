@@ -49,7 +49,7 @@ namespace Pikamoon.Controller
 
         void StartJumping()
         {
-            if (!Controller.InAir)// && playerInput.JumpInput)
+            if (!Controller.InAir && !Controller.IsRootMotionEnabled)
             {
                 playerInput.JumpVelocity = Mathf.Sqrt(playerData.JumpHeight * 2f * Gravity);
                 isJumping = true;
@@ -70,6 +70,7 @@ namespace Pikamoon.Controller
             if(Controller.IgnoreGravity)
             {
                 playerInput.JumpVelocity = 0;
+
                 return;
             }
 
@@ -92,7 +93,7 @@ namespace Pikamoon.Controller
             }
             else 
             {
-                if(!Controller.InAir)
+                if(!Controller.InAir && !Controller.IsRootMotionEnabled)
                 {
                     Controller.InAir = true;
 

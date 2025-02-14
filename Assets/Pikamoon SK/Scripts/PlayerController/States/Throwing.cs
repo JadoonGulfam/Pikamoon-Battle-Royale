@@ -153,7 +153,6 @@ namespace Pikamoon.Controller
             AC.PAnimator.SetLayerWeight(2, 1);
 
             _isAiming = true;
-            Controller.IsInAttack = true;
 
             AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, true);
             AC.PAnimator.SetBool(AC.Parameters.isAiming.Hash, true);
