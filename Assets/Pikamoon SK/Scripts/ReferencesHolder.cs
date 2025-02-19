@@ -30,7 +30,7 @@ namespace Pikamoon.Controller
 
         private void Start()
         {
-            InstantiatePlayer();
+            //InstantiatePlayer();
         }
 
         void InstantiatePlayer()
@@ -51,8 +51,19 @@ namespace Pikamoon.Controller
 
         public void InstantiatePlayer(GameObject GO)
         {
+            _playerController = GO.GetComponent<PlayerController>();
 
-             _playerController = GO.GetComponent<PlayerController>();
+            _playerController.transform.position = _SpawnPoint.position;
+            _playerController.transform.rotation = _SpawnPoint.rotation;
+
+            _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
+
+            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+        }
+
+        public void InstantiatePlayerFromMultiplayer(GameObject GO)
+        {
+            _playerController = GO.GetComponent<PlayerController>();
 
             _playerController.transform.position = _SpawnPoint.position;
             _playerController.transform.rotation = _SpawnPoint.rotation;

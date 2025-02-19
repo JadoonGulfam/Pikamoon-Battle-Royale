@@ -2,27 +2,38 @@ using DG.Tweening;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-
+using Fusion;
+using static PikamoonPopulationManager;
+using System.Collections;
+using Photon.Realtime;
 [RequireComponent(typeof(PlayerInputHandler))]  // Assuming PlayerInputHandler exists
 public class PikamoonInventory : MonoBehaviour
 {
-    private List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
+    public List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
 
+    public Transform player;
     // Adds Pikamoon to the player's inventory and deactivates it in the world
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(0.5f);
+        player = GameObject.FindWithTag("Player").transform;
+    }
     public void AddPikamoon(GameObject pikamoon)
     {
         print("0000");
+
         if (!capturedPikamoons.Contains(pikamoon))
         {
-            print("111111");
             capturedPikamoons.Add(pikamoon);
-            print("22222");
             pikamoon.SetActive(false);
-            print("333333");
+            pikamoon.GetComponent<PikamoonAI>().Call_RPC_AddPikamoon(pikamoon);
+
+
+
             Debug.Log($"Pikamoon {pikamoon.name} added to inventory.");
-            print("4444");
         }
     }
+
 
     // Spawns a Pikamoon from the inventory
     public void SpawnPikamoon(int index, Vector3 spawnPosition)
@@ -31,10 +42,13 @@ public class PikamoonInventory : MonoBehaviour
         {
             GameObject pikamoonToSpawn = capturedPikamoons[index];
             pikamoonToSpawn.transform.position = spawnPosition;
-            pikamoonToSpawn.transform.localScale = Vector3.one * 2;
+           // pikamoonToSpawn.transform.localScale = Vector3.one * 2;
             pikamoonToSpawn.SetActive(true);
             PikamoonFollow followScript = pikamoonToSpawn.GetComponent<PikamoonFollow>();
             if (followScript != null) followScript.EnableFollowing();
+
+            pikamoonToSpawn.GetComponent<PikamoonAI>().Call_RPC_SpawnPikamoon(pikamoonToSpawn, spawnPosition);
+
 
             Debug.Log($"Pikamoon {pikamoonToSpawn.name} spawned.");
         }
@@ -62,6 +76,7 @@ public class PikamoonInventory : MonoBehaviour
             }
 
             pikamoonToRelease.SetActive(true);
+
             Debug.Log($"Pikamoon {pikamoonToRelease.name} released.");
         }
     }
@@ -78,4 +93,7 @@ public class PikamoonInventory : MonoBehaviour
     {
         // Logic to update the UI with the inventory
     }
+
+
+
 }
