@@ -37,9 +37,14 @@ namespace Pikamoon.Controller
         [SerializeField] protected Collider[] _colliders;
 
         public int Health;
+        public virtual void HasScabbard()
+        {
+
+        }
 
         public abstract WeaponInfo GetWeaponInfo();
 
+        
         public abstract void OnPicked();
 
         public abstract void OnPicked(Transform Picker);

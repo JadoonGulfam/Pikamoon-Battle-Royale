@@ -51,16 +51,14 @@ namespace Pikamoon.Controller
         [SerializeField] Vector3 crouchColliderOffset;
 
         [Header("References")]
-        [SerializeField] State[] states;
         public Transform Head; 
-        
-        
+        [SerializeField] State[] states;
         
         [Header("Weapon")]
-        public WeaponInfo ActiveWeapon;
         [Space]
         public HoldingPoint[] holdingPoints;
         public RestingPoint[] restingPoints;
+        [HideInInspector] public WeaponInfo ActiveWeapon;
 
         //public T GetWeaponAs<T>() where T : Weapon
         //{
@@ -92,6 +90,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public CameraController _cameraController;
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
+        [HideInInspector] public AnimatorController AC;
 
         Shooting _shooting;
         Throwing _throwing;
@@ -215,11 +214,19 @@ namespace Pikamoon.Controller
         {
             ActiveWeapon = weapon;
 
-            ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
-            ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
-            ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            if(ActiveWeapon.Prefab != null)
+            {
+                ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
+                ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+                ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            }
 
-            if (weapon.Data.Type == WeaponType.Melee)
+            if(weapon.Data.Type == WeaponType.None)
+            {
+                _combat.ActivatingFistNoWeapon(weapon.Data);
+            }
+
+            else if (weapon.Data.Type == WeaponType.Melee)
             {
                 _combat.ActivateWeapon(weapon.Prefab);
             }
@@ -233,7 +240,6 @@ namespace Pikamoon.Controller
             {
                 _throwing.ActivateWeapon(weapon.Prefab);
             }
-
         }
         public Transform GetRestingPoint(WeaponRestingPointType type)
         {

@@ -28,12 +28,21 @@ namespace Pikamoon.Controller
 
         //[SerializeField] Bag
         [Header("Weapons")]
+
+        public WeaponInfo DefaultFistNoWeapon;
+        [Space]
+        [Space]
         public Bag WeaponsBag;
         public int WeaponBagCapacity;
+        [Space]
+        [Space]
         public Weapon[] EquipedWeapons;
-
+        [Space]
+        [Space]
         public bool AutoEquipWeapon;
         int weaponsInBag;
+        [Space]
+        public bool isUsingWeapon;
         public int UsingWeaponIndex;
 
 
@@ -67,6 +76,7 @@ namespace Pikamoon.Controller
             EquipedWeapons = new Weapon[2];
             WeaponBagCapacity = 1;
             UsingWeaponIndex = 0;
+            isUsingWeapon = false;
 
         }
 
@@ -76,8 +86,8 @@ namespace Pikamoon.Controller
             Controller = _controller;
             playerInput = Controller.input;
 
-            playerInput.onPrimaryWeaponSelect_Down += ChangeWeapon;
-            playerInput.onSecondaryWeaponSelect_Down += ChangeWeapon; 
+            playerInput.onPrimaryWeaponSelect_Down += ChangeToPrimaryWeapon;
+            playerInput.onSecondaryWeaponSelect_Down += ChangeToSecondaryWeapon; 
             allowPickUp = true;
         }
 
@@ -86,33 +96,93 @@ namespace Pikamoon.Controller
             ContinuousCheckForItemsForPickup();
         }
 
-        void ChangeWeapon()
+        void ChangeToPrimaryWeapon()
         {
-            int nextWeaponIndex = UsingWeaponIndex == 1 ? 0 : 1;
+            if (EquipedWeapons[0] == null)
+                return;
 
-            if (EquipedWeapons[nextWeaponIndex] != null)
+            if (UsingWeaponIndex == 0)
             {
-                WeaponInfo weaponInfo = EquipedWeapons[UsingWeaponIndex].GetWeaponInfo();
+                if (isUsingWeapon)
+                {
+                    UnEquipping(0, EquipedWeapons[0], true);
+                }
+                else
+                {
+                    Equipping(0,EquipedWeapons[0]);
+                }
+            }
+            else
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(UsingWeaponIndex, EquipedWeapons[UsingWeaponIndex], false);
 
-                Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
-
-                EquipedWeapons[UsingWeaponIndex].transform.parent = restingPoint.transform;
-                EquipedWeapons[UsingWeaponIndex].transform.localPosition = Vector3.zero;
-                EquipedWeapons[UsingWeaponIndex].transform.localRotation = Quaternion.identity;
-
-
-                UI.EquipWeapon(UsingWeaponIndex, weaponInfo.Data.icon, false, EquipedWeapons[UsingWeaponIndex].Health, weaponInfo.Data.InitialHealth);
-
-
-                weaponInfo = EquipedWeapons[nextWeaponIndex].GetWeaponInfo();
-
-                Controller.ActivateWeapon(weaponInfo);
-                UI.EquipWeapon(nextWeaponIndex, weaponInfo.Data.icon, true, EquipedWeapons[nextWeaponIndex].Health, weaponInfo.Data.InitialHealth);
-
-
-                UsingWeaponIndex = nextWeaponIndex;
+                    Equipping(0, EquipedWeapons[0]);
+                }
             }
         }
+
+
+        void ChangeToSecondaryWeapon()
+        {
+            if (EquipedWeapons[1] == null)
+                return;
+
+            if (UsingWeaponIndex == 1)
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(1, EquipedWeapons[1], true);
+                }
+                else
+                {
+                    Equipping(1, EquipedWeapons[1]);
+                }
+            }
+            else
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(UsingWeaponIndex, EquipedWeapons[UsingWeaponIndex], false);
+
+                    Equipping(1, EquipedWeapons[1]);
+                }
+            }
+        }
+
+        void UnEquipping(int index, Weapon weapon,bool ActivateNoWeapon)
+        {
+            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+            weapon.transform.parent = restingPoint.transform;
+            weapon.transform.localPosition = Vector3.zero;
+            weapon.transform.localRotation = Quaternion.identity;
+
+            UI.UnEquipWeapon(index);
+
+            isUsingWeapon = false;
+
+            if (ActivateNoWeapon)
+            {
+                Controller.ActivateWeapon(DefaultFistNoWeapon);
+            }
+        }
+
+        void Equipping(int index, Weapon weapon)
+        {
+            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            Controller.ActivateWeapon(weaponInfo);
+            UI.EquipWeapon(index, weaponInfo.Data.icon, true, weapon.Health, weaponInfo.Data.InitialHealth);
+
+            isUsingWeapon = true;
+            UsingWeaponIndex = index;
+        }
+
+        
 
         public void ContinuousCheckForItemsForPickup()
         {
@@ -166,9 +236,7 @@ namespace Pikamoon.Controller
 
                         if (Controller.ActiveWeapon.Prefab == null)
                         {
-                            Controller.ActivateWeapon(weaponInfo);
-                            UI.EquipWeapon(i, weaponInfo.Data.icon,true, weapon.Health, weaponInfo.Data.InitialHealth);
-                            UsingWeaponIndex = i;
+                            Equipping(i, weapon);
                         }
                         else
                         {

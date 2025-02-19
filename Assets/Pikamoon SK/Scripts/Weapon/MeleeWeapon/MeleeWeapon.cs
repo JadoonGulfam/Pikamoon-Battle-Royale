@@ -7,17 +7,17 @@ namespace Pikamoon.Controller
         MeleeWeaponDataSO mWeaponData;
 
 
+        [Header("Scabbard")]
+        public bool HasScabbard;
+        public Transform Scabbard;
+        public WeaponRestingPointType scabbardRestingPointType;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             mWeaponData = GetWeaponDataAs<MeleeWeaponDataSO>();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         public override void Drop()
         {
@@ -47,8 +47,13 @@ namespace Pikamoon.Controller
             foreach (var collider in _colliders)
             {
                 collider.enabled = false;
-
             }
+
+            //if(HasScabbard)
+            //{
+
+            //}
+
         }
         public override void UnEquip()
         {
@@ -57,5 +62,9 @@ namespace Pikamoon.Controller
                 collider.enabled = true;
             }
         }
+
+        //public override void HasScabbard()
+        //{
+        //}
     }
 }

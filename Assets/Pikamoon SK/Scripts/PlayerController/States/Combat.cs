@@ -96,6 +96,7 @@ namespace Pikamoon.Controller
 
         }
 
+
         public void ActivateWeapon(Weapon _weapon)
         {
             ActiveWeapon = _weapon as MeleeWeapon;
@@ -104,6 +105,12 @@ namespace Pikamoon.Controller
 
             AC.PAnimator.runtimeAnimatorController = meleeWeapnonData.AnimOC;
         }
+
+        public void ActivatingFistNoWeapon(WeaponDataSO _weaponData)
+        {
+            AC.PAnimator.runtimeAnimatorController = _weaponData.AnimOC;
+        }
+
 
         private void Update()
         {

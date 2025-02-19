@@ -21,6 +21,8 @@ namespace Pikamoon.UI
         public abstract void AssignItem(Sprite icon);
         public abstract void AssignItem(Sprite icon,bool isActive, int health = 100, int _fullHealth = 100);
 
+        public abstract void UnAssignItem();
+
 
         public abstract void RemoveItem();
 

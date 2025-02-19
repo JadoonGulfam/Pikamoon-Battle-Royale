@@ -1,3 +1,4 @@
+using DiasGames.Components;
 using System;
 using TMPro;
 using UnityEditor;
@@ -72,6 +73,12 @@ namespace Pikamoon.UI
             ChangeButtonAppearence(isActive ? ActiveSlotSettings : InActiveSlotSettings);
         }
 
+        public override void UnAssignItem()
+        {
+            ChangeButtonAppearence(InActiveSlotSettings);
+        }
+
+
         public override void Change()
         {
 
@@ -110,6 +117,8 @@ namespace Pikamoon.UI
         public override void UnSelect()
         {
         }
+
+
     }
 
 }
