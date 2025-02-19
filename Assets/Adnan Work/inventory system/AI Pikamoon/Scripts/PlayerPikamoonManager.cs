@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PikamoonInventory))]
 public class PlayerPikamoonManager : MonoBehaviour
 {
-    private PikamoonInventory pikamoonInventory;
+    public PikamoonInventory pikamoonInventory;
 
     void Awake()
     {
@@ -32,10 +32,12 @@ public class PlayerPikamoonManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        pikamoonInventory = GameObject.FindWithTag("Player").GetComponent<PikamoonInventory>();
+        pikamoonInventory = GameObject.FindWithTag("PikaMoonInventory").GetComponent<PikamoonInventory>();
     }
+
+    [System.Obsolete]
     private GameObject GetRandomPikamoon()
     {
         // Logic to get a Pikamoon from the world

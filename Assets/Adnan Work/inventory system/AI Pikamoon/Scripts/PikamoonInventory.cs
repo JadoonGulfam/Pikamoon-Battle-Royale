@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInputHandler))]  // Assuming PlayerInputHandler exists
 public class PikamoonInventory : MonoBehaviour
 {
-    private List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
+    public List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
 
     // Adds Pikamoon to the player's inventory and deactivates it in the world
     public void AddPikamoon(GameObject pikamoon)
