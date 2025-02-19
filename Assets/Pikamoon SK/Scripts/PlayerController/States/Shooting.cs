@@ -58,7 +58,7 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            if (!Controller.MP_Setup.isMinePlayer)
+            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
                 return;
 
 
@@ -312,7 +312,7 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
-            if (!Controller.MP_Setup.isMinePlayer)
+            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
                 return;
 
             playerInput.onAttack1_Clicked -= PlayFireAnimation;
