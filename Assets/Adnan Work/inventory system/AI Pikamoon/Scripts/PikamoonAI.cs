@@ -1,10 +1,12 @@
 using System.Collections;
+using Fusion;
 using UnityEngine;
 using UnityEngine.AI;
+using static PikamoonPopulationManager;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
-public class PikamoonAI : MonoBehaviour
+public class PikamoonAI : NetworkBehaviour
 {
     private NavMeshAgent navMeshAgent;
     private Animator animator;
@@ -100,5 +102,60 @@ public class PikamoonAI : MonoBehaviour
         animator.SetFloat("Move", 0); // Idle animation
         yield return new WaitForSeconds(idleTimeBetweenRoaming);
         SetNewRoamDestination();
+    }
+
+    public void Call_RPC_AddPikamoon(GameObject pikamoon)
+    {
+        NetworkObject networkObject = pikamoon.GetComponent<NetworkObject>();
+
+        if (networkObject != null && Runner.FindObject(networkObject.Id) != null)
+        {
+            RPC_AddPikamoon(networkObject.Id);
+        }
+        else
+        {
+            Debug.LogError("Pikamoon NetworkObject is not spawned in the Fusion Runner!");
+        }
+        print("Call_RPC_AddPikamoon called");
+    }
+    public void Call_RPC_SpawnPikamoon(GameObject pikamoonToSpawn, Vector3 spawnPosition)
+    {
+       
+        NetworkObject networkObject = pikamoonToSpawn.GetComponent<NetworkObject>();
+        if (networkObject != null)
+        {
+            RPC_SpawnPikamoon(networkObject.Id, spawnPosition);
+        }
+        print("Call_RPC_SpawnPikamoon called");
+
+    }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_AddPikamoon(NetworkId pikamoonId, RpcInfo info = default)
+    {
+        NetworkObject netObj = Runner.FindObject(pikamoonId);
+        if (netObj == null)
+        {
+            Debug.LogError($"RPC_AddPikamoon failed: Pikamoon with ID {pikamoonId} not found!");
+            return;
+        }
+
+        GameObject pikamoon = netObj.gameObject;
+        pikamoon.SetActive(false);
+        print("RPC_AddPikamoon called");
+    }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SpawnPikamoon(NetworkId pikamoonId, Vector3 spawnPosition, RpcInfo info = default)
+    {
+        GameObject pikamoonToSpawn = Runner.FindObject(pikamoonId)?.gameObject;
+        if (pikamoonToSpawn != null)
+        {
+            pikamoonToSpawn.transform.position = spawnPosition;
+            pikamoonToSpawn.SetActive(true);
+        }
+        print("RPC_SpawnPikamoon called");
     }
 }

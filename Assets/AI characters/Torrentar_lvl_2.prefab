@@ -67,9 +67,6 @@ PrefabInstance:
       addedObject: {fileID: 2850989824849579810}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7368008451741087066}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7325725068012468010}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
       insertIndex: -1
@@ -166,26 +163,6 @@ MonoBehaviour:
   followDistance: 2
   attackDistance: 1
   idleTimeBetweenRoaming: 1
---- !u!114 &7368008451741087066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7615386055355094756}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f276fad6907c683438f1cd8e222c4278, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followMaster: {fileID: 0}
-  ai_isEnabled: 0
-  movementThreshold: 0.001
-  disableThreshold: 5
-  resetDelayAI: 5
-  countSplash: 0
-  newCirclePositionMinDistance: 0
-  newCirclePositionMaxDistance: 0
 --- !u!114 &7325725068012468010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +261,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 2850989824849579810}
   - {fileID: -2830489876996311529}
   - {fileID: 4833418914107136969}
   - {fileID: 7849253369628126638}
@@ -353,8 +331,10 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7615386055355094756}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efb4b5dbc4dd4f04ba01b71a487666ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capturedPikamoons: []
+  player: {fileID: 0}

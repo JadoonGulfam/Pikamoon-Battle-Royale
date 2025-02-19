@@ -1,47 +1,76 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PikamoonInventory))]
 public class PlayerPikamoonManager : MonoBehaviour
 {
-    public PikamoonInventory pikamoonInventory;
+    private PikamoonInventory pikamoonInventory;
 
-    void Awake()
+    private void Awake()
     {
-       // pikamoonInventory = GetComponent<PikamoonInventory>();
+        // Ensure the reference is assigned correctly
+        pikamoonInventory = GetComponent<PikamoonInventory>();
+
+        if (pikamoonInventory == null)
+        {
+            Debug.LogError("PikamoonInventory component is missing on " + gameObject.name);
+        }
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))  // Add Pikamoon to inventory
+        if (Input.GetKeyDown(KeyCode.C)) // Capture Pikamoon
         {
             GameObject newPikamoon = GetRandomPikamoon();
-            pikamoonInventory.AddPikamoon(newPikamoon);
+            if (newPikamoon != null)
+            {
+                pikamoonInventory.AddPikamoon(newPikamoon);
+            }
+            else
+            {
+                Debug.LogWarning("No available Pikamoon found to capture.");
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.P))  // Spawn first Pikamoon in inventory
+        if (Input.GetKeyDown(KeyCode.P)) // Spawn Pikamoon
         {
-            
             Vector3 spawnPosition = transform.position + new Vector3(2, 0, 2);
-            pikamoonInventory.SpawnPikamoon(0, spawnPosition);  // Spawns first Pikamoon
+            pikamoonInventory.SpawnPikamoon(0, spawnPosition);
         }
 
-        if (Input.GetKeyDown(KeyCode.R))  // Release first Pikamoon in inventory
+        if (Input.GetKeyDown(KeyCode.R)) // Release Pikamoon
         {
-            pikamoonInventory.ReleasePikamoon(0);  // Releases first Pikamoon
+            pikamoonInventory.ReleasePikamoon(0);
         }
     }
 
     private void Start()
     {
-        pikamoonInventory = GameObject.FindWithTag("PikaMoonInventory").GetComponent<PikamoonInventory>();
+        // Assign the PikamoonInventory from a tagged object
+        GameObject inventoryObject = GameObject.FindWithTag("PikaMoonInventory");
+        if (inventoryObject != null)
+        {
+            pikamoonInventory = inventoryObject.GetComponent<PikamoonInventory>();
+        }
+
+        if (pikamoonInventory == null)
+        {
+            Debug.LogError("PikamoonInventory not found! Make sure the object is tagged correctly.");
+        }
     }
 
-    [System.Obsolete]
+    /// <summary>
+    /// Finds a random available Pikamoon in the scene.
+    /// </summary>
     private GameObject GetRandomPikamoon()
     {
-        // Logic to get a Pikamoon from the world
         PikamoonRoaming[] availablePikamoons = FindObjectsOfType<PikamoonRoaming>();
-        return availablePikamoons.Length > 0 ? availablePikamoons[0].gameObject : null;
+
+        if (availablePikamoons.Length == 0)
+        {
+            return null; // No Pikamoons available
+        }
+
+        int randomIndex = Random.Range(0, availablePikamoons.Length);
+        return availablePikamoons[randomIndex].gameObject;
     }
 }

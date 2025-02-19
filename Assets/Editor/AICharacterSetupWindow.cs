@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -66,8 +67,22 @@ public class AICharacterSetupWindow : EditorWindow
         }
 
         PikamoonFollow pikamoonFollow = selectedGameObject.GetComponent<PikamoonFollow>();
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (var playerObject in players)
+        {
+            // Check if the player object has authority (is the master player)
+            if (playerObject.GetComponent<NetworkObject>().HasStateAuthority)
+            {
+                masterCharacterTransform = playerObject.transform;
+                break; // Exit the loop once we find the master player
+            }
+        }
+
         if (pikamoonFollow != null && masterCharacterTransform != null)
         {
+
             pikamoonFollow.SetMasterCharacter(masterCharacterTransform); // Assuming SetMasterCharacter exists
         }
 

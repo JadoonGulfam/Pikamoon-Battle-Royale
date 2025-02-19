@@ -34,8 +34,13 @@ public class BarkianPlayerFollowAI : MonoBehaviour
        // {
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.enabled = true;
-        followMaster = GameObject.FindWithTag("Player").transform;
+        //followMaster = GameObject.FindWithTag("Player").transform;
        // }
+    }
+    
+    public void setMaster(Transform master)
+    {
+        followMaster = master;
     }
     // Update is called once per frame
     void Update()
