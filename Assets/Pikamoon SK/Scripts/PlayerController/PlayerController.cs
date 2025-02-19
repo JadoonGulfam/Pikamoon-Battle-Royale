@@ -91,6 +91,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
         [HideInInspector] public AnimatorController AC;
+        public PlayerSetupForMultiplayer MP_Setup;
 
         Shooting _shooting;
         Throwing _throwing;
@@ -178,6 +179,10 @@ namespace Pikamoon.Controller
         {
             input = _input;
             _cameraController = _camera;
+
+            if (MP_Setup == null)
+                MP_Setup = this.GetComponent<PlayerSetupForMultiplayer>();
+
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
 

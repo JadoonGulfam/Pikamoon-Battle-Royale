@@ -32,6 +32,9 @@ namespace Pikamoon.Controller
             //                                    new Vector3(.5f, 1, .5f), 
             //                                    Quaternion.identity, Controller.groundLayer);
 
+            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+                return;
+
 
             if (Controller.CurrentPlayerState == StateType.Slide && !playerInput.JumpInput)
             {
@@ -142,6 +145,9 @@ namespace Pikamoon.Controller
 
         public override void OnUpdate()
         {
+            if (!Controller.MP_Setup.isMinePlayer)
+                return;
+
         }
     }
 }

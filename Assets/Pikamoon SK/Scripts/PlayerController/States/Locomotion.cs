@@ -47,7 +47,6 @@ namespace Pikamoon.Controller
         bool isWalking;
 
         bool _isLocomoting;
-        public PlayerSetupForMultiplayer playerSetupForMultiplayer;
         #endregion
 
 
@@ -71,9 +70,10 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            if(playerSetupForMultiplayer.isMinePlayer)
-            {
-                 if (Controller.CurrentPlayerState == StateType.Crouch || Controller.IsInAttack)
+            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+                return;
+
+            if (Controller.CurrentPlayerState == StateType.Crouch || Controller.IsInAttack)
                 return;
 
 
@@ -98,7 +98,6 @@ namespace Pikamoon.Controller
                     _isLocomoting = false;
                     OnEnd();
                 }
-            }
             }
            
         }

@@ -35,6 +35,10 @@ namespace Pikamoon.Controller
         // Update is called once per frame
         void Update()
         {
+            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+                return;
+
+
             _inWater =  Physics.CheckSphere(this.transform.position, 0.5f, waterLayer);
 
             if (!_inWater)

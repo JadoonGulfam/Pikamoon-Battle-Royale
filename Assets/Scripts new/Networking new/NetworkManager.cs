@@ -182,7 +182,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], Vector3.zero, Quaternion.identity);
             if (!isPikamoonAdd) 
             { 
-                PopulatePikamoonOverNetwork();
+                //PopulatePikamoonOverNetwork();
             }
             if (playerNetworkObject.HasInputAuthority)
             {

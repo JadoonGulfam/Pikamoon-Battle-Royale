@@ -97,6 +97,10 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
+            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+                return;
+
+
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
             {
                 ActiveWeapon = null;

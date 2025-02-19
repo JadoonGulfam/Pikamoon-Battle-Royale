@@ -29,7 +29,6 @@ namespace Pikamoon.Controller
 
         bool isJumping;
 
-        public PlayerSetupForMultiplayer playerSetupForMultiplayer;
         public override void Initialize()
         {
             base.Initialize();
@@ -45,11 +44,10 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            if (playerSetupForMultiplayer.isMinePlayer)
-            {
-                HandleGravity();
-            }
-            
+            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+                return;
+
+            HandleGravity();
         }
 
         void StartJumping()
@@ -132,6 +130,9 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
+            if (!Controller.MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onWalk_Up -= StartJumping;
         }
     }

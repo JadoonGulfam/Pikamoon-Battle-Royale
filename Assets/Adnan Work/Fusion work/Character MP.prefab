@@ -1972,6 +1972,8 @@ MonoBehaviour:
   combat: {fileID: 8896564144674904443}
   shootingManager: {fileID: 541923449818245143}
   _throwManager: {fileID: 7920517320965324942}
+  Controller: {fileID: 2876951237606300120}
+  AC: {fileID: 7073716443976535076}
 --- !u!114 &1406216328032204845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5296,6 +5298,7 @@ MonoBehaviour:
   IsSwimming: 0
   IgnoreGravity: 0
   crouchColliderOffset: {x: 0, y: 1.9, z: 0}
+  Head: {fileID: 9044902890535087896}
   states:
   - {fileID: 8655739143850066287}
   - {fileID: 694810621229716373}
@@ -5305,11 +5308,6 @@ MonoBehaviour:
   - {fileID: 541923449818245143}
   - {fileID: 7920517320965324942}
   - {fileID: 4952614224123915957}
-  Head: {fileID: 9044902890535087896}
-  ActiveWeapon:
-    Prefab: {fileID: 0}
-    Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
-    isEnabled: 0
   holdingPoints:
   - Type: 0
     Point: {fileID: 2883880245758971305}
@@ -5332,6 +5330,10 @@ MonoBehaviour:
     Point: {fileID: 2149703159419433544}
   - Type: 7
     Point: {fileID: 1892991421225355289}
+  ActiveWeapon:
+    Prefab: {fileID: 0}
+    Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
+    isEnabled: 0
   TurnSmoothTime: 10
   groundCheckColliderScale: {x: 0.5, y: 0.5, z: 0.5}
   groundLayer:
@@ -5341,6 +5343,8 @@ MonoBehaviour:
   _cameraController: {fileID: 0}
   input: {fileID: 0}
   inventory: {fileID: 0}
+  AC: {fileID: 0}
+  MP_Setup: {fileID: 856749426312453236}
   inAir: 0
   canExitCrouch: 0
 --- !u!114 &5483336839166787512
@@ -5356,18 +5360,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI: {fileID: 0}
+  DefaultFistNoWeapon:
+    Prefab: {fileID: 0}
+    Data: {fileID: 0}
+    isEnabled: 0
   WeaponsBag:
     items: []
   WeaponBagCapacity: 0
   EquipedWeapons: []
   AutoEquipWeapon: 0
+  isUsingWeapon: 0
   UsingWeaponIndex: 0
   nearbyItems: []
   rangeForItemPickup: 3
   pickupLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  playerSetupForMultiplayer: {fileID: 856749426312453236}
 --- !u!114 &7073716443976535076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5446,6 +5454,10 @@ MonoBehaviour:
       Name: SecondaryState
       Value: 0
       Hash: 0
+    EndCombat:
+      Name: 
+      Value: 0
+      Hash: 0
 --- !u!114 &2616765764771610900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5493,7 +5505,6 @@ MonoBehaviour:
   AnimationChangeDampening: 4
   Acceleration: 12
   turnSmoothTime: 10
-  playerSetupForMultiplayer: {fileID: 856749426312453236}
 --- !u!114 &694810621229716373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5519,7 +5530,6 @@ MonoBehaviour:
   OnLanded:
     m_PersistentCalls:
       m_Calls: []
-  playerSetupForMultiplayer: {fileID: 856749426312453236}
 --- !u!114 &3056345590354675140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5586,7 +5596,7 @@ MonoBehaviour:
   AttackCoolDownTime: 0.1
   ComboCoolDownTime: 0.5
   comboMoveCounter: 0
-  weapon: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
+  meleeWeapnonData: {fileID: 0}
 --- !u!114 &541923449818245143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5616,7 +5626,6 @@ MonoBehaviour:
   CancelAttackAfterSeconds: 1.5
   DebugTransform: {fileID: 7327804534657498872}
   DebugUITransform: {fileID: 0}
-  playerSetupForMultiplayer: {fileID: 856749426312453236}
 --- !u!114 &7920517320965324942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5683,7 +5692,7 @@ MonoBehaviour:
   ApplyTiming: 2
   SyncSettings: 79
   StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a03270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf375c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0
-  TriggerHashes: 000000004dc06ae332edce8bbad385b1
+  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3
 --- !u!114 &1666544894102805382
 MonoBehaviour:
   m_ObjectHideFlags: 0

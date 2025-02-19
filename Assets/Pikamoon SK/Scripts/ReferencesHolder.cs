@@ -30,7 +30,7 @@ namespace Pikamoon.Controller
 
         private void Start()
         {
-            //InstantiatePlayer();
+           // InstantiatePlayer();
         }
 
         void InstantiatePlayer()

@@ -45,7 +45,6 @@ namespace Pikamoon.Controller
         float FireRate;
         Coroutine cancelAimRoutine;
 
-        public PlayerSetupForMultiplayer playerSetupForMultiplayer;
         public override void Initialize()
         {
             base.Initialize();
@@ -59,22 +58,23 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            if(playerSetupForMultiplayer.isMinePlayer)
+            if (!Controller.MP_Setup.isMinePlayer)
+                return;
+
+
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
             {
-                if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
-                {
-                    ActiveWeapon = null;
-                    return;
-                }
-                AimRigging();
-
-                if (!Controller.IsInAttack)
-                    return;
-
-                HandleAnimation();
-                MoveDuringAim();
-                RotatePlayerTowardsCamFor();
+                ActiveWeapon = null;
+                return;
             }
+            AimRigging();
+
+            if (!Controller.IsInAttack)
+                return;
+
+            HandleAnimation();
+            MoveDuringAim();
+            RotatePlayerTowardsCamFor();
         }
             
 
@@ -312,6 +312,9 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
+            if (!Controller.MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onAttack1_Clicked -= PlayFireAnimation;
             playerInput.onAttack2_Down -= StartAim;
             playerInput.onAttack2_Up -= CancelAim;
