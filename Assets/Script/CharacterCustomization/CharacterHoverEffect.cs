@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using CharacterCustomization;
 using System.Collections.Generic;
 
 public class CharacterHoverEffect : MonoBehaviour
@@ -16,23 +15,23 @@ public class CharacterHoverEffect : MonoBehaviour
         originalScale = transform.localScale;
         isSelected = false;
     }
-    void OnMouseEnter()
-    {
-        if (!isSelected) // Only run hover effect if not selected
-        {
-            StopAllCoroutines();
-          StartCoroutine(ScaleOverTime(hoverScale));
-        }
-    }
+    //void OnMouseEnter()
+    //{
+    //    if (!isSelected) // Only run hover effect if not selected
+    //    {
+    //        StopAllCoroutines();
+    //      StartCoroutine(ScaleOverTime(hoverScale));
+    //    }
+    //}
 
-    void OnMouseExit()
-    {
-        if (!isSelected) // Only run hover effect if not selected
-        {
-            StopAllCoroutines();
-            StartCoroutine(ScaleOverTime(originalScale));
-        }
-    }
+    //void OnMouseExit()
+    //{
+    //    if (!isSelected) // Only run hover effect if not selected
+    //    {
+    //        StopAllCoroutines();
+    //        StartCoroutine(ScaleOverTime(originalScale));
+    //    }
+    //}
 
     IEnumerator ScaleOverTime(Vector3 targetScale)
     {

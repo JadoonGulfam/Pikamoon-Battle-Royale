@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-namespace CharacterCustomization
-{
     public class CameraCustomizationController : MonoBehaviour
     {
         [System.Serializable]
@@ -156,4 +154,3 @@ namespace CharacterCustomization
             }
         }
     }
-}

@@ -7,7 +7,6 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using CharacterCustomization;
 using System.IO;
 public class GameManager : MonoBehaviour
 {
@@ -52,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
     public UserDataBase userDataBase;
+    public int playerIndex = 0;
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -59,8 +59,6 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-
-        // InitPlayer();
         LoadGame();
     }
     void LoadGame()
@@ -108,14 +106,15 @@ public class GameManager : MonoBehaviour
         }
 
         // Instantiate and store references to players
-        for (int i = 0; i < allPlayer.Count; i++)
-        {
-            GameObject playerInstance = Instantiate(allPlayer[i], allPlayerParentTransform);
-            playerInstance.SetActive(true);
-            instantiatedPlayers.Add(playerInstance);
-            // Store the original position of the instantiated player
-            originalPositions[playerInstance] = playerInstance.transform.position;
-        }
+        // for (int i = 0; i < allPlayer.Count; i++)
+        // {
+        GameObject playerInstance = Instantiate(allPlayer[playerIndex], allPlayerParentTransform);
+        playerInstance.SetActive(true);
+        instantiatedPlayers.Add(playerInstance);
+        _player = playerInstance;
+        // Store the original position of the instantiated player
+        originalPositions[playerInstance] = playerInstance.transform.position;
+        // }
 
         CharacterHoverEffect.isSelected = false; // Reset selection state
     }

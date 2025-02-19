@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-namespace CharacterCustomization
-{
     public class AvatarController : MonoBehaviour
     {
         public AvatarDefaultClothes maleAvatarDefaultCostume;
@@ -226,4 +224,3 @@ namespace CharacterCustomization
             }
         }
     }
-}
