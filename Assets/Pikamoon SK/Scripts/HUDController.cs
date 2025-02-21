@@ -29,7 +29,7 @@ namespace Pikamoon.UI
             Weapons[index].UnAssignItem();
         }
 
-        public void EmptyWeapon(int index)
+        public void DropWeapon(int index)
         {
             Weapons[index].RemoveItem();
         }

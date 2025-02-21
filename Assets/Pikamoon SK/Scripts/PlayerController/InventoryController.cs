@@ -2,6 +2,7 @@ using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using System;
 
 namespace Pikamoon.Controller
 {
@@ -140,6 +141,10 @@ namespace Pikamoon.Controller
 
                     Equipping(0, EquipedWeapons[0]);
                 }
+                else
+                {
+                    Equipping(0, EquipedWeapons[0]);
+                }
             }
         }
         void ChangeToSecondaryWeapon()
@@ -168,6 +173,10 @@ namespace Pikamoon.Controller
                 {
                     UnEquipping(UsingWeaponIndex, EquipedWeapons[UsingWeaponIndex], false);
 
+                    Equipping(1, EquipedWeapons[1]);
+                }
+                else
+                {
                     Equipping(1, EquipedWeapons[1]);
                 }
             }
@@ -313,10 +322,13 @@ namespace Pikamoon.Controller
                 return;
 
 
-
-            UnEquipping(UsingWeaponIndex, EquipedWeapons[UsingWeaponIndex], true);
+            UI.DropWeapon(UsingWeaponIndex);
 
             EquipedWeapons[UsingWeaponIndex].OnDrop(this.transform, Controller.groundLayer);
+
+            EquipedWeapons[UsingWeaponIndex] = null;
+
+            Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
     }
 }
