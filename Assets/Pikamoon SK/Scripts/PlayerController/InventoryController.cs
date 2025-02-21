@@ -51,6 +51,10 @@ namespace Pikamoon.Controller
         public float rangeForItemPickup;
         public LayerMask pickupLayerMask;
 
+
+        [SerializeField] Transform Dummy;
+
+
         bool allowPickUp;
         public bool AllowPickUp
         {
@@ -86,7 +90,10 @@ namespace Pikamoon.Controller
             playerInput = Controller.input;
 
             playerInput.onPrimaryWeaponSelect_Down += ChangeToPrimaryWeapon;
-            playerInput.onSecondaryWeaponSelect_Down += ChangeToSecondaryWeapon; 
+            playerInput.onSecondaryWeaponSelect_Down += ChangeToSecondaryWeapon;
+
+            playerInput.onWeaponDrop_Down += DropWeapon;
+
             allowPickUp = true;
         }
 
@@ -95,13 +102,24 @@ namespace Pikamoon.Controller
             if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
                 return;
 
+            Dummy.position = this.transform.position + (this.transform.forward * 2) + (Vector3.up * 2);
+
+
             ContinuousCheckForItemsForPickup();
+
         }
+
+
 
         void ChangeToPrimaryWeapon()
         {
             if (EquipedWeapons[0] == null)
                 return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+
+
 
             if (UsingWeaponIndex == 0)
             {
@@ -124,12 +142,14 @@ namespace Pikamoon.Controller
                 }
             }
         }
-
-
         void ChangeToSecondaryWeapon()
         {
             if (EquipedWeapons[1] == null)
                 return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+
 
             if (UsingWeaponIndex == 1)
             {
@@ -152,6 +172,9 @@ namespace Pikamoon.Controller
                 }
             }
         }
+
+
+
 
         void UnEquipping(int index, Weapon weapon,bool ActivateNoWeapon)
         {
@@ -232,7 +255,9 @@ namespace Pikamoon.Controller
                     {
                         EquipedWeapons[i] = weapon;
 
-                        weapon.Equip();
+                        weapon.OnPicked();
+
+                        
 
                         WeaponInfo weaponInfo = weapon.GetWeaponInfo();
 
@@ -253,6 +278,11 @@ namespace Pikamoon.Controller
                         }
 
 
+                        if (weapon.HasScabbard)
+                        {
+                            weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
+                        }
+
                         return;
                     }
                 }
@@ -260,7 +290,7 @@ namespace Pikamoon.Controller
 
                 if (weaponsInBag < WeaponBagCapacity)
                 {
-                    weapon.Equip();
+                    weapon.OnPicked();
                     weapon.gameObject.SetActive(false);
                     WeaponsBag.items.Add(weapon);
                     weaponsInBag++;
@@ -270,6 +300,23 @@ namespace Pikamoon.Controller
 
 
             }
+        }
+    
+    
+        void DropWeapon()
+        {
+            if (EquipedWeapons[UsingWeaponIndex] == null)
+                return;
+
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+
+
+
+            UnEquipping(UsingWeaponIndex, EquipedWeapons[UsingWeaponIndex], true);
+
+            EquipedWeapons[UsingWeaponIndex].OnDrop(this.transform, Controller.groundLayer);
         }
     }
 }

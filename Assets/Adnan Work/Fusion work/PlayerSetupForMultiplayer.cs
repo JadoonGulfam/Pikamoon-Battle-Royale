@@ -13,7 +13,7 @@ public class PlayerSetupForMultiplayer : NetworkBehaviour
         }
         else
         {
-            Debug.LogError("NetworkObject is null!");
+            //Debug.LogError("NetworkObject is null!");
         }
     }
 }

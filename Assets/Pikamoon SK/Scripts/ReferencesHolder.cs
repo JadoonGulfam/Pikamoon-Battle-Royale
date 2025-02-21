@@ -27,10 +27,11 @@ namespace Pikamoon.Controller
             Cursor.lockState = CursorLockMode.Locked ;
 
         }
-
+        bool CamefromMPCAll;
         private void Start()
         {
-           // InstantiatePlayer();
+            if (!CamefromMPCAll)
+                InstantiatePlayer();
         }
 
         void InstantiatePlayer()
@@ -51,6 +52,8 @@ namespace Pikamoon.Controller
 
         public void InstantiatePlayer(GameObject GO)
         {
+            CamefromMPCAll = true;
+
             _playerController = GO.GetComponent<PlayerController>();
 
             _playerController.transform.position = _SpawnPoint.position;

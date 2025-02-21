@@ -180,8 +180,8 @@ namespace Pikamoon.Controller
             input = _input;
             _cameraController = _camera;
 
-            if (MP_Setup == null)
-                MP_Setup = this.GetComponent<PlayerSetupForMultiplayer>();
+            //if (MP_Setup == null)
+            //    MP_Setup = this.GetComponent<PlayerSetupForMultiplayer>();
 
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();

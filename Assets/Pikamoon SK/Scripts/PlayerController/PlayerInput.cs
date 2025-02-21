@@ -39,6 +39,9 @@ namespace Pikamoon.Controller
 
         public OnBtnDown onJump_Down;
         
+        public OnBtnDown onWeaponDrop_Down;
+
+
         [HideInInspector]
         //public bool isSprinting;
         //public bool isCrouching;
@@ -141,10 +144,6 @@ namespace Pikamoon.Controller
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 onSprint_Down?.Invoke();
-                //if (!isCrouching)
-                //{
-                //    ToggleSprinting();
-                //}
             }
 
             if(Input.GetKeyUp(KeyCode.LeftShift))
@@ -153,27 +152,13 @@ namespace Pikamoon.Controller
             }
 
 
-            if (Input.GetKeyDown(KeyCode.LeftControl))// && m_Controller.IsGrounded)
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                Debug.Log("KSKSKSKSKSKSKSKSK");
                 onCrouch_Down?.Invoke();
-                //if (isSliding)
-                //{
-                //    isSliding = false;
-                //    isSprinting = false;
-                //    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-                //}
-                //else if (isSprinting)
-                //{
-                //    StartSliding();
-                //}
-                //else
-                //{
-                //    ToggleCrouching();
-                //}
+
             }
 
-            if (Input.GetKeyUp(KeyCode.LeftControl))// && m_Controller.IsGrounded)
+            if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 onCrouch_Up?.Invoke();
                
@@ -190,6 +175,12 @@ namespace Pikamoon.Controller
                 onWalk_Up?.Invoke();
             }
 
+            
+            
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                onWeaponDrop_Down?.Invoke();
+            }
 
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -204,13 +195,6 @@ namespace Pikamoon.Controller
             }
 
 
-            //if (vertical == 0 && horizontal == 0)
-            //{
-            //    if(isSprinting)
-            //    {
-            //        ToggleSprinting();
-            //    }
-            //}
 
             if (Input.GetMouseButtonDown(0))
             {

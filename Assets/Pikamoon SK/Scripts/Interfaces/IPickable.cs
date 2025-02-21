@@ -1,8 +1,11 @@
 
 using UnityEngine;
 
-public interface IPickable
+namespace Pikamoon.Controller
 {
-    void OnPicked();
-    void OnPicked(Transform Picker);
+    public interface IPickable
+    {
+        void OnPicked();
+        void OnPicked(Transform Picker);
+    }
 }
