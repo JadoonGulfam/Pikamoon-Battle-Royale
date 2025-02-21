@@ -11,12 +11,27 @@ public class PikamoonInventory : MonoBehaviour
 {
     public List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
 
-    public Transform player;
+    public GameObject player;
+    public GameObject[] players;
     // Adds Pikamoon to the player's inventory and deactivates it in the world
     IEnumerator Start()
     {
         yield return new WaitForSeconds(0.5f);
-        player = GameObject.FindWithTag("Player").transform;
+       // player = GameObject.FindWithTag("Player").transform;
+
+        players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (var playerObject in players)
+        {
+            // Check if the player object has authority (is the master player)
+            if (playerObject.GetComponent<NetworkObject>().HasStateAuthority)
+            {
+                print("player set");
+                player = playerObject;
+                break; // Exit the loop once we find the master player
+            }
+            print("player not found");
+        }
     }
     public void AddPikamoon(GameObject pikamoon)
     {
@@ -26,6 +41,7 @@ public class PikamoonInventory : MonoBehaviour
         {
             capturedPikamoons.Add(pikamoon);
             pikamoon.SetActive(false);
+            pikamoon.GetComponent<PikamoonAI>().setPlayer(player.transform);
             pikamoon.GetComponent<PikamoonAI>().Call_RPC_AddPikamoon(pikamoon);
 
 
@@ -43,12 +59,14 @@ public class PikamoonInventory : MonoBehaviour
             GameObject pikamoonToSpawn = capturedPikamoons[index];
             pikamoonToSpawn.transform.position = spawnPosition;
            // pikamoonToSpawn.transform.localScale = Vector3.one * 2;
-            pikamoonToSpawn.SetActive(true);
+            
             PikamoonFollow followScript = pikamoonToSpawn.GetComponent<PikamoonFollow>();
+            followScript.SetMasterCharacter(player.transform);
             if (followScript != null) followScript.EnableFollowing();
+            else print("follow script is null");
 
             pikamoonToSpawn.GetComponent<PikamoonAI>().Call_RPC_SpawnPikamoon(pikamoonToSpawn, spawnPosition);
-
+            pikamoonToSpawn.SetActive(true);
 
             Debug.Log($"Pikamoon {pikamoonToSpawn.name} spawned.");
         }

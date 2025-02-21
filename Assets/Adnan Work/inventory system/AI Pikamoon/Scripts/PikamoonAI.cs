@@ -10,7 +10,7 @@ public class PikamoonAI : NetworkBehaviour
 {
     private NavMeshAgent navMeshAgent;
     private Animator animator;
-    private Transform player;
+    public Transform player;
     private bool isFollowingPlayer = false;
     private bool isRoaming = false;
 
@@ -23,17 +23,23 @@ public class PikamoonAI : NetworkBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.enabled = true;
-        player=GameObject.FindWithTag("Player").transform;
+       // player=GameObject.FindWithTag("Player").transform;
+    }
+    public void setPlayer(Transform _player)
+    {
+        player = _player;
     }
 
     private void Update()
     {
         if (isFollowingPlayer)
         {
+            //print("player following");
             FollowPlayer();
         }
         else if (isRoaming)
         {
+            //print("roaming");
             if (!navMeshAgent.hasPath)
             {
                 //no path found 
@@ -44,6 +50,7 @@ public class PikamoonAI : NetworkBehaviour
 
     public void FollowPlayer()
     {
+        
         if (player != null)
         {
             isFollowingPlayer = true;
@@ -51,6 +58,10 @@ public class PikamoonAI : NetworkBehaviour
             animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), 1.0f, Time.deltaTime * 3));
             //animator.SetFloat("Move", 1); // Walking animation
         }
+        else 
+            {
+                print("player is null");
+            }
 
         // player is null 
     }
