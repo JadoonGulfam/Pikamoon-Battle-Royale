@@ -56,6 +56,8 @@ public class PikamoonAI : NetworkBehaviour
             isFollowingPlayer = true;
             navMeshAgent.SetDestination(player.position);
             animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), 1.0f, Time.deltaTime * 3));
+
+
             //animator.SetFloat("Move", 1); // Walking animation
         }
         else 
@@ -93,6 +95,9 @@ public class PikamoonAI : NetworkBehaviour
         navMeshAgent.ResetPath();
         SetNewRoamDestination();
         animator.SetFloat("Move", 0); // Idle animation
+        animator.SetTrigger("StopMove");
+        animator.ResetTrigger("StartMove");
+
     }
 
     // find new positioin in open world  to go 
@@ -104,13 +109,18 @@ public class PikamoonAI : NetworkBehaviour
         if (NavMesh.SamplePosition(randomDirection, out hit, 10f, 1))
         {
             navMeshAgent.SetDestination(hit.position);
+          
             animator.SetFloat("Move", 1); // Walking animation
+            animator.SetTrigger("StartMove");
+            animator.ResetTrigger("StopMove");
         }
     }
 
     private IEnumerator IdleBeforeNextRoam()
     {
         animator.SetFloat("Move", 0); // Idle animation
+        animator.SetTrigger("StopMove");
+        animator.ResetTrigger("StartMove");
         yield return new WaitForSeconds(idleTimeBetweenRoaming);
         SetNewRoamDestination();
     }
