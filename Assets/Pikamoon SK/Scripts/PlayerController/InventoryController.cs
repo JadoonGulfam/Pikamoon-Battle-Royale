@@ -97,11 +97,15 @@ namespace Pikamoon.Controller
 
             allowPickUp = true;
         }
-
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
-            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
                 return;
+
 
             Dummy.position = this.transform.position + (this.transform.forward * 2) + (Vector3.up * 2);
 

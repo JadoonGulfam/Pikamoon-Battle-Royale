@@ -30,8 +30,8 @@ namespace Pikamoon.Controller
         bool CamefromMPCAll;
         private void Start()
         {
-            if (!CamefromMPCAll)
-                InstantiatePlayer();
+            //if (!CamefromMPCAll)
+            //    InstantiatePlayer();
         }
 
         void InstantiatePlayer()
@@ -66,8 +66,16 @@ namespace Pikamoon.Controller
 
         public void InstantiatePlayerFromMultiplayer(GameObject GO)
         {
+
+
             _playerController = GO.GetComponent<PlayerController>();
 
+            if(!_playerController.GetComponent<PlayerSetupForMultiplayer>().isMinePlayer)
+            {
+                return;
+            }
+            
+            
             _playerController.transform.position = _SpawnPoint.position;
             _playerController.transform.rotation = _SpawnPoint.rotation;
 

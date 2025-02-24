@@ -112,9 +112,13 @@ namespace Pikamoon.Controller
         }
 
 
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
-            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
                 return;
 
 
@@ -130,13 +134,17 @@ namespace Pikamoon.Controller
 
         public void DoHorizontalAttack()
         {
+            if(Controller.InAir)
+                return; 
+
             if (Controller.ActiveWeapon.Data.Type == WeaponType.Melee || Controller.ActiveWeapon.Data.Type == WeaponType.None)
-            {
                 Attack(CombatMoveType.Horizontal);
-            }
         }
         public void DoVerticalAttack()
         {
+            if (Controller.InAir)
+                return;
+
             if (Controller.ActiveWeapon.Data.Type == WeaponType.Melee || Controller.ActiveWeapon.Data.Type == WeaponType.None)
                 Attack(CombatMoveType.Vertical);
         }
@@ -347,6 +355,10 @@ namespace Pikamoon.Controller
 
         public void AttackEnd()
         {
+            if (!MP_Setup.isMinePlayer)
+                return;
+
+
             comboMoveCounter = 1;
             Controller.IsRootMotionEnabled = false;
 
@@ -429,6 +441,9 @@ namespace Pikamoon.Controller
 
         public void ToggleNextComboAttckStatus(bool flag)
         {
+            if (!MP_Setup.isMinePlayer)
+                return;
+
 
             hitBehaviour.DisableAllHitPoints();
             ComboNextAttckTrigger = flag;
@@ -439,6 +454,9 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
+            if (!MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onAttack1_Clicked -= DoHorizontalAttack;
             playerInput.onAttack2_Clicked -= DoVerticalAttack;
         }

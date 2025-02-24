@@ -95,9 +95,13 @@ namespace Pikamoon.Controller
         }
 
 
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
-            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
                 return;
 
 

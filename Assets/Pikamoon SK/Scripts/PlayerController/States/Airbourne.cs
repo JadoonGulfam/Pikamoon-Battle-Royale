@@ -41,10 +41,13 @@ namespace Pikamoon.Controller
             playerInput.onJump_Down += StartJumping;
         }
 
-
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
-            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
                 return;
 
             HandleGravity();
@@ -130,7 +133,10 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
-            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
                 return;
 
             playerInput.onWalk_Up -= StartJumping;

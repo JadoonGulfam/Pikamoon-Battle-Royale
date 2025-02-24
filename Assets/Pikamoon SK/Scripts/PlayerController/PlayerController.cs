@@ -91,7 +91,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
         [HideInInspector] public AnimatorController AC;
-        public PlayerSetupForMultiplayer MP_Setup;
+       // public PlayerSetupForMultiplayer MP_Setup;
 
         Shooting _shooting;
         Throwing _throwing;

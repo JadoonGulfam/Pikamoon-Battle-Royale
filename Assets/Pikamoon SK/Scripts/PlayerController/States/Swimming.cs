@@ -32,10 +32,13 @@ namespace Pikamoon.Controller
             playerInput.onSprint_Up   += DisbleFastSwim;
         }
 
-        // Update is called once per frame
-        void Update()
+        public PlayerSetupForMultiplayer MP_Setup;
+        private void Update()
         {
-            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
                 return;
 
 

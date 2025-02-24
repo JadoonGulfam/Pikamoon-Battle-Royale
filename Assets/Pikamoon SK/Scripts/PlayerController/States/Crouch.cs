@@ -25,15 +25,21 @@ namespace Pikamoon.Controller
 
             playerInput.onCrouch_Down += EndCrouch;
         }
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
+                return;
+
+
             //if (_isCrouching)
             //    isHurdleAboveWhileCrouch = Physics.CheckBox(this.transform.position + crouchColliderOffset,
             //                                                new Vector3(.5f, 1, .5f), Quaternion.identity,
             //                                                Controller.groundLayer);
 
-            if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
-                return;
 
 
             if (Controller.CurrentPlayerState == StateType.Crouch)
@@ -147,11 +153,16 @@ namespace Pikamoon.Controller
 
         public override void OnUpdate()
         {
+            if (!MP_Setup.isMinePlayer)
+                return;
 
         }
 
         void OnDestroy()
         {
+            if (!MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onSprint_Down -=  EnableFastSprinting;
             playerInput.onSprint_Up   -= DisableFastSprinting;
 
