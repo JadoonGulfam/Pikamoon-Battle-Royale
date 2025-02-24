@@ -103,12 +103,13 @@ namespace Pikamoon.Controller
 
             meleeWeapnonData = ActiveWeapon.GetWeaponDataAs<MeleeWeaponDataSO>();
 
-            AC.PAnimator.runtimeAnimatorController = meleeWeapnonData.AnimOC;
+            AC.ChangeOverrideController(meleeWeapnonData.AnimOC);
         }
 
         public void ActivatingFistNoWeapon(WeaponDataSO _weaponData)
         {
-            AC.PAnimator.runtimeAnimatorController = _weaponData.AnimOC;
+            AC.ChangeOverrideController(_weaponData.AnimOC);
+
         }
 
 

@@ -121,5 +121,11 @@ namespace Pikamoon.Controller
                 animator.CrossFadeInFixedTime(stateHash, transitionDuration, 0);
         }
 
+        public void ChangeOverrideController(AnimatorOverrideController overrideController)
+        {
+
+            PAnimator.runtimeAnimatorController = overrideController;
+        }
+
     }
 }
