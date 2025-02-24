@@ -10,7 +10,7 @@ public class PikamoonAI : NetworkBehaviour
 {
     private NavMeshAgent navMeshAgent;
     private Animator animator;
-    private Transform player;
+    public Transform player;
     private bool isFollowingPlayer = false;
     private bool isRoaming = false;
 
@@ -23,17 +23,23 @@ public class PikamoonAI : NetworkBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.enabled = true;
-        player=GameObject.FindWithTag("Player").transform;
+       // player=GameObject.FindWithTag("Player").transform;
+    }
+    public void setPlayer(Transform _player)
+    {
+        player = _player;
     }
 
     private void Update()
     {
         if (isFollowingPlayer)
         {
+            //print("player following");
             FollowPlayer();
         }
         else if (isRoaming)
         {
+            //print("roaming");
             if (!navMeshAgent.hasPath)
             {
                 //no path found 
@@ -44,13 +50,20 @@ public class PikamoonAI : NetworkBehaviour
 
     public void FollowPlayer()
     {
+        
         if (player != null)
         {
             isFollowingPlayer = true;
             navMeshAgent.SetDestination(player.position);
             animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), 1.0f, Time.deltaTime * 3));
+
+
             //animator.SetFloat("Move", 1); // Walking animation
         }
+        else 
+            {
+                print("player is null");
+            }
 
         // player is null 
     }
@@ -82,6 +95,9 @@ public class PikamoonAI : NetworkBehaviour
         navMeshAgent.ResetPath();
         SetNewRoamDestination();
         animator.SetFloat("Move", 0); // Idle animation
+        animator.SetTrigger("StopMove");
+        animator.ResetTrigger("StartMove");
+
     }
 
     // find new positioin in open world  to go 
@@ -93,13 +109,18 @@ public class PikamoonAI : NetworkBehaviour
         if (NavMesh.SamplePosition(randomDirection, out hit, 10f, 1))
         {
             navMeshAgent.SetDestination(hit.position);
+          
             animator.SetFloat("Move", 1); // Walking animation
+            animator.SetTrigger("StartMove");
+            animator.ResetTrigger("StopMove");
         }
     }
 
     private IEnumerator IdleBeforeNextRoam()
     {
         animator.SetFloat("Move", 0); // Idle animation
+        animator.SetTrigger("StopMove");
+        animator.ResetTrigger("StartMove");
         yield return new WaitForSeconds(idleTimeBetweenRoaming);
         SetNewRoamDestination();
     }

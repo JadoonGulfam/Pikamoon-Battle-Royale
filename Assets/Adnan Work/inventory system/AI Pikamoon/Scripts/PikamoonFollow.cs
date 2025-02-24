@@ -48,6 +48,8 @@ public class PikamoonFollow : MonoBehaviour
         {
             navMeshAgent.ResetPath(); // Stop the NavMeshAgent
             animator.SetFloat("Move", 0); // Set to idle animation
+            animator.SetTrigger("StopMove");
+            animator.ResetTrigger("StartMove");
         }
 
     }
