@@ -17,18 +17,18 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab;
     public string _playerName = null;
 
-    public TMP_Text userInputField;
-    [Header("Session list")]
+  //  public TMP_Text userInputField;
+  //  [Header("Session list")]
 
-    public Transform _canvasCharacterSelection;
-    public Button createSessionButton;
-    public Button reconnectSessionButton;
-    public TMP_Text connectionStatus;
-    public Transform sessionListContent;
-    public GameObject sessionEntryPrefab;
-    public List<SessionInfo> _session = new List<SessionInfo>();
-    public GameObject _roomList;
-    public Button createSessionBtn;
+   // public Transform _canvasCharacterSelection;
+   // public Button createSessionButton;
+   // public Button reconnectSessionButton;
+   // public TMP_Text connectionStatus;
+   // public Transform sessionListContent;
+   // public GameObject sessionEntryPrefab;
+  //  public List<SessionInfo> _session = new List<SessionInfo>();
+  //  public GameObject _roomList;
+  //  public Button createSessionBtn;
     //  public SceneAsset lobbyScene;
     //  public SceneAsset gamePlayScene;
     public GameObject PlayerPrefabForSinglePlayer;
@@ -40,13 +40,13 @@ public class GameManager : MonoBehaviour
     public CharacterData characterdata;
     public GameObject _player;
     private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>(); // Store original positions
-    public Transform lobbyPlayerTransform;
-    public GameObject environmentObject;
+   // public Transform lobbyPlayerTransform;
+    //public GameObject environmentObject;
     // public Camera mainCamera;
-    public GameObject followCamera;
-    public GameObject LobbyEnvironment;
+  //  public GameObject followCamera;
+   // public GameObject LobbyEnvironment;
 
-    public Transform LobbyTransform, gamePlayTransform;
+  //  public Transform LobbyTransform, gamePlayTransform;
     public List<GameObject> emojiList = new List<GameObject>();
 
     public UIManager uiManager;
@@ -318,7 +318,7 @@ public class GameManager : MonoBehaviour
     {
         // Unregister the callback to avoid memory leaks
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        createSessionBtn.onClick.RemoveAllListeners();
+       // createSessionBtn.onClick.RemoveAllListeners();
     }
     public void SinglePlayer()
     {

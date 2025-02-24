@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         exirGameBtn.onClick.AddListener(QuitGame);
+        gameStartBtn.onClick.AddListener(StartGame);
     }
     private void Update()
     {
@@ -20,6 +21,10 @@ public class UIManager : MonoBehaviour
     public void LoadCustomizationScene()
     {
         SceneManager.LoadSceneAsync("Customization");
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadSceneAsync("lobby new");
     }
     public void QuitGame()
     {

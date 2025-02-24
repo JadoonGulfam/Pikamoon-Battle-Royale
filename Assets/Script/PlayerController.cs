@@ -32,10 +32,10 @@ public class PlayerController : NetworkBehaviour
     IEnumerator Start()
     {
 
-        if(GameManager.instance.LobbyEnvironment.activeSelf)
-        {
-            SetPositionAsPerEnvironment (GameManager.instance.LobbyTransform);
-        }
+        //if(GameManager.instance.LobbyEnvironment.activeSelf)
+        //{
+        //    SetPositionAsPerEnvironment (GameManager.instance.LobbyTransform);
+        //}
         myItems = GameObject.FindGameObjectWithTag("Canvas").GetComponent<DisplayItems>();
         canvasData.GetComponent<LookAtConstraint>().rotationOffset = new Vector3(-180, 0, 180);
         ConstraintSource sc = new ConstraintSource();

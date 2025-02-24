@@ -11,15 +11,23 @@ public class CharacterCustomizationManager : MonoBehaviour
     //public AvatarBodyParts avatarBodyParts;
     public int isGuest = 0;
     public Button save, reset;
+
+    public Toggle maleToggle;
+    public Toggle femaleToggle;
+    public Button doneButton;
+
+    private string selectedGender = "Male"; // Default gender selection
+    private bool isFirstTime = true; // To check if it's the first game launch
+
     private void OnEnable()
     {
-        save.onClick.AddListener(ApplyChanges);
-        reset.onClick.AddListener(ResetChanges);
+       // save.onClick.AddListener(ApplyChanges);
+       // reset.onClick.AddListener(ResetChanges);
     }
     private void OnDisable()
     {
-        save.onClick.RemoveListener(ApplyChanges);
-        reset.onClick.RemoveListener(ResetChanges);
+       // save.onClick.RemoveListener(ApplyChanges);
+       // reset.onClick.RemoveListener(ResetChanges);
     }
     private void Awake()
     {
@@ -27,6 +35,11 @@ public class CharacterCustomizationManager : MonoBehaviour
     }
     IEnumerator Start()
     {
+        maleToggle.onValueChanged.AddListener(delegate { OnToggleChanged("Male", maleToggle.isOn); });
+        femaleToggle.onValueChanged.AddListener(delegate { OnToggleChanged("Female", femaleToggle.isOn); });
+
+        // Add listener to Done button
+        doneButton.onClick.AddListener(OnDoneButtonPressed);
         yield return new WaitForSeconds(1);
         // LoadCharacterCustomization();
     }
@@ -160,5 +173,31 @@ public class CharacterCustomizationManager : MonoBehaviour
                 //    break;
         }
         reset.interactable = false;
+    }
+    void OnToggleChanged(string gender, bool isOn)
+    {
+        if (isOn)
+        {
+            selectedGender = gender;
+        }
+    }
+
+    void OnDoneButtonPressed()
+    {
+        // Destroy old character if exists and create a new one
+        if (GameManager.instance._player != null)
+        {
+            Destroy(GameManager.instance._player);
+        }
+
+        InstantiateCharacter(selectedGender);
+        Debug.Log("Confirmed Gender: " + selectedGender);
+    }
+
+    void InstantiateCharacter(string gender)
+    {
+        GameObject selectedPrefab = (gender == "Male") ? GameManager.instance.allPlayer[0] : GameManager.instance.allPlayer[1];
+        GameManager.instance._player = Instantiate(selectedPrefab, Vector3.zero, Quaternion.identity);
+        defaultCharacterdata.gender = gender;
     }
 }

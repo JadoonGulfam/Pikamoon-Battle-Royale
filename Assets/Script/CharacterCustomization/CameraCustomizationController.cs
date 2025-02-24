@@ -54,10 +54,10 @@ using UnityEngine.EventSystems;
             // Check if the customization panel is open before handling drag
             // if (customizationPanel.activeSelf)
             // {
-            if (CharacterHoverEffect.isSelected) // Proceed only if not already selected
-            {
+           // if (CharacterHoverEffect.isSelected) // Proceed only if not already selected
+           // {
                 HandleMouseDrag();
-            }
+           // }
            // }
 
             // Smoothly reset the player rotation if needed
