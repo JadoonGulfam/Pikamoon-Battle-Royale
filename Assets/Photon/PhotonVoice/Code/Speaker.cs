@@ -178,7 +178,9 @@ namespace Photon.Voice.Unity
     #if UNITY_2021_2_OR_NEWER // requires ES6
             webOutAudioSource = this.GetComponent<AudioSource>();
             double initSpatialBlend = webOutAudioSource != null ? webOutAudioSource.spatialBlend : 0;
-            webOut = new WebAudioAudioOut(this.playDelayConfig, initSpatialBlend, this.Logger, string.Empty, true);
+            double refDistance = webOutAudioSource != null ? webOutAudioSource.minDistance : 0;
+            double maxDistance = webOutAudioSource != null ? webOutAudioSource.maxDistance : 0;
+            webOut = new WebAudioAudioOut(this.playDelayConfig, initSpatialBlend, refDistance, maxDistance, this.Logger, string.Empty, true);
             if (initSpatialBlend > 0)
             {
                 var al = FindObjectOfType<AudioListener>();

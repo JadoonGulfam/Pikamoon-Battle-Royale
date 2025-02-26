@@ -7,7 +7,7 @@ mergeInto(LibraryManager.library, {
         }
     },
     
-    PhotonVoice_WebAudioAudioOut_Start: function(handle, sampleRate, channels, bufferSamples, spatialBlend) {
+    PhotonVoice_WebAudioAudioOut_Start: function(handle, sampleRate, channels, bufferSamples, spatialBlend, refDistance, maxDistance) {
         if (!Module.PhotonVoice_WebAudioAudioOut_Global) {
             Module.PhotonVoice_WebAudioAudioOut_Global = {};
             Module.PhotonVoice_WebAudioAudioOut_Global.Sources = new Map();
@@ -130,9 +130,10 @@ mergeInto(LibraryManager.library, {
             let spatialBlendNode1;
             let spatialBlendNode2;
             if (spatialBlend > 0) {
-                const options = {
-                }
-                pannerNode = new PannerNode(audioContext, options);
+                pannerNode = new PannerNode(audioContext);
+                pannerNode.distanceModel = "linear";
+                pannerNode.refDistance = refDistance;
+                pannerNode.maxDistance = maxDistance;
                 
                 if (spatialBlend < 1) {
                     spatialBlendNode1 = audioContext.createGain();
