@@ -1,9 +1,10 @@
 using UnityEngine;
 using Pikamoon.Controller;
-public class TempPikamoonCapture : MonoBehaviour,ICapturable
+public class TempPikamoonCapture : MonoBehaviour, ICapturable
 {
     [SerializeField] float TimeToBeCaptured;
     [SerializeField] bool isStunned;
+
     CapturedInfo capturedInfo;
     public bool isReadyToBeCaptured { 
         get
