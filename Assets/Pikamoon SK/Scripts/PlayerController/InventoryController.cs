@@ -103,11 +103,11 @@ namespace Pikamoon.Controller
             //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
             //    return;
 
-            if (!MP_Setup.isMinePlayer)
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
 
-            Dummy.position = this.transform.position + (this.transform.forward * 2) + (Vector3.up * 2);
+            //Dummy.position = this.transform.position + (this.transform.forward * 2) + (Vector3.up * 2);
 
 
             ContinuousCheckForItemsForPickup();
@@ -325,6 +325,7 @@ namespace Pikamoon.Controller
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
+            isUsingWeapon = false;
 
             UI.DropWeapon(UsingWeaponIndex);
 

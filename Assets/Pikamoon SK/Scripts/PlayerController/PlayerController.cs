@@ -35,7 +35,8 @@ namespace Pikamoon.Controller
         Throwing,
         Shooting,
         Swimming,
-        Battle
+        Battle,
+        Capture
     }
 
 
@@ -45,10 +46,6 @@ namespace Pikamoon.Controller
         public PlayerData PlayerData;
         public StateType CurrentPlayerState;
 
-        public bool IsInAttack;
-        public bool IsSwimming;
-        public bool IgnoreGravity;
-        [SerializeField] Vector3 crouchColliderOffset;
 
         [Header("References")]
         public Transform Head; 
@@ -72,19 +69,10 @@ namespace Pikamoon.Controller
 
         [Header("Grounded Settings")]
         [Space]
+        [SerializeField] Vector3 crouchColliderOffset;
         [SerializeField] Vector3 groundCheckColliderScale;
         public LayerMask groundLayer;
         
-        [SerializeField] bool isGrounded;
-        public bool IsGrounded
-        {
-            get
-            {
-                return isGrounded;
-                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
-                //return characterController.isGrounded;
-            }
-        }
 
 
         [HideInInspector] public CameraController _cameraController;
@@ -116,8 +104,22 @@ namespace Pikamoon.Controller
             set { isRootMotionEnabled = value; }
             
         }
+        
+        [SerializeField] bool canExitCrouch;
+        public bool CanExitCrouch
+        {
+            get
+            {
+                if (CurrentPlayerState == StateType.Crouch && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
+                    return true;
+                else
+                    return false;
+            }
+        }
 
-
+        public bool IsInAttack;
+        public bool IsSwimming;
+        public bool IgnoreGravity;
 
         float speed;
         public float Speed
@@ -138,6 +140,16 @@ namespace Pikamoon.Controller
             }
         }
 
+        [SerializeField] bool isGrounded;
+        public bool IsGrounded
+        {
+            get
+            {
+                return isGrounded;
+                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
+                //return characterController.isGrounded;
+            }
+        }
 
 
         [SerializeField] bool inAir;
@@ -154,18 +166,6 @@ namespace Pikamoon.Controller
         }
 
 
-
-        [SerializeField] bool canExitCrouch;
-        public bool CanExitCrouch
-        {
-            get
-            {
-                if (CurrentPlayerState == StateType.Crouch && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
-                    return true;
-                else
-                    return false;
-            }
-        }
 
         public Vector3 Velocity
         {
@@ -203,9 +203,6 @@ namespace Pikamoon.Controller
             {
                 state.Initialize();
             }
-
-
-
         }
 
         private void Update()

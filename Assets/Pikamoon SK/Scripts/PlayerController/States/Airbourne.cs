@@ -47,7 +47,7 @@ namespace Pikamoon.Controller
             //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
             //    return;
 
-            if (!MP_Setup.isMinePlayer)
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
             HandleGravity();
@@ -118,6 +118,11 @@ namespace Pikamoon.Controller
             }
         }
 
+        public void Jump()
+        {
+
+        }
+
         public override void OnEnd()
         {
         }
@@ -136,7 +141,7 @@ namespace Pikamoon.Controller
             //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
             //    return;
 
-            if (!MP_Setup.isMinePlayer)
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
             playerInput.onWalk_Up -= StartJumping;

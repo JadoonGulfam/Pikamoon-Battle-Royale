@@ -73,7 +73,7 @@ namespace Pikamoon.Controller
             //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
             //    return;
 
-            if (!MP_Setup.isMinePlayer)
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
             if (Controller.CurrentPlayerState == StateType.Crouch || Controller.IsInAttack)

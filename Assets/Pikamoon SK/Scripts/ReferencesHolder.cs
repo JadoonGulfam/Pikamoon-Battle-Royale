@@ -24,14 +24,15 @@ namespace Pikamoon.Controller
         {
             Instance = this;
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Locked ;
+            Cursor.lockState = CursorLockMode.Locked;
+            CamefromMPCAll = false;
 
         }
         bool CamefromMPCAll;
         private void Start()
         {
-            //if (!CamefromMPCAll)
-            //    InstantiatePlayer();
+            if (!CamefromMPCAll)
+                InstantiatePlayer();
         }
 
         void InstantiatePlayer()
