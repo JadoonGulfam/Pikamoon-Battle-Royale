@@ -18,6 +18,7 @@ public class PikamoonAI : NetworkBehaviour
     public float attackDistance = 1f;
     public float idleTimeBetweenRoaming = 1f; // Delay before moving to the next roaming point
 
+    
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();

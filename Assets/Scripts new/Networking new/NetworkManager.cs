@@ -179,7 +179,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             GameObject go = GameObject.FindGameObjectWithTag("Ref");
             NetworkObject playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
             go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject);
-            // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], Vector3.zero, Quaternion.identity);
+            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
+
             if (!isPikamoonAdd) 
             { 
                 PopulatePikamoonOverNetwork();

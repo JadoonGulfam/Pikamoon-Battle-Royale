@@ -9,7 +9,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using CharacterCustomization;
 using System.IO;
-using WebSocketSharp;
+  using WebSocketSharp;
 public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 {
 
