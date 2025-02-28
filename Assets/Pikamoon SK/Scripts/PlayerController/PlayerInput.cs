@@ -17,19 +17,21 @@ namespace Pikamoon.Controller
 
         protected static PlayerInput s_Instance;
         public OnBtnClicked onAttack1_Clicked;
+
         public OnBtnDown onAttack1_Down;
-        public OnBtnUp onAttack1_Up;
+        public OnBtnUp   onAttack1_Up;
 
 
         public OnBtnClicked onAttack2_Clicked; 
+
         public OnBtnDown onAttack2_Down;
-        public OnBtnUp onAttack2_Up;
+        public OnBtnUp   onAttack2_Up;
 
         public OnBtnDown onSprint_Down;
-        public OnBtnUp onSprint_Up;
+        public OnBtnUp   onSprint_Up;
 
         public OnBtnDown onCrouch_Down;
-        public OnBtnUp onCrouch_Up;
+        public OnBtnUp   onCrouch_Up;
 
         public OnBtnDown onWalk_Down;
         public OnBtnUp   onWalk_Up;
@@ -39,6 +41,11 @@ namespace Pikamoon.Controller
 
         public OnBtnDown onJump_Down;
         
+        public OnBtnDown onWeaponDrop_Down;
+
+        public OnBtnDown onCapture_Down;
+        public OnBtnUp   onCapture_Up;
+
         [HideInInspector]
         //public bool isSprinting;
         //public bool isCrouching;
@@ -46,15 +53,10 @@ namespace Pikamoon.Controller
         [SerializeField] float horizontal;
         [SerializeField] float vertical;
 
-        [SerializeField] Vector2 m_Camera;
         [SerializeField] bool jump;
         [SerializeField] float jumpVelocity;
         [Space]
-        [SerializeField] bool attack1;
-        [SerializeField] bool attack2;
 
-        [SerializeField] float m_AttackInputWait;
-        protected bool m_ExternalInputBlocked;
         //[SerializeField] PlayerController m_Controller;
 
 
@@ -63,8 +65,6 @@ namespace Pikamoon.Controller
         {
             get
             {
-                if (m_ExternalInputBlocked)
-                    return 0;
                 return vertical;
             }
         }
@@ -82,32 +82,11 @@ namespace Pikamoon.Controller
                 return horizontal;
             }
         }
-        public Vector2 CameraInput
-        {
-            get
-            {
-                return m_Camera;
-            }
-        }
+
         public bool JumpInput
         {
             get { return jump; }
             set { jump = value; }
-        }
-        public bool isAttacking
-        {
-            get { return attack1 || attack2; }
-        }
-
-        public bool isAttack_1
-        {
-            get { return attack1; }
-            set { attack1 = value; }
-        }
-        public bool isAttack_2
-        {
-            get { return attack2; }
-            set { attack2 = value; }
         }
 
 
@@ -141,10 +120,6 @@ namespace Pikamoon.Controller
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 onSprint_Down?.Invoke();
-                //if (!isCrouching)
-                //{
-                //    ToggleSprinting();
-                //}
             }
 
             if(Input.GetKeyUp(KeyCode.LeftShift))
@@ -153,26 +128,13 @@ namespace Pikamoon.Controller
             }
 
 
-            if (Input.GetKeyDown(KeyCode.LeftControl))// && m_Controller.IsGrounded)
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                Debug.Log("KSKSKSKSKSKSKSKSK");
                 onCrouch_Down?.Invoke();
-                //if (isSliding)
-                //{
-                //    isSliding = false;
-                //    isSprinting = false;
-                //    ReferencesHolder.Instance._CameraController.ChangeCam(Cam.Default);
-                //}
-                //else if (isSprinting)
-                //{
-                //    StartSliding();
-                //}
-                //else
-                //{
-                //    ToggleCrouching();
-                //}
+
             }
-            if (Input.GetKeyUp(KeyCode.LeftControl))// && m_Controller.IsGrounded)
+
+            if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 onCrouch_Up?.Invoke();
                
@@ -190,6 +152,23 @@ namespace Pikamoon.Controller
             }
 
 
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                onCapture_Down?.Invoke();
+            }
+
+            if (Input.GetKeyUp(KeyCode.C))
+            {
+                onCapture_Up?.Invoke();
+            }
+
+
+
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                onWeaponDrop_Down?.Invoke();
+            }
+
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -203,36 +182,25 @@ namespace Pikamoon.Controller
             }
 
 
-            //if (vertical == 0 && horizontal == 0)
-            //{
-            //    if(isSprinting)
-            //    {
-            //        ToggleSprinting();
-            //    }
-            //}
 
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetMouseButtonDown(0))
             {
-                //Debug.Log("LMB Down");
                 onAttack1_Clicked?.Invoke();
                 onAttack1_Down?.Invoke();
             }
-            else if (Input.GetButtonUp("Fire1"))
+            else if (Input.GetMouseButtonUp(0))
             {
-                //Debug.Log("LMB Up");
                 onAttack1_Up?.Invoke();
             }
 
 
-            if (Input.GetButtonDown("Fire2"))
+            if (Input.GetMouseButtonDown(1))
             {
-                //Debug.Log("RMB Down");
                 onAttack2_Clicked?.Invoke();
                 onAttack2_Down?.Invoke();
             }
-            else if (Input.GetButtonUp("Fire2"))
+            else if (Input.GetMouseButtonUp(1))
             {
-                //Debug.Log("RMB Up");
                 onAttack2_Up?.Invoke();
             }
         }
@@ -288,19 +256,5 @@ namespace Pikamoon.Controller
         //        }
         //}
 
-        public bool HaveControl()
-        {
-            return !m_ExternalInputBlocked;
-        }
-
-        public void ReleaseControl()
-        {
-            m_ExternalInputBlocked = true;
-        }
-
-        public void GainControl()
-        {
-            m_ExternalInputBlocked = false;
-        }
     }
 }

@@ -26,10 +26,7 @@ namespace Pikamoon.Controller
         [Space]
         public int MaxMovesInCombo;
         [Space]
-        public AnimatorOverrideController AnimOC;
-        [Space]
         public MeleeCombo[] combos;
-
     }
 
 }

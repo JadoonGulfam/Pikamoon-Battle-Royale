@@ -55,13 +55,22 @@ namespace Pikamoon.Controller
             AllowFire = true;
         }
 
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
+                return;
+
+
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
             {
                 ActiveWeapon = null;
                 return;
             }
+
             AimRigging();
 
             if (!Controller.IsInAttack)
@@ -71,6 +80,7 @@ namespace Pikamoon.Controller
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
         }
+            
 
         //public override void Initialize()
         //{
@@ -89,6 +99,17 @@ namespace Pikamoon.Controller
 
                 FireRate = ActiveWeapon.GetFireRate();
             }
+        }
+
+
+        public void ActivateWeapon(Weapon _weapon)
+        {
+            bulletIndex = 0;
+           
+
+            ActiveWeapon = Controller.ActiveWeapon.Prefab as RangedWeapon;
+
+            FireRate = ActiveWeapon.GetFireRate();
         }
 
         void AimRigging()
@@ -295,6 +316,12 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onAttack1_Clicked -= PlayFireAnimation;
             playerInput.onAttack2_Down -= StartAim;
             playerInput.onAttack2_Up -= CancelAim;

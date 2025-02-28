@@ -12,7 +12,7 @@ namespace Pikamoon.Controller
 
         public GameObject PlayerPrefab;
 
-        [HideInInspector] public PlayerController _playerController;
+       public PlayerController _playerController;
 
         public CameraController _cameraController;
 
@@ -24,20 +24,22 @@ namespace Pikamoon.Controller
         {
             Instance = this;
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Locked ;
+            Cursor.lockState = CursorLockMode.Locked;
+            CamefromMPCAll = false;
 
         }
-
+        bool CamefromMPCAll;
         private void Start()
         {
-            InstantiatePlayer(PlayerPrefab);
+            if (!CamefromMPCAll)
+                InstantiatePlayer();
         }
 
-        void InstantiatePlayer(GameObject GO)
+        void InstantiatePlayer()
         {
             if (_playerController == null)
             {
-                //GameObject GO = Instantiate(PlayerPrefab) as GameObject;
+                GameObject GO = Instantiate(PlayerPrefab) as GameObject;
                 _playerController = GO.GetComponent<PlayerController>();
             }
 
@@ -49,11 +51,32 @@ namespace Pikamoon.Controller
             _playerController.Inititalize(_playerInput,_cameraController, _hudController);
         }
 
-        public void InstantiatePlayerMP(GameObject GO)
+        public void InstantiatePlayer(GameObject GO)
+        {
+            CamefromMPCAll = true;
+
+            _playerController = GO.GetComponent<PlayerController>();
+
+            _playerController.transform.position = _SpawnPoint.position;
+            _playerController.transform.rotation = _SpawnPoint.rotation;
+
+            _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
+
+            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+        }
+
+        public void InstantiatePlayerFromMultiplayer(GameObject GO)
         {
 
-             _playerController = GO.GetComponent<PlayerController>();
 
+            _playerController = GO.GetComponent<PlayerController>();
+
+            if(!_playerController.GetComponent<PlayerSetupForMultiplayer>().isMinePlayer)
+            {
+                return;
+            }
+            
+            
             _playerController.transform.position = _SpawnPoint.position;
             _playerController.transform.rotation = _SpawnPoint.rotation;
 

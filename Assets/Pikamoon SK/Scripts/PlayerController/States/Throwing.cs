@@ -73,9 +73,15 @@ namespace Pikamoon.Controller
             AssignWeapon();
 
         }
-        public void ActivateWithWeapon()
-        {
 
+        public void ActivateWeapon( Weapon _weapon)
+        {
+            ActiveWeapon = _weapon as ThrowableWeapon; 
+            
+            DefaultPos = ActiveWeapon.transform.localPosition;
+            DefaultRot = ActiveWeapon.transform.localRotation;
+
+            isActiveWeaponInHand = true;
         }
 
         void AssignWeapon()
@@ -89,8 +95,16 @@ namespace Pikamoon.Controller
         }
 
 
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
+                return;
+
+
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
             {
                 ActiveWeapon = null;
@@ -147,7 +161,6 @@ namespace Pikamoon.Controller
             AC.PAnimator.SetLayerWeight(2, 1);
 
             _isAiming = true;
-            Controller.IsInAttack = true;
 
             AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, true);
             AC.PAnimator.SetBool(AC.Parameters.isAiming.Hash, true);

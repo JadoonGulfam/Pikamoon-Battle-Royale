@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 public enum CharacterStates
@@ -15,7 +16,7 @@ public enum CharacterStates
 namespace Pikamoon.Controller
 {
     [RequireComponent(typeof(CharacterController))]
-    public class Locomotion : State
+    public class Locomotion : State 
     {
         #region Public Fields
 
@@ -41,6 +42,7 @@ namespace Pikamoon.Controller
 
         Sliding sliding;
 
+        
         bool isSprinting;
         bool isWalking;
 
@@ -50,21 +52,30 @@ namespace Pikamoon.Controller
 
         public override void Initialize()
         {
-            base.Initialize();
+            
+                base.Initialize();
 
-            playerInput.onSprint_Down +=  EnableSprinting;
-            playerInput.onSprint_Up   += DisableSprinting;
+                playerInput.onSprint_Down += EnableSprinting;
+                playerInput.onSprint_Up += DisableSprinting;
 
-            playerInput.onWalk_Down +=  EnableWalk;
-            playerInput.onWalk_Up   += DisableWalk;
+                playerInput.onWalk_Down += EnableWalk;
+                playerInput.onWalk_Up += DisableWalk;
 
-            playerInput.onCrouch_Down += ToggleCrouch;
-            //playerInput.onCrouch_Up += DisableCrouch;
+                playerInput.onCrouch_Down += ToggleCrouch;
+                //playerInput.onCrouch_Up += DisableCrouch;
+            
+
 
         }
-
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
+                return;
+
             if (Controller.CurrentPlayerState == StateType.Crouch || Controller.IsInAttack)
                 return;
 
@@ -91,6 +102,7 @@ namespace Pikamoon.Controller
                     OnEnd();
                 }
             }
+           
         }
 
         void HandleSpeed()
@@ -180,7 +192,7 @@ namespace Pikamoon.Controller
 
         void ToggleCrouch()
         {
-            if (Controller.CurrentPlayerState != StateType.Locomtion)
+            if (Controller.CurrentPlayerState != StateType.Locomtion || !Controller.IsGrounded)
                 return;
 
             if (isSprinting)

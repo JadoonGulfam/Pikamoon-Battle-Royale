@@ -159,7 +159,6 @@ GameObject:
   - component: {fileID: 9165773589251219229}
   - component: {fileID: 7339713428241159807}
   - component: {fileID: 6834275013521642779}
-  - component: {fileID: 3458206423333775971}
   m_Layer: 12
   m_Name: Mesh
   m_TagString: Untagged
@@ -238,27 +237,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3458206423333775971
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1604877480578184126}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.29842272, y: 0.8453384, z: 0.049158085}
-  m_Center: {x: 0.03519884, y: -0.07875146, z: 0.00006777835}
 --- !u!1 &2413224441142724401
 GameObject:
   m_ObjectHideFlags: 0
@@ -14881,8 +14859,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.096999966, y: -0.03399996, z: 0.284}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9165773589251219229}
   - {fileID: 9027539284239685890}
@@ -14930,9 +14908,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec76c21bc4eed6d40997d24247e3a530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 0
+  isEquiped: 0
   Type: 2
   weaponData: {fileID: 11400000, guid: d4aa189a8c3c5d94dbcf8abfd1672637, type: 2}
-  _collider: {fileID: 8416848981156566116}
+  _colliders:
+  - {fileID: 8416848981156566116}
   Health: 100
   rb: {fileID: 3254012106018061123}
   rotationSpeed: 500
@@ -14962,5 +14943,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.06, y: 0.84, z: 0.33}
+  m_Center: {x: 0, y: 0.16, z: 0.04}

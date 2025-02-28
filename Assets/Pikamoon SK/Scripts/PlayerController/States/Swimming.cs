@@ -32,9 +32,16 @@ namespace Pikamoon.Controller
             playerInput.onSprint_Up   += DisbleFastSwim;
         }
 
-        // Update is called once per frame
-        void Update()
+        public PlayerSetupForMultiplayer MP_Setup;
+        private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
+                return;
+
+
             _inWater =  Physics.CheckSphere(this.transform.position, 0.5f, waterLayer);
 
             if (!_inWater)

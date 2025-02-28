@@ -41,15 +41,21 @@ namespace Pikamoon.Controller
             playerInput.onJump_Down += StartJumping;
         }
 
-
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
+                return;
+
             HandleGravity();
         }
 
         void StartJumping()
         {
-            if (!Controller.InAir)// && playerInput.JumpInput)
+            if (!Controller.InAir && !Controller.IsRootMotionEnabled)
             {
                 playerInput.JumpVelocity = Mathf.Sqrt(playerData.JumpHeight * 2f * Gravity);
                 isJumping = true;
@@ -70,6 +76,7 @@ namespace Pikamoon.Controller
             if(Controller.IgnoreGravity)
             {
                 playerInput.JumpVelocity = 0;
+
                 return;
             }
 
@@ -92,7 +99,7 @@ namespace Pikamoon.Controller
             }
             else 
             {
-                if(!Controller.InAir)
+                if(!Controller.InAir && !Controller.IsRootMotionEnabled)
                 {
                     Controller.InAir = true;
 
@@ -111,6 +118,11 @@ namespace Pikamoon.Controller
             }
         }
 
+        public void Jump()
+        {
+
+        }
+
         public override void OnEnd()
         {
         }
@@ -126,6 +138,12 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onWalk_Up -= StartJumping;
         }
     }

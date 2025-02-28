@@ -24,7 +24,12 @@ namespace Pikamoon.UI
                 selectedIndex = index;
         }
 
-        public void EmptyWeapon(int index)
+        public void UnEquipWeapon(int index)
+        {
+            Weapons[index].UnAssignItem();
+        }
+
+        public void DropWeapon(int index)
         {
             Weapons[index].RemoveItem();
         }

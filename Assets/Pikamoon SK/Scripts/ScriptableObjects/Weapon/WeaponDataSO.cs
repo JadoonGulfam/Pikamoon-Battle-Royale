@@ -13,5 +13,8 @@ namespace Pikamoon.Controller
         public Sprite icon;
 
         public int InitialHealth;
+
+        [Space]
+        public AnimatorOverrideController AnimOC;
     }
 }

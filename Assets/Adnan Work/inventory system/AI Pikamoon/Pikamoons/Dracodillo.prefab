@@ -606,6 +606,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 1643213340320022308}
   - {fileID: 3111852195072821215}
+  - {fileID: 6066740365156658276}
 --- !u!143 &2401695757286070619
 CharacterController:
   m_ObjectHideFlags: 0
@@ -700,7 +701,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6366d5e43091d2a4d87709b6c7b22297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleTime: 2
+  navMeshAgent: {fileID: 0}
+  idleTimeMin: 1
+  idleTimeMax: 2.5
+  moveTimeMin: 5
+  moveTimeMax: 8
+  maxRoamingAngle: 90
 --- !u!114 &935546042394434203
 MonoBehaviour:
   m_ObjectHideFlags: 0
