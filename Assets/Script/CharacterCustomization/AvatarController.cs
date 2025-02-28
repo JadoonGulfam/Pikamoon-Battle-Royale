@@ -7,11 +7,9 @@ public class AvatarController : MonoBehaviour
     public AvatarDefaultClothes maleAvatarDefaultCostume;
     public AvatarDefaultClothes femaleAvatarDefaultCostume;
 
-    //private DefaultClothDatabase defaultClothDatabase;
     public Stitcher stitcher;
     public SkinnedMeshRenderer body, eye;
     public GameObject wornHair, wornCloth;
-    //AvatarBodyParts avatarBodyParts;
     public GenderType genderType;
 
     public CharacterData currentCharacterData;
@@ -19,8 +17,6 @@ public class AvatarController : MonoBehaviour
     private void Awake()
     {
         stitcher = new Stitcher();
-        //avatarBodyParts = GetComponent<AvatarBodyParts>();
-        // defaultClothDatabase = GetComponent<DefaultClothDatabase>();
     }
     void Start()
     {
@@ -32,7 +28,7 @@ public class AvatarController : MonoBehaviour
     {
         WearDefaultItem(BodyPartsType.Body, applyOn.gameObject, _gender);
         WearDefaultItem(BodyPartsType.Hair, applyOn.gameObject, _gender);
-        SetDefaultTexture();
+        //SetDefaultTexture();
     }
     private AvatarDefaultClothes GetDefaultCostume(GenderType gender)
     {
@@ -40,26 +36,20 @@ public class AvatarController : MonoBehaviour
     }
     public void WearDefaultItem(BodyPartsType _type, GameObject _applyOn, GenderType _gender)
     {
-        //if (_gender == GenderType.male) // if avatar is Male
-        //{
         var defaultCostume = GetDefaultCostume(_gender);
         if (defaultCostume == null) return;
         switch (_type)
         {
             case BodyPartsType.Body:
-                //  if (maleAvatarDefaultCostume.DefaultBody != null)
                 StichItem(defaultCostume.DefaultBody, _type, _applyOn);
                 break;
             case BodyPartsType.Hair:
-                // if (maleAvatarDefaultCostume.DefaultHair != null)
                 StichItem(defaultCostume.DefaultHair, _type, _applyOn);
                 break;
             case BodyPartsType.Eyes:
-                // if (maleAvatarDefaultCostume.DefaultEyes != null)
                 ApplyEyeTexture(defaultCostume.DefaultEyes, string.Empty);
                 break;
             case BodyPartsType.Eyebrow:
-                // if (maleAvatarDefaultCostume.DefaultEyebrow != null)
                 ApplyEyebrowTexture(defaultCostume.DefaultEyebrow, string.Empty);
                 break;
             case BodyPartsType.Skin:
@@ -79,48 +69,7 @@ public class AvatarController : MonoBehaviour
             //    break;
             default:
                 break;
-        }
-        // }
-        //if (_gender == GenderType.female) // if avatar is FeMale
-        //{
-        //    switch (_type)
-        //    {
-        //        case BodyPartsType.Body:
-        //            if (femaleAvatarDefaultCostume.DefaultBody != null)
-        //                StichItem(-1, femaleAvatarDefaultCostume.DefaultBody, _type, _applyOn);
-        //            break;
-        //        case BodyPartsType.Hair:
-        //            if (femaleAvatarDefaultCostume.DefaultHair != null)
-        //                StichItem(-1, femaleAvatarDefaultCostume.DefaultHair, _type, _applyOn);
-        //            break;
-        //        case BodyPartsType.Eyes:
-        //            if (femaleAvatarDefaultCostume.DefaultEyes != null)
-        //                ApplyEyeTexture(femaleAvatarDefaultCostume.DefaultEyes, string.Empty);
-        //            break;
-        //        case BodyPartsType.Eyebrow:
-        //            if (femaleAvatarDefaultCostume.DefaultEyebrow != null)
-        //                ApplyEyebrowTexture(femaleAvatarDefaultCostume.DefaultEyebrow, string.Empty);
-        //            break;
-        //        case BodyPartsType.Skin:
-        //            if (femaleAvatarDefaultCostume.DefaultSkin != null && femaleAvatarDefaultCostume.DefaultFace != null)
-
-        //            {
-        //                ApplyFaceTexture(femaleAvatarDefaultCostume.DefaultFace, string.Empty);
-        //                ApplySkinTexture(femaleAvatarDefaultCostume.DefaultSkin, string.Empty);
-        //            }
-        //            break;
-        //        //case BodyPartsType.Arms:
-        //        //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
-        //        //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
-        //        //    else if (wornArms != null)
-        //        //    {
-        //        //        UnStichItem(_type);
-        //        //    }
-        //        //    break;
-        //        default:
-        //            break;
-        //    }
-        //}
+        }     
     }
     public void StichItem(GameObject item, BodyPartsType _type, GameObject applyOn, bool applyHairColor = true)
     {
@@ -139,10 +88,10 @@ public class AvatarController : MonoBehaviour
                 break;
             case BodyPartsType.Hair:
                 wornHair = stitchedItem;
-                if (currentCharacterData.hairColor != Color.black && applyHairColor)
-                    ApplyColor(ColorUtility.ToHtmlStringRGB(currentCharacterData.hairColor), BodyType.Hair);
-                if (Constants.getColorObject != null)
-                    Constants.getColorObject.Invoke();
+                //if (currentCharacterData.hairColor != Color.black && applyHairColor)
+                //    ApplyColor(ColorUtility.ToHtmlStringRGB(currentCharacterData.hairColor), BodyType.Hair);
+                //if (Constants.getColorObject != null)
+                //    Constants.getColorObject.Invoke();
                 break;
         }
 

@@ -17,7 +17,6 @@ public class CharacterCustomizationManager : MonoBehaviour
     public Button doneButton;
 
     private string selectedGender = "Male"; // Default gender selection
-    private bool isFirstTime = true; // To check if it's the first game launch
 
     private void OnEnable()
     {
@@ -31,7 +30,8 @@ public class CharacterCustomizationManager : MonoBehaviour
     }
     private void Awake()
     {
-        GameManager.instance.InitPlayer();
+       // GameManager.instance.InitPlayer();
+       GameManager.instance.SpawnPrefab(0);
     }
     IEnumerator Start()
     {

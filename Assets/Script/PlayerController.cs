@@ -62,11 +62,11 @@ public class PlayerController : NetworkBehaviour
         {
 
             GetComponent<HNSPlayerController>().enabled = true;
-            myCharacterindex = GameManager.instance.myCharacter;
+          //  myCharacterindex = GameManager.instance.myCharacter;
             GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
             GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
 
-            playerName.text = GameManager.instance._playerName;
+          //  playerName.text = GameManager.instance._playerName;
            // GameManager.instance.MyLocalPlayer = gameObject;
             virtualCamera = GameObject.Find("PlayerFollowCamera");
             virtualCamera.GetComponent<CinemachineFreeLook>().Follow = playerCameraRoot;
@@ -74,7 +74,7 @@ public class PlayerController : NetworkBehaviour
 
             //   GetComponent<PersonController>().enabled = true;
             //  GetComponent<PlayerInput>().enabled = true;
-            userName = GameManager.instance._playerName;
+         //   userName = GameManager.instance._playerName;
             //   StartCoroutine(SpawnTest());// userName);
 
             // Temp button for pika to spawn in environment

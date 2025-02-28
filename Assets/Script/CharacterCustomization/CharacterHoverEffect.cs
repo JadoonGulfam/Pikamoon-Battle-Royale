@@ -74,15 +74,15 @@ public class CharacterHoverEffect : MonoBehaviour
         {
             isSelected = true; // Mark as selected to disable further hover effect           
             GameManager.instance._player = this.gameObject;
-            // Disable all other characters except the selected one
-            foreach (GameObject character in GameManager.instance.instantiatedPlayers)
-            {
-                if (character != this.gameObject)
-                {
-                    //Debug.Log("char "+ character.name);
-                    character.SetActive(false);
-                }
-            }
+            //// Disable all other characters except the selected one
+            //foreach (GameObject character in GameManager.instance.instantiatedPlayers)
+            //{
+            //    if (character != this.gameObject)
+            //    {
+            //        //Debug.Log("char "+ character.name);
+            //        character.SetActive(false);
+            //    }
+            //}
             // Move the selected character to the target position
             StartCoroutine(MoveToPosition(selectedPosition));
             // Optionally, you can add any code here to finalize selection, like deactivating this script

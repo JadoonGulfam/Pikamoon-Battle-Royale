@@ -34,12 +34,12 @@ public class CharacterData
     public string torsoShape;
     public string hairPreset;
     public string clothPreset;
-    // public string trouserPreset;
     public string eyeColor;
     public string eyeBrowShape;
     public string skinColor;
     public Color hairColor;
-    //  public Color lipsColor;
+    public int index;
+    public string name;
     public string characterPreset;
     public CharacterData Clone()
     {
