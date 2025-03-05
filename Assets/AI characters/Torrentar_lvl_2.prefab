@@ -88,9 +88,6 @@ PrefabInstance:
       addedObject: {fileID: -2830489876996311529}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4833418914107136969}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7849253369628126638}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
       insertIndex: -1
@@ -98,6 +95,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
       insertIndex: -1
       addedObject: {fileID: -2555940040789612238}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4657501894592319617}
   m_SourcePrefab: {fileID: 100100000, guid: 61238d6f95de40b4087fae5d1633cee7, type: 3}
 --- !u!1 &7615386055355094756 stripped
 GameObject:
@@ -264,8 +264,9 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 2850989824849579810}
   - {fileID: -2830489876996311529}
-  - {fileID: 4833418914107136969}
   - {fileID: 7849253369628126638}
+  - {fileID: 4657501894592319617}
+  ForceRemoteRenderTimeframe: 0
 --- !u!114 &-2830489876996311529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,28 +279,11 @@ MonoBehaviour:
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
   SyncScale: 0
   SyncParent: 0
   _autoAOIOverride: 0
   DisableSharedModeInterpolation: 1
---- !u!114 &4833418914107136969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7615386055355094756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 8137401178634237385}
-  TotalWords: 4
-  ApplyTiming: 2
-  SyncSettings: 127
-  StateHashes: 0000000046980c4f14c27366
-  TriggerHashes: 00000000f5680fc6
 --- !u!114 &7849253369628126638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,3 +324,21 @@ MonoBehaviour:
   capturedPikamoons: []
   player: {fileID: 0}
   players: []
+--- !u!114 &4657501894592319617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7615386055355094756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 8137401178634237385}
+  ApplyTiming: 3
+  SyncSettings: 127
+  StateHashes: 0000000046980c4f14c273662b1a167c7940695520e23b685928a8ce7222592e99e1d1d3
+  TriggerHashes: 00000000f5680fc6b91cfd8c6ec594c8a1609f62
+  TotalWords: 4

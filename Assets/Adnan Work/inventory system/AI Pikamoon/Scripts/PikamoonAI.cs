@@ -98,6 +98,7 @@ public class PikamoonAI : NetworkBehaviour
         animator.SetFloat("Move", 0); // Idle animation
         animator.SetTrigger("StopMove");
         animator.ResetTrigger("StartMove");
+        print("tiger: 2 ");
 
     }
 
@@ -113,6 +114,7 @@ public class PikamoonAI : NetworkBehaviour
           
             animator.SetFloat("Move", 1); // Walking animation
             animator.SetTrigger("StartMove");
+            print("tiger: 1 ");
             animator.ResetTrigger("StopMove");
         }
     }
@@ -122,6 +124,7 @@ public class PikamoonAI : NetworkBehaviour
         animator.SetFloat("Move", 0); // Idle animation
         animator.SetTrigger("StopMove");
         animator.ResetTrigger("StartMove");
+        print("tiger: 2 ");
         yield return new WaitForSeconds(idleTimeBetweenRoaming);
         SetNewRoamDestination();
     }
