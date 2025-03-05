@@ -52,7 +52,7 @@ namespace Pikamoon.Controller
             {
                 Vector3 velocity = AC.PAnimator.deltaPosition;
 
-                Debug.Log("Velocity = " + velocity.y);
+                //Debug.Log("Velocity = " + velocity.y);
 
                 //apply velocity for straight Y attacks, because by not doing this during attack the player will float in air
                 if (velocity.y >= -0.0005f && velocity.y <= 0.0005f)

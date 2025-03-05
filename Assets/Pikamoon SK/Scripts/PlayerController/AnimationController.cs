@@ -67,6 +67,7 @@ namespace Pikamoon.Controller
         public ParamBool isAiming;
         public ParamInt SecondaryState;
         public ParamTrigger EndCombat;
+        public ParamFloat SpeedMulForAnim;
 
     }
     public class AnimationController : MonoBehaviour
@@ -108,6 +109,7 @@ namespace Pikamoon.Controller
             Parameters.isAiming.Hash = Animator.StringToHash(Parameters.isAiming.Name);
             Parameters.SecondaryState.Hash = Animator.StringToHash(Parameters.SecondaryState.Name);
             Parameters.EndCombat.Hash = Animator.StringToHash(Parameters.EndCombat.Name);
+            Parameters.SpeedMulForAnim.Hash = Animator.StringToHash(Parameters.SpeedMulForAnim.Name);
         }
 
         public void SetAnimationState(string stateName, float transitionDuration = 0.1f)
@@ -123,7 +125,6 @@ namespace Pikamoon.Controller
 
         public void ChangeOverrideController(AnimatorOverrideController overrideController)
         {
-
             PAnimator.runtimeAnimatorController = overrideController;
         }
 
