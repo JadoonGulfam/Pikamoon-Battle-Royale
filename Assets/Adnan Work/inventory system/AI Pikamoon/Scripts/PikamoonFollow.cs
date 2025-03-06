@@ -21,7 +21,7 @@ public class PikamoonFollow : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.enabled = true;
-        
+        followMaster = GameObject.FindWithTag("Player").transform;
     }
 
     private void Update()
@@ -44,7 +44,13 @@ public class PikamoonFollow : MonoBehaviour
     public void DisableFollowing()
     {
         isFollowing = false;
-        navMeshAgent.ResetPath(); // Stop the NavMeshAgent
-        animator.SetFloat("Move", 0); // Set to idle animation
+        if(navMeshAgent != null)
+        {
+            navMeshAgent.ResetPath(); // Stop the NavMeshAgent
+            animator.SetFloat("Move", 0); // Set to idle animation
+            animator.SetTrigger("StopMove");
+            animator.ResetTrigger("StartMove");
+        }
+
     }
 }

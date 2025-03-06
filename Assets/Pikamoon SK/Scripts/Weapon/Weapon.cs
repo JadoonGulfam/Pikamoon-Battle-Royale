@@ -21,7 +21,7 @@ namespace Pikamoon.Controller
 
     }
 
-    public abstract class Weapon : Item, IPickable
+    public abstract class Weapon : Item, IPickable,IDroppable
     {
         public T GetWeaponDataAs<T>() where T : WeaponDataSO
         {
@@ -34,20 +34,33 @@ namespace Pikamoon.Controller
 
         [SerializeField] protected WeaponDataSO weaponData;
 
-        [SerializeField] protected Collider _collider;
+        [SerializeField] protected Collider[] _colliders;
 
         public int Health;
 
+        [Header("Scabbard")]
+        public bool HasScabbard;
+        public Transform Scabbard;
+
         public abstract WeaponInfo GetWeaponInfo();
 
-        public abstract void OnPicked();
+        
+        public abstract Transform GetScabbard();
+        public abstract void PlaceScabbard(Transform parent);
 
+
+        public abstract void OnPicked();
         public abstract void OnPicked(Transform Picker);
 
-        public abstract void Drop();
+
+
+        public abstract void OnDrop();
+        public abstract void OnDrop(Transform Picker, LayerMask DropLayer);
+
+
 
         public abstract void Equip();
-
         public abstract void UnEquip();
+
     }
 }

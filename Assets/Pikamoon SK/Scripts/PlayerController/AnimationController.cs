@@ -1,4 +1,6 @@
 using UnityEngine;
+using Fusion;
+
 namespace Pikamoon.Controller
 {
     [System.Serializable]
@@ -13,6 +15,8 @@ namespace Pikamoon.Controller
             public int Hash;
 
         }
+
+
         [System.Serializable]
         public struct ParamBool
         {
@@ -22,6 +26,8 @@ namespace Pikamoon.Controller
             public int Hash;
 
         }
+
+
         [System.Serializable]
         public struct ParamInt
         {
@@ -32,15 +38,17 @@ namespace Pikamoon.Controller
 
         }
 
+
         [System.Serializable]
         public struct ParamTrigger
         {
             public string Name;
-            public int Value;
+            public bool Value;
             [HideInInspector]
             public int Hash;
 
         }
+
 
         public ParamBool isWalkRun;
         public ParamBool inAir;
@@ -58,9 +66,10 @@ namespace Pikamoon.Controller
         public ParamTrigger Shoot;
         public ParamBool isAiming;
         public ParamInt SecondaryState;
+        public ParamTrigger EndCombat;
 
     }
-    public class AnimationController : MonoBehaviour
+    public class AnimationController : NetworkBehaviour
     {
         [SerializeField] Animator animator;
 
@@ -77,7 +86,6 @@ namespace Pikamoon.Controller
 
         public void Awake()
         {
-
             MakeHashesForParameters();
         }
 
@@ -99,6 +107,7 @@ namespace Pikamoon.Controller
             Parameters.Shoot.Hash = Animator.StringToHash(Parameters.Shoot.Name);
             Parameters.isAiming.Hash = Animator.StringToHash(Parameters.isAiming.Name);
             Parameters.SecondaryState.Hash = Animator.StringToHash(Parameters.SecondaryState.Name);
+            Parameters.EndCombat.Hash = Animator.StringToHash(Parameters.EndCombat.Name);
         }
 
         public void SetAnimationState(string stateName, float transitionDuration = 0.1f)
@@ -110,6 +119,13 @@ namespace Pikamoon.Controller
         {
             if (animator.HasState(0, stateHash))
                 animator.CrossFadeInFixedTime(stateHash, transitionDuration, 0);
+        }
+        
+        
+        public void ChangeOverrideController(AnimatorOverrideController overrideController)
+        {
+
+            PAnimator.runtimeAnimatorController = overrideController;
         }
 
     }

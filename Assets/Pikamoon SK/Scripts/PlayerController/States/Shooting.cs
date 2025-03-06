@@ -55,19 +55,31 @@ namespace Pikamoon.Controller
             AllowFire = true;
         }
 
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
-            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
                 return;
 
+
+            if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+            {
+                ActiveWeapon = null;
+                return;
+            }
             AimRigging();
 
             if (!Controller.IsInAttack)
                 return;
+
             HandleAnimation();
             MoveDuringAim();
             RotatePlayerTowardsCamFor();
         }
+            
 
         //public override void Initialize()
         //{
@@ -80,6 +92,19 @@ namespace Pikamoon.Controller
         void AssignWeapon()
         {
             bulletIndex = 0;
+            if(Controller.ActiveWeapon.Prefab is RangedWeapon)
+            {
+                ActiveWeapon = Controller.ActiveWeapon.Prefab as RangedWeapon;
+
+                FireRate = ActiveWeapon.GetFireRate();
+            }
+        }
+
+
+        public void ActivateWeapon(Weapon _weapon)
+        {
+            bulletIndex = 0;
+           
 
             ActiveWeapon = Controller.ActiveWeapon.Prefab as RangedWeapon;
 
@@ -93,8 +118,6 @@ namespace Pikamoon.Controller
                 if(riggingVal < 1)
                     riggingVal += Time.deltaTime * AR_LookSpeed;
 
-
-                //HandleSpeed();
 
                 AR_LookTarget.position = FirePoint.position;
                 Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
@@ -257,7 +280,6 @@ namespace Pikamoon.Controller
         public void ShootArrow()
         {
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-            DebugUITransform.position = screenCenterPoint;
 
             Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
@@ -268,8 +290,11 @@ namespace Pikamoon.Controller
                 {
                     AssignWeapon();
                 }
-                ActiveWeapon.ShootBullet(hit.point);
-                DebugTransform.transform.position = hit.point;
+                else
+                {
+                    ActiveWeapon.ShootBullet(hit.point);
+                    DebugTransform.transform.position = hit.point;
+                }
             }
         }
 
@@ -290,6 +315,12 @@ namespace Pikamoon.Controller
 
         private void OnDestroy()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onAttack1_Clicked -= PlayFireAnimation;
             playerInput.onAttack2_Down -= StartAim;
             playerInput.onAttack2_Up -= CancelAim;

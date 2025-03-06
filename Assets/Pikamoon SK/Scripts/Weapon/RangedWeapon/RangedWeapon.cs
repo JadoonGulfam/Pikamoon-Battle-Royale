@@ -88,27 +88,10 @@ namespace Pikamoon.Controller
             return rWeaponData.DelayInNextFire;
         }
 
-        public override void OnPicked()
-        {
-        }
 
-        public override void OnPicked(Transform Picker)
-        {
-        }
 
-        public override void Drop()
-        {
-        }
 
-        public override void Equip()
-        {
-            _collider.enabled = false;
-        }
-
-        public override void UnEquip()
-        {
-            _collider.enabled = true;
-        }
+        #region Parent Imnplementation
 
         public override WeaponInfo GetWeaponInfo()
         {
@@ -119,5 +102,65 @@ namespace Pikamoon.Controller
 
             return info;
         }
+
+
+
+        public override Transform GetScabbard()
+        {
+            if(HasScabbard)
+            {
+                return Scabbard;
+            }
+
+            return null;
+        }
+        public override void PlaceScabbard(Transform parent)
+        {
+            Scabbard.parent = parent;
+
+            Scabbard.transform.localPosition = Vector3.zero;
+            Scabbard.transform.localRotation = Quaternion.identity;
+        }
+
+
+        public override void OnPicked()
+        {
+            foreach (var collider in _colliders)
+            {
+                collider.enabled = false;
+            }
+        }
+        public override void OnPicked(Transform Picker)
+        {
+
+        }
+
+
+
+        public override void OnDrop()
+        {
+        }
+        public override void OnDrop(Transform Dropper, LayerMask DropLayer)
+        {
+        }
+
+
+
+        public override void Equip()
+        {
+
+        }
+        public override void UnEquip()
+        {
+
+        }
+
+        #endregion
+
+
+
+
+
+
     }
 }

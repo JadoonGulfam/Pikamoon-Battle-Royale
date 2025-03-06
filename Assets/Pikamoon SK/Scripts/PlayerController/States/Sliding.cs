@@ -24,13 +24,23 @@ namespace Pikamoon.Controller
             wasSliding = false;
             isHurdleAbove = false;
         }
-
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
+                return;
+
+
+
+
             //if (wasSliding)
             //    isHurdleAbove = Physics.CheckBox(this.transform.position + (Vector3.up*2),
             //                                    new Vector3(.5f, 1, .5f), 
             //                                    Quaternion.identity, Controller.groundLayer);
+
 
 
             if (Controller.CurrentPlayerState == StateType.Slide && !playerInput.JumpInput)
@@ -142,6 +152,12 @@ namespace Pikamoon.Controller
 
         public override void OnUpdate()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
+                return;
+
         }
     }
 }

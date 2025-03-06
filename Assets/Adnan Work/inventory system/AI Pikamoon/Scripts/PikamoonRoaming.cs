@@ -1,16 +1,16 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Animator))]
 public class PikamoonRoaming : MonoBehaviour
 {
-    private NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
     private Animator animator;
     private bool isRoaming = false;
     private float idleTimer;
     private float moveTimer;
     private bool isIdle = false;
-
     public float idleTimeMin = 1f; // Minimum idle time
     public float idleTimeMax = 2.5f; // Maximum idle time
     public float moveTimeMin = 5f; // Minimum move time
@@ -21,15 +21,39 @@ public class PikamoonRoaming : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        navMeshAgent.enabled = true;
+        navMeshAgent.enabled=false;
+        // Delay enabling the agent to ensure it is placed on the NavMesh
+        StartCoroutine(InitializeNavMeshAgent());
+    }
+
+    private IEnumerator InitializeNavMeshAgent()
+    {
+        yield return new WaitForSeconds(0.1f); // Allow time for object initialization
+
+        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+        {
+            transform.position = hit.position; // Snap to closest NavMesh point
+            yield return new WaitForSeconds(0.1f); // Ensure transform updates before enabling agent
+            navMeshAgent.enabled = true;
+        }
+        else
+        {
+            Debug.LogError("Pikamoon was spawned outside of NavMesh!");
+        }
+
         idleTimer = Random.Range(idleTimeMin, idleTimeMax);
         EnableRoaming();
     }
 
     private void Update()
     {
+        if (!navMeshAgent || !navMeshAgent.isOnNavMesh)
+            return;
+
+
         if (isRoaming)
         {
+            //print("i am roaming");
             // Check if Pikamoon has reached the current destination
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
@@ -53,11 +77,16 @@ public class PikamoonRoaming : MonoBehaviour
                 if (moveTimer <= 0f)
                 {
                     StartIdle();
+                    animator.SetTrigger("StopMove");
+                    animator.ResetTrigger("StartMove");
                 }
                 else
                 {
                     float moveBlend = navMeshAgent.velocity.magnitude > 0.1f ? 1.0f : 0.0f;
-                    animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 10));
+                    //animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 10));
+                    print("tiger: 1 ");
+                    animator.ResetTrigger("StopMove");
+                    animator.SetTrigger("StartMove");
                     isIdle = false;
                 }
             }
@@ -75,6 +104,7 @@ public class PikamoonRoaming : MonoBehaviour
         isRoaming = false;
         navMeshAgent.ResetPath();
         animator.SetFloat("Move", 0); // Reset to idle animation
+        print("tiger: 0 ");
         isIdle = false;
         idleTimer = Random.Range(idleTimeMin, idleTimeMax);
     }
@@ -83,7 +113,10 @@ public class PikamoonRoaming : MonoBehaviour
     {
         isIdle = true;
         animator.SetFloat("Move", 0); // Set idle animation
+        print("tiger: 0 ");
         idleTimer = Random.Range(idleTimeMin, idleTimeMax);
+        animator.SetTrigger("StopMove");
+        animator.ResetTrigger("StartMove");
     }
 
     private void StartMove()

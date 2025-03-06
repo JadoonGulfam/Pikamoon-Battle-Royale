@@ -1,36 +1,40 @@
 using UnityEngine;
 
-public enum CombatMoveEffectPoint
+
+namespace Pikamoon.Controller
 {
-    Head,
+    public enum CombatMoveEffectPoint
+    {
+        Head,
 
-    LeftHand,
-    RightHand,
+        LeftHand,
+        RightHand,
 
-    leftFoot,
-    RightFoot,
+        leftFoot,
+        RightFoot,
 
-    LeftHandWeapon,
-    RightHandWeapon,
+        LeftHandWeapon,
+        RightHandWeapon,
 
-    RangedWeapon
-}
-
-
-public enum CombatMoveType
-{
-    Horizontal,
-    Vertical,
-    Counter,
-    Special,
-}
+        Weapon
+    }
 
 
-[CreateAssetMenu(fileName = "New Move",menuName = "Pikamoon/Combat/Create new Move")]
-public class ComboMoveSO : ScriptableObject
-{
-    public CombatMoveEffectPoint[] combatMoveEffectPoint;
-    public CombatMoveType combatMoveType;
-    [Space]
-    public float Damage;
+    public enum CombatMoveType
+    {
+        Horizontal,
+        Vertical,
+        Counter,
+        Special,
+    }
+
+
+    [CreateAssetMenu(fileName = "New Move", menuName = "Pikamoon/Combat/Create new Move")]
+    public class ComboMoveSO : ScriptableObject
+    {
+        public CombatMoveEffectPoint[] combatMoveEffectPoint;
+        public CombatMoveType combatMoveType;
+        [Space]
+        public float Damage;
+    }
 }

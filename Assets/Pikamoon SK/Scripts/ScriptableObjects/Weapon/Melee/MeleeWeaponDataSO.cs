@@ -12,6 +12,7 @@ namespace Pikamoon.Controller
     }
     public enum WeaponType
     {
+        None,
         Melee,
         Ranged,
         Throwable
@@ -25,10 +26,7 @@ namespace Pikamoon.Controller
         [Space]
         public int MaxMovesInCombo;
         [Space]
-        public AnimatorOverrideController AnimOC;
-        [Space]
         public MeleeCombo[] combos;
-
     }
 
 }

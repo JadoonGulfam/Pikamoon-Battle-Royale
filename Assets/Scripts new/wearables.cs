@@ -26,6 +26,7 @@ public class wearables : NetworkBehaviour
                 if (ownId > playerId && ownId <= playerId + 100)
                 {
                     this.transform.SetParent(playerObject.transform);
+                    //this.transform.position = Vector3.zero;
 
                 }
             }

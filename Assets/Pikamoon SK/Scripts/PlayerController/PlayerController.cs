@@ -34,7 +34,8 @@ namespace Pikamoon.Controller
         Combat,
         Throwing,
         Shooting,
-        Swimming
+        Swimming,
+        Battle
     }
 
 
@@ -44,24 +45,20 @@ namespace Pikamoon.Controller
         public PlayerData PlayerData;
         public StateType CurrentPlayerState;
 
-        [SerializeField] bool inAir;
-        [SerializeField] bool canExitCrouch;
         public bool IsInAttack;
         public bool IsSwimming;
         public bool IgnoreGravity;
         [SerializeField] Vector3 crouchColliderOffset;
 
         [Header("References")]
-        [SerializeField] State[] states;
         public Transform Head; 
-        
-        
+        [SerializeField] State[] states;
         
         [Header("Weapon")]
-        public WeaponInfo ActiveWeapon;
         [Space]
         public HoldingPoint[] holdingPoints;
         public RestingPoint[] restingPoints;
+        [HideInInspector] public WeaponInfo ActiveWeapon;
 
         //public T GetWeaponAs<T>() where T : Weapon
         //{
@@ -75,12 +72,30 @@ namespace Pikamoon.Controller
 
         [Header("Grounded Settings")]
         [Space]
-        [SerializeField] bool isGrounded;
         [SerializeField] Vector3 groundCheckColliderScale;
         public LayerMask groundLayer;
         
+        [SerializeField] bool isGrounded;
+        public bool IsGrounded
+        {
+            get
+            {
+                return isGrounded;
+                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
+                //return characterController.isGrounded;
+            }
+        }
+
+
         [HideInInspector] public CameraController _cameraController;
         [HideInInspector] public PlayerInput input;
+        [HideInInspector] public InventoryController inventory;
+        [HideInInspector] public AnimatorController AC;
+       // public PlayerSetupForMultiplayer MP_Setup;
+
+        Shooting _shooting;
+        Throwing _throwing;
+        Combat _combat;
 
         CharacterController characterController;
 
@@ -88,12 +103,23 @@ namespace Pikamoon.Controller
         float defaultRadius;
         Vector3 defaultCenter;
 
-        float speed;
-        float animSpeed;
 
         float moveSpeedLerper;
         float animSpeedLerper;
 
+
+
+        bool isRootMotionEnabled;
+        public bool IsRootMotionEnabled
+        {
+            get { return isRootMotionEnabled; }
+            set { isRootMotionEnabled = value; }
+            
+        }
+
+
+
+        float speed;
         public float Speed
         {
             get
@@ -102,6 +128,8 @@ namespace Pikamoon.Controller
             }
         }
         
+
+        float animSpeed;
         public float AnimSpeed
         {
             get
@@ -110,6 +138,9 @@ namespace Pikamoon.Controller
             }
         }
 
+
+
+        [SerializeField] bool inAir;
         public bool InAir
         {
             get
@@ -122,16 +153,9 @@ namespace Pikamoon.Controller
             }
         }
 
-        public bool IsGrounded
-        {
-            get
-            {
-                return isGrounded;
-                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
-                //return characterController.isGrounded;
-            }
-        }
 
+
+        [SerializeField] bool canExitCrouch;
         public bool CanExitCrouch
         {
             get
@@ -151,17 +175,22 @@ namespace Pikamoon.Controller
             }
         }
 
-        private void Awake()
-        {
-
-        }
-
         public void Inititalize(PlayerInput _input, CameraController _camera,HUDController hudController)
         {
             input = _input;
             _cameraController = _camera;
+
+            //if (MP_Setup == null)
+            //    MP_Setup = this.GetComponent<PlayerSetupForMultiplayer>();
+
             characterController = this.GetComponent<CharacterController>();
-            this.GetComponent<InventoryController>().UI = hudController;
+            inventory = GetComponent<InventoryController>();
+
+            _combat = this.GetComponent<Combat>();
+            _throwing = this.GetComponent<Throwing>();
+            _shooting = this.GetComponent<Shooting>();
+
+            inventory.Initialize(hudController, this);
 
             IgnoreGravity = false;
 
@@ -174,6 +203,8 @@ namespace Pikamoon.Controller
             {
                 state.Initialize();
             }
+
+
 
         }
 
@@ -188,9 +219,32 @@ namespace Pikamoon.Controller
         {
             ActiveWeapon = weapon;
 
-            ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
-            ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
-            ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            if(ActiveWeapon.Prefab != null)
+            {
+                ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
+                ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+                ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            }
+
+            if(weapon.Data.Type == WeaponType.None)
+            {
+                _combat.ActivatingFistNoWeapon(weapon.Data);
+            }
+
+            else if (weapon.Data.Type == WeaponType.Melee)
+            {
+                _combat.ActivateWeapon(weapon.Prefab);
+            }
+
+            else if (weapon.Data.Type == WeaponType.Ranged)
+            {
+                _shooting.ActivateWeapon(weapon.Prefab);
+            }
+            
+            else if (weapon.Data.Type == WeaponType.Throwable)
+            {
+                _throwing.ActivateWeapon(weapon.Prefab);
+            }
         }
         public Transform GetRestingPoint(WeaponRestingPointType type)
         {
@@ -272,6 +326,9 @@ namespace Pikamoon.Controller
 
         public void Move(Vector3 direction)
         {
+            if (IsRootMotionEnabled)
+                return;
+
             characterController.Move(direction * Time.deltaTime);
         }
 
@@ -280,9 +337,17 @@ namespace Pikamoon.Controller
 
         }
 
-        public void Move(Vector3 direction, float Speed)
+        public void Move(Vector3 direction, float _speed)
         {
-            characterController.Move(direction * Speed * Time.deltaTime);
+            if (IsRootMotionEnabled)
+                return;
+
+            characterController.Move(direction * _speed * Time.deltaTime);
+        }
+        
+        public void RootMove(Vector3 direction)
+        {
+            characterController.Move(direction);
         }
 
         public void MoveTowards(Transform Target, float Speed)

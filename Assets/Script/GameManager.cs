@@ -8,7 +8,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.IO;
-public class GameManager : MonoBehaviour
+  using WebSocketSharp;
+public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
 {
 
     public static GameManager instance;

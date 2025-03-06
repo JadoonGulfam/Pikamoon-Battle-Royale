@@ -1,9 +1,10 @@
+using DiasGames.Components;
 using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static Fusion.Editor.FusionHubWindow;
+//using static Fusion.Editor.FusionHubWindow;
 
 namespace Pikamoon.UI
 {
@@ -72,6 +73,12 @@ namespace Pikamoon.UI
             ChangeButtonAppearence(isActive ? ActiveSlotSettings : InActiveSlotSettings);
         }
 
+        public override void UnAssignItem()
+        {
+            ChangeButtonAppearence(InActiveSlotSettings);
+        }
+
+
         public override void Change()
         {
 
@@ -110,6 +117,8 @@ namespace Pikamoon.UI
         public override void UnSelect()
         {
         }
+
+
     }
 
 }

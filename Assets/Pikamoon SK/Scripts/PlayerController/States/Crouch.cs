@@ -23,14 +23,24 @@ namespace Pikamoon.Controller
             playerInput.onSprint_Down +=  EnableFastSprinting;
             playerInput.onSprint_Up   += DisableFastSprinting;
 
-            playerInput.onCrouch_Down += ToggleCrouch;
+            playerInput.onCrouch_Down += EndCrouch;
         }
+        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
+            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+            //    return;
+
+            if (!MP_Setup.isMinePlayer)
+                return;
+
+
             //if (_isCrouching)
             //    isHurdleAboveWhileCrouch = Physics.CheckBox(this.transform.position + crouchColliderOffset,
             //                                                new Vector3(.5f, 1, .5f), Quaternion.identity,
             //                                                Controller.groundLayer);
+
+
 
             if (Controller.CurrentPlayerState == StateType.Crouch)
             {
@@ -40,6 +50,7 @@ namespace Pikamoon.Controller
                     OnStart();
                     isHurdleAboveWhileCrouch = false;
                 }
+
                 HandleSpeed();
                 MovementAndRotationHandler();
                 HandleAnimation();
@@ -63,9 +74,9 @@ namespace Pikamoon.Controller
             _isSlowCrouch = !_isSlowCrouch;
         }
 
-        void ToggleCrouch()
+        void EndCrouch()
         {
-            if (_isCrouching)
+            if (_isCrouching && Controller.IsGrounded)
             {
                 Controller.ChangeState(StateType.Locomtion);
             }
@@ -142,15 +153,20 @@ namespace Pikamoon.Controller
 
         public override void OnUpdate()
         {
+            if (!MP_Setup.isMinePlayer)
+                return;
 
         }
 
         void OnDestroy()
         {
+            if (!MP_Setup.isMinePlayer)
+                return;
+
             playerInput.onSprint_Down -=  EnableFastSprinting;
             playerInput.onSprint_Up   -= DisableFastSprinting;
 
-            playerInput.onCrouch_Down -= ToggleCrouch;
+            playerInput.onCrouch_Down -= EndCrouch;
         }
     }
 }

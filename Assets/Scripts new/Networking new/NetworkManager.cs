@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEditor;
 using TMPro;
+using Pikamoon.Controller;
+using UnityEngine.AI;
 
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
@@ -26,6 +28,10 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public Dictionary<string, GameObject> sessionlistUIDictionary = new Dictionary<string, GameObject>();
     public TMP_InputField pname;
     public static NetworkManager Instance; // Singleton instance
+    bool isPikamoonAdd;
+
+    [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
+
     // public string _playerName = "adnan";
     private void Awake()
     {
@@ -102,29 +108,87 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (player == runner.LocalPlayer)
         {
-            SceneManager.LoadScene("Meadows_Demo");
+            SceneManager.LoadScene("SKController_Meadows");
             SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        if (runner.SessionInfo.PlayerCount == 1)
+        {
+            isPikamoonAdd = false;
+        }
+        else
+        {
+            isPikamoonAdd = true;
+        }
+
+    }
+
+    private void PopulatePikamoonOverNetwork(Vector3 playerPosition, int pikamoonCount = 15, float spawnRadius = 20f)
+    {
+        for (int i = 0; i < pikamoonCount; i++)
+        {
+            Vector3 randomOffset;
+            Vector3 pikamoonPosition;
+            NavMeshHit hit;
+            int maxAttempts = 10; // Avoid infinite loop
+            int attempts = 0;
+
+            // Select a random Pikamoon from the list
+            NetworkObject randomPikamoon = pikamoonList[UnityEngine.Random.Range(0, pikamoonList.Count)];
+
+            do
+            {
+                randomOffset = new Vector3(
+                    UnityEngine.Random.Range(-spawnRadius, spawnRadius),
+                    0f,
+                    UnityEngine.Random.Range(-spawnRadius, spawnRadius)
+                );
+                pikamoonPosition = playerPosition + randomOffset;
+                attempts++;
+            }
+            while (!NavMesh.SamplePosition(pikamoonPosition, out hit, 5f, NavMesh.AllAreas) && attempts < maxAttempts);
+
+            if (attempts < maxAttempts)
+            {
+                pikamoonPosition = hit.position;
+                NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
+                    randomPikamoon,
+                    pikamoonPosition,
+                    Quaternion.identity
+                );
+                Debug.Log($"Pikamoon {i + 1} spawned at position: {pikamoonPosition}");
+            }
+            else
+            {
+                Debug.LogError("Failed to find valid NavMesh position for Pikamoon spawn.");
+            }
         }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Meadows_Demo")
+        if (scene.name == "SKController_Meadows")
         {
-       
+            GameObject go = GameObject.FindGameObjectWithTag("Ref");
             NetworkObject playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
-            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], Vector3.zero, Quaternion.identity);
-     
+            go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject);
+            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
+
+            if (!isPikamoonAdd)
+            {
+                PopulatePikamoonOverNetwork(playerNetworkObject.transform.position);
+                isPikamoonAdd = true; // Ensure Pikamoon is only added once
+            }
+
             if (playerNetworkObject.HasInputAuthority)
             {
-                print("111111111111");
-       
+                print("Player has input authority");
             }
-            print("22222222");
-           
+            print("Scene loaded successfully");
+
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
+
 
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
