@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> allPlayer;
     public CharacterData characterdata;
     public GameObject _player;
-    private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
+    //private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
 
     public List<GameObject> emojiList = new List<GameObject>();
     public UserDataBase userDataBase;

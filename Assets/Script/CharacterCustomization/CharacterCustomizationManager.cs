@@ -200,4 +200,8 @@ public class CharacterCustomizationManager : MonoBehaviour
         GameManager.instance._player = Instantiate(selectedPrefab, Vector3.zero, Quaternion.identity);
         defaultCharacterdata.gender = gender;
     }
+    public void DesignerPreset(int value) 
+    {
+        GameManager.instance.SpawnPrefab(value);
+    }
 }
