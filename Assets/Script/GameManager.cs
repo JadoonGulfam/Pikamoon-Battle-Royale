@@ -7,51 +7,25 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using CharacterCustomization;
 using System.IO;
-using WebSocketSharp;
-public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
+  using WebSocketSharp;
+public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
-    // public bool connectOnAwake = false;
-    public NetworkRunner runner;
     public GameObject PlayerPrefab;
-    public string _playerName = null;
-
-    public TMP_Text userInputField;
-    [Header("Session list")]
-
-    public Transform _canvasCharacterSelection;
-    public Button createSessionButton;
-    public Button reconnectSessionButton;
-    public TMP_Text connectionStatus;
-    public Transform sessionListContent;
-    public GameObject sessionEntryPrefab;
-    public List<SessionInfo> _session = new List<SessionInfo>();
-    public GameObject _roomList;
-    public Button createSessionBtn;
-    //  public SceneAsset lobbyScene;
-    //  public SceneAsset gamePlayScene;
     public GameObject PlayerPrefabForSinglePlayer;
-    public int myCharacter;
-
-    public List<GameObject> instantiatedPlayers = new List<GameObject>();
-    public Transform allPlayerParentTransform;
     public List<GameObject> allPlayer;
     public CharacterData characterdata;
     public GameObject _player;
-    private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>(); // Store original positions
-    public Transform lobbyPlayerTransform;
-    public GameObject environmentObject;
-   // public Camera mainCamera;
-    public GameObject followCamera;
-    public GameObject LobbyEnvironment;
-    
-    public Transform LobbyTransform, gamePlayTransform;
-    public List<GameObject> emojiList = new List<GameObject>();
+    //private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
 
-    public UIManager uiManager;
+    public List<GameObject> emojiList = new List<GameObject>();
+    public UserDataBase userDataBase;
+    public int playerIndex = 0;
+
+    public List<GameObject> designerPreset;
+    public int currentCharacterIndex=0;
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -59,388 +33,59 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
     }
     void Start()
     {
-  
-        InitPlayer();
+        LoadGame();
     }
-
-    public void InitPlayer()
+    void LoadGame()
     {
-        // Check if players are already instantiated
-        if (instantiatedPlayers.Count == allPlayer.Count)
-        {
-            // If all players are already instantiated, simply enable them and return
-            foreach (GameObject player in instantiatedPlayers)
-            {
-                player.transform.position = originalPositions[player];
-                if (!player.activeSelf)
-                {
-                    player.SetActive(true);
-                }
-            }
-            CharacterHoverEffect.isSelected = false; // Reset selection
-            return;
-        }
-
-        // Instantiate and store references to players
-        for (int i = 0; i < allPlayer.Count; i++)
-        {
-            GameObject playerInstance = Instantiate(allPlayer[i], allPlayerParentTransform);
-            playerInstance.SetActive(true);
-            instantiatedPlayers.Add(playerInstance);
-            // Store the original position of the instantiated player
-            originalPositions[playerInstance] = playerInstance.transform.position;
-        }
-
-        CharacterHoverEffect.isSelected = false; // Reset selection state
+        LoadingManager.Instance.ActivateLoading("Splash_Loading");
+        Invoke(nameof(LoadNextScene), 3f);
     }
+    void LoadNextScene()
+    {
+        bool isUserLoggedIn = userDataBase.GetLoggedInUser() != null;
+        string nextScene = isUserLoggedIn ? "Main Menu" : "Login Scene";
+
+        if (!isUserLoggedIn)
+        {
+            // Load Login Scene Additively
+            LoadingManager.Instance.LoadSceneAdditive(nextScene, () =>
+            {
+                LoadingManager.Instance.DeactivateAll(); // Hide splash panel after login UI is ready
+            });
+        }
+        else
+        {
+            LoadingManager.Instance.DeactivateAll(); // Hide splash panel after loading
+        }
+    }
+    //public void InitPlayer()
+    //{
+    //    // Check if players are already instantiated
+    //    if (instantiatedPlayers.Count == allPlayer.Count)
+    //    {
+    //        // If all players are already instantiated, simply enable them and return
+    //        foreach (GameObject player in instantiatedPlayers)
+    //        {
+    //            player.transform.position = originalPositions[player];
+    //            if (!player.activeSelf)
+    //            {
+    //                player.SetActive(true);
+    //            }
+    //        }
+    //        CharacterHoverEffect.isSelected = false; // Reset selection
+    //        return;
+    //    }
+    //    GameObject playerInstance = Instantiate(allPlayer[playerIndex], allPlayerParentTransform);
+    //    playerInstance.SetActive(true);
+    //    instantiatedPlayers.Add(playerInstance);
+    //    _player = playerInstance;
+    //    originalPositions[playerInstance] = playerInstance.transform.position;
+    //}
     public void StartAutoBattler()
     {
-
         SceneManager.LoadScene("AutoBattler");
         Destroy(gameObject);
     }
-
-
-    public void ReturnToLobby()
-    {
-        runner.Despawn(runner.GetPlayerObject(runner.LocalPlayer));
-        runner.Shutdown(true, ShutdownReason.Ok);
-
-    }
-
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
-    {
-
-
-
-        SceneManager.LoadScene("Lobby");
-        //    throw new NotImplementedException();
-    }
-
-    //public void SelectCharacter(int characterId)
-    //{
-    /*   myCharacter=characterId;
-       for(int i=0;i<_canvasCharacterSelection.childCount;i++)
-       {
-           if(characterId!=i)
-           {
-
-               _canvasCharacterSelection.GetChild(i).GetChild(0).gameObject.GetComponent<Out>().enabled = false;
-
-           }
-           else
-               _canvasCharacterSelection.GetChild(i).GetChild(0).transform.GetChild(1).gameObject.GetComponent<Outline>().enabled = true;
-       }*/
-    //  _canvasCharacterSelection.GetChild(characterId)
-    //}
-    public void SetPlayerName()
-    {
-
-        myCharacter = 0;//UnityEngine.Random.Range(0,10);
-        LoadingManager.Instance.ActivateLoading("Main_Loading");
-        StartCoroutine(ConnectToLobby(userInputField.text));
-
-    }
-
-    public IEnumerator ConnectToLobby(string playerName)
-    {
-        print(playerName);
-        yield return new WaitForSeconds(1f);
-        _playerName = playerName;
-        if (runner == null)
-        {
-            runner = gameObject.AddComponent<NetworkRunner>();
-        }
-        runner.JoinSessionLobby(SessionLobby.Shared);
-        environmentObject.SetActive(true);
-        _roomList.SetActive(false);
-        LobbyPlayer();
-    }
-
-    void LobbyPlayer() 
-    {
-        if (PlayerPrefabForSinglePlayer == null)
-        {
-            Debug.Log("Player not exit!");
-            return;
-        }
-        Camera.main.GetComponent<CameraCustomizationController>().enabled=false;
-        followCamera.SetActive(true);
-        // Instantiate the player's character prefab
-        GameObject player = Instantiate(PlayerPrefabForSinglePlayer, lobbyPlayerTransform.position, Quaternion.identity, lobbyPlayerTransform);
-        if(string.IsNullOrEmpty(_playerName))
-        player.name = _playerName;
-        LoadingManager.Instance.DeactivateAll();
-    }
-
-    void Update()
-    {
-        if (runner != null)
-        {
-            if (runner.IsCloudReady && !runner.IsConnectedToServer)
-            {
-                createSessionButton.interactable = true;
-            }
-            else
-                createSessionButton.interactable = false;
-
-            //  print(runner.IsCloudReady);
-
-        }
-
-    }
-
-    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
-    {
-        print("session list updated");
-        _session.Clear();
-        _session = sessionList;
-
-    }
-    public void RefreshSessionListUI()
-    {
-
-        //Create Session list UI so we dont create duplicates
-        foreach (Transform child in sessionListContent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach (SessionInfo session in _session)
-        {
-            if (session.IsVisible)
-            {
-                GameObject entry = GameObject.Instantiate(sessionEntryPrefab, sessionListContent);
-                SessionEntryPrefab script = entry.GetComponent<SessionEntryPrefab>();
-                script.sessionName.text = session.Name;
-                script.playerCount.text = session.PlayerCount + "/" + session.MaxPlayers;
-
-                if (session.IsOpen == false || session.PlayerCount >= session.MaxPlayers)
-                {
-
-                    script.joinButton.interactable = false;
-                }
-                else
-                {
-                    script.joinButton.interactable = true;
-                }
-            }
-        }
-    }
-    public async void ConnectToSession(string sessionName)
-    {
-        _roomList.SetActive(false);
-        if (runner == null)
-        {
-            runner = gameObject.AddComponent<NetworkRunner>();
-        }
-        runner.name = sessionName;
-
-        await runner.StartGame(new StartGameArgs()
-        {
-            Scene = SceneRef.FromIndex(2),  //runner.LoadScene(SceneRef.FromIndex(1),LoadSceneMode.Additive),// SceneManager.LoadScene("GamePlay").,
-            GameMode = GameMode.Shared,
-            SessionName = sessionName,
-
-        });
-    }
-
-
-    public void CreateSession()
-    {
-        CreateGameSession();
-    }
-
-    private async void CreateGameSession()
-    {
-        //_roomList.SetActive(false);
-        createSessionBtn.enabled = false;
-        int randomint = UnityEngine.Random.Range(1000, 9999);
-        string randomSessionName = "Room-" + randomint.ToString();
-
-        if (runner == null)
-        {
-            runner = gameObject.AddComponent<NetworkRunner>();
-        }
-
-
-        await runner.StartGame(new StartGameArgs()
-        {
-            Scene = SceneRef.FromIndex(2),
-            GameMode = GameMode.Shared,
-            SessionName = randomSessionName,
-            PlayerCount = 4,
-
-
-        });
-    }
-    public async void CreateCustomSession(string SessionName,int maxUser,int SessionTime)
-    {
-        if (runner == null)
-        {
-            runner = gameObject.AddComponent<NetworkRunner>();
-        }
-        await runner.StartGame(new StartGameArgs()
-        {
-            Scene = SceneRef.FromIndex(2),
-            GameMode = GameMode.Shared,
-            SessionName = SessionName,
-            PlayerCount = maxUser,   
-        });
-    }
-
-    void OnDestroy()
-    {
-        // Unregister the callback to avoid memory leaks
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-        createSessionBtn.onClick.RemoveAllListeners();
-    }
-    public void SinglePlayer()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        myCharacter = 0;
-        SceneManager.LoadScene("Environment");
-    }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Environment")
-        {
-            // Instantiate the player when the "Environment" scene is loaded
-           // GetComponent<NetworkRunner>().enabled = false;
-           // GameObject singlePlayer = Instantiate(PlayerPrefabForSinglePlayer, PlayerPrefabForSinglePlayer.transform.position, Quaternion.identity);
-        }
-    }
-    public void OnConnectedToServer(NetworkRunner runner)
-    {
-        print("connected to server");
-        connectionStatus.text = "Connected to Server";
-        //    throw new NotImplementedException();
-    }
-
-    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
-    {
-        connectionStatus.text = "NetWork connection Failed : reason: " + reason.ToString();
-        // throw new NotImplementedException();
-    }
-
-    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
-    {
-        //  throw new NotImplementedException();
-    }
-
-    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
-    {
-        //    throw new NotImplementedException();
-    }
-
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
-    {
-        Debug.Log(reason.ToString());
-        connectionStatus.text = "Network Disconnected reason: " + reason.ToString();
-
-
-
-        //  throw new NotImplementedException();
-    }
-
-
-    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
-    {
-        //   throw new NotImplementedException();
-    }
-
-    public void OnInput(NetworkRunner runner, NetworkInput input)
-    {
-        //   throw new NotImplementedException();
-    }
-
-    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
-    {
-        //  throw new NotImplementedException();
-    }
-
-    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-    {
-        // throw new NotImplementedException();
-    }
-
-    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-    {
-        //  throw new NotImplementedException();
-    }
-
-    public GameObject environmentprefabs;
-    public GameObject MyLocalPlayer;
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
-    {
-        print("Onplayer Joinned");
-
-
-        environmentprefabs = GameObject.FindGameObjectWithTag("Environment");
-        environmentprefabs.transform.GetChild(1).gameObject.SetActive(true);
-     
-        
-        if (player == runner.LocalPlayer)
-        {
-          
-            NetworkObject playerNetworkObject = runner.Spawn(PlayerPrefab, LobbyTransform.position, Quaternion.identity, player);
-            
-            runner.SetPlayerObject(player, playerNetworkObject);
-          
-          //  playerNetworkObject.gameObject.transform.position= LobbyTransform.position;
-
-
-        }
-      //  throw new NotImplementedException();
-    }
-
-   
-
-
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
-    {
-        print("Player left guys");
-        if (player == runner.LocalPlayer)
-        {
-
-        }
-
-        //   throw new NotImplementedException();
-    }
-
-    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
-    {
-        //   throw new NotImplementedException();
-    }
-
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
-    {
-        // throw new NotImplementedException();
-    }
-
-    public void OnSceneLoadDone(NetworkRunner runner)
-    {
-        //  throw new NotImplementedException();
-    }
-
-    public void OnSceneLoadStart(NetworkRunner runner)
-    {
-        //   throw new NotImplementedException();
-    }
-
-
-
-
-
-    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
-    {
-
-        //    print("Player left guys");
-        //  throw new NotImplementedException();
-    }
-
-    // Start is called before the first frame update
-
     public void SaveCharacterCustomization()
     {
         characterdata = _player.GetComponent<AvatarController>().currentCharacterData.Clone();
@@ -449,5 +94,18 @@ public class GameManager : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("Character customization saved to " + Application.persistentDataPath + "/characterCustom.json");
         //save.interactable = false;
     }
+    public void SpawnPrefab(int index)
+    {
+        if (index < 0 || index >= designerPreset.Count) return; // Safety check
 
+        // Destroy existing prefab before spawning a new one
+        if (_player != null)
+        {
+            Destroy(_player);
+        }
+
+        // Instantiate the selected prefab at the spawn position
+        _player = Instantiate(designerPreset[index], Vector3.zero, Quaternion.identity);
+        currentCharacterIndex = index;
+    }
 }

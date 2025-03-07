@@ -1,5 +1,7 @@
 using UnityEngine;
-using CharacterCustomization;
+using UnityEngine.SceneManagement;
+using System;
+using System.Collections;
 public class LoadingManager : MonoBehaviour
 {
     [System.Serializable]
@@ -53,5 +55,35 @@ public class LoadingManager : MonoBehaviour
         {
             indicator.indicatorObject.SetActive(false);
         }
+    }
+    public void LoadScene(string sceneName, Action onComplete = null)
+    {
+        StartCoroutine(LoadSceneAsync(sceneName, onComplete));
+    }
+
+    private IEnumerator LoadSceneAsync(string sceneName, Action onComplete)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        onComplete?.Invoke(); // Hide splash/loading panel after loading
+    }
+    public void LoadSceneAdditive(string sceneName, Action onComplete = null)
+    {
+        StartCoroutine(LoadSceneAdditiveAsync(sceneName, onComplete));
+    }
+
+    private IEnumerator LoadSceneAdditiveAsync(string sceneName, Action onComplete)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        onComplete?.Invoke();
     }
 }

@@ -16,8 +16,8 @@ public class LobbyStatsManager : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        startSesson.interactable = false;
-        startSesson.onClick.AddListener(() => StartCoroutine(EnableButton()));
+      //  startSesson.interactable = false;
+      //  startSesson.onClick.AddListener(() => StartCoroutine(EnableButton()));
 
 //        startSesson.onClick.AddListener(  { (StartCoroutine(EnableButton)) });
     }
@@ -29,12 +29,12 @@ public class LobbyStatsManager : NetworkBehaviour
 
 
 
-GameManager.instance.environmentprefabs.transform.GetChild(1).gameObject.SetActive(false);
+//GameManager.instance.environmentprefabs.transform.GetChild(1).gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1);
-        GameManager.instance.environmentprefabs.transform.GetChild(0).gameObject.SetActive(true);
+//        GameManager.instance.environmentprefabs.transform.GetChild(0).gameObject.SetActive(true);
 
-        GameManager.instance.MyLocalPlayer.GetComponent<PlayerController>().SetPositionAsPerEnvironment(GameManager.instance.gamePlayTransform);
+//        GameManager.instance.MyLocalPlayer.GetComponent<PlayerController>().SetPositionAsPerEnvironment(GameManager.instance.gamePlayTransform);
     }
     // Update is called once per frame
     void Update()

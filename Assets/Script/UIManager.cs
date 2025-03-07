@@ -6,26 +6,32 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject mainPanel, loadingPanel, genderSelectionPanel;
-    public Button startBtn;
-    public Image loadingSprite;
-    private bool isLoading=false;
+    public GameObject mainPanel;
+    public Button gameStartBtn;
+    public Button exirGameBtn;
     private void Start()
     {
-        isLoading = true;
+        exirGameBtn.onClick.AddListener(QuitGame);
+        gameStartBtn.onClick.AddListener(StartGame);
     }
     private void Update()
     {
-        if (isLoading)
-        {
 
-            loadingSprite.fillAmount += Time.deltaTime * 0.2f;
-            if (loadingSprite.fillAmount >= 0.9f)
-            {
-                loadingPanel.SetActive(false);
-                genderSelectionPanel.SetActive(true);
-                isLoading = false;
-            }
-        }
+    }
+    public void LoadCustomizationScene()
+    {
+        SceneManager.LoadSceneAsync("Customization");
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadSceneAsync("lobby new");
+    }
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in the editor
+#else
+            Application.Quit(); // Quit the built game
+#endif
     }
 }

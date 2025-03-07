@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Fusion;
 
 namespace Pikamoon.Controller
 {
@@ -70,7 +70,7 @@ namespace Pikamoon.Controller
         public ParamFloat SpeedMulForAnim;
 
     }
-    public class AnimationController : MonoBehaviour
+    public class AnimationController : NetworkBehaviour
     {
         [SerializeField] Animator animator;
 
@@ -122,7 +122,8 @@ namespace Pikamoon.Controller
             if (animator.HasState(0, stateHash))
                 animator.CrossFadeInFixedTime(stateHash, transitionDuration, 0);
         }
-
+        
+        
         public void ChangeOverrideController(AnimatorOverrideController overrideController)
         {
             PAnimator.runtimeAnimatorController = overrideController;
