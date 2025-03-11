@@ -95,6 +95,8 @@ namespace Pikamoon.Controller
 
             playerInput.onWeaponDrop_Down += DropWeapon;
 
+            _controller.ActivateWeapon(DefaultFistNoWeapon);
+
             allowPickUp = true;
         }
         public PlayerSetupForMultiplayer MP_Setup;

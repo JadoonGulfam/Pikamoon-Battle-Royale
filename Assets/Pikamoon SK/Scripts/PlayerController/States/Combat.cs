@@ -37,16 +37,6 @@ namespace Pikamoon.Controller
 
         [SerializeField] bool ReadyToAttack;
 
-        int DoNextComboAction_Hash;
-
-        //int Attack1_Hash;
-        //int Attack2_Hash;
-        //int Attack3_Hash;
-        //int Attack4_Hash;
-        int idle_Hash;
-
-
-
         [Header("EnemyRelated")]
         Collider[] EnemiesInRange;
         [SerializeField] float RadiusToFindEnemy;
@@ -103,6 +93,7 @@ namespace Pikamoon.Controller
 
             AC.ChangeOverrideController(meleeWeapnonData.AnimOC);
         }
+
 
         public void ActivatingFistNoWeapon(WeaponDataSO _weaponData)
         {

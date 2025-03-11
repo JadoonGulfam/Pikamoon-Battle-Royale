@@ -190,8 +190,7 @@ namespace Pikamoon.Controller
             _throwing = this.GetComponent<Throwing>();
             _shooting = this.GetComponent<Shooting>();
 
-            inventory.Initialize(hudController, this);
-
+            
             IgnoreGravity = false;
 
             defaultHeight = characterController.height;
@@ -203,6 +202,9 @@ namespace Pikamoon.Controller
             {
                 state.Initialize();
             }
+
+            inventory.Initialize(hudController, this);
+
         }
 
         private void Update()
@@ -243,6 +245,7 @@ namespace Pikamoon.Controller
                 _throwing.ActivateWeapon(weapon.Prefab);
             }
         }
+
         public Transform GetRestingPoint(WeaponRestingPointType type)
         {
             return restingPoints[(int)type].Point;

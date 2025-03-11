@@ -15,14 +15,10 @@ namespace Pikamoon.Controller
             //combat = GetComponentInParent<Combat>();
             //shootingManager = GetComponentInParent<Shooting>();
             //_throwManager = GetComponentInParent<Throwing>();
-
-            
-
         }
 
         void GiveImapact()
         {
-
         }
 
         public void AllowCombo()

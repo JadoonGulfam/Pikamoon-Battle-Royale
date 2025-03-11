@@ -13,11 +13,11 @@ public class EnemyController : MonoBehaviour,IDamageable
 
     [SerializeField] Camera Cam;
 
-
     public void OnDamage()
     {
         OnDamage(1);
     }
+
     public void OnDamage(float damageAmount)
     {
     }
