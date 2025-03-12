@@ -122,7 +122,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     }
 
-    private void PopulatePikamoonOverNetwork(Vector3 playerPosition, int pikamoonCount = 15, float spawnRadius = 20f)
+    private void PopulatePikamoonOverNetwork(Vector3 playerPosition, int pikamoonCount = 50, float spawnRadius = 20f)
     {
         for (int i = 0; i < pikamoonCount; i++)
         {

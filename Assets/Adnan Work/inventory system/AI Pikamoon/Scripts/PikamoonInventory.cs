@@ -9,6 +9,8 @@ using Photon.Realtime;
 [RequireComponent(typeof(PlayerInputHandler))]  // Assuming PlayerInputHandler exists
 public class PikamoonInventory : MonoBehaviour
 {
+    public List<string> PikamoonNames = new List<string>();
+    public List<GameObject> PikamoonList = new List<GameObject>();
     public List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
 
     public GameObject player;
