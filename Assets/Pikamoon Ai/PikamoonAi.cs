@@ -41,19 +41,25 @@ public class PikamoonAi : MonoBehaviour
     public PikamoonType pikaType;
 
     public PikamoonAiHealth pikamoonHealth; // Reference to health script
+    public PikamoonAiFollow pikamoonFollow;
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         pikamoonHealth = GetComponent<PikamoonAiHealth>(); // Get the health component
+        pikamoonFollow = GetComponent<PikamoonAiFollow>();
         if (pikaType == PikamoonType.Friendly)
         {
             friendlyAttackThreshold = Random.Range(2, 4);
         }
-        EnableRoaming();
+        if (!pikamoonFollow.isCapture)
+            EnableRoaming();
     }
     private void Update()
     {
+        if (pikamoonFollow.isCapture)
+            return;
+
         if (!navMeshAgent.enabled || !navMeshAgent.isOnNavMesh)
             return;
 
@@ -61,7 +67,7 @@ public class PikamoonAi : MonoBehaviour
         bool playerDetected = PlayerDetected();
         if (!playerDetected) isAlertDuration = false;
 
-       
+
 
         if (isFleeing)
         {
@@ -252,7 +258,7 @@ public class PikamoonAi : MonoBehaviour
         pikamoonHealth.ReduceHealth(damage);
         if (pikamoonHealth.IsDead()) Die(); // If Pikamoon's health is 0, trigger death         
 
-       // if (pikamoonHealth.currentHealth <= fleeHealthThreshold) StartFleeing();
+        // if (pikamoonHealth.currentHealth <= fleeHealthThreshold) StartFleeing();
         // If Pikamoon is in alert state and gets attacked, react based on type
         if (isAlert || isRoaming)
         {
