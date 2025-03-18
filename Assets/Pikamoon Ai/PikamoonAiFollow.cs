@@ -7,6 +7,7 @@ public class PikamoonAiFollow : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Animator animator;
     public Transform player;
+    public Transform attackTarget;
 
     [Header("Following Settings")]
     public float followStartDistance = 10f; // When to start following
@@ -21,6 +22,13 @@ public class PikamoonAiFollow : MonoBehaviour
     public float roamWalkTime = 4f; // Time Pikamoon will walk before stopping
     public float roamIdleTime = 3f; // Time Pikamoon will stay idle before walking again
     private bool isRoaming = false;
+
+    [Header("Attack Settings")]
+    public float attackRange = 2f;
+    public float attackCooldown = 1.5f;
+    public bool isAttacking = false;
+    private bool Attack = false;
+    private bool reachedPlayer = false;
 
     public bool isFollowing = false;
     public bool isCapture = false;
@@ -37,6 +45,28 @@ public class PikamoonAiFollow : MonoBehaviour
         if (player == null) return;
         if (isCapture)
         {
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (attackTarget != null)
+                {
+                    SetAttackTarget(attackTarget);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.X) && isAttacking)
+            {
+                if (attackTarget != null)
+                {
+                    StopAttack();
+                }
+            }
+
+            if (attackTarget != null && isAttacking)
+            {
+                AttackBehavior();
+                return;
+            }
+
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
             if (distanceToPlayer > followStartDistance)
@@ -47,11 +77,13 @@ public class PikamoonAiFollow : MonoBehaviour
             else if (distanceToPlayer < followStopDistance)
             {
                 // Player is close -> Start roaming
-                if (!isRoaming)
+                if (!isRoaming && !reachedPlayer)
                 {
-                    isFollowing = false;
-                    isRoaming = true;
-                    StartCoroutine(RoamBehavior());
+                    //isFollowing = false;
+                   // isRoaming = true;
+                    reachedPlayer = true;
+                    StartCoroutine(WaitBeforeRoaming());
+                   // StartCoroutine(RoamBehavior());
                 }
             }
 
@@ -92,42 +124,126 @@ public class PikamoonAiFollow : MonoBehaviour
             animator.ResetTrigger("Run");
             animator.ResetTrigger("Walk");
             animator.SetTrigger("Idle");
+            //if (!reachedPlayer)
+            //{
+            //    reachedPlayer = true;
+            //    StartCoroutine(WaitBeforeRoaming());
+            //}
         }
 
         navMeshAgent.SetDestination(player.position);
     }
+    private IEnumerator WaitBeforeRoaming()
+    {
+        yield return new WaitForSeconds(10f); // Wait 3 seconds (Adjust as needed)
 
+        // If the player is still nearby, start roaming
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer < followStopDistance)
+        {
+            isFollowing = false;
+            isRoaming = true;
+            StartCoroutine(RoamBehavior());
+        }
+
+        reachedPlayer = false; // Reset flag
+    }
     private IEnumerator RoamBehavior()
     {
         while (isRoaming)
         {
-            // Pick a random point within roamRadius
-            Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
-            randomDirection += transform.position;
-            NavMeshHit hit;
+            Vector3 roamPoint = GetRandomPoint();
 
-            if (NavMesh.SamplePosition(randomDirection, out hit, roamRadius, NavMesh.AllAreas))
+            if (roamPoint != Vector3.zero)
             {
-                navMeshAgent.SetDestination(hit.position);
+                navMeshAgent.SetDestination(roamPoint);
+                navMeshAgent.speed = walkSpeed;
                 animator.ResetTrigger("Idle");
                 animator.SetTrigger("Walk");
 
-                // Wait until Pikamoon reaches the target
                 while (navMeshAgent.pathPending || navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
                 {
-                    yield return null; // Wait for next frame
+                    yield return null;
                 }
 
-                // Pikamoon reached the target → Go idle
                 animator.ResetTrigger("Walk");
                 animator.SetTrigger("Idle");
 
-                // Idle for some time before walking again
                 yield return new WaitForSeconds(roamIdleTime);
             }
         }
     }
 
+    private Vector3 GetRandomPoint()
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(randomDirection, out hit, roamRadius, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+        return Vector3.zero;
+    }
+    public void SetAttackTarget(Transform target)
+    {
+        attackTarget = target;
+        isAttacking = true;
+    }
+    private void AttackBehavior()
+    {
+        if (attackTarget == null)
+        {
+            StopAttack();
+            return;
+        }
+
+        float distanceToTarget = Vector3.Distance(transform.position, attackTarget.position);
+
+        if (distanceToTarget > attackRange)
+        {
+            navMeshAgent.SetDestination(attackTarget.position);
+            navMeshAgent.speed = runSpeed;
+            animator.SetTrigger("Run");
+            animator.ResetTrigger("Attack");
+        }
+        else
+        {
+            navMeshAgent.SetDestination(transform.position);
+            animator.ResetTrigger("Run");
+
+            if (!Attack)
+            {
+                StartCoroutine(AttackRoutine());
+            }
+        }
+    }
+    private IEnumerator AttackRoutine()
+    {
+        Attack = true;
+       // animator.SetTrigger("Attack");
+
+        while (attackTarget != null)
+        {
+            animator.SetTrigger("Attack");
+
+            // Simulate attack delay
+            yield return new WaitForSeconds(attackCooldown);
+        }
+
+       // animator.ResetTrigger("Attack");
+        //StopAttack();
+    }
+
+    public void StopAttack()
+    {
+        animator.ResetTrigger("Attack");
+        attackTarget = null;
+        Attack = false;
+        isAttacking = false;
+        navMeshAgent.speed = walkSpeed;
+    }
     public void CapturePikamoon(Transform playerTransform)
     {
         player = playerTransform;
