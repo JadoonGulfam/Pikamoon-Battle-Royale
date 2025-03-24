@@ -9,7 +9,7 @@ public class GoToLobby : MonoBehaviour
     void Start()
     {
 
-        gameObject.GetComponent<Button>().onClick.AddListener(GameManager.instance.ReturnToLobby);
+       // gameObject.GetComponent<Button>().onClick.AddListener(GameManager.instance.ReturnToLobby);
     }
 
     // Update is called once per frame

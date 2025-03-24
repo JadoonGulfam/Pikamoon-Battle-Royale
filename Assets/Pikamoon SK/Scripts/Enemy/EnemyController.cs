@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class EnemyController : MonoBehaviour,IDamageable
 {
-    [SerializeField] float Health;
+    [SerializeField] float health;
     [SerializeField] Animator anim;
 
     [SerializeField] Transform HealthUI;
@@ -13,11 +13,16 @@ public class EnemyController : MonoBehaviour,IDamageable
 
     [SerializeField] Camera Cam;
 
+    public float Health
+    {
+        get { return health; }
+        private set { health = value; }
+    }
+
     public void OnDamage()
     {
         OnDamage(1);
     }
-
     public void OnDamage(float damageAmount)
     {
     }
@@ -31,9 +36,9 @@ public class EnemyController : MonoBehaviour,IDamageable
 
         anim.SetTrigger("GetHit");
 
-        Health -= damageAmount;
+        health -= damageAmount;
 
-        HealthBar.DOFillAmount(Health/100, .1f);
+        HealthBar.DOFillAmount(health/100, .1f);
 
         if(isKilled())
             this.gameObject.SetActive(false);
@@ -42,7 +47,7 @@ public class EnemyController : MonoBehaviour,IDamageable
 
     public bool isKilled()
     {
-        return Health < 0;
+        return health < 0;
     }
 
     Vector2 GetHitDirection(Transform hit)

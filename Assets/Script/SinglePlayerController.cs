@@ -15,7 +15,7 @@ public class SinglePlayerController : MonoBehaviour
     {
 
         GetComponent<HNSPlayerController>().enabled = true;
-        myCharacterindex = GameManager.instance.myCharacter;
+      //  myCharacterindex = GameManager.instance.myCharacter;
         GameObject myPlayerAvatar = Instantiate(characters[myCharacterindex], gameObject.transform);
         GetComponent<Animator>().avatar = myPlayerAvatar.GetComponent<Animator>().avatar;
 

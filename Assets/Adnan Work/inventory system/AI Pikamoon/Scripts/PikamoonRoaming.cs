@@ -77,11 +77,16 @@ public class PikamoonRoaming : MonoBehaviour
                 if (moveTimer <= 0f)
                 {
                     StartIdle();
+                    animator.SetTrigger("StopMove");
+                    animator.ResetTrigger("StartMove");
                 }
                 else
                 {
                     float moveBlend = navMeshAgent.velocity.magnitude > 0.1f ? 1.0f : 0.0f;
-                    animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 10));
+                    //animator.SetFloat("Move", Mathf.MoveTowards(animator.GetFloat("Move"), moveBlend, Time.deltaTime * 10));
+                    print("tiger: 1 ");
+                    animator.ResetTrigger("StopMove");
+                    animator.SetTrigger("StartMove");
                     isIdle = false;
                 }
             }
@@ -107,6 +112,7 @@ public class PikamoonRoaming : MonoBehaviour
         isRoaming = false;
         navMeshAgent.ResetPath();
         animator.SetFloat("Move", 0); // Reset to idle animation
+        print("tiger: 0 ");
         isIdle = false;
         idleTimer = Random.Range(idleTimeMin, idleTimeMax);
     }
@@ -115,7 +121,10 @@ public class PikamoonRoaming : MonoBehaviour
     {
         isIdle = true;
         animator.SetFloat("Move", 0); // Set idle animation
+        print("tiger: 0 ");
         idleTimer = Random.Range(idleTimeMin, idleTimeMax);
+        animator.SetTrigger("StopMove");
+        animator.ResetTrigger("StartMove");
     }
 
     private void StartMove()

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using CharacterCustomization;
 public class PikamoonManager : MonoBehaviour
 {
     public Pikamoons[] pikaTypes;  // Array to store different Pika types

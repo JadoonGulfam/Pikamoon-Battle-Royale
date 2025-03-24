@@ -41,14 +41,31 @@ namespace Pikamoon.Controller
         {
             _throwManager.ThrowFromAimPoint();
         }
+        public void PlayShootSound()
+        {
+            //shootingManager.PlayAttackSound();
+        }
+
+        public void PlayThrowSound()
+        {
+            _throwManager.ThrowFromAimPoint();
+        }
+
+        public void PlayCombatSound()
+        {
+            combat.PlayAttackSound();
+        }
+
+        public void DisableRootMotion()
+        {
+            Controller.IsRootMotionEnabled = false;
+        }
 
         private void OnAnimatorMove()
         {
             if (Controller.IsRootMotionEnabled)
             {
                 Vector3 velocity = AC.PAnimator.deltaPosition;
-
-                //Debug.Log("Velocity = " + velocity.y);
 
                 //apply velocity for straight Y attacks, because by not doing this during attack the player will float in air
                 if (velocity.y >= -0.0005f && velocity.y <= 0.0005f)

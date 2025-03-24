@@ -11,17 +11,17 @@ public class SessionEntryPrefab : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        joinButton.onClick.AddListener(JoinListner);
+       // joinButton.onClick.AddListener(JoinListner);
     }
     private void Start()
     {
-        transform.localScale = Vector3.one;
-        transform.localPosition = Vector3.zero;
+      //  transform.localScale = Vector3.one;
+      //  transform.localPosition = Vector3.zero;
     }
     void JoinListner()
     {
 
-        GameManager.instance.ConnectToSession(sessionName.text);
+       // GameManager.instance.ConnectToSession(sessionName.text);
     }
     // Update is called once per frame
     void Update()

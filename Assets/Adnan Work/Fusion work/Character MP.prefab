@@ -5294,10 +5294,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   CurrentPlayerState: 0
-  IsInAttack: 0
-  IsSwimming: 0
-  IgnoreGravity: 0
-  crouchColliderOffset: {x: 0, y: 1.9, z: 0}
   Head: {fileID: 9044902890535087896}
   states:
   - {fileID: 8655739143850066287}
@@ -5335,17 +5331,21 @@ MonoBehaviour:
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
     isEnabled: 0
   TurnSmoothTime: 10
+  crouchColliderOffset: {x: 0, y: 1.9, z: 0}
   groundCheckColliderScale: {x: 0.5, y: 0.5, z: 0.5}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  isGrounded: 0
   _cameraController: {fileID: 0}
   input: {fileID: 0}
   inventory: {fileID: 0}
   AC: {fileID: 0}
-  inAir: 0
   canExitCrouch: 0
+  IsInAttack: 0
+  IsSwimming: 0
+  IgnoreGravity: 0
+  isGrounded: 0
+  inAir: 0
 --- !u!114 &5483336839166787512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5456,6 +5456,10 @@ MonoBehaviour:
       Value: 0
       Hash: 0
     EndCombat:
+      Name: 
+      Value: 0
+      Hash: 0
+    SpeedMulForAnim:
       Name: 
       Value: 0
       Hash: 0
@@ -5697,11 +5701,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 1786697747248380730}
-  TotalWords: 10
   ApplyTiming: 2
-  SyncSettings: 79
-  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a03270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf375c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0
+  SyncSettings: 127
+  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea3270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742cc43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0
   TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3
+  TotalWords: 17
 --- !u!114 &1666544894102805382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5719,9 +5723,11 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 7073716443976535076}
   - {fileID: 7428428870312448113}
   - {fileID: 1520456693859731853}
   - {fileID: 856749426312453236}
+  ForceRemoteRenderTimeframe: 0
 --- !u!114 &1520456693859731853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5734,6 +5740,7 @@ MonoBehaviour:
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
   SyncScale: 0
   SyncParent: 0
   _autoAOIOverride: 0

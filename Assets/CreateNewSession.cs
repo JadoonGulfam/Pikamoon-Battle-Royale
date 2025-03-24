@@ -11,12 +11,12 @@ public class CreateNewSession : MonoBehaviour
     public Button CreateSessionButton;
     void Start()
     {
-        CreateSessionButton.onClick.AddListener(getSessionstarus);
+      //  CreateSessionButton.onClick.AddListener(getSessionstarus);
     }
 
     void getSessionstarus()
     {
-        GameManager.instance.CreateCustomSession(SessionName.text,int.Parse(SessionMAXUser.text),int.Parse(SessionMaxTime.text));
+       // GameManager.instance.CreateCustomSession(SessionName.text,int.Parse(SessionMAXUser.text),int.Parse(SessionMaxTime.text));
     }
 
     // Update is called once per frame

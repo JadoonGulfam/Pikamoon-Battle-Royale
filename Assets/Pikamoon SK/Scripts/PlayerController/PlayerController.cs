@@ -79,6 +79,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
         [HideInInspector] public AnimatorController AC;
+        [HideInInspector] public HealthController HC;
        // public PlayerSetupForMultiplayer MP_Setup;
 
         Shooting _shooting;
@@ -97,7 +98,7 @@ namespace Pikamoon.Controller
 
 
 
-        bool isRootMotionEnabled;
+        [SerializeField] bool isRootMotionEnabled;
         public bool IsRootMotionEnabled
         {
             get { return isRootMotionEnabled; }
@@ -175,7 +176,7 @@ namespace Pikamoon.Controller
             }
         }
 
-        public void Inititalize(PlayerInput _input, CameraController _camera,HUDController hudController)
+        public void Inititalize(PlayerInput _input, CameraController _camera, HUDController hudController)
         {
             input = _input;
             _cameraController = _camera;
@@ -185,26 +186,41 @@ namespace Pikamoon.Controller
 
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
+            HC = GetComponent<HealthController>();
 
-            _combat = this.GetComponent<Combat>();
-            _throwing = this.GetComponent<Throwing>();
-            _shooting = this.GetComponent<Shooting>();
 
-            
             IgnoreGravity = false;
 
             defaultHeight = characterController.height;
             defaultRadius = characterController.radius;
             defaultCenter = characterController.center;
 
-
             foreach (var state in states)
             {
-                state.Initialize();
+                state.Initialize(this.transform);
+
+
+                switch(state.GetStateType())
+                {
+                    case StateType.Combat:
+                        _combat = state.GetComponent<Combat>();
+                        break;
+                    case StateType.Throwing:
+                        _throwing = state.GetComponent<Throwing>();
+                        break;
+                    case StateType.Shooting:
+                        _shooting = state.GetComponent<Shooting>();
+                        break;
+                }
             }
 
-            inventory.Initialize(hudController, this);
 
+            //_combat = this.GetComponent<Combat>();
+            //_throwing = this.GetComponent<Throwing>();
+            //_shooting = this.GetComponent<Shooting>();
+
+
+            inventory.Initialize(hudController, this);
         }
 
         private void Update()
@@ -245,7 +261,6 @@ namespace Pikamoon.Controller
                 _throwing.ActivateWeapon(weapon.Prefab);
             }
         }
-
         public Transform GetRestingPoint(WeaponRestingPointType type)
         {
             return restingPoints[(int)type].Point;
