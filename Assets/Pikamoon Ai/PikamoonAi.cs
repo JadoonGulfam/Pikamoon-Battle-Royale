@@ -19,6 +19,7 @@ public class PikamoonAi : MonoBehaviour
     private bool isAlertDuration = false; // New alert state
     private bool isAttacking = false; // Track attack state
     private bool isFleeing = false; // New fleeing state
+    private bool isStunned = false;
 
     private int friendlyHitCount = 0;
     private int friendlyAttackThreshold; // Random hit threshold
@@ -38,6 +39,7 @@ public class PikamoonAi : MonoBehaviour
     public float attackTriggerTime = 2f; // Time before Pikamoon attacks
     public float attackRange = 2f; // Distance at which Pikamoon stops to attack
     public float agroRange = 5f; // New agro range
+    public float stunDuration = 10f;
 
     public float alertDuration = 3f; // Time Pikamoon stays in alert state
     public float alertRange = 10f; // Detection range for player
@@ -85,19 +87,24 @@ public class PikamoonAi : MonoBehaviour
                 EnableRoaming(); // Resume normal behavior
             }
         }
-        if (pikamoonHealth.currentHealth <= fleeHealthThreshold && playerDetected)
+       
+        if (pikamoonHealth.currentHealth <= 25 && !isStunned && playerDetected && !isFleeing)
+        {
+            Stun();
+            return;
+        }
+        if (pikamoonHealth.currentHealth <= fleeHealthThreshold && playerDetected && !isStunned)
         {
             StartFleeing();
             return;
         }
-        ;
         if (isAttacking) // Pikamoon is already attacking
         {
             AttackPlayer();
             return;
         }
 
-        if (isAlert && !isFleeing)
+        if (isAlert && !isFleeing && !isStunned)
         {
             alertTimer -= Time.deltaTime;
 
@@ -129,7 +136,7 @@ public class PikamoonAi : MonoBehaviour
             return;
         }
         // Enter alert state if player is detected and Pikamoon is not already alert
-        if (playerDetected && !isAlert && !isAlertDuration && !isFleeing)
+        if (playerDetected && !isAlert && !isAlertDuration && !isFleeing && !isStunned)
         {
             EnterAlertState();
             return;
@@ -287,7 +294,6 @@ public class PikamoonAi : MonoBehaviour
 
         pikamoonHealth.ReduceHealth(damage);
         if (pikamoonHealth.IsDead()) Die(); // If Pikamoon's health is 0, trigger death         
-
         // if (pikamoonHealth.currentHealth <= fleeHealthThreshold) StartFleeing();
         // If Pikamoon is in alert state and gets attacked, react based on type
         if (isAlert || isRoaming)
@@ -311,6 +317,41 @@ public class PikamoonAi : MonoBehaviour
                     break;
             }
         }
+    }
+    private void Stun()
+    {
+        isStunned = true;
+        isRoaming = false;
+        isAlert = false;
+        isIdle = false;
+        isAttacking = false;
+        isFleeing = false;
+
+        pikaState = PikamoonState.Stunned;
+        navMeshAgent.isStopped = true; // Stop movement
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Walk");
+        animator.ResetTrigger("Alert");
+        animator.ResetTrigger("Idle");
+        animator.ResetTrigger("Run");
+        animator.SetTrigger("Stunned"); // Play stunned animation
+
+        //yield return new WaitForSeconds(stunDuration); // Wait for stun duration
+
+        //isStunned = false;
+        //navMeshAgent.isStopped = false;
+
+        //// Resume behavior after stun
+        //if (pikamoonHealth.currentHealth <= fleeHealthThreshold)
+        //{
+        //    animator.ResetTrigger("Stunned");
+        //    StartFleeing(); // If health is still low, flee
+        //}
+        //else
+        //{
+        //    animator.ResetTrigger("Stunned");
+        //    EnableRoaming(); // Otherwise, resume roaming
+        //}
     }
     private void StartFleeing()
     {
