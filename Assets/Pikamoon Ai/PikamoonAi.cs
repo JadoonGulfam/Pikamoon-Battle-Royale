@@ -380,6 +380,13 @@ public class PikamoonAi : MonoBehaviour
     {
         return player != null && Vector3.Distance(transform.position, player.position) <= agroRange;
     }
+    public GameObject attackVFX;
+    public Transform initPosition;
+    public void Fire() 
+    {
+       GameObject Vfx =  Instantiate(attackVFX, initPosition.position, initPosition.rotation);
+        Vfx.GetComponent<FireProjectile>().target = player;
+    }
 }
 public enum PikamoonState
 {
