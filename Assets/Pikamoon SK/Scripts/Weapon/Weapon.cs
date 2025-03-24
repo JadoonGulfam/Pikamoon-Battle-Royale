@@ -42,6 +42,12 @@ namespace Pikamoon.Controller
         public bool HasScabbard;
         public Transform Scabbard;
 
+
+        [Header("VFX")]
+        public Transform SwingParticle;
+
+        [Header("SFX")]
+        public AudioClip SwingSound;
         public abstract WeaponInfo GetWeaponInfo();
 
         
@@ -59,8 +65,8 @@ namespace Pikamoon.Controller
 
 
 
-        public abstract void Equip();
-        public abstract void UnEquip();
+        public abstract void OnEquip();
+        public abstract void OnUnEquip();
 
     }
 }

@@ -198,24 +198,47 @@ namespace Pikamoon.Controller
 
         }
         public override void OnDrop(Transform Dropper, LayerMask DropLayer)
-        {            
-            //RaycastHit hit;
-            //Physics.Raycast
+        {
+            RaycastHit hit;
 
-            foreach (var collider in _colliders)
+            if (Physics.Raycast(Dropper.position + (Dropper.forward * 2) + (Vector3.up * 2), Vector3.down, out hit, 5, DropLayer))
             {
-                collider.enabled = false;
-            }
 
+                Vector3 pos = hit.point + Vector3.up * 1;
+
+
+                if (HasScabbard)
+                {
+                    Scabbard.transform.parent = null;
+                    Scabbard.transform.position = pos;
+                    Scabbard.transform.rotation = Quaternion.identity;
+
+                    transform.parent = Scabbard;
+                    transform.localPosition = Vector3.zero;
+                    transform.localRotation = Quaternion.identity;
+
+                }
+                else
+                {
+                    transform.parent = null;
+                    transform.position = pos;
+                    transform.rotation = Quaternion.identity;
+                }
+
+                foreach (var collider in _colliders)
+                {
+                    collider.enabled = true;
+                }
+            }
         }
 
 
 
-        public override void Equip()
+        public override void OnEquip()
         {
 
         }
-        public override void UnEquip()
+        public override void OnUnEquip()
         {
 
         }

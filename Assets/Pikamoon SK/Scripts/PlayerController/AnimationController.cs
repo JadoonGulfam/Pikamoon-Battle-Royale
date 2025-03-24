@@ -70,6 +70,14 @@ namespace Pikamoon.Controller
         public ParamFloat SpeedMulForAnim;
 
     }
+
+    [System.Serializable]
+    public struct AnimationClipProperties
+    {
+        public string Name;
+        public int Hash;
+    }
+
     public class AnimationController : NetworkBehaviour
     {
         [SerializeField] Animator animator;
@@ -77,7 +85,9 @@ namespace Pikamoon.Controller
         [Header("Parameters")]
         public AnimatorParameters Parameters;
 
-        public  Animator PAnimator
+        [Header("Hit Animation")]
+        public AnimationClipProperties[] HitAnimations;
+        public Animator PAnimator
         {
             get 
             {
