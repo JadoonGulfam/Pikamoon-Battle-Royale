@@ -288,12 +288,23 @@ public class PikamoonAi : MonoBehaviour
     }
 
 
+    private IEnumerator StopMovementForHit()
+    {
+        // Play hit animation
+        animator.SetTrigger("Hit");
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(0.5f); // Adjust delay as needed
+        navMeshAgent.isStopped = false;
+        animator.ResetTrigger("Hit");
+    }
 
     public void TakeDamage(float damage) // Function to reduce health
     {
 
         pikamoonHealth.ReduceHealth(damage);
-        if (pikamoonHealth.IsDead()) Die(); // If Pikamoon's health is 0, trigger death         
+        if (pikamoonHealth.IsDead()) Die(); // If Pikamoon's health is 0, trigger death
+
+        StartCoroutine(StopMovementForHit());
         // if (pikamoonHealth.currentHealth <= fleeHealthThreshold) StartFleeing();
         // If Pikamoon is in alert state and gets attacked, react based on type
         if (isAlert || isRoaming)
