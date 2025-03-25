@@ -1,19 +1,25 @@
 using UnityEngine;
+
+
 namespace Pikamoon.Controller
 {
     public class MeleeWeapon : Weapon
     {
-
+        [Header("Hit Collider")]
+        public WeaponHitBox HitBox;
         MeleeWeaponDataSO mWeaponData;
 
-
+        Vector3 defaultHitParticlePos;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             mWeaponData = GetWeaponDataAs<MeleeWeaponDataSO>();
-            if (SwingParticle)
-                SwingParticle.gameObject.SetActive(false);
+
+            if (TrailParticle)
+                TrailParticle.gameObject.SetActive(false);
+
+            defaultHitParticlePos = HitImpactParticle.localPosition;
         }
 
 
@@ -49,16 +55,22 @@ namespace Pikamoon.Controller
             {
                 collider.enabled = false;
             }
+
+            if (HitBox != null)
+                HitBox.GetComponent<Collider>().enabled = false;
         }
         public override void OnPicked(Transform Picker)
         {
-
+            if (HitBox != null)
+                HitBox.enabled = false;
         }
 
 
 
         public override void OnDrop()
         {
+            if (HitBox != null)
+                HitBox.GetComponent<Collider>().enabled = false;
         }
         public override void OnDrop(Transform Dropper, LayerMask DropLayer)
         {
@@ -96,19 +108,34 @@ namespace Pikamoon.Controller
                     collider.enabled = true;
                 }
             }
+
+            if (HitBox != null)
+                HitBox.GetComponent<Collider>().enabled = false;
         }
 
 
 
         public override void OnEquip()
         {
-            if(SwingParticle)
-                SwingParticle.gameObject.SetActive(true);
+            if(TrailParticle)
+                TrailParticle.gameObject.SetActive(true);
         }
         public override void OnUnEquip()
         {
-            if (SwingParticle)
-                SwingParticle.gameObject.SetActive(false);
+            if (TrailParticle)
+                TrailParticle.gameObject.SetActive(false);
+        }
+
+        public override void OnHit(Vector3 point)
+        {
+            HitImpactParticle.gameObject.SetActive(false);
+            //HitImpactParticle.transform.position = point;
+
+            HitImpactParticle.transform.parent = this.transform;
+            HitImpactParticle.transform.localPosition = defaultHitParticlePos;
+            HitImpactParticle.transform.parent = null;
+
+            HitImpactParticle.gameObject.SetActive(true);
         }
 
         #endregion

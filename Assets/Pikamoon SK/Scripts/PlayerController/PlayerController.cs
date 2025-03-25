@@ -80,6 +80,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public InventoryController inventory;
         [HideInInspector] public AnimatorController AC;
         [HideInInspector] public HealthController HC;
+        [HideInInspector] public HitBehaviour HitBehaviour;
        // public PlayerSetupForMultiplayer MP_Setup;
 
         Shooting _shooting;
@@ -204,6 +205,7 @@ namespace Pikamoon.Controller
                 {
                     case StateType.Combat:
                         _combat = state.GetComponent<Combat>();
+                        
                         break;
                     case StateType.Throwing:
                         _throwing = state.GetComponent<Throwing>();

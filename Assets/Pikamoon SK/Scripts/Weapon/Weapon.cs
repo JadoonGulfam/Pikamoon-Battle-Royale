@@ -21,7 +21,7 @@ namespace Pikamoon.Controller
 
     }
 
-    public abstract class Weapon : Item, IPickable,IDroppable
+    public abstract class Weapon : Item, IPickable ,IDroppable
     {
         public T GetWeaponDataAs<T>() where T : WeaponDataSO
         {
@@ -34,7 +34,7 @@ namespace Pikamoon.Controller
 
         [SerializeField] protected WeaponDataSO weaponData;
 
-        [SerializeField] protected Collider[] _colliders;
+        public Collider[] _colliders;
 
         public int Health;
 
@@ -44,7 +44,8 @@ namespace Pikamoon.Controller
 
 
         [Header("VFX")]
-        public Transform SwingParticle;
+        public Transform TrailParticle;
+        public Transform HitImpactParticle;
 
         [Header("SFX")]
         public AudioClip SwingSound;
@@ -67,6 +68,10 @@ namespace Pikamoon.Controller
 
         public abstract void OnEquip();
         public abstract void OnUnEquip();
+
+
+
+        public abstract void OnHit(Vector3 point);
 
     }
 }

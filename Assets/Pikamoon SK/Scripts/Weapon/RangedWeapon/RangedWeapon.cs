@@ -186,6 +186,10 @@ namespace Pikamoon.Controller
 
         }
 
+        public override void OnHit(Vector3 point)
+        {
+        }
+
         #endregion
 
 

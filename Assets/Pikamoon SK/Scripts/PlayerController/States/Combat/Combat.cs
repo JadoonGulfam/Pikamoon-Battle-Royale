@@ -195,7 +195,6 @@ namespace Pikamoon.Controller
             comboMoveCounter = 1;
             //AttackStatusImage.enabled = true;
 
-
             if (GetNearestEnemyToLock())
             {
                 RotateTowardsNearestEnemy();
@@ -318,28 +317,26 @@ namespace Pikamoon.Controller
         {
             ToggleNextComboAttckStatus(false);
 
-
             // Enables Concenrned Hit Boxes for Attack 
             if (comboMoveCounter <= meleeWeapnonData.combos[(int)combatMoveType].moves.Length)
             {
-                int _effectPointsLength = meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint.Length;
-
-                for (int i = 0; i < _effectPointsLength; i++)
+                if(ActiveWeapon == null)
                 {
-                    if (meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i] != CombatMoveEffectPoint.Weapon)
+                    int _effectPointsLength = meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint.Length;
+                    for (int i = 0; i < _effectPointsLength; i++)
                     {
                         hitBehaviour.EnableHitPoint(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i]);
                     }
-                    else
-                    {
-                    }
+                }
+                else if (ActiveWeapon.Type == WeaponType.Melee)
+                {
+                    ActiveWeapon.HitBox.Enable();
                 }
             }
 
 
             //Choose Whether Nex Attack is Horizontal or Vertical and also play it
             AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
-
 
 
             if (comboMoveCounter <= 1)
@@ -365,6 +362,10 @@ namespace Pikamoon.Controller
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
+            if (ActiveWeapon != null && ActiveWeapon.Type == WeaponType.Melee)
+            {
+                ActiveWeapon.HitBox.Disable();
+            }
 
             comboMoveCounter = 1;
             Controller.IsRootMotionEnabled = false;

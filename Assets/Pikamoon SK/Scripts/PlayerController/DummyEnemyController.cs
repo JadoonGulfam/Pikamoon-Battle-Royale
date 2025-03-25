@@ -233,18 +233,14 @@ namespace Pikamoon.Controller
 
         public void OnDamage(float damageAmount, Transform hitPoint)
         {
-            Vector2 dir = GetHitDirection(hitPoint);
+            GetHit(DummyAttacker);
 
-            // AC.PAnimator.SetFloat("XVal", dir.x);
-            // AC.PAnimator.SetFloat("YVal", dir.y);
-               
-            // AC.PAnimator.SetTrigger("GetHit");
-               
+
             health -= damageAmount;
             //HealthBar.DOFillAmount(health / 100, .1f);
 
-            if (isKilled())
-                this.gameObject.SetActive(false);
+            //if (isKilled())
+            //    this.gameObject.SetActive(false);
 
         }
 
