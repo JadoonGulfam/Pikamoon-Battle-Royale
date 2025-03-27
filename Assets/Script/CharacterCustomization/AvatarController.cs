@@ -34,7 +34,7 @@ namespace CharacterCustomization
         {
             WearDefaultItem(BodyPartsType.Body, applyOn.gameObject, _gender);
             WearDefaultItem(BodyPartsType.Hair, applyOn.gameObject, _gender);
-            SetDefaultTexture();
+            //SetDefaultTexture();
         }
         public void WearDefaultItem(BodyPartsType _type, GameObject _applyOn, GenderType _gender)
         {
@@ -147,8 +147,8 @@ namespace CharacterCustomization
                     break;
                 case BodyPartsType.Hair:
                     wornHair = item;
-                    if (currentCharacterData.hairColor != Color.black && applyHairColor)
-                        ApplyColor(ColorUtility.ToHtmlStringRGB(currentCharacterData.hairColor), BodyType.Hair);
+                    //if (currentCharacterData.hairColor != Color.black && applyHairColor)
+                    //    ApplyColor(ColorUtility.ToHtmlStringRGB(currentCharacterData.hairColor), BodyType.Hair);
                     if (Constants.getColorObject != null)
                         Constants.getColorObject.Invoke();
                     break;

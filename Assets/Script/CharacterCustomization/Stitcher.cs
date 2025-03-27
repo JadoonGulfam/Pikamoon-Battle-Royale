@@ -45,6 +45,7 @@ namespace CharacterCustomization
 			SkinnedMeshRenderer target = parent.AddComponent<SkinnedMeshRenderer>();
 			target.sharedMesh = source.sharedMesh;
 			target.materials = source.sharedMaterials;
+			target.renderingLayerMask = source.renderingLayerMask;
 			return target;
 		}
 
