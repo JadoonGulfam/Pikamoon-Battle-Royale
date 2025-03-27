@@ -8,6 +8,7 @@ public class PikamoonAi : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     [SerializeField]
     private Animator animator;
+    [SerializeField] private AnimatorOverrideController overrideControllers; // Different Pikamoon animations
     [SerializeField]
     private PikamoonAiHealth pikamoonHealth;
     [SerializeField]
@@ -31,6 +32,7 @@ public class PikamoonAi : MonoBehaviour
 
     public float fleeDistance = 20f; // Distance to run away
     public float fleeSpeed = 8f; // Speed when fleeing
+    public float walkSpeed = 1f;
 
     public float idleTimemin = 1f, idleTimemax = 2.5f;
     public float minRange = 10f, maxRange = 15f;
@@ -49,8 +51,10 @@ public class PikamoonAi : MonoBehaviour
     public PikamoonState pikaState;
     public PikamoonType pikaType;
 
+    
     private void Start()
     {
+        animator.runtimeAnimatorController = overrideControllers;
         //navMeshAgent = GetComponent<NavMeshAgent>();
         //animator = GetComponent<Animator>();
         //pikamoonHealth = GetComponent<PikamoonAiHealth>(); // Get the health component
@@ -82,7 +86,7 @@ public class PikamoonAi : MonoBehaviour
                 Debug.Log("ya aya ha bhai abi tk nh aya");
                 isFleeing = false;
                 animator.ResetTrigger("Run");
-                navMeshAgent.speed = 1;
+                navMeshAgent.speed = walkSpeed;
                 navMeshAgent.ResetPath();
                 EnableRoaming(); // Resume normal behavior
             }
@@ -189,7 +193,7 @@ public class PikamoonAi : MonoBehaviour
         {
             pikaState = PikamoonState.Walk;
             animator.SetTrigger("Walk");
-            navMeshAgent.speed = 1;
+            navMeshAgent.speed = walkSpeed;
         }
         SetRandomDestination();
     }
