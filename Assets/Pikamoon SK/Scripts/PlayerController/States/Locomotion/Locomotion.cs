@@ -173,19 +173,27 @@ namespace Pikamoon.Controller
 
             AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, 1);
 
-            Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();
+            Vector3 direction = transform.forward;
 
-            Controller.RotatePlayerTowardDirection(direction, turnSmoothTime);
+            if (!camRotOf)
+            {
+                direction = Controller.GetDirectionAccordingToCameraWhenMoving();
 
+                Controller.RotatePlayerTowardDirection(direction, turnSmoothTime);
+            }
             // Always apply vertical velocity (for gravity or jumping)
             Vector3 finalMove = new Vector3(direction.x * Controller.Speed, playerInput.JumpVelocity, direction.z * Controller.Speed);
 
             // Move the character based on calculated velocity and speed
             Controller.Move(finalMove);
         }
+        bool camRotOf = false;
+        public void DisableCameraRot()
+        {
+            camRotOf = true;
+        }
 
-
-        void EnableSprinting()
+        public void EnableSprinting()
         {
             if (Controller.CurrentPlayerState == StateType.Locomtion && playerInput.isMoving)
                 isSprinting = true;
@@ -230,7 +238,7 @@ namespace Pikamoon.Controller
 
         }
 
-        void EnableWalk()
+        public void EnableWalk()
         {
             if (Controller.CurrentPlayerState == StateType.Locomtion)
                 isWalking = true;
