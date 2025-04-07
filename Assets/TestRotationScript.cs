@@ -6,6 +6,9 @@ using System.Collections;
 
 public class TestRotationScript : MonoBehaviour
 {
+
+    [SerializeField] Transform sTARTcaM;
+
     [SerializeField] CinemachineOrbitalFollow orbitalFollow;
     [Space]
     
@@ -40,12 +43,48 @@ public class TestRotationScript : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             StartCoroutine(CheckForMovmentINput());
             //StartCinematic();
         }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            DisableStartCam();
+            //StartCinematic();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            EnableStartCam();
+            //StartCinematic();
+        }
+
+
     }
+
+
+
+    void DisableStartCam()
+    {
+
+        if (sTARTcaM && sTARTcaM.gameObject.activeInHierarchy)
+        {
+            orbitalFollow.transform.gameObject.SetActive(true);
+            sTARTcaM.transform.gameObject.SetActive(false);
+        }
+    }
+    void EnableStartCam()
+    {
+
+        if (sTARTcaM && sTARTcaM.gameObject.activeInHierarchy)
+        {
+            orbitalFollow.transform.gameObject.SetActive(false);
+            sTARTcaM.transform.gameObject.SetActive(true);
+        }
+    }
+
     IEnumerator CheckForMovmentINput()
     {
         while(!input.isMoving)
@@ -59,11 +98,12 @@ public class TestRotationScript : MonoBehaviour
     public void StartCinematic()
     {
         IsStarted = true;
-        orbitalFollow.HorizontalAxis.Value = StartHorAxVal;
-        orbitalFollow.VerticalAxis.Value = StartVerAxVal;
+        //orbitalFollow.HorizontalAxis.Value = StartHorAxVal;
+        orbitalFollow.VerticalAxis.Value = StartVerAxVal ;
 
+        float Val = StartVerAxVal + EndHorAxVal;
         //DOTween.To(() => orbitalFollow.VerticalAxis.Value, x => orbitalFollow.VerticalAxis.Value = x, EndVerAxVal, VerDuration).SetEase(Ease.Linear);
-        DOTween.To(() => orbitalFollow.HorizontalAxis.Value, x => orbitalFollow.HorizontalAxis.Value = x, EndHorAxVal, HorDuration).SetEase(Ease.Linear);
+        DOTween.To(() => orbitalFollow.HorizontalAxis.Value, x => orbitalFollow.HorizontalAxis.Value = x, Val, HorDuration).SetEase(Ease.Linear);
         LOC.EnableWalk();
         LOC.DisableCameraRot();
     }

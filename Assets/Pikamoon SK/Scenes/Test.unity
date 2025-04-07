@@ -2782,6 +2782,63 @@ Transform:
   - {fileID: 315741439}
   m_Father: {fileID: 54164053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &931273393
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -207.74658
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 117.93274
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1169.2029
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205409842535670070, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805769892538661056, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
+      propertyPath: m_Name
+      value: Bark_Dragon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae5bd88c77f64f8448c5950dae4dc48b, type: 3}
 --- !u!1 &943610073
 GameObject:
   m_ObjectHideFlags: 0
@@ -5604,6 +5661,7 @@ MonoBehaviour:
     hitPoint: {fileID: 0}
   - effectPoint: 7
     hitPoint: {fileID: 0}
+  WeaponColliders: []
 --- !u!114 &1567213694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5619,6 +5677,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   DummyCircle: {fileID: 0}
   animatorOverrideController: {fileID: 0}
   ReadyToAttack: 0
@@ -5648,6 +5707,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   SlideSpeed: 8.8
   SpeedDeccelerator: 4
   colliderHeight: 0.98
@@ -5669,6 +5729,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   height: 0.98
   radius: 0.4
   center: {x: 0, y: 0.48, z: 0}
@@ -5689,6 +5750,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 13.5
   _fallStateName: Airbourne.Fall
@@ -5715,6 +5777,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   AnimationChangeDampening: 6
   Acceleration: 15
   turnSmoothTime: 10
@@ -5751,6 +5814,9 @@ MonoBehaviour:
   input: {fileID: 0}
   inventory: {fileID: 0}
   AC: {fileID: 0}
+  HC: {fileID: 0}
+  HitBehaviour: {fileID: 0}
+  isRootMotionEnabled: 0
   canExitCrouch: 1
   IsInAttack: 0
   IsSwimming: 0
@@ -11286,3 +11352,4 @@ SceneRoots:
   - {fileID: 1567213701}
   - {fileID: 1675847775}
   - {fileID: 1306032826}
+  - {fileID: 931273393}

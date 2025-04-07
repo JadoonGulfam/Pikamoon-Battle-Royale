@@ -1,7 +1,5 @@
 using Unity.Cinemachine;
 using UnityEngine;
-using DG.Tweening;
-using System;
 
 namespace Pikamoon.Controller
 {
@@ -70,6 +68,7 @@ namespace Pikamoon.Controller
             aimer = camRigSettings[0].CamOffset;
             fov = camRigSettings[0].FOV;
 
+            Application.targetFrameRate = 120;
         }
 
         private void Update()
