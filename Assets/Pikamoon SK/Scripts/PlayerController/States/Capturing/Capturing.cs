@@ -56,7 +56,7 @@ namespace Pikamoon.Controller
 
             if(!isCapturing)
             {
-                if (Controller.CurrentPlayerState != StateType.Locomtion)
+                if (Controller == null || Controller.CurrentPlayerState != StateType.Locomtion)
                     return;
 
                 CheckForCapturableTransform();
