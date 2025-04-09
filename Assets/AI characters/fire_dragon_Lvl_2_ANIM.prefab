@@ -2781,27 +2781,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 4925992529228896181}
   animator: {fileID: 3366916603566329842}
+  overrideControllers: {fileID: 0}
   pikamoonHealth: {fileID: 4704256131515825315}
   pikamoonFollow: {fileID: 5023403295175802216}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  pikaState: 0
+  pikaType: 1
+  alertMark: {fileID: 0}
   fleeHealthThreshold: 40
   fleeDistance: 20
   fleeSpeed: 3
+  walkSpeed: 1
   idleTimemin: 3
   idleTimemax: 5
   minRange: 12
   maxRange: 15
-  maxRoamingAngle: 90
   attackTriggerTime: 2
   attackRange: 4
   agroRange: 9
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  pikaState: 0
-  pikaType: 1
   attackVFX: {fileID: 7112587376429383138, guid: b52fdbc466a65dc44950522f17b7bbf1, type: 3}
   initPosition: {fileID: 3755687882105639134}
 --- !u!114 &4704256131515825315
@@ -2861,9 +2863,9 @@ MonoBehaviour:
   Animator: {fileID: 3366916603566329842}
   ApplyTiming: 2
   SyncSettings: -1
-  StateHashes: 00000000a158b1eaf302cec3e19704bbb3cd7b924ae6d1c6332c426026ac8a38e4de4b9a307e46536224397a2eb828206d161b237f3f7f9a3c914c9912bc9fae082da544
-  TriggerHashes: 000000002b1a167c6bd5a32d20e23b68c5693cd60d286c40855035e56c0e1722
-  TotalWords: 3
+  StateHashes: 00000000a158b1eaf302cec3e19704bbb3cd7b924ae6d1c6332c426026ac8a38e4de4b9a307e46536224397a2eb828206d161b237f3f7f9a3c914c9912bc9fae082da544e90f78edaaa14bee8a18fce4b9abd9d3
+  TriggerHashes: 000000002b1a167c6bd5a32d20e23b68c5693cd60d286c40855035e56c0e1722a1609f62
+  TotalWords: 4
 --- !u!114 &6373746383748218698
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1865,7 +1865,7 @@ GameObject:
   - component: {fileID: 4006380007738389672}
   m_Layer: 0
   m_Name: Bark_Dragon_Lvl_2_ANIM
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1878,7 +1878,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7795511296190141454}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -315.44113, y: 17.491982, z: 216.4967}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1951,6 +1951,14 @@ MonoBehaviour:
   overrideControllers: {fileID: 22100000, guid: 251864c8a958f5a43a35c75303f63c85, type: 2}
   pikamoonHealth: {fileID: 7158222349096581966}
   pikamoonFollow: {fileID: 5118791567285559728}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  pikaState: 0
+  pikaType: 1
+  alertMark: {fileID: 0}
+  stunnedMark: {fileID: 0}
+  alertMarkTransform: {fileID: 0}
   fleeHealthThreshold: 40
   fleeDistance: 20
   fleeSpeed: 3
@@ -1959,18 +1967,12 @@ MonoBehaviour:
   idleTimemax: 5
   minRange: 12
   maxRange: 15
-  maxRoamingAngle: 90
   attackTriggerTime: 2
   attackRange: 4
   agroRange: 9
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  pikaState: 0
-  pikaType: 0
   attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 8367548775807602300}
 --- !u!114 &7158222349096581966
@@ -2030,9 +2032,9 @@ MonoBehaviour:
   Animator: {fileID: 1183867457092289033}
   ApplyTiming: 2
   SyncSettings: -1
-  StateHashes: 00000000a158b1eaf302cec3e19704bbb3cd7b924ae6d1c6332c426026ac8a38e4de4b9a307e46536224397a2eb828206d161b237f3f7f9a3c914c9912bc9fae082da544e90f78edaaa14bee
+  StateHashes: 0000000026ac8a38e4de4b9a307e46536224397a7f3f7f9a3c914c9912bc9fae082da544e90f78edaaa14bee8a18fce4b9abd9d3
   TriggerHashes: 000000002b1a167c6bd5a32d20e23b68c5693cd60d286c40855035e56c0e1722a1609f62
-  TotalWords: 3
+  TotalWords: 4
 --- !u!114 &4409484496419179390
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 7671373156845069999}
   m_Layer: 0
   m_Name: dracodilo_Lvl_3_ANIM
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1025,7 +1025,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3641755145506885142}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -318.2, y: 17.574318, z: 215.65459}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1044,7 +1044,7 @@ Animator:
   m_GameObject: {fileID: 3641755145506885142}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d0ab56904b2618a449baf01c730b2db7, type: 3}
-  m_Controller: {fileID: 9100000, guid: 905b17118950ebd4db923d14c6211e29, type: 2}
+  m_Controller: {fileID: 22100000, guid: f6e23d0cb77da15448a63571844f5c21, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1098,6 +1098,14 @@ MonoBehaviour:
   overrideControllers: {fileID: 22100000, guid: f6e23d0cb77da15448a63571844f5c21, type: 2}
   pikamoonHealth: {fileID: 908172620471224710}
   pikamoonFollow: {fileID: 2964614356680409351}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  pikaState: 0
+  pikaType: 0
+  alertMark: {fileID: 0}
+  stunnedMark: {fileID: 0}
+  alertMarkTransform: {fileID: 0}
   fleeHealthThreshold: 40
   fleeDistance: 20
   fleeSpeed: 3
@@ -1106,18 +1114,12 @@ MonoBehaviour:
   idleTimemax: 5
   minRange: 12
   maxRange: 15
-  maxRoamingAngle: 90
   attackTriggerTime: 2
   attackRange: 4
   agroRange: 9
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  pikaState: 0
-  pikaType: 0
   attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 773040508373603929}
 --- !u!114 &908172620471224710
@@ -1177,9 +1179,9 @@ MonoBehaviour:
   Animator: {fileID: 4835624019021148967}
   ApplyTiming: 2
   SyncSettings: -1
-  StateHashes: 00000000a158b1eaf302cec3e19704bbb3cd7b924ae6d1c6332c426026ac8a38e4de4b9a307e46536224397a2eb828206d161b237f3f7f9a3c914c9912bc9fae082da544e90f78edaaa14bee
+  StateHashes: 0000000026ac8a38e4de4b9a307e46536224397a7f3f7f9a3c914c9912bc9fae082da544e90f78edaaa14bee8a18fce4b9abd9d3
   TriggerHashes: 000000002b1a167c6bd5a32d20e23b68c5693cd60d286c40855035e56c0e1722a1609f62
-  TotalWords: 3
+  TotalWords: 4
 --- !u!114 &3107588243175509712
 MonoBehaviour:
   m_ObjectHideFlags: 0
