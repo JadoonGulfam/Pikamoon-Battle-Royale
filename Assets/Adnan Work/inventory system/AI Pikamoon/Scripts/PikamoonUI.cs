@@ -29,11 +29,11 @@ public class PikamoonUI : MonoBehaviour
     {
         pikamoonDropdown.ClearOptions();
         List<string> options = new List<string>();
-        List<GameObject> capturedPikamoons = playerInventory.GetCapturedPikamoons();
-        foreach (var pikamoon in capturedPikamoons)
-        {
-            options.Add(pikamoon.name);
-        }
-        pikamoonDropdown.AddOptions(options);
+        //List<GameObject> capturedPikamoons = playerInventory.GetCapturedPikamoons();
+        //foreach (var pikamoon in capturedPikamoons)
+       // {
+       //     options.Add(pikamoon.name);
+        //}
+        //pikamoonDropdown.AddOptions(options);
     }
 }

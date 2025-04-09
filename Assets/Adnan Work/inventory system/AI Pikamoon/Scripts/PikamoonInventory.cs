@@ -1,5 +1,147 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEngine;
+using Fusion;
+using System.Collections;
+
+[RequireComponent(typeof(PlayerInputHandler))]
+public class PikamoonInventory : MonoBehaviour
+{
+    [System.Serializable]
+    public class PikamoonEntry
+    {
+        public string name;
+        public GameObject pikamoonObject;
+    }
+
+    [SerializeField] private List<PikamoonEntry> pikamoonList = new List<PikamoonEntry>(); // Visible in Inspector
+    private Dictionary<string, GameObject> allPikamoons = new Dictionary<string, GameObject>(); // Used in code
+
+    public List<string> capturedPikamoons = new List<string>(); // Stores names of captured Pikamoons
+
+    public GameObject player;
+    public GameObject[] players;
+
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (var playerObject in players)
+        {
+            if (playerObject.GetComponent<NetworkObject>().HasStateAuthority)
+            {
+                player = playerObject;
+                print("Player set");
+                break;
+            }
+        }
+
+        // Populate dictionary from the serialized list
+        allPikamoons.Clear();
+        foreach (var entry in pikamoonList)
+        {
+            if (entry.pikamoonObject != null && !allPikamoons.ContainsKey(entry.name))
+            {
+                allPikamoons[entry.name] = entry.pikamoonObject;
+                entry.pikamoonObject.SetActive(false); // Disable them initially
+            }
+        }
+    }
+
+    public void AddPikamoon(GameObject pikamoon)
+    {
+        string pikamoonName = pikamoon.name;
+
+        if (!capturedPikamoons.Contains(pikamoonName))
+        {
+            capturedPikamoons.Add(pikamoonName);
+            Debug.Log($"Pikamoon {pikamoonName} added to inventory.");
+            Destroy(pikamoon);
+        }
+    }
+
+    public void SpawnPikamoon(int index, Vector3 spawnPosition)
+    {
+
+        if (index >= 0 && index < capturedPikamoons.Count)
+        {
+            string pikamoonName = capturedPikamoons[index];
+
+            if (allPikamoons.TryGetValue(pikamoonName, out GameObject pikamoonToSpawn))
+            {
+                pikamoonToSpawn.transform.position = spawnPosition;
+
+                PikamoonFollow followScript = pikamoonToSpawn.GetComponent<PikamoonFollow>();
+                if (followScript != null)
+                {
+                    followScript.SetMasterCharacter(player.transform);
+                    followScript.EnableFollowing();
+                }
+
+               // pikamoonToSpawn.GetComponent<PikamoonAI>().Call_RPC_SpawnPikamoon(pikamoonToSpawn, spawnPosition);
+                pikamoonToSpawn.SetActive(true);
+
+                Debug.Log($"Pikamoon {pikamoonName} spawned.");
+            }
+            else
+            {
+                Debug.LogWarning($"Pikamoon {pikamoonName} not found in the dictionary.");
+            }
+        }
+    }
+
+    public void ReleasePikamoon(int index)
+    {
+        if (index >= 0 && index < capturedPikamoons.Count)
+        {
+            string pikamoonName = capturedPikamoons[index];
+
+            if (allPikamoons.TryGetValue(pikamoonName, out GameObject pikamoonToRelease))
+            {
+                capturedPikamoons.RemoveAt(index);
+
+                PikamoonRoaming roamingScript = pikamoonToRelease.GetComponent<PikamoonRoaming>();
+                if (roamingScript != null)
+                {
+                    roamingScript.EnableRoaming();
+                }
+
+                PikamoonFollow followScript = pikamoonToRelease.GetComponent<PikamoonFollow>();
+                if (followScript != null)
+                {
+                    followScript.DisableFollowing();
+                }
+
+                pikamoonToRelease.SetActive(true);
+
+                Debug.Log($"Pikamoon {pikamoonName} released.");
+            }
+        }
+    }
+
+    public List<string> GetCapturedPikamoons()
+    {
+        return capturedPikamoons;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#region ------------------------old script-------------------
+/*
+ using DG.Tweening;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Fusion;
@@ -9,6 +151,8 @@ using Photon.Realtime;
 [RequireComponent(typeof(PlayerInputHandler))]  // Assuming PlayerInputHandler exists
 public class PikamoonInventory : MonoBehaviour
 {
+    public List<string> PikamoonNames = new List<string>();
+    public List<GameObject> PikamoonList = new List<GameObject>();
     public List<GameObject> capturedPikamoons = new List<GameObject>();  // Holds multiple Pikamoons
 
     public GameObject player;
@@ -111,7 +255,6 @@ public class PikamoonInventory : MonoBehaviour
     {
         // Logic to update the UI with the inventory
     }
-
-
-
 }
+*/
+#endregion
