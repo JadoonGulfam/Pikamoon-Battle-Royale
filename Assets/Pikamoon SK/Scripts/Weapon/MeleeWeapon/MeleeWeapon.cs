@@ -129,7 +129,6 @@ namespace Pikamoon.Controller
         public override void OnHit(Vector3 point)
         {
             HitImpactParticle.gameObject.SetActive(false);
-            //HitImpactParticle.transform.position = point;
 
             HitImpactParticle.transform.parent = this.transform;
             HitImpactParticle.transform.localPosition = defaultHitParticlePos;

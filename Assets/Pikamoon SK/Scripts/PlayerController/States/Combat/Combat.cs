@@ -80,6 +80,9 @@ namespace Pikamoon.Controller
 
             ActiveWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
 
+            //if (ActiveWeapon)
+            //    ActiveWeapon.TrailParticle.VelocityMultiplier = 0;
+
             playerInput.onAttack1_Clicked += DoHorizontalAttack;
             playerInput.onAttack2_Clicked += DoVerticalAttack;
         }
@@ -314,7 +317,10 @@ namespace Pikamoon.Controller
         }
 
         void StartAttack(CombatMoveType combatMoveType)
-        {
+        {   
+            //if(ActiveWeapon)
+            //    ActiveWeapon.TrailParticle.VelocityMultiplier = .2f;
+
             ToggleNextComboAttckStatus(false);
 
             // Enables Concenrned Hit Boxes for Attack 
@@ -366,6 +372,10 @@ namespace Pikamoon.Controller
             {
                 ActiveWeapon.HitBox.Disable();
             }
+
+
+            //if (ActiveWeapon)
+            //    ActiveWeapon.TrailParticle.VelocityMultiplier = 0;
 
             comboMoveCounter = 1;
             Controller.IsRootMotionEnabled = false;

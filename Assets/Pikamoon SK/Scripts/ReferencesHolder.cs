@@ -34,7 +34,7 @@ namespace Pikamoon.Controller
             if (!CamefromMPCAll)
                 InstantiatePlayer();
         }
-
+         
         void InstantiatePlayer()
         {
             if (_playerController == null)

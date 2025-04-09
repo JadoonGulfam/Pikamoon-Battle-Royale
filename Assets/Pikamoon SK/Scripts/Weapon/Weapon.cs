@@ -1,3 +1,4 @@
+using MeshEffects2;
 using UnityEngine;
 
 
@@ -44,7 +45,7 @@ namespace Pikamoon.Controller
 
 
         [Header("VFX")]
-        public Transform TrailParticle;
+        public ME2_Velocity TrailParticle;
         public Transform HitImpactParticle;
 
         [Header("SFX")]

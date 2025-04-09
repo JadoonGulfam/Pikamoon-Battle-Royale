@@ -7,6 +7,9 @@ namespace Pikamoon.Controller
         public LayerMask waterLayer;
         public float chestDisToFeet;
 
+        [SerializeField] Transform FootSensor;
+        [SerializeField] Transform ShoulderSensor;
+
         public float UpForce;
 
         bool _inWater;
@@ -50,6 +53,9 @@ namespace Pikamoon.Controller
 
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
+
+            FootSensor.transform.position = this.transform.position;
+            FootSensor.transform.localScale = Vector3.one * 0.5f;
 
 
             _inWater =  Physics.CheckSphere(this.transform.position, 0.5f, waterLayer);
@@ -104,6 +110,9 @@ namespace Pikamoon.Controller
         bool IsInEnoughDeepToSwim()
         {
             Vector3 shoulderPosition = transform.position + Vector3.up * chestDisToFeet;
+
+            ShoulderSensor.transform.position = transform.position + Vector3.up * chestDisToFeet *.95f;
+            ShoulderSensor.transform.localScale = Vector3.one * 0.1f;
 
             if (Physics.CheckSphere(shoulderPosition, 0.1f, waterLayer))
             {
