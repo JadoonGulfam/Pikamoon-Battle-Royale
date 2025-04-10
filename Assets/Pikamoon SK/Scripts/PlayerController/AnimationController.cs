@@ -67,8 +67,17 @@ namespace Pikamoon.Controller
         public ParamBool isAiming;
         public ParamInt SecondaryState;
         public ParamTrigger EndCombat;
+        public ParamFloat SpeedMulForAnim;
 
     }
+
+    [System.Serializable]
+    public struct AnimationClipProperties
+    {
+        public string Name;
+        public int Hash;
+    }
+
     public class AnimationController : NetworkBehaviour
     {
         [SerializeField] Animator animator;
@@ -76,7 +85,9 @@ namespace Pikamoon.Controller
         [Header("Parameters")]
         public AnimatorParameters Parameters;
 
-        public  Animator PAnimator
+        [Header("Hit Animation")]
+        public AnimationClipProperties[] HitAnimations;
+        public Animator PAnimator
         {
             get 
             {
@@ -108,6 +119,7 @@ namespace Pikamoon.Controller
             Parameters.isAiming.Hash = Animator.StringToHash(Parameters.isAiming.Name);
             Parameters.SecondaryState.Hash = Animator.StringToHash(Parameters.SecondaryState.Name);
             Parameters.EndCombat.Hash = Animator.StringToHash(Parameters.EndCombat.Name);
+            Parameters.SpeedMulForAnim.Hash = Animator.StringToHash(Parameters.SpeedMulForAnim.Name);
         }
 
         public void SetAnimationState(string stateName, float transitionDuration = 0.1f)
@@ -124,7 +136,6 @@ namespace Pikamoon.Controller
         
         public void ChangeOverrideController(AnimatorOverrideController overrideController)
         {
-
             PAnimator.runtimeAnimatorController = overrideController;
         }
 

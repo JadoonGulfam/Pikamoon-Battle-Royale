@@ -95,6 +95,8 @@ namespace Pikamoon.Controller
 
             playerInput.onWeaponDrop_Down += DropWeapon;
 
+            Controller.ActivateWeapon(DefaultFistNoWeapon);
+
             allowPickUp = true;
         }
         public PlayerSetupForMultiplayer MP_Setup;
@@ -103,11 +105,11 @@ namespace Pikamoon.Controller
             //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
             //    return;
 
-            if (!MP_Setup.isMinePlayer)
+            if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
 
-            Dummy.position = this.transform.position + (this.transform.forward * 2) + (Vector3.up * 2);
+            //Dummy.position = this.transform.position + (this.transform.forward * 2) + (Vector3.up * 2);
 
 
             ContinuousCheckForItemsForPickup();
@@ -199,6 +201,8 @@ namespace Pikamoon.Controller
             weapon.transform.localPosition = Vector3.zero;
             weapon.transform.localRotation = Quaternion.identity;
 
+            weapon.OnUnEquip();
+
             UI.UnEquipWeapon(index);
 
             isUsingWeapon = false;
@@ -212,6 +216,8 @@ namespace Pikamoon.Controller
         void Equipping(int index, Weapon weapon)
         {
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            weapon.OnEquip();
 
             Controller.ActivateWeapon(weaponInfo);
             UI.EquipWeapon(index, weaponInfo.Data.icon, true, weapon.Health, weaponInfo.Data.InitialHealth);
@@ -325,6 +331,7 @@ namespace Pikamoon.Controller
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
+            isUsingWeapon = false;
 
             UI.DropWeapon(UsingWeaponIndex);
 

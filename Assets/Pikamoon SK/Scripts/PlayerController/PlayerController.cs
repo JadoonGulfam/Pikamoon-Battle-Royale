@@ -35,7 +35,8 @@ namespace Pikamoon.Controller
         Throwing,
         Shooting,
         Swimming,
-        Battle
+        Battle,
+        Capture
     }
 
 
@@ -45,10 +46,6 @@ namespace Pikamoon.Controller
         public PlayerData PlayerData;
         public StateType CurrentPlayerState;
 
-        public bool IsInAttack;
-        public bool IsSwimming;
-        public bool IgnoreGravity;
-        [SerializeField] Vector3 crouchColliderOffset;
 
         [Header("References")]
         public Transform Head; 
@@ -72,25 +69,18 @@ namespace Pikamoon.Controller
 
         [Header("Grounded Settings")]
         [Space]
+        [SerializeField] Vector3 crouchColliderOffset;
         [SerializeField] Vector3 groundCheckColliderScale;
         public LayerMask groundLayer;
         
-        [SerializeField] bool isGrounded;
-        public bool IsGrounded
-        {
-            get
-            {
-                return isGrounded;
-                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
-                //return characterController.isGrounded;
-            }
-        }
 
 
         [HideInInspector] public CameraController _cameraController;
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
         [HideInInspector] public AnimatorController AC;
+        [HideInInspector] public HealthController HC;
+        [HideInInspector] public HitBehaviour HitBehaviour;
        // public PlayerSetupForMultiplayer MP_Setup;
 
         Shooting _shooting;
@@ -109,15 +99,29 @@ namespace Pikamoon.Controller
 
 
 
-        bool isRootMotionEnabled;
+        [SerializeField] bool isRootMotionEnabled;
         public bool IsRootMotionEnabled
         {
             get { return isRootMotionEnabled; }
             set { isRootMotionEnabled = value; }
             
         }
+        
+        [SerializeField] bool canExitCrouch;
+        public bool CanExitCrouch
+        {
+            get
+            {
+                if (CurrentPlayerState == StateType.Crouch && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
+                    return true;
+                else
+                    return false;
+            }
+        }
 
-
+        public bool IsInAttack;
+        public bool IsSwimming;
+        public bool IgnoreGravity;
 
         float speed;
         public float Speed
@@ -138,6 +142,16 @@ namespace Pikamoon.Controller
             }
         }
 
+        [SerializeField] bool isGrounded;
+        public bool IsGrounded
+        {
+            get
+            {
+                return isGrounded;
+                //return Physics.CheckBox(this.transform.position + (Vector3.down * (groundCheckColliderScale.y / 2)), groundCheckColliderScale, Quaternion.identity, groundLayer);
+                //return characterController.isGrounded;
+            }
+        }
 
 
         [SerializeField] bool inAir;
@@ -155,18 +169,6 @@ namespace Pikamoon.Controller
 
 
 
-        [SerializeField] bool canExitCrouch;
-        public bool CanExitCrouch
-        {
-            get
-            {
-                if (CurrentPlayerState == StateType.Crouch && Physics.CheckBox(this.transform.position + crouchColliderOffset, new Vector3(.5f, 1, .5f), Quaternion.identity, groundLayer))
-                    return true;
-                else
-                    return false;
-            }
-        }
-
         public Vector3 Velocity
         {
             get 
@@ -175,7 +177,7 @@ namespace Pikamoon.Controller
             }
         }
 
-        public void Inititalize(PlayerInput _input, CameraController _camera,HUDController hudController)
+        public void Inititalize(PlayerInput _input, CameraController _camera, HUDController hudController)
         {
             input = _input;
             _cameraController = _camera;
@@ -185,12 +187,8 @@ namespace Pikamoon.Controller
 
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
+            HC = GetComponent<HealthController>();
 
-            _combat = this.GetComponent<Combat>();
-            _throwing = this.GetComponent<Throwing>();
-            _shooting = this.GetComponent<Shooting>();
-
-            inventory.Initialize(hudController, this);
 
             IgnoreGravity = false;
 
@@ -198,14 +196,33 @@ namespace Pikamoon.Controller
             defaultRadius = characterController.radius;
             defaultCenter = characterController.center;
 
-
             foreach (var state in states)
             {
-                state.Initialize();
+                state.Initialize(this.transform);
+
+
+                switch(state.GetStateType())
+                {
+                    case StateType.Combat:
+                        _combat = state.GetComponent<Combat>();
+                        
+                        break;
+                    case StateType.Throwing:
+                        _throwing = state.GetComponent<Throwing>();
+                        break;
+                    case StateType.Shooting:
+                        _shooting = state.GetComponent<Shooting>();
+                        break;
+                }
             }
 
 
+            //_combat = this.GetComponent<Combat>();
+            //_throwing = this.GetComponent<Throwing>();
+            //_shooting = this.GetComponent<Shooting>();
 
+
+            inventory.Initialize(hudController, this);
         }
 
         private void Update()

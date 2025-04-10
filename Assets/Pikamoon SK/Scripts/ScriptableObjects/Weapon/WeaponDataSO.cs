@@ -16,5 +16,6 @@ namespace Pikamoon.Controller
 
         [Space]
         public AnimatorOverrideController AnimOC;
+        public int AnimSpeed;
     }
 }

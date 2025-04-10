@@ -93,6 +93,14 @@ public class PikamoonRoaming : MonoBehaviour
         }
     }
 
+    public void capture()
+    {
+        
+        this.GetComponent<PikamoonRoaming>().enabled = false;
+        animator.SetFloat("Move", 0);
+        print("roaming is disabled");
+    }
+
     public void EnableRoaming()
     {
         isRoaming = true;

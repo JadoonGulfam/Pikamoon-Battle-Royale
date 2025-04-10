@@ -34,6 +34,7 @@ namespace Pikamoon.Controller
     {
         public CombatMoveEffectPoint[] combatMoveEffectPoint;
         public CombatMoveType combatMoveType;
+
         [Space]
         public float Damage;
     }

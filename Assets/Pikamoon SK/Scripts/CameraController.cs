@@ -42,7 +42,9 @@ namespace Pikamoon.Controller
         public Camera _camera;
         [Space]
         [SerializeField] Cam activeCam;
+
         [Space]
+        [SerializeField] CinemachineCamera CaptureCam;
         [SerializeField] CinemachineCamera DefaultCam;
         [SerializeField] CinemachineOrbitalFollow DefaultCamOrbitalFollow;
 
@@ -132,6 +134,11 @@ namespace Pikamoon.Controller
 
         }
 
+
+        public void ToggleCaptureCam(bool flag)
+        {
+            DefaultCam.gameObject.SetActive(!flag);
+        }
 
         public void ChangeAimZoom(bool isAiming)
         {

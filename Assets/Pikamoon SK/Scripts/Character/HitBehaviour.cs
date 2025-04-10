@@ -15,7 +15,7 @@ namespace Pikamoon.Controller
     public class HitBehaviour : MonoBehaviour
     {
         [SerializeField] HitPointHolder[] hitPointHolders;
-
+        [SerializeField] Collider[] WeaponColliders;  
         public void DisableAllHitPoints()
         {
             foreach (HitPointHolder holder in hitPointHolders)
@@ -49,5 +49,26 @@ namespace Pikamoon.Controller
         {
             hitPointHolders[(int)effectPoint].hitPoint.collider.enabled = true;
         }
+
+
+
+        public void EnableWeaponHitPoint()
+        {
+            for (int i = 0; i < WeaponColliders.Length; i++)
+            {
+                WeaponColliders[i].enabled = true;
+            }
+        }
+
+        public void DisableWeaponHitPoint()
+        {
+            for (int i = 0; i < WeaponColliders.Length; i++)
+            {
+                WeaponColliders[i].enabled = false;
+            }
+        }
+
+
+
     }
 }
