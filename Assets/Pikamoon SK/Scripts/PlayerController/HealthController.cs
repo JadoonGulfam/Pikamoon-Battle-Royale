@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 namespace Pikamoon.Controller
 {
-
-    public class HealthController : MonoBehaviour,IDamageable
+    public class HealthController : MonoBehaviour//, IDamageable
     {
         PlayerController Controller;
         AnimationController AC;
@@ -230,8 +229,8 @@ namespace Pikamoon.Controller
             health -= damageAmount;
             //HealthBar.DOFillAmount(health / 100, .1f);
 
-            if (isKilled())
-                this.gameObject.SetActive(false);
+            //if (isKilled())
+            //    this.gameObject.SetActive(false);
 
         }
 
