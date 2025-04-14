@@ -90,7 +90,7 @@ namespace Pikamoon.Controller
                 {
                     CapturedInfo captureInfo;
 
-                    if (_icapturable.onCapture(out captureInfo))
+                    if (_icapturable.isInRangeToCapture(out captureInfo))
                     {
                         hasTarget = true;
                         timeToCapture = captureInfo.TimeToCapture;
@@ -124,6 +124,8 @@ namespace Pikamoon.Controller
             isCapturing = false;
 
 
+            captureParticle.gameObject.SetActive(false);
+
             Controller._cameraController.ToggleCaptureCam(false);
 
             TargetCapturePosition.gameObject.SetActive(false);
@@ -148,6 +150,9 @@ namespace Pikamoon.Controller
 
                 Controller.CurrentPlayerState = StateType.Capture;
 
+                TargetCapturePosition.GetComponent<ICapturable>().OnCapture();
+
+                captureParticle.gameObject.SetActive(true);
                 isCapturing = true;
                 isCaptureComplete = false;
 
@@ -160,6 +165,7 @@ namespace Pikamoon.Controller
         {
             isCapturing = false;
 
+            captureParticle.gameObject.SetActive(false);
             Controller._cameraController.ToggleCaptureCam(false);
 
             AC.PAnimator.SetBool   (AC.Parameters.isWalkRun.Hash      , true );

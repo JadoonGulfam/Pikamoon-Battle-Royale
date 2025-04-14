@@ -52,6 +52,8 @@ public class CapatureEffect : MonoBehaviour, ICapturable
             material[i].SetFloat("_Cutoff", 4);
     }
 
+
+
     public void Capture()
     {
         StartCoroutine(capturePikamoon(this.gameObject));
@@ -105,15 +107,18 @@ public class CapatureEffect : MonoBehaviour, ICapturable
     //}
 
 
-    public bool onCapture(out CapturedInfo captureReturnInfo)
+    public bool isInRangeToCapture(out CapturedInfo captureReturnInfo)
     {
         captureReturnInfo = capturedInfo;
 
-        if(isStunned)
+        return isStunned;
+    }
+
+    public void OnCapture()
+    {
+        if (isStunned)
         {
             Capture();
         }
-
-        return isStunned;
     }
 }

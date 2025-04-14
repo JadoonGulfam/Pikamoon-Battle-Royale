@@ -17,11 +17,15 @@ public class TempPikamoonCapture : MonoBehaviour, ICapturable
         }
     }
 
-    public bool onCapture(out CapturedInfo captureReturnInfo)
+    public bool isInRangeToCapture(out CapturedInfo captureReturnInfo)
     {
         captureReturnInfo = capturedInfo;
 
         return isStunned;
+    }
+
+    public void OnCapture()
+    {
     }
 
 

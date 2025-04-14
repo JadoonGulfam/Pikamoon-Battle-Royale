@@ -16,6 +16,7 @@ namespace Pikamoon.Controller
             get; set;
         }
 
-        bool onCapture(out CapturedInfo captureReturnInfo);
+        bool isInRangeToCapture(out CapturedInfo captureReturnInfo);
+        void OnCapture();
     }
 }
