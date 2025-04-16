@@ -23,7 +23,7 @@ namespace Pikamoon.Controller
 
         [Header("Movement")]
         [Space]
-        public Transform DummyCircle;
+        //public Transform DummyCircle;
 
         //public Image comboStatusImage;
         //public Image AttackStatusImage;
