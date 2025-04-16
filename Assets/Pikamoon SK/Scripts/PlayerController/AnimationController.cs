@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using System.Linq;
 
 namespace Pikamoon.Controller
 {
@@ -136,8 +137,30 @@ namespace Pikamoon.Controller
         
         public void ChangeOverrideController(AnimatorOverrideController overrideController)
         {
-            PAnimator.runtimeAnimatorController = overrideController;
+            if (Object.HasStateAuthority)
+            {
+                RPC_ChangeOverrideContorller(1, Object.Id.ToString());
+                PAnimator.runtimeAnimatorController = overrideController;
+            }
+            
         }
 
+
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_ChangeOverrideContorller(int index, string playerID, RpcInfo info = default)
+        {
+            string numericOnly = new string(playerID.Where(char.IsDigit).ToArray());
+            string trimmedID = numericOnly.Length >= 5
+                ? numericOnly.Substring(0, 4) + numericOnly[^1]
+                : numericOnly; 
+            print("PID"+Object.Id);
+            Debug.Log("TID"+trimmedID); // Output: "15788"
+
+            if (Object.Id.ToString() == trimmedID)
+            {
+                Debug.Log("RPC called with value: " + index + playerID);
+            }
+            
+        }
     }
 }
