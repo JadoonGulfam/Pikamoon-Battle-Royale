@@ -82,7 +82,7 @@ namespace Pikamoon.Controller
     public class AnimationController : NetworkBehaviour
     {
         [SerializeField] Animator animator;
-
+        [SerializeField] AnimatorOverrideController[] animatorOverrideController;
         [Header("Parameters")]
         public AnimatorParameters Parameters;
 
@@ -154,10 +154,11 @@ namespace Pikamoon.Controller
                 ? numericOnly.Substring(0, 4) + numericOnly[^1]
                 : numericOnly; 
             print("PID"+Object.Id);
-            Debug.Log("TID"+trimmedID); // Output: "15788"
+            Debug.Log("TID"+trimmedID); 
 
-            if (Object.Id.ToString() == trimmedID)
+            if (Object.Id.ToString() == playerID)
             {
+                PAnimator.runtimeAnimatorController = animatorOverrideController[index];
                 Debug.Log("RPC called with value: " + index + playerID);
             }
             
