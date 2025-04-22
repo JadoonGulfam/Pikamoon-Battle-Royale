@@ -176,6 +176,7 @@ public class PikamoonAi : MonoBehaviour
         isIdle = true;
         pikaState = PikamoonState.Idle;
         animator.SetFloat("Pikamoon", 0f); // 0 = Idle
+        navMeshAgent.ResetPath();
         idleTimer = Random.Range(idleTimemin, idleTimemax);
     }
 
