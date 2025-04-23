@@ -139,8 +139,22 @@ namespace Pikamoon.Controller
         {
             if (Object.HasStateAuthority)
             {
-                RPC_ChangeOverrideContorller(1, Object.Id.ToString());
-                PAnimator.runtimeAnimatorController = overrideController;
+                if(overrideController.name == "_NoWeapon_AOC")
+                {
+                    RPC_ChangeOverrideContorller(0, Object.Id.ToString());
+                    PAnimator.runtimeAnimatorController = overrideController;
+                }
+                else if (overrideController.name == "Melee_Sword_AOC")
+                {
+                    RPC_ChangeOverrideContorller(1, Object.Id.ToString());
+                    PAnimator.runtimeAnimatorController = overrideController;
+                }
+                else if (overrideController.name == "Melee_Mace_AOC")
+                {
+                    RPC_ChangeOverrideContorller(2, Object.Id.ToString());
+                    PAnimator.runtimeAnimatorController = overrideController;
+                }
+                
             }
             
         }
