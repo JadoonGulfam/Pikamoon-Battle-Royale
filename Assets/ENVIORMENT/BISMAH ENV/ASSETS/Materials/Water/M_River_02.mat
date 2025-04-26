@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_River_02
-  m_Shader: {fileID: 4800000, guid: 8352fe40c7dd2a44a835eae3e0a9b55c, type: 3}
+  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,13 +16,19 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _FlowMask:
         m_Texture: {fileID: 2800000, guid: 99aba6bdcb8680340aef8ce9b0b750e8, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -39,6 +45,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: ab4043534eb72a742941157d17f966f1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 2800000, guid: 7b1e0270e83fa764e84ed1a1314647d9, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -53,8 +63,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendOp: 0
     - _ColorDepthFade: 8.6
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
     - _EdgeFoamCutoff: 1.31
     - _EdgeFoamDepthFade: 0.46
     - _EdgeFoamIntensity: 29.6
@@ -84,6 +103,7 @@ Material:
     - _OpacityDeep: 1
     - _OpacityFade: 0
     - _OpacityShallow: 1
+    - _QueueOffset: 0
     - _RefractionDepth: 7
     - _RefractionStrength: 4
     - _RoughnesContrast: 112.89
@@ -91,12 +111,19 @@ Material:
     - _RoughnessIntensity: 0
     - _RoughnessTiling: 1
     - _RoughnessTiling1: 0.5
+    - _SampleGI: 0
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
     - _TessPhongStrength: 0.5
     - _TessValue: 15
     - _WaterFoamColorIntensity: 1
+    - _ZWrite: 1
     - __dirty: 0
     - _useStepforFlow: 0
     m_Colors:
+    - _BaseColor: {r: 0, g: 0.03529412, b: 0.8196079, a: 1}
+    - _Color: {r: 0, g: 0.03529412, b: 0.8196079, a: 1}
     - _ColorDeep: {r: 0.27910283, g: 0.58878887, b: 0.6037736, a: 0}
     - _ColorShallow: {r: 0.30526868, g: 0.9245283, b: 0.9221473, a: 0}
     - _EdgeFoamSpeed: {r: 0.2, g: 5, b: 0, a: 0}
@@ -116,3 +143,17 @@ Material:
     - _Water: {r: 0.23129036, g: 0.16470587, b: 1, a: 1}
     - _WaterFoamColor: {r: 0.7122642, g: 0.9620813, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &6879066184673088612
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9

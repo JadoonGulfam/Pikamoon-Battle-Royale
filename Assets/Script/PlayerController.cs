@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 
-public class PlayerController : NetworkBehaviour,CanvasData
+public class PlayerController : NetworkBehaviour
 {
     [SerializeField] Transform playerCameraRoot;
     // Start is called before the first frame update
@@ -76,8 +76,7 @@ public class PlayerController : NetworkBehaviour,CanvasData
                 PikaButtons[x].onClick.AddListener(delegate { Spawn_PikaMoon(x); });
             }
 
-           // pingNetwork = GameObject.FindGameObjectWithTag("Canvas").GetComponent<CanvasData>().pingPanel;
-        }
+                  }
         canvasData.SetActive(true);
     }
     private double[] _roundTripTimes = new double[100];
