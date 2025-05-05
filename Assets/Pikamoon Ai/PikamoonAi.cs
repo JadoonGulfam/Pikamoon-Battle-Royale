@@ -62,6 +62,7 @@ public class PikamoonAi : MonoBehaviour
     [SerializeField]
     private float alertRange = 10f; // Detection range for player
 
+    enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
 
     private Transform player;
 
@@ -78,11 +79,11 @@ public class PikamoonAi : MonoBehaviour
     }
     private void Update()
     {
-        if (!navMeshAgent.enabled || !navMeshAgent.isOnNavMesh)
+        if (!navMeshAgent.enabled || !navMeshAgent.isOnNavMesh || pikamoonFollow.isCapture)
             return;
 
-        if (pikamoonFollow.isCapture)
-            return;
+        //if (pikamoonFollow.isCapture)
+        //    return;
 
 
         // Check if the player is in range
@@ -175,7 +176,7 @@ public class PikamoonAi : MonoBehaviour
         isRoaming = true;
         isIdle = true;
         pikaState = PikamoonState.Idle;
-        animator.SetFloat("Pikamoon", 0f); // 0 = Idle
+        animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle); // 0 = Idle
         navMeshAgent.ResetPath();
         idleTimer = Random.Range(idleTimemin, idleTimemax);
     }
@@ -189,13 +190,13 @@ public class PikamoonAi : MonoBehaviour
         if (shouldRun) // Run
         {
             pikaState = PikamoonState.Run;
-            animator.SetFloat("Pikamoon", 1f);
+            animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Run);
             navMeshAgent.speed = fleeSpeed;
         }
         else // Walk
         {
             pikaState = PikamoonState.Walk;
-            animator.SetFloat("Pikamoon", 0.5f);
+            animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Walk);
             navMeshAgent.speed = walkSpeed;
         }
         SetRandomDestination();
@@ -208,7 +209,7 @@ public class PikamoonAi : MonoBehaviour
         isIdle = false;
         pikaState = PikamoonState.Alert;
         navMeshAgent.ResetPath();
-        animator.SetFloat("Pikamoon", 1.5f);
+        animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Alert);
         alertTimer = alertDuration;
         attackTimer = 0f; // Reset attack timer
         agro = false;
@@ -231,7 +232,7 @@ public class PikamoonAi : MonoBehaviour
         isAlert = false;
         pikaState = PikamoonState.Run;
         navMeshAgent.speed = fleeSpeed;
-        animator.SetFloat("Pikamoon", 1f);
+        animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Run);
         navMeshAgent.SetDestination(player.position);
         alertTimer = 0f;
     }
@@ -239,19 +240,20 @@ public class PikamoonAi : MonoBehaviour
     bool agro;
     private void AttackPlayer()
     {
-        if (player == null || Vector3.Distance(transform.position, player.position) > alertRange)
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (player == null || distance > alertRange)
         {
             isAttacking = false;
             ExitAlertState();
             return;
         }
-        if (Vector3.Distance(transform.position, player.position) > agroRange && agro)
+        if (distance > agroRange && agro)
         {
             isAttacking = false;
             EnterAlertState();
             return;
         }
-        if (Vector3.Distance(transform.position, player.position) <= attackRange && temp == null)
+        if (distance <= attackRange && temp == null)
         {
             navMeshAgent.ResetPath();
             pikaState = PikamoonState.Attack;
@@ -269,7 +271,7 @@ public class PikamoonAi : MonoBehaviour
         {
             navMeshAgent.isStopped = true;
             animator.SetTrigger("Attack");
-            animator.SetFloat("Pikamoon", 0f);
+            animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle);
             yield return new WaitForSeconds(2f); // Adjust attack interval as needed
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             if (distanceToPlayer > attackRange) // Stop attacking if player moves out
@@ -277,7 +279,8 @@ public class PikamoonAi : MonoBehaviour
                 navMeshAgent.isStopped = false;
                 isAttacking = false;
                 EnterAlertState();
-                temp = null;
+                //temp = null;
+                StopAttackCoroutine();
                 yield break;
             }
             if (distanceToPlayer > attackRange && distanceToPlayer > agroRange && agro) // Stop attacking if player moves out
@@ -286,14 +289,23 @@ public class PikamoonAi : MonoBehaviour
                 isAttacking = false;
                 // animator.ResetTrigger("Attack");
                 EnterAlertState();
-                temp = null;
+                // temp = null;
+                StopAttackCoroutine();
                 yield break;
             }
         }
-        temp = null;
+        // temp = null;
+        StopAttackCoroutine();
     }
 
-
+    private void StopAttackCoroutine()
+    {
+        if (temp != null)
+        {
+            StopCoroutine(temp);
+            temp = null;
+        }
+    }
     private IEnumerator StopMovementForHit()
     {
         // Play hit animation
@@ -335,6 +347,7 @@ public class PikamoonAi : MonoBehaviour
             }
         }
     }
+    GameObject stunnedMarkInstance;
     private IEnumerator Stun()
     {
         isStunned = true;
@@ -352,7 +365,9 @@ public class PikamoonAi : MonoBehaviour
                                        // animator.ResetTrigger("Idle");
                                        //  animator.ResetTrigger("Run");
         animator.SetTrigger("Stunned"); // Play stunned animation
-        Instantiate(stunnedMark, alertMarkTransform);
+        if (stunnedMarkInstance == null)
+            stunnedMarkInstance = Instantiate(stunnedMark, alertMarkTransform);
+        stunnedMarkInstance.SetActive(true);
         yield return new WaitForSeconds(stunDuration); // Wait for stun duration
 
         isStunned = false;
@@ -379,10 +394,10 @@ public class PikamoonAi : MonoBehaviour
         isAttacking = false;
         pikaState = PikamoonState.Run;
         navMeshAgent.speed = fleeSpeed; // Increase speed
-        if (alertMarkExclamation != null || alertMarkExclamation.activeInHierarchy)                                // animator.ResetTrigger("Attack");
+        if (alertMarkExclamation != null && alertMarkExclamation.activeInHierarchy)                                // animator.ResetTrigger("Attack");
             alertMarkExclamation.SetActive(false);                                // animator.ResetTrigger("Alert");
                                                                                   // animator.ResetTrigger("Idle");
-        animator.SetFloat("Pikamoon", 1); // Play flee animation
+        animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Run); // Play flee animation
 
         Vector3 fleeDirection = (transform.position - player.position).normalized;
         Vector3 fleeTarget = transform.position + fleeDirection * fleeDistance;
@@ -403,7 +418,7 @@ public class PikamoonAi : MonoBehaviour
         isRoaming = false;
         isIdle = false;
         isAlert = false;
-        if (alertMarkExclamation != null || alertMarkExclamation.activeInHierarchy)                                // animator.ResetTrigger("Attack");
+        if (alertMarkExclamation != null && alertMarkExclamation.activeInHierarchy)                                // animator.ResetTrigger("Attack");
             Destroy(alertMarkExclamation);
         navMeshAgent.isStopped = true; // Stop movement
         animator.SetTrigger("Killed"); // Play death animation
@@ -431,7 +446,9 @@ public class PikamoonAi : MonoBehaviour
         }
         else
         {
-            SetRandomDestination(); // Retry if not found
+            //SetRandomDestination(); // Retry if not found
+            // Fallback in case no valid NavMesh position was found
+            navMeshAgent.SetDestination(transform.position);
         }
     }
     private bool PlayerInAgroRange()
