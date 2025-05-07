@@ -5,13 +5,18 @@ using UnityEngine.UI;
 
 namespace Pikamoon.UI
 {
-
     public abstract class UI_ItemSlot : MonoBehaviour
     {
         public Image BtnBg;
         public Image Icon;
-        public TextMeshProUGUI KeyCode;
+        public TextMeshProUGUI ItemName;
+        public TextMeshProUGUI LevelNo;
+        [Space]
         public Image HighlighterImg;
+        [Space]
+        public bool HasHotKey;
+        public TextMeshProUGUI HotKey;
+        [Space]
         public bool hasItem;
 
         public virtual void AssignItem()

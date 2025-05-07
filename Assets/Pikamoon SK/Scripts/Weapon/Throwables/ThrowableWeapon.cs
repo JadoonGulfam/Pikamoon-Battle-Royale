@@ -38,7 +38,7 @@ namespace Pikamoon.Controller
         ThrowableWeaponDataSO tWeaponData;
         private void Start()
         {
-            tWeaponData = GetWeaponDataAs<ThrowableWeaponDataSO>();
+            tWeaponData = GetItemDataAs<ThrowableWeaponDataSO>();
 
             returnTime = 0;
             activated = isReturning = false;
@@ -188,6 +188,9 @@ namespace Pikamoon.Controller
         {
 
         }
+        public override void OnPicked(InventoryController Picker)
+        {
+        }
 
 
 
@@ -246,6 +249,7 @@ namespace Pikamoon.Controller
         public override void OnHit(Vector3 point)
         {
         }
+
 
         #endregion
 

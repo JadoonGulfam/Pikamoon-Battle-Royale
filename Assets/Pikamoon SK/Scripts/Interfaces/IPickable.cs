@@ -7,5 +7,7 @@ namespace Pikamoon.Controller
     {
         void OnPicked();
         void OnPicked(Transform Picker);
+        void OnPicked(InventoryController Picker);
+        //Item GetItem();
     }
 }

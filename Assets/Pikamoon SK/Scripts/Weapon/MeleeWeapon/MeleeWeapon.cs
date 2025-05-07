@@ -14,7 +14,7 @@ namespace Pikamoon.Controller
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            mWeaponData = GetWeaponDataAs<MeleeWeaponDataSO>();
+            mWeaponData = GetItemDataAs<MeleeWeaponDataSO>();
 
             if (TrailParticle)
                 TrailParticle.gameObject.SetActive(false);
@@ -64,7 +64,9 @@ namespace Pikamoon.Controller
             if (HitBox != null)
                 HitBox.enabled = false;
         }
-
+        public override void OnPicked(InventoryController Picker)
+        {
+        }
 
 
         public override void OnDrop()
@@ -137,6 +139,8 @@ namespace Pikamoon.Controller
 
             HitImpactParticle.gameObject.SetActive(true);
         }
+
+
 
         #endregion
 

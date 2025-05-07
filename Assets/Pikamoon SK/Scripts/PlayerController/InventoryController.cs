@@ -1,31 +1,22 @@
 using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
-using System;
 
 namespace Pikamoon.Controller
 {
+
     [System.Serializable]
-    public struct Bag
+    public struct ItemCategory
     {
+        public string CategoryName;
         public List<Item> items;
+        public int MaxInCategory;
+        public int AvailedInCategory;
     }
-
-
-    [SerializeField]
-    public enum ItemType
-    {
-        Weapon,
-        Ammo,
-        Health,
-        Shield
-    }
-
 
     public class InventoryController : MonoBehaviour
     {
-        public HUDController UI;
+        public UIManagerSK UI;
 
         //[SerializeField] Bag
         [Header("Weapons")]
@@ -33,24 +24,31 @@ namespace Pikamoon.Controller
         public WeaponInfo DefaultFistNoWeapon;
         [Space]
         [Space]
-        public Bag WeaponsBag;
-        public int WeaponBagCapacity;
-        [Space]
-        [Space]
         public Weapon[] EquipedWeapons;
+
+        //[Space]
+        //public ItemCategory Weapons; 
+
         [Space]
+        public ItemCategory Shields;
+
+        [Space]
+        public ItemCategory QuickItems;
+
+        [Space]
+        public ItemCategory AllItems;
+
         [Space]
         public bool AutoEquipWeapon;
-        int weaponsInBag;
         [Space]
         public bool isUsingWeapon;
         public int UsingWeaponIndex;
 
 
         [Header("Pickup Setting")]
-        public Collider[] nearbyItems;
         public float rangeForItemPickup;
         public LayerMask pickupLayerMask;
+        public LayerMask LootBoxLayerMask;
 
 
         [SerializeField] Transform Dummy;
@@ -78,15 +76,14 @@ namespace Pikamoon.Controller
         private void Start()
         {
             EquipedWeapons = new Weapon[2];
-            WeaponBagCapacity = 1;
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
 
         }
 
-        public void Initialize(HUDController _ui, PlayerController _controller)
+        public void Initialize(UIManagerSK _uiManager, PlayerController _controller)
         {
-            UI = _ui;
+            UI = _uiManager;
             Controller = _controller;
             playerInput = Controller.input;
 
@@ -95,25 +92,22 @@ namespace Pikamoon.Controller
 
             playerInput.onWeaponDrop_Down += DropWeapon;
 
+            playerInput.onPick_Down += Pick;
+
             Controller.ActivateWeapon(DefaultFistNoWeapon);
+
+            UI.inventoryUI._inventory = this;
+            UI.lootBoxUI._inventory = this;
 
             allowPickUp = true;
         }
         public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
-            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
-            //    return;
-
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
-
-            //Dummy.position = this.transform.position + (this.transform.forward * 2) + (Vector3.up * 2);
-
-
             ContinuousCheckForItemsForPickup();
-
         }
 
 
@@ -136,7 +130,7 @@ namespace Pikamoon.Controller
                 }
                 else
                 {
-                    Equipping(0,EquipedWeapons[0]);
+                    Equipping(0, EquipedWeapons[0]);
                 }
             }
             else
@@ -189,9 +183,7 @@ namespace Pikamoon.Controller
         }
 
 
-
-
-        void UnEquipping(int index, Weapon weapon,bool ActivateNoWeapon)
+        void UnEquipping(int index, Weapon weapon, bool ActivateNoWeapon)
         {
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
 
@@ -203,7 +195,7 @@ namespace Pikamoon.Controller
 
             weapon.OnUnEquip();
 
-            UI.UnEquipWeapon(index);
+            UI.hudcontroller.UnEquipWeapon(index);
 
             isUsingWeapon = false;
 
@@ -220,54 +212,107 @@ namespace Pikamoon.Controller
             weapon.OnEquip();
 
             Controller.ActivateWeapon(weaponInfo);
-            UI.EquipWeapon(index, weaponInfo.Data.icon, true, weapon.Health, weaponInfo.Data.InitialHealth);
+            UI.hudcontroller.EquipWeapon(index, weaponInfo.Data.icon, true, weapon.Health, weaponInfo.Data.InitialHealth);
 
             isUsingWeapon = true;
             UsingWeaponIndex = index;
         }
 
-        
+
+        RaycastHit hitItem;
+        Transform hitTransform;
+        bool isPickableAnItem;
 
         public void ContinuousCheckForItemsForPickup()
         {
             if (!allowPickUp || !UI)
                 return;
 
-            nearbyItems = Physics.OverlapSphere(this.transform.position, rangeForItemPickup, pickupLayerMask);
 
-            if (nearbyItems.Length != 0)
+            if (Physics.CheckSphere(this.transform.position, rangeForItemPickup, pickupLayerMask + LootBoxLayerMask))
             {
-                UI.ShowPickUp();
+                Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-                if (Input.GetKeyDown(KeyCode.E))
+                Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+
+                if (Physics.Raycast(ray, out hitItem, 999f, pickupLayerMask))
                 {
-                    if(Controller.IsInAttack || Controller.InAir)
-                        return;
+                    hitTransform = hitItem.transform;
+                    isPickableAnItem = true;
+
+                    UI.hudcontroller.ShowPickUp();
+                }
+                else if (Physics.Raycast(ray, out hitItem, 999f, LootBoxLayerMask))
+                {
+                    hitTransform = hitItem.transform;
+                    isPickableAnItem = false;
+
+                    UI.hudcontroller.ShowPickUp();
+                }
+                else
+                {
+                    hitTransform = null;
+                    UI.hudcontroller.HidePickUp();
+                    isPickableAnItem = false;
+                }
+            }
+            else
+            {
+                hitTransform = null;
+                UI.hudcontroller.HidePickUp();
+                isPickableAnItem = false;
+            }
+        }
 
 
-                    pickableItem = nearbyItems[0].GetComponent<IPickable>();
-                    if (pickableItem != null)
+        public void Pick()
+        {
+            if (hitTransform)
+            {
+                if (Controller.IsInAttack || Controller.InAir)
+                    return;
+
+                pickableItem = hitTransform.GetComponent<IPickable>();
+                if (pickableItem != null)
+                {
+                    if (isPickableAnItem)
                     {
                         if (pickableItem is Weapon)
                         {
                             PickWeapon(pickableItem as Weapon);
                         }
+                        else
+                        {
+                            pickableItem.OnPicked(this);
+                        }
+                    }
+                    else
+                    {
+                        PickupLootBox(pickableItem);
                     }
                 }
             }
-            else
-            {
-                UI.HidePickUp();
-            }
         }
 
+        #region Loot Behaviour
+
+        void PickupLootBox(IPickable pickable)
+        {
+            pickable.OnPicked(this);
+        }
+
+        public void AssignLootBox(LootBox lootbox)
+        {
+            UI.lootBoxUI.PopulateList(lootbox);
+        }
+
+        #endregion
         void PickWeapon(Weapon weapon)
         {
-
             if (weapon != null)
             {
-            //if (AllowAutoPickUp)
-            //{
+                //if (AllowAutoPickUp)
+                //{
                 for (int i = 0; i < EquipedWeapons.Length; i++)
                 {
                     if (EquipedWeapons[i] == null)
@@ -276,7 +321,7 @@ namespace Pikamoon.Controller
 
                         weapon.OnPicked();
 
-                        
+
 
                         WeaponInfo weaponInfo = weapon.GetWeaponInfo();
 
@@ -286,14 +331,14 @@ namespace Pikamoon.Controller
                         }
                         else
                         {
-                           Transform restingPoint =  Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+                            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
 
                             weapon.transform.parent = restingPoint.transform;
                             weapon.transform.localPosition = Vector3.zero;
                             weapon.transform.localRotation = Quaternion.identity;
 
 
-                            UI.EquipWeapon(i, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
+                            UI.hudcontroller.EquipWeapon(i, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
                         }
 
 
@@ -307,21 +352,65 @@ namespace Pikamoon.Controller
                 }
 
 
-                if (weaponsInBag < WeaponBagCapacity)
-                {
-                    weapon.OnPicked();
-                    weapon.gameObject.SetActive(false);
-                    WeaponsBag.items.Add(weapon);
-                    weaponsInBag++;
-                }
+                //////////////if (weaponsInBag < WeaponBagCapacity)
+                //////////////{
+                //////////////    weapon.OnPicked();
+                //////////////    weapon.gameObject.SetActive(false);
+                //////////////    WeaponsBag.items.Add(weapon);
+                //////////////    weaponsInBag++;
+                //////////////}
 
-            //}
+                //}
 
 
             }
         }
-    
-    
+
+
+        public void AssignItemToInventory(Item item)
+        {
+            if(QuickItems.items.Count <= QuickItems.MaxInCategory)
+            {
+
+            }
+
+
+            if (item.Data.itemType == ItemType.Arrow)
+            {
+
+            }
+            else if (item.Data.itemType == ItemType.Health)
+            {
+
+            }
+            else if (item.Data.itemType == ItemType.Shield_Head)
+            {
+
+            }
+            else if (item.Data.itemType == ItemType.Shield_UpperBody)
+            {
+
+            }
+            else if (item.Data.itemType == ItemType.Shield_LowerBody)
+            {
+
+            }
+        }
+
+        public void PickArrow()
+        {
+
+        }
+        public void PickHealth()
+        {
+
+        }
+
+        public void PickShield()
+        {
+
+        }
+
         void DropWeapon()
         {
             if (EquipedWeapons[UsingWeaponIndex] == null)
@@ -333,7 +422,7 @@ namespace Pikamoon.Controller
 
             isUsingWeapon = false;
 
-            UI.DropWeapon(UsingWeaponIndex);
+            UI.hudcontroller.DropWeapon(UsingWeaponIndex);
 
             EquipedWeapons[UsingWeaponIndex].OnDrop(this.transform, Controller.groundLayer);
 

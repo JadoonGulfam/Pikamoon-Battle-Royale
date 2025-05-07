@@ -177,7 +177,7 @@ namespace Pikamoon.Controller
             }
         }
 
-        public void Inititalize(PlayerInput _input, CameraController _camera, HUDController hudController)
+        public void Inititalize(PlayerInput _input, CameraController _camera, UIManagerSK _uiManager)
         {
             input = _input;
             _cameraController = _camera;
@@ -222,7 +222,7 @@ namespace Pikamoon.Controller
             //_shooting = this.GetComponent<Shooting>();
 
 
-            inventory.Initialize(hudController, this);
+            inventory.Initialize(_uiManager, this);
         }
 
         private void Update()

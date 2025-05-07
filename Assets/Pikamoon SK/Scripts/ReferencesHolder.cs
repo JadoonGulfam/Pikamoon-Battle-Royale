@@ -16,15 +16,15 @@ namespace Pikamoon.Controller
 
         public CameraController _cameraController;
 
-        public HUDController _hudController;
+        public UIManagerSK _uiManager;
 
         [SerializeField] Transform _SpawnPoint;
 
         void Awake()
         {
             Instance = this;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.Locked;
             CamefromMPCAll = false;
 
         }
@@ -48,7 +48,7 @@ namespace Pikamoon.Controller
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
-            _playerController.Inititalize(_playerInput,_cameraController, _hudController);
+            _playerController.Inititalize(_playerInput,_cameraController, _uiManager);
         }
 
         public void InstantiatePlayer(GameObject GO)
@@ -62,7 +62,7 @@ namespace Pikamoon.Controller
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
-            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+            _playerController.Inititalize(_playerInput, _cameraController, _uiManager);
         }
 
         public void InstantiatePlayerFromMultiplayer(GameObject GO)
@@ -82,15 +82,15 @@ namespace Pikamoon.Controller
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
-            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+            _playerController.Inititalize(_playerInput, _cameraController, _uiManager);
         }
 
 
 
         private void OnApplicationFocus(bool focus)
         {
-            Cursor.visible = !focus;
-            Cursor.lockState = focus ? CursorLockMode.Locked:CursorLockMode.None;
+            //Cursor.visible = !focus;
+            //Cursor.lockState = focus ? CursorLockMode.Locked:CursorLockMode.None;
         }
     }
 

@@ -27,7 +27,7 @@ public class InventoryData
 [System.Serializable]
 public class ItemData
 {
-    public string itemName;         // Name of the item
+    public string itemName;         // ItemName of the item
     public int quantity;            // Quantity of the item
     public ItemCategory category;   // Category of the item (e.g., Health, Fighting)
 
