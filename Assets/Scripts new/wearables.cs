@@ -8,7 +8,7 @@ public class wearables : NetworkBehaviour
     void Start()
     {
         ownId = int.Parse(TrimFirstFourAndLastOne((this.transform.GetComponent<NetworkObject>().Id).ToString()));
-        print("wearable id " + ownId);
+        print("wepon id " + ownId);
 
 
 
@@ -26,6 +26,7 @@ public class wearables : NetworkBehaviour
                 if (ownId > playerId && ownId <= playerId + 100)
                 {
                     this.transform.SetParent(playerObject.transform);
+                    this.transform.Translate(new Vector3(0,2.5f,0));
                     //this.transform.position = Vector3.zero;
 
                 }

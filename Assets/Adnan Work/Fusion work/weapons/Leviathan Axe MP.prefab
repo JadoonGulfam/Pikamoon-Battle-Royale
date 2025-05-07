@@ -249,6 +249,9 @@ GameObject:
   - component: {fileID: 8815328008673790728}
   - component: {fileID: 6154709833177516351}
   - component: {fileID: 4505877006221975121}
+  - component: {fileID: -4644654473948661765}
+  - component: {fileID: -425705288025286036}
+  - component: {fileID: -4294780441243161619}
   m_Layer: 12
   m_Name: Leviathan Axe MP
   m_TagString: Untagged
@@ -319,8 +322,13 @@ MonoBehaviour:
   isEquiped: 0
   Type: 2
   weaponData: {fileID: 11400000, guid: d4aa189a8c3c5d94dbcf8abfd1672637, type: 2}
-  _collider: {fileID: 4505877006221975121}
+  _colliders: []
   Health: 100
+  HasScabbard: 0
+  Scabbard: {fileID: 0}
+  TrailParticle: {fileID: 0}
+  HitImpactParticle: {fileID: 0}
+  SwingSound: {fileID: 0}
   rb: {fileID: 8815328008673790728}
   rotationSpeed: 500
   player: {fileID: 0}
@@ -351,6 +359,56 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.06, y: 0.84, z: 0.33}
   m_Center: {x: 0, y: 0.16, z: 0.04}
+--- !u!114 &-4644654473948661765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884307123656811768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2296265955
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -425705288025286036}
+  - {fileID: -4294780441243161619}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &-425705288025286036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884307123656811768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &-4294780441243161619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884307123656811768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0886fa4df73a145be215c48cf3f94c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownId: 0
 --- !u!1 &7499036204593248827
 GameObject:
   m_ObjectHideFlags: 0
