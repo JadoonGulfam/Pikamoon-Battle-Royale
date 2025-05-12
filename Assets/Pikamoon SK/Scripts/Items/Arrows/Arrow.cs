@@ -18,13 +18,13 @@ namespace Pikamoon.Controller
             _collider.enabled = false;
         }
 
-        public void OnPicked(Transform Picker)
+        public  void OnPicked(Transform Picker)
         {
         }
 
-        public void OnPicked(InventoryController Picker)
+        public void TryToPick(InventoryController Picker)
         {
-            Picker.PickArrow();
+            Picker.PickArrow(this);
         }
     }
 }

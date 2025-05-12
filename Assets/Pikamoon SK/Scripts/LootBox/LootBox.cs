@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using UnityEngine;
 
 namespace Pikamoon.Controller
@@ -34,6 +32,11 @@ namespace Pikamoon.Controller
             }
         }
 
+        public void AssignItemToInventory(int index)
+        {
+
+        }
+
 
 
         public void OnPicked()
@@ -44,10 +47,11 @@ namespace Pikamoon.Controller
         {
         }
 
-        public void OnPicked(InventoryController Picker)
+        public void TryToPick(InventoryController Picker)
         {
             Picker.AssignLootBox(this);
         }
+
 
 
     }

@@ -16,9 +16,9 @@ namespace Pikamoon.Controller
         {
         }
 
-        public void OnPicked(InventoryController Picker)
+        public void TryToPick(InventoryController Picker)
         {
-            Picker.AssignItemToInventory(this);
+            Picker.PickHealth(this);
         }
     }
 }

@@ -1,8 +1,5 @@
-using Fusion;
-using JetBrains.Annotations;
 using System;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 
 namespace Pikamoon.Controller
@@ -20,11 +17,11 @@ namespace Pikamoon.Controller
 
     public class Shield : Item, IPickable, IDroppable
     {
-        public ShieldType shieldType;
+        [SerializeField] ShieldType shieldType;
 
-        public float Strength;
-        
-        public Collider _collider;
+        [SerializeField] float Strength;
+
+        [SerializeField] Collider _collider;
 
         public void OnDrop()
         {
@@ -38,14 +35,15 @@ namespace Pikamoon.Controller
         {
             _collider.enabled = false;
 
-
         }
+
         public void OnPicked(Transform Picker)
         {
         }
-        public void OnPicked(InventoryController Picker)
+
+        public void TryToPick(InventoryController Picker)
         {
-            Picker.PickShield();
+            Picker.PickShield(this, shieldType);
         }
 
     }

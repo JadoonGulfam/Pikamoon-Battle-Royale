@@ -188,8 +188,9 @@ namespace Pikamoon.Controller
         {
 
         }
-        public override void OnPicked(InventoryController Picker)
+        public override void TryToPick(InventoryController Picker)
         {
+            Picker.PickWeapon(this);
         }
 
 

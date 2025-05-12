@@ -28,10 +28,10 @@ namespace Pikamoon.Controller
         Weapon,
         Arrow,
         Health,
-        Shield_Head,
-        Shield_UpperBody,
-        Shield_LowerBody
+        Shield
     }
+
+
     //[Serializable]
     //public struct ItemInfo
     //{
@@ -44,12 +44,20 @@ namespace Pikamoon.Controller
     {
         public ItemDataSO Data;
         public EquipType isEquiped = 0;
+        public bool hasSpecializeSlot;
         public int Quantity;
+
 
         public T GetItemDataAs<T>() where T : ItemDataSO
         {
             return Data as T; // Tries to cast the currentWeapon to the specified type
         }
+
+        public T GetItemAs<T>() where T : Item
+        {
+            return this as T; // Tries to cast the currentWeapon to the specified type
+        }
+
 
     }
 

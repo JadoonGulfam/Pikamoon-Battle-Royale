@@ -64,8 +64,9 @@ namespace Pikamoon.Controller
             if (HitBox != null)
                 HitBox.enabled = false;
         }
-        public override void OnPicked(InventoryController Picker)
+        public override void TryToPick(InventoryController Picker)
         {
+            Picker.PickWeapon(this);
         }
 
 

@@ -52,7 +52,7 @@ namespace Pikamoon.Controller
 
         public abstract void OnPicked();
         public abstract void OnPicked(Transform Picker);
-        public abstract void OnPicked(InventoryController Picker);       
+        public abstract void TryToPick(InventoryController Picker);       
 
 
 

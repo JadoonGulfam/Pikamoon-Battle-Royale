@@ -24,7 +24,7 @@ namespace Pikamoon.Controller
         public WeaponInfo DefaultFistNoWeapon;
         [Space]
         [Space]
-        public Weapon[] EquipedWeapons;
+        public ItemCategory Weapons;
 
         //[Space]
         //public ItemCategory Weapons; 
@@ -50,8 +50,8 @@ namespace Pikamoon.Controller
         public LayerMask pickupLayerMask;
         public LayerMask LootBoxLayerMask;
 
-
-        [SerializeField] Transform Dummy;
+        [Header("Inventory Core")]
+        [SerializeField] Transform ItemsParent;
 
 
         bool allowPickUp;
@@ -75,7 +75,7 @@ namespace Pikamoon.Controller
 
         private void Start()
         {
-            EquipedWeapons = new Weapon[2];
+
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
 
@@ -86,6 +86,11 @@ namespace Pikamoon.Controller
             UI = _uiManager;
             Controller = _controller;
             playerInput = Controller.input;
+
+            //Shields.InitializeCategory();
+            //QuickItems.InitializeCategory();
+            //AllItems.InitializeCategory();
+
 
             playerInput.onPrimaryWeaponSelect_Down += ChangeToPrimaryWeapon;
             playerInput.onSecondaryWeaponSelect_Down += ChangeToSecondaryWeapon;
@@ -111,112 +116,6 @@ namespace Pikamoon.Controller
         }
 
 
-
-        void ChangeToPrimaryWeapon()
-        {
-            if (EquipedWeapons[0] == null)
-                return;
-
-            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
-                return;
-
-
-
-            if (UsingWeaponIndex == 0)
-            {
-                if (isUsingWeapon)
-                {
-                    UnEquipping(0, EquipedWeapons[0], true);
-                }
-                else
-                {
-                    Equipping(0, EquipedWeapons[0]);
-                }
-            }
-            else
-            {
-                if (isUsingWeapon)
-                {
-                    UnEquipping(UsingWeaponIndex, EquipedWeapons[UsingWeaponIndex], false);
-
-                    Equipping(0, EquipedWeapons[0]);
-                }
-                else
-                {
-                    Equipping(0, EquipedWeapons[0]);
-                }
-            }
-        }
-        void ChangeToSecondaryWeapon()
-        {
-            if (EquipedWeapons[1] == null)
-                return;
-
-            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
-                return;
-
-
-            if (UsingWeaponIndex == 1)
-            {
-                if (isUsingWeapon)
-                {
-                    UnEquipping(1, EquipedWeapons[1], true);
-                }
-                else
-                {
-                    Equipping(1, EquipedWeapons[1]);
-                }
-            }
-            else
-            {
-                if (isUsingWeapon)
-                {
-                    UnEquipping(UsingWeaponIndex, EquipedWeapons[UsingWeaponIndex], false);
-
-                    Equipping(1, EquipedWeapons[1]);
-                }
-                else
-                {
-                    Equipping(1, EquipedWeapons[1]);
-                }
-            }
-        }
-
-
-        void UnEquipping(int index, Weapon weapon, bool ActivateNoWeapon)
-        {
-            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
-            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
-
-            weapon.transform.parent = restingPoint.transform;
-            weapon.transform.localPosition = Vector3.zero;
-            weapon.transform.localRotation = Quaternion.identity;
-
-            weapon.OnUnEquip();
-
-            UI.hudcontroller.UnEquipWeapon(index);
-
-            isUsingWeapon = false;
-
-            if (ActivateNoWeapon)
-            {
-                Controller.ActivateWeapon(DefaultFistNoWeapon);
-            }
-        }
-
-        void Equipping(int index, Weapon weapon)
-        {
-            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
-            weapon.OnEquip();
-
-            Controller.ActivateWeapon(weaponInfo);
-            UI.hudcontroller.EquipWeapon(index, weaponInfo.Data.icon, true, weapon.Health, weaponInfo.Data.InitialHealth);
-
-            isUsingWeapon = true;
-            UsingWeaponIndex = index;
-        }
 
 
         RaycastHit hitItem;
@@ -277,14 +176,7 @@ namespace Pikamoon.Controller
                 {
                     if (isPickableAnItem)
                     {
-                        if (pickableItem is Weapon)
-                        {
-                            PickWeapon(pickableItem as Weapon);
-                        }
-                        else
-                        {
-                            pickableItem.OnPicked(this);
-                        }
+                        pickableItem.TryToPick(this);
                     }
                     else
                     {
@@ -294,11 +186,57 @@ namespace Pikamoon.Controller
             }
         }
 
+        public void PickItemFromLootBox(Transform itemTransform)
+        {
+            if (Controller.IsInAttack || Controller.InAir)
+                return;
+
+            pickableItem = itemTransform.GetComponent<IPickable>();
+            if (pickableItem != null)
+            {
+                if (isPickableAnItem)
+                {
+                    if (pickableItem is Weapon)
+                    {
+                        PickWeapon(pickableItem as Weapon);
+                    }
+                    else
+                    {
+                        pickableItem.TryToPick(this);
+                    }
+                }
+                else
+                {
+                    PickupLootBox(pickableItem);
+                }
+            }
+        }
+
+        public void ManualAssignAtStart(Transform StartItem)
+        {
+            pickableItem = StartItem.GetComponent<IPickable>();
+            if (pickableItem != null)
+            {
+                if (pickableItem is Weapon)
+                {
+                    PickWeapon(pickableItem as Weapon);
+                }
+            }
+        }
+
+
         #region Loot Behaviour
+
+
+        //bool canBePickedUp()
+        //{
+
+        //}
+
 
         void PickupLootBox(IPickable pickable)
         {
-            pickable.OnPicked(this);
+            pickable.TryToPick(this);
         }
 
         public void AssignLootBox(LootBox lootbox)
@@ -307,113 +245,225 @@ namespace Pikamoon.Controller
         }
 
         #endregion
-        void PickWeapon(Weapon weapon)
+
+        void NoSlotAvaialbleForItem()
         {
-            if (weapon != null)
+
+        }
+
+        #region Weapon Portion
+
+        void ChangeToPrimaryWeapon()
+        {
+            if (Weapons.items[0] == null)
+                return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+
+
+
+            if (UsingWeaponIndex == 0)
             {
-                //if (AllowAutoPickUp)
-                //{
-                for (int i = 0; i < EquipedWeapons.Length; i++)
+                if (isUsingWeapon)
                 {
-                    if (EquipedWeapons[i] == null)
-                    {
-                        EquipedWeapons[i] = weapon;
+                    UnEquipping(0, Weapons.items[0], true);
+                }
+                else
+                {
+                    Equipping(0, Weapons.items[0]);
+                }
+            }
+            else
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(UsingWeaponIndex, Weapons.items[UsingWeaponIndex], false);
 
-                        weapon.OnPicked();
+                    Equipping(0, Weapons.items[0]);
+                }
+                else
+                {
+                    Equipping(0, Weapons.items[0]);
+                }
+            }
+        }
+        void ChangeToSecondaryWeapon()
+        {
+            if (Weapons.items[1] == null)
+                return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
 
 
+            if (UsingWeaponIndex == 1)
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(1, Weapons.items[1], true);
+                }
+                else
+                {
+                    Equipping(1, Weapons.items[1]);
+                }
+            }
+            else
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(UsingWeaponIndex, Weapons.items[UsingWeaponIndex], false);
 
-                        WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
-                        if (Controller.ActiveWeapon.Prefab == null)
-                        {
-                            Equipping(i, weapon);
-                        }
-                        else
-                        {
-                            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
-
-                            weapon.transform.parent = restingPoint.transform;
-                            weapon.transform.localPosition = Vector3.zero;
-                            weapon.transform.localRotation = Quaternion.identity;
+                    Equipping(1, Weapons.items[1]);
+                }
+                else
+                {
+                    Equipping(1, Weapons.items[1]);
+                }
+            }
+        }
 
 
-                            UI.hudcontroller.EquipWeapon(i, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
-                        }
+        void UnEquipping(int index, Item item, bool ActivateNoWeapon)
+        {
+            Weapon weapon = item.GetItemAs<Weapon>();
+
+            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+            weapon.transform.parent = restingPoint.transform;
+            weapon.transform.localPosition = Vector3.zero;
+            weapon.transform.localRotation = Quaternion.identity;
+
+            weapon.OnUnEquip();
+
+            UI.hudcontroller.UnEquipWeapon(index);
+
+            isUsingWeapon = false;
+
+            if (ActivateNoWeapon)
+            {
+                Controller.ActivateWeapon(DefaultFistNoWeapon);
+            }
+        }
+
+        void Equipping(int index, Item item)
+        {
+            Weapon weapon = item.GetItemAs<Weapon>();
+
+            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            weapon.OnEquip();
+
+            Controller.ActivateWeapon(weaponInfo);
+            UI.hudcontroller.EquipWeapon(index, weaponInfo.Data.icon, true, weapon.Health, weaponInfo.Data.InitialHealth);
+
+            isUsingWeapon = true;
+            UsingWeaponIndex = index;
+        }
+
+        public void PickWeapon(Weapon weapon)
+        {
+            //for (int i = 0; i < Weapons.items.Count; i++)
+            //{
+            //    if (Weapons.items[i] == null)
+            //    {
+            //        Weapons.items[i] = weapon;
+
+            //        weapon.OnPicked();
 
 
-                        if (weapon.HasScabbard)
-                        {
-                            weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
-                        }
+            //        WeaponInfo weaponInfo = weapon.GetWeaponInfo();
 
-                        return;
-                    }
+            //        if (Controller.ActiveWeapon.Prefab == null)
+            //        {
+            //            Equipping(i, weapon);
+            //        }
+            //        else
+            //        {
+            //            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+            //            weapon.transform.parent = restingPoint.transform;
+            //            weapon.transform.localPosition = Vector3.zero;
+            //            weapon.transform.localRotation = Quaternion.identity;
+
+
+            //            UI.hudcontroller.EquipWeapon(i, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
+            //        }
+
+
+            //        if (weapon.HasScabbard)
+            //        {
+            //            weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
+            //        }
+
+            //        return;
+            //    }
+            //}
+
+            int index = GetMeAvailableSlotForNewWeapon();
+            if (index != -1)
+            {
+                Weapons.items[index] = weapon;
+
+                weapon.OnPicked();
+
+
+                WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+                if (Controller.ActiveWeapon.Prefab == null)
+                {
+                    Equipping(index, weapon);
+                }
+                else
+                {
+                    Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+                    weapon.transform.parent = restingPoint.transform;
+                    weapon.transform.localPosition = Vector3.zero;
+                    weapon.transform.localRotation = Quaternion.identity;
+
+
+                    UI.hudcontroller.EquipWeapon(index, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
                 }
 
 
-                //////////////if (weaponsInBag < WeaponBagCapacity)
-                //////////////{
-                //////////////    weapon.OnPicked();
-                //////////////    weapon.gameObject.SetActive(false);
-                //////////////    WeaponsBag.items.Add(weapon);
-                //////////////    weaponsInBag++;
-                //////////////}
+                if (weapon.HasScabbard)
+                {
+                    weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
+                }
 
-                //}
-
-
+                return;
             }
-        }
-
-
-        public void AssignItemToInventory(Item item)
-        {
-            if(QuickItems.items.Count <= QuickItems.MaxInCategory)
+            else
             {
 
+                index = GetMeSlotForQuickItem();
+                if (index != -1)
+                {
+                    AddItemToQuickItemsByPickup(weapon, index);
+                }
+                else
+                {
+                    index = GetMeSlotForAllItem();
+
+                    if (index != -1)
+                    {
+                        AddItemToAllItemsByPickup(weapon, index);
+                    }
+                    else
+                    {
+                        NoSlotAvaialbleForItem();
+                    }
+                }
             }
-
-
-            if (item.Data.itemType == ItemType.Arrow)
-            {
-
-            }
-            else if (item.Data.itemType == ItemType.Health)
-            {
-
-            }
-            else if (item.Data.itemType == ItemType.Shield_Head)
-            {
-
-            }
-            else if (item.Data.itemType == ItemType.Shield_UpperBody)
-            {
-
-            }
-            else if (item.Data.itemType == ItemType.Shield_LowerBody)
-            {
-
-            }
-        }
-
-        public void PickArrow()
-        {
-
-        }
-        public void PickHealth()
-        {
-
-        }
-
-        public void PickShield()
-        {
 
         }
 
         void DropWeapon()
         {
-            if (EquipedWeapons[UsingWeaponIndex] == null)
+            if (Weapons.items[UsingWeaponIndex] == null)
                 return;
 
 
@@ -424,11 +474,227 @@ namespace Pikamoon.Controller
 
             UI.hudcontroller.DropWeapon(UsingWeaponIndex);
 
-            EquipedWeapons[UsingWeaponIndex].OnDrop(this.transform, Controller.groundLayer);
+            Weapons.items[UsingWeaponIndex].GetItemAs<Weapon>().OnDrop(this.transform, Controller.groundLayer);
 
-            EquipedWeapons[UsingWeaponIndex] = null;
+            Weapons.items[UsingWeaponIndex] = null;
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
+
+        int GetMeAvailableSlotForNewWeapon()
+        {
+            int index = -1;
+            for (int i = 0; i < Weapons.items.Count; i++)
+            {
+                if (Weapons.items[i] == null)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+
+
+        #endregion
+
+
+        #region Arrow Portion
+
+        public void PickArrow(Item arrow)
+        {
+            int index = GetMeSlotForQuickItem();
+            Debug.Log("Quick Item Index = " + index);
+            if (index != -1)
+            {
+                AddItemToQuickItemsByPickup(arrow, index);
+            }
+            else
+            {
+                index = GetMeSlotForAllItem();
+
+                Debug.Log("All Item Index = " + index);
+                if (index != -1)
+                {
+                    AddItemToAllItemsByPickup(arrow, index);
+                }
+                else
+                {
+                    NoSlotAvaialbleForItem();
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region Shield Portion
+        public void PickShield(Item shield, ShieldType type)
+        {
+            int index = GetMeAvailableSlotForShield(type);
+            if (index != -1)
+            {
+                Shields.items[index] = shield;
+                Shields.AvailedInCategory++;
+
+                shield.gameObject.SetActive(false);
+            }
+            else
+            {
+                index = GetMeSlotForQuickItem();
+                if (index != -1)
+                {
+                    AddItemToQuickItemsByPickup(shield, index);
+                }
+                else
+                {
+                    index = GetMeSlotForAllItem();
+                    if (index != -1)
+                    {
+                        AddItemToAllItemsByPickup(shield, index);
+                    }
+                    else
+                    {
+                        NoSlotAvaialbleForItem();
+                    }
+                }
+            }
+        }
+
+
+        int GetMeAvailableSlotForShield(ShieldType type)
+        {
+            int hasItem = -1;
+
+
+            if (Shields.items[(int)type] == null)
+            {
+                hasItem = (int)type;
+            }
+
+
+            return hasItem;
+        }
+        #endregion
+
+
+        #region Health Portion
+
+        public void PickHealth(Item health)
+        {
+            int index = GetMeSlotForQuickItem();
+            if (index != -1)
+            {
+                AddItemToQuickItemsByPickup(health, index);
+            }
+            else
+            {
+                index = GetMeSlotForAllItem();
+                if (index != -1)
+                {
+                    AddItemToAllItemsByPickup(health, index);
+                }
+                else
+                {
+                    NoSlotAvaialbleForItem();
+                }
+            }
+        }
+        #endregion
+
+
+        #region Quick Items Portion
+        int GetMeSlotForQuickItem()
+        {
+            int index = -1;
+
+            if (QuickItems.AvailedInCategory >= QuickItems.MaxInCategory)
+            {
+                return index;
+            }
+
+
+            for (int i = 0; i < QuickItems.items.Count; i++)
+            {
+                if (QuickItems.items[i] == null)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        }
+
+        void AddItemToQuickItemsByPickup(Item item, int index)
+        {
+            QuickItems.items[index] = item;
+            QuickItems.AvailedInCategory++;
+
+            if (isPickableAnItem)
+            {
+                pickableItem.OnPicked();
+            }
+            else
+            {
+
+            }
+
+            item.transform.parent = ItemsParent;
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+
+            item.gameObject.SetActive(false);
+        }
+
+        #endregion
+
+
+        #region All Items Portion
+        int GetMeSlotForAllItem()
+        {
+            int index = -1;
+
+            if (AllItems.AvailedInCategory >= AllItems.MaxInCategory)
+            {
+                return index;
+            }
+
+
+            for (int i = 0; i < AllItems.items.Count; i++)
+            {
+                if (AllItems.items[i] == null)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        }
+        void AddItemToAllItemsByPickup(Item item, int index)
+        {
+            AllItems.items[index] = item;
+            AllItems.AvailedInCategory++;
+
+            if (isPickableAnItem)
+            {
+                pickableItem.OnPicked();
+            }
+            else
+            {
+
+            }
+
+            item.transform.parent = ItemsParent;
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+
+            item.gameObject.SetActive(false);
+        }
+        #endregion
+
+
+
     }
 }
