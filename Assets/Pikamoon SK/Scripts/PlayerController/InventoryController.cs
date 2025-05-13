@@ -75,6 +75,7 @@ namespace Pikamoon.Controller
 
         IPickable pickableItem;
 
+        public AnimationController animationController;
         private void Start()
         {
             EquipedWeapons = new Weapon[2];
@@ -320,19 +321,20 @@ namespace Pikamoon.Controller
 
         }
 
-        public void ManualAssignAtStart(Transform StartItem)
+        public void ManualAssignAtStart(Transform StartItem, int controllerID)
         {              
             print("ManualAssignAtStart");
-            pickableItem = StartItem.GetComponent<IPickable>();
-            if (pickableItem != null)
-            {
-                if (pickableItem is Weapon)
-                {
-                    //pickableItem.OnPicked();
-                   // UI.HidePickUp();
-                    PickWeapon(pickableItem as Weapon);
-                }
-            }
+           // animationController.callRPC_ChangeOverrideContorller(controllerID);
+            //pickableItem = StartItem.GetComponent<IPickable>();
+            //if (pickableItem != null)
+            //{
+            //    if (pickableItem is Weapon)
+            //    {
+            //        //pickableItem.OnPicked();
+            //       // UI.HidePickUp();
+            //        PickWeapon(pickableItem as Weapon);
+            //    }
+            //}
         }
         void DropWeapon()
         {

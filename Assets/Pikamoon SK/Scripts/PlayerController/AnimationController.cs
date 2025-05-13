@@ -159,6 +159,20 @@ namespace Pikamoon.Controller
             
         }
 
+        public void callRPC_ChangeOverrideContorller(int controllerID)
+        {
+            if(Object.HasStateAuthority)
+            {
+                print("RPC called with value: " + controllerID + Object.Id);
+                RPC_ChangeOverrideContorller(controllerID, Object.Id.ToString());
+            }
+            else
+            {
+                print("RPC not called with value: " + controllerID + Object.Id);
+            }
+
+        }
+
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         private void RPC_ChangeOverrideContorller(int index, string playerID, RpcInfo info = default)
