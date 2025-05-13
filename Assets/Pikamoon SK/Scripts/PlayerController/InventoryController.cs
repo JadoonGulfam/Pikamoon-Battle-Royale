@@ -316,12 +316,24 @@ namespace Pikamoon.Controller
                 }
 
             //}
+            }
 
+        }
 
+        public void ManualAssignAtStart(Transform StartItem)
+        {              
+            print("ManualAssignAtStart");
+            pickableItem = StartItem.GetComponent<IPickable>();
+            if (pickableItem != null)
+            {
+                if (pickableItem is Weapon)
+                {
+                    //pickableItem.OnPicked();
+                   // UI.HidePickUp();
+                    PickWeapon(pickableItem as Weapon);
+                }
             }
         }
-    
-    
         void DropWeapon()
         {
             if (EquipedWeapons[UsingWeaponIndex] == null)

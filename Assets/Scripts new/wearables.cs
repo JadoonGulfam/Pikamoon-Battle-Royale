@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using Pikamoon.Controller;
 
 public class wearables : NetworkBehaviour
 {
@@ -25,8 +26,10 @@ public class wearables : NetworkBehaviour
 
                 if (ownId > playerId && ownId <= playerId + 100)
                 {
-                    this.transform.SetParent(playerObject.transform);
-                    this.transform.Translate(new Vector3(0,2.5f,0));
+                   // playerObject.GetComponent<InventoryController>().ManualAssignAtStart(this.transform);
+                    playerObject.GetComponent<InventoryController>().ManualAssignAtStart(this.transform);
+                     
+                    //this.transform.Translate(new Vector3(0,2.5f,0));
                     //this.transform.position = Vector3.zero;
 
                 }
