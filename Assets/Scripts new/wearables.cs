@@ -77,7 +77,11 @@ public class wearables : NetworkBehaviour
                 {
                    // playerObject.GetComponent<InventoryController>().ManualAssignAtStart(this.transform);
                     playerObject.GetComponent<AnimationController>().callRPC_ChangeOverrideContorller(weaponId);
-                     
+                    this.transform.SetParent(playerObject.GetComponent<PlayerSetupForMultiplayer>().holdingpoints[1]);
+                    this.transform.localPosition = Vector3.zero;
+                    this.transform.localRotation = Quaternion.identity;
+                    this.transform.localScale = Vector3.one;
+
                     //this.transform.Translate(new Vector3(0,2.5f,0));
                     //this.transform.position = Vector3.zero;
 
