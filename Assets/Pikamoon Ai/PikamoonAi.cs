@@ -1,7 +1,9 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(PikamoonAiHealth))]
 public class PikamoonAi : MonoBehaviour
 {
     [SerializeField]
@@ -61,6 +63,7 @@ public class PikamoonAi : MonoBehaviour
     private float alertDuration = 3f; // Time Pikamoon stays in alert state
     [SerializeField]
     private float alertRange = 10f; // Detection range for player
+    [SerializeField] private float protectionRadius = 10f;
 
     enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
 
@@ -69,10 +72,6 @@ public class PikamoonAi : MonoBehaviour
     private void Start()
     {
         if (animator.runtimeAnimatorController == null) animator.runtimeAnimatorController = overrideControllers;
-        if (navMeshAgent == null) navMeshAgent = GetComponent<NavMeshAgent>();
-        if (animator == null) animator = GetComponent<Animator>();
-        if (pikamoonHealth == null) pikamoonHealth = GetComponent<PikamoonAiHealth>();
-        if (pikamoonFollow == null) pikamoonFollow = GetComponent<PikamoonAiFollow>();
         friendlyAttackThreshold = Random.Range(2, 4);
         if (!pikamoonFollow.isCapture)
             EnableRoaming();
@@ -139,6 +138,11 @@ public class PikamoonAi : MonoBehaviour
                     StartAttack();
                 }
                 else if (pikaType == PikamoonType.Friendly)
+                {
+                    isAlertDuration = true;
+                    ExitAlertState(); // Resume roaming after alert
+                }
+                else if (pikaType == PikamoonType.Protective)
                 {
                     isAlertDuration = true;
                     ExitAlertState(); // Resume roaming after alert
@@ -318,9 +322,9 @@ public class PikamoonAi : MonoBehaviour
 
     public void TakeDamage(float damage) // Function to reduce health
     {
-
+        if (/*isDead || */isStunned) return;
         pikamoonHealth.ReduceHealth(damage);
-        if (pikamoonHealth.IsDead()) Die(); // If Pikamoon's health is 0, trigger death
+        if (pikamoonHealth.IsDead()) { Die(); return; } // If Pikamoon's health is 0, trigger death
 
         StartCoroutine(StopMovementForHit());
         // if (pikamoonHealth.currentHealth <= fleeHealthThreshold) StartFleeing();
@@ -340,12 +344,41 @@ public class PikamoonAi : MonoBehaviour
                         StartAttack(); // Attack after enough hits
                     }
                     break;
-
+                case PikamoonType.Protective:
+                    StartAttack();
+                    break;
                 case PikamoonType.Cowardly:
                     StartFleeing(); // Run away immediately
                     break;
             }
+            //Notify nearby protective Pikamoons
+            NotifyNearbyProtectivePikamoons(player);
         }
+    }
+    private void NotifyNearbyProtectivePikamoons(Transform attacker)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, protectionRadius); // Adjust as needed
+
+        foreach (Collider col in colliders)
+        {
+            PikamoonAi nearbyPikamoon = col.GetComponent<PikamoonAi>();
+            if (nearbyPikamoon != null && nearbyPikamoon != this)
+            {
+                if (nearbyPikamoon.pikaType == PikamoonType.Protective && !nearbyPikamoon.isStunned && !nearbyPikamoon.isFleeing)
+                {
+                    float dist = Vector3.Distance(nearbyPikamoon.transform.position, this.transform.position);
+                    if (dist <= nearbyPikamoon.protectionRadius)
+                    {
+                        nearbyPikamoon.OnAllyAttacked(attacker);                        
+                    }
+                }
+            }
+        }
+    }
+    public void OnAllyAttacked(Transform attacker)
+    {
+        Debug.Log("yaha aya ha bhai");
+        StartAttack();
     }
     GameObject stunnedMarkInstance;
     private IEnumerator Stun()
