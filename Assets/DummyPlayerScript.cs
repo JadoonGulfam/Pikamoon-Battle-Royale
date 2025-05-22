@@ -13,7 +13,7 @@ public class DummyPlayerScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //print(other.gameObject.name);
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.tag == "Pikamoon")
         {
            // Debug.Log("hua");
             other.gameObject.GetComponent<PikamoonAi>().TakeDamage(10f); // Reduce Pikamoon's health
