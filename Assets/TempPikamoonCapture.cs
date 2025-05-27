@@ -39,9 +39,4 @@ public class TempPikamoonCapture : MonoBehaviour, ICapturable
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

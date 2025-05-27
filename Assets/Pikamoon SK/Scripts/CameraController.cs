@@ -36,7 +36,6 @@ namespace Pikamoon.Controller
 
     public class CameraController : MonoBehaviour
     {
-        PlayerInput input;
         public Camera _camera;
         [Space]
         [SerializeField] Cam activeCam;
@@ -51,7 +50,8 @@ namespace Pikamoon.Controller
         [Space]
         public CamSettings[] camRigSettings;
 
-        CinemachineVirtualCameraBase PreviousCam;
+
+        CinemachineInputAxisController CamAxisController;
 
         Vector3 aimer;
         float fov;
@@ -60,8 +60,10 @@ namespace Pikamoon.Controller
 
         private void Start()
         {
-            input = ReferencesHolder.Instance._playerInput;
             activeCam = Cam.Default;
+
+            CamAxisController = DefaultCam.GetComponent<CinemachineInputAxisController>();
+                    
 
             DefaultCam.gameObject.SetActive(true);
 
@@ -151,5 +153,23 @@ namespace Pikamoon.Controller
                 ChangeCam(Cam.Aim);
             }
         }
+
+        public void CameraOrbitStatus(bool flag)
+        {
+
+            if (flag)
+            {
+                if (!CamAxisController.enabled)
+                    CamAxisController.enabled = true;
+            }
+            else
+            {
+                if (CamAxisController.enabled)
+                    CamAxisController.enabled = false;
+
+            }
+
+        }
+
     }
 }

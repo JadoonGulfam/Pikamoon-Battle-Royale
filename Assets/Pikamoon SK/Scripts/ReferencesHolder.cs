@@ -16,7 +16,7 @@ namespace Pikamoon.Controller
 
         public CameraController _cameraController;
 
-        public HUDController _hudController;
+        public UIManagerSK _uiManager;
 
         [SerializeField] Transform _SpawnPoint;
 
@@ -48,7 +48,7 @@ namespace Pikamoon.Controller
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
-            _playerController.Inititalize(_playerInput,_cameraController, _hudController);
+            _playerController.Inititalize(_playerInput,_cameraController, _uiManager);
         }
 
         public void InstantiatePlayer(GameObject GO)
@@ -62,7 +62,7 @@ namespace Pikamoon.Controller
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
-            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+            _playerController.Inititalize(_playerInput, _cameraController, _uiManager);
         }
 
         public void InstantiatePlayerFromMultiplayer(GameObject GO)
@@ -82,7 +82,7 @@ namespace Pikamoon.Controller
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
-            _playerController.Inititalize(_playerInput, _cameraController, _hudController);
+            _playerController.Inititalize(_playerInput, _cameraController, _uiManager);
         }
 
 

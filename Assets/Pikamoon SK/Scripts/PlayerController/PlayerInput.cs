@@ -43,6 +43,8 @@ namespace Pikamoon.Controller
         
         public OnBtnDown onWeaponDrop_Down;
 
+        public OnBtnDown onPick_Down;
+
         public OnBtnDown onCapture_Down;
         public OnBtnUp   onCapture_Up;
 
@@ -56,7 +58,8 @@ namespace Pikamoon.Controller
         [SerializeField] bool jump;
         [SerializeField] float jumpVelocity;
         [Space]
-
+        public bool AllowInputFlagWhileUIEnabled;
+        [Space]
         //[SerializeField] PlayerController m_Controller;
 
 
@@ -111,6 +114,10 @@ namespace Pikamoon.Controller
         {
             vertical   = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
+
+            if(!AllowInputFlagWhileUIEnabled)
+                return;
+
 
             if(Input.GetKeyDown(KeyCode.Space))
             {
@@ -167,6 +174,12 @@ namespace Pikamoon.Controller
             if (Input.GetKeyDown(KeyCode.G))
             {
                 onWeaponDrop_Down?.Invoke();
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                onPick_Down?.Invoke();
             }
 
 

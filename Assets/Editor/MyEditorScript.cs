@@ -43,7 +43,7 @@ public struct CustomVector3
 /// <summary>
 /// has OnValueChanged delegate, called whenever value is changed
 /// </summary>
-/// <typeparam name="T">Generic Type</typeparam>
+/// <typeparam name="T">Generic weaponType</typeparam>
 public class CustomVariable<T>
 {
     private T value;

@@ -34,7 +34,7 @@ namespace SickscoreGames.HUDNavigationSystem
 		/// Gets a custom transform.
 		/// </summary>
 		/// <returns>Custom transform.</returns>
-		/// <param name="name">Unique Name.</param>
+		/// <param name="name">Unique ItemName.</param>
 		public Transform GetCustomTransform (string name)
 		{
 			CustomTransform custom = CustomTransforms.FirstOrDefault (ct => ct.name.Equals (name));
