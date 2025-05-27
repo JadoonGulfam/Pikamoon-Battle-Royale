@@ -11,6 +11,14 @@ namespace Pikamoon.Controller
 
         public List<Item> GetItems() => items;
 
+        public int TotalItems;
+        public int NoOfItemsPicked;
+
+        void Start()
+        {
+            TotalItems = items.Count;
+        }
+
         public void AddItem(Item item)
         {
             if (!items.Contains(item))
@@ -32,12 +40,28 @@ namespace Pikamoon.Controller
             }
         }
 
-        public void AssignItemToInventory(int index)
+        public Item GetItem(int index)
         {
+            return items[index];
+        }
+
+        public void SelectItem(int index)
+        {
+            items[index] = null;
+            NoOfItemsPicked++;
+
+            if (NoOfItemsPicked >= TotalItems)
+            {
+                items.Clear();
+                this.gameObject.SetActive(false);
+            }
 
         }
 
-
+        public bool HasItems()
+        {
+            return NoOfItemsPicked < TotalItems;
+        }
 
         public void OnPicked()
         {
@@ -47,13 +71,9 @@ namespace Pikamoon.Controller
         {
         }
 
-        public void TryToPick(InventoryController Picker)
+        public void TryToPick(InventoryController _picker)
         {
-            Picker.AssignLootBox(this);
+            _picker.AssignLootBox(this);
         }
-
-
-
     }
-
 }

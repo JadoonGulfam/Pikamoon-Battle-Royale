@@ -34,23 +34,44 @@ namespace Pikamoon.UI
         public UI_ItemCategory AllItems;
 
 
-
-
-
-        //[Header("Weapons")]
-
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-
-        }
-
         // Update is called once per frame
         void Update()
         {
 
         }
-    }
 
+        public void PopulateList()
+        {
+
+        }
+
+        public void ShowUI()
+        {
+            _canvas.enabled = true;
+        }
+
+        public void HideUI()
+        {
+            _canvas.enabled = false;
+        }
+
+        public void AssignToWeapons(Controller.Item item, int index)
+        {
+            Weapons.Items[index].AssignItem(item);
+        }
+        public void AssignToShields(Controller.Item item, int index)
+        {
+            Shields.Items[index].AssignItem(item);
+        }
+        public void AssignToQuickItems(Controller.Item item, int index)
+        {
+
+            QuickItems.Items[index].AssignItem(item);
+        }
+        public void AssignToAllItems(Controller.Item item, int index)
+        {
+
+            AllItems.Items[index].AssignItem(item);
+        }
+    }
 }

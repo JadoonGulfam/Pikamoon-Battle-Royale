@@ -148,7 +148,7 @@ namespace Pikamoon.Controller
                     Scabbard.transform.parent = null;
                     Scabbard.transform.position = pos;
                     Scabbard.transform.rotation = Quaternion.identity;
-
+                    
                     transform.parent = Scabbard;
                     transform.localPosition = Vector3.zero;
                     transform.localRotation = Quaternion.identity;

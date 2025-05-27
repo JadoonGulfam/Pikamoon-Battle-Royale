@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Pikamoon.Controller;
 
 public class DragHandler : MonoBehaviour
 {
@@ -24,6 +25,13 @@ public class DragHandler : MonoBehaviour
         originSlot = origin;
         isDragging = true;
         dragIcon.sprite = sprite;
+        dragIcon.gameObject.SetActive(true);
+    }
+    public void GrabItem(Pikamoon.Controller.Item item, int index)
+    {
+        //originSlot = origin;
+        isDragging = true;
+        dragIcon.sprite = item.Data.icon;
         dragIcon.gameObject.SetActive(true);
     }
 

@@ -58,7 +58,8 @@ namespace Pikamoon.Controller
         [SerializeField] bool jump;
         [SerializeField] float jumpVelocity;
         [Space]
-
+        public bool AllowInputFlagWhileUIEnabled;
+        [Space]
         //[SerializeField] PlayerController m_Controller;
 
 
@@ -113,6 +114,10 @@ namespace Pikamoon.Controller
         {
             vertical   = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
+
+            if(!AllowInputFlagWhileUIEnabled)
+                return;
+
 
             if(Input.GetKeyDown(KeyCode.Space))
             {

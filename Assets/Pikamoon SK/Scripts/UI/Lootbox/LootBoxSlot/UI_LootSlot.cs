@@ -1,17 +1,22 @@
+using Pikamoon.Controller;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Pikamoon.UI
 {
 
     public class UI_LootSlot : UI_ItemSlot
     {
+        [SerializeField] int IndexInLootBox;
         [Space(20)]
+        [SerializeField] LootBox_UI lootBox_UI;
         public TextMeshProUGUI Quantity;
 
-        public override void AssignItem(Sprite icon)
+        public override void AssignItem(Controller.Item item)
         {
         }
+
 
         public override void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100)
         {
@@ -29,10 +34,26 @@ namespace Pikamoon.UI
 
         public override void Select()
         {
-            Debug.Log("Name = " + transform.name);
+            lootBox_UI.ClickOnItem(IndexInLootBox);
         }
 
         public override void UnSelect()
+        {
+        }
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+        }
+
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
         {
         }
     }

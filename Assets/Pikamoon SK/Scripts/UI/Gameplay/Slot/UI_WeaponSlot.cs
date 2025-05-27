@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Pikamoon.UI
 {
@@ -40,21 +41,23 @@ namespace Pikamoon.UI
 
         private void Start()
         {
-           // ChangeButtonAppearence(EmptySlotSettings);
+           ChangeButtonAppearence(EmptySlotSettings);
         }
 
         public override void AssignItem()
         {
         }
 
-        public override void AssignItem(Sprite _icon)
+        public override void AssignItem(Controller.Item item)
         {
-            Icon.sprite = _icon;
-            //FullHealthVal.text = "100";
-            //HealthVal.text = "100";
-            //healthFiller.fillAmount = 1;
+            Icon.sprite = item.Data.icon;
+            ItemName.text = item.Data.ItemName;
+            hasItem = true;
+
+            ChangeButtonAppearence(ActiveSlotSettings);
         }
-        
+
+
 
         public override void AssignItem(Sprite _icon,bool isActive, int _fullHealth = 100, int _health = 100)
         {
@@ -91,7 +94,7 @@ namespace Pikamoon.UI
         {
             BtnBg.color = settings.BgIconColor;
 
-            HighlighterImg.color = settings.HighlighterColor;
+            //HighlighterImg.color = settings.HighlighterColor;
 
             Icon.enabled = settings.IconActiveFlag;
             Icon.color = settings.IconColor;
@@ -113,7 +116,21 @@ namespace Pikamoon.UI
         {
         }
 
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+        }
 
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+        }
     }
 
 }

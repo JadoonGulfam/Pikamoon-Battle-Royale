@@ -1,5 +1,6 @@
 using Pikamoon.UI;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 namespace Pikamoon.Controller
 {
@@ -153,6 +154,20 @@ namespace Pikamoon.Controller
             }
         }
 
+        [SerializeField] bool cameraOrbitStatus;
+        public bool CameraOrbitStatus
+        {
+            get
+            {
+                return cameraOrbitStatus;
+            }
+            set
+            {
+                cameraOrbitStatus = value;
+            }
+        }
+
+
 
         [SerializeField] bool inAir;
         public bool InAir
@@ -182,8 +197,7 @@ namespace Pikamoon.Controller
             input = _input;
             _cameraController = _camera;
 
-            //if (MP_Setup == null)
-            //    MP_Setup = this.GetComponent<PlayerSetupForMultiplayer>();
+            CameraOrbitStatus = true;
 
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
@@ -229,12 +243,21 @@ namespace Pikamoon.Controller
         {
             AdjustSpeed();
             IsGroundedCheck();
+            CameraOrbit();
+        }
+
+        public void ToggleCursor(bool flag)
+        {
+            Cursor.visible = flag;
+            Cursor.lockState = !flag ? CursorLockMode.Locked : CursorLockMode.None;
         }
 
         #region Weapon Portion
         public void ActivateWeapon(WeaponInfo weapon)
         {
             ActiveWeapon = weapon;
+
+            //ActiveWeapon.Prefab.gameObject.SetActive(true);
 
             if(ActiveWeapon.Prefab != null)
             {
@@ -334,6 +357,12 @@ namespace Pikamoon.Controller
             forward.y = 0f;
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * Speed);
+        }
+
+        public void CameraOrbit()
+        {
+            _cameraController.CameraOrbitStatus(cameraOrbitStatus);
+            input.AllowInputFlagWhileUIEnabled = cameraOrbitStatus;
         }
 
         #endregion

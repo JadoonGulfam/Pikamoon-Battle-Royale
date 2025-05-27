@@ -12,7 +12,7 @@ namespace Pikamoon.Controller
         Vector3 defaultHitParticlePos;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        void Awake()
         {
             mWeaponData = GetItemDataAs<MeleeWeaponDataSO>();
 
@@ -30,6 +30,12 @@ namespace Pikamoon.Controller
             WeaponInfo info = new WeaponInfo();
 
             info.Prefab = this;
+
+            if(!mWeaponData)
+            {
+                mWeaponData = GetItemDataAs<MeleeWeaponDataSO>();
+            }
+
             info.Data = mWeaponData;
 
             return info;

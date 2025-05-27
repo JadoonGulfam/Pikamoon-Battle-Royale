@@ -1,6 +1,7 @@
 using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
+using System;
 
 namespace Pikamoon.Controller
 {
@@ -53,6 +54,7 @@ namespace Pikamoon.Controller
         [Header("Inventory Core")]
         [SerializeField] Transform ItemsParent;
 
+        public PlayerSetupForMultiplayer MP_Setup;
 
         bool allowPickUp;
         public bool AllowPickUp
@@ -70,6 +72,14 @@ namespace Pikamoon.Controller
 
         private PlayerController Controller;
         private PlayerInput playerInput;
+
+        LootBox CurrentLootbox;
+        int IndexInLootBox;
+
+        RaycastHit hitItem;
+        Transform hitTransform;
+        bool isPickableAnItem;
+        bool isPointerOnLootBox;
 
         IPickable pickableItem;
 
@@ -106,7 +116,6 @@ namespace Pikamoon.Controller
 
             allowPickUp = true;
         }
-        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
@@ -115,16 +124,9 @@ namespace Pikamoon.Controller
             ContinuousCheckForItemsForPickup();
         }
 
-
-
-
-        RaycastHit hitItem;
-        Transform hitTransform;
-        bool isPickableAnItem;
-
         public void ContinuousCheckForItemsForPickup()
         {
-            if (!allowPickUp || !UI)
+            if (!allowPickUp || UI.lootBoxUI.LootCanvas.enabled)
                 return;
 
 
@@ -137,14 +139,14 @@ namespace Pikamoon.Controller
                 if (Physics.Raycast(ray, out hitItem, 999f, pickupLayerMask))
                 {
                     hitTransform = hitItem.transform;
-                    isPickableAnItem = true;
+                    isPointerOnLootBox = false;
 
                     UI.hudcontroller.ShowPickUp();
                 }
                 else if (Physics.Raycast(ray, out hitItem, 999f, LootBoxLayerMask))
                 {
                     hitTransform = hitItem.transform;
-                    isPickableAnItem = false;
+                    isPointerOnLootBox = true;
 
                     UI.hudcontroller.ShowPickUp();
                 }
@@ -152,17 +154,14 @@ namespace Pikamoon.Controller
                 {
                     hitTransform = null;
                     UI.hudcontroller.HidePickUp();
-                    isPickableAnItem = false;
                 }
             }
             else
             {
                 hitTransform = null;
                 UI.hudcontroller.HidePickUp();
-                isPickableAnItem = false;
             }
         }
-
 
         public void Pick()
         {
@@ -174,41 +173,29 @@ namespace Pikamoon.Controller
                 pickableItem = hitTransform.GetComponent<IPickable>();
                 if (pickableItem != null)
                 {
-                    if (isPickableAnItem)
+                    if (!isPointerOnLootBox)
                     {
+                        isPickableAnItem = true;
                         pickableItem.TryToPick(this);
                     }
                     else
                     {
+
+                        isPickableAnItem = false;
                         PickupLootBox(pickableItem);
                     }
                 }
             }
         }
 
-        public void PickItemFromLootBox(Transform itemTransform)
+        public void PickItemFromLootBox(int index)
         {
-            if (Controller.IsInAttack || Controller.InAir)
-                return;
+            IndexInLootBox = index;
 
-            pickableItem = itemTransform.GetComponent<IPickable>();
+            pickableItem = CurrentLootbox.GetItem(index).GetComponent<IPickable>();
             if (pickableItem != null)
             {
-                if (isPickableAnItem)
-                {
-                    if (pickableItem is Weapon)
-                    {
-                        PickWeapon(pickableItem as Weapon);
-                    }
-                    else
-                    {
-                        pickableItem.TryToPick(this);
-                    }
-                }
-                else
-                {
-                    PickupLootBox(pickableItem);
-                }
+                pickableItem.TryToPick(this);
             }
         }
 
@@ -227,29 +214,49 @@ namespace Pikamoon.Controller
 
         #region Loot Behaviour
 
+        void ShowLootBoxUI()
+        {
+            UI.hudcontroller.HidePickUp();
+            UI.inventoryUI.ShowUI();
+            Controller.CameraOrbitStatus = false;
+            Controller.ToggleCursor(true);
+            AllowPickUp = false;
+        }
 
-        //bool canBePickedUp()
-        //{
-
-        //}
-
+        public void HideLootBoxUI()
+        {
+            Controller.CameraOrbitStatus = true;
+            UI.inventoryUI.HideUI();
+            Controller.ToggleCursor(false);
+            AllowPickUp = true;
+        }
 
         void PickupLootBox(IPickable pickable)
         {
             pickable.TryToPick(this);
         }
 
-        public void AssignLootBox(LootBox lootbox)
+        public void AssignLootBox(LootBox _lootbox)
         {
-            UI.lootBoxUI.PopulateList(lootbox);
+            CurrentLootbox = _lootbox;
+            UI.lootBoxUI.PopulateList(CurrentLootbox);
+            ShowLootBoxUI();
         }
 
         #endregion
 
+        void SuccessfullyItemPickedFromLoot()
+        {
+        }
+
+        void SuccessfullyItemPickedFromEnvironment()
+        {
+        }
+
         void NoSlotAvaialbleForItem()
         {
-
         }
+
 
         #region Weapon Portion
 
@@ -323,7 +330,6 @@ namespace Pikamoon.Controller
             }
         }
 
-
         void UnEquipping(int index, Item item, bool ActivateNoWeapon)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
@@ -347,7 +353,6 @@ namespace Pikamoon.Controller
                 Controller.ActivateWeapon(DefaultFistNoWeapon);
             }
         }
-
         void Equipping(int index, Item item)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
@@ -365,76 +370,10 @@ namespace Pikamoon.Controller
 
         public void PickWeapon(Weapon weapon)
         {
-            //for (int i = 0; i < Weapons.items.Count; i++)
-            //{
-            //    if (Weapons.items[i] == null)
-            //    {
-            //        Weapons.items[i] = weapon;
-
-            //        weapon.OnPicked();
-
-
-            //        WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
-            //        if (Controller.ActiveWeapon.Prefab == null)
-            //        {
-            //            Equipping(i, weapon);
-            //        }
-            //        else
-            //        {
-            //            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
-
-            //            weapon.transform.parent = restingPoint.transform;
-            //            weapon.transform.localPosition = Vector3.zero;
-            //            weapon.transform.localRotation = Quaternion.identity;
-
-
-            //            UI.hudcontroller.EquipWeapon(i, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
-            //        }
-
-
-            //        if (weapon.HasScabbard)
-            //        {
-            //            weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
-            //        }
-
-            //        return;
-            //    }
-            //}
-
             int index = GetMeAvailableSlotForNewWeapon();
             if (index != -1)
             {
-                Weapons.items[index] = weapon;
-
-                weapon.OnPicked();
-
-
-                WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
-                if (Controller.ActiveWeapon.Prefab == null)
-                {
-                    Equipping(index, weapon);
-                }
-                else
-                {
-                    Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
-
-                    weapon.transform.parent = restingPoint.transform;
-                    weapon.transform.localPosition = Vector3.zero;
-                    weapon.transform.localRotation = Quaternion.identity;
-
-
-                    UI.hudcontroller.EquipWeapon(index, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
-                }
-
-
-                if (weapon.HasScabbard)
-                {
-                    weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
-                }
-
-                return;
+                AddItemToWeaponsByPickup(weapon, index);
             }
             else
             {
@@ -460,7 +399,6 @@ namespace Pikamoon.Controller
             }
 
         }
-
         void DropWeapon()
         {
             if (Weapons.items[UsingWeaponIndex] == null)
@@ -481,6 +419,59 @@ namespace Pikamoon.Controller
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
 
+        void AddItemToWeaponsByPickup( Weapon weapon, int index)
+        {
+            Weapons.items[index] = weapon;
+            Weapons.AvailedInCategory++;
+            UI.inventoryUI.AssignToWeapons(weapon,index);
+
+
+            weapon.OnPicked();
+
+            bool isEquipeWeapon = false;
+
+            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            if (Controller.ActiveWeapon.Prefab == null)
+            {
+                isEquipeWeapon = true;
+                Equipping(index, weapon);
+            }
+            else
+            {
+                Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+                weapon.transform.parent = restingPoint.transform;
+                weapon.transform.localPosition = Vector3.zero;
+                weapon.transform.localRotation = Quaternion.identity;
+
+
+                UI.hudcontroller.EquipWeapon(index, weaponInfo.Data.icon, false, weapon.Health, weaponInfo.Data.InitialHealth);
+            }
+
+
+            if (weapon.HasScabbard)
+            {
+                weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
+            }
+
+            // if this weapon is collected from Loot Box
+            if (!isPickableAnItem)
+            {
+                if(isEquipeWeapon)
+                    weapon.OnEquip();
+
+                weapon.transform.gameObject.SetActive(true);
+                CurrentLootbox.SelectItem(IndexInLootBox);
+                UI.lootBoxUI.DisableItemInUI(IndexInLootBox);
+
+                SuccessfullyItemPickedFromLoot();
+            }
+            else
+            {
+                SuccessfullyItemPickedFromEnvironment();
+            }
+        }
         int GetMeAvailableSlotForNewWeapon()
         {
             int index = -1;
@@ -500,11 +491,9 @@ namespace Pikamoon.Controller
 
 
         #region Arrow Portion
-
         public void PickArrow(Item arrow)
         {
             int index = GetMeSlotForQuickItem();
-            Debug.Log("Quick Item Index = " + index);
             if (index != -1)
             {
                 AddItemToQuickItemsByPickup(arrow, index);
@@ -513,7 +502,6 @@ namespace Pikamoon.Controller
             {
                 index = GetMeSlotForAllItem();
 
-                Debug.Log("All Item Index = " + index);
                 if (index != -1)
                 {
                     AddItemToAllItemsByPickup(arrow, index);
@@ -529,15 +517,13 @@ namespace Pikamoon.Controller
 
 
         #region Shield Portion
+
         public void PickShield(Item shield, ShieldType type)
         {
             int index = GetMeAvailableSlotForShield(type);
             if (index != -1)
             {
-                Shields.items[index] = shield;
-                Shields.AvailedInCategory++;
-
-                shield.gameObject.SetActive(false);
+                AddItemToShieldsByPickup(shield, index);
             }
             else
             {
@@ -560,7 +546,34 @@ namespace Pikamoon.Controller
                 }
             }
         }
+        
+        void AddItemToShieldsByPickup(Item item, int index)
+        {
+            Shields.items[index] = item;
+            Shields.AvailedInCategory++;
 
+            UI.inventoryUI.AssignToShields(item, index);
+
+            if (isPickableAnItem)
+            {
+                pickableItem.OnPicked();
+
+                item.transform.parent = ItemsParent;
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localRotation = Quaternion.identity;
+
+                item.gameObject.SetActive(false);
+                SuccessfullyItemPickedFromEnvironment();
+            }
+            else
+            {
+
+                CurrentLootbox.SelectItem(IndexInLootBox);
+                UI.lootBoxUI.DisableItemInUI(IndexInLootBox);
+                SuccessfullyItemPickedFromLoot();
+            }
+
+        }
 
         int GetMeAvailableSlotForShield(ShieldType type)
         {
@@ -575,6 +588,7 @@ namespace Pikamoon.Controller
 
             return hasItem;
         }
+
         #endregion
 
 
@@ -600,6 +614,7 @@ namespace Pikamoon.Controller
                 }
             }
         }
+
         #endregion
 
 
@@ -630,21 +645,27 @@ namespace Pikamoon.Controller
         {
             QuickItems.items[index] = item;
             QuickItems.AvailedInCategory++;
+            UI.inventoryUI.AssignToQuickItems(item, index);
 
             if (isPickableAnItem)
             {
-                pickableItem.OnPicked();
+                pickableItem.OnPicked(); 
+                
+                item.transform.parent = ItemsParent;
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localRotation = Quaternion.identity;
+
+                item.gameObject.SetActive(false);
+                SuccessfullyItemPickedFromEnvironment();
             }
             else
             {
-
+                CurrentLootbox.SelectItem(IndexInLootBox);
+                UI.lootBoxUI.DisableItemInUI(IndexInLootBox);
+                SuccessfullyItemPickedFromLoot();
             }
 
-            item.transform.parent = ItemsParent;
-            item.transform.localPosition = Vector3.zero;
-            item.transform.localRotation = Quaternion.identity;
 
-            item.gameObject.SetActive(false);
         }
 
         #endregion
@@ -659,7 +680,6 @@ namespace Pikamoon.Controller
             {
                 return index;
             }
-
 
             for (int i = 0; i < AllItems.items.Count; i++)
             {
@@ -676,25 +696,27 @@ namespace Pikamoon.Controller
         {
             AllItems.items[index] = item;
             AllItems.AvailedInCategory++;
+            UI.inventoryUI.AssignToAllItems(item, index);
 
             if (isPickableAnItem)
             {
                 pickableItem.OnPicked();
+                
+                item.transform.parent = ItemsParent;
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localRotation = Quaternion.identity;
+
+                item.gameObject.SetActive(false); 
+                SuccessfullyItemPickedFromEnvironment();
             }
             else
             {
-
+                CurrentLootbox.SelectItem(IndexInLootBox);
+                UI.lootBoxUI.DisableItemInUI(IndexInLootBox);
+                SuccessfullyItemPickedFromLoot();
             }
-
-            item.transform.parent = ItemsParent;
-            item.transform.localPosition = Vector3.zero;
-            item.transform.localRotation = Quaternion.identity;
-
-            item.gameObject.SetActive(false);
         }
         #endregion
-
-
 
     }
 }

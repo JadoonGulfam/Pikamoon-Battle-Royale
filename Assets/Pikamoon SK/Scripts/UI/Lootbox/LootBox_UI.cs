@@ -15,11 +15,9 @@ namespace Pikamoon.UI
 
 
         LootBox _lootbox;
-        int previousSize;
 
         private void Start()
         {
-            previousSize = 0;
         }
 
         public void PopulateList(LootBox lootbox)
@@ -28,26 +26,41 @@ namespace Pikamoon.UI
 
             _lootbox = lootbox;
 
+
             for(int i  = 0; i < _lootbox.items.Count;i++)
             {
-                itemSlots[i].ItemName.text = _lootbox.items[i].Data.ItemName;
-                itemSlots[i].Icon.sprite = _lootbox.items[i].Data.icon;
-                itemSlots[i].LevelNo.text = _lootbox.items[i].Data.LevelNo;
+                if(_lootbox.items[i] != null)
+                {
+                    itemSlots[i].ItemName.text = _lootbox.items[i].Data.ItemName;
+                    itemSlots[i].Icon.sprite = _lootbox.items[i].Data.icon;
+                    itemSlots[i].LevelNo.text = _lootbox.items[i].Data.LevelNo;
 
-                itemSlots[i].Quantity.text = lootbox.items[i].Quantity + string.Empty;
-                itemSlots[i].gameObject.SetActive(true);
+                    itemSlots[i].Quantity.text = lootbox.items[i].Quantity + string.Empty;
+                    itemSlots[i].gameObject.SetActive(true);
+                }
             }
 
-            for (int i = _lootbox.items.Count - 1; i < itemSlots.Length; i++)
+            for (int i = _lootbox.items.Count; i < itemSlots.Length; i++)
             {
                 itemSlots[i].gameObject.SetActive(false);
             }
         }
 
 
+        public void HideLootBoxUI()
+        {
+            LootCanvas.enabled = false;
+            _inventory.HideLootBoxUI();
+        }
+
         public void ClickOnItem(int index)
         {
+            _inventory.PickItemFromLootBox(index);
+        }
 
+        public void DisableItemInUI(int index)
+        {
+            itemSlots[index].gameObject.SetActive(false);
         }
     }
 

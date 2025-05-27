@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SlotUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class SlotUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Image itemIcon;
     public Sprite itemSprite;
@@ -17,34 +17,14 @@ public class SlotUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         UpdateIcon();
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (itemSprite != null)
-        {
-            Debug.Log("Clicked On " + this.name);
-            dragHandler.GrabItem(this, itemSprite);
-        }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        SlotUI targetSlot = dragHandler.GetSlotUnderPointer(eventData);
-        if (targetSlot != null && targetSlot != this)
-        {
-            Debug.Log("Released On " + this.name);
-            SwapItems(targetSlot);
-        }
-        dragHandler.ReleaseItem();
-    }
-
     private void SwapItems(SlotUI other)
     {
         Sprite temp = other.itemSprite;
-        other.itemSprite = this.itemSprite;
-        this.itemSprite = temp;
+        other.itemSprite = itemSprite;
+        itemSprite = temp;
 
         other.UpdateIcon();
-        this.UpdateIcon();
+        UpdateIcon();
     }
 
     public void UpdateIcon()
@@ -54,5 +34,31 @@ public class SlotUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             itemIcon.sprite = itemSprite;
             itemIcon.enabled = (itemSprite != null);
         }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (itemSprite != null)
+        {
+            dragHandler.GrabItem(this, itemSprite);
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        SlotUI targetSlot = dragHandler.GetSlotUnderPointer(eventData);
+        if (targetSlot != null && targetSlot != this)
+        {
+            SwapItems(targetSlot);
+        }
+        dragHandler.ReleaseItem();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
     }
 }
