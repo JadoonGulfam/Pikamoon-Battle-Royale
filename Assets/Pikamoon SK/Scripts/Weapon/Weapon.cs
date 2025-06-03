@@ -43,9 +43,14 @@ namespace Pikamoon.Controller
 
         [Header("SFX")]
         public AudioClip SwingSound;
+
+        public PlayerController Holder;
+
         public abstract WeaponInfo GetWeaponInfo();
 
-        
+        public abstract void AssignHolder(PlayerController playerController);
+
+
         public abstract Transform GetScabbard();
         public abstract void PlaceScabbard(Transform parent);
 

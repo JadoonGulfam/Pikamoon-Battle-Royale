@@ -147,7 +147,10 @@ namespace Pikamoon.Controller
             HitImpactParticle.gameObject.SetActive(true);
         }
 
+        public override void AssignHolder(PlayerController Controller)
+        {
 
+        }
 
         #endregion
 

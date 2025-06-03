@@ -20,6 +20,8 @@ namespace Pikamoon.Controller
         [SerializeField] ParticleSystem ProjectileFlash;
         [SerializeField] ParticleSystem HitParticle;
 
+        public Transform ActionCamParent;
+
         Coroutine bulletRoutine;
 
         IDamageable damageable;
@@ -68,6 +70,7 @@ namespace Pikamoon.Controller
         public void Initialize(Weapon _shooter, int Index)
         {
             //this.transform.localPosition = Vector3.zero;
+            RootWeapon = _shooter;
 
             _collider.enabled = false;
 
@@ -177,6 +180,7 @@ namespace Pikamoon.Controller
                 HitParticle.gameObject.SetActive(true);
             }
 
+            RootWeapon.Holder._cameraController.DisableBulletActionCam();
 
             damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null)

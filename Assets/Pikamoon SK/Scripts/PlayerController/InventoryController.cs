@@ -425,8 +425,9 @@ namespace Pikamoon.Controller
             Weapons.AvailedInCategory++;
             UI.inventoryUI.AssignToWeapons(weapon,index);
 
-
             weapon.OnPicked();
+
+            weapon.AssignHolder(Controller);
 
             bool isEquipeWeapon = false;
 
