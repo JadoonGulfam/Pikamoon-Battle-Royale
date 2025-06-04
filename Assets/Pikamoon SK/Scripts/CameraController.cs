@@ -40,6 +40,13 @@ namespace Pikamoon.Controller
         [Space]
         [SerializeField] Cam activeCam;
 
+        [Header("Arrow Action Cam")]
+        [SerializeField] CinemachineCamera ActionArrowCam;
+        [SerializeField] CinemachineBasicMultiChannelPerlin shakeNoisePerlin;
+        [SerializeField] float cameraShakeAmplitude; 
+
+        [SerializeField] float cameraShakeFrequency; 
+
         [Space]
         [SerializeField] CinemachineCamera CaptureCam;
         [SerializeField] CinemachineCamera DefaultCam;
@@ -63,7 +70,8 @@ namespace Pikamoon.Controller
             activeCam = Cam.Default;
 
             CamAxisController = DefaultCam.GetComponent<CinemachineInputAxisController>();
-                    
+            shakeNoisePerlin.AmplitudeGain = 0;
+            shakeNoisePerlin.FrequencyGain = 0;
 
             DefaultCam.gameObject.SetActive(true);
 
@@ -80,6 +88,8 @@ namespace Pikamoon.Controller
 
             camOffsetter.Offset = Vector3.Lerp(camOffsetter.Offset, aimer, Time.deltaTime * 3);
             DefaultCam.Lens.FieldOfView = Mathf.Lerp(DefaultCam.Lens.FieldOfView, fov, Time.deltaTime * 2);
+
+
         }
 
         public void AssignPlayer(Transform FollowTarget, Transform LookTarget)
@@ -153,6 +163,34 @@ namespace Pikamoon.Controller
                 ChangeCam(Cam.Aim);
             }
         }
+
+        public void EnableBulletActionCam(Transform Bullet)
+        {
+            ActionArrowCam.transform.parent = Bullet;
+            ActionArrowCam.transform.localPosition = Vector3.zero;
+            ActionArrowCam.transform.localRotation = Quaternion.identity;
+
+            // Set initial shake
+
+            Time.timeScale = 0.08f;
+
+            shakeNoisePerlin.AmplitudeGain = cameraShakeAmplitude;
+            shakeNoisePerlin.FrequencyGain = cameraShakeFrequency;
+
+
+
+            ActionArrowCam.gameObject.SetActive(true);
+            DefaultCam.gameObject.SetActive(false);
+        }
+
+        public void DisableBulletActionCam()
+        {
+            Time.timeScale = 1f;
+
+            ActionArrowCam.gameObject.SetActive(false);
+            DefaultCam.gameObject.SetActive(true);
+        }
+
 
         public void CameraOrbitStatus(bool flag)
         {

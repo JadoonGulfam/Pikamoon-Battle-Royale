@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2818425473415508206
@@ -65,9 +65,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6c51da8c87a5d4c4589b4e77d993c947, type: 3}
+  m_Sprite: {fileID: 1632598234, guid: b125aac38dd153f4b863d93b62ad8f2c, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2991683658960269002
 RectTransform:
   m_ObjectHideFlags: 0
@@ -213,42 +213,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa8ddaea300ba946ba5ef4da276cd72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   BtnBg: {fileID: 3256463080617212383}
   Icon: {fileID: 7755797187847435551}
-  KeyCode: {fileID: 8410454788621642737}
+  ItemName: {fileID: 0}
+  LevelNo: {fileID: 0}
   HighlighterImg: {fileID: 7770061545269338816}
+  HasHotKey: 0
+  HotKey: {fileID: 0}
   hasItem: 0
-  FullHealthVal: {fileID: 2266869878414858948}
-  HealthVal: {fileID: 6016204971304366137}
-  healthFillerBG: {fileID: 5520043013868401502}
-  healthFiller: {fileID: 6732575044651385948}
   EmptySlotSettings:
     BgIconColor: {r: 1, g: 1, b: 1, a: 0}
     HighlighterColor: {r: 1, g: 1, b: 1, a: 0}
     IconColor: {r: 1, g: 1, b: 1, a: 0}
     IconActiveFlag: 0
-    FullHealthTextActiveFlag: 0
-    HealthTextActiveFlag: 0
-    healthFillerBGActiveFlag: 0
-    healthFillerActiveFlag: 0
   ActiveSlotSettings:
     BgIconColor: {r: 1, g: 1, b: 1, a: 1}
     HighlighterColor: {r: 1, g: 1, b: 1, a: 1}
     IconColor: {r: 1, g: 1, b: 1, a: 1}
     IconActiveFlag: 1
-    FullHealthTextActiveFlag: 1
-    HealthTextActiveFlag: 1
-    healthFillerBGActiveFlag: 1
-    healthFillerActiveFlag: 1
   InActiveSlotSettings:
     BgIconColor: {r: 1, g: 1, b: 1, a: 0.6}
     HighlighterColor: {r: 1, g: 1, b: 1, a: 0}
     IconColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 0.6}
     IconActiveFlag: 1
-    FullHealthTextActiveFlag: 0
-    HealthTextActiveFlag: 0
-    healthFillerBGActiveFlag: 1
-    healthFillerActiveFlag: 1
 --- !u!1 &1361906449683519560
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,8 +271,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.2, y: 0.69999695}
-  m_SizeDelta: {x: 165.1765, y: 62.0677}
+  m_AnchoredPosition: {x: 0, y: 0.35305023}
+  m_SizeDelta: {x: 116.8331, y: 116.8331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4776847672019907839
 CanvasRenderer:
@@ -307,14 +295,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1090082232, guid: 7685c3c238a93a04181e8592e36b80e2, type: 3}
+  m_Sprite: {fileID: -1864190511, guid: b125aac38dd153f4b863d93b62ad8f2c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -357,10 +345,10 @@ RectTransform:
   - {fileID: 1731688135198372845}
   m_Father: {fileID: 2006298125577149514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -104.48818, y: 22.688198}
-  m_SizeDelta: {x: 21.0104, y: 21.0104}
+  m_AnchorMin: {x: -0.017752098, y: 0.8866249}
+  m_AnchorMax: {x: 0.1199283, y: 1.0243052}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6627548419156421879
 CanvasRenderer:
@@ -390,7 +378,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1948257811, guid: b125aac38dd153f4b863d93b62ad8f2c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -434,8 +422,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -9.9137, y: -9.9137}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7301891376922181066
 CanvasRenderer:
@@ -467,15 +455,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6a89370191f783945a84c29ad0ad0065, type: 2}
+  m_sharedMaterial: {fileID: 8999345172087856234, guid: 6a89370191f783945a84c29ad0ad0065, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294948533
+  m_fontColor: {r: 0.70980394, g: 0.7137255, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -492,12 +480,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.7
+  m_fontSize: 11.05
   m_fontSizeBase: 16.7
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 0
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -551,7 +539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6833690598662206214
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1010,7 +998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6854492924903527621
 RectTransform:
   m_ObjectHideFlags: 0

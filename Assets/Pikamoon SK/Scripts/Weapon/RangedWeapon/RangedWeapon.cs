@@ -9,7 +9,6 @@ namespace Pikamoon.Controller
 
         [Header("Core Data")]
         [Space]
-
         public Transform FirePoint;
 
         [Space]
@@ -38,13 +37,13 @@ namespace Pikamoon.Controller
 
         public void ShootBullet(Vector3 hit)
         {
-            GetBulletIndex();
+            UpdateNextBulletIndex();
 
             bulletsPool[bulletIndex].Shoot(FirePoint.position, hit, rWeaponData.BulletSpeed, rWeaponData.BulletDamage);
             DebugTransform.transform.position = hit;
         }
 
-        void GetBulletIndex()
+        void UpdateNextBulletIndex()
         {
             bulletIndex++;
             if (bulletIndex == bulletsPool.Count)
@@ -53,6 +52,10 @@ namespace Pikamoon.Controller
             }
         }
 
+        public int GetBulletIndex()
+        {
+            return bulletIndex;
+        }
 
         void MakePool(Bullet bullet)
         {
@@ -72,6 +75,10 @@ namespace Pikamoon.Controller
             }
         }
 
+        public Transform GetActionCamParent()
+        {
+            return bulletsPool[bulletIndex].ActionCamParent;
+        }
 
         public float GetFireRate()
         {
@@ -120,6 +127,7 @@ namespace Pikamoon.Controller
                 collider.enabled = false;
             }
         }
+
         public override void OnPicked(Transform Picker)
         {
 
@@ -183,7 +191,10 @@ namespace Pikamoon.Controller
         {
         }
 
-
+        public override void AssignHolder(PlayerController Controller)
+        {
+            Holder = Controller;
+        }
 
         #endregion
 
