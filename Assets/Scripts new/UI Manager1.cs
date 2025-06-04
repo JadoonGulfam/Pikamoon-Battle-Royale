@@ -21,7 +21,7 @@ public class UIManager1 : MonoBehaviour
         OpenSeaURL.text = nftData.OpenSeaURL.ToString();
         
         
-        Debug.Log("NFT ItemName: " + nftData.NFTName);
+        Debug.Log("NFT Name: " + nftData.NFTName);
         Debug.Log("Description: " + nftData.Description);
         Debug.Log("ID: " + nftData.ID);
         Debug.Log("URI: " + nftData.URI);
