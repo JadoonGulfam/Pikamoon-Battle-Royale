@@ -8,6 +8,7 @@ public class wearables : NetworkBehaviour
     public int ownId;
     public int weaponId;
     public int hand;
+    public Transform swardParticles;
     private void OnEnable()
     {
         NetworkManager.OnOtherPlayerJoined += HandleOtherPlayerJoined;
