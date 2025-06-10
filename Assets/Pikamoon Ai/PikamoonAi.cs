@@ -41,7 +41,7 @@ public class PikamoonAi : MonoBehaviour
     private float fleeThreshold = 40;
     private float stunThreshold = 10;
     private float agroRange = 8f; // New agro range
-    private float protectionRadius = 40f;
+    [SerializeField] private float protectionRadius = 40f;
     [SerializeField] private float fleeDistance = 20f; // Distance to run away
     [SerializeField] private float fleeSpeed = 8f; // Speed when fleeing
     [SerializeField] private float walkSpeed = 1f;
@@ -219,6 +219,7 @@ public class PikamoonAi : MonoBehaviour
     private void ExitAlertState()
     {
         isAlert = false;
+        if(alertMarkExclamation != null )
         alertMarkExclamation.SetActive(false);
         EnableRoaming(); // Start moving immediately after alert
     }
@@ -312,7 +313,7 @@ public class PikamoonAi : MonoBehaviour
         animator.ResetTrigger("Hit");
     }
 
-    public void TakeDamage(float damage) // Function to reduce health
+    public void TakeDamage(float damage, Transform _attacker) // Function to reduce health
     {
         if (/*isDead || */isStunned) return;
         pikamoonHealth.ReduceHealth(damage);
@@ -323,34 +324,33 @@ public class PikamoonAi : MonoBehaviour
         // If Pikamoon is in alert state and gets attacked, react based on type
         if (isAlert || isRoaming)
         {
-            switch (pikaType)
-            {
-                case PikamoonType.Aggressive:
-                    StartAttack(); // Attack immediately
-                    break;
+                switch (pikaType)
+                {
+                    case PikamoonType.Aggressive:
+                    if (PlayerDetected()) StartAttack(); // Attack immediately
+                        break;
 
-                case PikamoonType.Friendly:
-                    friendlyHitCount++;
-                    if (friendlyHitCount >= friendlyAttackThreshold)
-                    {
-                        StartAttack(); // Attack after enough hits
-                    }
-                    break;
-                case PikamoonType.Protective:
-                    StartAttack();
-                    break;
-                case PikamoonType.Cowardly:
-                    StartFleeing(); // Run away immediately
-                    break;
-            }
+                    case PikamoonType.Friendly:
+                        friendlyHitCount++;
+                        if (friendlyHitCount >= friendlyAttackThreshold)
+                        {
+                        if (PlayerDetected()) StartAttack(); // Attack after enough hits
+                        }
+                        break;
+                    case PikamoonType.Protective:
+                    if (PlayerDetected()) StartAttack();
+                        break;
+                    case PikamoonType.Cowardly:
+                    if (PlayerDetected()) StartFleeing(); // Run away immediately
+                        break;
+                }
             //Notify nearby protective Pikamoons
-            NotifyNearbyProtectivePikamoons(player);
+            NotifyNearbyProtectivePikamoons(_attacker);
         }
     }
-    private void NotifyNearbyProtectivePikamoons(Transform attacker)
+    private void NotifyNearbyProtectivePikamoons(Transform _attacker)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, protectionRadius); // Adjust as needed
-
         foreach (Collider col in colliders)
         {
             PikamoonAi nearbyPikamoon = col.GetComponent<PikamoonAi>();
@@ -361,16 +361,26 @@ public class PikamoonAi : MonoBehaviour
                     float dist = Vector3.Distance(nearbyPikamoon.transform.position, this.transform.position);
                     if (dist <= nearbyPikamoon.protectionRadius)
                     {
-                        nearbyPikamoon.OnAllyAttacked(attacker);
+                        nearbyPikamoon.OnAllyAttacked(_attacker);
                     }
                 }
             }
         }
     }
-    public void OnAllyAttacked(Transform attacker)
+    public void OnAllyAttacked(Transform _attacker)
     {
         Debug.Log("yaha aya ha bhai");
-        StartAttack();
+        StartAttackOnPlayer(_attacker);
+    }
+    private void StartAttackOnPlayer(Transform _player)
+    {
+        isAttacking = true;
+        isAlert = false;
+        pikaState = PikamoonState.Run;
+        navMeshAgent.speed = fleeSpeed;
+        animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Run);
+        navMeshAgent.SetDestination(_player.position);
+        alertTimer = 0f;
     }
     GameObject stunnedMarkInstance;
     private IEnumerator Stun()

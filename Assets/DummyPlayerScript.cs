@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DummyPlayerScript : MonoBehaviour
 {
+    public Transform player;
     //void OnCollisionEnter(Collision collision)
     //{
     //    if (collision.gameObject.tag == "Bullet")
@@ -16,7 +17,7 @@ public class DummyPlayerScript : MonoBehaviour
         if (other.gameObject.tag == "Pikamoon")
         {
            // Debug.Log("hua");
-            other.gameObject.GetComponent<PikamoonAi>().TakeDamage(10f); // Reduce Pikamoon's health
+            other.gameObject.GetComponent<PikamoonAi>().TakeDamage(10f, player); // Reduce Pikamoon's health
         }
     }
     //[SerializeField] private LayerMask Pikamoon; // Assign this in the Inspector
