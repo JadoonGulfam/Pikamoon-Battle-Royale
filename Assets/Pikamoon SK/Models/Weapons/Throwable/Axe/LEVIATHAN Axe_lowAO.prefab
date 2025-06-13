@@ -237,6 +237,74 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2107815993798570536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7011442130868091129}
+  - component: {fileID: 6592404091339949218}
+  - component: {fileID: 6686822608037116075}
+  m_Layer: 0
+  m_Name: HitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7011442130868091129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107815993798570536}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3121580204898606043}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6592404091339949218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107815993798570536}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.089340635, y: 0.88127726, z: 0.32912752}
+  m_Center: {x: 0.000000001362781, y: 0.16941951, z: 0.028943885}
+--- !u!114 &6686822608037116075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107815993798570536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c465664399524fa45b9dcd96f0e73450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 7166487505880638757}
+  _collider: {fileID: 6592404091339949218}
 --- !u!1 &2413224441142724401
 GameObject:
   m_ObjectHideFlags: 0
@@ -14859,13 +14927,14 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.096999966, y: -0.03399996, z: 0.284}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 0.8666667, y: 0.8666667, z: 0.8666667}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9165773589251219229}
   - {fileID: 9027539284239685890}
   - {fileID: 8019204097569687729}
   - {fileID: 4008987056378359868}
+  - {fileID: 7011442130868091129}
   - {fileID: 2567008633097415152}
   - {fileID: 3672883736843115646}
   m_Father: {fileID: 0}
@@ -14910,8 +14979,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: d4aa189a8c3c5d94dbcf8abfd1672637, type: 2}
-  itemType: 0
   isEquiped: 0
+  hasSpecializeSlot: 0
+  Quantity: 0
   weaponType: 3
   _colliders:
   - {fileID: 8416848981156566116}
@@ -14921,6 +14991,8 @@ MonoBehaviour:
   TrailParticle: {fileID: 1652351268657121908}
   HitImpactParticle: {fileID: 3246246342684768737}
   SwingSound: {fileID: 8300000, guid: d00a4ea2f8c9fd14da8234cc5a53bb67, type: 3}
+  Holder: {fileID: 0}
+  HitBox: {fileID: 6686822608037116075}
   rb: {fileID: 3254012106018061123}
   rotationSpeed: 500
   player: {fileID: 0}

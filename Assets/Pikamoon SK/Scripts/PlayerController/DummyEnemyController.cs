@@ -14,7 +14,7 @@ namespace Pikamoon.Controller
 
         public float health;
         public float JumpVelocity;
-
+        [SerializeField] bool AllowLookPlayer;
         [SerializeField] Transform DummyAttacker;
         [SerializeField] bool AllowDummyInputHit;
         CharacterController characterController;
@@ -29,6 +29,25 @@ namespace Pikamoon.Controller
             AC = GetComponent<AnimationController>();
             characterController = GetComponent<CharacterController>();
             SFX = GetComponent<SFXController>();
+        }
+
+        void Update()
+        {
+            if (AllowDummyInputHit && Input.GetKeyDown(KeyCode.C))
+            {
+                GetHit(DummyAttacker);
+            }
+            if(AllowLookPlayer)
+                LookAtPlayer();
+        }
+
+        void LookAtPlayer()
+        {
+            Vector3 Mid = (this.transform.position - DummyAttacker.position).normalized;
+
+            Mid.y = this.transform.position.y;  
+
+            this.transform.LookAt(DummyAttacker,Vector3.up);
         }
 
 
@@ -170,14 +189,6 @@ namespace Pikamoon.Controller
         public void RootMove(Vector3 direction)
         {
             characterController.Move(direction);
-        }
-
-        void Update()
-        {
-            if(AllowDummyInputHit && Input.GetKeyDown(KeyCode.C))
-            {
-                GetHit(DummyAttacker);
-            }
         }
 
         void Gravity()

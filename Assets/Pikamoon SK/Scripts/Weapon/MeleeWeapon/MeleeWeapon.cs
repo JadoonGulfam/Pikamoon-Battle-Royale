@@ -63,7 +63,7 @@ namespace Pikamoon.Controller
             }
 
             if (HitBox != null)
-                HitBox.GetComponent<Collider>().enabled = false;
+                HitBox._collider.enabled = false;
         }
         public override void OnPicked(Transform Picker)
         {
@@ -79,7 +79,7 @@ namespace Pikamoon.Controller
         public override void OnDrop()
         {
             if (HitBox != null)
-                HitBox.GetComponent<Collider>().enabled = false;
+                HitBox._collider.enabled = false;
         }
         public override void OnDrop(Transform Dropper, LayerMask DropLayer)
         {

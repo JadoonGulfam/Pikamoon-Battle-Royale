@@ -8,6 +8,7 @@ namespace Pikamoon.Controller
         [Space]
         [Header("Core Class Value")]
 
+        public WeaponHitBox HitBox;
         public Rigidbody rb;
         public float rotationSpeed;
 
@@ -36,6 +37,8 @@ namespace Pikamoon.Controller
         IDamageable damageable;
 
         ThrowableWeaponDataSO tWeaponData;
+
+
         private void Start()
         {
             tWeaponData = GetItemDataAs<ThrowableWeaponDataSO>();
@@ -90,6 +93,9 @@ namespace Pikamoon.Controller
 
             rb.AddForce(transform.forward * tWeaponData.Power + transform.up * 2, ForceMode.Impulse);
 
+            if (HitBox != null)
+                HitBox._collider.enabled = true;
+
             //Trail
             TrailTRen.emitting = true;
             TrailPSys.Play();
@@ -133,6 +139,9 @@ namespace Pikamoon.Controller
             GetComponent<Rigidbody>().Sleep();
             GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             GetComponent<Rigidbody>().isKinematic = true;
+
+            if (HitBox != null)
+                HitBox._collider.enabled = false;
 
             damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
@@ -183,10 +192,15 @@ namespace Pikamoon.Controller
             {
                 collider.enabled = false;
             }
+
+
+            if (HitBox != null)
+                HitBox._collider.enabled = false;
         }
         public override void OnPicked(Transform Picker)
         {
-
+            if (HitBox != null)
+                HitBox.enabled = false;
         }
         public override void TryToPick(InventoryController Picker)
         {
@@ -197,9 +211,8 @@ namespace Pikamoon.Controller
 
         public override void OnDrop()
         {
-
-
-
+            if (HitBox != null)
+                HitBox._collider.enabled = false;
         }
         public override void OnDrop(Transform Dropper, LayerMask DropLayer)
         {
@@ -234,6 +247,9 @@ namespace Pikamoon.Controller
                     collider.enabled = true;
                 }
             }
+
+            if (HitBox != null)
+                HitBox._collider.enabled = false;
         }
 
 
@@ -253,7 +269,7 @@ namespace Pikamoon.Controller
 
         public override void AssignHolder(PlayerController Controller)
         {
-
+            Holder = Controller;
         }
 
 
