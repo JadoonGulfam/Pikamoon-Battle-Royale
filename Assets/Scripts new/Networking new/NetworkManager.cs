@@ -29,8 +29,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public TMP_InputField pname;
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
-    public float pikamoonRadius = 50f;
-    public int pikamoonCount = 20;
+    public float pikamoonRadius = 10f;
+    public int pikamoonCount = 8;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
 
@@ -138,7 +138,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             int attempts = 0;
 
             // Select a random Pikamoon from the list
-            NetworkObject randomPikamoon = pikamoonList[UnityEngine.Random.Range(0, pikamoonList.Count)];
+            NetworkObject randomPikamoon = pikamoonList[i];//UnityEngine.Random.Range(0, pikamoonList.Count)];
 
             do
             {

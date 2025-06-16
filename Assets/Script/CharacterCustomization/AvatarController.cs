@@ -4,8 +4,8 @@ using System.IO;
 using UnityEngine;
 public class AvatarController : MonoBehaviour
 {
-    public AvatarDefaultClothes maleAvatarDefaultCostume;
-    public AvatarDefaultClothes femaleAvatarDefaultCostume;
+    public AvatarDefaultClothes AvatarDefaultCostume;
+    //public AvatarDefaultClothes femaleAvatarDefaultCostume;
 
     public Stitcher stitcher;
     public SkinnedMeshRenderer body, eye;
@@ -30,33 +30,33 @@ public class AvatarController : MonoBehaviour
         WearDefaultItem(BodyPartsType.Hair, applyOn.gameObject, _gender);
         //SetDefaultTexture();
     }
-    private AvatarDefaultClothes GetDefaultCostume(GenderType gender)
-    {
-        return gender == GenderType.male ? maleAvatarDefaultCostume : femaleAvatarDefaultCostume;
-    }
+    //private AvatarDefaultClothes GetDefaultCostume(GenderType gender)
+    //{
+    //    return gender == GenderType.male ? maleAvatarDefaultCostume : femaleAvatarDefaultCostume;
+    //}
     public void WearDefaultItem(BodyPartsType _type, GameObject _applyOn, GenderType _gender)
     {
-        var defaultCostume = GetDefaultCostume(_gender);
-        if (defaultCostume == null) return;
+        //var defaultCostume = GetDefaultCostume(_gender);
+        if (AvatarDefaultCostume == null) return;
         switch (_type)
         {
             case BodyPartsType.Body:
-                StichItem(defaultCostume.DefaultBody, _type, _applyOn);
+                StichItem(AvatarDefaultCostume.DefaultBody, _type, _applyOn);
                 break;
             case BodyPartsType.Hair:
-                StichItem(defaultCostume.DefaultHair, _type, _applyOn);
+                StichItem(AvatarDefaultCostume.DefaultHair, _type, _applyOn);
                 break;
             case BodyPartsType.Eyes:
-                ApplyEyeTexture(defaultCostume.DefaultEyes, string.Empty);
+                ApplyEyeTexture(AvatarDefaultCostume.DefaultEyes, string.Empty);
                 break;
             case BodyPartsType.Eyebrow:
-                ApplyEyebrowTexture(defaultCostume.DefaultEyebrow, string.Empty);
+                ApplyEyebrowTexture(AvatarDefaultCostume.DefaultEyebrow, string.Empty);
                 break;
             case BodyPartsType.Skin:
-                if (defaultCostume.DefaultSkin != null && defaultCostume.DefaultFace != null)
+                if (AvatarDefaultCostume.DefaultSkin != null && AvatarDefaultCostume.DefaultFace != null)
                 {
-                    ApplyFaceTexture(defaultCostume.DefaultFace, string.Empty);
-                    ApplySkinTexture(defaultCostume.DefaultSkin, string.Empty);
+                    ApplyFaceTexture(AvatarDefaultCostume.DefaultFace, string.Empty);
+                    ApplySkinTexture(AvatarDefaultCostume.DefaultSkin, string.Empty);
                 }
                 break;
             //case BodyPartsType.Arms:
@@ -120,7 +120,7 @@ public class AvatarController : MonoBehaviour
     }
     public void SetDefaultTexture()
     {
-        body.materials[4].SetColor("_BaseColor", maleAvatarDefaultCostume.DefaultLipsColor);
+        body.materials[4].SetColor("_BaseColor", AvatarDefaultCostume.DefaultLipsColor);
     }
 
     public void ApplyHairPreset(GameObject _preset, string _key, BodyPartsType _type, bool _applyColor)
