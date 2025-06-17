@@ -47,6 +47,7 @@ namespace Pikamoon.Controller
         public PlayerData PlayerData;
         public StateType CurrentPlayerState;
 
+        public PlayerSetupForMultiplayer MP_Setup;
 
         [Header("References")]
         public Transform Head; 
@@ -241,9 +242,13 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            AdjustSpeed();
-            IsGroundedCheck();
-            CameraOrbit();
+            if(MP_Setup.isMinePlayer)
+            {
+                AdjustSpeed();
+                IsGroundedCheck();
+                CameraOrbit();
+            }
+           
         }
 
         public void ToggleCursor(bool flag)

@@ -993,6 +993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   CurrentPlayerState: 0
+  MP_Setup: {fileID: 3782392086756088635}
   Head: {fileID: 3234866907357565055}
   states:
   - {fileID: 1505847481035605814}
@@ -1048,6 +1049,7 @@ MonoBehaviour:
   IsSwimming: 0
   IgnoreGravity: 0
   isGrounded: 0
+  cameraOrbitStatus: 0
   inAir: 0
 --- !u!114 &6335465088206045407
 MonoBehaviour:
@@ -1066,19 +1068,37 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
     isEnabled: 0
-  WeaponsBag:
+  Weapons:
+    CategoryName: 
     items: []
-  WeaponBagCapacity: 3
-  EquipedWeapons: []
+    MaxInCategory: 0
+    AvailedInCategory: 0
+  Shields:
+    CategoryName: 
+    items: []
+    MaxInCategory: 0
+    AvailedInCategory: 0
+  QuickItems:
+    CategoryName: 
+    items: []
+    MaxInCategory: 0
+    AvailedInCategory: 0
+  AllItems:
+    CategoryName: 
+    items: []
+    MaxInCategory: 0
+    AvailedInCategory: 0
   AutoEquipWeapon: 0
   isUsingWeapon: 0
   UsingWeaponIndex: 0
-  nearbyItems: []
   rangeForItemPickup: 3
   pickupLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  Dummy: {fileID: 4595174158781951899}
+  LootBoxLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  ItemsParent: {fileID: 0}
   MP_Setup: {fileID: 3782392086756088635}
 --- !u!114 &2625832815711299154
 MonoBehaviour:
@@ -1093,6 +1113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8333496745129123567}
+  animatorOverrideController: []
   Parameters:
     isWalkRun:
       Name: isWalkRun
@@ -1303,7 +1324,6 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   AC: {fileID: 0}
   SFX: {fileID: 0}
-  DummyCircle: {fileID: 0}
   animatorOverrideController: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
   ReadyToAttack: 0
   RadiusToFindEnemy: 20
@@ -1470,6 +1490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56c41205a5a5f547a3559d3c54e27d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdingpoints: []
   isMinePlayer: 0
 --- !u!114 &1001835270788723267
 MonoBehaviour:

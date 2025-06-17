@@ -184,7 +184,8 @@ namespace Pikamoon.Controller
 
         public void PlayAttackSound()
         {
-            SFX.PlayShootSound(ActiveWeapon.SwingSound);
+            //if(MP_Setup.isMinePlayer)
+                //SFX.PlayShootSound(ActiveWeapon.SwingSound);
         }
 
         void DoFirstAttack(CombatMoveType combatMoveType)
