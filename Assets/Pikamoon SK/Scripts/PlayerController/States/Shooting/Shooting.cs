@@ -99,7 +99,7 @@ namespace Pikamoon.Controller
 
         //public override void Initialize()
         //{
-        //    if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged)
+        //    if (Controller.ActiveWeapon.Data.weaponType != WeaponType.Ranged)
         //        return;
 
         //    AssignWeapon();
@@ -308,6 +308,9 @@ namespace Pikamoon.Controller
                 else
                 {
                     ActiveWeapon.ShootBullet(hit.point);
+
+
+                    Controller._cameraController.EnableBulletActionCam(ActiveWeapon.GetActionCamParent());
                     DebugTransform.transform.position = hit.point;
                 }
             }

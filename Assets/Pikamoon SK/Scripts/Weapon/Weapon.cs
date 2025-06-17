@@ -23,16 +23,10 @@ namespace Pikamoon.Controller
 
     public abstract class Weapon : Item, IPickable ,IDroppable
     {
-        public T GetWeaponDataAs<T>() where T : WeaponDataSO
-        {
-            return weaponData as T; // Tries to cast the currentWeapon to the specified type
-        }
-
         protected WeaponInfo weaponInfo;
 
-        public WeaponType Type;
-
-        [SerializeField] protected WeaponDataSO weaponData;
+        [Space(20)]
+        public WeaponType weaponType;
 
         public Collider[] _colliders;
 
@@ -49,15 +43,21 @@ namespace Pikamoon.Controller
 
         [Header("SFX")]
         public AudioClip SwingSound;
+
+        public PlayerController Holder;
+
         public abstract WeaponInfo GetWeaponInfo();
 
-        
+        public abstract void AssignHolder(PlayerController playerController);
+
+
         public abstract Transform GetScabbard();
         public abstract void PlaceScabbard(Transform parent);
 
 
         public abstract void OnPicked();
         public abstract void OnPicked(Transform Picker);
+        public abstract void TryToPick(InventoryController Picker);       
 
 
 

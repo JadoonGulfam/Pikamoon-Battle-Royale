@@ -23,7 +23,7 @@ namespace Pikamoon.Controller
 
         [Header("Movement")]
         [Space]
-        public Transform DummyCircle;
+        //public Transform DummyCircle;
 
         //public Image comboStatusImage;
         //public Image AttackStatusImage;
@@ -109,7 +109,7 @@ namespace Pikamoon.Controller
         {
             ActiveWeapon = _weapon as MeleeWeapon;
 
-            meleeWeapnonData = ActiveWeapon.GetWeaponDataAs<MeleeWeaponDataSO>();
+            meleeWeapnonData = ActiveWeapon.GetItemDataAs<MeleeWeaponDataSO>();
 
             AC.ChangeOverrideController(meleeWeapnonData.AnimOC);
         }
@@ -329,7 +329,7 @@ namespace Pikamoon.Controller
                         hitBehaviour.EnableHitPoint(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i]);
                     }
                 }
-                else if (ActiveWeapon.Type == WeaponType.Melee)
+                else if (ActiveWeapon.weaponType == WeaponType.Melee)
                 {
                     ActiveWeapon.HitBox.Enable();
                 }
@@ -363,7 +363,7 @@ namespace Pikamoon.Controller
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
-            if (ActiveWeapon != null && ActiveWeapon.Type == WeaponType.Melee)
+            if (ActiveWeapon != null && ActiveWeapon.weaponType == WeaponType.Melee)
             {
                 ActiveWeapon.HitBox.Disable();
             }
