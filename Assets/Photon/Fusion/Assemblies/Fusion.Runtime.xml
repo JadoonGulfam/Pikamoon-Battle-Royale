@@ -10454,7 +10454,9 @@
         </member>
         <member name="P:Fusion.NetworkObject.IsValid">
             <summary>
-            Returns if this network entity is associated with its <see cref="T:Fusion.NetworkRunner"/>, and that runner is not null.
+            Returns true while a NetworkObject is valid (after it is spawned until it is despawned).
+            While this property is true, Networked Properties and RPCs on the NetworkObject can be used.
+            Internally, the property validates whether a NetworkObject is associated with its <see cref="T:Fusion.NetworkRunner"/>, and that runner is not null.
             </summary>
         </member>
         <member name="P:Fusion.NetworkObject.IsInSimulation">
@@ -11055,7 +11057,7 @@
         </member>
         <member name="F:Fusion.NetworkObjectHeaderFlags.Struct">
             <summary>
-            Flag indicating that the object is a struct.
+            Flag indicating that the object has no prefab. (Mainly internal data).
             </summary>
         </member>
         <member name="F:Fusion.NetworkObjectHeaderFlags.StructArray">
@@ -11294,6 +11296,9 @@
             Meta information about a network object.
             </summary>
         </member>
+        <member name="P:Fusion.NetworkObjectMeta.Flags">
+            <summary> The flags indicating various states or properties of the network object. </summary>
+        </member>
         <member name="P:Fusion.NetworkObjectMeta.Type">
             <summary>Get the NetworkObjectTypeId of this object.</summary>
         </member>
@@ -11305,9 +11310,6 @@
         </member>
         <member name="P:Fusion.NetworkObjectMeta.NestingKey">
             <summary>The nesting key of the network object.</summary>
-        </member>
-        <member name="P:Fusion.NetworkObjectMeta.Flags">
-            <summary> The flags indicating various states or properties of the network object. </summary>
         </member>
         <member name="P:Fusion.NetworkObjectMeta.StateAuthority">
             <summary>Get the Player that has state authority over this object.</summary>
@@ -12216,7 +12218,7 @@
             The RPC method can include an empty <see cref="T:Fusion.RpcInfo"/> argument, that will include meta information about the RPC on the receiving peer.
             <para>Example:</para>
             <code>
-            | [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = false, InvokeResim = false, Channel = RpcChannel.Reliable, TickAligned = true)]<br></br>
+            | [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = false, Channel = RpcChannel.Reliable, TickAligned = true)]<br></br>
             | public void RPC_Configure(NetworkObject no, string name, Color color, RpcInfo info = default) { }
             </code>
             To target a specific Player, use the <see cref="T:Fusion.RpcTargetAttribute"/>:
@@ -12523,7 +12525,7 @@
         </member>
         <member name="F:Fusion.RpcLocalInvokeResult.NotInvokableDuringResim">
             <summary>
-            Not invoked locally because InvokeResim is false and simulation stage is <see cref="F:Fusion.SimulationStages.Resimulate"/>
+            Not invoked locally because simulation stage is <see cref="F:Fusion.SimulationStages.Resimulate"/>
             </summary>
         </member>
         <member name="F:Fusion.RpcLocalInvokeResult.InsufficientSourceAuthority">
@@ -13081,6 +13083,14 @@
         </member>
         <member name="P:Fusion.NetworkRunner.ReliableDataSendRate">
             <inheritdoc cref="P:Fusion.Simulation.ReliableDataSendRate"/>
+        </member>
+        <member name="P:Fusion.NetworkRunner.LocalAddress">
+            <summary>
+            Bound Address of the internal socket used for direct connection in Server/Host Mode.
+            On the Host/Server this address contains the address/port that was passed into StartGame.
+            When forwarding ports on the router/ firewall this port should be used as the internal port for the forwarding. The external port can either be the same value or any port.
+            Note: This is not the public address of the server or the address / port that was discovered via NAT Punchthrough.
+            </summary>
         </member>
         <member name="P:Fusion.NetworkRunner.SceneManager">
             <summary>
@@ -14771,9 +14781,6 @@
             <summary>
             Make a copy of the <see cref="T:Fusion.NetworkProjectConfig"/>.
             </summary>
-        </member>
-        <member name="M:Fusion.NetworkProjectConfig.SanityCheck">
-            <inheritdoc cref="M:Fusion.IConfigurationSanityCheck.SanityCheck"/>
         </member>
         <member name="M:Fusion.NetworkProjectConfig.ToString">
             <summary>
@@ -16764,6 +16771,14 @@
             <param name="player">Player to check</param>
             <returns>True if the Player is interested in the NetworkObjectMeta, false otherwise</returns>
         </member>
+        <member name="M:Fusion.Simulation.IsInputAuthority(Fusion.PlayerRef,Fusion.PlayerRef)">
+            <summary>
+            Check if a Player is the Input Authority over an NetworkObjectMeta
+            </summary>
+            <param name="inputAuthority">NetworkObjectMeta to check</param>
+            <param name="playerRef">Player to check</param>
+            <returns>True if the Player is the Input Authority over the NetworkObjectMeta, false otherwise</returns>
+        </member>
         <member name="M:Fusion.Simulation.IsInputAuthority(Fusion.NetworkObjectMeta,Fusion.PlayerRef)">
             <summary>
             Check if a Player is the Input Authority over an NetworkObjectMeta
@@ -16981,11 +16996,6 @@
             Relay based shared world model
             </summary>
         </member>
-        <member name="M:Fusion.IConfigurationSanityCheck.SanityCheck">
-            <summary>
-            Sanity check the configuration to a valid state.
-            </summary>
-        </member>
         <member name="T:Fusion.SimulationConfig">
             <summary>
             Project configuration settings specific to how the Simulation class behaves.
@@ -17106,6 +17116,13 @@
             If, in host mode, we should allow host migration if the current host leaves.
             </summary>
         </member>
+        <member name="F:Fusion.SimulationConfig.MaxObjectDestroysSentPerPacket">
+            <summary>
+            The amount of object destroys Fusion sends per packet.
+            Increasing this value means Fusion prioritizes sending more destroys before regular state changes.
+            Setting this value to 255, can help with problems when unloading scenes with many runtime spawned objects (such as Spawned/Despawned being called on those objects multiple times).
+            </summary>
+        </member>
         <member name="P:Fusion.SimulationConfig.InputTotalWordCount">
              <summary>
             
@@ -17120,9 +17137,6 @@
              <summary>
             
              </summary>
-        </member>
-        <member name="M:Fusion.SimulationConfig.SanityCheck">
-            <inheritdoc cref="M:Fusion.IConfigurationSanityCheck.SanityCheck"/>
         </member>
         <member name="T:Fusion.HeapConfiguration">
             <summary>
@@ -17153,9 +17167,6 @@
             <summary>
             ToString
             </summary>
-        </member>
-        <member name="M:Fusion.HeapConfiguration.SanityCheck">
-            <inheritdoc cref="M:Fusion.IConfigurationSanityCheck.SanityCheck"/>
         </member>
         <member name="T:Fusion.NetworkConfiguration">
             <summary>
@@ -17236,9 +17247,6 @@
             Convert this <see cref="T:Fusion.NetworkProjectConfig"/> into a <see cref="T:Fusion.Sockets.NetConfig"/> using the <see cref="T:Fusion.Sockets.NetAddress"/> as reference.
             </summary>
         </member>
-        <member name="M:Fusion.NetworkConfiguration.SanityCheck">
-            <inheritdoc cref="M:Fusion.IConfigurationSanityCheck.SanityCheck"/>
-        </member>
         <member name="T:Fusion.NetworkSimulationConfiguration">
             <summary>
             Configuration for network conditions simulation (induced latency and loss).
@@ -17317,9 +17325,6 @@
             Creates a new <see cref="T:Fusion.Sockets.NetConfigSimulation"/> based on the current configuration.
             </summary>
             <returns>A new <see cref="T:Fusion.Sockets.NetConfigSimulation"/> based on the current configuration.</returns>
-        </member>
-        <member name="M:Fusion.NetworkSimulationConfiguration.SanityCheck">
-            <inheritdoc cref="M:Fusion.IConfigurationSanityCheck.SanityCheck"/>
         </member>
         <member name="T:Fusion.TimeSyncConfiguration">
             <summary>
@@ -17767,66 +17772,27 @@
             Reduces errors at a constant rate using an on-off controller.
             </summary>
         </member>
+        <member name="P:Fusion.Instant.Input">
+            <summary>
+            The clock used to send inputs to the server. Later than Local by input delay. Currently input delay is always 0.
+            </summary>
+        </member>
+        <member name="P:Fusion.Instant.Local">
+            <summary>
+            Local (or "simulation") time is the clock used to drive FixedUpdateNetwork. It is the tick FixedNetworkUpdate
+            should simulate up to.
+            </summary>
+        </member>
+        <member name="P:Fusion.Instant.Remote">
+            <summary>
+            Remote (or "interpolation") time is the clock used to select pairs of snapshots for interpolating remote
+            (proxy) objects.
+            </summary>
+        </member>
         <member name="T:Fusion.VariableFeedback">
             <summary>
             Reduces errors at a variable rate using a PID controller.
             </summary>
-        </member>
-        <member name="T:Fusion.NetworkPhysicsInfo">
-            <summary>
-            Network Physics <see cref="T:Fusion.INetworkStruct"/>
-            </summary>
-        </member>
-        <member name="F:Fusion.NetworkPhysicsInfo.WORD_COUNT">
-            <summary>
-            <see cref="T:Fusion.NetworkPhysicsInfo"/> Word Count
-            </summary>
-        </member>
-        <member name="F:Fusion.NetworkPhysicsInfo.SIZE">
-            <summary>
-            <see cref="T:Fusion.NetworkPhysicsInfo"/> Total Size
-            </summary>
-        </member>
-        <member name="F:Fusion.NetworkPhysicsInfo.TimeScale">
-            <summary>
-            <see cref="T:Fusion.NetworkPhysicsInfo"/> Time Scale
-            </summary>
-        </member>
-        <member name="T:Fusion.INetworkStruct">
-            <summary>
-            Base interface for all Fusion Network Structs
-            </summary>
-        </member>
-        <member name="T:Fusion.NetworkInputUtils">
-            <summary>
-            Utility methods for <see cref="T:Fusion.NetworkInput"/>
-            </summary>
-        </member>
-        <member name="M:Fusion.NetworkInputUtils.GetMaxWordCount">
-            <summary>
-            Get the max word count from all registered types  
-            </summary>
-        </member>
-        <member name="M:Fusion.NetworkInputUtils.GetWordCount(System.Type)">
-            <summary>
-            Get Type Word Count if it is of type <see cref="T:Fusion.NetworkInput"/>
-            </summary>
-            <param name="type">Type to check for word count</param>
-            <returns>Number of words for the <see cref="T:Fusion.NetworkInput"/></returns>
-        </member>
-        <member name="M:Fusion.NetworkInputUtils.GetTypeKey(System.Type)">
-            <summary>
-            Get the Key associate with the argument Type
-            </summary>
-            <param name="type">Type to check for the key</param>
-            <returns>Associated Type Key, or an exception if not found</returns>
-        </member>
-        <member name="M:Fusion.NetworkInputUtils.GetType(System.Int32)">
-            <summary>
-            Get the Type based on its associate Key
-            </summary>
-            <param name="typeKey">Key associated with a Type</param>
-            <returns>Type associated with the Key, or null otherwise</returns>
         </member>
         <member name="T:Fusion.NetworkInput">
             <summary>
@@ -17885,6 +17851,62 @@
             <summary>
             Checks if this <see cref="T:Fusion.INetworkInput"/> is of a certain type
             </summary>
+        </member>
+        <member name="T:Fusion.NetworkPhysicsInfo">
+            <summary>
+            Network Physics <see cref="T:Fusion.INetworkStruct"/>
+            </summary>
+        </member>
+        <member name="F:Fusion.NetworkPhysicsInfo.WORD_COUNT">
+            <summary>
+            <see cref="T:Fusion.NetworkPhysicsInfo"/> Word Count
+            </summary>
+        </member>
+        <member name="F:Fusion.NetworkPhysicsInfo.SIZE">
+            <summary>
+            <see cref="T:Fusion.NetworkPhysicsInfo"/> Total Size
+            </summary>
+        </member>
+        <member name="F:Fusion.NetworkPhysicsInfo.TimeScale">
+            <summary>
+            <see cref="T:Fusion.NetworkPhysicsInfo"/> Time Scale
+            </summary>
+        </member>
+        <member name="T:Fusion.INetworkStruct">
+            <summary>
+            Base interface for all Fusion Network Structs
+            </summary>
+        </member>
+        <member name="T:Fusion.NetworkInputUtils">
+            <summary>
+            Utility methods for <see cref="T:Fusion.NetworkInput"/>
+            </summary>
+        </member>
+        <member name="M:Fusion.NetworkInputUtils.GetMaxWordCount">
+            <summary>
+            Get the max word count from all registered types  
+            </summary>
+        </member>
+        <member name="M:Fusion.NetworkInputUtils.GetWordCount(System.Type)">
+            <summary>
+            Get Type Word Count if it is of type <see cref="T:Fusion.NetworkInput"/>
+            </summary>
+            <param name="type">Type to check for word count</param>
+            <returns>Number of words for the <see cref="T:Fusion.NetworkInput"/></returns>
+        </member>
+        <member name="M:Fusion.NetworkInputUtils.GetTypeKey(System.Type)">
+            <summary>
+            Get the Key associate with the argument Type
+            </summary>
+            <param name="type">Type to check for the key</param>
+            <returns>Associated Type Key, or an exception if not found</returns>
+        </member>
+        <member name="M:Fusion.NetworkInputUtils.GetType(System.Int32)">
+            <summary>
+            Get the Type based on its associate Key
+            </summary>
+            <param name="typeKey">Key associated with a Type</param>
+            <returns>Type associated with the Key, or null otherwise</returns>
         </member>
         <member name="T:Fusion.NetworkStructUtils">
             <summary>
