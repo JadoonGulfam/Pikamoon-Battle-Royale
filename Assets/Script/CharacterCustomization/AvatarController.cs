@@ -8,7 +8,7 @@ public class AvatarController : MonoBehaviour
     //public AvatarDefaultClothes femaleAvatarDefaultCostume;
 
     public Stitcher stitcher;
-    public SkinnedMeshRenderer body, eye;
+    public SkinnedMeshRenderer body;//, eye;
     public GameObject wornHair, wornCloth;
     public GenderType genderType;
 
@@ -46,19 +46,19 @@ public class AvatarController : MonoBehaviour
             case BodyPartsType.Hair:
                 StichItem(AvatarDefaultCostume.DefaultHair, _type, _applyOn);
                 break;
-            case BodyPartsType.Eyes:
-                ApplyEyeTexture(AvatarDefaultCostume.DefaultEyes, string.Empty);
-                break;
-            case BodyPartsType.Eyebrow:
-                ApplyEyebrowTexture(AvatarDefaultCostume.DefaultEyebrow, string.Empty);
-                break;
-            case BodyPartsType.Skin:
-                if (AvatarDefaultCostume.DefaultSkin != null && AvatarDefaultCostume.DefaultFace != null)
-                {
-                    ApplyFaceTexture(AvatarDefaultCostume.DefaultFace, string.Empty);
-                    ApplySkinTexture(AvatarDefaultCostume.DefaultSkin, string.Empty);
-                }
-                break;
+            //case BodyPartsType.Eyes:
+            //    ApplyEyeTexture(AvatarDefaultCostume.DefaultEyes, string.Empty);
+            //    break;
+            //case BodyPartsType.Eyebrow:
+            //    ApplyEyebrowTexture(AvatarDefaultCostume.DefaultEyebrow, string.Empty);
+            //    break;
+            //case BodyPartsType.Skin:
+            //    if (AvatarDefaultCostume.DefaultSkin != null && AvatarDefaultCostume.DefaultFace != null)
+            //    {
+            //        ApplyFaceTexture(AvatarDefaultCostume.DefaultFace, string.Empty);
+            //        ApplySkinTexture(AvatarDefaultCostume.DefaultSkin, string.Empty);
+            //    }
+            //    break;
             //case BodyPartsType.Arms:
             //    if (defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms != null)
             //        StichItem(-1, defaultClothDatabase.maleAvatarDefaultCostume.DefaultArms, _type, _applyOn);
@@ -120,45 +120,45 @@ public class AvatarController : MonoBehaviour
     }
     public void SetDefaultTexture()
     {
-        body.materials[4].SetColor("_BaseColor", AvatarDefaultCostume.DefaultLipsColor);
+       // body.materials[4].SetColor("_BaseColor", AvatarDefaultCostume.DefaultLipsColor);
     }
 
     public void ApplyHairPreset(GameObject _preset, string _key, BodyPartsType _type, bool _applyColor)
     {
         StichItem( _preset, _type, this.gameObject, _applyColor);
-        currentCharacterData.hairPreset = _key;
+       // currentCharacterData.hairPreset = _key;
     }
     public void ApplyClothPreset(GameObject _preset, string _key, BodyPartsType _type)
     {
         StichItem( _preset, _type, this.gameObject);
-        currentCharacterData.clothPreset = _key;
+       // currentCharacterData.clothPreset = _key;
     }
     public void ApplyOnPreset(GameObject _preset, string _key, BodyType _type)
     {
         if (presetObject != null)
             Destroy(presetObject);
         presetObject = Instantiate(_preset);
-        currentCharacterData.characterPreset = _key;
+       // currentCharacterData.characterPreset = _key;
     }
     public void ApplyEyeTexture(Texture2D _texture, string _key)
     {
-        eye.material.SetTexture("_BaseMap", _texture);
-        currentCharacterData.eyeColor = _key;
+       // eye.material.SetTexture("_BaseMap", _texture);
+       // currentCharacterData.eyeColor = _key;
     }
     public void ApplySkinTexture(Texture2D _texture, string _key)
     {
-        body.materials[5].SetTexture("_BaseMap", _texture);
-        currentCharacterData.skinColor = _key;
+        //body.materials[5].SetTexture("_BaseMap", _texture);
+       // currentCharacterData.skinColor = _key;
     }
     public void ApplyFaceTexture(Texture2D _texture, string _key)
     {
-        body.materials[3].SetTexture("_BaseMap", _texture);
-        currentCharacterData.skinColor = _key;
+        //body.materials[3].SetTexture("_BaseMap", _texture);
+       // currentCharacterData.skinColor = _key;
     }
     public void ApplyEyebrowTexture(Texture2D _texture, string _key)
     {
-        body.materials[2].SetTexture("_BaseMap", _texture);
-        currentCharacterData.eyeBrowShape = _key;
+       // body.materials[2].SetTexture("_BaseMap", _texture);
+       // currentCharacterData.eyeBrowShape = _key;
     }
     public void ApplyColor(string _color, BodyType _type)
     {
