@@ -63,7 +63,7 @@ public class LoginManager : MonoBehaviour
     //    UnityWebRequest request = new UnityWebRequest(loginURL, "POST");
     //    request.uploadHandler = new UploadHandlerRaw(jsonToSend);
     //    request.downloadHandler = new DownloadHandlerBuffer();
-    //    request.SetRequestHeader("Content-Type", "application/json");
+    //    request.SetRequestHeader("Content-weaponType", "application/json");
 
     //    // Send request and wait for response
     //    yield return request.SendWebRequest();

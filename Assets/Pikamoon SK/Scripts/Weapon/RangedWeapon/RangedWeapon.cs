@@ -7,9 +7,8 @@ namespace Pikamoon.Controller
     public class RangedWeapon : Weapon
     {
 
+        [Header("Core Data")]
         [Space]
-        [Header("Core Class Value")]
-
         public Transform FirePoint;
 
         [Space]
@@ -23,38 +22,28 @@ namespace Pikamoon.Controller
         [SerializeField] Transform DebugTransform;
         [SerializeField] float Value;
 
-        bool isReturning;
-        bool activated;
 
-        Vector3 _distantPoint;
-        Transform _curvePoint;
-        Transform _throwingOrigin;
-
-        float returnTime;
         int bulletIndex;
 
-        IDamageable damageable;
 
         RangedWeaponDataSO rWeaponData;
 
         private void Awake()
         {
-            rWeaponData = GetWeaponDataAs<RangedWeaponDataSO>();
+            rWeaponData = GetItemDataAs<RangedWeaponDataSO>();
 
-            returnTime = 0;
-            activated = isReturning = false;
             MakePool(rWeaponData.Bullet);
         }
 
         public void ShootBullet(Vector3 hit)
         {
-            GetBulletIndex();
+            UpdateNextBulletIndex();
 
             bulletsPool[bulletIndex].Shoot(FirePoint.position, hit, rWeaponData.BulletSpeed, rWeaponData.BulletDamage);
             DebugTransform.transform.position = hit;
         }
 
-        void GetBulletIndex()
+        void UpdateNextBulletIndex()
         {
             bulletIndex++;
             if (bulletIndex == bulletsPool.Count)
@@ -63,6 +52,10 @@ namespace Pikamoon.Controller
             }
         }
 
+        public int GetBulletIndex()
+        {
+            return bulletIndex;
+        }
 
         void MakePool(Bullet bullet)
         {
@@ -82,6 +75,10 @@ namespace Pikamoon.Controller
             }
         }
 
+        public Transform GetActionCamParent()
+        {
+            return bulletsPool[bulletIndex].ActionCamParent;
+        }
 
         public float GetFireRate()
         {
@@ -130,12 +127,16 @@ namespace Pikamoon.Controller
                 collider.enabled = false;
             }
         }
+
         public override void OnPicked(Transform Picker)
         {
 
         }
 
-
+        public override void TryToPick(InventoryController Picker)
+        {
+            Picker.PickWeapon(this);
+        }
 
         public override void OnDrop()
         {
@@ -155,7 +156,7 @@ namespace Pikamoon.Controller
                     Scabbard.transform.parent = null;
                     Scabbard.transform.position = pos;
                     Scabbard.transform.rotation = Quaternion.identity;
-
+                    
                     transform.parent = Scabbard;
                     transform.localPosition = Vector3.zero;
                     transform.localRotation = Quaternion.identity;
@@ -188,6 +189,11 @@ namespace Pikamoon.Controller
 
         public override void OnHit(Vector3 point)
         {
+        }
+
+        public override void AssignHolder(PlayerController Controller)
+        {
+            Holder = Controller;
         }
 
         #endregion

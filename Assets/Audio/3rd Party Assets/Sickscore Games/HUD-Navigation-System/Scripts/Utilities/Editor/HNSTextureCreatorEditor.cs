@@ -96,7 +96,7 @@ public class HNSTextureCreatorEditor : HUDNavigationBaseEditor
 		GUI.enabled = !hudTarget._isBusy;
 
 		// SETTINGS
-		_pMapName.stringValue = EditorGUILayout.TextField (new GUIContent ("Name", "Choose a name for the texture, that will be generated."), _pMapName.stringValue);
+		_pMapName.stringValue = EditorGUILayout.TextField (new GUIContent ("ItemName", "Choose a name for the texture, that will be generated."), _pMapName.stringValue);
 		_pMapName.stringValue = Regex.Replace (_pMapName.stringValue, @"[^A-Za-z0-9 _]+", "").Replace (" ", "_");
 		int prevTextureSize = _pTextureSize.intValue;
 		EditorGUILayout.PropertyField (_pTextureSize, new GUIContent ("Texture Size", "Total size of the final texture. (longest side)"));

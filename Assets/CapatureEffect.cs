@@ -1,28 +1,51 @@
+using Pikamoon.Controller;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class CapatureEffect : MonoBehaviour
+public class CapatureEffect : MonoBehaviour, ICapturable
 {
-    //public PikamoonRoaming pikamoonRoaming;
-   // public PikamoonInventory pikamoonInventory;
+
+    [SerializeField] float TimeToBeCaptured;
+    [SerializeField] bool isStunned;
+
+    CapturedInfo capturedInfo;
+    public bool isReadyToBeCaptured
+    {
+        get
+        {
+            return isStunned;
+        }
+        set
+        {
+            isStunned = value;
+        }
+    }
+
+
     [SerializeField] VisualEffect capture_new;
     public Material[] material;
     private void Awake()
     {
         for (int i = 0; i < material.Length; i++)
         material[i].SetFloat("_Cutoff", 4);
+
+        capturedInfo = new CapturedInfo();
+
+        capturedInfo.TimeToCapture = TimeToBeCaptured;
+        capturedInfo.transform = this.transform;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
-            print("captured");
            // StartCoroutine(capturePikamoon(this.gameObject));
             //gameObject.transform.DOScale(0, 0.5f).OnComplete(Capture);
-            Capture();
+            //Capture();
         }
     }
+
     private void OnDisable()
     {
         for (int i = 0; i < material.Length; i++)
@@ -52,36 +75,40 @@ public class CapatureEffect : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
         Destroy(gameObject);
-//pikamoonInventory.AddPikamoon(this.gameObject);
+
         Debug.Log("Reduction complete! Final Value: " + currentValue);
     }
-    private void OnEnable()
-    {
-        // StartCoroutine(SetPikamoonMaterial());
-    }
-    public IEnumerator SetPikamoonMaterial()
-    {
-       // pikamoonRoaming.DisableRoaming();
-        float duration = 3f;
-        float startValue = 0f;
-        float endValue = 4f;
-        float stepSize = 0.1f;
-        float totalSteps = (endValue - startValue) / stepSize; // Correct total steps calculation
-        float delay = duration / totalSteps; // Delay per step
-        float currentValue = startValue;
-        while (currentValue < 4)
-        {
-            Debug.Log("Current Value: " + currentValue);
-            for (int i = 0; i < material.Length; i++)
-                material[i].SetFloat("_Cutoff", currentValue);
-            currentValue = Mathf.Min(currentValue + stepSize, endValue); // Ensure it doesn't exceed endValue
-            yield return new WaitForSeconds(delay);
-        }
-    }
-    //private void OnMouseDown()
+
+
+    //private void OnEnable()
     //{
-    //    print("captured");
-    //    pikamoonInventory.AddPikamoon(this.gameObject);
+    //    // StartCoroutine(SetPikamoonMaterial());
     //}
-   
+    //public IEnumerator SetPikamoonMaterial()
+    //{
+    //   // pikamoonRoaming.DisableRoaming();
+    //    float duration = 3f;
+    //    float startValue = 0f;
+    //    float endValue = 4f;
+    //    float stepSize = 0.1f;
+    //    float totalSteps = (endValue - startValue) / stepSize; // Correct total steps calculation
+    //    float delay = duration / totalSteps; // Delay per step
+    //    float currentValue = startValue;
+    //    while (currentValue < 4)
+    //    {
+    //        Debug.Log("Current Value: " + currentValue);
+    //        for (int i = 0; i < material.Length; i++)
+    //            material[i].SetFloat("_Cutoff", currentValue);
+    //        currentValue = Mathf.Min(currentValue + stepSize, endValue); // Ensure it doesn't exceed endValue
+    //        yield return new WaitForSeconds(delay);
+    //    }
+    //}
+
+
+    public bool onCapture(out CapturedInfo captureReturnInfo)
+    {
+        captureReturnInfo = capturedInfo;
+
+        return isStunned;
+    }
 }

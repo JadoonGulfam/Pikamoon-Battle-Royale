@@ -1,10 +1,6 @@
-using DiasGames.Components;
 using System;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-//using static Fusion.Editor.FusionHubWindow;
+using UnityEngine.EventSystems;
 
 namespace Pikamoon.UI
 {
@@ -21,21 +17,21 @@ namespace Pikamoon.UI
             [Space]
             public Color IconColor;
             public bool IconActiveFlag;
-            [Space]
-            public bool FullHealthTextActiveFlag;
-            public bool HealthTextActiveFlag;
-            [Space]
-            public bool healthFillerBGActiveFlag;
-            public bool healthFillerActiveFlag;
+            //[Space]
+            //public bool FullHealthTextActiveFlag;
+            //public bool HealthTextActiveFlag;
+            //[Space]
+            //public bool healthFillerBGActiveFlag;
+            //public bool healthFillerActiveFlag;
         }
 
 
         [Space]
-        public TextMeshProUGUI FullHealthVal;
-        public TextMeshProUGUI HealthVal;
-        [SerializeField]
-        public Image healthFillerBG;
-        public Image healthFiller;
+        //public TextMeshProUGUI FullHealthVal;
+        //public TextMeshProUGUI HealthVal;
+        //[SerializeField]
+        //public Image healthFillerBG;
+        //public Image healthFiller;
 
 
         [Header("Settings")]
@@ -45,30 +41,32 @@ namespace Pikamoon.UI
 
         private void Start()
         {
-            ChangeButtonAppearence(EmptySlotSettings);
+           ChangeButtonAppearence(EmptySlotSettings);
         }
 
         public override void AssignItem()
         {
         }
 
-        public override void AssignItem(Sprite _icon)
+        public override void AssignItem(Controller.Item item)
         {
-            Icon.sprite = _icon;
-            FullHealthVal.text = "100";
-            HealthVal.text = "100";
-            healthFiller.fillAmount = 1;
+            Icon.sprite = item.Data.icon;
+            ItemName.text = item.Data.ItemName;
+            hasItem = true;
+
+            ChangeButtonAppearence(ActiveSlotSettings);
         }
-        
+
+
 
         public override void AssignItem(Sprite _icon,bool isActive, int _fullHealth = 100, int _health = 100)
         {
             Icon.sprite = _icon;
 
-            FullHealthVal.text = "/ " + _fullHealth + string.Empty;
-            HealthVal.text = _health + string.Empty;
+            //FullHealthVal.text = "/ " + _fullHealth + string.Empty;
+            //HealthVal.text = _health + string.Empty;
 
-            healthFiller.fillAmount = ((float)_health / (float)_fullHealth);
+            //healthFiller.fillAmount = ((float)_health / (float)_fullHealth);
 
             ChangeButtonAppearence(isActive ? ActiveSlotSettings : InActiveSlotSettings);
         }
@@ -96,16 +94,16 @@ namespace Pikamoon.UI
         {
             BtnBg.color = settings.BgIconColor;
 
-            HighlighterImg.color = settings.HighlighterColor;
+            //HighlighterImg.color = settings.HighlighterColor;
 
             Icon.enabled = settings.IconActiveFlag;
             Icon.color = settings.IconColor;
 
-            FullHealthVal.enabled = settings.FullHealthTextActiveFlag;
-            HealthVal.enabled = settings.FullHealthTextActiveFlag;
+            //FullHealthVal.enabled = settings.FullHealthTextActiveFlag;
+            //HealthVal.enabled = settings.FullHealthTextActiveFlag;
 
-            healthFillerBG.enabled = settings.healthFillerBGActiveFlag;
-            healthFiller.enabled = settings.healthFillerActiveFlag;
+            //healthFillerBG.enabled = settings.healthFillerBGActiveFlag;
+            //healthFiller.enabled = settings.healthFillerActiveFlag;
 
         }
 
@@ -118,7 +116,21 @@ namespace Pikamoon.UI
         {
         }
 
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+        }
 
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+        }
     }
 
 }

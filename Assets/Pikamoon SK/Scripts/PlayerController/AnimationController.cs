@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using System.Linq;
 
 namespace Pikamoon.Controller
 {
@@ -81,7 +82,7 @@ namespace Pikamoon.Controller
     public class AnimationController : NetworkBehaviour
     {
         [SerializeField] Animator animator;
-
+        [SerializeField] AnimatorOverrideController[] animatorOverrideController;
         [Header("Parameters")]
         public AnimatorParameters Parameters;
 
@@ -136,8 +137,59 @@ namespace Pikamoon.Controller
         
         public void ChangeOverrideController(AnimatorOverrideController overrideController)
         {
-            PAnimator.runtimeAnimatorController = overrideController;
+            if (Object.HasStateAuthority)
+            {
+                if(overrideController.name == "_NoWeapon_AOC")
+                {
+                    RPC_ChangeOverrideContorller(0, Object.Id.ToString());
+                    PAnimator.runtimeAnimatorController = overrideController;
+                }
+                else if (overrideController.name == "Melee_Sword_AOC")
+                {
+                    RPC_ChangeOverrideContorller(1, Object.Id.ToString());
+                    PAnimator.runtimeAnimatorController = overrideController;
+                }
+                else if (overrideController.name == "Melee_Mace_AOC")
+                {
+                    RPC_ChangeOverrideContorller(2, Object.Id.ToString());
+                    PAnimator.runtimeAnimatorController = overrideController;
+                }
+                
+            }
+            
         }
 
+        public void callRPC_ChangeOverrideContorller(int controllerID)
+        {
+            if(Object.HasStateAuthority)
+            {
+                print("RPC called with value: " + controllerID + Object.Id);
+                RPC_ChangeOverrideContorller(controllerID, Object.Id.ToString());
+            }
+            else
+            {
+                print("RPC not called with value: " + controllerID + Object.Id);
+            }
+
+        }
+
+
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_ChangeOverrideContorller(int index, string playerID, RpcInfo info = default)
+        {
+            string numericOnly = new string(playerID.Where(char.IsDigit).ToArray());
+            string trimmedID = numericOnly.Length >= 5
+                ? numericOnly.Substring(0, 4) + numericOnly[^1]
+                : numericOnly; 
+            print("PID"+Object.Id);
+            Debug.Log("TID"+trimmedID); 
+
+            if (Object.Id.ToString() == playerID)
+            {
+                PAnimator.runtimeAnimatorController = animatorOverrideController[index];
+                Debug.Log("RPC called with value: " + index + playerID);
+            }
+            
+        }
     }
 }

@@ -106,7 +106,7 @@ public class HNSMapProfileEditor : HUDNavigationBaseEditor
 				}
 
 				EditorGUILayout.BeginVertical ();
-				EditorGUILayout.PropertyField (_cLayer.FindPropertyRelative ("name"), new GUIContent ("Name"));
+				EditorGUILayout.PropertyField (_cLayer.FindPropertyRelative ("name"), new GUIContent ("ItemName"));
 				EditorGUILayout.PropertyField (_cLayer.FindPropertyRelative ("sprite"), new GUIContent ("Texture"));
 				EditorGUILayout.PropertyField (_cLayer.FindPropertyRelative ("enabled"), new GUIContent ("Enabled"));
 				EditorGUILayout.EndVertical ();
