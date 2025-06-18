@@ -136,7 +136,7 @@ public class ApplyColorPicker : MonoBehaviour
     public void ChangeHairColor(Color _color)
     {
         characterCustomizationManager.avatarController.ApplyColor(ColorUtility.ToHtmlStringRGB(_color), BodyType.Hair); //wornHair.GetComponent<SkinnedMeshRenderer>().materials[0].color = color;
-        characterCustomizationManager.avatarController.currentCharacterData.hairColor = _color;
+       // characterCustomizationManager.avatarController.currentCharacterData.hairColor = _color;
         characterCustomizationManager.save.interactable = true;
         characterCustomizationManager.reset.interactable = true;
     }
