@@ -242,12 +242,12 @@ namespace Pikamoon.Controller
 
         private void Update()
         {
-            if(MP_Setup.isMinePlayer)
-            {
+            //if(MP_Setup!=null && MP_Setup.isMinePlayer)
+            //{
                 AdjustSpeed();
                 IsGroundedCheck();
                 CameraOrbit();
-            }
+            //}
            
         }
 

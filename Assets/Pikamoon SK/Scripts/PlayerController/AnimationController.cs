@@ -137,26 +137,32 @@ namespace Pikamoon.Controller
         
         public void ChangeOverrideController(AnimatorOverrideController overrideController)
         {
-            if (Object.HasStateAuthority)
+            if(Object == null)
             {
-                if(overrideController.name == "_NoWeapon_AOC")
-                {
-                    RPC_ChangeOverrideContorller(0, Object.Id.ToString());
-                    PAnimator.runtimeAnimatorController = overrideController;
-                }
-                else if (overrideController.name == "Melee_Sword_AOC")
-                {
-                    RPC_ChangeOverrideContorller(1, Object.Id.ToString());
-                    PAnimator.runtimeAnimatorController = overrideController;
-                }
-                else if (overrideController.name == "Melee_Mace_AOC")
-                {
-                    RPC_ChangeOverrideContorller(2, Object.Id.ToString());
-                    PAnimator.runtimeAnimatorController = overrideController;
-                }
-                
+                PAnimator.runtimeAnimatorController = overrideController;
             }
-            
+            else
+            {
+                if (Object.HasStateAuthority)
+                {
+                    if (overrideController.name == "_NoWeapon_AOC")
+                    {
+                        RPC_ChangeOverrideContorller(0, Object.Id.ToString());
+                        PAnimator.runtimeAnimatorController = overrideController;
+                    }
+                    else if (overrideController.name == "Melee_Sword_AOC")
+                    {
+                        RPC_ChangeOverrideContorller(1, Object.Id.ToString());
+                        PAnimator.runtimeAnimatorController = overrideController;
+                    }
+                    else if (overrideController.name == "Melee_Mace_AOC")
+                    {
+                        RPC_ChangeOverrideContorller(2, Object.Id.ToString());
+                        PAnimator.runtimeAnimatorController = overrideController;
+                    }
+
+                }
+            }
         }
 
         public void callRPC_ChangeOverrideContorller(int controllerID)

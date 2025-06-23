@@ -28,7 +28,7 @@ namespace Pikamoon.Controller
             CamefromMPCAll = false;
 
         }
-        bool CamefromMPCAll;
+        [SerializeField] bool CamefromMPCAll;
         private void Start()
         {
             if (!CamefromMPCAll)
