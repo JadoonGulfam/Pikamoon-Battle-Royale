@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 public class AvatarController : MonoBehaviour
 {
@@ -22,6 +19,14 @@ public class AvatarController : MonoBehaviour
     {
 
         SetAvatarClothDefault(gameObject, genderType);
+    }
+
+
+
+    [ContextMenu("Set Avatar Cloth Default")]
+    public void SetAvatarClothDefault()
+    {
+        SetAvatarClothDefault(gameObject,genderType);
     }
 
     public void SetAvatarClothDefault(GameObject applyOn, GenderType _gender)

@@ -4351,6 +4351,52 @@ namespace Fusion.Editor {
 
 #endregion
 
+#region FusionCustomDependency.cs
+
+namespace Fusion.Editor {
+  using System;
+  using UnityEditor;
+  using UnityEngine;
+
+  class FusionCustomDependency {
+    public readonly string Name;
+    
+    readonly EditorApplication.CallbackFunction _applyHash;
+    readonly Func<Hash128?>                     _getter;
+    
+    public FusionCustomDependency(string name, Func<Hash128?> getter) {
+      Name = name;
+      _getter = getter;
+      _applyHash = () => Update(true);
+    }
+
+    public void Refresh() {
+      if (Application.isBatchMode) {
+        if (AssetDatabase.IsAssetImportWorkerProcess()) {
+          FusionEditorLog.ErrorImport($"Can't update custom dependencies during Asset Import ({Name})");
+        } else {
+          Update(false);
+        }
+      } else {
+        EditorApplication.delayCall -= _applyHash;
+        EditorApplication.delayCall += _applyHash;
+      }
+    }
+    
+    void Update(bool delayed) {
+      var hash = _getter();
+      if (hash.HasValue) {
+        FusionEditorLog.TraceImport($"Refreshing {Name} dependency hash: {hash} (delayed: {delayed})");
+        AssetDatabaseUtils.RegisterCustomDependencyWithMppmWorkaround(Name, hash.Value);
+        AssetDatabase.Refresh();
+      } else {
+        FusionEditorLog.TraceImport($"Not refreshing {Name} dependency hash, returned null (delayed: {delayed})");
+      }
+    }
+  }
+}
+
+#endregion
 
 #region FusionEditor.cs
 
@@ -11984,23 +12030,25 @@ namespace Fusion.Editor {
 
   [InitializeOnLoad]
   internal class FusionInstaller {
-    const string DEFINE_VERSION = "FUSION2";
-    const string DEFINE = "FUSION_WEAVER";
-    const string PACKAGE_TO_SEARCH = "nuget.mono-cecil";
-    const string PACKAGE_TO_INSTALL = "com.unity.nuget.mono-cecil@1.10.2";
-    const string PACKAGES_DIR = "Packages";
-    const string MANIFEST_FILE = "manifest.json";
+    // Defines to add
+    private const string DEFINE_VERSION = "FUSION2";
+    private const string DEFINE_WEAVER = "FUSION_WEAVER";
+    // Packages to search for
+    private const string PACKAGE_TO_SEARCH = "nuget.mono-cecil";
+    private const string PACKAGE_TO_INSTALL = "com.unity.nuget.mono-cecil@1.10.2";
+    // Constants
+    private const string PACKAGES_DIR = "Packages";
+    private const string MANIFEST_FILE = "manifest.json";
 
     static FusionInstaller() {
       var defines = GetCurrentDefines();
 
       // Check for Defines
-      // change based on https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2249
-      if (defines.Contains(DEFINE) && defines.Contains(DEFINE_VERSION)) {
+      if (defines.Contains(DEFINE_WEAVER) && defines.Contains(DEFINE_VERSION)) {
         return;
       }
 
-      if (!PlayerSettings.runInBackground) {
+      if (PlayerSettings.runInBackground == false) {
         FusionEditorLog.LogInstaller($"Setting {nameof(PlayerSettings)}.{nameof(PlayerSettings.runInBackground)} to true");
         PlayerSettings.runInBackground = true;
       }
@@ -12008,17 +12056,21 @@ namespace Fusion.Editor {
       var manifest = Path.Combine(Path.GetDirectoryName(Application.dataPath) ?? string.Empty, PACKAGES_DIR, MANIFEST_FILE);
 
       if (File.ReadAllText(manifest).Contains(PACKAGE_TO_SEARCH)) {
-        FusionEditorLog.LogInstaller($"Setting '{DEFINE}' & '{DEFINE_VERSION}' Define");
-
         // append defines
-        if (defines.Contains(DEFINE) == false) { defines = $"{defines};{DEFINE}"; }
-
-        if (defines.Contains(DEFINE_VERSION) == false) { defines = $"{defines};{DEFINE_VERSION}"; }
+        TryAddDefine(ref defines, DEFINE_WEAVER, d => d.Contains(DEFINE_WEAVER) == false);
+        TryAddDefine(ref defines, DEFINE_VERSION, d => d.Contains(DEFINE_VERSION) == false);
 
         SetCurrentDefines(defines);
       } else {
         FusionEditorLog.LogInstaller($"Installing '{PACKAGE_TO_INSTALL}' package");
         Client.Add(PACKAGE_TO_INSTALL);
+      }
+    }
+
+    private static void TryAddDefine(ref string defines, string targetDefine, Func<string, bool> check) {
+      if (check(defines)) {
+        defines = $"{defines};{targetDefine}"; 
+        FusionEditorLog.LogInstaller($"Adding Fusion Define Symbol: '{targetDefine}'");
       }
     }
 
@@ -12378,14 +12430,14 @@ namespace Fusion.Editor {
       if (animator.Animator == null) {
         animator.Animator = animator.GetComponent<Animator>();
         if (animator.Animator == null) {
-          FusionEditorLog.Error($"Cannot bake {animator.name}'s {nameof(NetworkMecanimAnimator)} without an {nameof(Animator)} assigned!");
+          FusionEditorLog.Error($"Cannot bake {animator.name}'s {nameof(NetworkMecanimAnimator)} without an {nameof(Animator)} assigned!", animator.gameObject);
           return false;
         } else {
           dirty = true;
         }
       }
       if (AnimatorControllerTools.GetController(animator.Animator) == null) {
-        FusionEditorLog.Error($"Cannot bake {animator.name}'s {nameof(NetworkMecanimAnimator)} without an {nameof(UnityEditor.Animations.AnimatorController)} assigned to its {nameof(Animator)}!");
+        FusionEditorLog.Error($"Cannot bake {animator.name}'s {nameof(NetworkMecanimAnimator)} without an {nameof(UnityEditor.Animations.AnimatorController)} assigned to its {nameof(Animator)}!", animator.gameObject);
         return dirty;
       }
       
@@ -12395,14 +12447,14 @@ namespace Fusion.Editor {
       FusionEditorLog.Assert(animator.StateHashes[0] == 0);
       foreach (var hash in animator.StateHashes.Skip(1)) {
         if (hash >= 0 && hash < animator.StateHashes.Length) {
-          FusionEditorLog.Error($"State hash {hash} is out of range for {animator.name}");
+          FusionEditorLog.Error($"State hash {hash} is out of range for {animator.name}", animator.gameObject);
         }
       }
 
       FusionEditorLog.Assert(animator.TriggerHashes[0] == 0);
       foreach (var hash in animator.TriggerHashes.Skip(1)) {
         if (hash >= 0 && hash < animator.TriggerHashes.Length) {
-          FusionEditorLog.Error($"Trigger hash {hash} is out of range for {animator.name}");
+          FusionEditorLog.Error($"Trigger hash {hash} is out of range for {animator.name}", animator.gameObject);
         }
       }
 
@@ -12702,21 +12754,14 @@ namespace Fusion.Editor {
           DrawToggleFlag(NetworkObjectFlags.AllowStateAuthorityOverride, "Allow State Authority Override");
         }
 
-        EditorGUI.EndDisabledGroup();
-
-        EditorGUI.BeginDisabledGroup((obj.Flags & NetworkObjectFlags.AllowStateAuthorityOverride) == default);
-
         if ((obj.Flags & NetworkObjectFlags.MasterClientObject) == NetworkObjectFlags.MasterClientObject) {
           DrawToggleFlag(NetworkObjectFlags.DestroyWhenStateAuthorityLeaves, "Destroy When State Authority Leaves", false);
         } else {
-          if ((obj.Flags & NetworkObjectFlags.AllowStateAuthorityOverride) == NetworkObjectFlags.AllowStateAuthorityOverride) {
-            DrawToggleFlag(NetworkObjectFlags.DestroyWhenStateAuthorityLeaves, "Destroy When State Authority Leaves");
-          } else {
-            DrawToggleFlag(NetworkObjectFlags.DestroyWhenStateAuthorityLeaves, "Destroy When State Authority Leaves", true);
-          }
+          DrawToggleFlag(NetworkObjectFlags.DestroyWhenStateAuthorityLeaves, "Destroy When State Authority Leaves");
         }
-
+        
         EditorGUI.EndDisabledGroup();
+        
 
         //var destroyWhenStateAuthLeaves = serializedObject.FindProperty(nameof(NetworkObject.DestroyWhenStateAuthorityLeaves));
         //EditorGUILayout.PropertyField(destroyWhenStateAuthLeaves);
@@ -12966,8 +13011,7 @@ namespace Fusion.Editor {
       }
 
       if (rebuildPrefabHash) {
-        EditorApplication.delayCall -= NetworkProjectConfigImporter.RefreshNetworkObjectPrefabHash;
-        EditorApplication.delayCall += NetworkProjectConfigImporter.RefreshNetworkObjectPrefabHash;
+        NetworkProjectConfigImporter.RebuildPrefabHash();
       }
     }
 

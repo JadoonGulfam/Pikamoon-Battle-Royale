@@ -6,7 +6,7 @@ public class wearables : NetworkBehaviour
 {
 
     public int ownId;
-    public int weaponId;
+    public int weaponId=0;
     public int hand;
     public Transform swardParticles;
     private void OnEnable()
