@@ -32,6 +32,8 @@ namespace Pikamoon.UI
         //public Image healthFillerBG;
         //public Image healthFiller;
 
+        Controller.Item CurrentItem;
+
 
         [Header("Settings")]
         public SlotAppearenceSettings EmptySlotSettings;
@@ -53,6 +55,8 @@ namespace Pikamoon.UI
             ItemName.text = item.Data.ItemName;
             hasItem = true;
 
+            CurrentItem = item;
+
             ChangeButtonAppearence(ActiveSlotSettings);
         }
 
@@ -72,6 +76,7 @@ namespace Pikamoon.UI
 
         public override void UnAssignItem()
         {
+            CurrentItem = null;
             ChangeButtonAppearence(InActiveSlotSettings);
         }
 
@@ -85,6 +90,7 @@ namespace Pikamoon.UI
         {
             Icon.sprite = null;
 
+            CurrentItem = null;
             ChangeButtonAppearence(EmptySlotSettings);
         }
 
@@ -114,25 +120,53 @@ namespace Pikamoon.UI
         public override void UnSelect()
         {
         }
-
         public override void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log("Quick Item Slot Clicked Down!");
+            if (hasItem)
+            {
+                DragManager.Instance.StartDrag(this, GetItem());
+            }
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            Debug.Log("Quick Item Slot Clicked Up!");
+            if (DragManager.Instance.IsDragging)
+            {
+                SwapItems(this);
+            }
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("Quick Item Slot Hover Enter!");
+            if (DragManager.Instance.IsDragging)
+            {
+                HighlighterImg.enabled = true;
+
+                if (CanAcceptItem(DragManager.Instance.draggedItem))
+                {
+                    HighlighterImg.color = Color.green;
+                }
+                else
+                {
+                    HighlighterImg.color = Color.red;
+                }
+            }
         }
+
 
         public override void OnPointerExit(PointerEventData eventData)
         {
-            Debug.Log("Quick Item Slot Hover Out!");
+            HighlighterImg.enabled = false;
+        }
+
+        public override Controller.Item GetItem()
+        {
+            return hasItem ? CurrentItem : null; 
+        }
+
+        public override bool CanAcceptItem(Controller.Item item)
+        {
+            return item != null;
         }
     }
 

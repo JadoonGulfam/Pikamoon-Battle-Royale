@@ -34,6 +34,7 @@ namespace Pikamoon.UI
         //public Image healthFiller;
 
 
+        Controller.Item CurrentItem;
         [Header("Settings")]
         public SlotAppearenceSettings EmptySlotSettings;
         public SlotAppearenceSettings ActiveSlotSettings;
@@ -54,6 +55,8 @@ namespace Pikamoon.UI
             ItemName.text = item.Data.ItemName;
             hasItem = true;
 
+            CurrentItem = item;
+
             ChangeButtonAppearence(ActiveSlotSettings);
         }
 
@@ -72,6 +75,8 @@ namespace Pikamoon.UI
 
         public override void UnAssignItem()
         {
+            CurrentItem = null;
+
             ChangeButtonAppearence(InActiveSlotSettings);
         }
 
@@ -84,6 +89,8 @@ namespace Pikamoon.UI
         public override void RemoveItem()
         {
             Icon.sprite = null;
+
+            CurrentItem = null;
 
             ChangeButtonAppearence(EmptySlotSettings);
         }
@@ -117,18 +124,50 @@ namespace Pikamoon.UI
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            if (hasItem)
+            {
+                DragManager.Instance.StartDrag(this, GetItem());
+            }
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
+            if (DragManager.Instance.IsDragging)
+            {
+                SwapItems(this);
+            }
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
+            if (DragManager.Instance.IsDragging)
+            {
+                HighlighterImg.enabled = true;
+
+                if (CanAcceptItem(DragManager.Instance.draggedItem))
+                {
+                    HighlighterImg.color = Color.green;
+                }
+                else
+                {
+                    HighlighterImg.color = Color.red;
+                }
+            }
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
+            HighlighterImg.enabled = false;
+        }
+
+        public override Controller.Item GetItem()
+        {
+            return hasItem ? CurrentItem : null;
+        }
+
+        public override bool CanAcceptItem(Controller.Item item)
+        {
+            return item != null;
         }
     }
 }

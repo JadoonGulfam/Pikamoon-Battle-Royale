@@ -13,6 +13,9 @@ namespace Pikamoon.UI
         [SerializeField] LootBox_UI lootBox_UI;
         public TextMeshProUGUI Quantity;
 
+
+        Controller.Item CurrentItem;
+
         public override void AssignItem(Controller.Item item)
         {
         }
@@ -56,6 +59,15 @@ namespace Pikamoon.UI
         public override void OnPointerExit(PointerEventData eventData)
         {
         }
-    }
 
+        public override Controller.Item GetItem()
+        {
+            return CurrentItem;
+        }
+
+        public override bool CanAcceptItem(Controller.Item item)
+        {
+            return false;
+        }
+    }
 }

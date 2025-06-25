@@ -2,6 +2,7 @@ using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting;
 
 namespace Pikamoon.Controller
 {
@@ -106,9 +107,10 @@ namespace Pikamoon.Controller
             playerInput.onSecondaryWeaponSelect_Down += ChangeToSecondaryWeapon;
 
             playerInput.onWeaponDrop_Down += DropWeapon;
-
             playerInput.onPick_Down += Pick;
 
+            playerInput.onInventoryShow_Down += ToggleInventoryUI;
+            
             Controller.ActivateWeapon(DefaultFistNoWeapon);
 
             UI.inventoryUI._inventory = this;
@@ -122,6 +124,23 @@ namespace Pikamoon.Controller
                 return;
 
             ContinuousCheckForItemsForPickup();
+
+
+        }
+
+
+        void ToggleInventoryUI()
+        {
+            if(!UI.inventoryUI._canvas.enabled)
+            {
+                UI.inventoryUI._canvas.enabled = true;
+                Controller.CameraOrbitStatus = false;
+            }
+            else
+            {
+                UI.inventoryUI._canvas.enabled = false;
+                Controller.CameraOrbitStatus = true;
+            }
         }
 
         public void ContinuousCheckForItemsForPickup()
@@ -212,6 +231,18 @@ namespace Pikamoon.Controller
         }
 
 
+        void ShowInventoryUI()
+        {
+            UI.inventoryUI.ShowUI(); 
+            Controller.CameraOrbitStatus = false;
+        }
+        void HideInventoryUI()
+        {
+            UI.inventoryUI.HideUI();
+            Controller.CameraOrbitStatus = true;
+        }
+
+
         #region Loot Behaviour
 
         void ShowLootBoxUI()
@@ -225,8 +256,8 @@ namespace Pikamoon.Controller
 
         public void HideLootBoxUI()
         {
-            Controller.CameraOrbitStatus = true;
             UI.inventoryUI.HideUI();
+            Controller.CameraOrbitStatus = true;
             Controller.ToggleCursor(false);
             AllowPickUp = true;
         }
