@@ -34,6 +34,15 @@ namespace Pikamoon.UI
         [Space]
         public bool hasItem;
 
+        protected DragManager _dragManager;
+        protected PointerEventData pointerData;
+
+        public void AssignDragManager(DragManager _DM)
+        {
+            _dragManager = _DM;
+        }
+
+
         public virtual void AssignItem()
         {
 
@@ -52,36 +61,7 @@ namespace Pikamoon.UI
         public abstract void UnSelect();
 
 
-        public virtual bool CanAcceptItem(Controller.Item item)
-        {
-            // Default to true — override in subclasses
-            return true;
-        }
-
-        protected void SwapItems(UI_ItemSlot targetSlot)
-        {
-            if (!DragManager.Instance.IsDragging) return;
-
-            Debug.Log("Swapped Item 1");
-
-            var sourceSlot = DragManager.Instance.draggedSlot;
-            var draggedItem = DragManager.Instance.draggedItem;
-
-            if (!targetSlot.CanAcceptItem(draggedItem) || !sourceSlot.CanAcceptItem(targetSlot.GetItem()))
-                return;
-
-
-            Debug.Log("Swapped Item 2");
-
-            // Cache items
-            var tempItem = targetSlot.GetItem();
-
-            // Swap
-            targetSlot.AssignItem(draggedItem);
-            sourceSlot.AssignItem(tempItem);
-
-            DragManager.Instance.EndDrag();
-        }
+        public abstract bool CanAcceptItem(Controller.Item item);
 
         public abstract Controller.Item GetItem();
 

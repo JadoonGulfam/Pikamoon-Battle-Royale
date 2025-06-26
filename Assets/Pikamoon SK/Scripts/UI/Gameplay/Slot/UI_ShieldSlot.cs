@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -144,25 +145,50 @@ namespace Pikamoon.UI
         {
             if (hasItem)
             {
-                DragManager.Instance.StartDrag(this, GetItem());
+                _dragManager.StartDrag(this, GetItem());
             }
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            if (DragManager.Instance.IsDragging)
+            if (!_dragManager.IsDragging)
+                return;
+
+            if (CanAcceptItem(_dragManager.draggedItem))
             {
-                SwapItems(this);
+                // Get the slot under pointer
+                pointerData = new PointerEventData(_dragManager._eventSystem)
+                {
+                    position = Input.mousePosition
+                };
+
+                var results = new List<RaycastResult>();
+                _dragManager._eventSystem.RaycastAll(pointerData, results);
+
+                foreach (var result in results)
+                {
+                    var targetSlot = result.gameObject.GetComponent<UI_ShieldSlot>();
+
+                    if (targetSlot != null && targetSlot != this)
+                    {
+                        var tempItem = targetSlot.GetItem();
+                        targetSlot.AssignItem(CurrentItem);
+                        AssignItem(tempItem);
+                        break;
+                    }
+                }
             }
+            _dragManager.EndDrag();
         }
+
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            if (DragManager.Instance.IsDragging)
+            if (_dragManager.IsDragging)
             {
                 HighlighterImg.enabled = true;
 
-                if(CanAcceptItem(DragManager.Instance.draggedItem))
+                if(CanAcceptItem(_dragManager.draggedItem))
                 {
                     HighlighterImg.color = Color.green;
                 }

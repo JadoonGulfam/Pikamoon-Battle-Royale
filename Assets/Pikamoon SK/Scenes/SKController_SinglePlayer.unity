@@ -47178,12 +47178,12 @@ RectTransform:
   - {fileID: 1591324246}
   - {fileID: 1386786615}
   - {fileID: 866557198}
-  - {fileID: 909723015}
   - {fileID: 130210661}
   - {fileID: 891305496}
   - {fileID: 1753247625}
   - {fileID: 322046820}
   - {fileID: 2015485509}
+  - {fileID: 909723015}
   m_Father: {fileID: 1567414383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5755209, y: 0}
@@ -47229,6 +47229,7 @@ MonoBehaviour:
   _canvas: {fileID: 776458228}
   _inventory: {fileID: 0}
   CharacterImg: {fileID: 1386786616}
+  _dragManager: {fileID: 909723016}
   Weapons:
     CategoryName: Wepaons
     Items:
@@ -58594,7 +58595,7 @@ GameObject:
   - component: {fileID: 909723015}
   - component: {fileID: 909723016}
   m_Layer: 5
-  m_Name: DragHandler
+  m_Name: DragManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58617,7 +58618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 552.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &909723016
@@ -58634,7 +58635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   draggedSlot: {fileID: 0}
   draggedItem: {fileID: 0}
-  icon: {fileID: 1757856091}
+  _eventSystem: {fileID: 419572202028549333}
+  dragIcon: {fileID: 1757856091}
 --- !u!1 &910280175
 GameObject:
   m_ObjectHideFlags: 0
@@ -93303,7 +93305,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489119167}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
@@ -111839,7 +111841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

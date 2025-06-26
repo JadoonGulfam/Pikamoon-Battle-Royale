@@ -1,5 +1,6 @@
 using Pikamoon.Controller;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Pikamoon.UI
@@ -21,6 +22,9 @@ namespace Pikamoon.UI
 
         [SerializeField] private Image CharacterImg;
 
+
+        public DragManager _dragManager;
+
         [Space]
         public UI_ItemCategory Weapons;
 
@@ -33,6 +37,33 @@ namespace Pikamoon.UI
         [Space]
         public UI_ItemCategory AllItems;
 
+        private void Start()
+        {
+            AssignDragManagerToAllItemsSlots();
+        }
+
+        void AssignDragManagerToAllItemsSlots()
+        {
+            foreach (var item in Weapons.Items)
+            {
+                item.AssignDragManager(_dragManager);
+            }
+
+            foreach (var item in Shields.Items)
+            {
+                item.AssignDragManager(_dragManager);
+            }
+
+            foreach (var item in QuickItems.Items)
+            {
+                item.AssignDragManager(_dragManager);
+            }
+
+            foreach (var item in AllItems.Items)
+            {
+                item.AssignDragManager(_dragManager);
+            }
+        }
 
         // Update is called once per frame
         void Update()

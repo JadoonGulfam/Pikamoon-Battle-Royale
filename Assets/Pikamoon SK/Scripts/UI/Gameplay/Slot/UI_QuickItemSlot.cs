@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -45,21 +46,27 @@ namespace Pikamoon.UI
             ChangeButtonAppearence(EmptySlotSettings);
         }
 
+
         public override void AssignItem()
         {
         }
 
         public override void AssignItem(Controller.Item item)
         {
-            Icon.sprite = item.Data.icon;
-            ItemName.text = item.Data.ItemName;
-            hasItem = true;
+            if (item == null)
+            {
+                RemoveItem(); // cleanly handles visuals and state
+                return;
+            }
 
             CurrentItem = item;
+            hasItem = true;
+
+            Icon.sprite = item.Data.icon;
+            ItemName.text = item.Data.ItemName;
 
             ChangeButtonAppearence(ActiveSlotSettings);
         }
-
 
 
         public override void AssignItem(Sprite _icon,bool isActive, int _fullHealth = 100, int _health = 100)
@@ -77,6 +84,8 @@ namespace Pikamoon.UI
         public override void UnAssignItem()
         {
             CurrentItem = null;
+            hasItem = false;
+
             ChangeButtonAppearence(InActiveSlotSettings);
         }
 
@@ -89,7 +98,7 @@ namespace Pikamoon.UI
         public override void RemoveItem()
         {
             Icon.sprite = null;
-
+            hasItem = false;
             CurrentItem = null;
             ChangeButtonAppearence(EmptySlotSettings);
         }
@@ -124,25 +133,49 @@ namespace Pikamoon.UI
         {
             if (hasItem)
             {
-                DragManager.Instance.StartDrag(this, GetItem());
+                _dragManager.StartDrag(this, GetItem());
             }
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            if (DragManager.Instance.IsDragging)
+            if (!_dragManager.IsDragging) return;
+
+            if (CanAcceptItem(_dragManager.draggedItem))
             {
-                SwapItems(this);
+                // Get the slot under pointer
+                PointerEventData pointerData = new PointerEventData(_dragManager._eventSystem)
+                {
+                    position = Input.mousePosition
+                };
+
+                var results = new System.Collections.Generic.List<RaycastResult>();
+                _dragManager._eventSystem.RaycastAll(pointerData, results);
+
+                foreach (var result in results)
+                {
+                    var targetSlot = result.gameObject.GetComponent<UI_QuickItemSlot>();
+
+                    if (targetSlot != null && targetSlot != this)
+                    {
+                        var tempItem = targetSlot.GetItem();
+                        targetSlot.AssignItem(CurrentItem);
+                        AssignItem(tempItem);
+                        break;
+                    }
+                }
             }
+
+            _dragManager.EndDrag();
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            if (DragManager.Instance.IsDragging)
+            if (_dragManager.IsDragging)
             {
                 HighlighterImg.enabled = true;
 
-                if (CanAcceptItem(DragManager.Instance.draggedItem))
+                if (CanAcceptItem(_dragManager.draggedItem))
                 {
                     HighlighterImg.color = Color.green;
                 }
@@ -166,7 +199,32 @@ namespace Pikamoon.UI
 
         public override bool CanAcceptItem(Controller.Item item)
         {
-            return item != null;
+            bool returnFlag = false;
+
+            if (CurrentItem == null)
+            {
+                returnFlag = true;
+            }
+            else
+            {
+                if(CurrentItem.Data.itemType == Controller.ItemType.Weapon)
+                {
+                    if(item.Data.itemType == Controller.ItemType.Weapon)
+                    {
+                        returnFlag = true;
+                    }
+                }
+                else if (CurrentItem.Data.itemType == Controller.ItemType.Shield)
+                {
+                    if (item.Data.itemType == Controller.ItemType.Shield)
+                    {
+                        returnFlag = true;
+                    }
+                }
+
+            }
+
+            return returnFlag;
         }
     }
 
