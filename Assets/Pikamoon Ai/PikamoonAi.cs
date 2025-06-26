@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -267,6 +266,16 @@ public class PikamoonAi : MonoBehaviour
         while (isAttacking)
         {
             navMeshAgent.isStopped = true;
+
+            // Rotate towards the player
+            Vector3 direction = (player.position - transform.position).normalized;
+            direction.y = 0; // Keep only horizontal rotation
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f); // smooth turn
+            }
+
             animator.SetTrigger("Attack");
             animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle);
             yield return new WaitForSeconds(2f); // Adjust attack interval as needed

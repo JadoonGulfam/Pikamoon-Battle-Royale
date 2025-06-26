@@ -670,38 +670,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8440815240875002507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1049379279199581014
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3445808253946092843}
-  m_Layer: 0
-  m_Name: Male Preset_06
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3445808253946092843
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1049379279199581014}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5016879885764554161}
-  m_Father: {fileID: 3202981030702734953}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1066028171187660398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1701,37 +1669,6 @@ Transform:
   - {fileID: 3662827715264544984}
   m_Father: {fileID: 7136966664048372856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2533401579527906912
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5016879885764554161}
-  m_Layer: 0
-  m_Name: Armature
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5016879885764554161
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2533401579527906912}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3445808253946092843}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2534242873932804927
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,7 +2641,6 @@ Transform:
   - {fileID: 2207759959041950223}
   - {fileID: 5130062689939767417}
   - {fileID: 1258410926943439971}
-  - {fileID: 3445808253946092843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &8487462973923105190
@@ -2746,7 +2682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   CurrentPlayerState: 0
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: 4232113077040030337}
   Head: {fileID: 8929741202894656549}
   states:
   - {fileID: 8808251649577527786}
@@ -2892,76 +2828,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8530352483747951223}
-  animatorOverrideController: []
+  animatorOverrideController:
+  - {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
+  - {fileID: 22100000, guid: 815d2d250c3695d42971f7f44921aeaa, type: 2}
+  - {fileID: 22100000, guid: 644c33bd0c83fc44fbed028c081e94cb, type: 2}
   Parameters:
     isWalkRun:
       Name: isWalkRun
       Value: 0
-      Hash: 911437720
+      Hash: 0
     inAir:
       Name: inAir
       Value: 0
-      Hash: -225098472
+      Hash: 0
     isCrouch:
       Name: isCrouch
       Value: 0
-      Hash: 1092549058
+      Hash: 0
     inCombat:
       Name: inCombat
       Value: 0
-      Hash: 1244664908
+      Hash: 0
     isSwim:
       Name: isSwim
       Value: 0
-      Hash: 795965116
+      Hash: 0
     AttackState:
       Name: AttackState
       Value: 0
-      Hash: 1324401630
+      Hash: 0
     isSlide:
       Name: isSlide
       Value: 0
-      Hash: 2079891292
+      Hash: 0
     Speed:
       Name: Speed
       Value: 0
-      Hash: -823668238
+      Hash: 0
     NexComboAttack:
       Name: NextComboAttack
       Value: 0
-      Hash: -479543219
+      Hash: 0
     ComboAttackType:
       Name: ComboAttackType
       Value: 0
-      Hash: 742406570
+      Hash: 0
     XVal:
       Name: XVal
       Value: 0
-      Hash: 2133777862
+      Hash: 0
     YVal:
       Name: YVal
       Value: 0
-      Hash: -946685277
+      Hash: 0
     GetHit:
       Name: GetHit
       Value: 0
-      Hash: -1949373134
+      Hash: 0
     Shoot:
       Name: Shoot
       Value: 0
-      Hash: -1316629574
+      Hash: 0
     isAiming:
       Name: isAiming
       Value: 0
-      Hash: -2117988583
+      Hash: 0
     SecondaryState:
       Name: SecondaryState
       Value: 0
-      Hash: 614986093
+      Hash: 0
     EndCombat:
       Name: EndCombat
       Value: 0
-      Hash: -206844012
+      Hash: 0
     SpeedMulForAnim:
       Name: 
       Value: 0
@@ -3072,8 +3011,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdingpoints:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1684577794217266506}
+  - {fileID: 3521944529416102079}
   isMinePlayer: 0
 --- !u!114 &1497844672946507768
 MonoBehaviour:
