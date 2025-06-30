@@ -9,6 +9,8 @@ namespace Pikamoon.UI
         public UI_ItemSlot draggedSlot;
         public Controller.Item draggedItem;
         public EventSystem _eventSystem;
+        public UI_ItemSlot hoveredSlot;
+
 
         private Canvas canvas;
         [Header("UI")]
@@ -38,14 +40,27 @@ namespace Pikamoon.UI
         {
             draggedSlot = null;
             draggedItem = null;
+            hoveredSlot = null;
 
             if (dragIcon != null)
             {
                 dragIcon.gameObject.SetActive(false);
             }
         }
+        public void SetHoveredSlot(UI_ItemSlot slot)
+        {
+            hoveredSlot = slot;
+        }
 
-    void Update()
+        public void ClearHoveredSlot(UI_ItemSlot slot)
+        {
+            if (hoveredSlot == slot)
+                hoveredSlot = null;
+        }
+
+
+
+        void Update()
     {
         if (IsDragging)
         {

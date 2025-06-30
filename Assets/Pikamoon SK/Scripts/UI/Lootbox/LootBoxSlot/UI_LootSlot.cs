@@ -65,7 +65,7 @@ namespace Pikamoon.UI
             return CurrentItem;
         }
 
-        public override bool CanAcceptItem(Controller.Item item)
+        public override bool CanAcceptItem(Controller.Item draggedItem, Controller.Item targetItem, UI_ItemSlot sourceSlot)
         {
             return false;
         }

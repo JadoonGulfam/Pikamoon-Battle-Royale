@@ -43,6 +43,7 @@ namespace Pikamoon.Controller
     public class Item : MonoBehaviour
     {
         public ItemDataSO Data;
+        public int SubType;
         public EquipType isEquiped = 0;
         public bool hasSpecializeSlot;
         public int Quantity;
