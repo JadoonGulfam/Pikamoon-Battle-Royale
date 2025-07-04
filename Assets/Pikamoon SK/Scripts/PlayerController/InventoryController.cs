@@ -1,8 +1,6 @@
 using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
-using System;
-using Unity.VisualScripting;
 
 namespace Pikamoon.Controller
 {
@@ -445,15 +443,14 @@ namespace Pikamoon.Controller
 
             Weapons.items[UsingWeaponIndex].GetItemAs<Weapon>().OnDrop(this.transform, Controller.groundLayer);
 
-            Weapons.items[UsingWeaponIndex] = null;
+            RemoveWeaponsFromList(UsingWeaponIndex);
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
 
-        void AddItemToWeaponsByPickup( Weapon weapon, int index)
+        void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
-            Weapons.items[index] = weapon;
-            Weapons.AvailedInCategory++;
+            AddWeaponsToList(weapon, index);
             UI.inventoryUI.AssignToWeapons(weapon,index);
 
             weapon.OnPicked();
@@ -517,8 +514,23 @@ namespace Pikamoon.Controller
             }
             return index;
         }
+        public void AddWeaponsToList(Item item, int index)
+        {
+            if (Weapons.items[index] == null)
+            {
+                Weapons.items[index] = item;
+                Weapons.AvailedInCategory++;
+            }
+        }
 
-
+        public void RemoveWeaponsFromList(int index)
+        {
+            if (Weapons.items[index] != null)
+            {
+                Weapons.items[index] = null;
+                Weapons.AvailedInCategory--;
+            }
+        }
         #endregion
 
 
@@ -537,6 +549,32 @@ namespace Pikamoon.Controller
                 if (index != -1)
                 {
                     AddItemToAllItemsByPickup(arrow, index);
+                }
+                else
+                {
+                    NoSlotAvaialbleForItem();
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region Health Portion
+
+        public void PickHealth(Item health)
+        {
+            int index = GetMeSlotForQuickItem();
+            if (index != -1)
+            {
+                AddItemToQuickItemsByPickup(health, index);
+            }
+            else
+            {
+                index = GetMeSlotForAllItem();
+                if (index != -1)
+                {
+                    AddItemToAllItemsByPickup(health, index);
                 }
                 else
                 {
@@ -578,11 +616,10 @@ namespace Pikamoon.Controller
                 }
             }
         }
-        
+
         void AddItemToShieldsByPickup(Item item, int index)
         {
-            Shields.items[index] = item;
-            Shields.AvailedInCategory++;
+            AddShieldsToList(item, index);
 
             UI.inventoryUI.AssignToShields(item, index);
 
@@ -621,29 +658,21 @@ namespace Pikamoon.Controller
             return hasItem;
         }
 
-        #endregion
-
-
-        #region Health Portion
-
-        public void PickHealth(Item health)
+        public void AddShieldsToList(Item item, int index)
         {
-            int index = GetMeSlotForQuickItem();
-            if (index != -1)
+            if (Shields.items[index] == null)
             {
-                AddItemToQuickItemsByPickup(health, index);
+                Shields.items[index] = item;
+                Shields.AvailedInCategory++;
             }
-            else
+        }
+
+        public void RemoveShieldsFromList(int index)
+        {
+            if (Shields.items[index] != null)
             {
-                index = GetMeSlotForAllItem();
-                if (index != -1)
-                {
-                    AddItemToAllItemsByPickup(health, index);
-                }
-                else
-                {
-                    NoSlotAvaialbleForItem();
-                }
+                Shields.items[index] = null;
+                Shields.AvailedInCategory--;
             }
         }
 
@@ -675,8 +704,7 @@ namespace Pikamoon.Controller
 
         void AddItemToQuickItemsByPickup(Item item, int index)
         {
-            QuickItems.items[index] = item;
-            QuickItems.AvailedInCategory++;
+            AddQuickItemsToList(item, index);
             UI.inventoryUI.AssignToQuickItems(item, index);
 
             if (isPickableAnItem)
@@ -698,6 +726,25 @@ namespace Pikamoon.Controller
             }
 
 
+        }
+
+        public void AddQuickItemsToList(Item item, int index)
+        {
+            if (QuickItems.items[index] == null)
+            {
+                QuickItems.items[index] = item;
+                QuickItems.AvailedInCategory++;
+            }
+
+        }
+
+        public void RemoveQuickItemsFromList(int index)
+        {
+            if (QuickItems.items[index] != null)
+            {
+                QuickItems.items[index] = null;
+                QuickItems.AvailedInCategory--;
+            }
         }
 
         #endregion
@@ -726,8 +773,7 @@ namespace Pikamoon.Controller
         }
         void AddItemToAllItemsByPickup(Item item, int index)
         {
-            AllItems.items[index] = item;
-            AllItems.AvailedInCategory++;
+            AddAllItemsToList(item, index);
             UI.inventoryUI.AssignToAllItems(item, index);
 
             if (isPickableAnItem)
@@ -748,6 +794,25 @@ namespace Pikamoon.Controller
                 SuccessfullyItemPickedFromLoot();
             }
         }
+
+        public void AddAllItemsToList(Item item, int index)
+        {
+            if(AllItems.items[index] == null)
+            {
+                AllItems.items[index] = item;
+                AllItems.AvailedInCategory++;
+            }
+        }
+
+        public void RemoveAllItemsFromList(int index)
+        {
+            if (AllItems.items[index] != null)
+            {
+                AllItems.items[index] = null;
+                AllItems.AvailedInCategory--;
+            }
+        }
+
         #endregion
 
     }

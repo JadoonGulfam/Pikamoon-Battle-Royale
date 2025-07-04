@@ -20,7 +20,21 @@ namespace Pikamoon.UI
 
     public abstract class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        [System.Serializable]
+        public struct SlotAppearenceSettings
+        {
+            public Color BgIconColor;
+            public Color IconColor;
+            public bool IconActiveFlag;
+        }
+
         public SlotType slotType;
+        [Space]
+        [SerializeField]
+        protected bool hasDependantSlot; 
+        [SerializeField]
+        protected UI_ItemSlot DependantSlot;
+        [Space]
         public Image BtnBg;
         public Image Icon;
         public TextMeshProUGUI ItemName;
@@ -32,9 +46,15 @@ namespace Pikamoon.UI
         public TextMeshProUGUI HotKey;
         [Space]
         public bool hasItem;
+        [Space]
+        public int indexInList;
 
+
+        protected bool isSwappingAllowed;
+        protected InventoryUI inventoryUI;
         protected DragManager _dragManager;
         protected ShieldType _slotShieldType;
+
 
         protected virtual void Awake()
         {
@@ -46,21 +66,25 @@ namespace Pikamoon.UI
                 _slotShieldType = ShieldType.LowerBody;
         }
 
-        public void AssignDragManager(DragManager dm)
+        public void AssignDragManager(InventoryUI ui)
         {
-            _dragManager = dm;
+            inventoryUI = ui;
+            _dragManager = ui._dragManager;
         }
 
         public virtual void AssignItem() { }
 
-        public abstract void AssignItem(Controller.Item item);
+        public abstract void AssignItem(Item item, bool alsoExecuteDependency);
+        public abstract void AssignItemByDependentSlot(Item item);
         public abstract void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100);
-        public abstract void UnAssignItem();
-        public abstract void RemoveItem();
+        public abstract void UnAssignItem(bool alsoExecuteDependency);
+        public abstract void UnAssignItemByDependentSlot();
+        public abstract void RemoveItem(bool alsoExecuteDependency);
+        public abstract void RemoveItemByDependentSlot();
         public abstract void Change();
         public abstract void Select();
         public abstract void UnSelect();
-        public abstract Controller.Item GetItem();
+        public abstract Item GetItem();
 
 
 
@@ -71,13 +95,14 @@ namespace Pikamoon.UI
             HighlighterImg.enabled = true;
             _dragManager.hoveredSlot = this;
 
-            var draggedItem = _dragManager.draggedItem;
-            var sourceSlot = _dragManager.draggedSlot;
+
             var targetItem = GetItem();
 
-            HighlighterImg.color =
-                CanAcceptItem(draggedItem, targetItem, sourceSlot) &&
-                sourceSlot.CanAcceptItem(draggedItem, targetItem, sourceSlot)
+            isSwappingAllowed = CanAcceptItem(_dragManager.draggedItem, targetItem, _dragManager.draggedSlot) &&
+                _dragManager.draggedSlot.CanAcceptItem(targetItem, targetItem, this);
+
+            HighlighterImg.color = isSwappingAllowed
+
                 ? Color.green
                 : Color.red;
         }
@@ -94,20 +119,9 @@ namespace Pikamoon.UI
 
 
         // highly optimized consistent logic
-        public virtual bool CanAcceptItem(Controller.Item draggedItem, Controller.Item targetItem, UI_ItemSlot sourceSlot)
-        {
-            if (draggedItem == null) return false;
+        public abstract bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot);
 
-            // WEAPON rules
-            if (sourceSlot is UI_WeaponSlot)
-            {
-                if (targetItem == null) return true;
-                return targetItem.Data.itemType == ItemType.Weapon;
-            }
-
-            // other slots: allow anything
-            return true;
-        }
+        //public abstract bool CanAcceptItem(Item DestinationItem, UI_ItemSlot SourceSlot);
 
     }
 }

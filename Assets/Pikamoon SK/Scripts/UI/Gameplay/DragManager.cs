@@ -1,3 +1,4 @@
+using Pikamoon.Controller;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ namespace Pikamoon.UI
     public class DragManager : MonoBehaviour
     {
         public UI_ItemSlot draggedSlot;
-        public Controller.Item draggedItem;
+        public Item draggedItem;
         public EventSystem _eventSystem;
         public UI_ItemSlot hoveredSlot;
 
