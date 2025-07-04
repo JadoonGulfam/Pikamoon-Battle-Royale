@@ -270,7 +270,6 @@ GameObject:
   - component: {fileID: 2411393729178437701}
   - component: {fileID: 5176560722111991195}
   - component: {fileID: 4699333397118800272}
-  - component: {fileID: 7599427065015176006}
   m_Layer: 7
   m_Name: Graphics
   m_TagString: Untagged
@@ -405,42 +404,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &7599427065015176006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565165070957736096}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
-    DefaultBody: {fileID: 0}
-    DefaultHair: {fileID: 0}
-  body: {fileID: 0}
-  wornHair: {fileID: 0}
-  wornCloth: {fileID: 0}
-  genderType: 0
-  currentCharacterData:
-    gender: 
-    faceShape: 
-    eyeShape: 
-    lipsShape: 
-    earsShape: 
-    noseShape: 
-    torsoShape: 
-    hairPreset: 
-    clothPreset: 
-    eyeColor: 
-    eyeBrowShape: 
-    skinColor: 
-    hairColor: {r: 0, g: 0, b: 0, a: 0}
-    index: 0
-    name: 
-    characterPreset: 
 --- !u!1 &587222109162736333
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,7 +836,7 @@ MonoBehaviour:
   hasWeapon: 0
   pulling: 0
   AdditionalAimRotation: 0
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &1181424375194258477
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,7 +928,7 @@ MonoBehaviour:
   ComboCoolDownTime: 0.5
   comboMoveCounter: 1
   meleeWeapnonData: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &1318415886134864721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,7 +1044,7 @@ MonoBehaviour:
   radius: 0.4
   center: {x: 0, y: 0.48, z: 0}
   crouchColliderOffset: {x: 0, y: 1.05, z: 0}
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &1441336883054376194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1409,7 +1372,7 @@ MonoBehaviour:
   CancelAttackAfterSeconds: 1.5
   DebugTransform: {fileID: 6388670173785644595}
   DebugUITransform: {fileID: 0}
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &2201380778379917603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,7 +1663,7 @@ MonoBehaviour:
     m_Bits: 16
   chestDisToFeet: 1.8
   UpForce: 1
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &2470707329049257507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,7 +2597,7 @@ MonoBehaviour:
   AnimationChangeDampening: 4
   Acceleration: 12
   turnSmoothTime: 10
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &4084394329395703087
 GameObject:
   m_ObjectHideFlags: 0
@@ -3351,7 +3314,7 @@ MonoBehaviour:
   OnLanded:
     m_PersistentCalls:
       m_Calls: []
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &5133774741369791798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3404,6 +3367,7 @@ GameObject:
   - component: {fileID: -8332598242598022955}
   - component: {fileID: 8816247270690963418}
   - component: {fileID: -1876542064438886480}
+  - component: {fileID: 2876014125318443376}
   m_Layer: 7
   m_Name: SK_Character Female 8 SP
   m_TagString: Player
@@ -3476,7 +3440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   CurrentPlayerState: 0
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
   Head: {fileID: 4192960452012351158}
   states:
   - {fileID: 2439900891630162623}
@@ -3794,6 +3758,7 @@ MonoBehaviour:
   - {fileID: 8374153593012481213}
   - {fileID: 8816247270690963418}
   - {fileID: -1876542064438886480}
+  - {fileID: 2876014125318443376}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &8816247270690963418
 MonoBehaviour:
@@ -3826,6 +3791,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdingpoints: []
   isMinePlayer: 0
+--- !u!114 &2876014125318443376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5283287910707382327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 5161755699362510033}
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0
+  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3
+  TotalWords: 11
 --- !u!1 &5325115412442699674
 GameObject:
   m_ObjectHideFlags: 0
@@ -3910,7 +3893,7 @@ MonoBehaviour:
   colliderHeight: 0.98
   colliderRadius: 1
   colliderCenter: {x: 0, y: 0.9, z: 0}
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
 --- !u!1 &5396415086929164569
 GameObject:
   m_ObjectHideFlags: 0
@@ -5609,7 +5592,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   captureParticle: {fileID: 0}
-  MP_Setup: {fileID: 0}
+  MP_Setup: {fileID: -1876542064438886480}
   OnStunnedPikamoonFounded:
     m_PersistentCalls:
       m_Calls:
