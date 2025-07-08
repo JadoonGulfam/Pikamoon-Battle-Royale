@@ -7,19 +7,16 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
-   // public GameObject PlayerPrefab;
-    public List<GameObject> allPlayer;
-    //public CharacterData characterdata;
     public GameObject _player, _weapon;
-    //private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
-
     public List<GameObject> emojiList = new List<GameObject>();
-    public UserDataBase userDataBase;
-    public int playerIndex = 0;
-    public int weaponIndex = 0;
     public List<GameObject> allWeapons;
     public List<GameObject> designerPreset;
-    public Transform weaponMountPoint;
+    public UserDataBase userDataBase;
+    private int playerIndex = 0;
+    private int weaponIndex = 0;
+    private Transform weaponMountPoint;
+
+    public List<GameObject> uiPanels;
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -52,29 +49,6 @@ public class GameManager : MonoBehaviour
             LoadingManager.Instance.DeactivateAll(); // Hide splash panel after loading
         }
     }
-    //public void InitPlayer()
-    //{
-    //    // Check if players are already instantiated
-    //    if (instantiatedPlayers.Count == allPlayer.Count)
-    //    {
-    //        // If all players are already instantiated, simply enable them and return
-    //        foreach (GameObject player in instantiatedPlayers)
-    //        {
-    //            player.transform.position = originalPositions[player];
-    //            if (!player.activeSelf)
-    //            {
-    //                player.SetActive(true);
-    //            }
-    //        }
-    //        CharacterHoverEffect.isSelected = false; // Reset selection
-    //        return;
-    //    }
-    //    GameObject playerInstance = Instantiate(allPlayer[playerIndex], allPlayerParentTransform);
-    //    playerInstance.SetActive(true);
-    //    instantiatedPlayers.Add(playerInstance);
-    //    _player = playerInstance;
-    //    originalPositions[playerInstance] = playerInstance.transform.position;
-    //}
     public void StartAutoBattler()
     {
         SceneManager.LoadScene("AutoBattler");
@@ -94,10 +68,14 @@ public class GameManager : MonoBehaviour
         {
             _player.SetActive(true);
         }
-        else 
+        else
         {
             _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
             weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
+        }
+        if (_weapon != null)
+        {
+            _weapon.SetActive(false);
         }
     }
     public void SpawnPrefab(int index)
@@ -113,7 +91,7 @@ public class GameManager : MonoBehaviour
         // Instantiate the selected prefab at the spawn position
         _player = Instantiate(designerPreset[index], Vector3.zero, Quaternion.identity);
         weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
-        NetworkManager.Instance.ChrarcterIndex=playerIndex = index;
+        playerIndex = index;
     }
     public void SpawnWeapons()
     {
@@ -151,15 +129,15 @@ public class GameManager : MonoBehaviour
         {
             Destroy(_weapon);
         }
-        if (_player != null) 
+        if (_player != null)
         {
             _player.SetActive(true);
         }
         else
-        _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
+            _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
         weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
         _weapon = Instantiate(allWeapons[index], Vector3.zero, Quaternion.identity);
-        NetworkManager.Instance.selectedWearablesIndex = weaponIndex = index;
+        weaponIndex = index;
 
         if (weaponMountPoint != null)
         {
@@ -168,8 +146,24 @@ public class GameManager : MonoBehaviour
             _weapon.transform.localRotation = Quaternion.Euler(new Vector3(-15f, -140f, -25f));
         }
     }
-    public void PlayerActiveDeactive(bool value) 
+    public void PlayerActiveDeactive(bool value)
     {
-            _player?.SetActive(value);
+        _player?.SetActive(value);
+    }
+    public void SwitchUIPanels(int index) 
+    {
+        foreach (var panel in uiPanels) 
+        {
+            panel.SetActive(false);
+        }
+        uiPanels[index].SetActive(true);
+    }
+    public void SelectPlayer() 
+    {
+        NetworkManager.Instance.ChrarcterIndex = playerIndex;
+    }
+    public void SelectWeapon()
+    {
+        NetworkManager.Instance.selectedWearablesIndex = weaponIndex;
     }
 }
