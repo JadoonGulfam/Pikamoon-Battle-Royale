@@ -1,26 +1,35 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
+using UnityEngine.UI;
 public class LoadingManager : MonoBehaviour
 {
     [System.Serializable]
     public class LoadingIndicator
     {
-        public string name;
+        public string name;             // e.g. "Default", "LongLoad" …
         public GameObject indicatorObject;
+        public Image loadingFillImage;  // optional: bar or radial fill
     }
 
-    public static LoadingManager Instance; // Singleton instance
+    [Header("Indicators")]
     public LoadingIndicator[] loadingIndicators;
+
+    public float fakeLoadDuration = 1.0f;
+
+    public static LoadingManager Instance;
+
+
+    private Image _activeFillImage;        // current bar, null if none
+    private Coroutine _fakeLoadRoutine;    // keeps track so we can stop it
 
     private void Awake()
     {
-        // Ensure there's only one instance
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -28,62 +37,114 @@ public class LoadingManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Activates the specified loading indicator by name and deactivates others.
-    /// </summary>
-    public void ActivateLoading(string loadingName)
+    public void ActivateLoading(string loadingName, bool startLoading)
     {
+        _activeFillImage = null;
+
         foreach (var indicator in loadingIndicators)
         {
-            if (indicator.name == loadingName)
+            bool active = indicator.name == loadingName;
+            indicator.indicatorObject.SetActive(active);
+
+            if (active)
             {
-                indicator.indicatorObject.SetActive(true);
-            }
-            else
-            {
-                indicator.indicatorObject.SetActive(false);
+                _activeFillImage = indicator.loadingFillImage;
+                if (_activeFillImage) _activeFillImage.fillAmount = 0f;
             }
         }
+        if (startLoading)
+            LoadScene();
     }
 
-    /// <summary>
-    /// Deactivates all loading indicators.
-    /// </summary>
     public void DeactivateAll()
     {
         foreach (var indicator in loadingIndicators)
-        {
             indicator.indicatorObject.SetActive(false);
+
+        _activeFillImage = null;
+
+        // stop any ongoing fake‑load so we don't overwrite UI after hiding
+        if (_fakeLoadRoutine != null)
+        {
+            StopCoroutine(_fakeLoadRoutine);
+            _fakeLoadRoutine = null;
         }
     }
-    public void LoadScene(string sceneName, Action onComplete = null)
+    public void LoadScene(string sceneName = "", Action onComplete = null)
     {
-        StartCoroutine(LoadSceneAsync(sceneName, onComplete));
+        if (string.IsNullOrEmpty(sceneName))
+            _fakeLoadRoutine = StartCoroutine(FakeLoadingCoroutine(onComplete));
+        else
+            StartCoroutine(LoadSceneAsync(sceneName, onComplete));
     }
-
+    public void LoadSceneAdditive(string sceneName = "", Action onComplete = null)
+    {
+        if (string.IsNullOrEmpty(sceneName))
+            _fakeLoadRoutine = StartCoroutine(FakeLoadingCoroutine(onComplete));
+        else
+            StartCoroutine(LoadSceneAdditiveAsync(sceneName, onComplete));
+    }
     private IEnumerator LoadSceneAsync(string sceneName, Action onComplete)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        while (!asyncLoad.isDone)
+        if (_activeFillImage) _activeFillImage.fillAmount = 0f;
+
+        var asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        while (asyncLoad.progress < 0.9f)
         {
+            if (_activeFillImage)
+                _activeFillImage.fillAmount = asyncLoad.progress / 0.9f;
+
             yield return null;
         }
 
-        onComplete?.Invoke(); // Hide splash/loading panel after loading
-    }
-    public void LoadSceneAdditive(string sceneName, Action onComplete = null)
-    {
-        StartCoroutine(LoadSceneAdditiveAsync(sceneName, onComplete));
+        asyncLoad.allowSceneActivation = true;
+
+        while (!asyncLoad.isDone) yield return null;
+
+        onComplete?.Invoke();
     }
 
     private IEnumerator LoadSceneAdditiveAsync(string sceneName, Action onComplete)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        while (!asyncLoad.isDone)
+        if (_activeFillImage) _activeFillImage.fillAmount = 0f;
+
+        var asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        asyncLoad.allowSceneActivation = false;
+
+        while (asyncLoad.progress < 0.9f)
         {
+            if (_activeFillImage)
+                _activeFillImage.fillAmount = asyncLoad.progress / 0.9f;
+
             yield return null;
         }
 
+        asyncLoad.allowSceneActivation = true;
+
+        while (!asyncLoad.isDone) yield return null;
+
+        onComplete?.Invoke();
+    }
+
+    private IEnumerator FakeLoadingCoroutine(Action onComplete)
+    {
+        if (_activeFillImage) _activeFillImage.fillAmount = 0f;
+
+        float elapsed = 0f;
+        while (elapsed < fakeLoadDuration)
+        {
+            elapsed += Time.deltaTime;
+            if (_activeFillImage)
+                _activeFillImage.fillAmount = Mathf.Clamp01(elapsed / fakeLoadDuration);
+
+            yield return null;
+        }
+
+        if (_activeFillImage) _activeFillImage.fillAmount = 1f;
+
+        DeactivateAll();      // hide UI
         onComplete?.Invoke();
     }
 }

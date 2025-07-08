@@ -9,15 +9,15 @@ public class CharacterCustomization : MonoBehaviour
     //  AvatarBodyParts avatarBodyParts;
     private void OnEnable()
     {
-        Constants.resetBlendShapes += ResetBlendShapes;
+        //Constants.resetBlendShapes += ResetBlendShapes;
     }
     private void OnDisable()
     {
-        Constants.resetBlendShapes -= ResetBlendShapes;
+        //Constants.resetBlendShapes -= ResetBlendShapes;
     }
     private void Start()
     {
-        avatarController = GameManager.instance._player.GetComponent<AvatarController>();
+        //avatarController = GameManager.instance._player.GetComponent<AvatarController>();
         // avatarBodyParts = GameManager.instance._player.GetComponent<AvatarBodyParts>();
     }
     public void ChangeBodyBlendShapes(int _index)

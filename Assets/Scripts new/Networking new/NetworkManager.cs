@@ -56,16 +56,16 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
 
 
-    public void selectCharacter(int index)
-    {
-        ChrarcterIndex=index;
+    //public void selectCharacter(int index)
+    //{
+    //    ChrarcterIndex=index;
         
-    } 
-    public void selectwearable(int index)
-    {
-        selectedWearablesIndex=index;
+    //} 
+    //public void selectwearable(int index)
+    //{
+    //    selectedWearablesIndex=index;
         
-    }
+    //}
     
     private void Start()
     {
@@ -82,7 +82,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     public void CreateRandomSession()
-    {
+    { 
         int randomInt = UnityEngine.Random.Range(1000, 9999);
         string randomSessionName = "Room" + randomInt.ToString();
         try
@@ -92,13 +92,15 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                 SessionName = randomSessionName,
                 GameMode = GameMode.Shared,
             });
-
+            LoadingManager.Instance.ActivateLoading("Circle_Loading", false);
             Debug.Log("Game started with session name: " + randomSessionName);
         }
         catch (Exception ex)
         {
             Debug.LogError("Error starting game session: " + ex.Message);
         }
+
+
     }
 
     public void JoinSession(string sessionName)
@@ -189,7 +191,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                 print("Player has input authority");
             }
             print("Scene loaded successfully");
-
+            LoadingManager.Instance.DeactivateAll();
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

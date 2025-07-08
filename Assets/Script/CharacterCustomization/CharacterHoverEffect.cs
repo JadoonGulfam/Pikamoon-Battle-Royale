@@ -88,7 +88,7 @@ public class CharacterHoverEffect : MonoBehaviour
             // Optionally, you can add any code here to finalize selection, like deactivating this script
             // or triggering an animation on the selected character.
             this.enabled = false; // Disable this script to prevent further selection
-            GameManager.instance.characterdata.gender = gendertype.ToString();
+           // GameManager.instance.characterdata.gender = gendertype.ToString();
           //  GameManager.instance.uiManager.startBtn.interactable = true;
         }
     }
