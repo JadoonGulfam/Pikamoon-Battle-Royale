@@ -122,4 +122,9 @@ public class EnemyController : MonoBehaviour,IDamageable
         }
 
     }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 }

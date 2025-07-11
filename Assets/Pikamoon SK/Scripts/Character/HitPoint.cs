@@ -4,18 +4,32 @@ namespace Pikamoon.Controller
 {
     public class HitPoint : MonoBehaviour
     {
+        public Transform Attacker;
         [SerializeField] CombatMoveEffectPoint effectPoint;
         public Collider collider;
+
+        public void EnableCollider()
+        {
+            collider.enabled = true;
+        }
+
+        public void DisableCollider()
+        {
+            collider.enabled = false;
+        }
+
 
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("1");
             IDamageable damageable = other.GetComponent<IDamageable>();
             if(damageable != null)
             {
-                Debug.Log("2");
-                damageable.OnDamage(10, this.transform);
+                if (Attacker.transform != damageable.GetTransform())
+                {
+                    DisableCollider();
+                    damageable.OnDamage(10, this.transform);
+                }
             }
         }
     }

@@ -4,7 +4,7 @@ namespace Pikamoon.Controller
 {
     public abstract class State : MonoBehaviour
     {
-        [HideInInspector] public PlayerController Controller;
+         public PlayerController Controller;
         [HideInInspector] public PlayerInput playerInput;
         [HideInInspector] public AnimationController AC;
         [HideInInspector] public SFXController SFX;
