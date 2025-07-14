@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 6121553120677484294}
   - component: {fileID: 4983734549143322498}
   - component: {fileID: 1551418171611203914}
+  - component: {fileID: 8458496658016988630}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -247,6 +248,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8458496658016988630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110065178748829937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c02ea0fed5128fa4da4d498f41792e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8330312304339659897
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,15 +345,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e3ee6212d83d7f8479e0be9c41e23b41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -270.897
+      value: -82.05916
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e3ee6212d83d7f8479e0be9c41e23b41, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.64553
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e3ee6212d83d7f8479e0be9c41e23b41, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 261.65482
+      value: 809.27594
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e3ee6212d83d7f8479e0be9c41e23b41, type: 3}
       propertyPath: m_LocalRotation.w
@@ -375,8 +388,16 @@ PrefabInstance:
       value: Sylvy_lvl01_ANIM
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e3ee6212d83d7f8479e0be9c41e23b41, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e3ee6212d83d7f8479e0be9c41e23b41, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e3ee6212d83d7f8479e0be9c41e23b41, type: 3}
+      propertyPath: m_TagString
+      value: Pikamoon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -467,13 +488,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1
-  m_Radius: 0.5
+  m_Height: 0.8
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.49, z: 0}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &6418195329343041089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,7 +636,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3637909069070774189}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 0
@@ -624,7 +645,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
+  m_Height: 0.7
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

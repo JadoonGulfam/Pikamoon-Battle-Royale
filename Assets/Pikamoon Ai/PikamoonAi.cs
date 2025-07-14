@@ -509,6 +509,25 @@ public class PikamoonAi : MonoBehaviour
             Vfx.GetComponent<FireProjectile>().target = player;
         }
     }
+
+    [SerializeField] private GameObject fireballPrefab;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float projectileSpeed = 15f;
+    public void LaunchProjectileAtPlayer()
+    {
+        if (fireballPrefab == null || firePoint == null) return;
+
+        GameObject projectile = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
+        Vector3 direction = (player.position + Vector3.up * 1.2f - firePoint.position).normalized;
+
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = direction * projectileSpeed;
+        }
+
+        Debug.Log("Fireball launched!");
+    }
 }
 public enum PikamoonState
 {

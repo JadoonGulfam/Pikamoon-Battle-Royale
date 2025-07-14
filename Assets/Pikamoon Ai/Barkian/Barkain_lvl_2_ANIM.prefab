@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5491959965424857059}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.557}
-  m_SizeDelta: {x: 1.5, y: 0.15}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &48766989596912508
 CanvasRenderer:
@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 5096494832474734834}
   - component: {fileID: 5721584817945323179}
   - component: {fileID: 8381651462526080816}
+  - component: {fileID: 1092123170601356004}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -142,8 +143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 480, y: 270}
+  m_AnchoredPosition: {x: 0, y: 1.472}
+  m_SizeDelta: {x: 0.7, y: 0.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5096494832474734834
 Canvas:
@@ -208,6 +209,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1092123170601356004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698809443890539282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c02ea0fed5128fa4da4d498f41792e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6095728530403404101
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,15 +345,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -271.55066
+      value: -82.89908
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.6336
+      value: 36.00788
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 262.33636
+      value: 308.04428
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalRotation.w
@@ -473,13 +486,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2.3
-  m_Radius: 0.68
+  m_Height: 1.1
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.15, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &602991485234533927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,7 +634,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8608684907230736501}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 0

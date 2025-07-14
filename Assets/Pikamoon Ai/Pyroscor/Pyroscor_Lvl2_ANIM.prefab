@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 5798615377889666159}
   - component: {fileID: 64746990932734820}
   - component: {fileID: 338816335101227788}
+  - component: {fileID: 6258222350703998305}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -260,8 +261,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 480, y: 270}
+  m_AnchoredPosition: {x: 0, y: 3.78}
+  m_SizeDelta: {x: 2, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5798615377889666159
 Canvas:
@@ -326,6 +327,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6258222350703998305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268456581462057158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c02ea0fed5128fa4da4d498f41792e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &447283790580307105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,7 +1639,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 241698821684521224}
+  m_Father: {fileID: 1784019734908408486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &3875226455170494991
 VisualEffect:
@@ -2561,10 +2574,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6578885726039022305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 3.74}
-  m_SizeDelta: {x: 3, y: 0.2689}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1097954073122177794
 CanvasRenderer:
@@ -3204,6 +3217,7 @@ Transform:
   m_Children:
   - {fileID: 6991404455014747755}
   - {fileID: 3215315488945423243}
+  - {fileID: 4812146146703178582}
   m_Father: {fileID: 241698821684521224}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7057387427762266634
@@ -3463,7 +3477,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1784019734908408486}
-  - {fileID: 4812146146703178582}
   - {fileID: 8342951889636592516}
   - {fileID: 6578885726039022305}
   m_Father: {fileID: 0}
@@ -3508,13 +3521,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2.3
-  m_Radius: 0.68
+  m_Height: 3
+  m_Radius: 0.9
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.15, z: 0}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &5453985504543331199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3656,7 +3669,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7710044791393121227}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.9
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 0
@@ -3665,7 +3678,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
+  m_Height: 3
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
