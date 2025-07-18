@@ -21,8 +21,13 @@ namespace Pikamoon.Controller
 
         public void AddItem(Item item)
         {
-            if (!items.Contains(item))
-                items.Add(item);
+            item.transform.parent = ItemParent;
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+
+            items.Add(item);
+            TotalItems++;
+            item.gameObject.SetActive(false);
         }
 
         public void RemoveItem(Item item)
@@ -38,6 +43,12 @@ namespace Pikamoon.Controller
             {
                 items.RemoveAt(index);
             }
+        }
+
+        public void RemoveAllItems()
+        {
+            items.Clear();
+            items = new List<Item>();
         }
 
         public Item GetItem(int index)

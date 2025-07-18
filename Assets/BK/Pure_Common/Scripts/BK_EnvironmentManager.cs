@@ -14,7 +14,7 @@ public class BK_EnvironmentManager : MonoBehaviour
     public Gradient cloudColorGradient;
     public Gradient scatteringColorGradient;
 
-    [Header("Color Gradients Enable Flags")]
+    [Header("Color Gradients EnableCollider Flags")]
     public bool overrideSunColor = true;
     public bool overrideFogColor = true;
     public bool overrideCloudColor = true;

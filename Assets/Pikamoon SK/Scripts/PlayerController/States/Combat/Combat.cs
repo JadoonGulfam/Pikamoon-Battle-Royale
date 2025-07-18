@@ -331,7 +331,7 @@ namespace Pikamoon.Controller
                 }
                 else if (ActiveWeapon.weaponType == WeaponType.Melee)
                 {
-                    ActiveWeapon.HitBox.Enable();
+                    ActiveWeapon.HitBox.EnableCollider();
                 }
             }
 
@@ -365,7 +365,7 @@ namespace Pikamoon.Controller
 
             if (ActiveWeapon != null && ActiveWeapon.weaponType == WeaponType.Melee)
             {
-                ActiveWeapon.HitBox.Disable();
+                ActiveWeapon.HitBox.DisableCollider();
             }
 
             comboMoveCounter = 1;

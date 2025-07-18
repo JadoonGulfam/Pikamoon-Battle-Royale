@@ -62,6 +62,16 @@ namespace Pikamoon.UI
         {
             itemSlots[index].gameObject.SetActive(false);
         }
+
+
+        [ContextMenu("Assign Indexes To List")]
+        void AssignIndexes()
+        {
+            for (int i = 0; i < itemSlots.Length; i++)
+            {
+                itemSlots[i].indexInList = i;
+            }
+        }
     }
 
 }

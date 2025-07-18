@@ -1,139 +1,191 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Pikamoon.Controller;
 
 namespace Pikamoon.UI
 {
-
     public class UI_QuickItemSlot : UI_ItemSlot
     {
-        [Serializable]
-        public struct SlotAppearenceSettings
-        {
-            public Color BgIconColor;
-            [Space]
-            public Color HighlighterColor;
-            [Space]
-            public Color IconColor;
-            public bool IconActiveFlag;
-            //[Space]
-            //public bool FullHealthTextActiveFlag;
-            //public bool HealthTextActiveFlag;
-            //[Space]
-            //public bool healthFillerBGActiveFlag;
-            //public bool healthFillerActiveFlag;
-        }
-
-
-        [Space]
-        //public TextMeshProUGUI FullHealthVal;
-        //public TextMeshProUGUI HealthVal;
-        //[SerializeField]
-        //public Image healthFillerBG;
-        //public Image healthFiller;
-
 
         [Header("Settings")]
         public SlotAppearenceSettings EmptySlotSettings;
         public SlotAppearenceSettings ActiveSlotSettings;
         public SlotAppearenceSettings InActiveSlotSettings;
 
-        private void Start()
+        private Item CurrentItem;
+
+        protected override void Awake()
         {
-            ChangeButtonAppearence(EmptySlotSettings);
+            base.Awake();
+            ChangeButtonAppearance(EmptySlotSettings);
         }
 
-        public override void AssignItem()
+        public override void AssignItem(Item item, bool alsoExecuteDependency)
         {
-        }
+            if (item == null)
+            {
+                RemoveItem(true);
+                return;
+            }
 
-        public override void AssignItem(Controller.Item item)
-        {
-            Icon.sprite = item.Data.icon;
-            ItemName.text = item.Data.ItemName;
+            CurrentItem = item;
             hasItem = true;
 
-            ChangeButtonAppearence(ActiveSlotSettings);
+            if (Icon)
+                Icon.sprite = item.Data.icon;
+
+            if (ItemName)
+                ItemName.text = item.Data.ItemName;
+
+            ChangeButtonAppearance(ActiveSlotSettings);
+            
+            inventoryUI._inventory.AddQuickItemsToList(item, indexInList);
+
+            if (alsoExecuteDependency && hasDependantSlot)
+                DependantSlot.AssignItemByDependentSlot(item);
         }
 
-
-
-        public override void AssignItem(Sprite _icon,bool isActive, int _fullHealth = 100, int _health = 100)
+        public override void AssignItemByDependentSlot(Item item)
         {
-            Icon.sprite = _icon;
+            if (item == null) { RemoveItem(true); return; }
 
-            //FullHealthVal.text = "/ " + _fullHealth + string.Empty;
-            //HealthVal.text = _health + string.Empty;
+            CurrentItem = item;
+            hasItem = true;
 
-            //healthFiller.fillAmount = ((float)_health / (float)_fullHealth);
+            if (Icon)
+                Icon.sprite = item.Data.icon;
 
-            ChangeButtonAppearence(isActive ? ActiveSlotSettings : InActiveSlotSettings);
+            if (ItemName)
+                ItemName.text = item.Data.ItemName;
+
+            ChangeButtonAppearance(ActiveSlotSettings);
         }
 
-        public override void UnAssignItem()
+
+        public override void AssignItem(Sprite icon, bool isActive, int _fullHealth = 100, int _health = 100)
         {
-            ChangeButtonAppearence(InActiveSlotSettings);
+            if (Icon)
+                Icon.sprite = icon;
+
+            ChangeButtonAppearance(isActive ? ActiveSlotSettings : InActiveSlotSettings);
         }
 
-
-        public override void Change()
+        public override void UnAssignItem(bool alsoExecuteDependency)
         {
+            CurrentItem = null;
+            hasItem = false;
+            ChangeButtonAppearance(InActiveSlotSettings);
 
+
+            inventoryUI._inventory.RemoveQuickItemsFromList(indexInList);
+
+            if (alsoExecuteDependency && hasDependantSlot)
+                DependantSlot.UnAssignItemByDependentSlot();
         }
 
-        public override void RemoveItem()
+        public override void UnAssignItemByDependentSlot()
         {
-            Icon.sprite = null;
+            CurrentItem = null;
+            hasItem = false;
 
-            ChangeButtonAppearence(EmptySlotSettings);
+            ChangeButtonAppearance(InActiveSlotSettings);
+        }
+
+        public override void RemoveItem(bool alsoExecuteDependency)
+        {
+            if (Icon)
+                Icon.sprite = null;
+            if (ItemName)
+                ItemName.text = "";
+            CurrentItem = null;
+            hasItem = false;
+
+
+            ChangeButtonAppearance(EmptySlotSettings);
+
+            inventoryUI._inventory.RemoveQuickItemsFromList(indexInList);
+
+            if (alsoExecuteDependency && hasDependantSlot)
+                DependantSlot.RemoveItemByDependentSlot();
+        }
+        public override void RemoveItemByDependentSlot()
+        {
+            if (Icon)
+                Icon.sprite = null;
+
+            if (ItemName)
+                ItemName.text = "";
+
+            CurrentItem = null;
+            hasItem = false;
+
+            ChangeButtonAppearance(EmptySlotSettings);
         }
 
 
-        public void ChangeButtonAppearence(SlotAppearenceSettings settings)
+        private void ChangeButtonAppearance(SlotAppearenceSettings settings)
         {
             BtnBg.color = settings.BgIconColor;
-
-            //HighlighterImg.color = settings.HighlighterColor;
-
-            Icon.enabled = settings.IconActiveFlag;
-            Icon.color = settings.IconColor;
-
-            //FullHealthVal.enabled = settings.FullHealthTextActiveFlag;
-            //HealthVal.enabled = settings.FullHealthTextActiveFlag;
-
-            //healthFillerBG.enabled = settings.healthFillerBGActiveFlag;
-            //healthFiller.enabled = settings.healthFillerActiveFlag;
-
+            if (Icon)
+            {
+                Icon.enabled = settings.IconActiveFlag;
+                Icon.color = settings.IconColor;
+            }
         }
 
-        public override void Select()
-        {
+        public override Item GetItem() => hasItem ? CurrentItem : null;
+        public override void Change() { }
+        public override void Select() { }
+        public override void UnSelect() { }
 
-        }
-
-        public override void UnSelect()
+        public override void OnPointerExit(PointerEventData eventData)
         {
+            HighlighterImg.enabled = false;
+            HighlighterImg.color = Color.red;
+
+            if (_dragManager?.hoveredSlot == this)
+                _dragManager.hoveredSlot = null;
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log("Quick Item Slot Clicked Down!");
+            if (hasItem)
+                _dragManager.StartDrag(this, CurrentItem);
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            Debug.Log("Quick Item Slot Clicked Up!");
+            _dragManager.SwapItems();
         }
 
-        public override void OnPointerEnter(PointerEventData eventData)
+        public override bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot)
         {
-            Debug.Log("Quick Item Slot Hover Enter!");
-        }
+            if (destinationItem == null)
+            {
+                return true;
+            }
+            else
+            {
+                if (sourceSlot.slotType == SlotType.Weapon)
+                {
+                    return destinationItem.Data.itemType == ItemType.Weapon;
+                }
+                else if (sourceSlot.slotType == SlotType.Shield_Head)
+                {
+                    return destinationItem.Data.itemType == ItemType.Shield && destinationItem.SubType == 0;
+                }
+                else if (sourceSlot.slotType == SlotType.Shield_UpperBody)
+                {
+                    return destinationItem.Data.itemType == ItemType.Shield && destinationItem.SubType == 1;
+                }
+                else if (sourceSlot.slotType == SlotType.Shield_LowerBody)
+                {
+                    return destinationItem.Data.itemType == ItemType.Shield && destinationItem.SubType == 2;
+                }
+            }
 
-        public override void OnPointerExit(PointerEventData eventData)
-        {
-            Debug.Log("Quick Item Slot Hover Out!");
+            // other slots: allow anything
+            return true;
         }
     }
-
 }

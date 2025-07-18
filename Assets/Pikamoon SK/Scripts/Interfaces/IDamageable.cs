@@ -7,5 +7,6 @@ public interface IDamageable
     void OnDamage();
     void OnDamage(float damageAmount);
     void OnDamage(float damageAmount, Transform hitter);
+    Transform GetTransform();
     bool isKilled();
 }

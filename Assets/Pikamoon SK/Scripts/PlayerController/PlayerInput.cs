@@ -43,6 +43,8 @@ namespace Pikamoon.Controller
         
         public OnBtnDown onWeaponDrop_Down;
 
+        public OnBtnDown onInventoryShow_Down;
+
         public OnBtnDown onPick_Down;
 
         public OnBtnDown onCapture_Down;
@@ -174,6 +176,12 @@ namespace Pikamoon.Controller
             if (Input.GetKeyDown(KeyCode.G))
             {
                 onWeaponDrop_Down?.Invoke();
+            }
+           
+            
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                onInventoryShow_Down?.Invoke();
             }
 
 
