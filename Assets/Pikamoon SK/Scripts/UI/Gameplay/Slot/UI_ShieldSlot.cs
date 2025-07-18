@@ -18,7 +18,6 @@ namespace Pikamoon.UI
             ChangeButtonAppearance(EmptySlotSettings);
         }
 
-
         public override void AssignItem(Item item, bool alsoExecuteDependency)
         {
             if (item == null)
@@ -108,6 +107,7 @@ namespace Pikamoon.UI
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.RemoveItemByDependentSlot();
         }
+
         public override void RemoveItemByDependentSlot()
         {
             if (Icon)
@@ -134,35 +134,6 @@ namespace Pikamoon.UI
         public override void UnSelect() { }
         public override Item GetItem() => hasItem ? CurrentItem : null;
 
-
-
-        public override void OnPointerEnter(PointerEventData eventData)
-        {
-            if (_dragManager == null || !_dragManager.IsDragging)
-            {
-                isSwappingAllowed = false;
-                return;
-            }
-
-            _dragManager.hoveredSlot = this;
-
-
-            if (_dragManager.draggedSlot == _dragManager.hoveredSlot)
-                return;
-
-
-            HighlighterImg.enabled = true;
-
-
-            isSwappingAllowed = _dragManager.hoveredSlot.CanAcceptItem(_dragManager.hoveredSlot.GetItem(), _dragManager.draggedItem, _dragManager.draggedSlot);
-
-            HighlighterImg.color = isSwappingAllowed
-
-                ? Color.green
-                : Color.red;
-
-        }
-
         public override void OnPointerDown(PointerEventData eventData)
         {
             if (hasItem)
@@ -171,51 +142,30 @@ namespace Pikamoon.UI
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            if (!_dragManager.IsDragging) return;
-
-            var targetSlot = _dragManager.hoveredSlot;
-            var targetItem = targetSlot?.GetItem();
-
-            if (targetSlot == null || _dragManager.draggedSlot == targetSlot)
-            {
-                _dragManager.EndDrag();
-                return;
-            }
-
-
-            if (targetSlot.CanAcceptItem(_dragManager.hoveredSlot.GetItem(), _dragManager.draggedItem, _dragManager.draggedSlot))
-            {
-                targetSlot.AssignItem(_dragManager.draggedItem, true);
-
-                if (targetItem == null)
-                {
-                    _dragManager.draggedSlot.RemoveItem(true);
-                }
-                else
-                {
-                    _dragManager.draggedSlot.AssignItem(targetItem, true);
-                }
-
-                HighlighterImg.enabled = false;
-            }
-
-            _dragManager.EndDrag();
+            _dragManager.SwapItems();
         }
 
 
         public override bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot)
         {
-            if (destinationItem.Data.itemType != ItemType.Shield) 
+            if (destinationItem.Data.itemType != ItemType.Shield || sourceItem.Data.itemType != ItemType.Shield) 
                 return false;
 
-            // determine what this slot accepts
-            int requiredShieldType = slotType switch
+            int requiredShieldType = -1;
+
+            switch(slotType)
             {
-                SlotType.Shield_Head => 0,
-                SlotType.Shield_UpperBody => 1,
-                SlotType.Shield_LowerBody => 2,
-                _ => -1
-            };
+                case SlotType.Shield_Head:
+                    requiredShieldType = 0;
+                    break;
+                case SlotType.Shield_UpperBody:
+                    requiredShieldType = 1;
+                    break;
+                case SlotType.Shield_LowerBody:
+                    requiredShieldType = 2;
+                    break;
+            }
+
 
             if(requiredShieldType != -1 && sourceItem.SubType == requiredShieldType)
             {

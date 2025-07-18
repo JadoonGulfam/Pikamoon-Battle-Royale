@@ -1,6 +1,7 @@
 using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
+using System;
 
 namespace Pikamoon.Controller
 {
@@ -46,6 +47,8 @@ namespace Pikamoon.Controller
 
 
         [Header("Pickup Setting")]
+        [SerializeField] LootBox lootBox;
+        public float yOffsetFromGroundAfterDeath;
         public float rangeForItemPickup;
         public LayerMask pickupLayerMask;
         public LayerMask LootBoxLayerMask;
@@ -69,7 +72,7 @@ namespace Pikamoon.Controller
             set { allowAutoPickUp = value; }
         }
 
-        private PlayerController Controller;
+        [SerializeField]private PlayerController Controller;
         private PlayerInput playerInput;
 
         LootBox CurrentLootbox;
@@ -89,6 +92,8 @@ namespace Pikamoon.Controller
             isUsingWeapon = false;
 
         }
+
+
 
         public void Initialize(UIManagerSK _uiManager, PlayerController _controller)
         {
@@ -271,6 +276,68 @@ namespace Pikamoon.Controller
             UI.lootBoxUI.PopulateList(CurrentLootbox);
             ShowLootBoxUI();
         }
+
+        public void PlaceLootBoxAfterDeath()
+        {
+            Vector3 LootPosition = this.transform.position + Vector3.up * yOffsetFromGroundAfterDeath;
+            if (!Controller.IsGrounded)
+            {
+                RaycastHit hit;
+                Vector3 origin = this.transform.position + Vector3.one * 3;
+                if (Physics.Raycast(origin, Vector3.down, out hit, 100, Controller.groundLayer))
+                {
+                    LootPosition = hit.point + Vector3.up * yOffsetFromGroundAfterDeath;
+                }
+            }
+
+            lootBox.transform.position = LootPosition;
+            lootBox.transform.rotation = Quaternion.identity;
+
+            lootBox.RemoveAllItems();
+
+            for (int i = 0; i < Weapons.AvailedInCategory; i++)
+            {
+                if (Weapons.items[i] != null)
+                {
+                    lootBox.AddItem(Weapons.items[i]);
+                    Weapons.items[i] = null;
+                    Weapons.AvailedInCategory--;
+                }
+            }
+
+            for (int i = 0; i < Shields.AvailedInCategory; i++)
+            {
+                if (Shields.items[i] != null)
+                {
+                    lootBox.AddItem(Shields.items[i]);
+                    Shields.items[i] = null;
+                    Shields.AvailedInCategory--;
+                }
+            }
+
+            for (int i = 0; i < AllItems.AvailedInCategory; i++)
+            {
+                if (AllItems.items[i] != null)
+                {
+                    lootBox.AddItem(AllItems.items[i]);
+                    AllItems.items[i] = null;
+                    AllItems.AvailedInCategory--;
+                }
+            }
+
+            for (int i = 0; i < QuickItems.AvailedInCategory; i++)
+            {
+                if (QuickItems.items[i] != null)
+                {
+                    lootBox.AddItem(QuickItems.items[i]);
+                    QuickItems.items[i] = null;
+                    QuickItems.AvailedInCategory--;
+                }
+            }
+
+            lootBox.gameObject.SetActive(true);
+        }
+
 
         #endregion
 

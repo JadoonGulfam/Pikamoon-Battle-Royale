@@ -136,33 +136,6 @@ namespace Pikamoon.UI
         public override void Change() { }
         public override void Select() { }
         public override void UnSelect() { }
-        public override void OnPointerEnter(PointerEventData eventData)
-        {
-            if (_dragManager == null || !_dragManager.IsDragging)
-            {
-                isSwappingAllowed = false;
-                return;
-            }
-
-            _dragManager.hoveredSlot = this;
-
-
-            if (_dragManager.draggedSlot == _dragManager.hoveredSlot)
-                return;
-
-
-            HighlighterImg.enabled = true;
-
-
-            isSwappingAllowed = _dragManager.hoveredSlot.CanAcceptItem(_dragManager.hoveredSlot.GetItem(), _dragManager.draggedItem, _dragManager.draggedSlot);
-
-            HighlighterImg.color = isSwappingAllowed
-
-                ? Color.green
-                : Color.red;
-
-        }
-
 
         public override void OnPointerDown(PointerEventData eventData)
         {
@@ -172,38 +145,7 @@ namespace Pikamoon.UI
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            if (!_dragManager.IsDragging) return;
-
-            var targetSlot = _dragManager.hoveredSlot;
-            var targetItem = targetSlot?.GetItem();
-
-            if (targetSlot == null || _dragManager.draggedSlot == targetSlot)
-            {
-                _dragManager.EndDrag();
-                return;
-            }
-
-            Debug.Log("Pointer Up From = " + _dragManager.hoveredSlot.gameObject.name);
-            Debug.Log("w1");
-
-            if (targetSlot.CanAcceptItem(_dragManager.hoveredSlot.GetItem(), _dragManager.draggedItem, _dragManager.draggedSlot))
-            {
-                Debug.Log("w2");
-                targetSlot.AssignItem(_dragManager.draggedItem,true);
-
-                if (targetItem == null)
-                {
-                    _dragManager.draggedSlot.RemoveItem(true);
-                }
-                else
-                {
-                    _dragManager.draggedSlot.AssignItem(targetItem, true);
-                }
-
-                HighlighterImg.enabled = false;
-            }
-
-            _dragManager.EndDrag();
+            _dragManager.SwapItems();
         }
 
         public override bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot)

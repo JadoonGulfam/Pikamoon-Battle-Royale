@@ -90,19 +90,25 @@ namespace Pikamoon.UI
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            if (_dragManager == null || !_dragManager.IsDragging) return;
+            if (_dragManager == null || !_dragManager.IsDragging)
+            {
+                isSwappingAllowed = false;
+                return;
+            }
 
-            HighlighterImg.enabled = true;
             _dragManager.hoveredSlot = this;
 
 
-            var targetItem = GetItem();
+            if (_dragManager.draggedSlot == _dragManager.hoveredSlot)
+                return;
 
-            isSwappingAllowed = CanAcceptItem(_dragManager.draggedItem, targetItem, _dragManager.draggedSlot) &&
-                _dragManager.draggedSlot.CanAcceptItem(targetItem, targetItem, this);
+
+            HighlighterImg.enabled = true;
+
+
+            isSwappingAllowed = _dragManager.hoveredSlot.CanAcceptItem(_dragManager.hoveredSlot.GetItem(), _dragManager.draggedItem, _dragManager.draggedSlot);
 
             HighlighterImg.color = isSwappingAllowed
-
                 ? Color.green
                 : Color.red;
         }

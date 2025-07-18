@@ -15,7 +15,7 @@ namespace Pikamoon.UI
 
         private Canvas canvas;
         [Header("UI")]
-        public Image dragIcon;  // Assign in inspector
+        public Image dragIcon;
 
         private void Awake()
         {
@@ -59,19 +59,56 @@ namespace Pikamoon.UI
                 hoveredSlot = null;
         }
 
+        public void SwapItems()
+        {
+            if (!IsDragging) return;
+
+            var targetSlot = hoveredSlot;
+            var targetItem = targetSlot?.GetItem();
+
+            if (targetSlot == null)
+            {
+                draggedSlot.RemoveItem(true);
+                EndDrag();
+                return; 
+            }
+
+            if(draggedSlot == targetSlot)
+            {
+                EndDrag();
+                return;
+            }
+
+            if (targetSlot.CanAcceptItem(hoveredSlot.GetItem(), draggedItem, draggedSlot))
+            {
+                targetSlot.AssignItem(draggedItem, true);
+
+                if (targetItem == null)
+                {
+                    draggedSlot.RemoveItem(true);
+                }
+                else
+                {
+                    draggedSlot.AssignItem(targetItem, true);
+                }
+                
+            }
+
+            EndDrag();
+        }
 
 
         void Update()
-    {
-        if (IsDragging)
         {
-            Vector2 pos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
-                Input.mousePosition, canvas.worldCamera, out pos
-            );
-            dragIcon.rectTransform.anchoredPosition = pos;
+            if (IsDragging)
+            {
+                Vector2 pos;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvas.transform as RectTransform,
+                    Input.mousePosition, canvas.worldCamera, out pos
+                );
+                dragIcon.rectTransform.anchoredPosition = pos;
+            }
         }
-    }
     }
 }
