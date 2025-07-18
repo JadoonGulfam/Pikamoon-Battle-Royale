@@ -8,6 +8,7 @@ namespace Pikamoon.Controller
     {
         PlayerController Controller;
         AnimationController AC;
+        InventoryController inventoryController;
         [SerializeField] UIManagerSK UI;
 
         [SerializeField] float headShieldValue;
@@ -206,8 +207,10 @@ namespace Pikamoon.Controller
             //HealthBar.DOFillAmount(health / 100, .1f);
 
             if (isKilled())
+            {
+                Controller.inventory.PlaceLootBoxAfterDeath();
                 gameObject.SetActive(false);
-
+            }
         }
 
 
