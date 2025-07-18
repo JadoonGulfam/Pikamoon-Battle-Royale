@@ -244,6 +244,11 @@ namespace Pikamoon.Controller
 
         }
 
+        public Transform GetTransform()
+        {
+            return transform;
+        }
+
         #endregion
     }
 

@@ -18,7 +18,6 @@ namespace Pikamoon.Controller
         rightKnee,
         leftBack,
         RightBack
-
     }
 
     public abstract class Weapon : Item, IPickable ,IDroppable
@@ -48,7 +47,10 @@ namespace Pikamoon.Controller
 
         public abstract WeaponInfo GetWeaponInfo();
 
-        public abstract void AssignHolder(PlayerController playerController);
+        public virtual void AssignHolder(PlayerController playerController)
+        {
+            Holder = playerController;
+        }
 
 
         public abstract Transform GetScabbard();

@@ -171,8 +171,15 @@ namespace Pikamoon.Controller
 
         private void OnTriggerEnter(Collider other)
         {
-            //ProjectileFlash?.gameObject.SetActive(false);
+            damageable = other.gameObject.GetComponent<IDamageable>();
 
+            if (damageable != null)
+            {
+                if (RootWeapon.Holder.transform == damageable.GetTransform())
+                    return;
+                else
+                    damageable.OnDamage(damage, this.transform);
+            }
 
             if (HitParticle)
             {
@@ -181,12 +188,6 @@ namespace Pikamoon.Controller
             }
 
             RootWeapon.Holder._cameraController.DisableBulletActionCam();
-
-            damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null)
-            {
-                damageable.OnDamage(damage,this.transform);
-            }
 
             rigidBody.linearVelocity = Vector3.zero;
             rigidBody.isKinematic = true;

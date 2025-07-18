@@ -68,7 +68,18 @@ namespace Pikamoon.Controller
             }
         }
 
+        #region Editor Methods
+        [ContextMenu("Assign Players To Hit Boxes")]
+        void AssignPlayersToHitBoxes()
+        {
+            for(int i = 0;i < hitPointHolders.Length; i++)
+            {
+                if(hitPointHolders[i].hitPoint != null)
+                    hitPointHolders[i].hitPoint.Attacker = this.transform;
+            }
+        }
 
+        #endregion
 
     }
 }

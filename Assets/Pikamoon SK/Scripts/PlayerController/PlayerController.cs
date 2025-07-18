@@ -1,6 +1,5 @@
 using Pikamoon.UI;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 
 namespace Pikamoon.Controller
 {
@@ -193,6 +192,13 @@ namespace Pikamoon.Controller
             }
         }
 
+        private void Start()
+        {
+            characterController = this.GetComponent<CharacterController>();
+            inventory = GetComponent<InventoryController>();
+            HC = GetComponent<HealthController>();
+
+        }
         public void Inititalize(PlayerInput _input, CameraController _camera, UIManagerSK _uiManager)
         {
             input = _input;
@@ -238,18 +244,35 @@ namespace Pikamoon.Controller
 
 
             inventory.Initialize(_uiManager, this);
+            HC.Initialize(_uiManager);
+
         }
+
 
         private void Update()
         {
-           
-            if (MP_Setup!=null && MP_Setup.isMinePlayer)
+
+            if(MP_Setup == null)
             {
                 AdjustSpeed();
                 IsGroundedCheck();
                 CameraOrbit();
             }
-           
+            else
+            {
+                if(MP_Setup.isMinePlayer)
+                {
+                    AdjustSpeed();
+                    IsGroundedCheck();
+                    CameraOrbit();
+                }
+            }
+
+            //if (MP_Setup != null && MP_Setup.isMinePlayer)
+            //{
+
+            //}
+
         }
 
         public void ToggleCursor(bool flag)

@@ -132,7 +132,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 					// radar scaling settings
 					GUILayout.Space(4); // SPACE
 					EditorGUILayout.BeginVertical(boxStyle);
-					_pUseRadarScaling.boolValue = EditorGUILayout.ToggleLeft("Enable Radar Scaling", _pUseRadarScaling.boolValue, subHeaderStyle);
+					_pUseRadarScaling.boolValue = EditorGUILayout.ToggleLeft("EnableCollider Radar Scaling", _pUseRadarScaling.boolValue, subHeaderStyle);
 					if (hudTarget.useRadarScaling)
 					{
 						GUILayout.Space(4); // SPACE
@@ -148,7 +148,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 					// radar fading settings
 					GUILayout.Space(4); // SPACE
 					EditorGUILayout.BeginVertical(boxStyle);
-					_pUseRadarFading.boolValue = EditorGUILayout.ToggleLeft("Enable Radar Fading", _pUseRadarFading.boolValue, subHeaderStyle);
+					_pUseRadarFading.boolValue = EditorGUILayout.ToggleLeft("EnableCollider Radar Fading", _pUseRadarFading.boolValue, subHeaderStyle);
 					if (hudTarget.useRadarFading)
 					{
 						GUILayout.Space(4); // SPACE
@@ -164,7 +164,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 					// height system settings
 					GUILayout.Space (4); // SPACE
 					EditorGUILayout.BeginVertical (boxStyle);
-					_pUseRadarHeightSystem.boolValue = EditorGUILayout.ToggleLeft ("Enable Height System", _pUseRadarHeightSystem.boolValue, subHeaderStyle);
+					_pUseRadarHeightSystem.boolValue = EditorGUILayout.ToggleLeft ("EnableCollider Height System", _pUseRadarHeightSystem.boolValue, subHeaderStyle);
 					if (hudTarget.useRadarHeightSystem) {
 						GUILayout.Space (4); // SPACE
 						EditorGUILayout.Slider (_pRadarDistanceAbove, 1f, 100f, new GUIContent ("Min. Distance Above"));
@@ -210,7 +210,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 					// off-screen indicator settings
 					GUILayout.Space (4); // SPACE
 					EditorGUILayout.BeginVertical (boxStyle);
-					_pUseOffscreenIndicators.boolValue = EditorGUILayout.ToggleLeft ("Enable Offscreen Indicators", _pUseOffscreenIndicators.boolValue, subHeaderStyle);
+					_pUseOffscreenIndicators.boolValue = EditorGUILayout.ToggleLeft ("EnableCollider Offscreen Indicators", _pUseOffscreenIndicators.boolValue, subHeaderStyle);
 					if (hudTarget.useOffscreenIndicators) {
 						GUILayout.Space (4); // SPACE
 						EditorGUILayout.Slider (_pIndicatorOffscreenBorder, 0f, 1f, "Screen Border");
@@ -220,7 +220,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 					// indicator scaling settings
 					GUILayout.Space (4); // SPACE
 					EditorGUILayout.BeginVertical (boxStyle);
-					_pUseIndicatorScaling.boolValue = EditorGUILayout.ToggleLeft ("Enable Distance Scaling", _pUseIndicatorScaling.boolValue, subHeaderStyle);
+					_pUseIndicatorScaling.boolValue = EditorGUILayout.ToggleLeft ("EnableCollider Distance Scaling", _pUseIndicatorScaling.boolValue, subHeaderStyle);
 					if (hudTarget.useIndicatorScaling) {
 						GUILayout.Space (4); // SPACE
 						EditorGUILayout.BeginVertical ();
@@ -235,7 +235,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 					// indicator fading settings
 					GUILayout.Space (4); // SPACE
 					EditorGUILayout.BeginVertical (boxStyle);
-					_pUseIndicatorFading.boolValue = EditorGUILayout.ToggleLeft ("Enable Distance Fading", _pUseIndicatorFading.boolValue, subHeaderStyle);
+					_pUseIndicatorFading.boolValue = EditorGUILayout.ToggleLeft ("EnableCollider Distance Fading", _pUseIndicatorFading.boolValue, subHeaderStyle);
 					if (hudTarget.useIndicatorFading) {
 						GUILayout.Space (4); // SPACE
 						EditorGUILayout.BeginVertical ();
@@ -271,7 +271,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 						// minimap scaling settings
 						GUILayout.Space(4); // SPACE
 						EditorGUILayout.BeginVertical(boxStyle);
-						_pUseMinimapScaling.boolValue = EditorGUILayout.ToggleLeft("Enable Minimap Scaling", _pUseMinimapScaling.boolValue, subHeaderStyle);
+						_pUseMinimapScaling.boolValue = EditorGUILayout.ToggleLeft("EnableCollider Minimap Scaling", _pUseMinimapScaling.boolValue, subHeaderStyle);
 						if (hudTarget.useMinimapScaling)
 						{
 							GUILayout.Space(4); // SPACE
@@ -287,7 +287,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 						// minimap fading settings
 						GUILayout.Space(4); // SPACE
 						EditorGUILayout.BeginVertical(boxStyle);
-						_pUseMinimapFading.boolValue = EditorGUILayout.ToggleLeft("Enable Minimap Fading", _pUseMinimapFading.boolValue, subHeaderStyle);
+						_pUseMinimapFading.boolValue = EditorGUILayout.ToggleLeft("EnableCollider Minimap Fading", _pUseMinimapFading.boolValue, subHeaderStyle);
 						if (hudTarget.useMinimapFading)
 						{
 							GUILayout.Space(4); // SPACE
@@ -303,7 +303,7 @@ public class HNSSceneConfigurationEditor : HUDNavigationBaseEditor
 						// height system settings
 						GUILayout.Space (4); // SPACE
 						EditorGUILayout.BeginVertical (boxStyle);
-						_pUseMinimapHeightSystem.boolValue = EditorGUILayout.ToggleLeft ("Enable Height System", _pUseMinimapHeightSystem.boolValue, subHeaderStyle);
+						_pUseMinimapHeightSystem.boolValue = EditorGUILayout.ToggleLeft ("EnableCollider Height System", _pUseMinimapHeightSystem.boolValue, subHeaderStyle);
 						if (hudTarget.useMinimapHeightSystem) {
 							GUILayout.Space (4); // SPACE
 							EditorGUILayout.Slider (_pMinimapDistanceAbove, 1f, 100f, new GUIContent ("Min. Distance Above"));

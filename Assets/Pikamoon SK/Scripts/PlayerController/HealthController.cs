@@ -1,28 +1,43 @@
+using Pikamoon.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Pikamoon.Controller
 {
 
-    public class HealthController : MonoBehaviour,IDamageable
+    public class HealthController : MonoBehaviour
     {
         PlayerController Controller;
         AnimationController AC;
-        
-        public float health;
+        InventoryController inventoryController;
+        [SerializeField] UIManagerSK UI;
 
-        [SerializeField] Transform DummyAttacker;
-        [SerializeField] bool AllowDummyInputHit;
+        [SerializeField] float headShieldValue;
+        [SerializeField] float upperShieldValue;
+        [SerializeField] float lowerShieldValue;
+        [Space]
+        [SerializeField] float health;
 
-        [Header("UI")]
-        public Image healthFiller;
-        public Image ShieldFiller;
+
 
         public void Start()
         {
-            Controller = GetComponent<PlayerController>();
             AC = GetComponent<AnimationController>();
+            Controller = GetComponent<PlayerController>();
         }
+
+
+        public void Initialize(UIManagerSK _uiManager)
+        {
+            UI = _uiManager;
+
+            UI.hudcontroller.UpdateHealth(health, 100);
+
+            UI.hudcontroller.UpdateHeadShield(headShieldValue,100);
+            UI.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
+            UI.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
+
+        }
+
 
 
         Vector2 GetHitDirection(Transform hit)
@@ -77,122 +92,6 @@ namespace Pikamoon.Controller
 
         }
 
-        void GetHit(Transform hit)
-        {
-            // Get the direction the enemy is facing
-            Vector3 enemyForward = transform.forward;
-
-            // Get the direction from the enemy to the attacker
-            Vector3 directionToAttacker = (hit.position - transform.position).normalized;
-
-            // Calculate the dot product between the enemy's forward direction and the direction to the attacker
-            float dotProduct = Vector3.Dot(enemyForward, directionToAttacker);
-
-            // Calculate the cross product to determine if the hit came from the left or right
-            Vector3 crossProduct = Vector3.Cross(enemyForward, directionToAttacker);
-
-            // Initialize XVal and YVal
-            float XVal = 0f;
-            float YVal = 1f;
-            
-            Controller.IsRootMotionEnabled = true;
-
-            // Determine if the hit came from the front, back, left, or right and set XVal/YVal accordingly
-            if (dotProduct > 0.5f)
-            {
-                // Hit from the front
-                XVal = 0f;
-                YVal = 1f;
-            }
-            else if (dotProduct < -0.5f)
-            {
-                // Hit from the back
-                XVal = 0f; 
-                YVal = -1f;
-            }
-            else
-            {
-                // Hit from the sides
-                if (crossProduct.y > 0)
-                {
-                    // Hit from the right
-                    XVal = 1f;
-                    YVal = 0f;
-                }
-                else
-                {
-                    // Hit from the left
-                    XVal = -1f;
-                    YVal = 0f;
-                }
-            }
-
-            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, XVal);
-            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, YVal);
-            AC.PAnimator.CrossFadeInFixedTime(AC.Parameters.GetHit.Hash, 0.1f);
-
-            //if (dotProduct > 0.5f)
-            //{
-            //    // Hit from the front
-
-            //    AC.PAnimator.CrossFadeInFixedTime("Hit.Front", 0.1f);
-            //}
-            //else if (dotProduct < -0.5f)
-            //{
-            //    // Hit from the back
-
-            //    AC.PAnimator.CrossFadeInFixedTime("Hit.Back", 0.1f);
-            //}
-            //else
-            //{
-            //    // Hit from the sides
-            //    if (crossProduct.y > 0)
-            //    {
-            //        // Hit from the right
-
-            //        AC.PAnimator.CrossFadeInFixedTime("Hit.Right", 0.1f);
-            //    }
-            //    else
-            //    {
-            //        // Hit from the left
-
-            //        AC.PAnimator.CrossFadeInFixedTime("Hit.Left", 0.1f);
-            //    }
-            //}
-        }
-
-        void Update()
-        {
-
-            if(AllowDummyInputHit && Input.GetKeyDown(KeyCode.C))
-            {
-                GetHit(DummyAttacker);
-            }
-        }
-
-
-
-        //void MakeRotationOfUITowardsCam()
-        //{
-
-        //    // Get the direction to the camera but ignore the Y-axis
-        //    Vector3 directionToCamera = Cam.transform.position - transform.position;
-
-        //    // Flatten the direction vector to the Y-axis only
-        //    directionToCamera.y = 0;
-
-        //    // If the direction vector is non-zero, rotate the health bar towards the camera
-        //    if (directionToCamera != Vector3.zero)
-        //    {
-        //        // Calculate the rotation towards the camera on the Y-axis
-        //        Quaternion targetRotation = Quaternion.LookRotation(directionToCamera);
-
-        //        // Apply the rotation to the health bar
-        //        transform.rotation = targetRotation;
-        //    }
-
-        //}
-
 
         #region IDamageable Properties
 
@@ -200,6 +99,21 @@ namespace Pikamoon.Controller
         {
             get { return health; }
             private set { health = value; }
+        }
+        public float HeadShieldValue
+        {
+            get { return headShieldValue; }
+            private set { headShieldValue = value; }
+        }
+        public float UpperShieldValue
+        {
+            get { return upperShieldValue; }
+            private set { upperShieldValue = value; }
+        }
+        public float LowerShieldValue
+        {
+            get { return lowerShieldValue; }
+            private set { lowerShieldValue = value; }
         }
 
         public bool isKilled()
@@ -210,31 +124,115 @@ namespace Pikamoon.Controller
             return false;
         }
 
-        public void OnDamage()
+        public void TakeDamage(HealthPointType healthPoint, float damageAmount, Transform hitPoint)
         {
+            Vector2 dir = GetHitDirection(hitPoint);
+
+
+            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
+            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
+
+            AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
+
+            float remainingDamage = 0;
+
+            switch(healthPoint)
+            {
+                case HealthPointType.Head:
+
+                    remainingDamage = headShieldValue;
+
+                    headShieldValue = headShieldValue - damageAmount;
+
+                    if (headShieldValue < 0)
+                    {
+                        headShieldValue = 0;
+                        remainingDamage = damageAmount - remainingDamage;
+                    }
+                    else
+                    {
+                        remainingDamage = 0;
+                    }
+
+                    UI?.hudcontroller.UpdateHeadShield(headShieldValue,100);
+
+                    break;
+                case HealthPointType.UpperBody:
+
+                    remainingDamage = upperShieldValue;
+                    upperShieldValue = upperShieldValue - damageAmount;
+
+                    if (upperShieldValue < 0)
+                    {
+                        upperShieldValue = 0;
+                        remainingDamage = damageAmount - remainingDamage;
+                    }
+                    else
+                    {
+                        remainingDamage = 0;
+                    }
+
+                    UI?.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
+
+                    break;
+                case HealthPointType.LowerBody:
+
+                    remainingDamage = lowerShieldValue;
+                    lowerShieldValue = lowerShieldValue - damageAmount;
+                    if (lowerShieldValue < 0)
+                    {
+                        lowerShieldValue = 0;
+                        remainingDamage = damageAmount - remainingDamage;
+                    }
+                    else
+                    {
+                        remainingDamage = 0;
+                    }
+                    UI?.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
+
+                    break;
+            }
+
+            if (remainingDamage > 0) 
+            {
+                health -= damageAmount;
+                if(health<0)
+                {
+                    health = 0;
+                }
+            }
+
+            UI?.hudcontroller.UpdateHealth(health,100);
+
+            //HealthBar.DOFillAmount(health / 100, .1f);
+
+            if (isKilled())
+            {
+                Controller.inventory.PlaceLootBoxAfterDeath();
+                gameObject.SetActive(false);
+            }
         }
 
-        public void OnDamage(float damageAmount)
-        {
-        }
 
         public void OnDamage(float damageAmount, Transform hitPoint)
         {
             Vector2 dir = GetHitDirection(hitPoint);
 
-            // AC.PAnimator.SetFloat("XVal", dir.x);
-            // AC.PAnimator.SetFloat("YVal", dir.y);
-               
-            // AC.PAnimator.SetTrigger("GetHit");
-               
+
+            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
+            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
+
+            AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
+
             health -= damageAmount;
+
+
             //HealthBar.DOFillAmount(health / 100, .1f);
 
             if (isKilled())
-                this.gameObject.SetActive(false);
+                gameObject.SetActive(false);
 
         }
-
         #endregion
     }
 

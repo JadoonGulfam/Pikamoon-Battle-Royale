@@ -89,8 +89,8 @@ namespace Pikamoon.Controller
 
         private void OnApplicationFocus(bool focus)
         {
-            Cursor.visible = !focus;
-            Cursor.lockState = focus ? CursorLockMode.Locked:CursorLockMode.None;
+            //Cursor.visible = !focus;
+            //Cursor.lockState = focus ? CursorLockMode.Locked:CursorLockMode.None;
         }
     }
 

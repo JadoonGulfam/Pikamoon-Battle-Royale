@@ -125,24 +125,6 @@ namespace Pikamoon.Controller
             return (uu * p0) + (2 * u * t * p1) + (tt * p2);
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            //if (collision.gameObject.layer == 11)
-            //{
-            activated = false;
-            GetComponent<Rigidbody>().Sleep();
-            GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-            GetComponent<Rigidbody>().isKinematic = true;
-
-            damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null)
-            {
-                damageable.OnDamage(tWeaponData.Damage, this.transform);
-            }
-
-            //}
-        }
-
 
 
         #region Parent Imnplementation
@@ -249,6 +231,10 @@ namespace Pikamoon.Controller
 
         public override void OnHit(Vector3 point)
         {
+            activated = false;
+            GetComponent<Rigidbody>().Sleep();
+            GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            GetComponent<Rigidbody>().isKinematic = true;
         }
 
         public override void AssignHolder(PlayerController Controller)

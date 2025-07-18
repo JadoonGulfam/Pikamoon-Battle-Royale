@@ -45,7 +45,7 @@ public class PikamoonInventory : MonoBehaviour
             if (entry.pikamoonObject != null && !allPikamoons.ContainsKey(entry.name))
             {
                 allPikamoons[entry.name] = entry.pikamoonObject;
-                entry.pikamoonObject.SetActive(false); // Disable them initially
+                entry.pikamoonObject.SetActive(false); // DisableCollider them initially
             }
         }
     }

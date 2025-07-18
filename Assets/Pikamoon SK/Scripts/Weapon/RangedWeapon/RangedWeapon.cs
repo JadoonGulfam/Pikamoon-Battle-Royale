@@ -191,10 +191,6 @@ namespace Pikamoon.Controller
         {
         }
 
-        public override void AssignHolder(PlayerController Controller)
-        {
-            Holder = Controller;
-        }
 
         #endregion
 
