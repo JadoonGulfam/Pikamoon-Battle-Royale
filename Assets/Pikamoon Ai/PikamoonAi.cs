@@ -328,7 +328,7 @@ public class PikamoonAi : MonoBehaviour
     public void TakeDamage(float damage, Transform _attacker) // Function to reduce health
     {
         if (/*isDead || */isStunned) return;
-        pikamoonHealth.ReduceHealth(damage);
+       // pikamoonHealth.ReduceHealth(damage);
         if (pikamoonHealth.IsDead()) { Die(); return; } // If Pikamoon's health is 0, trigger death
 
         StartCoroutine(StopMovementForHit());
