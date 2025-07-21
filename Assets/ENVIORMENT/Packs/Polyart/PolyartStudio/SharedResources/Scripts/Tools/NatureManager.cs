@@ -17,7 +17,7 @@ public class NatureManager : MonoBehaviour
     public Color cloudColor = Color.white;
 
     [Header("Fading")]
-    [Tooltip("Enable/Disable dithering")]
+    [Tooltip("EnableCollider/DisableCollider dithering")]
     public bool enableDithering = false;
     [Tooltip("The maximum distance the foliage is rendered")]
     [Range(0f, 200f)]

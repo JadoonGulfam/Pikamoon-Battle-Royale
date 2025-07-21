@@ -1283,7 +1283,7 @@ public class MyEditorScriptWindow : EditorWindow
 
         EditorGUILayout.Space();
 
-        if (GUILayout.Button("Enable Random Placer"))
+        if (GUILayout.Button("EnableCollider Random Placer"))
         {
 
         }

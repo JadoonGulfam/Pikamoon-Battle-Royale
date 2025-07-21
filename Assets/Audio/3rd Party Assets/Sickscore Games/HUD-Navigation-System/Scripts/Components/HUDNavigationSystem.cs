@@ -42,7 +42,7 @@ namespace SickscoreGames.HUDNavigationSystem
 		public bool KeepAliveOnLoad = true;
 
 		// RADAR
-		[Tooltip("Enable, if you want to use the radar feature.")]
+		[Tooltip("EnableCollider, if you want to use the radar feature.")]
 		public bool useRadar = true;
 		[Tooltip("Select the radar mode you want to use.")]
 		public RadarModes radarMode = RadarModes.RotateRadar;
@@ -52,53 +52,53 @@ namespace SickscoreGames.HUDNavigationSystem
 		public float radarRadius = 50f;
 		[Tooltip("Define the maximum radar radius. Elements outside this radius will be hidden.")]
 		public float radarMaxRadius = 75f;
-		[Tooltip("Enable, if you want to scale radar elements, when they're about to disappear from the radar.")]
+		[Tooltip("EnableCollider, if you want to scale radar elements, when they're about to disappear from the radar.")]
 		public bool useRadarScaling = true;
 		[Tooltip("Define the radar scale distance. Radar elements will be scaled, when close to the radar max radius. Must be smaller or equal to the radar max radius.")]
 		public float radarScaleDistance = 10f;
 		[Tooltip("Minimum scale of the radar element. Set value to 1, if you don't want your element to scale.")]
 		public float radarMinScale = .35f;
-		[Tooltip("Enable, if you want to fade radar elements, when they're about to disappear from the radar.")]
+		[Tooltip("EnableCollider, if you want to fade radar elements, when they're about to disappear from the radar.")]
 		public bool useRadarFading = true;
 		[Tooltip("Define the radar fade distance. Radar elements will be faded, when close to the radar max radius. Must be smaller or equal to the radar max radius.")]
 		public float radarFadeDistance = 5f;
 		[Tooltip("Minimum opacity of the radar elements. Set value to 0, to completely fade-out the element.")]
 		public float radarMinFade = 0f;
-		[Tooltip("Enable, if you want to show arrows pointing upwards/downwards if the element is physically above or below a certain distance.")]
+		[Tooltip("EnableCollider, if you want to show arrows pointing upwards/downwards if the element is physically above or below a certain distance.")]
 		public bool useRadarHeightSystem = true;
 		[Tooltip("Minimum distance upwards to activate the element's ABOVE arrow.")]
 		public float radarDistanceAbove = 10f;
 		[Tooltip("Minimum distance downwards to activate the element's BELOW arrow.")]
 		public float radarDistanceBelow = 10f;
-		[Tooltip("(DEBUG) Enable to show the radar's height gizmos.")]
+		[Tooltip("(DEBUG) EnableCollider to show the radar's height gizmos.")]
 		public bool showRadarHeightGizmos = false;
 		[SerializeField]protected Vector2 radarHeightGizmoSize = new Vector2 (100f, 100f);
 		[SerializeField]protected Color radarHeightGizmoColor = new Color (0f, 0f, 1f, .4f);
 
 		// COMPASS BAR
-		[Tooltip("Enable, if you want to use the compass bar feature.")]
+		[Tooltip("EnableCollider, if you want to use the compass bar feature.")]
 		public bool useCompassBar = true;
 		[Tooltip("Define the compass radius. Elements that don't ignore the radius will be hidden outside this radius.")]
 		public float compassBarRadius = 150f;
 
 		// INDICATOR
-		[Tooltip("Enable, if you want to use the indicator feature. Must be separately enabled on each element.")]
+		[Tooltip("EnableCollider, if you want to use the indicator feature. Must be separately enabled on each element.")]
 		public bool useIndicators = true;
 		[Tooltip("Define the indicator radius. Indicators that don't ignore the radius will be hidden outside this radius.")]
 		public float indicatorRadius = 25f;
 		[Tooltip("Define the distance below which the indicator will automatically be hidden. (0 = no auto-hide)")]
 		public float indicatorHideDistance = 3f;
-		[Tooltip("Enable, if you want to use an offscreen indicator, when the element is not on screen.")]
+		[Tooltip("EnableCollider, if you want to use an offscreen indicator, when the element is not on screen.")]
 		public bool useOffscreenIndicators = true;
 		[Tooltip("Increase this value to move the indicators further away from the screen borders.")]
 		public float indicatorOffscreenBorder = .075f;
-		[Tooltip("Enable, if you want to scale the indicator by distance and within defined radius.")]
+		[Tooltip("EnableCollider, if you want to scale the indicator by distance and within defined radius.")]
 		public bool useIndicatorScaling = true;
 		[Tooltip("Define the indicator scale radius. Indicator will scale when inside this radius. Must be smaller or equal to indicator radius.")]
 		public float indicatorScaleRadius = 15f;
 		[Tooltip("Minimum scale of the indicator. Set value to 1, if you don't want your indicator to scale.")]
 		public float indicatorMinScale = .8f;
-		[Tooltip("Enable, if you want to fade the indicator by distance and within defined radius.")]
+		[Tooltip("EnableCollider, if you want to fade the indicator by distance and within defined radius.")]
 		public bool useIndicatorFading = true;
 		[Tooltip("Define the indicator fade radius. Indicator will fade when inside this radius. Must be smaller or equal to indicator radius.")]
 		public float indicatorFadeRadius = 15f;
@@ -106,7 +106,7 @@ namespace SickscoreGames.HUDNavigationSystem
 		public float indicatorMinFade = 0f;
 
 		// MINIMAP
-		[Tooltip("Enable, if you want to use the minimap feature.")]
+		[Tooltip("EnableCollider, if you want to use the minimap feature.")]
 		public bool useMinimap = true;
 		[Tooltip("Assign the map profile for your minimap.")]
 		public HNSMapProfile minimapProfile;
@@ -117,28 +117,28 @@ namespace SickscoreGames.HUDNavigationSystem
 		public float minimapScale = .25f;
 		[Tooltip("Define the minimap radius. Elements will be displayed on the border of the minimap, depending on the minimap scale.")]
 		public float minimapRadius = 75f;
-		[Tooltip("Enable, if you want to scale minimap elements, when they're about to disappear from the minimap.")]
+		[Tooltip("EnableCollider, if you want to scale minimap elements, when they're about to disappear from the minimap.")]
 		public bool useMinimapScaling = true;
 		[Tooltip("Define the minimap scale distance. Minimap elements will be scaled, when close to the minimap radius. Must be smaller or equal to the minimap radius.")]
 		public float minimapScaleDistance = 10f;
 		[Tooltip("Minimum scale of the minimap element. Set value to 1, if you don't want your element to scale.")]
 		public float minimapMinScale = .35f;
-		[Tooltip("Enable, if you want to fade minimap elements, when they're about to disappear from the minimap.")]
+		[Tooltip("EnableCollider, if you want to fade minimap elements, when they're about to disappear from the minimap.")]
 		public bool useMinimapFading = true;
 		[Tooltip("Define the minimap fade distance. Minimap elements will be faded, when close to the minimap radius. Must be smaller or equal to the minimap radius.")]
 		public float minimapFadeDistance = 5f;
 		[Tooltip("Minimum opacity of the minimap elements. Set value to 0, to completely fade-out the element.")]
 		public float minimapMinFade = 0f;
-		[Tooltip("(DEBUG) Enable to show the minimap bounds gizmos.")]
+		[Tooltip("(DEBUG) EnableCollider to show the minimap bounds gizmos.")]
 		public bool showMinimapBounds = true;
 		[SerializeField]protected Color minimapBoundsGizmoColor = new Color (0f, 1f, 0f, .85f);
-		[Tooltip("Enable, if you want to show arrows pointing upwards/downwards if the element is physically above or below a certain distance.")]
+		[Tooltip("EnableCollider, if you want to show arrows pointing upwards/downwards if the element is physically above or below a certain distance.")]
 		public bool useMinimapHeightSystem = true;
 		[Tooltip("Minimum distance upwards to activate the element's ABOVE arrow.")]
 		public float minimapDistanceAbove = 10f;
 		[Tooltip("Minimum distance downwards to activate the element's BELOW arrow.")]
 		public float minimapDistanceBelow = 10f;
-		[Tooltip("(DEBUG) Enable to show the minimap's height gizmos.")]
+		[Tooltip("(DEBUG) EnableCollider to show the minimap's height gizmos.")]
 		public bool showMinimapHeightGizmos = false;
 		[SerializeField]protected Vector2 minimapHeightGizmoSize = new Vector2 (100f, 100f);
 		[SerializeField]protected Color minimapHeightGizmoColor = new Color (0f, 0f, 1f, .4f);
@@ -205,7 +205,7 @@ namespace SickscoreGames.HUDNavigationSystem
 
 
 		/// <summary>
-		/// Enable / Disable the entire system at runtime.
+		/// EnableCollider / DisableCollider the entire system at runtime.
 		/// </summary>
 		/// <param name="value">value</param>
 		public void EnableSystem (bool value)
@@ -298,7 +298,7 @@ namespace SickscoreGames.HUDNavigationSystem
 
 
 		/// <summary>
-		/// Enable / Disable the radar feature at runtime.
+		/// EnableCollider / DisableCollider the radar feature at runtime.
 		/// </summary>
 		/// <param name="value">value</param>
 		public void EnableRadar (bool value)
@@ -311,7 +311,7 @@ namespace SickscoreGames.HUDNavigationSystem
 
 
 		/// <summary>
-		/// Enable / Disable the compass bar feature at runtime.
+		/// EnableCollider / DisableCollider the compass bar feature at runtime.
 		/// </summary>
 		/// <param name="value">value</param>
 		public void EnableCompassBar (bool value)
@@ -324,7 +324,7 @@ namespace SickscoreGames.HUDNavigationSystem
 
 
 		/// <summary>
-		/// Enable / Disable the indicator feature at runtime.
+		/// EnableCollider / DisableCollider the indicator feature at runtime.
 		/// </summary>
 		/// <param name="value">value</param>
 		public void EnableIndicators (bool value)
@@ -337,7 +337,7 @@ namespace SickscoreGames.HUDNavigationSystem
 
 
 		/// <summary>
-		/// Enable / Disable the minimap feature at runtime.
+		/// EnableCollider / DisableCollider the minimap feature at runtime.
 		/// </summary>
 		/// <param name="value">value</param>
 		public void EnableMinimap (bool value)

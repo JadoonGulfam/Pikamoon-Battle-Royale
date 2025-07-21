@@ -41,7 +41,7 @@ namespace Tiny
 		[SerializeField, Tooltip("Increase this value to make the trail corners appear rounder.")]
 		private int corner = 1;
 
-		[SerializeField, Tooltip("Enable this to connect the first and last positions of the line, and form a closed loop.")]
+		[SerializeField, Tooltip("EnableCollider this to connect the first and last positions of the line, and form a closed loop.")]
 		private bool loop = false;
 
 		[SerializeField, Tooltip("The array of Vector3 points to connect.")]
@@ -69,7 +69,7 @@ namespace Tiny
 		}
 
 		/// <summary>
-		/// Enable this to connect the first and last positions of the line, and form a closed loop.
+		/// EnableCollider this to connect the first and last positions of the line, and form a closed loop.
 		/// </summary>
 		public bool Loop {	get { return loop && points.Length >= 3; }	}
 

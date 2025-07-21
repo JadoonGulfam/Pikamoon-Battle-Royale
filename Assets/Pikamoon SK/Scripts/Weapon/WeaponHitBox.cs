@@ -7,12 +7,12 @@ namespace Pikamoon.Controller
         [SerializeField] Weapon weapon;
         public Collider _collider;
 
-        public void Enable()
+        public void EnableCollider()
         {
             _collider.enabled = true;
         }
 
-        public void Disable()
+        public void DisableCollider()
         {
             _collider.enabled = false;
         }
@@ -23,11 +23,17 @@ namespace Pikamoon.Controller
 
             if (damageable != null)
             {
-                damageable.OnDamage(10, this.transform);
+                Debug.Log("Triggered Hitted Object is = " + damageable.GetTransform().name);
 
-                weapon.OnHit(Vector3.zero);
+                if (weapon.Holder.transform != damageable.GetTransform())
+                {
+                    DisableCollider();
+                    damageable.OnDamage(10, this.transform);
+                    weapon.OnHit(Vector3.zero);
+                }
             }
         }
+
         //private void OnCollisionEnter(Collision collision)
         //{
 
@@ -47,18 +53,17 @@ namespace Pikamoon.Controller
 
         private void OnCollisionEnter(Collision collision)
         {
-
-            Debug.Log("1");
-
             IDamageable damageable = collision.transform.GetComponent<IDamageable>();
 
             if (damageable != null)
             {
-                Debug.Log("2");
+                Debug.Log("Collision Hitted Object is = " + damageable.GetTransform().name);
 
-                damageable.OnDamage(10, this.transform);
-
-                weapon.OnHit(collision.contacts[0].point);
+                if (weapon.Holder.transform != damageable.GetTransform())
+                {
+                    damageable.OnDamage(10, this.transform);
+                    weapon.OnHit(collision.contacts[0].point);
+                }
             }
         }
     }
