@@ -20,7 +20,10 @@ public class FireBall : MonoBehaviour
             //    return;
             //else
                 damageable.OnDamage(damage, this.transform);
+            Destroy(gameObject);
         }
+
+
         //if (HitParticle)
         //{
         //    HitParticle.transform.parent = null;

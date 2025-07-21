@@ -2,23 +2,25 @@ using UnityEngine;
 
 public class PikamoonHandHitbox : MonoBehaviour
 {
+    public Transform Pikamoon;
     public float damage = 10f;
     public bool canDamage = false;
 
+    IDamageable damageable;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!canDamage) return;
 
-        if (other.CompareTag("Player"))
+        damageable = other.gameObject.GetComponent<IDamageable>();
+        if (damageable != null)
         {
-            Debug.Log("Hit");
-            //PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            //if (playerHealth != null)
-            //{
-            //    playerHealth.TakeDamage(damage);
-                canDamage = false; // avoid multiple hits per swing
-            //}
+            if (Pikamoon.transform == damageable.GetTransform())
+                return;
+            else
+                damageable.OnDamage(damage, this.transform);
+          
         }
+
     }
 }
