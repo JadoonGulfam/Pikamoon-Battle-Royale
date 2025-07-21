@@ -2228,6 +2228,8 @@ GameObject:
   - component: {fileID: 8774061221403257378}
   - component: {fileID: 8370043831276692269}
   - component: {fileID: 4702980224614674920}
+  - component: {fileID: 1262464782493063383}
+  - component: {fileID: 8058045597095766970}
   m_Layer: 8
   m_Name: Dolphi_lvl01_ANIM
   m_TagString: Untagged
@@ -2317,6 +2319,8 @@ MonoBehaviour:
   overrideControllers: {fileID: 22100000, guid: 3293ae7936fdf2b49b14fafb0f9bcb6b, type: 2}
   pikamoonHealth: {fileID: 1135088376830782764}
   pikamoonFollow: {fileID: 2920945876424634581}
+  pikamoonHandHitbox: {fileID: 0}
+  pikamoonSoundmanager: {fileID: 8058045597095766970}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -2334,6 +2338,8 @@ MonoBehaviour:
   alertRange: 15
   attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 4148191411413974841}
+  fireballPrefab: {fileID: 0}
+  projectileSpeed: 15
 --- !u!114 &1135088376830782764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2473,6 +2479,124 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 20c9836f957367644aba2fb81cdb1a76, type: 2}
   - {fileID: 2100000, guid: e145a87ad27d69d47ad93e1a86203f48, type: 2}
   - {fileID: 2100000, guid: 1c5595cc3759f7e4fb0d5751c3b6447f, type: 2}
+--- !u!82 &1262464782493063383
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303491216728691392}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &8058045597095766970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303491216728691392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e55349605b922b4db0c8e10a897a793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 1262464782493063383}
+  idleClip: {fileID: 8300000, guid: 20f261681f5f2c14891922cb28f7924d, type: 3}
+  walkClip: {fileID: 8300000, guid: 176da6b88c3352344aee58c14a409d75, type: 3}
+  runClip: {fileID: 0}
+  alertClip: {fileID: 0}
+  attackClip: {fileID: 0}
+  hitClip: {fileID: 0}
+  stunClip: {fileID: 0}
+  fleeClip: {fileID: 0}
 --- !u!1 &7327121196676979409
 GameObject:
   m_ObjectHideFlags: 0
@@ -2670,7 +2794,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.386}
-  m_SizeDelta: {x: 0.9, y: 0.05}
+  m_SizeDelta: {x: 0.5, y: 0.03}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6476824686353125969
 Canvas:

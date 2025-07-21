@@ -1900,6 +1900,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7245019587738922492}
   - component: {fileID: 3587001116797800799}
+  - component: {fileID: 5301686598955031214}
+  - component: {fileID: 3382433032217008999}
   m_Layer: 0
   m_Name: Hammer_Geo
   m_TagString: Untagged
@@ -1979,6 +1981,41 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00000023841858, y: 0.08365333, z: -0.00005468726}
     m_Extent: {x: 0.24574049, y: 1.7745901, z: 0.44664514}
   m_DirtyAABB: 0
+--- !u!65 &5301686598955031214
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4538854759701623156}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7657268, y: 0.9950907, z: 0.671186}
+  m_Center: {x: 1.7531942, y: 0.9220395, z: 1.003989}
+--- !u!114 &3382433032217008999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4538854759701623156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3bece1c7708e0f44a9062d539995bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  canDamage: 0
 --- !u!1 &4603050786327073658
 GameObject:
   m_ObjectHideFlags: 0
@@ -3680,7 +3717,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.25, z: 0}
+  m_Center: {x: 0, y: 1.26, z: 0}
 --- !u!114 &5105526903258914975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3741,6 +3778,7 @@ MonoBehaviour:
   overrideControllers: {fileID: 22100000, guid: cfe25fcb44596ad45b34ac04eef7e09d, type: 2}
   pikamoonHealth: {fileID: 5105526903258914975}
   pikamoonFollow: {fileID: 4361407155885751123}
+  pikamoonHandHitbox: {fileID: 3382433032217008999}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -3758,6 +3796,8 @@ MonoBehaviour:
   alertRange: 15
   attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 3723259913500925866}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
+  projectileSpeed: 10
 --- !u!114 &5670408798335126628
 MonoBehaviour:
   m_ObjectHideFlags: 0

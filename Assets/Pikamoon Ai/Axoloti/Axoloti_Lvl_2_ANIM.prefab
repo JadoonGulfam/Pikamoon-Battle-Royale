@@ -666,7 +666,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724381095099545620}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.204}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -676,7 +676,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 0.8, y: 0.05}
+  m_SizeDelta: {x: 0.6, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6896479489233529460
 Canvas:
@@ -1668,7 +1668,7 @@ Transform:
   m_GameObject: {fileID: 4115987288180708754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -48.8, y: 10.358, z: -99.41}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1744,20 +1744,22 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  pikaType: 1
+  pikaType: 0
   alertMark: {fileID: 4305907813615371696, guid: 31824d631f55e874384a88ccb673ed93, type: 3}
   stunnedMark: {fileID: 9093059172011303860, guid: 8f223a4f9ea08254791e472a309ec78f, type: 3}
   alertMarkTransform: {fileID: 2382003593510871050}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 2
-  walkSpeed: 0.3
+  fleeSpeed: 1.7
+  walkSpeed: 0.4
   attackRange: 4
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
   attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 1147487223217006013}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
+  projectileSpeed: 10
 --- !u!114 &4586897629679175158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2265,7 +2267,7 @@ Transform:
   m_GameObject: {fileID: 4849660972817512458}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.813, z: 0.045}
+  m_LocalPosition: {x: 0, y: 0.991, z: 0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
