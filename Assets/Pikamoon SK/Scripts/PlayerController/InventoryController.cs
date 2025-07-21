@@ -138,11 +138,13 @@ namespace Pikamoon.Controller
             {
                 UI.inventoryUI._canvas.enabled = true;
                 Controller.CameraOrbitStatus = false;
+                UI.hudcontroller.enabled = false;
             }
             else
             {
                 UI.inventoryUI._canvas.enabled = false;
                 Controller.CameraOrbitStatus = true;
+                UI.hudcontroller.enabled = true;
             }
         }
 

@@ -23,6 +23,7 @@ namespace Pikamoon.Controller
         {
             AC = GetComponent<AnimationController>();
             Controller = GetComponent<PlayerController>();
+            inventoryController = GetComponent<InventoryController>();
         }
 
 
@@ -32,7 +33,7 @@ namespace Pikamoon.Controller
 
             UI.hudcontroller.UpdateHealth(health, 100);
 
-            UI.hudcontroller.UpdateHeadShield(headShieldValue,100);
+            UI.hudcontroller.UpdateHeadShield(headShieldValue, 100);
             UI.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
             UI.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
 
@@ -118,7 +119,7 @@ namespace Pikamoon.Controller
 
         public bool isKilled()
         {
-            if(health <= 0)
+            if (health <= 0)
                 return true;
 
             return false;
@@ -134,75 +135,98 @@ namespace Pikamoon.Controller
 
             AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
 
-            float remainingDamage = 0;
+            float remainingDamage = damageAmount;
 
-            switch(healthPoint)
+            switch (healthPoint)
             {
                 case HealthPointType.Head:
-
-                    remainingDamage = headShieldValue;
-
-                    headShieldValue = headShieldValue - damageAmount;
-
-                    if (headShieldValue < 0)
+                    if (inventoryController.Shields.items[0] != null)
                     {
-                        headShieldValue = 0;
-                        remainingDamage = damageAmount - remainingDamage;
-                    }
-                    else
-                    {
-                        remainingDamage = 0;
+                        headShieldValue = inventoryController.Shields.items[0].Quantity;
+
+                        remainingDamage = headShieldValue;
+
+                        headShieldValue = headShieldValue - damageAmount;
+
+                        if (headShieldValue < 0)
+                        {
+                            headShieldValue = 0;
+                            remainingDamage = damageAmount - remainingDamage;
+                        }
+                        else
+                        {
+                            remainingDamage = 0;
+                        }
+
+                        inventoryController.Shields.items[0].Quantity = headShieldValue;
+
+                        UI?.hudcontroller.UpdateHeadShield(headShieldValue, 100);
                     }
 
-                    UI?.hudcontroller.UpdateHeadShield(headShieldValue,100);
 
                     break;
                 case HealthPointType.UpperBody:
 
-                    remainingDamage = upperShieldValue;
-                    upperShieldValue = upperShieldValue - damageAmount;
-
-                    if (upperShieldValue < 0)
+                    if (inventoryController.Shields.items[1] != null)
                     {
-                        upperShieldValue = 0;
-                        remainingDamage = damageAmount - remainingDamage;
-                    }
-                    else
-                    {
-                        remainingDamage = 0;
-                    }
+                        upperShieldValue = inventoryController.Shields.items[1].Quantity;
 
-                    UI?.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
+                        remainingDamage = upperShieldValue;
 
+                        upperShieldValue = upperShieldValue - damageAmount;
+
+                        if (upperShieldValue < 0)
+                        {
+                            upperShieldValue = 0;
+                            remainingDamage = damageAmount - remainingDamage;
+                        }
+                        else
+                        {
+                            remainingDamage = 0;
+                        }
+
+                        inventoryController.Shields.items[1].Quantity = upperShieldValue;
+
+                        UI?.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
+                    }
                     break;
                 case HealthPointType.LowerBody:
 
-                    remainingDamage = lowerShieldValue;
-                    lowerShieldValue = lowerShieldValue - damageAmount;
-                    if (lowerShieldValue < 0)
+                    if (inventoryController.Shields.items[2] != null)
                     {
-                        lowerShieldValue = 0;
-                        remainingDamage = damageAmount - remainingDamage;
-                    }
-                    else
-                    {
-                        remainingDamage = 0;
-                    }
-                    UI?.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
+                        lowerShieldValue = inventoryController.Shields.items[2].Quantity;
 
+                        remainingDamage = lowerShieldValue;
+
+                        lowerShieldValue = lowerShieldValue - damageAmount;
+
+                        if (lowerShieldValue < 0)
+                        {
+                            lowerShieldValue = 0;
+                            remainingDamage = damageAmount - remainingDamage;
+                        }
+                        else
+                        {
+                            remainingDamage = 0;
+                        }
+
+                        inventoryController.Shields.items[2].Quantity = lowerShieldValue;
+
+                        UI?.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
+                    }
                     break;
             }
 
-            if (remainingDamage > 0) 
+            if (remainingDamage > 0)
             {
-                health -= damageAmount;
-                if(health<0)
+                health -= remainingDamage;
+                if (health < 0)
                 {
                     health = 0;
                 }
             }
 
-            UI?.hudcontroller.UpdateHealth(health,100);
+            UI?.hudcontroller.UpdateHealth(health, 100);
 
             //HealthBar.DOFillAmount(health / 100, .1f);
 
