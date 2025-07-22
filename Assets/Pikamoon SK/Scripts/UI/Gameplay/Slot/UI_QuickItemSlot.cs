@@ -12,8 +12,6 @@ namespace Pikamoon.UI
         public SlotAppearenceSettings ActiveSlotSettings;
         public SlotAppearenceSettings InActiveSlotSettings;
 
-        private Item CurrentItem;
-
         protected override void Awake()
         {
             base.Awake();
@@ -138,24 +136,10 @@ namespace Pikamoon.UI
         public override void Select() { }
         public override void UnSelect() { }
 
-        public override void OnPointerExit(PointerEventData eventData)
-        {
-            HighlighterImg.enabled = false;
-            HighlighterImg.color = Color.red;
 
-            if (_dragManager?.hoveredSlot == this)
-                _dragManager.hoveredSlot = null;
-        }
-
-        public override void OnPointerDown(PointerEventData eventData)
+        public override void OnPointerClick(PointerEventData eventData)
         {
-            if (hasItem)
-                _dragManager.StartDrag(this, CurrentItem);
-        }
 
-        public override void OnPointerUp(PointerEventData eventData)
-        {
-            _dragManager.SwapItems();
         }
 
         public override bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot)

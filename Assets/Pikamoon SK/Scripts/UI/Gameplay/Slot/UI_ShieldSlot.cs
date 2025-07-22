@@ -6,7 +6,6 @@ namespace Pikamoon.UI
 {
     public class UI_ShieldSlot : UI_ItemSlot
     {
-        private Item CurrentItem;
 
         [Header("Settings")]
         public SlotAppearenceSettings EmptySlotSettings;
@@ -134,17 +133,12 @@ namespace Pikamoon.UI
         public override void UnSelect() { }
         public override Item GetItem() => hasItem ? CurrentItem : null;
 
-        public override void OnPointerDown(PointerEventData eventData)
-        {
-            if (hasItem)
-                _dragManager.StartDrag(this, CurrentItem);
-        }
 
-        public override void OnPointerUp(PointerEventData eventData)
-        {
-            _dragManager.SwapItems();
-        }
 
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+
+        }
 
         public override bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot)
         {

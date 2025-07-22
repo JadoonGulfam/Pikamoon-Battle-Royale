@@ -137,15 +137,8 @@ namespace Pikamoon.UI
         public override void Select() { }
         public override void UnSelect() { }
 
-        public override void OnPointerDown(PointerEventData eventData)
+        public override void OnPointerClick(PointerEventData eventData)
         {
-            if (hasItem)
-                _dragManager.StartDrag(this, CurrentItem);
-        }
-
-        public override void OnPointerUp(PointerEventData eventData)
-        {
-            _dragManager.SwapItems();
         }
 
         public override bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot)

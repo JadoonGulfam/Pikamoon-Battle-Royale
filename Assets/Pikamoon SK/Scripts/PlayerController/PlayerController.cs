@@ -267,12 +267,6 @@ namespace Pikamoon.Controller
                     CameraOrbit();
                 }
             }
-
-            //if (MP_Setup != null && MP_Setup.isMinePlayer)
-            //{
-
-            //}
-
         }
 
         public void ToggleCursor(bool flag)

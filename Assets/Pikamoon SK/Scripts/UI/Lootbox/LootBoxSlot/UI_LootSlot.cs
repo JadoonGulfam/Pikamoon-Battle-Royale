@@ -70,6 +70,10 @@ namespace Pikamoon.UI
         public override void OnPointerExit(PointerEventData eventData)
         {
         }
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+
+        }
 
         public override Item GetItem()
         {

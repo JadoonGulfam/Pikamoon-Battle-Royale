@@ -18,7 +18,7 @@ namespace Pikamoon.UI
         AllItems
     }
 
-    public abstract class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+    public abstract class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
     {
         [System.Serializable]
         public struct SlotAppearenceSettings
@@ -54,6 +54,7 @@ namespace Pikamoon.UI
         protected InventoryUI inventoryUI;
         protected DragManager _dragManager;
         protected ShieldType _slotShieldType;
+        protected Item CurrentItem;
 
 
         protected virtual void Awake()
@@ -86,8 +87,6 @@ namespace Pikamoon.UI
         public abstract void UnSelect();
         public abstract Item GetItem();
 
-
-
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
             if (_dragManager == null || !_dragManager.IsDragging)
@@ -116,16 +115,32 @@ namespace Pikamoon.UI
         public virtual void OnPointerExit(PointerEventData eventData)
         {
             HighlighterImg.enabled = false;
+            HighlighterImg.color = Color.red;
+            isSwappingAllowed = false;
+
+            if(_dragManager.draggedSlot)
+            {
+                _dragManager.EnableDraggedIcon();
+            }
+
             if (_dragManager?.hoveredSlot == this)
                 _dragManager.hoveredSlot = null;
         }
+        public virtual void OnPointerDown(PointerEventData eventData)
+        {
+            if (hasItem)
+                _dragManager.StartDrag(this, CurrentItem);
+        }
+        public virtual void OnPointerUp(PointerEventData eventData)
+        {
+            _dragManager.SwapItems();
+        }
 
-        public abstract void OnPointerDown(PointerEventData eventData);
-        public abstract void OnPointerUp(PointerEventData eventData);
-
+        public abstract void OnPointerClick(PointerEventData eventData);
 
         // highly optimized consistent logic
         public abstract bool CanAcceptItem(Item destinationItem, Item sourceItem, UI_ItemSlot sourceSlot);
+
 
         //public abstract bool CanAcceptItem(Item DestinationItem, UI_ItemSlot SourceSlot);
 
