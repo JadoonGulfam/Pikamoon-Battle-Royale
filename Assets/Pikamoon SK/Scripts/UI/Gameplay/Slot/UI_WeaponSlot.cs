@@ -12,7 +12,6 @@ namespace Pikamoon.UI
         public SlotAppearenceSettings ActiveSlotSettings;
         public SlotAppearenceSettings InActiveSlotSettings;
 
-        private Item CurrentItem;
 
         protected override void Awake()
         {
@@ -39,11 +38,20 @@ namespace Pikamoon.UI
 
             ChangeButtonAppearance(ActiveSlotSettings);
 
-            inventoryUI._inventory.AddWeaponsToList(item, indexInList);
+            if(inventoryUI)
+                inventoryUI._inventory.AddWeaponsToList(item, indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.AssignItemByDependentSlot(item);
         }
+
+        //public override void AssignItem(Sprite icon, bool isActive, int _fullHealth = 100, int _health = 100)
+        //{
+        //    if (Icon)
+        //        Icon.sprite = icon;
+
+        //    ChangeButtonAppearance(isActive ? ActiveSlotSettings : InActiveSlotSettings);
+        //}
 
         public override void AssignItemByDependentSlot(Item item)
         {
@@ -62,21 +70,14 @@ namespace Pikamoon.UI
         }
 
 
-        public override void AssignItem(Sprite icon, bool isActive, int _fullHealth = 100, int _health = 100)
-        {
-            if (Icon)
-                Icon.sprite = icon;
-
-            ChangeButtonAppearance(isActive ? ActiveSlotSettings : InActiveSlotSettings);
-        }
-
         public override void UnAssignItem(bool alsoExecuteDependency)
         {
             CurrentItem = null;
             hasItem = false;
             ChangeButtonAppearance(InActiveSlotSettings);
 
-            inventoryUI._inventory.RemoveWeaponsFromList(indexInList);
+            if (inventoryUI)
+                inventoryUI._inventory.RemoveWeaponsFromList(indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.UnAssignItemByDependentSlot();
@@ -102,7 +103,8 @@ namespace Pikamoon.UI
 
             ChangeButtonAppearance(EmptySlotSettings);
 
-            inventoryUI._inventory.RemoveWeaponsFromList(indexInList);
+            if (inventoryUI)
+                inventoryUI._inventory.RemoveWeaponsFromList(indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.RemoveItemByDependentSlot();

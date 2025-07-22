@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Pikamoon.Controller;
 namespace Pikamoon.UI
 {
 
@@ -11,6 +12,8 @@ namespace Pikamoon.UI
         public Image HeadShieldFiller;
         public Image UpperShieldFiller;
         public Image LowerShieldFiller;
+        [Space]
+        public Image AimIcon;
         [Space]
         public Image HealthFiller;
         public TextMeshProUGUI HealthText;
@@ -48,16 +51,26 @@ namespace Pikamoon.UI
 
 
 
+        public void EquipWeapon(int index, Item item, bool isActive, Sprite AimSprite)
+        {
+            Weapons[index].AssignItem(item,false);
+
+            AimIcon.sprite = AimSprite;
+
+            if (isActive)
+                selectedIndex = index;
+        }
         public void EquipWeapon(int index, Sprite icon, bool isActive, int resourceRemaining, int totalResource)
         {
-            Weapons[index].AssignItem(icon, isActive, resourceRemaining,totalResource);
+            //Weapons[index].AssignItem(icon, isActive, resourceRemaining,totalResource);
 
             if(isActive)
                 selectedIndex = index;
         }
 
-        public void UnEquipWeapon(int index)
+        public void UnEquipWeapon(int index, Sprite icon)
         {
+            AimIcon.sprite = icon;
             Weapons[index].UnAssignItem(true);
         }
 

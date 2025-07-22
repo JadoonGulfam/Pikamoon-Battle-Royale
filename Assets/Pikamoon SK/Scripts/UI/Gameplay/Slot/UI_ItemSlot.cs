@@ -77,7 +77,7 @@ namespace Pikamoon.UI
 
         public abstract void AssignItem(Item item, bool alsoExecuteDependency);
         public abstract void AssignItemByDependentSlot(Item item);
-        public abstract void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100);
+        //public abstract void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100);
         public abstract void UnAssignItem(bool alsoExecuteDependency);
         public abstract void UnAssignItemByDependentSlot();
         public abstract void RemoveItem(bool alsoExecuteDependency);

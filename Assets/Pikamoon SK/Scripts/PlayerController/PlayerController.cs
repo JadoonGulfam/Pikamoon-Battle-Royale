@@ -272,7 +272,7 @@ namespace Pikamoon.Controller
         public void ToggleCursor(bool flag)
         {
             Cursor.visible = flag;
-            Cursor.lockState = !flag ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.lockState = !flag ? CursorLockMode.None : CursorLockMode.Confined;
         }
 
         #region Weapon Portion

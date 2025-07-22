@@ -38,6 +38,7 @@ namespace Pikamoon.Controller
 
         public OnBtnDown onPrimaryWeaponSelect_Down;
         public OnBtnDown onSecondaryWeaponSelect_Down;
+        public OnBtnDown onTertiaryWeaponSelect_Down;
 
         public OnBtnDown onJump_Down;
         
@@ -202,7 +203,10 @@ namespace Pikamoon.Controller
                 onSecondaryWeaponSelect_Down?.Invoke();
             }
 
-
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                onTertiaryWeaponSelect_Down?.Invoke();
+            }
 
             if (Input.GetMouseButtonDown(0))
             {

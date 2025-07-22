@@ -27,9 +27,6 @@ namespace Pikamoon.Controller
         [Space]
         public ItemCategory Weapons;
 
-        //[Space]
-        //public ItemCategory Weapons; 
-
         [Space]
         public ItemCategory Shields;
 
@@ -82,15 +79,14 @@ namespace Pikamoon.Controller
         Transform hitTransform;
         bool isPickableAnItem;
         bool isPointerOnLootBox;
-
+        bool IsInventoryOpen;
         IPickable pickableItem;
 
         private void Start()
         {
-
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
-
+            IsInventoryOpen = false;
         }
 
 
@@ -108,6 +104,7 @@ namespace Pikamoon.Controller
 
             playerInput.onPrimaryWeaponSelect_Down += ChangeToPrimaryWeapon;
             playerInput.onSecondaryWeaponSelect_Down += ChangeToSecondaryWeapon;
+            playerInput.onTertiaryWeaponSelect_Down += ChangeToTertiaryWeapon;
 
             playerInput.onWeaponDrop_Down += DropWeapon;
             playerInput.onPick_Down += Pick;
@@ -134,17 +131,24 @@ namespace Pikamoon.Controller
 
         void ToggleInventoryUI()
         {
-            if(!UI.inventoryUI._canvas.enabled)
+            Debug.Log("Came To Function");
+            if(!IsInventoryOpen)
             {
-                UI.inventoryUI._canvas.enabled = true;
-                Controller.CameraOrbitStatus = false;
-                //UI.hudcontroller.enabled = false;
+                Debug.Log("Came To Condition Part 1");
+                IsInventoryOpen = true;
+                ShowInventoryUI();
+                Controller.ToggleCursor(true);
+                AllowPickUp = false;
+                UI.hudcontroller.enabled = false;
             }
             else
             {
-                UI.inventoryUI._canvas.enabled = false;
-                Controller.CameraOrbitStatus = true;
-                //UI.hudcontroller.enabled = true;
+                Debug.Log("Came To Condition Part 2");
+                IsInventoryOpen = false;
+                HideInventoryUI(); 
+                Controller.ToggleCursor(false);
+                AllowPickUp = true;
+                UI.hudcontroller.enabled = true;
             }
         }
 
@@ -238,12 +242,12 @@ namespace Pikamoon.Controller
 
         void ShowInventoryUI()
         {
-            UI.inventoryUI.ShowUI(); 
+            UI.inventoryUI._canvas.enabled = true; 
             Controller.CameraOrbitStatus = false;
         }
         void HideInventoryUI()
         {
-            UI.inventoryUI.HideUI();
+            UI.inventoryUI._canvas.enabled = false;
             Controller.CameraOrbitStatus = true;
         }
 
@@ -379,7 +383,7 @@ namespace Pikamoon.Controller
                     Equipping(0, Weapons.items[0]);
                 }
             }
-            else
+            else 
             {
                 if (isUsingWeapon)
                 {
@@ -428,6 +432,43 @@ namespace Pikamoon.Controller
             }
         }
 
+
+        void ChangeToTertiaryWeapon()
+        {
+            if (Weapons.items[2] == null)
+                return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+
+
+            if (UsingWeaponIndex == 2)
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(2, Weapons.items[2], true);
+                }
+                else
+                {
+                    Equipping(2, Weapons.items[2]);
+                }
+            }
+            else
+            {
+                if (isUsingWeapon)
+                {
+                    UnEquipping(UsingWeaponIndex, Weapons.items[UsingWeaponIndex], false);
+
+                    Equipping(2, Weapons.items[2]);
+                }
+                else
+                {
+                    Equipping(2, Weapons.items[2]);
+                }
+            }
+        }
+
+        
         void UnEquipping(int index, Item item, bool ActivateNoWeapon)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
@@ -442,7 +483,7 @@ namespace Pikamoon.Controller
 
             weapon.OnUnEquip();
 
-            UI.hudcontroller.UnEquipWeapon(index);
+            UI.hudcontroller.UnEquipWeapon(index,DefaultFistNoWeapon.Data.AimIcon);
 
             isUsingWeapon = false;
 
@@ -460,7 +501,8 @@ namespace Pikamoon.Controller
             weapon.OnEquip();
 
             Controller.ActivateWeapon(weaponInfo);
-            UI.hudcontroller.EquipWeapon(index, weaponInfo.Data.icon, true, weapon.Health, weaponInfo.Data.InitialHealth);
+
+            UI.hudcontroller.EquipWeapon(index, item, true, weaponInfo.Data.AimIcon);
 
             isUsingWeapon = true;
             UsingWeaponIndex = index;

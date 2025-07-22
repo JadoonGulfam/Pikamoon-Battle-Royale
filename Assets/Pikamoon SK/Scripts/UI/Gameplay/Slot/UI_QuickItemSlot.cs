@@ -60,13 +60,13 @@ namespace Pikamoon.UI
         }
 
 
-        public override void AssignItem(Sprite icon, bool isActive, int _fullHealth = 100, int _health = 100)
-        {
-            if (Icon)
-                Icon.sprite = icon;
+        //public override void AssignItem(Sprite icon, bool isActive, int _fullHealth = 100, int _health = 100)
+        //{
+        //    if (Icon)
+        //        Icon.sprite = icon;
 
-            ChangeButtonAppearance(isActive ? ActiveSlotSettings : InActiveSlotSettings);
-        }
+        //    ChangeButtonAppearance(isActive ? ActiveSlotSettings : InActiveSlotSettings);
+        //}
 
         public override void UnAssignItem(bool alsoExecuteDependency)
         {
