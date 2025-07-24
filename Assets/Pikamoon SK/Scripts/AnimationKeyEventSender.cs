@@ -61,6 +61,16 @@ namespace Pikamoon.Controller
             Controller.IsRootMotionEnabled = false;
         }
 
+        public void ChangeLayerIndex(int layerIndex, float weight)
+        {
+            AC.SetAnimatorLayer(layerIndex, weight);
+        }
+
+        public void ResetEquipSettings()
+        {
+            AC.SetAnimatorLayer(3, 0);
+        }
+
         private void OnAnimatorMove()
         {
             if (Controller.IsRootMotionEnabled)

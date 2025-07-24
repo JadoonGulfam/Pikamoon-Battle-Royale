@@ -101,6 +101,10 @@ namespace Pikamoon.Controller
             //QuickItems.InitializeCategory();
             //AllItems.InitializeCategory();
 
+            UI.inventoryUI._inventory = this;
+            UI.lootBoxUI._inventory = this;
+
+            Controller.ActivateWeapon(DefaultFistNoWeapon);
 
             playerInput.onPrimaryWeaponSelect_Down += ChangeToPrimaryWeapon;
             playerInput.onSecondaryWeaponSelect_Down += ChangeToSecondaryWeapon;
@@ -111,10 +115,7 @@ namespace Pikamoon.Controller
 
             playerInput.onInventoryShow_Down += ToggleInventoryUI;
             
-            Controller.ActivateWeapon(DefaultFistNoWeapon);
 
-            UI.inventoryUI._inventory = this;
-            UI.lootBoxUI._inventory = this;
 
             allowPickUp = true;
         }
@@ -131,24 +132,21 @@ namespace Pikamoon.Controller
 
         void ToggleInventoryUI()
         {
-            Debug.Log("Came To Function");
             if(!IsInventoryOpen)
             {
-                Debug.Log("Came To Condition Part 1");
                 IsInventoryOpen = true;
                 ShowInventoryUI();
                 Controller.ToggleCursor(true);
                 AllowPickUp = false;
-                UI.hudcontroller.enabled = false;
+                UI.hudcontroller.canvas.enabled = false;
             }
             else
             {
-                Debug.Log("Came To Condition Part 2");
                 IsInventoryOpen = false;
                 HideInventoryUI(); 
                 Controller.ToggleCursor(false);
                 AllowPickUp = true;
-                UI.hudcontroller.enabled = true;
+                UI.hudcontroller.canvas.enabled = true;
             }
         }
 
@@ -431,8 +429,6 @@ namespace Pikamoon.Controller
                 }
             }
         }
-
-
         void ChangeToTertiaryWeapon()
         {
             if (Weapons.items[2] == null)
@@ -481,9 +477,15 @@ namespace Pikamoon.Controller
             weapon.transform.localPosition = Vector3.zero;
             weapon.transform.localRotation = Quaternion.identity;
 
+            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 40+ (int)weaponInfo.Data.restingPointType);
+            Controller.AC.PAnimator.SetTrigger(Controller.AC.Parameters.UnEquip.Hash);
+            Controller.AC.SetAnimatorLayer(3,1);
+
+
             weapon.OnUnEquip();
 
             UI.hudcontroller.UnEquipWeapon(index,DefaultFistNoWeapon.Data.AimIcon);
+
 
             isUsingWeapon = false;
 
@@ -503,6 +505,10 @@ namespace Pikamoon.Controller
             Controller.ActivateWeapon(weaponInfo);
 
             UI.hudcontroller.EquipWeapon(index, item, true, weaponInfo.Data.AimIcon);
+
+            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 30 + (int)weaponInfo.Data.restingPointType);
+            Controller.AC.PAnimator.SetTrigger(Controller.AC.Parameters.Equip.Hash);
+            Controller.AC.SetAnimatorLayer(3, 1);
 
             isUsingWeapon = true;
             UsingWeaponIndex = index;

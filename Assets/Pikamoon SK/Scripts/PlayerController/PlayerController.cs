@@ -79,7 +79,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public CameraController _cameraController;
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
-        [HideInInspector] public AnimatorController AC;
+        [HideInInspector] public AnimationController AC;
         [HideInInspector] public HealthController HC;
         [HideInInspector] public HitBehaviour HitBehaviour;
        // public PlayerSetupForMultiplayer MP_Setup;
@@ -208,6 +208,7 @@ namespace Pikamoon.Controller
 
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
+            AC = GetComponent<AnimationController>();
             HC = GetComponent<HealthController>();
 
 
@@ -339,7 +340,6 @@ namespace Pikamoon.Controller
 
             return direction;
         }
-
         public Vector3 GetDirectionAccordingToCameraIgnoringMoving()
         {
             Vector3 direction = transform.forward;
@@ -361,19 +361,16 @@ namespace Pikamoon.Controller
 
             return direction;
         }
-
         public void RotatePlayerTowardDirection(Vector3 Direction, float Speed)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), Time.deltaTime * Speed);
         }
-
         public void RotateTowardsCameraForwardDirection(float Speed)
         {
             Vector3 Dir = GetDirectionAccordingToCameraIgnoringMoving();
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Dir), Time.deltaTime * Speed);
         }
-
         public void RotatePlayerTowardsCameraForwardDirectionDuringAim(float Speed,float AdditionalVal)
         {
             Vector3 forward = _cameraController._camera.transform.right + (_cameraController._camera.transform.forward * AdditionalVal);
@@ -381,7 +378,6 @@ namespace Pikamoon.Controller
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * Speed);
         }
-
         public void CameraOrbit()
         {
             _cameraController.CameraOrbitStatus(cameraOrbitStatus);

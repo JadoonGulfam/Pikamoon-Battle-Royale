@@ -118,7 +118,15 @@ namespace Pikamoon.Controller
             vertical   = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-            if(!AllowInputFlagWhileUIEnabled)
+
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                onInventoryShow_Down?.Invoke();
+            }
+
+
+            if (!AllowInputFlagWhileUIEnabled)
                 return;
 
 
@@ -179,11 +187,6 @@ namespace Pikamoon.Controller
                 onWeaponDrop_Down?.Invoke();
             }
            
-            
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                onInventoryShow_Down?.Invoke();
-            }
 
 
             if (Input.GetKeyDown(KeyCode.E))

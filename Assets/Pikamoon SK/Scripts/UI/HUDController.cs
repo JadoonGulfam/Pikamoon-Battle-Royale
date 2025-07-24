@@ -8,6 +8,8 @@ namespace Pikamoon.UI
     public class HUDController : MonoBehaviour
     {
         #region Health System
+        public Canvas canvas;
+
         [Header("Health System")]
         public Image HeadShieldFiller;
         public Image UpperShieldFiller;

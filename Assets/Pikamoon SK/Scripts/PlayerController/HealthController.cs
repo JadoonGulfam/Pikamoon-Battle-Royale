@@ -27,6 +27,7 @@ namespace Pikamoon.Controller
         }
 
 
+
         public void Initialize(UIManagerSK _uiManager)
         {
             UI = _uiManager;
