@@ -6,7 +6,7 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public float maxHealth = 100f;
     public float currentHealth;
     public Image healthBar;
-
+    [SerializeField] private PikamoonAi pikamoonAi;
     public float Health 
     {
         get 
@@ -28,8 +28,7 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public void ReduceHealth(float amount)
     {
         currentHealth -= amount;
-        healthBar.fillAmount = currentHealth/ maxHealth;
-        Debug.Log("Pikamoon Health: " + currentHealth);
+        healthBar.fillAmount = currentHealth/ maxHealth;     
 
         if (currentHealth <= 0)
         {
@@ -60,6 +59,7 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public void OnDamage(float damageAmount, Transform hitter)
     {
         ReduceHealth(damageAmount);
+        pikamoonAi.TakeDamage(hitter);
     }
 
     public Transform GetTransform()

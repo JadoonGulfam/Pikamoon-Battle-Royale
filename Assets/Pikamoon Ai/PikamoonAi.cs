@@ -12,7 +12,6 @@ public class PikamoonAi : MonoBehaviour
     [SerializeField] private PikamoonAiHealth pikamoonHealth;
     [SerializeField] private PikamoonAiFollow pikamoonFollow;
     [SerializeField] private PikamoonHandHitbox pikamoonHandHitbox;
-    [SerializeField] private PikamoonSoundManager pikamoonSoundmanager;
 
     public LayerMask playerLayer; // Layer mask to detect the player
     private PikamoonState pikaState;
@@ -325,7 +324,7 @@ public class PikamoonAi : MonoBehaviour
         animator.ResetTrigger("Hit");
     }
 
-    public void TakeDamage(float damage, Transform _attacker) // Function to reduce health
+    public void TakeDamage(Transform _attacker) // Function to reduce health
     {
         if (/*isDead || */isStunned) return;
        // pikamoonHealth.ReduceHealth(damage);
@@ -497,23 +496,16 @@ public class PikamoonAi : MonoBehaviour
         return player != null && Vector3.Distance(transform.position, player.position) <= agroRange;
     }
     public Transform initPosition;
-    //public void Fire()
-    //{
-    //    if (attackVFX != null)
-    //    {
-    //        GameObject Vfx = Instantiate(attackVFX, initPosition.position, initPosition.rotation);
-    //        Vfx.GetComponent<FireProjectile>().target = player;
-    //    }
-    //}
+
 
     [SerializeField] private GameObject fireballPrefab;
-    //[SerializeField] private Transform firePoint;
     [SerializeField] private float projectileSpeed = 15f;
     public void LaunchProjectileAtPlayer()
     {
         if (fireballPrefab == null || initPosition == null) return;
 
         GameObject projectile = Instantiate(fireballPrefab, initPosition.position, Quaternion.identity);
+        projectile.GetComponent<FireBall>().pikamoon = this.transform;
         Vector3 direction = (player.position + Vector3.up * 1.2f - initPosition.position).normalized;
 
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -521,8 +513,6 @@ public class PikamoonAi : MonoBehaviour
         {
             rb.linearVelocity = direction * projectileSpeed;
         }
-
-        Debug.Log("Fireball launched!");
     }   
     public void EnableHitbox() => pikamoonHandHitbox.canDamage = true;
     public void DisableHitbox() => pikamoonHandHitbox.canDamage = false;

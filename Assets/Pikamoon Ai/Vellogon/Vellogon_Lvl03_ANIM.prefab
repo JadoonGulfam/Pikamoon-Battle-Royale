@@ -404,6 +404,7 @@ GameObject:
   - component: {fileID: 6982300975007411907}
   - component: {fileID: 3405560194929179851}
   - component: {fileID: 9164085711617797750}
+  - component: {fileID: 665167979046916319}
   m_Layer: 8
   m_Name: Vellogon_Lvl03_ANIM
   m_TagString: Pikamoon
@@ -493,6 +494,7 @@ MonoBehaviour:
   overrideControllers: {fileID: 22100000, guid: b16157b45f2df1f498235065afba485d, type: 2}
   pikamoonHealth: {fileID: 7994922733750297874}
   pikamoonFollow: {fileID: 641562054765154701}
+  pikamoonHandHitbox: {fileID: 9140089783078428823}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -508,8 +510,9 @@ MonoBehaviour:
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 8402231984200969548}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
+  projectileSpeed: 15
 --- !u!114 &7994922733750297874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +528,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 1372930015481127046}
+  pikamoonAi: {fileID: 1901552894412246127}
 --- !u!114 &641562054765154701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,6 +655,103 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ae839a2ec12f90948b6bd83bed77e2f8, type: 2}
   - {fileID: 2100000, guid: 73b47fcd1ab18da49a4ab649d1059dda, type: 2}
   - {fileID: 2100000, guid: e3795115c5adee34dad9e1a21ab3f49a, type: 2}
+--- !u!82 &665167979046916319
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051523921372587318}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1096103852739000597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2033,7 +2134,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 2.79}
-  m_SizeDelta: {x: 1, y: 0.06}
+  m_SizeDelta: {x: 0.8, y: 0.04}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8241912825204263071
 Canvas:
@@ -4043,7 +4144,9 @@ GameObject:
   - component: {fileID: 7825291234881070978}
   - component: {fileID: 7154004402217169259}
   - component: {fileID: 1091787158948578483}
-  m_Layer: 8
+  - component: {fileID: 8492450328485376285}
+  - component: {fileID: 9140089783078428823}
+  m_Layer: 14
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4128,17 +4231,59 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 33024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32511
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8492450328485376285
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7417920384788995103}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 33024
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 32511
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &9140089783078428823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7417920384788995103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3bece1c7708e0f44a9062d539995bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pikamoon: {fileID: 3868828918625131862}
+  damage: 10
+  canDamage: 0
 --- !u!1 &7420360614554618215
 GameObject:
   m_ObjectHideFlags: 0

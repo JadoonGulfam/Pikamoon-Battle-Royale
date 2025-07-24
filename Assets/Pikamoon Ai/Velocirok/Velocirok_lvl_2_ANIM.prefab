@@ -1369,6 +1369,7 @@ GameObject:
   - component: {fileID: 300824732438557066}
   - component: {fileID: 5320859576982562494}
   - component: {fileID: 8718550758623483788}
+  - component: {fileID: 9094145984024336417}
   m_Layer: 8
   m_Name: Velocirok_lvl_2_ANIM
   m_TagString: Pikamoon
@@ -1456,6 +1457,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 8892110071757867178}
+  pikamoonAi: {fileID: 3792647995098474820}
 --- !u!114 &7169351287539271124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1501,10 +1503,11 @@ MonoBehaviour:
   overrideControllers: {fileID: 22100000, guid: 9a97451f194513944bf2f0ca48d39ebb, type: 2}
   pikamoonHealth: {fileID: 1477038613496539185}
   pikamoonFollow: {fileID: 7169351287539271124}
+  pikamoonHandHitbox: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  pikaType: 1
+  pikaType: 0
   alertMark: {fileID: 4305907813615371696, guid: 31824d631f55e874384a88ccb673ed93, type: 3}
   stunnedMark: {fileID: 9093059172011303860, guid: 8f223a4f9ea08254791e472a309ec78f, type: 3}
   alertMarkTransform: {fileID: 7960367570109001990}
@@ -1516,8 +1519,9 @@ MonoBehaviour:
   stunDuration: 20
   alertDuration: 20
   alertRange: 15
-  attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 8364476973537315112}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
+  projectileSpeed: 10
 --- !u!114 &5738082694889477578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1612,6 +1616,103 @@ MonoBehaviour:
   capture_new: {fileID: 6905376152120781218}
   material:
   - {fileID: 2100000, guid: 309701b035ae7a84b8e5d2ab3cb2c44c, type: 2}
+--- !u!82 &9094145984024336417
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023726863995590265}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6118152351675746328
 GameObject:
   m_ObjectHideFlags: 0

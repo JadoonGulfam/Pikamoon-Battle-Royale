@@ -2229,7 +2229,6 @@ GameObject:
   - component: {fileID: 8370043831276692269}
   - component: {fileID: 4702980224614674920}
   - component: {fileID: 1262464782493063383}
-  - component: {fileID: 8058045597095766970}
   m_Layer: 8
   m_Name: Dolphi_lvl01_ANIM
   m_TagString: Untagged
@@ -2320,7 +2319,6 @@ MonoBehaviour:
   pikamoonHealth: {fileID: 1135088376830782764}
   pikamoonFollow: {fileID: 2920945876424634581}
   pikamoonHandHitbox: {fileID: 0}
-  pikamoonSoundmanager: {fileID: 8058045597095766970}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -2336,10 +2334,9 @@ MonoBehaviour:
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 4148191411413974841}
-  fireballPrefab: {fileID: 0}
-  projectileSpeed: 15
+  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
+  projectileSpeed: 10
 --- !u!114 &1135088376830782764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2355,6 +2352,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 8968843312560232188}
+  pikamoonAi: {fileID: 7765407596798111446}
 --- !u!114 &2920945876424634581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2576,27 +2574,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8058045597095766970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7303491216728691392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e55349605b922b4db0c8e10a897a793, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 1262464782493063383}
-  idleClip: {fileID: 8300000, guid: 20f261681f5f2c14891922cb28f7924d, type: 3}
-  walkClip: {fileID: 8300000, guid: 176da6b88c3352344aee58c14a409d75, type: 3}
-  runClip: {fileID: 0}
-  alertClip: {fileID: 0}
-  attackClip: {fileID: 0}
-  hitClip: {fileID: 0}
-  stunClip: {fileID: 0}
-  fleeClip: {fileID: 0}
 --- !u!1 &7327121196676979409
 GameObject:
   m_ObjectHideFlags: 0

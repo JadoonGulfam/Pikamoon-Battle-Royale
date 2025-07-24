@@ -676,7 +676,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 0.6, y: 0.3}
+  m_SizeDelta: {x: 0.5, y: 0.03}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6896479489233529460
 Canvas:
@@ -1741,6 +1741,8 @@ MonoBehaviour:
   overrideControllers: {fileID: 22100000, guid: ff78fd8b24daf104b872eabde0d17c70, type: 2}
   pikamoonHealth: {fileID: 4586897629679175158}
   pikamoonFollow: {fileID: 6897055644556969221}
+  pikamoonHandHitbox: {fileID: 0}
+  pikamoonSoundmanager: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -1756,7 +1758,6 @@ MonoBehaviour:
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 1147487223217006013}
   fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
   projectileSpeed: 10
@@ -1775,6 +1776,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 3985966348352928410}
+  pikamoonAi: {fileID: 7036879507226472421}
 --- !u!114 &6897055644556969221
 MonoBehaviour:
   m_ObjectHideFlags: 0
