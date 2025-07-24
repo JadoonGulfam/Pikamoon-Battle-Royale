@@ -69,7 +69,7 @@ namespace TriangleNet
             // Based on using -U switch, call the corresponding function
             if (behavior.MaxAngle == 0.0)
             {
-                // DisableCollider the "no max angle" code. It may return weired vertex locations.
+                // Disable the "no max angle" code. It may return weired vertex locations.
                 return FindNewLocationWithoutMaxAngle(org, dest, apex, ref xi, ref eta, true, badotri);
             }
 
