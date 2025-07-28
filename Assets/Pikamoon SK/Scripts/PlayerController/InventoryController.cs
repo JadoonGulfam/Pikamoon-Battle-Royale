@@ -471,13 +471,13 @@ namespace Pikamoon.Controller
 
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
 
-            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+            //Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
 
-            weapon.transform.parent = restingPoint.transform;
-            weapon.transform.localPosition = Vector3.zero;
-            weapon.transform.localRotation = Quaternion.identity;
+            //weapon.transform.parent = restingPoint.transform;
+            //weapon.transform.localPosition = Vector3.zero;
+            //weapon.transform.localRotation = Quaternion.identity;
 
-            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 40+ (int)weaponInfo.Data.restingPointType);
+            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 400+ (int)weaponInfo.Data.restingPointType);
             Controller.AC.PAnimator.SetTrigger(Controller.AC.Parameters.UnEquip.Hash);
             Controller.AC.SetAnimatorLayer(3,1);
 
@@ -494,11 +494,19 @@ namespace Pikamoon.Controller
                 Controller.ActivateWeapon(DefaultFistNoWeapon);
             }
         }
+
         void Equipping(int index, Item item)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
 
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            //Weapon should be on rest point before handed over to Holding Point
+            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+            weapon.transform.parent = restingPoint.transform;
+            weapon.transform.localPosition = Vector3.zero;
+            weapon.transform.localRotation = Quaternion.identity;
+
 
             weapon.OnEquip();
 
@@ -506,7 +514,7 @@ namespace Pikamoon.Controller
 
             UI.hudcontroller.EquipWeapon(index, item, true, weaponInfo.Data.AimIcon);
 
-            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 30 + (int)weaponInfo.Data.restingPointType);
+            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 300 + (int)weaponInfo.Data.restingPointType);
             Controller.AC.PAnimator.SetTrigger(Controller.AC.Parameters.Equip.Hash);
             Controller.AC.SetAnimatorLayer(3, 1);
 
@@ -564,7 +572,6 @@ namespace Pikamoon.Controller
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
-
         void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
             AddWeaponsToList(weapon, index);
@@ -639,7 +646,6 @@ namespace Pikamoon.Controller
                 Weapons.AvailedInCategory++;
             }
         }
-
         public void RemoveWeaponsFromList(int index)
         {
             if (Weapons.items[index] != null)

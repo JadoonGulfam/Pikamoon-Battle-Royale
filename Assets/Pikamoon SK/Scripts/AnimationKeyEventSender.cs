@@ -41,6 +41,16 @@ namespace Pikamoon.Controller
         {
             _throwManager.ThrowFromAimPoint();
         }
+
+        public void EquipWepon()
+        {
+            Controller.HandOverWeapon();
+        }
+        public void UnEquipWepon()
+        {
+            Controller.RestActiveWeapon();
+        }
+
         public void PlayShootSound()
         {
             //shootingManager.PlayAttackSound();

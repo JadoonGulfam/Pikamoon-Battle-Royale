@@ -12,12 +12,18 @@ namespace Pikamoon.Controller
     {
         leftShoulder,
         rightShoulder,
+
         leftPelvis,
         rightPelvis,
+
         leftKnee,
         rightKnee,
+
         leftBack,
-        RightBack
+        RightBack,
+
+        leftBut,
+        RightBut
     }
 
     public abstract class Weapon : Item, IPickable ,IDroppable

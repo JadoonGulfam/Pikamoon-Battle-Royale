@@ -283,12 +283,12 @@ namespace Pikamoon.Controller
 
             //ActiveWeapon.Prefab.gameObject.SetActive(true);
 
-            if(ActiveWeapon.Prefab != null)
-            {
-                ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
-                ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
-                ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
-            }
+            //if(ActiveWeapon.Prefab != null)
+            //{
+            //    ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
+            //    ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+            //    ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            //}
 
             if(weapon.Data.Type == WeaponType.None)
             {
@@ -310,6 +310,26 @@ namespace Pikamoon.Controller
                 _throwing.ActivateWeapon(weapon.Prefab);
             }
         }
+
+        public void HandOverWeapon ()
+        {
+            if (ActiveWeapon.Prefab != null)
+            {
+                ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)ActiveWeapon.Data.HoldingPointType].Point;
+                ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+                ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            }
+        }
+
+        public void RestActiveWeapon ()
+        {
+            Transform restingPoint = GetRestingPoint(ActiveWeapon.Data.restingPointType);
+
+            ActiveWeapon.Prefab.transform.parent = restingPoint.transform;
+            ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+            ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+        }
+
         public Transform GetRestingPoint(WeaponRestingPointType type)
         {
             return restingPoints[(int)type].Point;
