@@ -38,6 +38,7 @@ namespace Pikamoon.Controller
 
         public OnBtnDown onPrimaryWeaponSelect_Down;
         public OnBtnDown onSecondaryWeaponSelect_Down;
+        public OnBtnDown onTertiaryWeaponSelect_Down;
 
         public OnBtnDown onJump_Down;
         
@@ -117,7 +118,15 @@ namespace Pikamoon.Controller
             vertical   = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-            if(!AllowInputFlagWhileUIEnabled)
+
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                onInventoryShow_Down?.Invoke();
+            }
+
+
+            if (!AllowInputFlagWhileUIEnabled)
                 return;
 
 
@@ -178,11 +187,6 @@ namespace Pikamoon.Controller
                 onWeaponDrop_Down?.Invoke();
             }
            
-            
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                onInventoryShow_Down?.Invoke();
-            }
 
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -202,7 +206,10 @@ namespace Pikamoon.Controller
                 onSecondaryWeaponSelect_Down?.Invoke();
             }
 
-
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                onTertiaryWeaponSelect_Down?.Invoke();
+            }
 
             if (Input.GetMouseButtonDown(0))
             {

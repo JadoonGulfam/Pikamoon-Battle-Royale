@@ -7,10 +7,10 @@ namespace Pikamoon.UI
 {
     public class DragManager : MonoBehaviour
     {
-        public UI_ItemSlot draggedSlot;
         public Item draggedItem;
-        public EventSystem _eventSystem;
+        public UI_ItemSlot draggedSlot;
         public UI_ItemSlot hoveredSlot;
+        public EventSystem _eventSystem;
 
 
         private Canvas canvas;
@@ -24,17 +24,22 @@ namespace Pikamoon.UI
 
         public bool IsDragging => draggedItem != null;
 
-        public void StartDrag(UI_ItemSlot slot, Controller.Item item)
+        public void StartDrag(UI_ItemSlot slot, Item item)
         {
             draggedSlot = slot;
             draggedItem = item;
+            hoveredSlot = slot;
 
             if (dragIcon != null && item != null)
             {
                 dragIcon.sprite = item.Data.icon;
-                dragIcon.enabled = true;
-                dragIcon.gameObject.SetActive(true);
             }
+        }
+
+        public void EnableDraggedIcon()
+        {
+            dragIcon.enabled = true;
+            dragIcon.gameObject.SetActive(true);
         }
 
         public void EndDrag()
@@ -66,7 +71,7 @@ namespace Pikamoon.UI
             var targetSlot = hoveredSlot;
             var targetItem = targetSlot?.GetItem();
 
-            if (targetSlot == null)
+            if (targetSlot == null && draggedSlot != targetSlot)
             {
                 draggedSlot.RemoveItem(true);
                 EndDrag();

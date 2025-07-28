@@ -69,6 +69,8 @@ namespace Pikamoon.Controller
         public ParamInt SecondaryState;
         public ParamTrigger EndCombat;
         public ParamFloat SpeedMulForAnim;
+        public ParamTrigger Equip;
+        public ParamTrigger UnEquip;
 
     }
 
@@ -121,6 +123,8 @@ namespace Pikamoon.Controller
             Parameters.SecondaryState.Hash = Animator.StringToHash(Parameters.SecondaryState.Name);
             Parameters.EndCombat.Hash = Animator.StringToHash(Parameters.EndCombat.Name);
             Parameters.SpeedMulForAnim.Hash = Animator.StringToHash(Parameters.SpeedMulForAnim.Name);
+            Parameters.Equip.Hash = Animator.StringToHash(Parameters.Equip.Name);
+            Parameters.UnEquip.Hash = Animator.StringToHash(Parameters.UnEquip.Name);
         }
 
         public void SetAnimationState(string stateName, float transitionDuration = 0.1f)
@@ -196,6 +200,11 @@ namespace Pikamoon.Controller
                 Debug.Log("RPC called with value: " + index + playerID);
             }
             
+        }
+
+        public void SetAnimatorLayer(int index, float weight)
+        {
+            PAnimator.SetLayerWeight(index, weight);
         }
     }
 }

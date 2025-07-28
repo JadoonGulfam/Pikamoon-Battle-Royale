@@ -310,7 +310,7 @@ namespace Pikamoon.Controller
                     ActiveWeapon.ShootBullet(hit.point);
 
 
-                    Controller._cameraController.EnableBulletActionCam(ActiveWeapon.GetActionCamParent());
+                    //Controller._cameraController.EnableBulletActionCam(ActiveWeapon.GetActionCamParent());
                     DebugTransform.transform.position = hit.point;
                 }
             }

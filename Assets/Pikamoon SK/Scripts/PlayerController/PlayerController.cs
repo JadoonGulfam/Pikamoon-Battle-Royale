@@ -79,7 +79,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public CameraController _cameraController;
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
-        [HideInInspector] public AnimatorController AC;
+        [HideInInspector] public AnimationController AC;
         [HideInInspector] public HealthController HC;
         [HideInInspector] public HitBehaviour HitBehaviour;
        // public PlayerSetupForMultiplayer MP_Setup;
@@ -208,6 +208,7 @@ namespace Pikamoon.Controller
 
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
+            AC = GetComponent<AnimationController>();
             HC = GetComponent<HealthController>();
 
 
@@ -267,18 +268,12 @@ namespace Pikamoon.Controller
                     CameraOrbit();
                 }
             }
-
-            //if (MP_Setup != null && MP_Setup.isMinePlayer)
-            //{
-
-            //}
-
         }
 
         public void ToggleCursor(bool flag)
         {
             Cursor.visible = flag;
-            Cursor.lockState = !flag ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.lockState = !flag ? CursorLockMode.None : CursorLockMode.Confined;
         }
 
         #region Weapon Portion
@@ -288,12 +283,12 @@ namespace Pikamoon.Controller
 
             //ActiveWeapon.Prefab.gameObject.SetActive(true);
 
-            if(ActiveWeapon.Prefab != null)
-            {
-                ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
-                ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
-                ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
-            }
+            //if(ActiveWeapon.Prefab != null)
+            //{
+            //    ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)weapon.Data.HoldingPointType].Point;
+            //    ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+            //    ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            //}
 
             if(weapon.Data.Type == WeaponType.None)
             {
@@ -315,6 +310,26 @@ namespace Pikamoon.Controller
                 _throwing.ActivateWeapon(weapon.Prefab);
             }
         }
+
+        public void HandOverWeapon ()
+        {
+            if (ActiveWeapon.Prefab != null)
+            {
+                ActiveWeapon.Prefab.transform.parent = holdingPoints[(int)ActiveWeapon.Data.HoldingPointType].Point;
+                ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+                ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            }
+        }
+
+        public void RestActiveWeapon ()
+        {
+            Transform restingPoint = GetRestingPoint(ActiveWeapon.Data.restingPointType);
+
+            ActiveWeapon.Prefab.transform.parent = restingPoint.transform;
+            ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
+            ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+        }
+
         public Transform GetRestingPoint(WeaponRestingPointType type)
         {
             return restingPoints[(int)type].Point;
@@ -345,7 +360,6 @@ namespace Pikamoon.Controller
 
             return direction;
         }
-
         public Vector3 GetDirectionAccordingToCameraIgnoringMoving()
         {
             Vector3 direction = transform.forward;
@@ -367,19 +381,16 @@ namespace Pikamoon.Controller
 
             return direction;
         }
-
         public void RotatePlayerTowardDirection(Vector3 Direction, float Speed)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), Time.deltaTime * Speed);
         }
-
         public void RotateTowardsCameraForwardDirection(float Speed)
         {
             Vector3 Dir = GetDirectionAccordingToCameraIgnoringMoving();
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Dir), Time.deltaTime * Speed);
         }
-
         public void RotatePlayerTowardsCameraForwardDirectionDuringAim(float Speed,float AdditionalVal)
         {
             Vector3 forward = _cameraController._camera.transform.right + (_cameraController._camera.transform.forward * AdditionalVal);
@@ -387,7 +398,6 @@ namespace Pikamoon.Controller
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * Speed);
         }
-
         public void CameraOrbit()
         {
             _cameraController.CameraOrbitStatus(cameraOrbitStatus);
