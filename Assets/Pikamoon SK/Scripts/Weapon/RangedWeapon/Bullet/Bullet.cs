@@ -187,7 +187,7 @@ namespace Pikamoon.Controller
                 HitParticle.gameObject.SetActive(true);
             }
 
-            RootWeapon.Holder._cameraController.DisableBulletActionCam();
+            //RootWeapon.Holder._cameraController.DisableBulletActionCam();
 
             rigidBody.linearVelocity = Vector3.zero;
             rigidBody.isKinematic = true;

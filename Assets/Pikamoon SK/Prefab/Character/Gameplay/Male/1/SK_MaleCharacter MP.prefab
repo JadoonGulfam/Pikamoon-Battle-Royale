@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef15933da32181948aece866e7364bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Attacker: {fileID: 0}
   effectPoint: 3
   collider: {fileID: 6166974388280600565}
 --- !u!65 &6166974388280600565
@@ -1051,6 +1052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef15933da32181948aece866e7364bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Attacker: {fileID: 0}
   effectPoint: 2
   collider: {fileID: 3483720891942942542}
 --- !u!65 &3483720891942942542
@@ -1722,6 +1724,8 @@ MonoBehaviour:
   AutoEquipWeapon: 0
   isUsingWeapon: 0
   UsingWeaponIndex: 0
+  lootBox: {fileID: 0}
+  yOffsetFromGroundAfterDeath: 0
   rangeForItemPickup: 3
   pickupLayerMask:
     serializedVersion: 2
@@ -1731,6 +1735,7 @@ MonoBehaviour:
     m_Bits: 0
   ItemsParent: {fileID: 0}
   MP_Setup: {fileID: 5019896821763037933}
+  Controller: {fileID: 0}
 --- !u!114 &8316401940058211667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,6 +1823,14 @@ MonoBehaviour:
       Value: 0
       Hash: 0
     SpeedMulForAnim:
+      Name: 
+      Value: 0
+      Hash: 0
+    Equip:
+      Name: 
+      Value: 0
+      Hash: 0
+    UnEquip:
       Name: 
       Value: 0
       Hash: 0
@@ -2127,9 +2140,9 @@ MonoBehaviour:
   Animator: {fileID: 1086203437312232061}
   ApplyTiming: 2
   SyncSettings: 127
-  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0
-  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3
-  TotalWords: 17
+  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84d61cee4fe6060c9bf3bcda0298a7fe20c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0bf100bd923552865528f21757873248c4fe6afb2622275ab0543aaddb4c56c983c588e24aa047c9281bfea26be149bb20ada38e39c86ca55b73d5ce188962d75c14711c1ec83cbd879437e5ac8c5b81ff7c5a706da017d1f4fc1c89dfe470ed896fb6b50bc076ea950801a7bccc539c7f4e0f7eaee6b9731f91380b0d3dfc26b8a7a444f958341e25e5d730f1014744cf63d2f40
+  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3b4ecb233ed6cef2b
+  TotalWords: 20
 --- !u!114 &140668517170468462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2970,6 +2983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef15933da32181948aece866e7364bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Attacker: {fileID: 0}
   effectPoint: 0
   collider: {fileID: 1363607604138800805}
 --- !u!1 &3163806997677759137
@@ -6002,6 +6016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef15933da32181948aece866e7364bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Attacker: {fileID: 0}
   effectPoint: 4
   collider: {fileID: 716088253740802732}
 --- !u!65 &716088253740802732
@@ -6317,6 +6332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef15933da32181948aece866e7364bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Attacker: {fileID: 0}
   effectPoint: 1
   collider: {fileID: 457008965021175160}
 --- !u!65 &457008965021175160

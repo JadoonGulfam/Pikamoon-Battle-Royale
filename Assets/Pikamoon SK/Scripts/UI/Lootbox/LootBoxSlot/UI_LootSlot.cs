@@ -12,12 +12,6 @@ namespace Pikamoon.UI
         [SerializeField] LootBox_UI lootBox_UI;
         public TextMeshProUGUI Quantity;
 
-
-        Item CurrentItem;
-
-
-
-
         public override void AssignItem(Item item, bool alsoExecuteDependency)
         {
         }
@@ -26,9 +20,9 @@ namespace Pikamoon.UI
         }
 
 
-        public override void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100)
-        {
-        }
+        //public override void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100)
+        //{
+        //}
         public override void UnAssignItem(bool alsoExecuteDependency)
         {
         }
@@ -69,6 +63,10 @@ namespace Pikamoon.UI
 
         public override void OnPointerExit(PointerEventData eventData)
         {
+        }
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+
         }
 
         public override Item GetItem()

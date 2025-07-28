@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8252893876925014380}
   - component: {fileID: 7929178312387668632}
   - component: {fileID: 3312635196927712059}
+  - component: {fileID: 7750003951544535078}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -36,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 480, y: 270}
+  m_AnchoredPosition: {x: 0, y: 0.89}
+  m_SizeDelta: {x: 0.5, y: 0.04}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8252893876925014380
 Canvas:
@@ -102,6 +103,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7750003951544535078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624743629712467409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c02ea0fed5128fa4da4d498f41792e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2294094784442588485
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,10 +261,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 380162955067440574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.903}
-  m_SizeDelta: {x: 0.5, y: 0.06}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7426375525747742008
 CanvasRenderer:
@@ -332,15 +345,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 1708abff9d476bc4b872b46d59e6a584, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -270.897
+      value: -82.05916
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1708abff9d476bc4b872b46d59e6a584, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.64553
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1708abff9d476bc4b872b46d59e6a584, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 261.65482
+      value: 809.27594
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1708abff9d476bc4b872b46d59e6a584, type: 3}
       propertyPath: m_LocalRotation.w
@@ -373,6 +386,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1708abff9d476bc4b872b46d59e6a584, type: 3}
       propertyPath: m_Name
       value: Smolwing_lvl01_ANIM
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1708abff9d476bc4b872b46d59e6a584, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1708abff9d476bc4b872b46d59e6a584, type: 3}
+      propertyPath: m_TagString
+      value: Pikamoon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -463,13 +484,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1
-  m_Radius: 0.5
+  m_Height: 0.6
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.49, z: 0}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &7549746762195407436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,7 +632,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3583029589432245246}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 0
@@ -620,7 +641,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
+  m_Height: 0.6
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

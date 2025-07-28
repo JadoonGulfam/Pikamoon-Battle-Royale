@@ -29,8 +29,10 @@ namespace Pikamoon.UI
 
             for(int i  = 0; i < _lootbox.items.Count;i++)
             {
+                Debug.Log("Item Check");
                 if(_lootbox.items[i] != null)
                 {
+                    Debug.Log("Item Available");
                     itemSlots[i].ItemName.text = _lootbox.items[i].Data.ItemName;
                     itemSlots[i].Icon.sprite = _lootbox.items[i].Data.icon;
                     itemSlots[i].LevelNo.text = _lootbox.items[i].Data.LevelNo;

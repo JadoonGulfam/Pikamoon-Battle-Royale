@@ -41,6 +41,16 @@ namespace Pikamoon.Controller
         {
             _throwManager.ThrowFromAimPoint();
         }
+
+        public void EquipWepon()
+        {
+            Controller.HandOverWeapon();
+        }
+        public void UnEquipWepon()
+        {
+            Controller.RestActiveWeapon();
+        }
+
         public void PlayShootSound()
         {
             //shootingManager.PlayAttackSound();
@@ -59,6 +69,16 @@ namespace Pikamoon.Controller
         public void DisableRootMotion()
         {
             Controller.IsRootMotionEnabled = false;
+        }
+
+        public void ChangeLayerIndex(int layerIndex, float weight)
+        {
+            AC.SetAnimatorLayer(layerIndex, weight);
+        }
+
+        public void ResetEquipSettings()
+        {
+            AC.SetAnimatorLayer(3, 0);
         }
 
         private void OnAnimatorMove()

@@ -11,6 +11,8 @@ public class PikamoonAi : MonoBehaviour
     [SerializeField] private AnimatorOverrideController overrideControllers; // Different Pikamoon animations
     [SerializeField] private PikamoonAiHealth pikamoonHealth;
     [SerializeField] private PikamoonAiFollow pikamoonFollow;
+    [SerializeField] private PikamoonHandHitbox pikamoonHandHitbox;
+    [SerializeField] private PikamoonSoundManager pikamoonSoundmanager;
 
     public LayerMask playerLayer; // Layer mask to detect the player
     private PikamoonState pikaState;
@@ -52,7 +54,7 @@ public class PikamoonAi : MonoBehaviour
     enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
 
     private Transform player;
-
+   
     private void Start()
     {
         friendlyAttackThreshold = Random.Range(2, 4);
@@ -174,6 +176,7 @@ public class PikamoonAi : MonoBehaviour
         animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle); // 0 = Idle
         navMeshAgent.ResetPath();
         idleTimer = Random.Range(idleTimemin, idleTimemax);
+        //pikamoonSoundmanager.PlayIdle();
     }
 
     private void StartMove()
@@ -325,7 +328,7 @@ public class PikamoonAi : MonoBehaviour
     public void TakeDamage(float damage, Transform _attacker) // Function to reduce health
     {
         if (/*isDead || */isStunned) return;
-        pikamoonHealth.ReduceHealth(damage);
+       // pikamoonHealth.ReduceHealth(damage);
         if (pikamoonHealth.IsDead()) { Die(); return; } // If Pikamoon's health is 0, trigger death
 
         StartCoroutine(StopMovementForHit());
@@ -402,12 +405,7 @@ public class PikamoonAi : MonoBehaviour
         isFleeing = false;
 
         pikaState = PikamoonState.Stunned;
-        navMeshAgent.isStopped = true; // Stop movement
-                                       //  animator.ResetTrigger("Attack");
-                                       // animator.ResetTrigger("Walk");
-                                       // animator.ResetTrigger("Alert");
-                                       // animator.ResetTrigger("Idle");
-                                       //  animator.ResetTrigger("Run");
+        navMeshAgent.isStopped = true; // Stop movement                     
         animator.SetTrigger("Stunned"); // Play stunned animation
         if (stunnedMarkInstance == null)
             stunnedMarkInstance = Instantiate(stunnedMark, alertMarkTransform);
@@ -442,7 +440,6 @@ public class PikamoonAi : MonoBehaviour
             alertMarkExclamation.SetActive(false);                                // animator.ResetTrigger("Alert");
                                                                                   // animator.ResetTrigger("Idle");
         animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Run); // Play flee animation
-
         Vector3 fleeDirection = (transform.position - player.position).normalized;
         Vector3 fleeTarget = transform.position + fleeDirection * fleeDistance;
 
@@ -499,16 +496,36 @@ public class PikamoonAi : MonoBehaviour
     {
         return player != null && Vector3.Distance(transform.position, player.position) <= agroRange;
     }
-    public GameObject attackVFX;
     public Transform initPosition;
-    public void Fire()
+    //public void Fire()
+    //{
+    //    if (attackVFX != null)
+    //    {
+    //        GameObject Vfx = Instantiate(attackVFX, initPosition.position, initPosition.rotation);
+    //        Vfx.GetComponent<FireProjectile>().target = player;
+    //    }
+    //}
+
+    [SerializeField] private GameObject fireballPrefab;
+    //[SerializeField] private Transform firePoint;
+    [SerializeField] private float projectileSpeed = 15f;
+    public void LaunchProjectileAtPlayer()
     {
-        if (attackVFX != null)
+        if (fireballPrefab == null || initPosition == null) return;
+
+        GameObject projectile = Instantiate(fireballPrefab, initPosition.position, Quaternion.identity);
+        Vector3 direction = (player.position + Vector3.up * 1.2f - initPosition.position).normalized;
+
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            GameObject Vfx = Instantiate(attackVFX, initPosition.position, initPosition.rotation);
-            Vfx.GetComponent<FireProjectile>().target = player;
+            rb.linearVelocity = direction * projectileSpeed;
         }
-    }
+
+        Debug.Log("Fireball launched!");
+    }   
+    public void EnableHitbox() => pikamoonHandHitbox.canDamage = true;
+    public void DisableHitbox() => pikamoonHandHitbox.canDamage = false;
 }
 public enum PikamoonState
 {
