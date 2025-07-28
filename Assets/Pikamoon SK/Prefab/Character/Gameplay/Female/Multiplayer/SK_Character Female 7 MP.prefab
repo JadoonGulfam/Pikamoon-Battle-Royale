@@ -3722,6 +3722,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 0
   m_Effectors: []
+--- !u!1 &4717212277410366816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9024221073945286059}
+  m_Layer: 0
+  m_Name: LeftPelvis-RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9024221073945286059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4717212277410366816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.6005871, y: 0.2070828, z: -0.6793719, w: 0.36724058}
+  m_LocalPosition: {x: -0.1035, y: 0.2335, z: 0.1282}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1419495320800810866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4729416104024501329
 GameObject:
   m_ObjectHideFlags: 0
@@ -4973,9 +5004,9 @@ MonoBehaviour:
   - Type: 1
     Point: {fileID: 0}
   - Type: 2
-    Point: {fileID: 0}
+    Point: {fileID: 9024221073945286059}
   - Type: 3
-    Point: {fileID: 0}
+    Point: {fileID: 8809317163014446759}
   - Type: 4
     Point: {fileID: 0}
   - Type: 5
@@ -4984,6 +5015,10 @@ MonoBehaviour:
     Point: {fileID: 2307185091765094901}
   - Type: 7
     Point: {fileID: 3568024797325836162}
+  - Type: 8
+    Point: {fileID: 3996014593357782326}
+  - Type: 9
+    Point: {fileID: 2508596533235375488}
   ActiveWeapon:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
@@ -5074,6 +5109,8 @@ MonoBehaviour:
   AutoEquipWeapon: 0
   isUsingWeapon: 0
   UsingWeaponIndex: 0
+  lootBox: {fileID: 0}
+  yOffsetFromGroundAfterDeath: 0
   rangeForItemPickup: 3
   pickupLayerMask:
     serializedVersion: 2
@@ -5083,6 +5120,7 @@ MonoBehaviour:
     m_Bits: 8192
   ItemsParent: {fileID: 4302478396834241952}
   MP_Setup: {fileID: -5579298946888498169}
+  Controller: {fileID: 0}
 --- !u!114 &4061917551975218230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5104,73 +5142,81 @@ MonoBehaviour:
     isWalkRun:
       Name: isWalkRun
       Value: 0
-      Hash: 0
+      Hash: 911437720
     inAir:
       Name: inAir
       Value: 0
-      Hash: 0
+      Hash: -225098472
     isCrouch:
       Name: isCrouch
       Value: 0
-      Hash: 0
+      Hash: 1092549058
     inCombat:
       Name: inCombat
       Value: 0
-      Hash: 0
+      Hash: 1244664908
     isSwim:
       Name: isSwim
       Value: 0
-      Hash: 0
+      Hash: 795965116
     AttackState:
       Name: AttackState
       Value: 0
-      Hash: 0
+      Hash: 1324401630
     isSlide:
       Name: isSlide
       Value: 0
-      Hash: 0
+      Hash: 2079891292
     Speed:
       Name: Speed
       Value: 0
-      Hash: 0
+      Hash: -823668238
     NexComboAttack:
       Name: NextComboAttack
       Value: 0
-      Hash: 0
+      Hash: -479543219
     ComboAttackType:
       Name: ComboAttackType
       Value: 0
-      Hash: 0
+      Hash: 742406570
     XVal:
       Name: XVal
       Value: 0
-      Hash: 0
+      Hash: 2133777862
     YVal:
       Name: YVal
       Value: 0
-      Hash: 0
+      Hash: -946685277
     GetHit:
       Name: GetHit
       Value: 0
-      Hash: 0
+      Hash: -1949373134
     Shoot:
       Name: Shoot
       Value: 0
-      Hash: 0
+      Hash: -1316629574
     isAiming:
       Name: isAiming
       Value: 0
-      Hash: 0
+      Hash: -2117988583
     SecondaryState:
       Name: SecondaryState
       Value: 0
-      Hash: 0
+      Hash: 614986093
     EndCombat:
       Name: EndCombat
       Value: 0
-      Hash: 0
+      Hash: -206844012
     SpeedMulForAnim:
-      Name: 
+      Name: SpeedMulForAnim
+      Value: 0
+      Hash: 0
+    Equip:
+      Name: Equip
+      Value: 0
+      Hash: 0
+    UnEquip:
+      Name: UnEquip
       Value: 0
       Hash: 0
   HitAnimations: []
@@ -5318,9 +5364,9 @@ MonoBehaviour:
   Animator: {fileID: 5106551208690816092}
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0
-  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3
-  TotalWords: 11
+  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84d61cee4fe6060c9bf3bcda0298a7fe20c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0bf100bd923552865528f21757873248c4fe6afb2622275ab0543aaddb4c56c983c588e24aa047c9281bfea26be149bb20ada38e39c86ca55b73d5ce188962d75c14711c1ec83cbd879437e5ac8c5b81ff7c5a706da017d1f4fc1c89dfe470ed896fb6b50bc076ea950801a7bccc539c7f4e0f7eaee6b9731f91380b0d3dfc26b8a7a444f958341e25e5d730f1014744cf63d2f40
+  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3b4ecb233ed6cef2b
+  TotalWords: 12
 --- !u!1 &5747425802092185501
 GameObject:
   m_ObjectHideFlags: 0
@@ -5438,6 +5484,10 @@ Transform:
   m_Children:
   - {fileID: 1351671974898621842}
   - {fileID: 5507471612399356701}
+  - {fileID: 9024221073945286059}
+  - {fileID: 8809317163014446759}
+  - {fileID: 3996014593357782326}
+  - {fileID: 2508596533235375488}
   m_Father: {fileID: 7744690326825696968}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5870136540546232352
@@ -6728,6 +6778,37 @@ Transform:
   - {fileID: 6622821153225406806}
   m_Father: {fileID: 7022907647245626058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7419200737846414134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508596533235375488}
+  m_Layer: 0
+  m_Name: RightBut-RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508596533235375488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419200737846414134}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.69840455, y: 0.68522173, z: -0.024256153, w: 0.20521684}
+  m_LocalPosition: {x: 0.12019995, y: -0.1781013, z: -0.15189932}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1419495320800810866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7574487141999983868
 GameObject:
   m_ObjectHideFlags: 0
@@ -6759,6 +6840,37 @@ Transform:
   m_Children:
   - {fileID: 3941762119604241441}
   m_Father: {fileID: 6450838831217129418}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7576861817707192556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8809317163014446759}
+  m_Layer: 0
+  m_Name: RightPelvis-RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8809317163014446759
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7576861817707192556}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.72471994, y: -0.26025513, z: -0.55257124, w: 0.31892517}
+  m_LocalPosition: {x: -0.0919, y: 0.2442, z: -0.1319}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1419495320800810866}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7596032393343281879
 GameObject:
@@ -6944,6 +7056,37 @@ MonoBehaviour:
   colliderRadius: 1
   colliderCenter: {x: 0, y: 0.9, z: 0}
   MP_Setup: {fileID: -5579298946888498169}
+--- !u!1 &7861913784469914273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3996014593357782326}
+  m_Layer: 0
+  m_Name: LeftBut-RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3996014593357782326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7861913784469914273}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.31020254, y: -0.09090134, z: 0.66500205, w: -0.6732635}
+  m_LocalPosition: {x: 0.136, y: -0.18, z: 0.177}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1419495320800810866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7885464901944595686
 GameObject:
   m_ObjectHideFlags: 0
