@@ -422,8 +422,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -314.88654, y: 17.539, z: 215.85867}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 815899378804482731}
   - {fileID: 6957728600382378066}
@@ -511,8 +511,8 @@ MonoBehaviour:
   alertDuration: 20
   alertRange: 15
   initPosition: {fileID: 8402231984200969548}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
-  projectileSpeed: 15
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
 --- !u!114 &7994922733750297874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4268,7 +4268,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &9140089783078428823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4282,6 +4282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pikamoon: {fileID: 3868828918625131862}
+  _collider: {fileID: 1091787158948578483}
   damage: 10
   canDamage: 0
 --- !u!1 &7420360614554618215

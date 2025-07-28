@@ -547,8 +547,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -309.1719, y: 15.923761, z: 174.86942}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6054306387854244878}
   - {fileID: 9119023150300296641}
@@ -625,7 +625,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444899126967866654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e50c465a3a16df4da3e829a74b5d53d, type: 3}
   m_Name: 
@@ -680,7 +680,7 @@ MonoBehaviour:
   alertDuration: 20
   alertRange: 15
   initPosition: {fileID: 4478570660148628353}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
   projectileSpeed: 10
 --- !u!114 &5913668505403258594
 MonoBehaviour:
@@ -2932,7 +2932,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568665676814546526}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3017,7 +3017,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &3373354142194913399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3031,6 +3031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pikamoon: {fileID: 6243466485401783827}
+  _collider: {fileID: 1958138025760221596}
   damage: 10
   canDamage: 0
 --- !u!1 &8936508976329916435

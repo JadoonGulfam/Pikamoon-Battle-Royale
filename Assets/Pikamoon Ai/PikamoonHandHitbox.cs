@@ -3,6 +3,7 @@ using UnityEngine;
 public class PikamoonHandHitbox : MonoBehaviour
 {
     [SerializeField] Transform Pikamoon;
+    public Collider _collider;
     [SerializeField] float damage = 10f;
     public bool canDamage = false;
     IDamageable damageable;
@@ -19,6 +20,6 @@ public class PikamoonHandHitbox : MonoBehaviour
             else
                 damageable.OnDamage(damage, this.transform);          
         }
-
+        _collider.enabled = false;
     }
 }

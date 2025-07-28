@@ -196,7 +196,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3570407691184711251}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pikamoon: {fileID: 7256741851358494906}
+  _collider: {fileID: 2536986987519383765}
   damage: 10
   canDamage: 0
 --- !u!1 &4037091276786165937
@@ -496,16 +497,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 118.322205
+      value: 125.875
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.302911
+      value: 16.022
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -36.45693
+      value: -48.52253
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -534,6 +547,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_Name
@@ -714,7 +731,7 @@ MonoBehaviour:
   alertDuration: 20
   alertRange: 15
   initPosition: {fileID: 5180003712207043470}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
   projectileSpeed: 10
 --- !u!114 &5593951858188453375
 MonoBehaviour:
