@@ -9,6 +9,7 @@ namespace Pikamoon.Controller
         public PlayerData playerData;
 
         [SerializeField] float Gravity;
+        [SerializeField] float TransitionTime = 0.1f;
 
         [Header("Animation State")]
         [Space]
@@ -123,11 +124,11 @@ namespace Pikamoon.Controller
                     AC.PAnimator.SetBool(AC.Parameters.inAir.Hash, true);
                     if (isJumping)
                     {
-                        AC.SetAnimationState(_jumpStateHash, 0.1f);
+                        AC.SetAnimationState(_jumpStateHash, TransitionTime);
                     }
                     else
                     {
-                        AC.SetAnimationState(_fallStateHash, 0.1f);
+                        AC.SetAnimationState(_fallStateHash, TransitionTime);
                     }
                 }
 
