@@ -431,6 +431,7 @@ public class PikamoonAi : MonoBehaviour
         isFleeing = true;
         isRoaming = false;
         isAlert = false;
+        navMeshAgent.isStopped = false;
         // isIdle = false;
         isAttacking = false;
         pikaState = PikamoonState.Run;
