@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> designerPreset;
     public UserDataBase userDataBase;
     private int playerIndex = 0;
-    private int weaponIndex = 0;
+    private int weaponIndex = 2;
     private Transform weaponMountPoint;
 
     public List<GameObject> uiPanels;

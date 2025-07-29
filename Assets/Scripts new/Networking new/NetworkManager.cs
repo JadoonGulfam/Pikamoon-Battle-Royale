@@ -18,7 +18,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     
     
     public GameObject[] wearables;
-    public int selectedWearablesIndex = 0;
+    public int selectedWearablesIndex = 2;
 
 
     public GameObject[] playerPrefab;
@@ -30,7 +30,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
     public float pikamoonRadius = 10f;
-    public int pikamoonCount = 8;
+    public int pikamoonCount ;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
 
@@ -59,14 +59,22 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     //public void selectCharacter(int index)
     //{
     //    ChrarcterIndex=index;
-        
+
     //} 
     //public void selectwearable(int index)
     //{
     //    selectedWearablesIndex=index;
-        
+
     //}
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[2], playerNetworkObject.transform.position, Quaternion.identity);
+
+            Debug.Log("E key was pressed!");
+        }
+    }
     private void Start()
     {
         runnerInstance.JoinSessionLobby(SessionLobby.Shared, lobbyName);
@@ -170,15 +178,15 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
-
+    NetworkObject playerNetworkObject;
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "SKController_Meadows")
         {
             GameObject go = GameObject.FindGameObjectWithTag("Ref");
-            NetworkObject playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
+             playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
             go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject);
-            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
+           // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
 
             if (!isPikamoonAdd)
             {

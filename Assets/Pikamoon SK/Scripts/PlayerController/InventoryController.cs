@@ -191,6 +191,7 @@ namespace Pikamoon.Controller
 
         public void Pick()
         {
+            print("item picked");
             if (hitTransform)
             {
                 if (Controller.IsInAttack || Controller.InAir)
