@@ -277,8 +277,16 @@ namespace Pikamoon.Controller
         }
 
         #region Weapon Portion
+        Transform WeaponForRestingPoint;
+        WeaponRestingPointType RestingPointOfWeapon;
         public void ActivateWeapon(WeaponInfo weapon)
         {
+            if(ActiveWeapon.Prefab != null)
+            {
+                WeaponForRestingPoint = ActiveWeapon.Prefab.transform;
+                RestingPointOfWeapon = ActiveWeapon.Data.restingPointType;
+            }
+
             ActiveWeapon = weapon;
 
             //ActiveWeapon.Prefab.gameObject.SetActive(true);
@@ -323,11 +331,11 @@ namespace Pikamoon.Controller
 
         public void RestActiveWeapon ()
         {
-            Transform restingPoint = GetRestingPoint(ActiveWeapon.Data.restingPointType);
+            Transform restingPoint = GetRestingPoint(RestingPointOfWeapon);
 
-            ActiveWeapon.Prefab.transform.parent = restingPoint.transform;
-            ActiveWeapon.Prefab.transform.localPosition = Vector3.zero;
-            ActiveWeapon.Prefab.transform.localRotation = Quaternion.identity;
+            WeaponForRestingPoint.parent = restingPoint.transform;
+            WeaponForRestingPoint.localPosition = Vector3.zero;
+            WeaponForRestingPoint.localRotation = Quaternion.identity;
         }
 
         public Transform GetRestingPoint(WeaponRestingPointType type)
@@ -400,6 +408,9 @@ namespace Pikamoon.Controller
         }
         public void CameraOrbit()
         {
+            if (!_cameraController)
+                return;
+
             _cameraController.CameraOrbitStatus(cameraOrbitStatus);
             input.AllowInputFlagWhileUIEnabled = cameraOrbitStatus;
         }
