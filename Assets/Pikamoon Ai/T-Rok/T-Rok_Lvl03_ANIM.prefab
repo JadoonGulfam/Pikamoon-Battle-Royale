@@ -163,7 +163,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.93}
-  m_SizeDelta: {x: 1, y: 0.07}
+  m_SizeDelta: {x: 0.8, y: 0.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3234100822028903240
 Canvas:
@@ -1156,6 +1156,7 @@ GameObject:
   - component: {fileID: 6222179604652589244}
   - component: {fileID: 7966409547009888969}
   - component: {fileID: 7671373156845069999}
+  - component: {fileID: 1713260136806975540}
   m_Layer: 8
   m_Name: T-Rok_Lvl03_ANIM
   m_TagString: Pikamoon
@@ -1173,11 +1174,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -318.2, y: 17.574318, z: 215.65459}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1631292475162054009}
-  - {fileID: 6921400545891326278}
   - {fileID: 7942721594399085452}
   - {fileID: 4000086884529506697}
   m_Father: {fileID: 0}
@@ -1256,16 +1256,15 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 7942721594399085452}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 2.5
-  walkSpeed: 1
-  attackRange: 4
+  fleeSpeed: 7
+  walkSpeed: 3
+  attackRange: 6
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  attackVFX: {fileID: 1607237653479753947, guid: 7ec48a4e9831553479ac66cc605f899f, type: 3}
   initPosition: {fileID: 773040508373603929}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 95255f5b02b15a740829cb1a6d8a7c52, type: 3}
-  projectileSpeed: 10
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 12
 --- !u!114 &908172620471224710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1281,6 +1280,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 1975633458202390300}
+  pikamoonAi: {fileID: 5126609509160513767}
 --- !u!114 &2964614356680409351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1404,6 +1404,103 @@ MonoBehaviour:
   material:
   - {fileID: 2100000, guid: 26b69ed95797b5e41bfdad90a6bead5c, type: 2}
   - {fileID: 2100000, guid: 0e00b6aead9f0ea4bb10770511553836, type: 2}
+--- !u!82 &1713260136806975540
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641755145506885142}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3759783683622298241
 GameObject:
   m_ObjectHideFlags: 0
@@ -2155,6 +2252,7 @@ Transform:
   m_Children:
   - {fileID: 3475592462512028949}
   - {fileID: 6968909847331462760}
+  - {fileID: 6921400545891326278}
   m_Father: {fileID: 6527330671690247504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5764678422792327314
@@ -3594,7 +3692,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 6527330671690247504}
+    m_TransformParent: {fileID: 1631292475162054009}
     m_Modifications:
     - target: {fileID: 2395706062980702206, guid: 25dc4ee396b8e7e428c552627322d5e0, type: 3}
       propertyPath: m_Enabled

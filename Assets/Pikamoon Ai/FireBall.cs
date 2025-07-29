@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FireBall : MonoBehaviour
 {
+    public Transform pikamoon;
     public float damage = 10f;
     public float lifetime = 5f; // auto-destroy after time
     IDamageable damageable;
@@ -16,10 +17,10 @@ public class FireBall : MonoBehaviour
         damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            //if (RootWeapon.Holder.transform == damageable.GetTransform())
-            //    return;
-            //else
-                damageable.OnDamage(damage, this.transform);
+            if (pikamoon.transform == damageable.GetTransform())
+                return;
+            else
+            damageable.OnDamage(damage, this.transform);
             Destroy(gameObject);
         }
 
@@ -34,24 +35,5 @@ public class FireBall : MonoBehaviour
         //rigidBody.isKinematic = true;
         //transform.position = transform.position + transform.forward.normalized;
         //_collider.enabled = false;
-
-
-        // Check if the hit object is the player
-        //if (other.CompareTag("Player"))
-        //{
-        //    // Apply damage to the player
-        //    //PlayerHealth health = other.GetComponent<PlayerHealth>();
-        //    //if (health != null)
-        //    //{
-        //    //    health.TakeDamage(damage);
-        //    //}
-        //    Debug.Log("hit player");
-        //    // Destroy the fireball
-        //    Destroy(gameObject);
-        //}
-        //else if (!other.isTrigger) // Optional: destroy if it hits a wall or non-trigger
-        //{
-        //    Destroy(gameObject);
-        //}
     }
 }
