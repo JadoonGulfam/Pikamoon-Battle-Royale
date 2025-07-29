@@ -69,7 +69,7 @@ namespace Pikamoon.Controller
             set { allowAutoPickUp = value; }
         }
 
-        [SerializeField]private PlayerController Controller;
+        [SerializeField] private PlayerController Controller;
         private PlayerInput playerInput;
 
         LootBox CurrentLootbox;
@@ -114,7 +114,7 @@ namespace Pikamoon.Controller
             playerInput.onPick_Down += Pick;
 
             playerInput.onInventoryShow_Down += ToggleInventoryUI;
-            
+
 
 
             allowPickUp = true;
@@ -132,7 +132,7 @@ namespace Pikamoon.Controller
 
         void ToggleInventoryUI()
         {
-            if(!IsInventoryOpen)
+            if (!IsInventoryOpen)
             {
                 IsInventoryOpen = true;
                 ShowInventoryUI();
@@ -143,7 +143,7 @@ namespace Pikamoon.Controller
             else
             {
                 IsInventoryOpen = false;
-                HideInventoryUI(); 
+                HideInventoryUI();
                 Controller.ToggleCursor(false);
                 AllowPickUp = true;
                 UI.hudcontroller.canvas.enabled = true;
@@ -214,6 +214,20 @@ namespace Pikamoon.Controller
             }
         }
 
+        public void Pick(Item item)
+        {
+            if (Controller.IsInAttack || Controller.InAir)
+                return;
+
+            pickableItem = item.GetComponent<IPickable>();
+            if (pickableItem != null)
+            {
+                isPickableAnItem = false;
+                PickupLootBox(pickableItem);
+            }
+        }
+
+
         public void PickItemFromLootBox(int index)
         {
             IndexInLootBox = index;
@@ -240,7 +254,7 @@ namespace Pikamoon.Controller
 
         void ShowInventoryUI()
         {
-            UI.inventoryUI._canvas.enabled = true; 
+            UI.inventoryUI._canvas.enabled = true;
             Controller.CameraOrbitStatus = false;
         }
         void HideInventoryUI()
@@ -381,7 +395,7 @@ namespace Pikamoon.Controller
                     Equipping(0, Weapons.items[0]);
                 }
             }
-            else 
+            else
             {
                 if (isUsingWeapon)
                 {
@@ -464,7 +478,7 @@ namespace Pikamoon.Controller
             }
         }
 
-        
+
         void UnEquipping(int index, Item item, bool ActivateNoWeapon)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
@@ -477,14 +491,14 @@ namespace Pikamoon.Controller
             //weapon.transform.localPosition = Vector3.zero;
             //weapon.transform.localRotation = Quaternion.identity;
 
-            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 400+ (int)weaponInfo.Data.restingPointType);
+            Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 400 + (int)weaponInfo.Data.restingPointType);
             Controller.AC.PAnimator.SetTrigger(Controller.AC.Parameters.UnEquip.Hash);
-            Controller.AC.SetAnimatorLayer(3,1);
+            Controller.AC.SetAnimatorLayer(3, 1);
 
 
             weapon.OnUnEquip();
 
-            UI.hudcontroller.UnEquipWeapon(index,DefaultFistNoWeapon.Data.AimIcon);
+            UI.hudcontroller.UnEquipWeapon(index, DefaultFistNoWeapon.Data.AimIcon);
 
 
             isUsingWeapon = false;
@@ -575,7 +589,7 @@ namespace Pikamoon.Controller
         void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
             AddWeaponsToList(weapon, index);
-            UI.inventoryUI.AssignToWeapons(weapon,index);
+            UI.inventoryUI.AssignToWeapons(weapon, index);
 
             weapon.OnPicked();
 
@@ -611,7 +625,7 @@ namespace Pikamoon.Controller
             // if this weapon is collected from Loot Box
             if (!isPickableAnItem)
             {
-                if(isEquipeWeapon)
+                if (isEquipeWeapon)
                     weapon.OnEquip();
 
                 weapon.transform.gameObject.SetActive(true);
@@ -832,8 +846,8 @@ namespace Pikamoon.Controller
 
             if (isPickableAnItem)
             {
-                pickableItem.OnPicked(); 
-                
+                pickableItem.OnPicked();
+
                 item.transform.parent = ItemsParent;
                 item.transform.localPosition = Vector3.zero;
                 item.transform.localRotation = Quaternion.identity;
@@ -902,12 +916,12 @@ namespace Pikamoon.Controller
             if (isPickableAnItem)
             {
                 pickableItem.OnPicked();
-                
+
                 item.transform.parent = ItemsParent;
                 item.transform.localPosition = Vector3.zero;
                 item.transform.localRotation = Quaternion.identity;
 
-                item.gameObject.SetActive(false); 
+                item.gameObject.SetActive(false);
                 SuccessfullyItemPickedFromEnvironment();
             }
             else
@@ -920,7 +934,7 @@ namespace Pikamoon.Controller
 
         public void AddAllItemsToList(Item item, int index)
         {
-            if(AllItems.items[index] == null)
+            if (AllItems.items[index] == null)
             {
                 AllItems.items[index] = item;
                 AllItems.AvailedInCategory++;
