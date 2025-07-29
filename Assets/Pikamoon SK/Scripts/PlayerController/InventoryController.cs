@@ -522,7 +522,6 @@ namespace Pikamoon.Controller
             weapon.transform.localPosition = Vector3.zero;
             weapon.transform.localRotation = Quaternion.identity;
 
-
             weapon.OnEquip();
 
             Controller.ActivateWeapon(weaponInfo);
