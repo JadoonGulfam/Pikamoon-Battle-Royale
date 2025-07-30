@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private int playerIndex = 0;
     private int weaponIndex = 2;
     private Transform weaponMountPoint;
-
+    public Transform playerPosition;
     public List<GameObject> uiPanels;
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
+            _player = Instantiate(designerPreset[playerIndex], playerPosition);
             weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
         }
         if (_weapon != null)
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Instantiate the selected prefab at the spawn position
-        _player = Instantiate(designerPreset[index], Vector3.zero, Quaternion.identity);
+        _player = Instantiate(designerPreset[index], playerPosition);
         weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
         playerIndex = index;
     }
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
     }
     public void PlayerActiveDeactive(bool value)
     {
-        _player?.SetActive(value);
+       if(_player != null)    _player.SetActive(value);
     }
     public void SwitchUIPanels(int index) 
     {

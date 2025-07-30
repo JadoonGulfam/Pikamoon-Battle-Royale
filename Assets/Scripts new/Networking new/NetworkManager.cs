@@ -119,6 +119,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             SessionName = sessionName,
             GameMode = GameMode.Shared,
         });
+        LoadingManager.Instance.ActivateLoading("Circle_Loading", false);
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -322,7 +323,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-
+        LoadingManager.Instance.DeactivateAll();
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)

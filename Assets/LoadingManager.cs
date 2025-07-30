@@ -79,9 +79,9 @@ public class LoadingManager : MonoBehaviour
     }
     public void LoadSceneAdditive(string sceneName = "", Action onComplete = null)
     {
-        if (string.IsNullOrEmpty(sceneName))
-            _fakeLoadRoutine = StartCoroutine(FakeLoadingCoroutine(onComplete));
-        else
+        //if (string.IsNullOrEmpty(sceneName))
+        //    _fakeLoadRoutine = StartCoroutine(FakeLoadingCoroutine(onComplete));
+        //else
             StartCoroutine(LoadSceneAdditiveAsync(sceneName, onComplete));
     }
     private IEnumerator LoadSceneAsync(string sceneName, Action onComplete)
@@ -108,18 +108,18 @@ public class LoadingManager : MonoBehaviour
 
     private IEnumerator LoadSceneAdditiveAsync(string sceneName, Action onComplete)
     {
-        if (_activeFillImage) _activeFillImage.fillAmount = 0f;
+        //if (_activeFillImage) _activeFillImage.fillAmount = 0f;
 
         var asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        asyncLoad.allowSceneActivation = false;
+       // asyncLoad.allowSceneActivation = false;
 
-        while (asyncLoad.progress < 0.9f)
-        {
-            if (_activeFillImage)
-                _activeFillImage.fillAmount = asyncLoad.progress / 0.9f;
+        //while (asyncLoad.progress < 0.9f)
+        //{
+        //    if (_activeFillImage)
+        //        _activeFillImage.fillAmount = asyncLoad.progress / 0.9f;
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
         asyncLoad.allowSceneActivation = true;
 
@@ -146,5 +146,18 @@ public class LoadingManager : MonoBehaviour
 
         DeactivateAll();      // hide UI
         onComplete?.Invoke();
+    }
+    public void UnloadScene(string sceneName)
+    {
+        StartCoroutine(UnloadAdditiveScene(sceneName));
+    }
+
+    private IEnumerator UnloadAdditiveScene(string sceneName)
+    {
+        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
+        while (!asyncUnload.isDone)
+        {
+            yield return null;
+        }
     }
 }
