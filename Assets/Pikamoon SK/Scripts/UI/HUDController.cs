@@ -129,7 +129,28 @@ namespace Pikamoon.UI
 
         #endregion
 
-        
+        #region Capture
+        [Header("Capture")]
+        public Transform CaptureAction;
+        [SerializeField] TextMeshProUGUI PikamoonName;
+        [SerializeField] TextMeshProUGUI Key;
+        public void ShowCaptureUI(string name, string keyName)
+        {
+            PikamoonName.text = name;
+            Key.text = keyName;
+
+            CaptureAction.gameObject.SetActive(true);
+        }
+
+        public void HideCaptureUI()
+        {
+            CaptureAction.gameObject.SetActive(false);
+        }
+
+
+
+        #endregion
+
     }
 
 }

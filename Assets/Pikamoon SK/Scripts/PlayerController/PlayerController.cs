@@ -82,6 +82,7 @@ namespace Pikamoon.Controller
         [HideInInspector] public AnimationController AC;
         [HideInInspector] public HealthController HC;
         [HideInInspector] public HitBehaviour HitBehaviour;
+        [HideInInspector] public UIManagerSK UI;
        // public PlayerSetupForMultiplayer MP_Setup;
 
         Shooting _shooting;
@@ -205,7 +206,7 @@ namespace Pikamoon.Controller
             _cameraController = _camera;
 
             CameraOrbitStatus = true;
-
+            UI = _uiManager;
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
             AC = GetComponent<AnimationController>();
@@ -244,8 +245,8 @@ namespace Pikamoon.Controller
             //_shooting = this.GetComponent<Shooting>();
 
 
-            inventory.Initialize(_uiManager, this);
-            HC.Initialize(_uiManager);
+            inventory.Initialize(UI, this);
+            HC.Initialize();
 
         }
 

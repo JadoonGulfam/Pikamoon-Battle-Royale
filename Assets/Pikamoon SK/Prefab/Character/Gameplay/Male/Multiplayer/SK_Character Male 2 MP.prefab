@@ -1307,7 +1307,7 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   AC: {fileID: 7497233921448406183}
   SFX: {fileID: 7279465803126956974}
-  OriginCapturePosition: {fileID: 0}
+  OriginCapturePosition: {fileID: 1780471213618584897}
   TargetCapturePosition: {fileID: 0}
   RangeToCheckForPikamoon: 20
   CaptureLayerMask:
@@ -1315,36 +1315,6 @@ MonoBehaviour:
     m_Bits: 256
   captureParticle: {fileID: 0}
   MP_Setup: {fileID: 0}
-  OnStunnedPikamoonFounded:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnStunnedPikamoonLost:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   OnCapturedSuccessfully:
     m_PersistentCalls:
       m_Calls: []
@@ -1625,6 +1595,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5925095319853434623}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1033890942873616253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400401951768559871}
+  m_Layer: 0
+  m_Name: LeftMidBack_RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400401951768559871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033890942873616253}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.2585371, y: -0.28214386, z: 0.62416404, w: 0.68115544}
+  m_LocalPosition: {x: 0.06500015, y: -0.14700113, z: -0.022996256}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4495664049102456869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1072902419810288872
 GameObject:
@@ -2512,11 +2513,11 @@ MonoBehaviour:
   SFX: {fileID: 7279465803126956974}
   animatorOverrideController: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
   ReadyToAttack: 0
-  RadiusToFindEnemy: 5
+  RadiusToFindEnemy: 4
   EnemyLayer:
     serializedVersion: 2
-    m_Bits: 33088
-  MaxDistanceToLoseLocking: 0
+    m_Bits: 384
+  MaxDistanceToLoseLocking: 3
   lockedEnemy: {fileID: 0}
   AttackCoolDownTime: 0.1
   ComboCoolDownTime: 0.5
@@ -3155,6 +3156,7 @@ MonoBehaviour:
   SFX: {fileID: 7279465803126956974}
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
+  TransitionTime: 0.1
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -4321,6 +4323,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1529803329407330471}
+  - {fileID: 400401951768559871}
+  - {fileID: 7961719067278773831}
   m_Father: {fileID: 1340054575258302428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4999226460451047592
@@ -5287,6 +5291,10 @@ MonoBehaviour:
     Point: {fileID: 50873017889376542}
   - Type: 9
     Point: {fileID: 9090019165337919654}
+  - Type: 10
+    Point: {fileID: 400401951768559871}
+  - Type: 11
+    Point: {fileID: 7961719067278773831}
   ActiveWeapon:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
@@ -5303,14 +5311,15 @@ MonoBehaviour:
   AC: {fileID: 0}
   HC: {fileID: 967801699323173734}
   HitBehaviour: {fileID: 0}
+  UI: {fileID: 0}
   isRootMotionEnabled: 0
   canExitCrouch: 0
   IsInAttack: 0
   IsSwimming: 0
   IgnoreGravity: 0
-  isGrounded: 1
+  isGrounded: 0
   cameraOrbitStatus: 1
-  inAir: 0
+  inAir: 1
 --- !u!114 &6863406446862670791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5323,7 +5332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b835f7614c8202041ba5a972ead7c1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
   DefaultFistNoWeapon:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
@@ -5388,6 +5396,7 @@ MonoBehaviour:
     m_Bits: 8192
   ItemsParent: {fileID: 1337736676179167968}
   MP_Setup: {fileID: 0}
+  isBusyInSwitchingWeapon: 0
   Controller: {fileID: 0}
 --- !u!114 &7497233921448406183
 MonoBehaviour:
@@ -5543,7 +5552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4669b567971f04849942c3accc98a5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
   headShieldValue: 0
   upperShieldValue: 0
   lowerShieldValue: 0
@@ -6290,6 +6298,37 @@ Transform:
   - {fileID: 7591226984617668626}
   m_Father: {fileID: 8444632929272389767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6945916000333791467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7961719067278773831}
+  m_Layer: 0
+  m_Name: RightMidBack_RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7961719067278773831
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6945916000333791467}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.66446304, y: -0.6408561, z: 0.24184503, w: 0.29883677}
+  m_LocalPosition: {x: 0.098, y: -0.151, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4495664049102456869}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6953969610889246252
 GameObject:
   m_ObjectHideFlags: 0
@@ -6939,6 +6978,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a9ecea138d32a45ba90518efdf2c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CC: {fileID: 0}
+  MinVelocityForIK: 1
+  SpeedToIK_Change: 2
   footIKWeight: 1
   footHeightOffset: 0.1
   groundLayer:

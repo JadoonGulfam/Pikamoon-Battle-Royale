@@ -17,9 +17,6 @@ namespace Pikamoon.Controller
 
     public class InventoryController : MonoBehaviour
     {
-        public UIManagerSK UI;
-
-        //[SerializeField] Bag
         [Header("Weapons")]
 
         public WeaponInfo DefaultFistNoWeapon;
@@ -69,6 +66,8 @@ namespace Pikamoon.Controller
             set { allowAutoPickUp = value; }
         }
 
+        [SerializeField] bool isBusyInSwitchingWeapon;
+
         [SerializeField] private PlayerController Controller;
         private PlayerInput playerInput;
 
@@ -81,9 +80,11 @@ namespace Pikamoon.Controller
         bool isPointerOnLootBox;
         bool IsInventoryOpen;
         IPickable pickableItem;
+        UIManagerSK UI;
 
         private void Start()
         {
+            isBusyInSwitchingWeapon = false;
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
             IsInventoryOpen = false;
@@ -375,16 +376,16 @@ namespace Pikamoon.Controller
 
         #region Weapon Portion
 
+
         void ChangeToPrimaryWeapon()
         {
-            if (Weapons.items[0] == null)
+            if (Weapons.items[0] == null || isBusyInSwitchingWeapon)
                 return;
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
-
-
+            isBusyInSwitchingWeapon = true;
             if (UsingWeaponIndex == 0)
             {
                 if (isUsingWeapon)
@@ -412,13 +413,14 @@ namespace Pikamoon.Controller
         }
         void ChangeToSecondaryWeapon()
         {
-            if (Weapons.items[1] == null)
+            if (Weapons.items[1] == null || isBusyInSwitchingWeapon)
                 return;
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
 
+            isBusyInSwitchingWeapon = true;
             if (UsingWeaponIndex == 1)
             {
                 if (isUsingWeapon)
@@ -446,13 +448,15 @@ namespace Pikamoon.Controller
         }
         void ChangeToTertiaryWeapon()
         {
-            if (Weapons.items[2] == null)
+            if (Weapons.items[2] == null || isBusyInSwitchingWeapon)
                 return;
+
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
 
+            isBusyInSwitchingWeapon = true;
             if (UsingWeaponIndex == 2)
             {
                 if (isUsingWeapon)
@@ -479,18 +483,15 @@ namespace Pikamoon.Controller
             }
         }
 
-
+        public void WeaponSwitchingComplete()
+        {
+            isBusyInSwitchingWeapon = false;
+        }
         void UnEquipping(int index, Item item, bool ActivateNoWeapon)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
 
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
-            //Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
-
-            //weapon.transform.parent = restingPoint.transform;
-            //weapon.transform.localPosition = Vector3.zero;
-            //weapon.transform.localRotation = Quaternion.identity;
 
             Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 400 + (int)weaponInfo.Data.restingPointType);
             Controller.AC.PAnimator.SetTrigger(Controller.AC.Parameters.UnEquip.Hash);
@@ -508,10 +509,20 @@ namespace Pikamoon.Controller
             {
                 Controller.ActivateWeapon(DefaultFistNoWeapon);
             }
+            else
+            {
+                Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+                weapon.transform.parent = restingPoint.transform;
+                weapon.transform.localPosition = Vector3.zero;
+                weapon.transform.localRotation = Quaternion.identity;
+
+            }
         }
 
         void Equipping(int index, Item item)
         {
+
             Weapon weapon = item.GetItemAs<Weapon>();
 
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();

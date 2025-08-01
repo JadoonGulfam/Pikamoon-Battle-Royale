@@ -170,7 +170,7 @@ namespace Pikamoon.Controller
             if (Controller.CurrentPlayerState == StateType.Slide || Controller.IsInAttack)
                 return;
 
-
+            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, 0);
             AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, 1);
 
             Vector3 direction = Controller.GetDirectionAccordingToCameraWhenMoving();

@@ -135,6 +135,7 @@ MonoBehaviour:
   SFX: {fileID: 7676989198170358426}
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
+  TransitionTime: 0.1
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -176,6 +177,8 @@ Transform:
   - {fileID: 1180582416906835247}
   - {fileID: 2267094348947440618}
   - {fileID: 4061164616803020035}
+  - {fileID: 1573940438947799741}
+  - {fileID: 8500741522991770024}
   m_Father: {fileID: 7049278639325382959}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &242509508705615142
@@ -1015,7 +1018,7 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   AC: {fileID: 8029575231833923490}
   SFX: {fileID: 7676989198170358426}
-  OriginCapturePosition: {fileID: 0}
+  OriginCapturePosition: {fileID: 4721283998214677386}
   TargetCapturePosition: {fileID: 0}
   RangeToCheckForPikamoon: 20
   CaptureLayerMask:
@@ -1023,36 +1026,6 @@ MonoBehaviour:
     m_Bits: 256
   captureParticle: {fileID: 0}
   MP_Setup: {fileID: 0}
-  OnStunnedPikamoonFounded:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnStunnedPikamoonLost:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   OnCapturedSuccessfully:
     m_PersistentCalls:
       m_Calls: []
@@ -2324,8 +2297,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -78.67626, y: -5.1904635, z: 34.36074}
-    m_Extent: {x: 78.77631, y: 6.880059, z: 34.47283}
+    m_Center: {x: -0.030688226, y: 0.82317233, z: -0.028776437}
+    m_Extent: {x: 0.28724164, y: 1.0040231, z: 0.28559366}
   m_DirtyAABB: 0
 --- !u!1 &2785857088152881874
 GameObject:
@@ -2488,11 +2461,11 @@ MonoBehaviour:
   SFX: {fileID: 7676989198170358426}
   animatorOverrideController: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
   ReadyToAttack: 0
-  RadiusToFindEnemy: 5
+  RadiusToFindEnemy: 4
   EnemyLayer:
     serializedVersion: 2
-    m_Bits: 33088
-  MaxDistanceToLoseLocking: 0
+    m_Bits: 384
+  MaxDistanceToLoseLocking: 3
   lockedEnemy: {fileID: 0}
   AttackCoolDownTime: 0.1
   ComboCoolDownTime: 0.5
@@ -3032,6 +3005,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a9ecea138d32a45ba90518efdf2c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CC: {fileID: 0}
+  MinVelocityForIK: 1
+  SpeedToIK_Change: 2
   footIKWeight: 1
   footHeightOffset: 0.1
   groundLayer:
@@ -4209,6 +4185,37 @@ Transform:
   - {fileID: 8515136859236749314}
   - {fileID: 7244918365905190902}
   m_Father: {fileID: 6488622550693032015}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5722576923807668643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1573940438947799741}
+  m_Layer: 0
+  m_Name: LeftMidBack_RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1573940438947799741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722576923807668643}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.2585371, y: -0.28214386, z: 0.62416404, w: 0.68115544}
+  m_LocalPosition: {x: 0.06500015, y: -0.14700113, z: -0.022996256}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7453580294198650489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5769644593272756778
 GameObject:
@@ -5492,6 +5499,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4061164616803020035}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7133879345954113269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8500741522991770024}
+  m_Layer: 0
+  m_Name: RightMidBack_RestingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8500741522991770024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7133879345954113269}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.66446304, y: -0.6408561, z: 0.24184503, w: 0.29883677}
+  m_LocalPosition: {x: 0.098, y: -0.151, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7453580294198650489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7274386876906374490
 GameObject:
@@ -7043,6 +7081,10 @@ MonoBehaviour:
     Point: {fileID: 8470983962938882360}
   - Type: 9
     Point: {fileID: 4537878765347041071}
+  - Type: 10
+    Point: {fileID: 1573940438947799741}
+  - Type: 11
+    Point: {fileID: 8500741522991770024}
   ActiveWeapon:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
@@ -7059,14 +7101,15 @@ MonoBehaviour:
   AC: {fileID: 0}
   HC: {fileID: 4941594465720265533}
   HitBehaviour: {fileID: 0}
+  UI: {fileID: 0}
   isRootMotionEnabled: 0
   canExitCrouch: 0
   IsInAttack: 0
   IsSwimming: 0
   IgnoreGravity: 0
-  isGrounded: 1
+  isGrounded: 0
   cameraOrbitStatus: 1
-  inAir: 0
+  inAir: 1
 --- !u!114 &1645571078485456127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7079,7 +7122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b835f7614c8202041ba5a972ead7c1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
   DefaultFistNoWeapon:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
@@ -7144,6 +7186,7 @@ MonoBehaviour:
     m_Bits: 8192
   ItemsParent: {fileID: 1080646568505603023}
   MP_Setup: {fileID: 0}
+  isBusyInSwitchingWeapon: 0
   Controller: {fileID: 0}
 --- !u!114 &8029575231833923490
 MonoBehaviour:
@@ -7296,7 +7339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4669b567971f04849942c3accc98a5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
   headShieldValue: 0
   upperShieldValue: 0
   lowerShieldValue: 0

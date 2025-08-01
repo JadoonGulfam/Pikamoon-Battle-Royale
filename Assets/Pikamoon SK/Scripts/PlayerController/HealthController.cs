@@ -9,7 +9,6 @@ namespace Pikamoon.Controller
         PlayerController Controller;
         AnimationController AC;
         InventoryController inventoryController;
-        [SerializeField] UIManagerSK UI;
 
         [SerializeField] float headShieldValue;
         [SerializeField] float upperShieldValue;
@@ -25,19 +24,13 @@ namespace Pikamoon.Controller
             Controller = GetComponent<PlayerController>();
             inventoryController = GetComponent<InventoryController>();
         }
-
-
-
-        public void Initialize(UIManagerSK _uiManager)
+        public void Initialize()
         {
-            UI = _uiManager;
+            Controller.UI.hudcontroller.UpdateHealth(health, 100);
 
-            UI.hudcontroller.UpdateHealth(health, 100);
-
-            UI.hudcontroller.UpdateHeadShield(headShieldValue, 100);
-            UI.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
-            UI.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
-
+            Controller.UI.hudcontroller.UpdateHeadShield(headShieldValue, 100);
+            Controller.UI.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
+            Controller.UI.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
         }
 
 
@@ -161,7 +154,7 @@ namespace Pikamoon.Controller
 
                         inventoryController.Shields.items[0].Quantity = headShieldValue;
 
-                        UI?.hudcontroller.UpdateHeadShield(headShieldValue, 100);
+                        Controller.UI?.hudcontroller.UpdateHeadShield(headShieldValue, 100);
                     }
 
 
@@ -188,7 +181,7 @@ namespace Pikamoon.Controller
 
                         inventoryController.Shields.items[1].Quantity = upperShieldValue;
 
-                        UI?.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
+                        Controller.UI?.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
                     }
                     break;
                 case HealthPointType.LowerBody:
@@ -213,7 +206,7 @@ namespace Pikamoon.Controller
 
                         inventoryController.Shields.items[2].Quantity = lowerShieldValue;
 
-                        UI?.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
+                        Controller.UI?.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
                     }
                     break;
             }
@@ -227,7 +220,7 @@ namespace Pikamoon.Controller
                 }
             }
 
-            UI?.hudcontroller.UpdateHealth(health, 100);
+            Controller.UI?.hudcontroller.UpdateHealth(health, 100);
 
             //HealthBar.DOFillAmount(health / 100, .1f);
 
@@ -250,7 +243,6 @@ namespace Pikamoon.Controller
             AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
 
             health -= damageAmount;
-
 
             //HealthBar.DOFillAmount(health / 100, .1f);
 

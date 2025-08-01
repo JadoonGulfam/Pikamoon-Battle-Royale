@@ -12,7 +12,8 @@ namespace Pikamoon.Controller
         Crouch,
         Slide,
         Aim,
-        ZoomedAim
+        ZoomedAim,
+        Capture
     }
 
 
@@ -105,43 +106,10 @@ namespace Pikamoon.Controller
         {
             if (changeTo == activeCam)
                 return;
+            
+            aimer = camRigSettings[(int)changeTo].CamOffset;
+            fov = camRigSettings[(int)changeTo].FOV;
 
-            if (changeTo == Cam.Default)
-            {
-                aimer = camRigSettings[0].CamOffset;
-                fov = camRigSettings[0].FOV;
-
-            }
-            else if (changeTo == Cam.Sprint)
-            {
-                aimer = camRigSettings[1].CamOffset;
-                fov = camRigSettings[1].FOV;
-
-            }
-            else if (changeTo == Cam.Crouch)
-            {
-                aimer = camRigSettings[2].CamOffset;
-                fov = camRigSettings[2].FOV;
-
-            }
-            else if (changeTo == Cam.Slide)
-            {
-                aimer = camRigSettings[3].CamOffset;
-                fov = camRigSettings[3].FOV;
-
-            }
-            else if (changeTo == Cam.Aim)
-            {
-                aimer = camRigSettings[4].CamOffset;
-                fov = camRigSettings[4].FOV;
-
-            }
-            else if (changeTo == Cam.ZoomedAim)
-            {
-                aimer = camRigSettings[5].CamOffset;
-                fov = camRigSettings[5].FOV;
-
-            }
             activeCam = changeTo;
 
         }
@@ -149,7 +117,14 @@ namespace Pikamoon.Controller
 
         public void ToggleCaptureCam(bool flag)
         {
-            DefaultCam.gameObject.SetActive(!flag);
+            if(flag)
+            {
+                ChangeCam(Cam.Capture);
+            }
+            else
+            {
+                ChangeCam(Cam.Default);
+            }
         }
 
         public void ChangeAimZoom(bool isAiming)

@@ -6,6 +6,7 @@ using UnityEngine.VFX;
 public class CapatureEffect : MonoBehaviour, ICapturable
 {
 
+    [SerializeField] string PikamoonName;
     [SerializeField] float TimeToBeCaptured;
     [SerializeField] bool isStunned;
 
@@ -34,6 +35,8 @@ public class CapatureEffect : MonoBehaviour, ICapturable
 
         capturedInfo.TimeToCapture = TimeToBeCaptured;
         capturedInfo.transform = this.transform;
+        capturedInfo.Name = PikamoonName;
+
     }
 
     private void OnTriggerEnter(Collider other)

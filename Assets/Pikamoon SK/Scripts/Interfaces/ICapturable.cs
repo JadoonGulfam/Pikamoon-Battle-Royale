@@ -5,6 +5,7 @@ namespace Pikamoon.Controller
 {
     public struct CapturedInfo
     {
+        public string Name;
         public Transform transform;
         public float TimeToCapture;
     }

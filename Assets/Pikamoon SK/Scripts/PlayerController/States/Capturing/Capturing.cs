@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,8 +19,8 @@ namespace Pikamoon.Controller
         [Space]
         public PlayerSetupForMultiplayer MP_Setup;
 
-        public UnityEvent OnStunnedPikamoonFounded;
-        public UnityEvent OnStunnedPikamoonLost;
+        //public UnityEvent OnStunnedPikamoonFounded;
+        //public UnityEvent OnStunnedPikamoonLost;
         public UnityEvent OnCapturedSuccessfully;
 
         bool hasTarget;
@@ -63,7 +64,8 @@ namespace Pikamoon.Controller
             }
             else
             {
-                OnStunnedPikamoonLost?.Invoke();
+                //OnStunnedPikamoonLost?.Invoke();
+                Controller.UI.hudcontroller.HideCaptureUI();
                 FaceTowardsCapturingTransform();
 
                 captureTimer += Time.deltaTime;
@@ -95,13 +97,16 @@ namespace Pikamoon.Controller
                         hasTarget = true;
                         timeToCapture = captureInfo.TimeToCapture;
                         TargetCapturePosition = captureInfo.transform;
-                        OnStunnedPikamoonFounded?.Invoke();
+
+                        //OnStunnedPikamoonFounded?.Invoke();
+                        Controller.UI.hudcontroller.ShowCaptureUI(captureInfo.Name, "C");
                     }
                 }
             }
             else
             {
-                OnStunnedPikamoonLost?.Invoke();
+                //OnStunnedPikamoonLost?.Invoke();
+                Controller.UI.hudcontroller.HideCaptureUI();
             }
         }
 
