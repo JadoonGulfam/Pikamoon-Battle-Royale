@@ -1,22 +1,33 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
-
+    [Serializable]
+    public class DesignerPresetInfo 
+    {
+        public string name;
+        public string description;
+        public GameObject prefab;
+    }
     public static GameManager instance;
     public GameObject _player, _weapon;
     public List<GameObject> emojiList = new List<GameObject>();
     public List<GameObject> allWeapons;
     public List<GameObject> designerPreset;
+    public DesignerPresetInfo[] designerPresetList;
     public UserDataBase userDataBase;
     private int playerIndex = 0;
     private int weaponIndex = 2;
     private Transform weaponMountPoint;
     public Transform playerPosition;
     public List<GameObject> uiPanels;
+
+    public TextMeshProUGUI characterNameText;
+    public TextMeshProUGUI characterDescriptionText;
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -80,7 +91,7 @@ public class GameManager : MonoBehaviour
     }
     public void SpawnPrefab(int index)
     {
-        if (index < 0 || index >= designerPreset.Count) return; // Safety check
+        if (index < 0 || index >= designerPresetList.Length) return; // Safety check
 
         // Destroy existing prefab before spawning a new one
         if (_player != null)
@@ -89,8 +100,10 @@ public class GameManager : MonoBehaviour
         }
 
         // Instantiate the selected prefab at the spawn position
-        _player = Instantiate(designerPreset[index], playerPosition);
+        _player = Instantiate(designerPresetList[index].prefab, playerPosition);
         weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
+        characterNameText.text = designerPresetList[index].name;
+        characterDescriptionText.text = designerPresetList[index].description;
         playerIndex = index;
     }
     public void SpawnWeapons()
