@@ -8,11 +8,12 @@ namespace Pikamoon.Controller
     {
         public static ReferencesHolder Instance;
 
-        public PlayerInput _playerInput;
-
         public GameObject PlayerPrefab;
 
-       public PlayerController _playerController;
+        public PlayerController _playerController;
+        [Space]
+        [Space]
+        public PlayerInput _playerInput;
 
         public CameraController _cameraController;
 

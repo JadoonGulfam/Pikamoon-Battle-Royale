@@ -82,7 +82,7 @@ namespace Pikamoon.Controller
         {
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-            Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+            Ray ray = Controller.cameraController._camera.ScreenPointToRay(screenCenterPoint);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, RangeToCheckForPikamoon, CaptureLayerMask))
             {
@@ -129,7 +129,7 @@ namespace Pikamoon.Controller
             isCapturing = false;
 
 
-            Controller._cameraController.ToggleCaptureCam(false);
+            Controller.cameraController.ToggleCaptureCam(false);
 
             TargetCapturePosition.gameObject.SetActive(false);
 
@@ -149,7 +149,7 @@ namespace Pikamoon.Controller
             {
                 captureTimer = 0;
 
-                Controller._cameraController.ToggleCaptureCam(true);
+                Controller.cameraController.ToggleCaptureCam(true);
 
                 Controller.CurrentPlayerState = StateType.Capture;
 
@@ -165,7 +165,7 @@ namespace Pikamoon.Controller
         {
             isCapturing = false;
 
-            Controller._cameraController.ToggleCaptureCam(false);
+            Controller.cameraController.ToggleCaptureCam(false);
 
             AC.PAnimator.SetBool   (AC.Parameters.isWalkRun.Hash      , true );
             AC.PAnimator.SetInteger(AC.Parameters.SecondaryState.Hash , 50   );

@@ -44,7 +44,9 @@ namespace Pikamoon.UI
         {
             lootBox_UI.ClickOnItem(indexInList);
         }
-
+        public override void DropItem()
+        {
+        }
         public override void UnSelect()
         {
         }

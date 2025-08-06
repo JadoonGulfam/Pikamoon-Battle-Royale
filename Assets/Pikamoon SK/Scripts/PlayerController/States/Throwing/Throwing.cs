@@ -65,7 +65,7 @@ namespace Pikamoon.Controller
             playerInput.onAttack1_Down += DecideToAttackOrCatch;
 
 
-            CamTransform = Controller._cameraController._camera.transform;
+            CamTransform = Controller.cameraController._camera.transform;
 
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
                 return;
@@ -83,7 +83,7 @@ namespace Pikamoon.Controller
             playerInput.onAttack1_Down += DecideToAttackOrCatch;
 
 
-            CamTransform = Controller._cameraController._camera.transform;
+            CamTransform = Controller.cameraController._camera.transform;
 
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Throwable)
                 return;
@@ -153,7 +153,7 @@ namespace Pikamoon.Controller
                 AR_LookTarget.position = HoldingPoint.position;
                 Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-                Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+                Ray ray = Controller.cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 999f, AimableMask))

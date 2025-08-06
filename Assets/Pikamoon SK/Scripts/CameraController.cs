@@ -37,6 +37,12 @@ namespace Pikamoon.Controller
     }
 
 
+    [Serializable]
+    public struct MiniMapTypeSetting
+    {
+        public int OrthographicSize;
+    }
+
     public class CameraController : MonoBehaviour
     {
         public Camera _camera;
@@ -44,22 +50,26 @@ namespace Pikamoon.Controller
         [SerializeField] Cam activeCam;
 
         [Header("Arrow Action Cam")]
+        [Space]
         [SerializeField] CinemachineCamera ActionArrowCam;
         [SerializeField] CinemachineBasicMultiChannelPerlin shakeNoisePerlin;
         [SerializeField] float cameraShakeAmplitude; 
-
         [SerializeField] float cameraShakeFrequency; 
 
+        [Header("Default Cam Property")]
         [Space]
-        [SerializeField] CinemachineCamera CaptureCam;
         [SerializeField] CinemachineCamera DefaultCam;
         [SerializeField] CinemachineOrbitalFollow DefaultCamOrbitalFollow;
-
         [SerializeField] CinemachineCameraOffset camOffsetter;
-
         [Space]
         public CamSettings[] camRigSettings;
 
+        [Header("Minimap Settings")]
+        [Space]
+        public Camera miniMapCamera;
+        public int SmallMinimap_OrthographicSize;
+        public int LargeMinimap_OrthographicSize;
+        public bool isLargeMiniMapVisible;
 
         CinemachineInputAxisController CamAxisController;
 

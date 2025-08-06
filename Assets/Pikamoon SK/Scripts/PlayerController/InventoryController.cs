@@ -102,7 +102,7 @@ namespace Pikamoon.Controller
             //QuickItems.InitializeCategory();
             //AllItems.InitializeCategory();
 
-            UI.inventoryUI._inventory = this;
+            UI.inventoryUI.Player = this;
             UI.lootBoxUI._inventory = this;
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
@@ -161,7 +161,7 @@ namespace Pikamoon.Controller
             {
                 Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-                Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+                Ray ray = Controller.cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
                 if (Physics.Raycast(ray, out hitItem, 999f, pickupLayerMask))
                 {
@@ -522,7 +522,6 @@ namespace Pikamoon.Controller
 
         void Equipping(int index, Item item)
         {
-
             Weapon weapon = item.GetItemAs<Weapon>();
 
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
@@ -576,13 +575,11 @@ namespace Pikamoon.Controller
                     }
                 }
             }
-
         }
         void DropWeapon()
         {
             if (Weapons.items[UsingWeaponIndex] == null)
                 return;
-
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
@@ -597,6 +594,26 @@ namespace Pikamoon.Controller
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
+        void DropWeapon(int index)
+        {
+            if (Weapons.items[index] == null)
+                return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+
+            isUsingWeapon = false;
+
+            //UI.hudcontroller.DropWeapon(index);
+
+            Weapons.items[index].GetItemAs<Weapon>().OnDrop(this.transform, Controller.groundLayer);
+
+            RemoveWeaponsFromList(index);
+
+            Controller.ActivateWeapon(DefaultFistNoWeapon);
+        }
+
+
         void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
             AddWeaponsToList(weapon, index);
@@ -671,6 +688,8 @@ namespace Pikamoon.Controller
                 Weapons.AvailedInCategory++;
             }
         }
+
+
         public void RemoveWeaponsFromList(int index)
         {
             if (Weapons.items[index] != null)
@@ -678,6 +697,10 @@ namespace Pikamoon.Controller
                 Weapons.items[index] = null;
                 Weapons.AvailedInCategory--;
             }
+        }
+        public void DropWeaponsFromList(int index)
+        {
+            DropWeapon(index);
         }
         #endregion
 
