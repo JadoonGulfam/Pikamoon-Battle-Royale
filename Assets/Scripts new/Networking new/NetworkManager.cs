@@ -18,6 +18,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     
     
     public GameObject[] wearables;
+    public GameObject[] weaponsForEnv;
     public int selectedWearablesIndex = 2;
 
 
@@ -66,14 +67,19 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     //    selectedWearablesIndex=index;
 
     //}
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[2], playerNetworkObject.transform.position, Quaternion.identity);
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.E))
+    //    {
+    //        NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[2], playerNetworkObject.transform.position, Quaternion.identity);
 
-            Debug.Log("E key was pressed!");
-        }
+    //        Debug.Log("E key was pressed!");
+    //    }
+    //}
+
+    public void SpawnWeapon(int WeaponIndex)
+    {
+        NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[WeaponIndex], playerNetworkObject.transform.position, Quaternion.identity);
     }
     private void Start()
     {
@@ -170,6 +176,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                     pikamoonPosition,
                     Quaternion.identity
                 );
+
+                spawnEnvWeapons(pikamoonPosition);
                 Debug.Log($"Pikamoon {i + 1} spawned at position: {pikamoonPosition}");
             }
             else
@@ -178,6 +186,16 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
+
+    public void spawnEnvWeapons(Vector3 position)
+    {
+        NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
+                    weaponsForEnv[0],
+                    position,
+                    Quaternion.identity
+                );
+    }
+
     NetworkObject playerNetworkObject;
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

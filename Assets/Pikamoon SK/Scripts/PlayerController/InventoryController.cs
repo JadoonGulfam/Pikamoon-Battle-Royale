@@ -7,6 +7,7 @@ namespace Pikamoon.Controller
 {
 
     [System.Serializable]
+
     public struct ItemCategory
     {
         public string CategoryName;
@@ -17,6 +18,7 @@ namespace Pikamoon.Controller
 
     public class InventoryController : MonoBehaviour
     {
+        public GameObject NetworkManagerob;
         public UIManagerSK UI;
 
         //[SerializeField] Bag
@@ -81,12 +83,13 @@ namespace Pikamoon.Controller
         bool isPointerOnLootBox;
         bool IsInventoryOpen;
         IPickable pickableItem;
-
+      
         private void Start()
         {
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
             IsInventoryOpen = false;
+            NetworkManagerob = GameObject.FindGameObjectWithTag("NetworkManager");
         }
 
 
@@ -204,6 +207,9 @@ namespace Pikamoon.Controller
                     {
                         isPickableAnItem = true;
                         pickableItem.TryToPick(this);
+                        hitTransform.gameObject.SetActive(false);
+                        NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(2);
+
                     }
                     else
                     {
