@@ -81,6 +81,15 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[WeaponIndex], playerNetworkObject.transform.position, Quaternion.identity);
     }
+
+    public void spawnEnvWeapons(Vector3 position)
+    {
+        NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
+                    weaponsForEnv[0],
+                    position,
+                    Quaternion.identity
+                );
+    }
     private void Start()
     {
         runnerInstance.JoinSessionLobby(SessionLobby.Shared, lobbyName);
@@ -187,14 +196,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    public void spawnEnvWeapons(Vector3 position)
-    {
-        NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
-                    weaponsForEnv[0],
-                    position,
-                    Quaternion.identity
-                );
-    }
+   
 
     NetworkObject playerNetworkObject;
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

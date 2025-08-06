@@ -208,7 +208,7 @@ namespace Pikamoon.Controller
                         isPickableAnItem = true;
                         pickableItem.TryToPick(this);
                         hitTransform.gameObject.SetActive(false);
-                        NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(2);
+                        NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(0);
 
                     }
                     else
