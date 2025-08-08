@@ -18,7 +18,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     
     
     public GameObject[] wearables;
-    public int selectedWearablesIndex = 2;
+    public int selectedWearablesIndex = 0;
 
 
     public GameObject[] playerPrefab;
@@ -29,14 +29,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public TMP_InputField pname;
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
-    public float pikamoonRadius = 10f;
-    public int pikamoonCount ;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
-
-
-    public static event Action<NetworkRunner, PlayerRef> OnOtherPlayerJoined;
-
 
     // public string _playerName = "adnan";
     private void Awake()
@@ -56,25 +50,17 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
 
 
-    //public void selectCharacter(int index)
-    //{
-    //    ChrarcterIndex=index;
-
-    //} 
-    //public void selectwearable(int index)
-    //{
-    //    selectedWearablesIndex=index;
-
-    //}
-    private void Update()
+    public void selectCharacter(int index)
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[2], playerNetworkObject.transform.position, Quaternion.identity);
-
-            Debug.Log("E key was pressed!");
-        }
+        ChrarcterIndex=index;
+        
+    } 
+    public void selectwearable(int index)
+    {
+        selectedWearablesIndex=index;
+        
     }
+    
     private void Start()
     {
         runnerInstance.JoinSessionLobby(SessionLobby.Shared, lobbyName);
@@ -90,7 +76,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     public void CreateRandomSession()
-    { 
+    {
         int randomInt = UnityEngine.Random.Range(1000, 9999);
         string randomSessionName = "Room" + randomInt.ToString();
         try
@@ -100,15 +86,13 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                 SessionName = randomSessionName,
                 GameMode = GameMode.Shared,
             });
-            LoadingManager.Instance.ActivateLoading("Circle_Loading", false);
+
             Debug.Log("Game started with session name: " + randomSessionName);
         }
         catch (Exception ex)
         {
             Debug.LogError("Error starting game session: " + ex.Message);
         }
-
-
     }
 
     public void JoinSession(string sessionName)
@@ -135,9 +119,10 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         {
             isPikamoonAdd = true;
         }
-        OnOtherPlayerJoined?.Invoke(runner, player);
+
     }
-    private void PopulatePikamoonOverNetwork(Vector3 playerPosition, int pikamoonCount, float spawnRadius)
+
+    private void PopulatePikamoonOverNetwork(Vector3 playerPosition, int pikamoonCount = 15, float spawnRadius = 20f)
     {
         for (int i = 0; i < pikamoonCount; i++)
         {
@@ -148,7 +133,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             int attempts = 0;
 
             // Select a random Pikamoon from the list
-            NetworkObject randomPikamoon = pikamoonList[i];//UnityEngine.Random.Range(0, pikamoonList.Count)];
+            NetworkObject randomPikamoon = pikamoonList[UnityEngine.Random.Range(0, pikamoonList.Count)];
 
             do
             {
@@ -178,19 +163,19 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
-    NetworkObject playerNetworkObject;
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "SKController_Meadows")
         {
             GameObject go = GameObject.FindGameObjectWithTag("Ref");
-             playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
+            NetworkObject playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
             go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject);
-           // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
+            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
 
             if (!isPikamoonAdd)
             {
-                PopulatePikamoonOverNetwork(playerNetworkObject.transform.position,pikamoonCount,pikamoonRadius);
+                PopulatePikamoonOverNetwork(playerNetworkObject.transform.position);
                 isPikamoonAdd = true; // Ensure Pikamoon is only added once
             }
 
@@ -199,7 +184,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                 print("Player has input authority");
             }
             print("Scene loaded successfully");
-            LoadingManager.Instance.DeactivateAll();
+
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

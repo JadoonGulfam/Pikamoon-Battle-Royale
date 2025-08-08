@@ -190,16 +190,16 @@ public class CharacterCustomizationManager : MonoBehaviour
             Destroy(GameManager.instance._player);
         }
 
-       // InstantiateCharacter(selectedGender);
+        InstantiateCharacter(selectedGender);
         Debug.Log("Confirmed Gender: " + selectedGender);
     }
 
-    //void InstantiateCharacter(string gender)
-    //{
-    //    GameObject selectedPrefab = (gender == "Male") ? GameManager.instance.allPlayer[0] : GameManager.instance.allPlayer[1];
-    //    GameManager.instance._player = Instantiate(selectedPrefab, Vector3.zero, Quaternion.identity);
-    //    defaultCharacterdata.gender = gender;
-    //}
+    void InstantiateCharacter(string gender)
+    {
+        GameObject selectedPrefab = (gender == "Male") ? GameManager.instance.allPlayer[0] : GameManager.instance.allPlayer[1];
+        GameManager.instance._player = Instantiate(selectedPrefab, Vector3.zero, Quaternion.identity);
+        defaultCharacterdata.gender = gender;
+    }
     public void DesignerPreset(int value) 
     {
         GameManager.instance.SpawnPrefab(value);

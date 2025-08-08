@@ -582,7 +582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4529050017509112893, guid: dca26886a740cbb408a591a0a1c08f88, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6406984833878436431, guid: dca26886a740cbb408a591a0a1c08f88, type: 3}
       propertyPath: m_IsActive
@@ -846,7 +846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4529050017509112893, guid: dca26886a740cbb408a591a0a1c08f88, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7476137996296121824, guid: dca26886a740cbb408a591a0a1c08f88, type: 3}
       propertyPath: m_Enabled
@@ -3961,10 +3961,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
+  maleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+  femaleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
+    DefaultBody: {fileID: 0}
+    DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 1157980206}
+  eye: {fileID: 0}
   wornHair: {fileID: 1183837646}
   wornCloth: {fileID: 550095992}
   genderType: 0
@@ -3997,9 +4011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a9ecea138d32a45ba90518efdf2c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CC: {fileID: 0}
-  MinVelocityForIK: 0
-  SpeedToIK_Change: 0
   footIKWeight: 1
   footHeightOffset: 0.1
   groundLayer:
@@ -5570,6 +5581,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93eb560ae5ebcd8459ef03cd3eccbd16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Profile: {fileID: 0}
+  Settings: {fileID: 0}
+  WaterRenderingActive: 1
+  WorldSpaceBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  ShowColorSettings: 1
+  ShowExpertColorSettings: 0
+  ShowWaves: 1
+  ShowExpertWavesSettings: 0
+  ShowFoam: 0
+  ShowReflectionSettings: 0
+  ShowExpertReflectionSettings: 0
+  ShowRefractionSettings: 0
+  ShowExpertRefractionSettings: 0
+  ShowVolumetricLightSettings: 0
+  ShowExpertVolumetricLightSettings: 0
+  ShowFlowMap: 0
+  ShowExpertFlowmapSettings: 0
+  FlowMapInEditMode: 0
+  FlowMapBrushStrength: 0.75
+  ShowDynamicWaves: 0
+  ShowExpertDynamicWavesSettings: 0
+  ShowShorelineMap: 0
+  ShorelineInEditMode: 0
+  ShowExpertShorelineSettings: 0
+  ShowFoamSettings: 0
+  ShowCausticEffectSettings: 0
+  ShowExpertCausticEffectSettings: 0
+  CausticDepthScaleInEditMode: 0
+  ShowUnderwaterEffectSettings: 0
+  ShowMeshSettings: 0
+  SplineMeshInEditMode: 0
+  ShowExpertMeshSettings: 0
+  WideAngleCameraRenderingMode: 0
+  ShowRendering: 0
+  ShowExpertRenderingSettings: 0
+  _waterGUID: 
 --- !u!64 &138087573
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -12571,7 +12620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4529050017509112893, guid: dca26886a740cbb408a591a0a1c08f88, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7476137996296121824, guid: dca26886a740cbb408a591a0a1c08f88, type: 3}
       propertyPath: m_Enabled
@@ -13850,7 +13899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3641755145506885142, guid: 2bec5b03dc5d2f84b801282a0459d897, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6527330671690247504, guid: 2bec5b03dc5d2f84b801282a0459d897, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16486,10 +16535,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
+  maleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+  femaleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
+    DefaultBody: {fileID: 0}
+    DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 52505026}
+  eye: {fileID: 0}
   wornHair: {fileID: 2112913904}
   wornCloth: {fileID: 1827240284}
   genderType: 0
@@ -16605,7 +16668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8173793528539933321, guid: 01f19c9f467e96f41bc648b70a8da056, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19210,7 +19273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3641755145506885142, guid: 2bec5b03dc5d2f84b801282a0459d897, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6527330671690247504, guid: 2bec5b03dc5d2f84b801282a0459d897, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19821,10 +19884,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
+  maleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+  femaleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
+    DefaultBody: {fileID: 0}
+    DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 1692945342372188265}
+  eye: {fileID: 0}
   wornHair: {fileID: 1363610752}
   wornCloth: {fileID: 1738852455}
   genderType: 0
@@ -23272,10 +23349,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
+  maleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+  femaleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
+    DefaultBody: {fileID: 0}
+    DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 1955765041}
+  eye: {fileID: 0}
   wornHair: {fileID: 615818774}
   wornCloth: {fileID: 1027192930}
   genderType: 0
@@ -24648,7 +24739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3303267855741353990, guid: 21c2a6826007d7342998db820731d94b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312162940285398386, guid: 21c2a6826007d7342998db820731d94b, type: 3}
       propertyPath: SortKey
@@ -26477,7 +26568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8608684907230736501, guid: 802a825bf9d234e4db6daec1b2e6719e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8949745251408505551, guid: 802a825bf9d234e4db6daec1b2e6719e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -37357,6 +37448,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 807299700989701871, guid: 2749b657eb0a95e4190fe71e4fd805c8, type: 3}
   m_PrefabInstance: {fileID: 837305572}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &850286625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 850286628}
+  - component: {fileID: 850286627}
+  m_Layer: 0
+  m_Name: PikamoonCam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &850286627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850286625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 1
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 754941642}
+    LookAtTarget: {fileID: 754941642}
+    CustomLookAtTarget: 1
+  Lens:
+    FieldOfView: 60
+    OrthographicSize: 10
+    NearClipPlane: 0.01
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
+--- !u!4 &850286628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850286625}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.09466672, y: -0.61668843, z: 0.07504973, w: 0.77788246}
+  m_LocalPosition: {x: -308.89255, y: 20.350254, z: 218.58746}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 1.904, y: -137.4, z: 0}
 --- !u!1001 &851986379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42140,7 +42306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4200814722638152069, guid: 751dc41255d870840b603681cf3f44b1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6713501421509785413, guid: 751dc41255d870840b603681cf3f44b1, type: 3}
       propertyPath: m_Enabled
@@ -44670,7 +44836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7710044791393121227, guid: 01a7746d4acee0744a4cd26af63c660a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47213,7 +47379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1675201090410528884, guid: bfae580c0194f1c4297bbec57be4abf4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2050354065265924814, guid: bfae580c0194f1c4297bbec57be4abf4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48846,10 +49012,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
+  maleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+  femaleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
+    DefaultBody: {fileID: 0}
+    DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 1411365466}
+  eye: {fileID: 0}
   wornHair: {fileID: 1363610752}
   wornCloth: {fileID: 1738852455}
   genderType: 0
@@ -54632,10 +54812,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
+  maleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+  femaleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
+    DefaultBody: {fileID: 0}
+    DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 1763524952}
+  eye: {fileID: 0}
   wornHair: {fileID: 1250654176}
   wornCloth: {fileID: 985955163}
   genderType: 0
@@ -65034,6 +65228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f35b292598e844e873203fc708e8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShorelineWaves: []
+  Splines: []
 --- !u!114 &1454640129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65046,6 +65242,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93eb560ae5ebcd8459ef03cd3eccbd16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Profile: {fileID: 0}
+  Settings: {fileID: 0}
+  WaterRenderingActive: 1
+  WorldSpaceBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  ShowColorSettings: 1
+  ShowExpertColorSettings: 0
+  ShowWaves: 1
+  ShowExpertWavesSettings: 0
+  ShowFoam: 0
+  ShowReflectionSettings: 0
+  ShowExpertReflectionSettings: 0
+  ShowRefractionSettings: 0
+  ShowExpertRefractionSettings: 0
+  ShowVolumetricLightSettings: 0
+  ShowExpertVolumetricLightSettings: 0
+  ShowFlowMap: 0
+  ShowExpertFlowmapSettings: 0
+  FlowMapInEditMode: 0
+  FlowMapBrushStrength: 0.75
+  ShowDynamicWaves: 0
+  ShowExpertDynamicWavesSettings: 0
+  ShowShorelineMap: 0
+  ShorelineInEditMode: 0
+  ShowExpertShorelineSettings: 0
+  ShowFoamSettings: 0
+  ShowCausticEffectSettings: 0
+  ShowExpertCausticEffectSettings: 0
+  CausticDepthScaleInEditMode: 0
+  ShowUnderwaterEffectSettings: 0
+  ShowMeshSettings: 0
+  SplineMeshInEditMode: 0
+  ShowExpertMeshSettings: 0
+  WideAngleCameraRenderingMode: 0
+  ShowRendering: 0
+  ShowExpertRenderingSettings: 0
+  _waterGUID: 
 --- !u!114 &1454640132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65058,6 +65292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f35b292598e844e873203fc708e8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShorelineWaves: []
+  Splines: []
 --- !u!4 &1457210197 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4328347802079280546, guid: bff7a1a72bb04037af67eaae9aa5164f, type: 3}
@@ -66667,7 +66903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3641755145506885142, guid: 2bec5b03dc5d2f84b801282a0459d897, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6527330671690247504, guid: 2bec5b03dc5d2f84b801282a0459d897, type: 3}
       propertyPath: m_LocalPosition.x
@@ -67178,7 +67414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3303267855741353990, guid: 21c2a6826007d7342998db820731d94b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312162940285398386, guid: 21c2a6826007d7342998db820731d94b, type: 3}
       propertyPath: SortKey
@@ -67603,7 +67839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4115987288180708754, guid: e93cc2a96278d7a4b9fa15ba4c00b082, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4744647922107287508, guid: e93cc2a96278d7a4b9fa15ba4c00b082, type: 3}
       propertyPath: m_LocalPosition.x
@@ -72034,7 +72270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4200814722638152069, guid: 751dc41255d870840b603681cf3f44b1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6713501421509785413, guid: 751dc41255d870840b603681cf3f44b1, type: 3}
       propertyPath: m_Enabled
@@ -73280,7 +73516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1051523921372587318, guid: c6c628b0abdbe9f4fa5bcdba43170a78, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3868828918625131862, guid: c6c628b0abdbe9f4fa5bcdba43170a78, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77637,7 +77873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1675201090410528884, guid: bfae580c0194f1c4297bbec57be4abf4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2050354065265924814, guid: bfae580c0194f1c4297bbec57be4abf4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -81912,7 +82148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8173793528539933321, guid: 01f19c9f467e96f41bc648b70a8da056, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -84970,10 +85206,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvatarDefaultCostume:
+  maleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
+  femaleAvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
+    DefaultBody: {fileID: 0}
+    DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 1955765041}
+  eye: {fileID: 0}
   wornHair: {fileID: 1444638285}
   wornCloth: {fileID: 917560386}
   genderType: 0
@@ -86273,7 +86523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8173793528539933321, guid: 01f19c9f467e96f41bc648b70a8da056, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -88967,7 +89217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4200814722638152069, guid: 751dc41255d870840b603681cf3f44b1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6713501421509785413, guid: 751dc41255d870840b603681cf3f44b1, type: 3}
       propertyPath: m_Enabled
@@ -89809,7 +90059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2071482451
 Transform:
   m_ObjectHideFlags: 0
@@ -175398,7 +175648,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 1
   Lens:
-    FieldOfView: 55
+    FieldOfView: 55.00006
     OrthographicSize: 10
     NearClipPlane: 0.01
     FarClipPlane: 5000
@@ -204177,7 +204427,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 5000
-  field of view: 55
+  field of view: 55.00006
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -221195,6 +221445,7 @@ SceneRoots:
   - {fileID: 1996288634}
   - {fileID: 8694698776568199650}
   - {fileID: 1273954590}
+  - {fileID: 850286628}
   - {fileID: 164419362}
   - {fileID: 1567414383}
   - {fileID: 2886209947064651729}

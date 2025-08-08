@@ -24,7 +24,7 @@ public class AddressableDownloader : MonoBehaviour
     }
     IEnumerator DownloadAddressableObject(string _key, BodyType _type, GameObject _applyOn, bool _applyColor = false)
     {
-        //LoadingManager.Instance.ActivateLoading("Circle_Loading");
+       // LoadingManager.Instance.ActivateLoading("Circle_Loading");
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
             if (!string.IsNullOrEmpty(_key))
@@ -80,7 +80,7 @@ public class AddressableDownloader : MonoBehaviour
     }
     async Task DownloadAddressableTexture(string key, BodyType _type, GameObject applyOn)
     {
-       // LoadingManager.Instance.ActivateLoading("Circle_Loading");
+        //LoadingManager.Instance.ActivateLoading("Circle_Loading");
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
             if (!string.IsNullOrEmpty(key))

@@ -74,7 +74,7 @@ public class CharacterHoverEffect : MonoBehaviour
         {
             isSelected = true; // Mark as selected to disable further hover effect           
             GameManager.instance._player = this.gameObject;
-            //// DisableCollider all other characters except the selected one
+            //// Disable all other characters except the selected one
             //foreach (GameObject character in GameManager.instance.instantiatedPlayers)
             //{
             //    if (character != this.gameObject)
@@ -87,10 +87,8 @@ public class CharacterHoverEffect : MonoBehaviour
             StartCoroutine(MoveToPosition(selectedPosition));
             // Optionally, you can add any code here to finalize selection, like deactivating this script
             // or triggering an animation on the selected character.
-
-            this.enabled = false; // DisableCollider this script to prevent further selection
-           // GameManager.instance.characterdata.gender = gendertype.ToString();
-
+            this.enabled = false; // Disable this script to prevent further selection
+            GameManager.instance.characterdata.gender = gendertype.ToString();
           //  GameManager.instance.uiManager.startBtn.interactable = true;
         }
     }

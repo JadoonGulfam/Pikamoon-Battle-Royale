@@ -18,9 +18,9 @@ public class CharacterHandler : MonoBehaviour
 [Serializable]
 public class AvatarDefaultClothes
 {
-    //public Texture2D DefaultEyes, DefaultEyebrow, DefaultSkin, DefaultFace;
+    public Texture2D DefaultEyes, DefaultEyebrow, DefaultSkin, DefaultFace;
     public GameObject DefaultBody, DefaultHair;
-   // public Color DefaultLipsColor;
+    public Color DefaultLipsColor;
 }
 [Serializable]
 public class CharacterData
