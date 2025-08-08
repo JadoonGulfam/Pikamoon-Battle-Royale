@@ -15,8 +15,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public bool connectoOnAwaike = false;
     public static NetworkRunner runnerInstance;
     private string lobbyName = "Default";
-    
-    
+
+
     public GameObject[] wearables;
     public GameObject[] weaponsForEnv;
     public int selectedWearablesIndex = 2;
@@ -31,7 +31,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
     public float pikamoonRadius = 10f;
-    public int pikamoonCount ;
+    public int pikamoonCount;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
 
@@ -90,6 +90,31 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                     Quaternion.identity
                 );
     }
+
+
+
+    public void RequestDespawn(NetworkId objectId)
+    {
+        RPC_DespawnRequest(objectId);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_DespawnRequest(NetworkId objectId)
+    {
+        // Called on the player with StateAuthority of the target object
+        NetworkObject target = runnerInstance.FindObject(objectId);
+
+        if (target != null && target.HasStateAuthority)
+        {
+            runnerInstance.Despawn(target);
+            Debug.Log($"Object {objectId} despawned by state authority.");
+        }
+        else
+        {
+            Debug.LogWarning($"No authority to despawn object {objectId} or object not found.");
+        }
+    }
+
     private void Start()
     {
         runnerInstance.JoinSessionLobby(SessionLobby.Shared, lobbyName);
@@ -314,7 +339,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("PlayerLeft");
     }
-
+    #region ________________netbehaviour methods____________________
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
 
@@ -389,4 +414,5 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
 
     }
+    #endregion
 }

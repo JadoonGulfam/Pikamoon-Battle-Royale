@@ -2,6 +2,7 @@ using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
 using System;
+using Fusion;
 
 namespace Pikamoon.Controller
 {
@@ -194,7 +195,7 @@ namespace Pikamoon.Controller
 
         public void Pick()
         {
-            print("item picked");
+           // print("item picked");
             if (hitTransform)
             {
                 if (Controller.IsInAttack || Controller.InAir)
@@ -209,6 +210,7 @@ namespace Pikamoon.Controller
                         pickableItem.TryToPick(this);
                         hitTransform.gameObject.SetActive(false);
                         NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(0);
+                        NetworkManagerob.GetComponent<NetworkManager>().RequestDespawn(hitTransform.GetComponent<NetworkObject>().Id);
 
                     }
                     else

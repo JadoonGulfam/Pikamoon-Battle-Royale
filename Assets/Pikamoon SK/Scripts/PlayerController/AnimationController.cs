@@ -178,7 +178,7 @@ namespace Pikamoon.Controller
             }
             else
             {
-                print("RPC not called with value: " + controllerID + Object.Id);
+              //  print("RPC not called with value: " + controllerID + Object.Id);
             }
 
         }
@@ -191,13 +191,13 @@ namespace Pikamoon.Controller
             string trimmedID = numericOnly.Length >= 5
                 ? numericOnly.Substring(0, 4) + numericOnly[^1]
                 : numericOnly; 
-            print("PID"+Object.Id);
-            Debug.Log("TID"+trimmedID); 
+           // print("PID"+Object.Id);
+            //Debug.Log("TID"+trimmedID); 
 
             if (Object.Id.ToString() == playerID)
             {
                 PAnimator.runtimeAnimatorController = animatorOverrideController[index];
-                Debug.Log("RPC called with value: " + index + playerID);
+                //Debug.Log("RPC called with value: " + index + playerID);
             }
             
         }

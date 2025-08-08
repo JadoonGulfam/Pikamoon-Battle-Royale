@@ -61,7 +61,7 @@ public class wearables : NetworkBehaviour
     void Start()
     {
         ownId = int.Parse(TrimFirstFourAndLastOne((this.transform.GetComponent<NetworkObject>().Id).ToString()));
-        print("wepon id " + ownId);
+       // print("wepon id " + ownId);
 
 
 
@@ -72,7 +72,7 @@ public class wearables : NetworkBehaviour
 
             NetworkObject networkObject = playerObject.GetComponent<NetworkObject>();
             int playerId = int.Parse(TrimFirstFourAndLastOne(networkObject.Id.ToString()));
-            print("player id " + playerId);
+           // print("player id " + playerId);
             if (networkObject != null)
             {
 
