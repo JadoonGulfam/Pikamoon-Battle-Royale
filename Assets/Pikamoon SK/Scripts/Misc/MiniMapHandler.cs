@@ -5,22 +5,64 @@ public class MiniMapHandler : MonoBehaviour
 {
     public Transform MyMMPointer;
 
+    public Transform MarkedLocation;
+    public LineRenderer lineRenderer;
+
     public Vector3 CamOffsetFromPlayer;
 
-    Transform MiniMapCam;
+    Transform smallMiniMapCam;
+    Transform LargeMiniMapCamForUI;
 
-    bool isInitialize;
-
+    PlayerController Controller;
     Pikamoon.Controller.CameraController cameraController;
 
-    public void Initialize(Pikamoon.Controller.CameraController _cameraController)
+    bool isInitialize;
+    bool isMapOpened = false;
+    public void Initialize(Pikamoon.Controller.CameraController _cameraController, PlayerController playerController)
     {
         cameraController = _cameraController;
+        Controller = playerController;
 
-        MiniMapCam = cameraController.miniMapCamera.transform;
+        Controller.input.onMap_Down += ToggleMap;
+
+        smallMiniMapCam = cameraController.hudMiniMapCamera.transform;
+        LargeMiniMapCamForUI = cameraController.largeMiniMapCamera.transform;
+
         MyMMPointer.gameObject.SetActive(true);
+        MarkedLocation = Controller.UI.hudcontroller.miniMapUI.Marker;
+        lineRenderer = Controller.UI.hudcontroller.miniMapUI.lineRenderer;
+
 
         isInitialize = true;
+        isMapOpened = false;
+    }
+
+    public void ToggleMap()
+    {
+        isMapOpened = !isMapOpened;
+
+        if (isMapOpened)
+        {
+            Controller.UI.hudcontroller.miniMapUI.gameObject.SetActive(true);
+
+            LargeMiniMapCamForUI.gameObject.SetActive(true);
+            smallMiniMapCam.gameObject.SetActive(false);
+
+            Controller.ToggleCursor(true);
+
+            Controller.CameraOrbitStatus = false;
+        }
+        else
+        {
+            smallMiniMapCam.gameObject.SetActive(true);
+            LargeMiniMapCamForUI.gameObject.SetActive(false);
+
+            Controller.UI.hudcontroller.miniMapUI.gameObject.SetActive(false);
+
+            Controller.ToggleCursor(false);
+
+            Controller.CameraOrbitStatus = true;
+        }
     }
 
 
@@ -29,7 +71,7 @@ public class MiniMapHandler : MonoBehaviour
         if (!isInitialize)
             return;
 
-        if (cameraController.isLargeMiniMapVisible)
+        if (isMapOpened)
         {
 
         }
@@ -39,13 +81,33 @@ public class MiniMapHandler : MonoBehaviour
             UpdatePointerTransform();
         }
 
-
+        UpdateLineRenderer();
 
     }
 
+    private void UpdateLineRenderer()
+    {
+        if (MarkedLocation)
+        {
+            if (lineRenderer.gameObject.activeInHierarchy)
+            {
+                Vector3 playerPos = this.transform.position;
+                Vector3 markerPos = MarkedLocation.position;
+
+                playerPos.y = 1f;
+                markerPos.y = 1f;
+
+                lineRenderer.SetPosition(0, playerPos); // slightly above ground
+                lineRenderer.SetPosition(1, markerPos); // slightly above ground
+
+            }
+        }
+    }
+
+
     void UpdateMiniMapCamTransform()
     {
-        MiniMapCam.transform.position = this.transform.position + CamOffsetFromPlayer;
+        smallMiniMapCam.transform.position = this.transform.position + CamOffsetFromPlayer;
     }
     void UpdatePointerTransform()
     {

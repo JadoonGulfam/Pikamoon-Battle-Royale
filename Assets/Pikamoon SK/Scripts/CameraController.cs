@@ -1,7 +1,6 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
-using DG.Tweening;
-using System;
 
 namespace Pikamoon.Controller
 {
@@ -66,10 +65,8 @@ namespace Pikamoon.Controller
 
         [Header("Minimap Settings")]
         [Space]
-        public Camera miniMapCamera;
-        public int SmallMinimap_OrthographicSize;
-        public int LargeMinimap_OrthographicSize;
-        public bool isLargeMiniMapVisible;
+        public Camera hudMiniMapCamera;
+        public Camera largeMiniMapCamera;
 
         CinemachineInputAxisController CamAxisController;
 
@@ -124,7 +121,6 @@ namespace Pikamoon.Controller
 
         }
 
-
         public void ToggleCaptureCam(bool flag)
         {
             if(flag)
@@ -177,7 +173,6 @@ namespace Pikamoon.Controller
             DefaultCam.gameObject.SetActive(true);
         }
 
-
         public void CameraOrbitStatus(bool flag)
         {
 
@@ -194,6 +189,5 @@ namespace Pikamoon.Controller
             }
 
         }
-
     }
 }

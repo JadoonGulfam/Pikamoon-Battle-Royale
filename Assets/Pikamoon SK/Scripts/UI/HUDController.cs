@@ -155,7 +155,7 @@ namespace Pikamoon.UI
         [Header("Mini Map")]
         [Space]
         public Transform SmallMinimap;
-        public Transform LargeMinimap;
+        public MiniMapUI miniMapUI;
         #endregion
     }
 

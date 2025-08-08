@@ -248,10 +248,10 @@ namespace Pikamoon.Controller
             //_throwing = this.GetComponent<Throwing>();
             //_shooting = this.GetComponent<Shooting>();
 
-
+            UI.hudcontroller.miniMapUI.Initialize(this.transform, input);
             inventory.Initialize(UI, this);
             HC.Initialize();
-            miniMapHandler.Initialize(cameraController);
+            miniMapHandler.Initialize(cameraController, this);
         }
 
 
