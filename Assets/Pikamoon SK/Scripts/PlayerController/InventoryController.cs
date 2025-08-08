@@ -19,6 +19,7 @@ namespace Pikamoon.Controller
 
     public class InventoryController : MonoBehaviour
     {
+        public AnimationController animationController;
         public GameObject NetworkManagerob;
         public UIManagerSK UI;
 
@@ -210,7 +211,8 @@ namespace Pikamoon.Controller
                         pickableItem.TryToPick(this);
                         hitTransform.gameObject.SetActive(false);
                         NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(0);
-                        NetworkManagerob.GetComponent<NetworkManager>().RequestDespawn(hitTransform.GetComponent<NetworkObject>().Id);
+                        animationController.RequestToDespawn(hitTransform.GetComponent<NetworkObject>().Id); 
+                        //RequestDespawn(hitTransform.GetComponent<NetworkObject>().Id);
 
                     }
                     else

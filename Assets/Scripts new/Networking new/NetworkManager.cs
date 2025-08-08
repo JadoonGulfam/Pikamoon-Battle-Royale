@@ -21,7 +21,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject[] weaponsForEnv;
     public int selectedWearablesIndex = 2;
 
-
+ //   public AnimationController animationController;
     public GameObject[] playerPrefab;
     public int ChrarcterIndex = 0;
     public Transform sessionListContentParent;
@@ -91,29 +91,12 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                 );
     }
 
+    //public void RequestDespawn(NetworkId objectId)
+    //{
+    //    animationController.RequestToDespawn(objectId);
+    //}
 
 
-    public void RequestDespawn(NetworkId objectId)
-    {
-        RPC_DespawnRequest(objectId);
-    }
-
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    private void RPC_DespawnRequest(NetworkId objectId)
-    {
-        // Called on the player with StateAuthority of the target object
-        NetworkObject target = runnerInstance.FindObject(objectId);
-
-        if (target != null && target.HasStateAuthority)
-        {
-            runnerInstance.Despawn(target);
-            Debug.Log($"Object {objectId} despawned by state authority.");
-        }
-        else
-        {
-            Debug.LogWarning($"No authority to despawn object {objectId} or object not found.");
-        }
-    }
 
     private void Start()
     {
