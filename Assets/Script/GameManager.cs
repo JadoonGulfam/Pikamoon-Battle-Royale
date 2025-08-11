@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         LoadGame();
+        SpawnPrefab(0);
     }
     void LoadGame()
     {
@@ -73,22 +74,22 @@ public class GameManager : MonoBehaviour
     //    Debug.Log("Character customization saved to " + Application.persistentDataPath + "/characterCustom.json");
     //    //save.interactable = false;
     //}
-    public void SpawnPlayer()
-    {
-        if (_player != null)
-        {
-            _player.SetActive(true);
-        }
-        else
-        {
-            _player = Instantiate(designerPreset[playerIndex], playerPosition);
-            weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
-        }
-        if (_weapon != null)
-        {
-            _weapon.SetActive(false);
-        }
-    }
+    //public void SpawnPlayer()
+    //{
+    //    if (_player != null)
+    //    {
+    //        _player.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        _player = Instantiate(designerPreset[playerIndex], playerPosition);
+    //        weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
+    //    }
+    //    if (_weapon != null)
+    //    {
+    //        _weapon.SetActive(false);
+    //    }
+    //}
     public void SpawnPrefab(int index)
     {
         if (index < 0 || index >= designerPresetList.Length) return; // Safety check
@@ -159,10 +160,10 @@ public class GameManager : MonoBehaviour
             _weapon.transform.localRotation = Quaternion.Euler(new Vector3(-15f, -140f, -25f));
         }
     }
-    public void PlayerActiveDeactive(bool value)
-    {
-       if(_player != null)    _player.SetActive(value);
-    }
+    //public void PlayerActiveDeactive(bool value)
+    //{
+    //   if(_player != null)    _player.SetActive(value);
+    //}
     public void SwitchUIPanels(int index) 
     {
         foreach (var panel in uiPanels) 
