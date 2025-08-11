@@ -76,12 +76,14 @@ namespace Pikamoon.Controller
         
 
 
-        [HideInInspector] public CameraController _cameraController;
+        [HideInInspector] public CameraController cameraController;
         [HideInInspector] public PlayerInput input;
         [HideInInspector] public InventoryController inventory;
         [HideInInspector] public AnimationController AC;
         [HideInInspector] public HealthController HC;
         [HideInInspector] public HitBehaviour HitBehaviour;
+        [HideInInspector] public UIManagerSK UI;
+        [HideInInspector] public MiniMapHandler miniMapHandler;
        // public PlayerSetupForMultiplayer MP_Setup;
 
         Shooting _shooting;
@@ -99,6 +101,8 @@ namespace Pikamoon.Controller
         float animSpeedLerper;
 
 
+        [Header("Bool Values")]
+        [Space]
 
         [SerializeField] bool isRootMotionEnabled;
         public bool IsRootMotionEnabled
@@ -202,14 +206,15 @@ namespace Pikamoon.Controller
         public void Inititalize(PlayerInput _input, CameraController _camera, UIManagerSK _uiManager)
         {
             input = _input;
-            _cameraController = _camera;
+            cameraController = _camera;
 
             CameraOrbitStatus = true;
-
+            UI = _uiManager;
             characterController = this.GetComponent<CharacterController>();
             inventory = GetComponent<InventoryController>();
             AC = GetComponent<AnimationController>();
             HC = GetComponent<HealthController>();
+            miniMapHandler = GetComponent<MiniMapHandler>();
 
 
             IgnoreGravity = false;
@@ -243,10 +248,10 @@ namespace Pikamoon.Controller
             //_throwing = this.GetComponent<Throwing>();
             //_shooting = this.GetComponent<Shooting>();
 
-
-            inventory.Initialize(_uiManager, this);
-            HC.Initialize(_uiManager);
-
+            UI.hudcontroller.miniMapUI.Initialize(this.transform, input);
+            inventory.Initialize(UI, this);
+            HC.Initialize();
+            miniMapHandler.Initialize(cameraController, this);
         }
 
 
@@ -357,8 +362,8 @@ namespace Pikamoon.Controller
 
             if (input.isMoving)
             {
-                Vector3 CamForward = _cameraController._camera.transform.forward.normalized;
-                Vector3 CamRight = _cameraController._camera.transform.right.normalized;
+                Vector3 CamForward = cameraController._camera.transform.forward.normalized;
+                Vector3 CamRight = cameraController._camera.transform.right.normalized;
 
                 CamForward.y = 0;
                 CamRight.y = 0;
@@ -372,8 +377,8 @@ namespace Pikamoon.Controller
         {
             Vector3 direction = transform.forward;
 
-                Vector3 CamForward = _cameraController._camera.transform.forward.normalized;
-                Vector3 CamRight = _cameraController._camera.transform.right.normalized;
+                Vector3 CamForward = cameraController._camera.transform.forward.normalized;
+                Vector3 CamRight = cameraController._camera.transform.right.normalized;
 
                 CamForward.y = 0;
                 CamRight.y = 0;
@@ -401,17 +406,17 @@ namespace Pikamoon.Controller
         }
         public void RotatePlayerTowardsCameraForwardDirectionDuringAim(float Speed,float AdditionalVal)
         {
-            Vector3 forward = _cameraController._camera.transform.right + (_cameraController._camera.transform.forward * AdditionalVal);
+            Vector3 forward = cameraController._camera.transform.right + (cameraController._camera.transform.forward * AdditionalVal);
             forward.y = 0f;
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward), Time.deltaTime * Speed);
         }
         public void CameraOrbit()
         {
-            if (!_cameraController)
+            if (!cameraController)
                 return;
 
-            _cameraController.CameraOrbitStatus(cameraOrbitStatus);
+            cameraController.CameraOrbitStatus(cameraOrbitStatus);
             input.AllowInputFlagWhileUIEnabled = cameraOrbitStatus;
         }
 

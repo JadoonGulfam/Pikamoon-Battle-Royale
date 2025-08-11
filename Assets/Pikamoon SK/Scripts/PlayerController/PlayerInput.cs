@@ -51,6 +51,9 @@ namespace Pikamoon.Controller
         public OnBtnDown onCapture_Down;
         public OnBtnUp   onCapture_Up;
 
+        public OnBtnDown onMap_Down;
+
+
         [HideInInspector]
         //public bool isSprinting;
         //public bool isCrouching;
@@ -124,16 +127,22 @@ namespace Pikamoon.Controller
             {
                 onInventoryShow_Down?.Invoke();
             }
+            
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                onJump_Down?.Invoke();
+            }
 
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                onMap_Down?.Invoke();
+            }
 
             if (!AllowInputFlagWhileUIEnabled)
                 return;
 
 
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                onJump_Down?.Invoke();
-            }
+
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
@@ -201,6 +210,8 @@ namespace Pikamoon.Controller
             }
 
 
+
+            
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 onSecondaryWeaponSelect_Down?.Invoke();

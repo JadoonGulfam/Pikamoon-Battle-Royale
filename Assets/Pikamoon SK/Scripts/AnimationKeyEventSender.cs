@@ -78,6 +78,7 @@ namespace Pikamoon.Controller
 
         public void ResetEquipSettings()
         {
+            Controller.inventory.WeaponSwitchingComplete();
             AC.SetAnimatorLayer(3, 0);
         }
 

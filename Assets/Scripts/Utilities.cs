@@ -767,7 +767,7 @@ public class UTUUtilities : AssetPostprocessor
     {
 		MR.enabled = false;
 		int Level = GetLODLevel( AllLodGroups, MR );
-		//DisableCollider all LOD levels
+		//Disable all LOD levels
 		if ( Level != -1 )
         {
 			LODGroup LG = MR.gameObject.GetComponentInParent<LODGroup>();

@@ -36,10 +36,10 @@ namespace Pikamoon.Controller
         IDamageable damageable;
 
         ThrowableWeaponDataSO tWeaponData;
+
         private void Start()
         {
             tWeaponData = GetItemDataAs<ThrowableWeaponDataSO>();
-
             returnTime = 0;
             activated = isReturning = false;
         }
@@ -232,9 +232,9 @@ namespace Pikamoon.Controller
         public override void OnHit(Vector3 point)
         {
             activated = false;
-            GetComponent<Rigidbody>().Sleep();
-            GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-            GetComponent<Rigidbody>().isKinematic = true;
+            rb.Sleep();
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            rb.isKinematic = true;
         }
 
         public override void AssignHolder(PlayerController Controller)

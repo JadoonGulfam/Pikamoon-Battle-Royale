@@ -17,9 +17,6 @@ namespace Pikamoon.Controller
 
     public class InventoryController : MonoBehaviour
     {
-        public UIManagerSK UI;
-
-        //[SerializeField] Bag
         [Header("Weapons")]
 
         public WeaponInfo DefaultFistNoWeapon;
@@ -69,6 +66,8 @@ namespace Pikamoon.Controller
             set { allowAutoPickUp = value; }
         }
 
+        [SerializeField] bool isBusyInSwitchingWeapon;
+
         [SerializeField] private PlayerController Controller;
         private PlayerInput playerInput;
 
@@ -81,9 +80,11 @@ namespace Pikamoon.Controller
         bool isPointerOnLootBox;
         bool IsInventoryOpen;
         IPickable pickableItem;
+        UIManagerSK UI;
 
         private void Start()
         {
+            isBusyInSwitchingWeapon = false;
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
             IsInventoryOpen = false;
@@ -101,7 +102,7 @@ namespace Pikamoon.Controller
             //QuickItems.InitializeCategory();
             //AllItems.InitializeCategory();
 
-            UI.inventoryUI._inventory = this;
+            UI.inventoryUI.Player = this;
             UI.lootBoxUI._inventory = this;
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
@@ -160,7 +161,7 @@ namespace Pikamoon.Controller
             {
                 Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-                Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+                Ray ray = Controller.cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
                 if (Physics.Raycast(ray, out hitItem, 999f, pickupLayerMask))
                 {
@@ -375,16 +376,16 @@ namespace Pikamoon.Controller
 
         #region Weapon Portion
 
+
         void ChangeToPrimaryWeapon()
         {
-            if (Weapons.items[0] == null)
+            if (Weapons.items[0] == null || isBusyInSwitchingWeapon)
                 return;
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
-
-
+            isBusyInSwitchingWeapon = true;
             if (UsingWeaponIndex == 0)
             {
                 if (isUsingWeapon)
@@ -412,13 +413,14 @@ namespace Pikamoon.Controller
         }
         void ChangeToSecondaryWeapon()
         {
-            if (Weapons.items[1] == null)
+            if (Weapons.items[1] == null || isBusyInSwitchingWeapon)
                 return;
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
 
+            isBusyInSwitchingWeapon = true;
             if (UsingWeaponIndex == 1)
             {
                 if (isUsingWeapon)
@@ -446,13 +448,15 @@ namespace Pikamoon.Controller
         }
         void ChangeToTertiaryWeapon()
         {
-            if (Weapons.items[2] == null)
+            if (Weapons.items[2] == null || isBusyInSwitchingWeapon)
                 return;
+
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
 
 
+            isBusyInSwitchingWeapon = true;
             if (UsingWeaponIndex == 2)
             {
                 if (isUsingWeapon)
@@ -479,18 +483,15 @@ namespace Pikamoon.Controller
             }
         }
 
-
+        public void WeaponSwitchingComplete()
+        {
+            isBusyInSwitchingWeapon = false;
+        }
         void UnEquipping(int index, Item item, bool ActivateNoWeapon)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
 
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
-            //Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
-
-            //weapon.transform.parent = restingPoint.transform;
-            //weapon.transform.localPosition = Vector3.zero;
-            //weapon.transform.localRotation = Quaternion.identity;
 
             Controller.AC.PAnimator.SetInteger(Controller.AC.Parameters.SecondaryState.Hash, 400 + (int)weaponInfo.Data.restingPointType);
             Controller.AC.PAnimator.SetTrigger(Controller.AC.Parameters.UnEquip.Hash);
@@ -507,6 +508,15 @@ namespace Pikamoon.Controller
             if (ActivateNoWeapon)
             {
                 Controller.ActivateWeapon(DefaultFistNoWeapon);
+            }
+            else
+            {
+                Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+                weapon.transform.parent = restingPoint.transform;
+                weapon.transform.localPosition = Vector3.zero;
+                weapon.transform.localRotation = Quaternion.identity;
+
             }
         }
 
@@ -565,13 +575,11 @@ namespace Pikamoon.Controller
                     }
                 }
             }
-
         }
         void DropWeapon()
         {
             if (Weapons.items[UsingWeaponIndex] == null)
                 return;
-
 
             if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
                 return;
@@ -586,6 +594,26 @@ namespace Pikamoon.Controller
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
+        void DropWeapon(int index)
+        {
+            if (Weapons.items[index] == null)
+                return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+
+            isUsingWeapon = false;
+
+            //UI.hudcontroller.DropWeapon(index);
+
+            Weapons.items[index].GetItemAs<Weapon>().OnDrop(this.transform, Controller.groundLayer);
+
+            RemoveWeaponsFromList(index);
+
+            Controller.ActivateWeapon(DefaultFistNoWeapon);
+        }
+
+
         void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
             AddWeaponsToList(weapon, index);
@@ -660,6 +688,8 @@ namespace Pikamoon.Controller
                 Weapons.AvailedInCategory++;
             }
         }
+
+
         public void RemoveWeaponsFromList(int index)
         {
             if (Weapons.items[index] != null)
@@ -667,6 +697,10 @@ namespace Pikamoon.Controller
                 Weapons.items[index] = null;
                 Weapons.AvailedInCategory--;
             }
+        }
+        public void DropWeaponsFromList(int index)
+        {
+            DropWeapon(index);
         }
         #endregion
 

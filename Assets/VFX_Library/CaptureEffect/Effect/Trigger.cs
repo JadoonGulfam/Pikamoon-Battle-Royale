@@ -15,7 +15,7 @@ public class Trigger : MonoBehaviour
 
     void Update()
     {
-       /* if (Input.GetKeyDown(HotKey.E))
+       /* if (Input.GetKeyDown(KeyCode.E))
         {
             _explodeEffect.Play();
         }

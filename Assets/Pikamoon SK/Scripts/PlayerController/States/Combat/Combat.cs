@@ -21,8 +21,8 @@ namespace Pikamoon.Controller
     {
         MeleeWeapon ActiveWeapon;
 
-        [Header("Movement")]
-        [Space]
+        //[Header("Movement")]
+        //[Space]
         //public Transform DummyCircle;
 
         //public Image comboStatusImage;
@@ -130,8 +130,6 @@ namespace Pikamoon.Controller
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
-
-
             //ActiveStateName.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
             //ActiveStateProgress.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
         }
@@ -198,7 +196,8 @@ namespace Pikamoon.Controller
 
             if (GetNearestEnemyToLock())
             {
-                RotateTowardsNearestEnemy();
+                //RotateTowardsNearestEnemy();
+                RotateTowardsNearestEnemy(lockedEnemy);
             }
             else
             {
@@ -230,7 +229,8 @@ namespace Pikamoon.Controller
 
             if (GetNearestEnemyToLock())
             {
-                RotateTowardsNearestEnemy();
+                //RotateTowardsNearestEnemy();
+                RotateTowardsNearestEnemy(lockedEnemy);
             }
             else
             {
@@ -383,7 +383,7 @@ namespace Pikamoon.Controller
 
         bool GetNearestEnemyToLock()
         {
-            EnemiesInRange = Physics.OverlapSphere(this.transform.position, RadiusToFindEnemy, EnemyLayer);
+            EnemiesInRange = Physics.OverlapSphere(Controller.transform.position, RadiusToFindEnemy, EnemyLayer);
 
             // this is because player is also of same layermask as enemy,
             // thats why player is also considering himself enemy
@@ -391,13 +391,13 @@ namespace Pikamoon.Controller
                 return false;
 
             float dis = 1000;
-            int indexOfNearest = 0;
+            int indexOfNearest = -1;
 
             for (int i = 0; i < EnemiesInRange.Length; i++)
             {
-                if (EnemiesInRange[i].transform != this.transform)
+                if (EnemiesInRange[i].transform != Controller.transform)
                 {
-                    float distance = Vector3.Distance(EnemiesInRange[i].transform.position, this.transform.position);
+                    float distance = Vector3.Distance(EnemiesInRange[i].transform.position, Controller.transform.position);
                     if (dis > distance)
                     {
                         dis = distance;
@@ -406,27 +406,26 @@ namespace Pikamoon.Controller
                 }
             }
 
-            lockedEnemy = EnemiesInRange[indexOfNearest].transform;
-
             if (indexOfNearest == -1)
                 return false;
 
+            lockedEnemy = EnemiesInRange[indexOfNearest].transform;
 
             return true;
         }
 
         void RotateTowardsNearestEnemy()
         {
-            Vector3 direction = (transform.localPosition + lockedEnemy.localPosition) / 2;
+            Vector3 direction = (Controller.transform.localPosition + lockedEnemy.localPosition) / 2;
 
-            direction.y = transform.position.y;
+            direction.y = Controller.transform.position.y;
 
-            transform.LookAt(direction);
+            Controller.transform.LookAt(direction);
         }
 
         void RotateTowardsNearestEnemy(Transform Target)
         {
-            Controller.RotatePlayerTowardDirection(Target.position - this.transform.position, 50);
+            Controller.RotatePlayerTowardDirection(Target.position - Controller.transform.position, 50);
         }
 
 

@@ -23,7 +23,10 @@ namespace Pikamoon.Controller
         RightBack,
 
         leftBut,
-        RightBut
+        RightBut,
+
+        LeftMidBack,
+        RightMidBack
     }
 
     public abstract class Weapon : Item, IPickable ,IDroppable

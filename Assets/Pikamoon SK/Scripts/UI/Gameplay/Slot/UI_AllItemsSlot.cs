@@ -38,7 +38,7 @@ namespace Pikamoon.UI
 
             ChangeButtonAppearance(ActiveSlotSettings);
 
-            inventoryUI._inventory.AddAllItemsToList(item, indexInList);
+            inventoryUI.Player.AddAllItemsToList(item, indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.AssignItemByDependentSlot(item);
@@ -71,11 +71,16 @@ namespace Pikamoon.UI
 
         public override void UnAssignItem(bool alsoExecuteDependency)
         {
+            if (Icon)
+                Icon.sprite = null;
+            if (ItemName)
+                ItemName.text = "";
             CurrentItem = null;
             hasItem = false;
+
             ChangeButtonAppearance(InActiveSlotSettings);
 
-            inventoryUI._inventory.RemoveAllItemsFromList(indexInList);
+            inventoryUI.Player.RemoveAllItemsFromList(indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.UnAssignItemByDependentSlot();
@@ -98,10 +103,9 @@ namespace Pikamoon.UI
             CurrentItem = null;
             hasItem = false;
 
-
             ChangeButtonAppearance(EmptySlotSettings);
 
-            inventoryUI._inventory.RemoveAllItemsFromList(indexInList);
+            inventoryUI.Player.RemoveAllItemsFromList(indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.RemoveItemByDependentSlot();
@@ -179,6 +183,9 @@ namespace Pikamoon.UI
             return true;
         }
 
-
+        public override void DropItem()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

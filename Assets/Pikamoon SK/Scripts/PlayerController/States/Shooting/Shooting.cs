@@ -135,7 +135,7 @@ namespace Pikamoon.Controller
                 AR_LookTarget.position = FirePoint.position;
                 Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-                Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+                Ray ray = Controller.cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 999f, AimableMask))
@@ -206,8 +206,8 @@ namespace Pikamoon.Controller
             if (Controller.ActiveWeapon.Data.Type != WeaponType.Ranged || Controller.IsSwimming)
                 return;
 
-            Controller._cameraController.ChangeCam(Cam.Aim);
-            Controller._cameraController.ChangeAimZoom(true);
+            Controller.cameraController.ChangeCam(Cam.Aim);
+            Controller.cameraController.ChangeAimZoom(true);
 
             AC.PAnimator.SetLayerWeight(1, 1);
 
@@ -296,7 +296,7 @@ namespace Pikamoon.Controller
         public void ShootArrow()
         {
 
-            Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+            Ray ray = Controller.cameraController._camera.ScreenPointToRay(screenCenterPoint);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 999f, AimableMask))
@@ -310,7 +310,7 @@ namespace Pikamoon.Controller
                     ActiveWeapon.ShootBullet(hit.point);
 
 
-                    //Controller._cameraController.EnableBulletActionCam(ActiveWeapon.GetActionCamParent());
+                    //Controller.cameraController.EnableBulletActionCam(ActiveWeapon.GetActionCamParent());
                     DebugTransform.transform.position = hit.point;
                 }
             }

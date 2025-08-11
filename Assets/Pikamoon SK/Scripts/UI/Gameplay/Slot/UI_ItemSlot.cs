@@ -86,7 +86,13 @@ namespace Pikamoon.UI
         public abstract void Select();
         public abstract void UnSelect();
         public abstract Item GetItem();
+        public virtual void DropItem()
+        {
+            if (CurrentItem == null)
+                return;
 
+            inventoryUI.Player.DropWeaponsFromList(indexInList);
+        }
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
             if (_dragManager == null || !_dragManager.IsDragging)

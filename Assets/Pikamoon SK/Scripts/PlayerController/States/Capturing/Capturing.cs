@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,8 +19,8 @@ namespace Pikamoon.Controller
         [Space]
         public PlayerSetupForMultiplayer MP_Setup;
 
-        public UnityEvent OnStunnedPikamoonFounded;
-        public UnityEvent OnStunnedPikamoonLost;
+        //public UnityEvent OnStunnedPikamoonFounded;
+        //public UnityEvent OnStunnedPikamoonLost;
         public UnityEvent OnCapturedSuccessfully;
 
         bool hasTarget;
@@ -63,7 +64,8 @@ namespace Pikamoon.Controller
             }
             else
             {
-                OnStunnedPikamoonLost?.Invoke();
+                //OnStunnedPikamoonLost?.Invoke();
+                Controller.UI.hudcontroller.HideCaptureUI();
                 FaceTowardsCapturingTransform();
 
                 captureTimer += Time.deltaTime;
@@ -80,7 +82,7 @@ namespace Pikamoon.Controller
         {
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-            Ray ray = Controller._cameraController._camera.ScreenPointToRay(screenCenterPoint);
+            Ray ray = Controller.cameraController._camera.ScreenPointToRay(screenCenterPoint);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, RangeToCheckForPikamoon, CaptureLayerMask))
             {
@@ -95,13 +97,16 @@ namespace Pikamoon.Controller
                         hasTarget = true;
                         timeToCapture = captureInfo.TimeToCapture;
                         TargetCapturePosition = captureInfo.transform;
-                        OnStunnedPikamoonFounded?.Invoke();
+
+                        //OnStunnedPikamoonFounded?.Invoke();
+                        Controller.UI.hudcontroller.ShowCaptureUI(captureInfo.Name, "C");
                     }
                 }
             }
             else
             {
-                OnStunnedPikamoonLost?.Invoke();
+                //OnStunnedPikamoonLost?.Invoke();
+                Controller.UI.hudcontroller.HideCaptureUI();
             }
         }
 
@@ -124,7 +129,7 @@ namespace Pikamoon.Controller
             isCapturing = false;
 
 
-            Controller._cameraController.ToggleCaptureCam(false);
+            Controller.cameraController.ToggleCaptureCam(false);
 
             TargetCapturePosition.gameObject.SetActive(false);
 
@@ -144,7 +149,7 @@ namespace Pikamoon.Controller
             {
                 captureTimer = 0;
 
-                Controller._cameraController.ToggleCaptureCam(true);
+                Controller.cameraController.ToggleCaptureCam(true);
 
                 Controller.CurrentPlayerState = StateType.Capture;
 
@@ -160,7 +165,7 @@ namespace Pikamoon.Controller
         {
             isCapturing = false;
 
-            Controller._cameraController.ToggleCaptureCam(false);
+            Controller.cameraController.ToggleCaptureCam(false);
 
             AC.PAnimator.SetBool   (AC.Parameters.isWalkRun.Hash      , true );
             AC.PAnimator.SetInteger(AC.Parameters.SecondaryState.Hash , 50   );

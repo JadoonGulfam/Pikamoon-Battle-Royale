@@ -18,7 +18,7 @@ namespace Pikamoon.UI
     {
         public Canvas _canvas;
 
-        public InventoryController _inventory;
+        public InventoryController Player;
 
         [SerializeField] private Image CharacterImg;
 

@@ -1,7 +1,6 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
-using DG.Tweening;
-using System;
 
 namespace Pikamoon.Controller
 {
@@ -12,7 +11,8 @@ namespace Pikamoon.Controller
         Crouch,
         Slide,
         Aim,
-        ZoomedAim
+        ZoomedAim,
+        Capture
     }
 
 
@@ -36,6 +36,12 @@ namespace Pikamoon.Controller
     }
 
 
+    [Serializable]
+    public struct MiniMapTypeSetting
+    {
+        public int OrthographicSize;
+    }
+
     public class CameraController : MonoBehaviour
     {
         public Camera _camera;
@@ -43,22 +49,24 @@ namespace Pikamoon.Controller
         [SerializeField] Cam activeCam;
 
         [Header("Arrow Action Cam")]
+        [Space]
         [SerializeField] CinemachineCamera ActionArrowCam;
         [SerializeField] CinemachineBasicMultiChannelPerlin shakeNoisePerlin;
         [SerializeField] float cameraShakeAmplitude; 
-
         [SerializeField] float cameraShakeFrequency; 
 
+        [Header("Default Cam Property")]
         [Space]
-        [SerializeField] CinemachineCamera CaptureCam;
         [SerializeField] CinemachineCamera DefaultCam;
         [SerializeField] CinemachineOrbitalFollow DefaultCamOrbitalFollow;
-
         [SerializeField] CinemachineCameraOffset camOffsetter;
-
         [Space]
         public CamSettings[] camRigSettings;
 
+        [Header("Minimap Settings")]
+        [Space]
+        public Camera hudMiniMapCamera;
+        public Camera largeMiniMapCamera;
 
         CinemachineInputAxisController CamAxisController;
 
@@ -105,51 +113,24 @@ namespace Pikamoon.Controller
         {
             if (changeTo == activeCam)
                 return;
+            
+            aimer = camRigSettings[(int)changeTo].CamOffset;
+            fov = camRigSettings[(int)changeTo].FOV;
 
-            if (changeTo == Cam.Default)
-            {
-                aimer = camRigSettings[0].CamOffset;
-                fov = camRigSettings[0].FOV;
-
-            }
-            else if (changeTo == Cam.Sprint)
-            {
-                aimer = camRigSettings[1].CamOffset;
-                fov = camRigSettings[1].FOV;
-
-            }
-            else if (changeTo == Cam.Crouch)
-            {
-                aimer = camRigSettings[2].CamOffset;
-                fov = camRigSettings[2].FOV;
-
-            }
-            else if (changeTo == Cam.Slide)
-            {
-                aimer = camRigSettings[3].CamOffset;
-                fov = camRigSettings[3].FOV;
-
-            }
-            else if (changeTo == Cam.Aim)
-            {
-                aimer = camRigSettings[4].CamOffset;
-                fov = camRigSettings[4].FOV;
-
-            }
-            else if (changeTo == Cam.ZoomedAim)
-            {
-                aimer = camRigSettings[5].CamOffset;
-                fov = camRigSettings[5].FOV;
-
-            }
             activeCam = changeTo;
 
         }
 
-
         public void ToggleCaptureCam(bool flag)
         {
-            DefaultCam.gameObject.SetActive(!flag);
+            if(flag)
+            {
+                ChangeCam(Cam.Capture);
+            }
+            else
+            {
+                ChangeCam(Cam.Default);
+            }
         }
 
         public void ChangeAimZoom(bool isAiming)
@@ -192,7 +173,6 @@ namespace Pikamoon.Controller
             DefaultCam.gameObject.SetActive(true);
         }
 
-
         public void CameraOrbitStatus(bool flag)
         {
 
@@ -209,6 +189,5 @@ namespace Pikamoon.Controller
             }
 
         }
-
     }
 }

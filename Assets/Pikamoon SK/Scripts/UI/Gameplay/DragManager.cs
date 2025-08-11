@@ -71,17 +71,18 @@ namespace Pikamoon.UI
             var targetSlot = hoveredSlot;
             var targetItem = targetSlot?.GetItem();
 
-            if (targetSlot == null && draggedSlot != targetSlot)
-            {
-                draggedSlot.RemoveItem(true);
-                EndDrag();
-                return; 
-            }
-
-            if(draggedSlot == targetSlot)
+            if (draggedSlot == targetSlot)
             {
                 EndDrag();
                 return;
+            }
+
+            if (targetSlot == null)// && draggedSlot != targetSlot)
+            {
+                draggedSlot.DropItem();
+                draggedSlot.RemoveItem(true);
+                EndDrag();
+                return; 
             }
 
             if (targetSlot.CanAcceptItem(hoveredSlot.GetItem(), draggedItem, draggedSlot))
@@ -90,13 +91,12 @@ namespace Pikamoon.UI
 
                 if (targetItem == null)
                 {
-                    draggedSlot.RemoveItem(true);
+                    draggedSlot.UnAssignItem(true);
                 }
                 else
                 {
                     draggedSlot.AssignItem(targetItem, true);
                 }
-                
             }
 
             EndDrag();
