@@ -175,7 +175,6 @@ namespace Pikamoon.Controller
 
         public void CameraOrbitStatus(bool flag)
         {
-
             if (flag)
             {
                 if (!CamAxisController.enabled)
@@ -185,9 +184,7 @@ namespace Pikamoon.Controller
             {
                 if (CamAxisController.enabled)
                     CamAxisController.enabled = false;
-
             }
-
         }
     }
 }
