@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class PikamoonAiHealth : MonoBehaviour, IDamageable
@@ -7,6 +9,9 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public float currentHealth;
     public Image healthBar;
     [SerializeField] private PikamoonAi pikamoonAi;
+    [SerializeField] Animator animator;
+    [SerializeField] private NavMeshAgent navMeshAgent;
+
     public float Health 
     {
         get 
@@ -59,7 +64,36 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public void OnDamage(float damageAmount, Transform hitter)
     {
         ReduceHealth(damageAmount);
-        pikamoonAi.TakeDamage(hitter);
+        TakeDamage(hitter);
+    }
+
+
+    public void TakeDamage(Transform _attacker) // Function to reduce health
+    {
+        // pikamoonHealth.ReduceHealth(damage);
+        if (IsDead()) 
+        { 
+            Die(); 
+            return; 
+        } // If Pikamoon's health is 0, trigger death
+
+        StartCoroutine(StopMovementForHit());
+
+    }
+    private void Die()
+    {
+        animator.SetTrigger("Killed"); // Play death animation
+
+        Destroy(gameObject, 2f); // Destroy after 3 seconds
+    }
+    private IEnumerator StopMovementForHit()
+    {
+        // Play hit animation
+        animator.SetTrigger("Hit");
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(1); // Adjust delay as needed
+        navMeshAgent.isStopped = false;
+        animator.ResetTrigger("Hit");
     }
 
     public Transform GetTransform()

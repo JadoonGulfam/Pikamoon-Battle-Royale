@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CanvasFaceCamera : MonoBehaviour
 {
-    private Camera mainCamera;
+    [SerializeField] private Camera mainCamera;
 
     void Start()
     {
