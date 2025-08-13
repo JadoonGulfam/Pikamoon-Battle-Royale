@@ -2,11 +2,13 @@ using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
 using System;
+using Fusion;
 
 namespace Pikamoon.Controller
 {
 
     [System.Serializable]
+
     public struct ItemCategory
     {
         public string CategoryName;
@@ -17,6 +19,8 @@ namespace Pikamoon.Controller
 
     public class InventoryController : MonoBehaviour
     {
+        public AnimationController animationController;
+        public GameObject NetworkManagerob;
         public UIManagerSK UI;
 
         //[SerializeField] Bag
@@ -81,12 +85,13 @@ namespace Pikamoon.Controller
         bool isPointerOnLootBox;
         bool IsInventoryOpen;
         IPickable pickableItem;
-
+      
         private void Start()
         {
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
             IsInventoryOpen = false;
+            NetworkManagerob = GameObject.FindGameObjectWithTag("NetworkManager");
         }
 
 
@@ -191,7 +196,7 @@ namespace Pikamoon.Controller
 
         public void Pick()
         {
-            print("item picked");
+           // print("item picked");
             if (hitTransform)
             {
                 if (Controller.IsInAttack || Controller.InAir)
@@ -204,6 +209,11 @@ namespace Pikamoon.Controller
                     {
                         isPickableAnItem = true;
                         pickableItem.TryToPick(this);
+                        hitTransform.gameObject.SetActive(false);
+                        NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(1);
+                        animationController.RequestToDespawn(hitTransform.GetComponent<NetworkObject>().Id); 
+                        //RequestDespawn(hitTransform.GetComponent<NetworkObject>().Id);
+
                     }
                     else
                     {

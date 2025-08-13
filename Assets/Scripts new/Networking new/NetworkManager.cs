@@ -15,12 +15,13 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public bool connectoOnAwaike = false;
     public static NetworkRunner runnerInstance;
     private string lobbyName = "Default";
-    
-    
+
+
     public GameObject[] wearables;
+    public GameObject[] weaponsForEnv;
     public int selectedWearablesIndex = 2;
 
-
+ //   public AnimationController animationController;
     public GameObject[] playerPrefab;
     public int ChrarcterIndex = 0;
     public Transform sessionListContentParent;
@@ -30,7 +31,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
     public float pikamoonRadius = 10f;
-    public int pikamoonCount ;
+    public int pikamoonCount;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
 
@@ -66,15 +67,40 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     //    selectedWearablesIndex=index;
 
     //}
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[2], playerNetworkObject.transform.position, Quaternion.identity);
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.E))
+    //    {
+    //        NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[2], playerNetworkObject.transform.position, Quaternion.identity);
 
-            Debug.Log("E key was pressed!");
-        }
+    //        Debug.Log("E key was pressed!");
+    //    }
+    //}
+
+    public void SpawnWeapon(int WeaponIndex)
+    {
+        NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[WeaponIndex], playerNetworkObject.transform.position, Quaternion.identity);
     }
+
+    public void spawnEnvWeapons(Vector3 position)
+    {
+        int randomIndex = UnityEngine.Random.Range(0, 2); // 0 or 1
+        print("Random Index: " + randomIndex);
+        NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
+            weaponsForEnv[randomIndex],
+            position,
+            Quaternion.identity
+        );
+    }
+
+
+    //public void RequestDespawn(NetworkId objectId)
+    //{
+    //    animationController.RequestToDespawn(objectId);
+    //}
+
+
+
     private void Start()
     {
         runnerInstance.JoinSessionLobby(SessionLobby.Shared, lobbyName);
@@ -171,6 +197,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                     pikamoonPosition,
                     Quaternion.identity
                 );
+
+                spawnEnvWeapons(pikamoonPosition);
                 Debug.Log($"Pikamoon {i + 1} spawned at position: {pikamoonPosition}");
             }
             else
@@ -179,6 +207,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
+
+   
+
     NetworkObject playerNetworkObject;
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -295,7 +326,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("PlayerLeft");
     }
-
+    #region ________________netbehaviour methods____________________
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
 
@@ -370,4 +401,5 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
 
     }
+    #endregion
 }
