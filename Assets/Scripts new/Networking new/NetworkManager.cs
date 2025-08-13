@@ -84,12 +84,15 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void spawnEnvWeapons(Vector3 position)
     {
+        int randomIndex = UnityEngine.Random.Range(0, 2); // 0 or 1
+        print("Random Index: " + randomIndex);
         NetworkObject pikamoonNetworkObject = runnerInstance.Spawn(
-                    weaponsForEnv[0],
-                    position,
-                    Quaternion.identity
-                );
+            weaponsForEnv[randomIndex],
+            position,
+            Quaternion.identity
+        );
     }
+
 
     //public void RequestDespawn(NetworkId objectId)
     //{

@@ -210,7 +210,7 @@ namespace Pikamoon.Controller
                         isPickableAnItem = true;
                         pickableItem.TryToPick(this);
                         hitTransform.gameObject.SetActive(false);
-                        NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(0);
+                        NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(1);
                         animationController.RequestToDespawn(hitTransform.GetComponent<NetworkObject>().Id); 
                         //RequestDespawn(hitTransform.GetComponent<NetworkObject>().Id);
 
