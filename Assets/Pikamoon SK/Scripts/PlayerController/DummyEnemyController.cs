@@ -179,7 +179,37 @@ namespace Pikamoon.Controller
                 GetHit(DummyAttacker);
             }
         }
+        public void TakeDamage(HealthPointType healthPoint, float damageAmount, Transform hitPoint)
+        {
+            Vector2 dir = GetHitDirection(hitPoint);
 
+
+            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
+            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
+
+            AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
+
+            float remainingDamage = damageAmount;
+
+            if (remainingDamage > 0)
+            {
+                health -= remainingDamage;
+                if (health < 0)
+                {
+                    health = 0;
+                }
+            }
+
+            //Controller.UI?.hudcontroller.UpdateHealth(health, 100);
+
+            //healthFiller.DOFillAmount(health / 100, .1f);
+
+            if (isKilled())
+            {
+                //Controller.inventory.PlaceLootBoxAfterDeath();
+                //gameObject.SetActive(false);
+            }
+        }
         void Gravity()
         {
             

@@ -8,6 +8,7 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public float maxHealth = 100f;
     public float currentHealth;
     public Image healthBar;
+    public Transform StunParticle;
     [SerializeField] private PikamoonAi pikamoonAi;
     [SerializeField] Animator animator;
     [SerializeField] private NavMeshAgent navMeshAgent;
@@ -33,7 +34,7 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public void ReduceHealth(float amount)
     {
         currentHealth -= amount;
-        healthBar.fillAmount = currentHealth/ maxHealth;     
+        healthBar.fillAmount = currentHealth / maxHealth;     
 
         if (currentHealth <= 0)
         {
@@ -82,9 +83,9 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     }
     private void Die()
     {
-        animator.SetTrigger("Killed"); // Play death animation
-
-        Destroy(gameObject, 2f); // Destroy after 3 seconds
+        animator.SetTrigger("Stunned"); // Play death animation
+        StunParticle.gameObject.SetActive(true);
+        //Destroy(gameObject, 2f); // Destroy after 3 seconds
     }
     private IEnumerator StopMovementForHit()
     {
