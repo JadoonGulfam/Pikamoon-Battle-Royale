@@ -109,6 +109,51 @@ MonoBehaviour:
   m_DenoiserRadius:
     m_OverrideState: 1
     m_Value: 0.5
+--- !u!114 &-4087998162147340359
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31394aa05878563408489d5c1688f3a0, type: 3}
+  m_Name: PathTracing
+  m_EditorClassIdentifier: 
+  active: 0
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  layerMask:
+    m_OverrideState: 1
+    m_Value:
+      serializedVersion: 2
+      m_Bits: 4294967295
+  maximumSamples:
+    m_OverrideState: 1
+    m_Value: 256
+  minimumDepth:
+    m_OverrideState: 1
+    m_Value: 1
+  maximumDepth:
+    m_OverrideState: 1
+    m_Value: 4
+  maximumIntensity:
+    m_OverrideState: 1
+    m_Value: 10
+  skyImportanceSampling:
+    m_OverrideState: 1
+    m_Value: 0
+  tilingParameters:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 0, w: 0}
+  seedMode:
+    m_OverrideState: 1
+    m_Value: 0
+  customSeed:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!114 &-3129938044038868610
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -291,10 +336,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.345
+    m_Value: 0.35
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.357
+    m_Value: 0.283
   roundness:
     m_OverrideState: 1
     m_Value: 1
@@ -422,7 +467,7 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 10.670128
+    m_Value: 11.4611435
   compensation:
     m_OverrideState: 1
     m_Value: 0.19
@@ -675,6 +720,7 @@ MonoBehaviour:
   - {fileID: -6481415150498802168}
   - {fileID: 9099246253232531524}
   - {fileID: 2028791192844359565}
+  - {fileID: -4087998162147340359}
 --- !u!114 &2028791192844359565
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -718,7 +764,7 @@ MonoBehaviour:
     m_Value: -0.37
   contrast:
     m_OverrideState: 1
-    m_Value: 15.8
+    m_Value: 25
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -810,7 +856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f077503be6ae942a1e1245dbd53ea9, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 1
     m_Value: 1

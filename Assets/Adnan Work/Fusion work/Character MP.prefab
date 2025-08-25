@@ -5340,6 +5340,9 @@ MonoBehaviour:
   input: {fileID: 0}
   inventory: {fileID: 0}
   AC: {fileID: 0}
+  HC: {fileID: 0}
+  HitBehaviour: {fileID: 0}
+  isRootMotionEnabled: 0
   canExitCrouch: 0
   IsInAttack: 0
   IsSwimming: 0
@@ -5463,6 +5466,7 @@ MonoBehaviour:
       Name: 
       Value: 0
       Hash: 0
+  HitAnimations: []
 --- !u!114 &2616765764771610900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5492,6 +5496,7 @@ MonoBehaviour:
     hitPoint: {fileID: 0}
   - effectPoint: 7
     hitPoint: {fileID: 0}
+  WeaponColliders: []
 --- !u!114 &8655739143850066287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5507,6 +5512,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   AnimationChangeDampening: 4
   Acceleration: 12
   turnSmoothTime: 10
@@ -5526,6 +5532,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   _fallStateName: Airbourne.Fall
@@ -5552,6 +5559,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   height: 0.98
   radius: 0.4
   center: {x: 0, y: 0.48, z: 0}
@@ -5572,6 +5580,7 @@ MonoBehaviour:
   Controller: {fileID: 2876951237606300120}
   playerInput: {fileID: 0}
   AC: {fileID: 7073716443976535076}
+  SFX: {fileID: 0}
   SlideSpeed: 12
   SpeedDeccelerator: 6
   colliderHeight: 0.98
@@ -5593,6 +5602,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   DummyCircle: {fileID: 0}
   animatorOverrideController: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
   ReadyToAttack: 0
@@ -5622,6 +5632,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   FirePoint: {fileID: 4301732215111737487}
   AR_LockedOnTargetAimer: {fileID: 762034142952741902}
   AR_LookTarget: {fileID: 1868623379838150263}
@@ -5652,6 +5663,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   ActiveWeapon: {fileID: 0}
   HoldingPoint: {fileID: 6245534356405090387}
   curvePoint: {fileID: 2434791011170125097}
@@ -5682,10 +5694,13 @@ MonoBehaviour:
   Controller: {fileID: 0}
   playerInput: {fileID: 0}
   AC: {fileID: 0}
+  SFX: {fileID: 0}
   waterLayer:
     serializedVersion: 2
     m_Bits: 16
   chestDisToFeet: 1.8
+  FootSensor: {fileID: 0}
+  ShoulderSensor: {fileID: 0}
   UpForce: 1
   MP_Setup: {fileID: 856749426312453236}
 --- !u!114 &7428428870312448113
@@ -5703,9 +5718,9 @@ MonoBehaviour:
   Animator: {fileID: 1786697747248380730}
   ApplyTiming: 2
   SyncSettings: 127
-  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea3270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742cc43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0
-  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3
-  TotalWords: 17
+  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0bf100bd923552865528f21757873248c4fe6afb2622275ab0543aaddb4c56c983c588e24aa047c9281bfea26be149bb20ada38e39c86ca55b73d5ce188962d75c14711c1ec83cbd879437e5ac8c5b81ff7c5a706da017d1f4fc1c89dfe470ed896fb6b50bc076ea950801a7bccc539c7f4e0f7eaee6b9731f91380b0d3dfc26b8a7a444f958341e25e5d730f2cb8ec9813139d0cef0f989166b408849aca67b30c9695055ac2a1b877067ba1c01206a9ded3e40882465119a8ba54e07c507d6b569c3fb03a53f602a616d5be11fe9094a07856d1
+  TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3b4ecb233ed6cef2b
+  TotalWords: 20
 --- !u!114 &1666544894102805382
 MonoBehaviour:
   m_ObjectHideFlags: 0
