@@ -28,7 +28,7 @@ namespace Pikamoon.Controller
 
         public void OnDamage(float damageAmount, Transform hitter)
         {
-            player.TakeDamage(type,damageAmount,hitter);
+            player.OnDamage(damageAmount,hitter);
         }
     }
 }

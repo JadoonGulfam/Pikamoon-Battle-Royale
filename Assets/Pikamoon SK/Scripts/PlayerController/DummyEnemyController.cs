@@ -1,15 +1,18 @@
+using DG.Tweening;
+using Fusion;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Pikamoon.Controller
 {
-
     public class DummyEnemyController : MonoBehaviour,IDamageable
     {
         AnimationController AC;
         SFXController SFX;
         [SerializeField] AudioClip damage;
-
+        [SerializeField] HitPoint HitBox;
         public bool IsRootMotionEnabled;
 
         public float health;
@@ -23,12 +26,29 @@ namespace Pikamoon.Controller
         public Image healthFiller;
         public Image ShieldFiller;
 
+
+        private bool ComboNextAttckTrigger;
+        private Collider[] EnemiesInRange;
+        private Transform lockedEnemy;
+        [Space]
+        [SerializeField] float RadiusToFindEnemy;
+        [SerializeField] LayerMask EnemyLayer;
+
+        public int comboMoveCounter { get; private set; }
+
         public void Start()
         {
-
             AC = GetComponent<AnimationController>();
             characterController = GetComponent<CharacterController>();
             SFX = GetComponent<SFXController>();
+        }
+
+        public void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.J))
+            {
+                DoHorizontalAttack();
+            }
         }
 
 
@@ -167,75 +187,11 @@ namespace Pikamoon.Controller
             //    }
             //}
         }
+
         public void RootMove(Vector3 direction)
         {
             characterController.Move(direction);
         }
-
-        void Update()
-        {
-            if(AllowDummyInputHit && Input.GetKeyDown(KeyCode.C))
-            {
-                GetHit(DummyAttacker);
-            }
-        }
-        public void TakeDamage(HealthPointType healthPoint, float damageAmount, Transform hitPoint)
-        {
-            Vector2 dir = GetHitDirection(hitPoint);
-
-
-            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
-            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
-
-            AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
-
-            float remainingDamage = damageAmount;
-
-            if (remainingDamage > 0)
-            {
-                health -= remainingDamage;
-                if (health < 0)
-                {
-                    health = 0;
-                }
-            }
-
-            //Controller.UI?.hudcontroller.UpdateHealth(health, 100);
-
-            //healthFiller.DOFillAmount(health / 100, .1f);
-
-            if (isKilled())
-            {
-                //Controller.inventory.PlaceLootBoxAfterDeath();
-                //gameObject.SetActive(false);
-            }
-        }
-        void Gravity()
-        {
-            
-        }
-
-        //void MakeRotationOfUITowardsCam()
-        //{
-
-        //    // Get the direction to the camera but ignore the Y-axis
-        //    Vector3 directionToCamera = Cam.transform.position - transform.position;
-
-        //    // Flatten the direction vector to the Y-axis only
-        //    directionToCamera.y = 0;
-
-        //    // If the direction vector is non-zero, rotate the health bar towards the camera
-        //    if (directionToCamera != Vector3.zero)
-        //    {
-        //        // Calculate the rotation towards the camera on the Y-axis
-        //        Quaternion targetRotation = Quaternion.LookRotation(directionToCamera);
-
-        //        // Apply the rotation to the health bar
-        //        transform.rotation = targetRotation;
-        //    }
-
-        //}
-
 
         #region IDamageable Properties
 
@@ -267,7 +223,7 @@ namespace Pikamoon.Controller
 
 
             health -= damageAmount;
-            //HealthBar.DOFillAmount(health / 100, .1f);
+            healthFiller.DOFillAmount(health / 100, .1f);
 
             //if (isKilled())
             //    this.gameObject.SetActive(false);
@@ -279,6 +235,75 @@ namespace Pikamoon.Controller
             return transform;
         }
 
+        #endregion
+
+        #region Combat System
+        public void DoHorizontalAttack()
+        {
+            Debug.Log("Do Horizontal Attack");
+            Attack(CombatMoveType.Horizontal);
+        }
+        public void ToggleNextComboAttckStatus(bool flag)
+        {
+            ComboNextAttckTrigger = flag;
+        }
+        public void AttackEnd()
+        {
+            HitBox.DisableCollider();
+
+            AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, false);
+            AC.PAnimator.SetBool(AC.Parameters.isWalkRun.Hash, false);
+            AC.PAnimator.SetTrigger(AC.Parameters.EndCombat.Hash);
+        }
+        void Attack(CombatMoveType combatMoveType)
+        {
+            DoFirstAttack(combatMoveType);
+        }
+        public void DoVerticalAttack()
+        {
+            HitBox.EnableCollider();
+            Attack(CombatMoveType.Vertical);
+        }
+
+
+        void DoFirstAttack(CombatMoveType combatMoveType)
+        {
+            ComboNextAttckTrigger = false;
+
+            comboMoveCounter = 1;
+            //AttackStatusImage.enabled = true;
+
+
+            AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, true);
+            AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
+
+
+            StartAttack(combatMoveType);
+
+            //if (combatCoroutine != null)
+            //    StopCoroutine(combatCoroutine);
+            //combatCoroutine = StartCoroutine(Attacking(combatMoveType));
+        }
+
+
+        void StartAttack(CombatMoveType combatMoveType)
+        {
+
+            //Choose Whether Nex Attack is Horizontal or Vertical and also play it
+            AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
+
+
+            if (comboMoveCounter <= 1)
+            {
+                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, comboMoveCounter);
+            }
+            else
+            {
+                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, 0);
+
+                AC.PAnimator.SetTrigger(AC.Parameters.NexComboAttack.Hash);
+            }
+        }
         #endregion
     }
 

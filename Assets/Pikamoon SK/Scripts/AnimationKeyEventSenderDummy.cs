@@ -12,6 +12,37 @@ namespace Pikamoon.Controller
             Controller.IsRootMotionEnabled = false;
         }
 
+        public void AllowCombo()
+        {
+            Controller.ToggleNextComboAttckStatus(true);
+        }
+
+        public void DenyComboInput()
+        {
+            Controller.ToggleNextComboAttckStatus(false);
+            Controller.AttackEnd();
+        }
+
+
+
+        public void PlayShootSound()
+        {
+            //shootingManager.PlayAttackSound();
+        }
+
+
+
+
+
+        public void ChangeLayerIndex(int layerIndex, float weight)
+        {
+            AC.SetAnimatorLayer(layerIndex, weight);
+        }
+
+        public void ResetEquipSettings()
+        {
+            AC.SetAnimatorLayer(3, 0);
+        }
         private void OnAnimatorMove()
         {
             if (Controller.IsRootMotionEnabled)
