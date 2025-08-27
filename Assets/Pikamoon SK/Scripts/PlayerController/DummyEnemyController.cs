@@ -223,7 +223,9 @@ namespace Pikamoon.Controller
 
 
             health -= damageAmount;
-            healthFiller.DOFillAmount(health / 100, .1f);
+            //healthFiller.DOFillAmount(health / 100, .1f);
+
+            healthFiller.fillAmount = health / 100;
 
             //if (isKilled())
             //    this.gameObject.SetActive(false);
@@ -240,6 +242,7 @@ namespace Pikamoon.Controller
         #region Combat System
         public void DoHorizontalAttack()
         {
+            HitBox.EnableCollider();
             Debug.Log("Do Horizontal Attack");
             Attack(CombatMoveType.Horizontal);
         }

@@ -9,7 +9,7 @@ namespace Pikamoon.Controller
 
         public void DisableRootMotion()
         {
-            Controller.IsRootMotionEnabled = false;
+            //Controller.IsRootMotionEnabled = false;
         }
 
         public void AllowCombo()
