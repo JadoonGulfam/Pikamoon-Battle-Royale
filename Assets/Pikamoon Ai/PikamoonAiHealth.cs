@@ -8,6 +8,7 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     public float maxHealth = 100f;
     public float currentHealth;
     public Image healthBar;
+    public GameObject Healths;
     public Transform StunParticle;
     [SerializeField] private PikamoonAi pikamoonAi;
     [SerializeField] Animator animator;
@@ -83,6 +84,7 @@ public class PikamoonAiHealth : MonoBehaviour, IDamageable
     }
     private void Die()
     {
+        Healths.gameObject.SetActive(false);
         animator.SetTrigger("Stunned"); // Play death animation
         StunParticle.gameObject.SetActive(true);
         //Destroy(gameObject, 2f); // Destroy after 3 seconds
