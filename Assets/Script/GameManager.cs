@@ -14,15 +14,15 @@ public class GameManager : MonoBehaviour
         public GameObject prefab;
     }
     public static GameManager instance;
-    public GameObject _player, _weapon;
+    public GameObject _player;//, _weapon;
     public List<GameObject> emojiList = new List<GameObject>();
-    public List<GameObject> allWeapons;
-    public List<GameObject> designerPreset;
+    //public List<GameObject> allWeapons;
+   // public List<GameObject> designerPreset;
     public DesignerPresetInfo[] designerPresetList;
     public UserDataBase userDataBase;
     private int playerIndex = 0;
-    private int weaponIndex = 2;
-    private Transform weaponMountPoint;
+   // private int weaponIndex = 2;
+   // private Transform weaponMountPoint;
     public Transform playerPosition;
     public List<GameObject> uiPanels;
 
@@ -102,64 +102,64 @@ public class GameManager : MonoBehaviour
 
         // Instantiate the selected prefab at the spawn position
         _player = Instantiate(designerPresetList[index].prefab, playerPosition);
-        weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
+        //weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
         characterNameText.text = designerPresetList[index].name;
         characterDescriptionText.text = designerPresetList[index].description;
         playerIndex = index;
     }
-    public void SpawnWeapons()
-    {
-        if (_player != null)
-        {
-            _player.SetActive(true);
-        }
-        else
-        {
-            _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
-            weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
-        }
-        if (_weapon != null)
-        {
-            _weapon.SetActive(true);
-        }
-        else
-        {
-            _weapon = Instantiate(allWeapons[weaponIndex], Vector3.zero, Quaternion.identity);
+    //public void SpawnWeapons()
+    //{
+    //    if (_player != null)
+    //    {
+    //        _player.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
+    //        weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
+    //    }
+    //    if (_weapon != null)
+    //    {
+    //        _weapon.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        _weapon = Instantiate(allWeapons[weaponIndex], Vector3.zero, Quaternion.identity);
 
-            if (weaponMountPoint != null)
-            {
-                _weapon.transform.SetParent(weaponMountPoint);
-                _weapon.transform.localPosition = new Vector3(-0.09f, 0f, -0.05f);      // Or use a specific offset if needed
-                _weapon.transform.localRotation = Quaternion.Euler(new Vector3(-15f, -140f, -25f));
-            }
-        }
-    }
-    public void SpawnWeaponPrefab(int index)
-    {
-        if (index < 0 || index >= allWeapons.Count) return; // Safety check
+    //        if (weaponMountPoint != null)
+    //        {
+    //            _weapon.transform.SetParent(weaponMountPoint);
+    //            _weapon.transform.localPosition = new Vector3(-0.09f, 0f, -0.05f);      // Or use a specific offset if needed
+    //            _weapon.transform.localRotation = Quaternion.Euler(new Vector3(-15f, -140f, -25f));
+    //        }
+    //    }
+    //}
+    //public void SpawnWeaponPrefab(int index)
+    //{
+    //    if (index < 0 || index >= allWeapons.Count) return; // Safety check
 
-        // Destroy existing prefab before spawning a new one
-        if (_weapon != null)
-        {
-            Destroy(_weapon);
-        }
-        if (_player != null)
-        {
-            _player.SetActive(true);
-        }
-        else
-            _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
-        weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
-        _weapon = Instantiate(allWeapons[index], Vector3.zero, Quaternion.identity);
-        weaponIndex = index;
+    //    // Destroy existing prefab before spawning a new one
+    //    if (_weapon != null)
+    //    {
+    //        Destroy(_weapon);
+    //    }
+    //    if (_player != null)
+    //    {
+    //        _player.SetActive(true);
+    //    }
+    //    else
+    //        _player = Instantiate(designerPreset[playerIndex], Vector3.zero, Quaternion.identity);
+    //    weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
+    //    _weapon = Instantiate(allWeapons[index], Vector3.zero, Quaternion.identity);
+    //    weaponIndex = index;
 
-        if (weaponMountPoint != null)
-        {
-            _weapon.transform.SetParent(weaponMountPoint);
-            _weapon.transform.localPosition = new Vector3(-0.09f, 0f, -0.05f);      // Or use a specific offset if needed
-            _weapon.transform.localRotation = Quaternion.Euler(new Vector3(-15f, -140f, -25f));
-        }
-    }
+    //    if (weaponMountPoint != null)
+    //    {
+    //        _weapon.transform.SetParent(weaponMountPoint);
+    //        _weapon.transform.localPosition = new Vector3(-0.09f, 0f, -0.05f);      // Or use a specific offset if needed
+    //        _weapon.transform.localRotation = Quaternion.Euler(new Vector3(-15f, -140f, -25f));
+    //    }
+    //}
     //public void PlayerActiveDeactive(bool value)
     //{
     //   if(_player != null)    _player.SetActive(value);
@@ -176,8 +176,8 @@ public class GameManager : MonoBehaviour
     {
         NetworkManager.Instance.ChrarcterIndex = playerIndex;
     }
-    public void SelectWeapon()
-    {
-        NetworkManager.Instance.selectedWearablesIndex = weaponIndex;
-    }
+    //public void SelectWeapon()
+    //{
+    //    NetworkManager.Instance.selectedWearablesIndex = weaponIndex;
+    //}
 }
