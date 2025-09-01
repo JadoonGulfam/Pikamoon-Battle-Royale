@@ -208,9 +208,12 @@ namespace Pikamoon.Controller
                     if (!isPointerOnLootBox)
                     {
                         isPickableAnItem = true;
+                        //NetworkManagerob.GetComponent<NetworkManager>().SpawnWeaponAndReturn(0);
+                        pickableItem = NetworkManagerob.GetComponent<NetworkManager>().SpawnWeaponAndReturn(0).GetComponent<IPickable>();
                         pickableItem.TryToPick(this);
                         hitTransform.gameObject.SetActive(false);
-                        NetworkManagerob.GetComponent<NetworkManager>().SpawnWeapon(0);
+
+
                         animationController.RequestToDespawn(hitTransform.GetComponent<NetworkObject>().Id); 
                         //RequestDespawn(hitTransform.GetComponent<NetworkObject>().Id);
 
