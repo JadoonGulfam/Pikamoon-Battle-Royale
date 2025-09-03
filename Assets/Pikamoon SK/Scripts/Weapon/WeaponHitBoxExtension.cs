@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace Pikamoon.Controller
 {
-    public class WeaponHitBox : MonoBehaviour
+    public class WeaponHitBoxExtension : MonoBehaviour
     {
         [SerializeField] Weapon weapon;
         public Collider _collider;
@@ -14,6 +14,11 @@ namespace Pikamoon.Controller
         public void DisableCollider()
         {
             _collider.enabled = false;
+        }
+
+        public void AssignWeapon(Weapon _weapon)
+        {
+            weapon = _weapon;
         }
 
         private void OnTriggerEnter(Collider other)
