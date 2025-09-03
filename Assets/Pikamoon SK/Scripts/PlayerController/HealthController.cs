@@ -128,6 +128,7 @@ namespace Pikamoon.Controller
 
         public void TakeDamage(HealthPointType healthPoint, float damageAmount, Transform hitPoint)
         {
+            print("Take Damage: " + damageAmount);
             Vector2 dir = GetHitDirection(hitPoint);
 
 
