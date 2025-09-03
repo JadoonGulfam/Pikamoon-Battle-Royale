@@ -51,6 +51,7 @@ public class MiniMapHandler : MonoBehaviour
             Controller.ToggleCursor(true);
 
             Controller.CameraOrbitStatus = false;
+            Controller.IsUIOpened = true;
         }
         else
         {
@@ -62,6 +63,7 @@ public class MiniMapHandler : MonoBehaviour
             Controller.ToggleCursor(false);
 
             Controller.CameraOrbitStatus = true;
+            Controller.IsUIOpened = false;
         }
     }
 

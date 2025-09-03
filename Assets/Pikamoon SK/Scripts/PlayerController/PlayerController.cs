@@ -187,6 +187,20 @@ namespace Pikamoon.Controller
         }
 
 
+        [SerializeField] bool is_UI_Opened;
+        public bool IsUIOpened
+        {
+            get
+            {
+                return is_UI_Opened;
+            }
+            set
+            {
+                is_UI_Opened = value;
+            }
+        }
+
+
 
         public Vector3 Velocity
         {

@@ -12,10 +12,49 @@ namespace Pikamoon.Controller
 
     }
 
+    //[System.Serializable]
+    //public struct WeaponExtensionHitPoint
+    //{
+    //    public WeaponHitBoxExtension weaponHitBoxExtensions;
+
+    //}
+
+    [System.Serializable]
+    public struct ExtensionForWeaponHoldingPoint
+    {
+        public WeaponHoldingPointType HoldingPoint;
+        public WeaponHitBoxExtension[] weaponHitBoxExtensions;
+    }
+
+
     public class HitBehaviour : MonoBehaviour
     {
         [SerializeField] HitPointHolder[] hitPointHolders;
-        [SerializeField] Collider[] WeaponColliders;  
+        [SerializeField] ExtensionForWeaponHoldingPoint[] extensionForWeaponHoldingPoint;
+
+
+        public void AssignWeaponForExtensionsHitBox(Weapon weapon)
+        {
+            foreach (var holder in extensionForWeaponHoldingPoint)
+            {
+                foreach (var item in holder.weaponHitBoxExtensions)
+                {
+                    item.AssignWeapon(weapon);
+                }
+            }
+        }
+
+        public void UnAssignWeaponForExtensionsHitBox()
+        {
+            foreach (var holder in extensionForWeaponHoldingPoint)
+            {
+                foreach (var item in holder.weaponHitBoxExtensions)
+                {
+                    item.UnAssignWeapon();
+                }
+            }
+        }
+
         public void DisableAllHitPoints()
         {
             foreach (HitPointHolder holder in hitPointHolders)
@@ -24,8 +63,6 @@ namespace Pikamoon.Controller
                     holder.hitPoint.collider.enabled = false;
             }
         }
-
-
 
         public void DisableHitPoint(int index)
         {
@@ -39,7 +76,6 @@ namespace Pikamoon.Controller
         }
 
 
-
         public void EnableHitPoint(int index)
         {
             hitPointHolders[index].hitPoint.collider.enabled = true;
@@ -51,23 +87,50 @@ namespace Pikamoon.Controller
         }
 
 
-
-        public void EnableWeaponHitPoint()
+        public void DisableAllWeaponHitPoint()
         {
-            for (int i = 0; i < WeaponColliders.Length; i++)
+            foreach (var holder in extensionForWeaponHoldingPoint)
             {
-                WeaponColliders[i].enabled = true;
+                foreach (var item in holder.weaponHitBoxExtensions)
+                {
+                    item._collider.enabled = false;
+                }
             }
         }
 
-        public void DisableWeaponHitPoint()
+        public void EnableWeaponHitPoint(int index)
         {
-            for (int i = 0; i < WeaponColliders.Length; i++)
+            foreach (var item in extensionForWeaponHoldingPoint[index].weaponHitBoxExtensions)
             {
-                WeaponColliders[i].enabled = false;
+                item._collider.enabled = true;
             }
         }
 
+        public void EnableWeaponHitPoint(WeaponHoldingPointType holdingPoint)
+        {
+            foreach (var item in extensionForWeaponHoldingPoint[(int)holdingPoint].weaponHitBoxExtensions)
+            {
+                item._collider.enabled = true;
+            }
+
+        }
+
+        public void DisableWeaponHitPoint(int index)
+        {
+            foreach (var item in extensionForWeaponHoldingPoint[index].weaponHitBoxExtensions)
+            {
+                item._collider.enabled = false;
+            }
+        }
+
+        public void DisableWeaponHitPoint(WeaponHoldingPointType holdingPoint)
+        {
+            foreach (var item in extensionForWeaponHoldingPoint[(int)holdingPoint].weaponHitBoxExtensions)
+            {
+                item._collider.enabled = false;
+            }
+
+        }
         #region Editor Methods
         [ContextMenu("Assign Players To Hit Boxes")]
         void AssignPlayersToHitBoxes()

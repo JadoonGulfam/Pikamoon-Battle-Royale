@@ -20,6 +20,7 @@ namespace Pikamoon.Controller
     }
 
 
+
     public enum CombatMoveType
     {
         Horizontal,

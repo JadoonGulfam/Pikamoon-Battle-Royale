@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 namespace Pikamoon.Controller
 {
     public enum CombatAction
@@ -60,7 +61,10 @@ namespace Pikamoon.Controller
         float comboInputTimer;
 
         HitBehaviour hitBehaviour;
-        Coroutine combatCoroutine;
+
+        //Coroutine combatCoroutine;
+
+        Coroutine forceAttackEnd;
         bool ComboNextAttckTrigger;
         [SerializeField] MeleeWeaponDataSO meleeWeapnonData;
 
@@ -112,27 +116,31 @@ namespace Pikamoon.Controller
             meleeWeapnonData = ActiveWeapon.GetItemDataAs<MeleeWeaponDataSO>();
 
             AC.ChangeOverrideController(meleeWeapnonData.AnimOC);
+
+            hitBehaviour.AssignWeaponForExtensionsHitBox(ActiveWeapon);
         }
 
 
         public void ActivatingFistNoWeapon(WeaponDataSO _weaponData)
         {
             AC.ChangeOverrideController(_weaponData.AnimOC);
+
+            hitBehaviour.UnAssignWeaponForExtensionsHitBox();
         }
 
 
         public PlayerSetupForMultiplayer MP_Setup;
-        private void Update()
-        {
-            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
-            //    return;
+        //private void Update()
+        //{
+        //    //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
+        //    //    return;
 
-            if (MP_Setup != null && !MP_Setup.isMinePlayer)
-                return;
+        //    if (MP_Setup != null && !MP_Setup.isMinePlayer)
+        //        return;
 
-            //ActiveStateName.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
-            //ActiveStateProgress.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
-        }
+        //    //ActiveStateName.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).shortNameHash.ToShortString();
+        //    //ActiveStateProgress.text = AC.PAnimator?.GetCurrentAnimatorStateInfo(0).normalizedTime.ToString("f2");
+        //}
 
         void SettingHashes()
         {
@@ -159,7 +167,6 @@ namespace Pikamoon.Controller
 
         void Attack(CombatMoveType combatMoveType)
         {
-           
             if (!Controller.IsInAttack)
             {
                 DoFirstAttack(combatMoveType);
@@ -241,78 +248,79 @@ namespace Pikamoon.Controller
             StartAttack(combatMoveType);
 
             Controller.IsRootMotionEnabled = true;
+
             //if (combatCoroutine != null)
             //    StopCoroutine(combatCoroutine);
             //combatCoroutine = StartCoroutine(Attacking(combatMoveType));
         }
 
-        IEnumerator Attacking(CombatMoveType combatMoveType)
-        {
-            ToggleNextComboAttckStatus(false);
+        //IEnumerator Attacking(CombatMoveType combatMoveType)
+        //{
+        //    ToggleNextComboAttckStatus(false);
 
             
-            // Enables Concenrned Hit Boxes for Attack 
-            if (comboMoveCounter <= meleeWeapnonData.combos[(int)combatMoveType].moves.Length)
-            {
-                int _effectPointsLength = meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint.Length;
+        //    // Enables Concenrned Hit Boxes for Attack 
+        //    if (comboMoveCounter <= meleeWeapnonData.combos[(int)combatMoveType].moves.Length)
+        //    {
+        //        int _effectPointsLength = meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint.Length;
                 
-                for (int i = 0; i < _effectPointsLength; i++)
-                {
-                    if(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i] != CombatMoveEffectPoint.Weapon)
-                    {
-                        hitBehaviour.EnableHitPoint(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i]);
-                    }
-                    else
-                    {
-                    }
-                }
-            }
+        //        for (int i = 0; i < _effectPointsLength; i++)
+        //        {
+        //            if(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i] != CombatMoveEffectPoint.Weapon)
+        //            {
+        //                hitBehaviour.EnableHitPoint(meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint[i]);
+        //            }
+        //            else
+        //            {
+        //            }
+        //        }
+        //    }
 
 
-            //Choose Whether Nex Attack is Horizontal or Vertical and also play it
-            AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
+        //    //Choose Whether Nex Attack is Horizontal or Vertical and also play it
+        //    AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
             
 
 
-            if (comboMoveCounter <= 1)
-            {
-                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, comboMoveCounter);
-            }
-            else
-            {
-                AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, 0);
+        //    if (comboMoveCounter <= 1)
+        //    {
+        //        AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, comboMoveCounter);
+        //    }
+        //    else
+        //    {
+        //        AC.PAnimator.SetInteger(AC.Parameters.AttackState.Hash, 0);
 
-                AC.PAnimator.SetTrigger(AC.Parameters.NexComboAttack.Hash);
-            }
-
-
-            //AnimatorStateInfo animatorStateInfo = AC.PAnimator.GetNextAnimatorStateInfo(0);
-
-            //yield return new WaitUntil(() => animatorStateInfo.normalizedTime > .95f);
+        //        AC.PAnimator.SetTrigger(AC.Parameters.NexComboAttack.Hash);
+        //    }
 
 
-            //waiting to complete the transition, the wait time should be greater then transition time 
-            yield return new WaitForSeconds(.1f);
+        //    //AnimatorStateInfo animatorStateInfo = AC.PAnimator.GetNextAnimatorStateInfo(0);
 
-            if(AC.PAnimator.IsInTransition(0))
-            {
-                yield return new WaitUntil(() => !AC.PAnimator.IsInTransition(0));
-            }
+        //    //yield return new WaitUntil(() => animatorStateInfo.normalizedTime > .95f);
 
 
-            //Debug.LogError(AC.PAnimator.GetCurrentAnimatorStateInfo(0).length);
-            yield return new WaitUntil(() => AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > .55f);
+        //    //waiting to complete the transition, the wait time should be greater then transition time 
+        //    yield return new WaitForSeconds(.1f);
 
-            ComboNextAttckTrigger = false;
+        //    if(AC.PAnimator.IsInTransition(0))
+        //    {
+        //        yield return new WaitUntil(() => !AC.PAnimator.IsInTransition(0));
+        //    }
 
-            //yield return new WaitForSeconds(ComboCoolDownTime);
-            //ComboEnd();
 
-            Controller.IsRootMotionEnabled = false;
+        //    //Debug.LogError(AC.PAnimator.GetCurrentAnimatorStateInfo(0).length);
+        //    yield return new WaitUntil(() => AC.PAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > .9f);
 
-            yield return new WaitForSeconds(AttackCoolDownTime);
-            AttackEnd();
-        }
+        //    ComboNextAttckTrigger = false;
+
+        //    //yield return new WaitForSeconds(ComboCoolDownTime);
+        //    //ComboEnd();
+
+        //    Controller.IsRootMotionEnabled = false;
+
+        //    yield return new WaitForSeconds(AttackCoolDownTime);
+        //    AttackEnd();
+        //}
 
         void StartAttack(CombatMoveType combatMoveType)
         {
@@ -321,7 +329,7 @@ namespace Pikamoon.Controller
             // Enables Concenrned Hit Boxes for Attack 
             if (comboMoveCounter <= meleeWeapnonData.combos[(int)combatMoveType].moves.Length)
             {
-                if(ActiveWeapon == null)
+                if (ActiveWeapon == null)
                 {
                     int _effectPointsLength = meleeWeapnonData.combos[(int)combatMoveType].moves[comboMoveCounter - 1].combatMoveEffectPoint.Length;
                     for (int i = 0; i < _effectPointsLength; i++)
@@ -332,6 +340,7 @@ namespace Pikamoon.Controller
                 else if (ActiveWeapon.weaponType == WeaponType.Melee)
                 {
                     ActiveWeapon.HitBox.EnableCollider();
+                    hitBehaviour.EnableWeaponHitPoint(meleeWeapnonData.HoldingPointType);
                 }
             }
 
@@ -350,6 +359,22 @@ namespace Pikamoon.Controller
 
                 AC.PAnimator.SetTrigger(AC.Parameters.NexComboAttack.Hash);
             }
+
+            if (Controller.IsInAttack)
+            {
+                if (forceAttackEnd != null)
+                    StopCoroutine(forceAttackEnd);
+            }
+
+            forceAttackEnd = StartCoroutine(ForceAttackExit());
+        }
+
+        IEnumerator ForceAttackExit()
+        {
+            yield return new WaitForSeconds(1.5f);
+            
+            if(Controller.IsInAttack)
+                AttackEnd();
         }
 
         void ComboEnd()
@@ -366,7 +391,11 @@ namespace Pikamoon.Controller
             if (ActiveWeapon != null && ActiveWeapon.weaponType == WeaponType.Melee)
             {
                 ActiveWeapon.HitBox.DisableCollider();
+                hitBehaviour.DisableWeaponHitPoint(meleeWeapnonData.HoldingPointType);
             }
+
+            if (forceAttackEnd != null)
+                StopCoroutine(forceAttackEnd);
 
             comboMoveCounter = 1;
             Controller.IsRootMotionEnabled = false;

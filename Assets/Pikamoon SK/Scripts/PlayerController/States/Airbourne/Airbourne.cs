@@ -73,13 +73,14 @@ namespace Pikamoon.Controller
 
         void StartJumping()
         {
-            if (!Controller.InAir && !Controller.IsRootMotionEnabled)
-            {
-                playerInput.JumpVelocity = Mathf.Sqrt(playerData.JumpHeight * 2f * Gravity);
-                isJumping = true;
+            if (Controller.IsUIOpened || Controller.InAir || Controller.IsRootMotionEnabled)
+                return;
 
-                OnJumpStart?.Invoke();
-            }
+
+            playerInput.JumpVelocity = Mathf.Sqrt(playerData.JumpHeight * 2f * Gravity);
+            isJumping = true;
+
+            OnJumpStart?.Invoke();
         }
 
         void Landed()
