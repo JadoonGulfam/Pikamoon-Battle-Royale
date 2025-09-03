@@ -12,28 +12,49 @@ namespace Pikamoon.Controller
 
     }
 
-    [System.Serializable]
-    public struct WeaponExtensionHitPoint
-    {
-        public WeaponHitboxExtensionType effectPoint;
-        public WeaponHitBoxExtension weaponHitPoint;
+    //[System.Serializable]
+    //public struct WeaponExtensionHitPoint
+    //{
+    //    public WeaponHitBoxExtension weaponHitBoxExtensions;
 
+    //}
+
+    [System.Serializable]
+    public struct ExtensionForWeaponHoldingPoint
+    {
+        public WeaponHoldingPointType HoldingPoint;
+        public WeaponHitBoxExtension[] weaponHitBoxExtensions;
     }
 
-    [System.Serializable]
-    public enum WeaponHitboxExtensionType
-    {
-        WeaponExtension_LeftShoulder,
-        WeaponExtension_RightShoulder,
-
-        WeaponExtension_LeftElbow,
-        WeaponExtension_RightElbow,
-    }
 
     public class HitBehaviour : MonoBehaviour
     {
         [SerializeField] HitPointHolder[] hitPointHolders;
-        [SerializeField] WeaponExtensionHitPoint[] WeaponColliders;  
+        [SerializeField] ExtensionForWeaponHoldingPoint[] extensionForWeaponHoldingPoint;
+
+
+        public void AssignWeaponForExtensionsHitBox(Weapon weapon)
+        {
+            foreach (var holder in extensionForWeaponHoldingPoint)
+            {
+                foreach (var item in holder.weaponHitBoxExtensions)
+                {
+                    item.AssignWeapon(weapon);
+                }
+            }
+        }
+
+        public void UnAssignWeaponForExtensionsHitBox()
+        {
+            foreach (var holder in extensionForWeaponHoldingPoint)
+            {
+                foreach (var item in holder.weaponHitBoxExtensions)
+                {
+                    item.UnAssignWeapon();
+                }
+            }
+        }
+
         public void DisableAllHitPoints()
         {
             foreach (HitPointHolder holder in hitPointHolders)
@@ -42,8 +63,6 @@ namespace Pikamoon.Controller
                     holder.hitPoint.collider.enabled = false;
             }
         }
-
-
 
         public void DisableHitPoint(int index)
         {
@@ -55,7 +74,6 @@ namespace Pikamoon.Controller
 
             hitPointHolders[(int)effectPoint].hitPoint.collider.enabled = false;
         }
-
 
 
         public void EnableHitPoint(int index)
@@ -71,31 +89,46 @@ namespace Pikamoon.Controller
 
         public void DisableAllWeaponHitPoint()
         {
-            foreach (WeaponExtensionHitPoint holder in WeaponColliders)
+            foreach (var holder in extensionForWeaponHoldingPoint)
             {
-                if (holder.weaponHitPoint)
-                    holder.weaponHitPoint._collider.enabled = false;
+                foreach (var item in holder.weaponHitBoxExtensions)
+                {
+                    item._collider.enabled = false;
+                }
             }
         }
 
         public void EnableWeaponHitPoint(int index)
         {
-            WeaponColliders[index].weaponHitPoint._collider.enabled = true;
-
+            foreach (var item in extensionForWeaponHoldingPoint[index].weaponHitBoxExtensions)
+            {
+                item._collider.enabled = true;
+            }
         }
-        public void EnableWeaponHitPoint(WeaponHitboxExtensionType extension)
+
+        public void EnableWeaponHitPoint(WeaponHoldingPointType holdingPoint)
         {
-            WeaponColliders[(int)extension].weaponHitPoint._collider.enabled = true;
+            foreach (var item in extensionForWeaponHoldingPoint[(int)holdingPoint].weaponHitBoxExtensions)
+            {
+                item._collider.enabled = true;
+            }
 
         }
 
         public void DisableWeaponHitPoint(int index)
         {
-            WeaponColliders[index].weaponHitPoint._collider.enabled = false;
+            foreach (var item in extensionForWeaponHoldingPoint[index].weaponHitBoxExtensions)
+            {
+                item._collider.enabled = false;
+            }
         }
-        public void DisableWeaponHitPoint(WeaponHitboxExtensionType extension)
+
+        public void DisableWeaponHitPoint(WeaponHoldingPointType holdingPoint)
         {
-            WeaponColliders[(int)extension].weaponHitPoint._collider.enabled = false;
+            foreach (var item in extensionForWeaponHoldingPoint[(int)holdingPoint].weaponHitBoxExtensions)
+            {
+                item._collider.enabled = false;
+            }
 
         }
         #region Editor Methods

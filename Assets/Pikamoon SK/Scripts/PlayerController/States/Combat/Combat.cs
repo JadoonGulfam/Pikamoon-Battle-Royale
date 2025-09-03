@@ -116,12 +116,16 @@ namespace Pikamoon.Controller
             meleeWeapnonData = ActiveWeapon.GetItemDataAs<MeleeWeaponDataSO>();
 
             AC.ChangeOverrideController(meleeWeapnonData.AnimOC);
+
+            hitBehaviour.AssignWeaponForExtensionsHitBox(ActiveWeapon);
         }
 
 
         public void ActivatingFistNoWeapon(WeaponDataSO _weaponData)
         {
             AC.ChangeOverrideController(_weaponData.AnimOC);
+
+            hitBehaviour.UnAssignWeaponForExtensionsHitBox();
         }
 
 
@@ -336,6 +340,7 @@ namespace Pikamoon.Controller
                 else if (ActiveWeapon.weaponType == WeaponType.Melee)
                 {
                     ActiveWeapon.HitBox.EnableCollider();
+                    hitBehaviour.EnableWeaponHitPoint(meleeWeapnonData.HoldingPointType);
                 }
             }
 
@@ -386,6 +391,7 @@ namespace Pikamoon.Controller
             if (ActiveWeapon != null && ActiveWeapon.weaponType == WeaponType.Melee)
             {
                 ActiveWeapon.HitBox.DisableCollider();
+                hitBehaviour.DisableWeaponHitPoint(meleeWeapnonData.HoldingPointType);
             }
 
             if (forceAttackEnd != null)

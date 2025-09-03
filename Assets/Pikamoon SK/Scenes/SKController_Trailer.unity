@@ -54128,7 +54128,7 @@ MonoBehaviour:
     hitPoint: {fileID: 0}
   - effectPoint: 7
     hitPoint: {fileID: 0}
-  WeaponColliders: []
+  extensionForWeaponHoldingPoint: []
 --- !u!143 &241076441
 CharacterController:
   m_ObjectHideFlags: 0
@@ -69056,7 +69056,7 @@ GameObject:
   - component: {fileID: 324570701}
   - component: {fileID: 324570698}
   m_Layer: 14
-  m_Name: RightElbowWeaponExtension-HitBox
+  m_Name: RightHandElbowWeapon-ExtensionHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163471,7 +163471,7 @@ MonoBehaviour:
     hitPoint: {fileID: 0}
   - effectPoint: 7
     hitPoint: {fileID: 0}
-  WeaponColliders: []
+  extensionForWeaponHoldingPoint: []
 --- !u!114 &714675355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164898,7 +164898,7 @@ GameObject:
   - component: {fileID: 730754892}
   - component: {fileID: 730754889}
   m_Layer: 14
-  m_Name: RightShoulderWeaponExtension-HitBox
+  m_Name: RightHandShoulderWeapon-ExtensionHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -321527,7 +321527,7 @@ GameObject:
   - component: {fileID: 1789693965}
   - component: {fileID: 1789693962}
   m_Layer: 14
-  m_Name: LeftElbowWeaponExtension-HitBox
+  m_Name: LeftHandElbowWeapon-ExtensionHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330930,6 +330930,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
       propertyPath: hitPointHolders.Array.data[8].effectPoint
       value: 8
       objectReference: {fileID: 0}
@@ -330951,6 +330955,58 @@ PrefabInstance:
       objectReference: {fileID: 1789693965}
     - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
       propertyPath: WeaponColliders.Array.data[3].weaponHitPoint
+      value: 
+      objectReference: {fileID: 324570701}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[1].HoldingPoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[0].weaponHitBoxExtensions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[1].weaponHitBoxExtensions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[0].WeaponExtensionHitPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[1].WeaponExtensionHitPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: 'extensionForWeaponHoldingPoint.Array.data[0].weaponHitBoxExtensions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1872668550}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: 'extensionForWeaponHoldingPoint.Array.data[0].weaponHitBoxExtensions.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1789693965}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: 'extensionForWeaponHoldingPoint.Array.data[1].weaponHitBoxExtensions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 730754892}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: 'extensionForWeaponHoldingPoint.Array.data[1].weaponHitBoxExtensions.Array.data[1]'
+      value: 
+      objectReference: {fileID: 324570701}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[0].WeaponExtensionHitPoints.Array.data[0].hitBox
+      value: 
+      objectReference: {fileID: 1872668550}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[0].WeaponExtensionHitPoints.Array.data[1].hitBox
+      value: 
+      objectReference: {fileID: 1789693965}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[1].WeaponExtensionHitPoints.Array.data[0].hitBox
+      value: 
+      objectReference: {fileID: 730754892}
+    - target: {fileID: 1722226464907121982, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
+      propertyPath: extensionForWeaponHoldingPoint.Array.data[1].WeaponExtensionHitPoints.Array.data[1].hitBox
       value: 
       objectReference: {fileID: 324570701}
     - target: {fileID: 2351490845880513705, guid: 649bc945d740f944d9c8f5cde885a11e, type: 3}
@@ -331161,7 +331217,7 @@ GameObject:
   - component: {fileID: 1872668550}
   - component: {fileID: 1872668547}
   m_Layer: 14
-  m_Name: LeftShoulderWeaponExtension-HitBox
+  m_Name: LeftHandShoulderWeapon-ExtensionHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -493768,7 +493824,7 @@ Transform:
   m_GameObject: {fileID: 1620261412235844043}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09466672, y: -0.61668843, z: 0.075049736, w: 0.77788246}
-  m_LocalPosition: {x: -308.89255, y: 20.350254, z: 218.58746}
+  m_LocalPosition: {x: -308.78647, y: 20.344923, z: 219.07712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -527165,7 +527221,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 5000
-  field of view: 54.66037
+  field of view: 55.981
   orthographic: 0
   orthographic size: 10
   m_Depth: 0

@@ -22,8 +22,6 @@ namespace Pikamoon.Controller
 
             if (damageable != null)
             {
-                Debug.Log("Triggered Hitted Object is = " + damageable.GetTransform().name);
-
                 if (weapon.Holder.transform != damageable.GetTransform())
                 {
                     DisableCollider();
@@ -39,8 +37,6 @@ namespace Pikamoon.Controller
 
             if (damageable != null)
             {
-                Debug.Log("Collision Hitted Object is = " + damageable.GetTransform().name);
-
                 if (weapon.Holder.transform != damageable.GetTransform())
                 {
                     damageable.OnDamage(10, this.transform);

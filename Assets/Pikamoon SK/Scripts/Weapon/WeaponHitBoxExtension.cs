@@ -20,6 +20,10 @@ namespace Pikamoon.Controller
         {
             weapon = _weapon;
         }
+        public void UnAssignWeapon()
+        {
+            weapon = null;
+        }
 
         private void OnTriggerEnter(Collider other)
         {
