@@ -82,6 +82,12 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[WeaponIndex], playerNetworkObject.transform.position, Quaternion.identity);
     }
 
+    public NetworkObject SpawnWeaponAndReturn(int WeaponIndex)
+    {
+        NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[WeaponIndex], playerNetworkObject.transform.position, Quaternion.identity);
+        return wearableNetworkObject;
+    }
+
     public void spawnEnvWeapons(Vector3 position)
     {
         int randomIndex = UnityEngine.Random.Range(0, 2); // 0 or 1
