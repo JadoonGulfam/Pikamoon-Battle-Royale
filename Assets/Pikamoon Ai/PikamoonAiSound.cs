@@ -10,6 +10,7 @@ public class PikamoonAiSound : MonoBehaviour
     public AudioClip attackClip;
     public AudioClip stunClip;
     public AudioClip deathClip;
+    public AudioClip hitClip;
 
     [Header("Audio Source")]
     public AudioSource audioSource;
@@ -25,9 +26,9 @@ public class PikamoonAiSound : MonoBehaviour
         if (clip == null) return;
 
         audioSource.loop = loop;
-        audioSource.pitch = 1f + Random.Range(-pitchRandomization, pitchRandomization);
+       // audioSource.pitch = 1f + Random.Range(-pitchRandomization, pitchRandomization);
         audioSource.clip = clip;
-        audioSource.Play();
+        audioSource.PlayOneShot(clip);
     }
     void Start()
     {
@@ -36,6 +37,10 @@ public class PikamoonAiSound : MonoBehaviour
     public void PlayWalkSound() 
     {
         PlaySound(walkClip,false);
+    }
+    public void PlayRunSound()
+    {
+        PlaySound(runClip, false);
     }
     public void PlayAttackSound()
     {
