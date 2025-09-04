@@ -53,9 +53,10 @@ public class PikamoonAi : MonoBehaviour
     enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
 
     private Transform player;
-
+    private PikamoonAiSound sounds;
     private void Start()
     {
+        sounds = GetComponent<PikamoonAiSound>();
         friendlyAttackThreshold = Random.Range(2, 4);
         if (!pikamoonFollow.isCapture)
             EnableRoaming();
@@ -173,6 +174,7 @@ public class PikamoonAi : MonoBehaviour
         //isIdle = true;
         pikaState = PikamoonState.Idle;
         animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle); // 0 = Idle
+        sounds.PlaySound(sounds.idleClip, true);
         navMeshAgent.ResetPath();
         idleTimer = Random.Range(idleTimemin, idleTimemax);
         //pikamoonSoundmanager.PlayIdle();
@@ -207,6 +209,7 @@ public class PikamoonAi : MonoBehaviour
         pikaState = PikamoonState.Alert;
         navMeshAgent.ResetPath();
         animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Alert);
+        sounds.PlaySound(sounds.alertClip, true);
         alertTimer = alertDuration;
         //attackTimer = 0f; // Reset attack timer
         agro = false;
@@ -318,6 +321,7 @@ public class PikamoonAi : MonoBehaviour
     {
         // Play hit animation
         animator.SetTrigger("Hit");
+        sounds.PlaySound(sounds.hitClip, false);
         navMeshAgent.isStopped = true;
         yield return new WaitForSeconds(0.5f); // Adjust delay as needed
         navMeshAgent.isStopped = false;
@@ -406,6 +410,7 @@ public class PikamoonAi : MonoBehaviour
         pikaState = PikamoonState.Stunned;
         navMeshAgent.isStopped = true; // Stop movement                     
         animator.SetTrigger("Stunned"); // Play stunned animation
+        sounds.PlaySound(sounds.stunClip, false);
         if (stunnedMarkInstance == null)
             stunnedMarkInstance = Instantiate(stunnedMark, alertMarkTransform);
         stunnedMarkInstance.SetActive(true);
@@ -463,7 +468,7 @@ public class PikamoonAi : MonoBehaviour
             Destroy(alertMarkExclamation);
         navMeshAgent.isStopped = true; // Stop movement
         animator.SetTrigger("Killed"); // Play death animation
-
+        sounds.PlaySound(sounds.deathClip, false);
         Destroy(gameObject, 2f); // Destroy after 3 seconds
     }
     private bool PlayerDetected()

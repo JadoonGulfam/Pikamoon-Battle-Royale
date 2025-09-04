@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5059592148654078877
+--- !u!114 &-7630796238687940937
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28,14 +28,20 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _DISABLE_DECALS
   - _DISABLE_SSR_TRANSPARENT
+  - _ENABLE_FOG_ON_TRANSPARENT
+  - _MATERIAL_FEATURE_TRANSMISSION
   - _NORMALMAP_TANGENT_SPACE
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2225
-  stringTagMap: {}
+  m_CustomRenderQueue: 2999
+  stringTagMap:
+    MotionVector: User
+    RenderType: Transparent
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
@@ -51,7 +57,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColorMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: abc00000000013251261991843912153, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -59,6 +65,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMapOS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -74,11 +84,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ExtraTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -123,10 +141,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: abc00000000013251261991843912153, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -146,11 +168,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecularColorMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SubsurfaceMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SubsurfaceTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -210,19 +240,22 @@ Material:
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
+    - _AlphaClipThreshold: 0.1
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaCutoffPostpass: 0.5
     - _AlphaCutoffPrepass: 0.5
     - _AlphaCutoffShadow: 0.5
-    - _AlphaDstBlend: 0
+    - _AlphaDstBlend: 10
     - _AlphaRemapMax: 1
     - _AlphaRemapMin: 0
     - _AlphaSrcBlend: 1
     - _Anisotropy: 0
     - _Bend: 4
+    - _BillboardKwToggle: 0
     - _BlendMode: 0
     - _CoatMask: 0
+    - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
     - _Culling: 0
@@ -233,6 +266,7 @@ Material:
     - _DetailSmoothnessScale: 1
     - _DiffusionProfile: 0
     - _DiffusionProfileHash: 0
+    - _Diffusion_Profile: 0
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
     - _DisplacementMode: 0
@@ -240,24 +274,27 @@ Material:
     - _DitherFade: 0
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
-    - _DoubleSidedNormalMode: 1
-    - _DstBlend: 0
-    - _DstBlend2: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 10
+    - _DstBlend2: 10
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 0
     - _EmissiveIntensityUnit: 0
-    - _EnableBlendModePreserveSpecularLighting: 1
+    - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
     - _EnvironmentReflections: 1
+    - _ExcludeFromTUAndAA: 0
+    - _ExtraMapKwToggle: 0
     - _Float1: 1
     - _Float2: 1
     - _FoliageEmissiveIntensity: 0
     - _FoliageNormalIntensity: 1
     - _FoliageRoughness: 0.98
     - _FoliageSize: 100
+    - _Glossiness: 0
     - _GradientFallout: 0.2
     - _GradientOffset: -6.19
     - _GustFreq: 1
@@ -271,6 +308,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
+    - _HueVariationKwToggle: 0
     - _InvTilingScale: 1
     - _Ior: 1.5
     - _IridescenceMask: 1
@@ -280,16 +318,19 @@ Material:
     - _LockPositionGradient: 0
     - _MaskClip: 0.5
     - _MaskClipValue: 0.33
-    - _MaterialID: 1
+    - _MaterialID: 5
+    - _MaterialTypeMask: 2
     - _Metallic: 0
-    - _MetallicRemapMax: 0
+    - _MetallicRemapMax: 1
     - _MetallicRemapMin: 0
     - _NoiseSize: 0.02
     - _NormalIntensity: 1
+    - _NormalMapKwToggle: 0
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _ObjectSpaceUVMapping: 0
     - _ObjectSpaceUVMappingEmissive: 0
+    - _Opacity: 1
     - _OpaqueCullMode: 2
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
@@ -304,9 +345,11 @@ Material:
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
+    - _RenderQueueType: 3
+    - _RequireSplitLighting: 0
     - _RoughnessIntensity: 1
     - _SSSSizw: 3.02
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _SpecularAAScreenSpaceVariance: 0.1
@@ -315,20 +358,22 @@ Material:
     - _SpecularOcclusionMode: 1
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _StencilRefDepth: 8
-    - _StencilRefGBuffer: 10
-    - _StencilRefMV: 40
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
     - _StencilWriteMask: 6
     - _StencilWriteMaskDepth: 9
+    - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 15
     - _StencilWriteMaskMV: 41
     - _SubsurfaceMask: 1
-    - _SupportDecals: 1
-    - _SurfaceType: 0
+    - _SupportDecals: 0
+    - _SurfaceType: 1
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
     - _TextureSize: 100
-    - _Thickness: 1
+    - _Thickness: 0
     - _TransAmbient: 1
     - _TransDirect: 1
     - _TransNormalDistortion: 1
@@ -338,29 +383,41 @@ Material:
     - _TransmissionAmount: 0.44
     - _TransmissionEnable: 1
     - _TransmissionMask: 1
+    - _TransmissionScale: 0
     - _TransmissionSize: 1.67
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
     - _TransparentDepthPrepassEnable: 0
-    - _TransparentSortPriority: 0
+    - _TransparentSortPriority: -1
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _TrunkMaterial: 0
     - _UVBase: 0
     - _UVDetail: 0
     - _UVEmissive: 0
+    - _UseColorMap: 1
     - _UseDithering: 0
     - _UseEmissiveIntensity: 0
+    - _UseEmissiveMap: 0
     - _UseGlobalSetting: 0
     - _UseGlobalWindSettings: 0
     - _UseGradientMap: 0
+    - _UseMetallicMap: 0
+    - _UseNormalMap: 0
+    - _UseOpacityMap: 0
+    - _UseRoughnessMap: 0
     - _UseShadowThreshold: 0
     - _UseVertexColor: 0
     - _UsedforTrunk: 0
     - _UsesGlobalWindSettings: 0
     - _VertexColorGradient: 1
     - _VertexColorOffset: 0
+    - _WIND_BRANCH1: 0
+    - _WIND_BRANCH2: 0
+    - _WIND_RIPPLE: 0
+    - _WIND_SHARED: 0
+    - _WIND_SHIMMER: 0
     - _WIndRustleIntensity: 2.19
     - _WIndRustleScale: 0.616
     - _WIndRustleSpeed: 0.14
@@ -380,28 +437,31 @@ Material:
     - _WindScrollSpeed: 0.132
     - _WindScrollSpeedD: 0.05
     - _WindSpeed: 0.5
-    - _ZTestDepthEqualForOpaque: 3
+    - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - __dirty: 0
     - _ada: 1
     - _add: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.22358677, g: 0.5345911, b: 0.29480383, a: 1}
+    - _Color: {r: 0.22358674, g: 0.534591, b: 0.2948038, a: 1}
     - _ColorGradient01: {r: 0, g: 0, b: 0, a: 0}
     - _ColorGradient02: {r: 0, g: 0, b: 0, a: 0}
     - _ColorTint: {r: 0.20413576, g: 0.5566038, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
+    - _Diffusion_Profile_Asset: {r: 0, g: 0, b: 0, a: 0}
     - _Direction: {r: 1, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 0}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _FoliageColorBottom: {r: 0.52919436, g: 0.7075472, b: 0, a: 1}
     - _FoliageColorTop: {r: 0.6936812, g: 0.7529412, b: 0, a: 1}
     - _FoliageEmissiveColor: {r: 0.77832055, g: 1, b: 0, a: 0}
+    - _HueVariationColor: {r: 1, g: 0.5019608, b: 0, a: 0.2}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _SSS: {r: 0.08388898, g: 0.11320752, b: 0, a: 0}
@@ -412,6 +472,8 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+    - _UvOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _UvTiling: {r: 1, g: 1, b: 0, a: 0}
     - _WindDIr: {r: 1, g: 0, b: 0, a: 0}
     - _WindSwayDirection: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

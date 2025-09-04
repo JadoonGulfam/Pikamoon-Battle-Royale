@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RenderPipelineSettings:
     supportShadowMask: 0
-    supportSSR: 0
-    supportSSRTransparent: 0
+    supportSSR: 1
+    supportSSRTransparent: 1
     supportSSAO: 1
-    supportSSGI: 0
+    supportSSGI: 1
     supportSubsurfaceScattering: 1
+    subsurfaceScatteringAttenuation: 1
     sssSampleBudget:
       m_Values: 140000002800000050000000
       m_SchemaId:
@@ -27,13 +28,14 @@ MonoBehaviour:
       m_Values: 000000000000000000000000
       m_SchemaId:
         m_Id: With3Levels
-    supportVolumetrics: 0
+    supportVolumetrics: 1
     supportVolumetricClouds: 0
     supportLightLayers: 1
-    renderingLayerMaskBuffer: 0
+    renderingLayerMaskBuffer: 1
     supportWater: 0
     waterSimulationResolution: 128
     supportWaterExclusion: 0
+    supportWaterHorizontalDeformation: 0
     supportWaterDecals: 1
     waterDecalAtlasSize: 1024
     maximumWaterDecalCount: 48
@@ -50,6 +52,7 @@ MonoBehaviour:
     supportTransparentDepthPostpass: 1
     colorBufferFormat: 74
     supportCustomPass: 1
+    supportVariableRateShading: 0
     customBufferFormat: 12
     supportedLitShaderMode: 2
     planarReflectionResolution:
@@ -82,8 +85,8 @@ MonoBehaviour:
     supportProbeVolumeScenarios: 0
     supportProbeVolumeScenarioBlending: 1
     probeVolumeBlendingMemoryBudget: 128
-    supportRayTracing: 0
-    supportVFXRayTracing: 0
+    supportRayTracing: 1
+    supportVFXRayTracing: 1
     supportedRayTracingMode: 3
     lightLoopSettings:
       cookieAtlasSize: 512
@@ -146,7 +149,7 @@ MonoBehaviour:
       maxDirectionalShadowMapResolution: 1024
       maxPunctualShadowMapResolution: 2048
       maxAreaShadowMapResolution: 2048
-      supportScreenSpaceShadows: 0
+      supportScreenSpaceShadows: 1
       maxScreenSpaceShadowSlots: 4
       screenSpaceShadowBufferFormat: 48
     decalSettings:
@@ -547,3 +550,4 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 11400000, guid: 2b7005ba3a4d8474b8cdc34141ad766e, type: 2}
   m_PrefilterUseLegacyLightmaps: 0
+  m_PrefilterUseLightmapBicubicSampling: 0
