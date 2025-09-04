@@ -22,7 +22,6 @@ namespace Pikamoon.Controller
 
         private void OnTriggerEnter(Collider other)
         {
-            print("hitpoint triger");
             IDamageable damageable = other.GetComponent<IDamageable>();
             if(damageable != null)
             {
@@ -30,7 +29,6 @@ namespace Pikamoon.Controller
                 {
                     DisableCollider();
                     damageable.OnDamage(10, this.transform);
-                    
                 }
             }
         }
