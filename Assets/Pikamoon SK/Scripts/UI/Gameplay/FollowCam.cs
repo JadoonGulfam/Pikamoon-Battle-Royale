@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using DG.Tweening;
 public class FollowCam : MonoBehaviour
 {
     public Transform targetA;
@@ -11,6 +11,9 @@ public class FollowCam : MonoBehaviour
     [Space]
     public float smoothSpeed = 5f;      // Set >0 for smooth motion
 
+    [Space]
+    public Vector3 MoveToPos;
+    public int duration;
     void Update()
     {
         if (targetA == null || targetB == null || followTarget == null)
@@ -34,5 +37,20 @@ public class FollowCam : MonoBehaviour
                 );
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            PlayCinematic();
+        }
+
     }
+
+    void PlayCinematic()
+    {
+        this.transform.DOMove(MoveToPos, duration).SetEase(Ease.Linear);
+    }
+
+
+
+
 }

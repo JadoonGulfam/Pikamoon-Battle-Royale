@@ -252,6 +252,9 @@ namespace Pikamoon.Controller
         }
         public void AttackEnd()
         {
+                
+            AC.PAnimator.SetFloat(AC.Parameters.SpeedMulForAnim.Hash, 1);
+
             HitBox.DisableCollider();
 
             AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, false);
@@ -277,6 +280,7 @@ namespace Pikamoon.Controller
             //AttackStatusImage.enabled = true;
 
 
+            AC.PAnimator.SetFloat(AC.Parameters.SpeedMulForAnim.Hash, 20);
             AC.PAnimator.SetBool(AC.Parameters.inCombat.Hash, true);
             AC.PAnimator.SetInteger(AC.Parameters.ComboAttackType.Hash, (int)combatMoveType);
 
