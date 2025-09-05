@@ -2086,6 +2086,7 @@ GameObject:
   - component: {fileID: 4201260646635388864}
   - component: {fileID: 4006380007738389672}
   - component: {fileID: 7367238514874132408}
+  - component: {fileID: -1843162446084255559}
   m_Layer: 8
   m_Name: Woodrix_Lvl2_ANIM
   m_TagString: Pikamoon
@@ -2207,7 +2208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  _currentHealth: 0
   healthBar: {fileID: 763528083565029103}
   pikamoonAi: {fileID: 3738056179185927157}
 --- !u!114 &5118791567285559728
@@ -2273,6 +2274,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 7158222349096581966}
   - {fileID: 879586672952312360}
   - {fileID: 5831203651864640548}
   ForceRemoteRenderTimeframe: 0
@@ -2429,6 +2431,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-1843162446084255559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7795511296190141454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleClip: {fileID: 0}
+  walkClip: {fileID: 0}
+  runClip: {fileID: 0}
+  alertClip: {fileID: 0}
+  attackClip: {fileID: 0}
+  stunClip: {fileID: 0}
+  deathClip: {fileID: 0}
+  audioSource: {fileID: 7367238514874132408}
+  pitchRandomization: 0.1
 --- !u!1 &7823458156729632372
 GameObject:
   m_ObjectHideFlags: 0

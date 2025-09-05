@@ -137,8 +137,31 @@ namespace Pikamoon.Controller
             if (animator.HasState(0, stateHash))
                 animator.CrossFadeInFixedTime(stateHash, transitionDuration, 0);
         }
-        
-        
+
+        public void RequestToDespawn(NetworkId objectId)
+        {
+            print("request to despawn");
+            RPC_DespawnRequest(objectId);
+        }
+
+        [Rpc(RpcSources.All, RpcTargets.All)]
+        private void RPC_DespawnRequest(NetworkId objectId)
+        {
+            print("inside despawn");
+            // Called on the player with StateAuthority of the target object
+            NetworkObject target = Runner.FindObject(objectId);
+            print("target name" + target.name);
+            if (target != null && target.HasStateAuthority)
+            {
+                Runner.Despawn(target);
+                Debug.Log($"Object {objectId} despawned by state authority.");
+            }
+            else
+            {
+                Debug.LogWarning($"No authority to despawn object {objectId} or object not found.");
+            }
+        }
+
         public void ChangeOverrideController(AnimatorOverrideController overrideController)
         {
             if(Object == null)
@@ -168,7 +191,7 @@ namespace Pikamoon.Controller
                 }
             }
         }
-
+        
         public void callRPC_ChangeOverrideContorller(int controllerID)
         {
             if(Object.HasStateAuthority)
@@ -178,7 +201,7 @@ namespace Pikamoon.Controller
             }
             else
             {
-                print("RPC not called with value: " + controllerID + Object.Id);
+              //  print("RPC not called with value: " + controllerID + Object.Id);
             }
 
         }
@@ -191,13 +214,13 @@ namespace Pikamoon.Controller
             string trimmedID = numericOnly.Length >= 5
                 ? numericOnly.Substring(0, 4) + numericOnly[^1]
                 : numericOnly; 
-            print("PID"+Object.Id);
-            Debug.Log("TID"+trimmedID); 
+           // print("PID"+Object.Id);
+            //Debug.Log("TID"+trimmedID); 
 
             if (Object.Id.ToString() == playerID)
             {
                 PAnimator.runtimeAnimatorController = animatorOverrideController[index];
-                Debug.Log("RPC called with value: " + index + playerID);
+                //Debug.Log("RPC called with value: " + index + playerID);
             }
             
         }

@@ -1,74 +1,95 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Fusion;
 
-public class PikamoonAiHealth : MonoBehaviour, IDamageable
+public class PikamoonAiHealth : NetworkBehaviour, IDamageable
 {
+    [Header("Health Settings")]
     public float maxHealth = 100f;
-    public float currentHealth;
+
+    [Networked]
+    public float currentHealth { get; set; }
+
+    [Header("UI")]
     public Image healthBar;
-    [SerializeField] private PikamoonAi pikamoonAi;
-    public float Health 
+
+    [SerializeField]
+    private PikamoonAi pikamoonAi;
+
+    private ChangeDetector _changeDetector;
+
+    public float Health
     {
-        get 
-        {
-            return currentHealth;
-        }
-        set 
+        get => currentHealth;
+        set
         {
             currentHealth = value;
+            UpdateHealthUI();
         }
     }
 
-    private void Start()
+    public override void Spawned()
     {
-        currentHealth = maxHealth;
-        healthBar.fillAmount = currentHealth/ maxHealth;
+        _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
+
+        if (Object.HasStateAuthority)
+        {
+            currentHealth = maxHealth;
+        }
+        UpdateHealthUI();
     }
 
+    public override void Render()
+    {
+        foreach (var change in _changeDetector.DetectChanges(this))
+        {
+            if (change == nameof(currentHealth))
+            {
+                UpdateHealthUI();
+            }
+        }
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthBar != null && maxHealth > 0f)
+            healthBar.fillAmount = currentHealth / maxHealth;
+    }
+
+    // Only StateAuthority applies the damage
     public void ReduceHealth(float amount)
     {
+        if (!Object.HasStateAuthority) return;
+
         currentHealth -= amount;
-        healthBar.fillAmount = currentHealth/ maxHealth;     
-
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-        }
+        if (currentHealth <= 0) currentHealth = 0;
+        UpdateHealthUI();
     }
 
-    public bool IsDead()
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_RequestDamage(float amount, PlayerRef attacker)
     {
-        return currentHealth <= 0;
+        ReduceHealth(amount);
+        Debug.Log($"Damage {amount} requested by {attacker} and applied by authority.");
     }
 
-    public float GetHealthPercentage()
-    {
-        return (currentHealth / maxHealth) * 100f;
-    }
+    public bool IsDead() => currentHealth <= 0;
 
-    public void OnDamage()
-    {
-       
-    }
+    public float GetHealthPercentage() => (currentHealth / maxHealth) * 100f;
 
-    public void OnDamage(float damageAmount)
-    {
-        
-    }
+    public void OnDamage() { }
+
+    public void OnDamage(float damageAmount) =>
+        RPC_RequestDamage(damageAmount, Runner.LocalPlayer);
 
     public void OnDamage(float damageAmount, Transform hitter)
     {
-        ReduceHealth(damageAmount);
-        pikamoonAi.TakeDamage(hitter);
+        RPC_RequestDamage(damageAmount, Runner.LocalPlayer);
+        if (Object.HasStateAuthority)
+            pikamoonAi?.TakeDamage(hitter);
     }
 
-    public Transform GetTransform()
-    {
-        return this.transform;
-    }
+    public Transform GetTransform() => transform;
 
-    public bool isKilled()
-    {
-        return IsDead();
-    }
+    public bool isKilled() => IsDead();
 }

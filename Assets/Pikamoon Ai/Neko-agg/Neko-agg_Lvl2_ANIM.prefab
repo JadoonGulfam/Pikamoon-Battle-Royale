@@ -457,6 +457,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4407447513430905001}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2106791039273256444}
   m_SourcePrefab: {fileID: 100100000, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
 --- !u!4 &1320024995124305931 stripped
 Transform:
@@ -569,7 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  _currentHealth: 0
   healthBar: {fileID: 4018479921533047991}
   pikamoonAi: {fileID: 4499695271379537259}
 --- !u!114 &3333256452538901987
@@ -635,6 +638,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 4003286937993953284}
   - {fileID: 996272857707126332}
   - {fileID: 3568406692352057352}
   ForceRemoteRenderTimeframe: 0
@@ -800,6 +804,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-2106791039273256444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200814722638152069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleClip: {fileID: 0}
+  walkClip: {fileID: 0}
+  runClip: {fileID: 0}
+  alertClip: {fileID: 0}
+  attackClip: {fileID: 0}
+  stunClip: {fileID: 0}
+  deathClip: {fileID: 0}
+  audioSource: {fileID: 4407447513430905001}
+  pitchRandomization: 0.1
 --- !u!4 &4618238493428394625 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8546253308452181589, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}

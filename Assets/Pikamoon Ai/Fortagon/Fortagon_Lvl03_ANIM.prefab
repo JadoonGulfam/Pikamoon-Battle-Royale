@@ -2190,6 +2190,7 @@ GameObject:
   - component: {fileID: 760665756757870420}
   - component: {fileID: 974391448051360556}
   - component: {fileID: 8961005854541249120}
+  - component: {fileID: -7433242724050520551}
   m_Layer: 8
   m_Name: Fortagon_Lvl03_ANIM
   m_TagString: Pikamoon
@@ -2275,7 +2276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  _currentHealth: 0
   healthBar: {fileID: 5164506692230387103}
   pikamoonAi: {fileID: 8656126149738223239}
 --- !u!114 &9142001724071153607
@@ -2399,6 +2400,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 7310990891308533379}
   - {fileID: 1225033599661204696}
   - {fileID: 760665756757870420}
   ForceRemoteRenderTimeframe: 0
@@ -2533,6 +2535,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7433242724050520551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8173793528539933321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleClip: {fileID: 0}
+  walkClip: {fileID: 0}
+  runClip: {fileID: 0}
+  alertClip: {fileID: 0}
+  attackClip: {fileID: 0}
+  stunClip: {fileID: 0}
+  deathClip: {fileID: 0}
+  audioSource: {fileID: 8961005854541249120}
+  pitchRandomization: 0.1
 --- !u!1 &8189078425931900440
 GameObject:
   m_ObjectHideFlags: 0
