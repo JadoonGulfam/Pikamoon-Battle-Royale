@@ -1,13 +1,15 @@
 using UnityEngine;
 using Pikamoon.Controller;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
 {
+    [SerializeField] Transform ReferenceCharacter;
     [SerializeField] Transform NewCharacter;
 
     [SerializeField] HealthPoint[] healthpoints;
     [SerializeField] HitPoint[] hitPoints;
-
+    [SerializeField] WeaponHitBoxExtension[] weaaponHitExtensions;
     Transform FindDeepChildByPartialName(Transform parent, string partialName)
     {
         foreach (Transform child in parent)
@@ -21,20 +23,51 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
         }
         return null;
     }
+    [ContextMenu("Perform GetComponentsFromReference")]
+    public void GetComponentsFromReference()
+    {
+        healthpoints = ReferenceCharacter.GetComponentsInChildren<HealthPoint>();
+        hitPoints = ReferenceCharacter.GetComponentsInChildren<HitPoint>();
+        weaaponHitExtensions = ReferenceCharacter.GetComponentsInChildren<WeaponHitBoxExtension>();
+    }
 
 
     [ContextMenu("Perform Action")]
     public void AssignHealthPointAndHitPoints()
     {
-        for (int i = 0; i < healthpoints.Length; i++)
+        //if (healthpoints.Length == 0)
+        //{
+        //    healthpoints = ReferenceCharacter.GetComponentsInChildren<HealthPoint>();
+        //}
+        //for (int i = 0; i < healthpoints.Length; i++)
+        //{
+        //    SingleHealthPointAction(healthpoints[i]);
+        //}
+
+
+
+
+
+        //if (hitPoints.Length == 0)
+        //{
+        //    hitPoints = ReferenceCharacter.GetComponentsInChildren<HitPoint>();
+        //}
+        //for (int i = 0; i < hitPoints.Length; i++)
+        //{
+        //    SingleHitPointAction(hitPoints[i]);
+        //}
+
+
+
+
+        if (weaaponHitExtensions.Length == 0)
         {
-            SingleHealthPointAction(healthpoints[i]);
+            weaaponHitExtensions = ReferenceCharacter.GetComponentsInChildren<WeaponHitBoxExtension>();
         }
 
-
-        for (int i = 0; i < hitPoints.Length; i++)
+        for (int i = 0; i < weaaponHitExtensions.Length; i++)
         {
-            SingleHitPointAction(hitPoints[i]);
+            SingleWeaponHitBoxEntension(weaaponHitExtensions[i], i);
         }
     }
 
@@ -127,7 +160,7 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
         }
 
 
-        Rigidbody rb          = hitPoint.AddComponent<Rigidbody>();
+        Rigidbody rb = hitPoint.AddComponent<Rigidbody>();
         Rigidbody referenceRB = HitP.GetComponent<Rigidbody>();
 
         rb.isKinematic = referenceRB.isKinematic;
@@ -138,4 +171,108 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
         rb.includeLayers = referenceRB.includeLayers;
 
     }
+
+
+    public GameObject obj;
+    void SingleWeaponHitBoxEntension(WeaponHitBoxExtension ReferenceWHitExtP,int index)
+    {
+        Transform WeaponHitExt = FindDeepChildByPartialName(NewCharacter.transform, ReferenceWHitExtP.transform.name);
+
+        if(WeaponHitExt == null)
+        {
+            Debug.Log("Already Not has with same name");
+            obj = new GameObject();
+
+
+            Transform ReferenceParent = FindDeepChildByPartialName(ReferenceCharacter.transform, ReferenceWHitExtP.transform.parent.name);
+            Transform Newparent = FindDeepChildByPartialName(NewCharacter.transform, ReferenceParent.name);
+
+            obj.transform.parent = Newparent;
+            obj.name = ReferenceWHitExtP.name;
+            obj.transform.localPosition = ReferenceWHitExtP.transform.localPosition;
+            obj.transform.localRotation = ReferenceWHitExtP.transform.localRotation;
+            obj.transform.localScale = ReferenceWHitExtP.transform.localScale;
+
+            obj.gameObject.layer = ReferenceWHitExtP.gameObject.layer;
+            obj.gameObject.tag = ReferenceWHitExtP.gameObject.tag;
+
+
+
+            WeaponHitBoxExtension ext = obj.AddComponent<WeaponHitBoxExtension>();
+
+
+            if (ReferenceWHitExtP.GetComponent<Collider>() is BoxCollider)
+            {
+                BoxCollider collider = obj.AddComponent<BoxCollider>();
+                BoxCollider referenceCollider = ReferenceWHitExtP.GetComponent<BoxCollider>();
+
+                collider.isTrigger = true;
+                collider.center = referenceCollider.center;
+                collider.size = referenceCollider.size;
+
+                collider.layerOverridePriority = referenceCollider.layerOverridePriority;
+                collider.excludeLayers = referenceCollider.excludeLayers;
+                collider.includeLayers = referenceCollider.includeLayers;
+
+                ext._collider = collider;
+
+            }
+            else if (ReferenceWHitExtP.GetComponent<Collider>() is SphereCollider)
+            {
+                SphereCollider collider = obj.AddComponent<SphereCollider>();
+                SphereCollider referenceCollider = ReferenceWHitExtP.GetComponent<SphereCollider>();
+
+                collider.isTrigger = true;
+                collider.center = referenceCollider.center;
+                collider.radius = referenceCollider.radius;
+
+                collider.layerOverridePriority = referenceCollider.layerOverridePriority;
+                collider.excludeLayers = referenceCollider.excludeLayers;
+                collider.includeLayers = referenceCollider.includeLayers;
+
+                ext._collider = collider;
+            }
+
+
+            if (ReferenceWHitExtP.GetComponent<Rigidbody>() != null)
+            {
+                Rigidbody rb = obj.AddComponent<Rigidbody>();
+                Rigidbody referenceRB = ReferenceWHitExtP.GetComponent<Rigidbody>();
+
+                rb.isKinematic = referenceRB.isKinematic;
+                rb.useGravity = referenceRB.isKinematic;
+
+                rb.collisionDetectionMode = referenceRB.collisionDetectionMode;
+                rb.excludeLayers = referenceRB.excludeLayers;
+                rb.includeLayers = referenceRB.includeLayers;
+            }
+
+            HitBehaviour newCharacterHitBehaviour = NewCharacter.GetComponent<HitBehaviour>();
+
+            newCharacterHitBehaviour.extensionForWeaponHoldingPoint = ReferenceCharacter.GetComponent<HitBehaviour>().extensionForWeaponHoldingPoint;
+
+            if (index == 0)
+            {
+                newCharacterHitBehaviour.extensionForWeaponHoldingPoint[1].weaponHitBoxExtensions[0] = ext;
+            }
+            else if (index == 1)
+            {
+                newCharacterHitBehaviour.extensionForWeaponHoldingPoint[1].weaponHitBoxExtensions[1] = ext;
+            }
+            else if (index == 2)
+            {
+                newCharacterHitBehaviour.extensionForWeaponHoldingPoint[0].weaponHitBoxExtensions[0] = ext;
+            }
+            else if (index == 3)
+            {
+                newCharacterHitBehaviour.extensionForWeaponHoldingPoint[0].weaponHitBoxExtensions[1] = ext;
+            }
+
+        }
+        else
+        {
+            Debug.Log("Already has with same name", WeaponHitExt);
+        }
+    }
+
 }

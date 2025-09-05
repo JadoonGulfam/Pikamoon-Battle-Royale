@@ -29,8 +29,8 @@ namespace Pikamoon.Controller
 
     public class HitBehaviour : MonoBehaviour
     {
-        [SerializeField] HitPointHolder[] hitPointHolders;
-        [SerializeField] ExtensionForWeaponHoldingPoint[] extensionForWeaponHoldingPoint;
+        public HitPointHolder[] hitPointHolders;
+        public ExtensionForWeaponHoldingPoint[] extensionForWeaponHoldingPoint;
 
 
         public void AssignWeaponForExtensionsHitBox(Weapon weapon)
