@@ -9,6 +9,7 @@ namespace Pikamoon.UI
     {
         [Header("Minimap Camera")]
         [SerializeField] Camera cam;
+        [SerializeField] LayerMask minimapLayer;
 
         [Header("Player Reference")]
         [SerializeField] Transform MyPlayer;
@@ -118,17 +119,30 @@ namespace Pikamoon.UI
             // Left-click = place marker
             if (eventData.button == PointerEventData.InputButton.Left)
             {
+                //Ray ray = cam.ScreenPointToRay(eventData.position);
+                //Plane plane = new Plane(Vector3.up, Vector3.zero);
+                //float distance;
+
+                //if (plane.Raycast(ray, out distance))
+                //{
+                //    worldTargetPosition = ray.GetPoint(distance);
+
+                //    AddMarker();
+                //}
+
+
+
                 Ray ray = cam.ScreenPointToRay(eventData.position);
-                Plane plane = new Plane(Vector3.up, Vector3.zero);
-                float distance;
 
-                if (plane.Raycast(ray, out distance))
+                // 1. Try physics raycast (recommended if you have terrain or ground colliders)
+                if (Physics.Raycast(ray, out RaycastHit hit, 3000f, minimapLayer))
                 {
-                    worldTargetPosition = ray.GetPoint(distance);
-
+                    worldTargetPosition = hit.point;
                     AddMarker();
                 }
             }
+
+
 
         }
         void ClampCameraPosition()
