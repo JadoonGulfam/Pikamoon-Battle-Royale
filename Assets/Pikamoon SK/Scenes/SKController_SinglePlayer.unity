@@ -5581,44 +5581,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93eb560ae5ebcd8459ef03cd3eccbd16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Profile: {fileID: 0}
-  Settings: {fileID: 0}
-  WaterRenderingActive: 1
-  WorldSpaceBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  ShowColorSettings: 1
-  ShowExpertColorSettings: 0
-  ShowWaves: 1
-  ShowExpertWavesSettings: 0
-  ShowFoam: 0
-  ShowReflectionSettings: 0
-  ShowExpertReflectionSettings: 0
-  ShowRefractionSettings: 0
-  ShowExpertRefractionSettings: 0
-  ShowVolumetricLightSettings: 0
-  ShowExpertVolumetricLightSettings: 0
-  ShowFlowMap: 0
-  ShowExpertFlowmapSettings: 0
-  FlowMapInEditMode: 0
-  FlowMapBrushStrength: 0.75
-  ShowDynamicWaves: 0
-  ShowExpertDynamicWavesSettings: 0
-  ShowShorelineMap: 0
-  ShorelineInEditMode: 0
-  ShowExpertShorelineSettings: 0
-  ShowFoamSettings: 0
-  ShowCausticEffectSettings: 0
-  ShowExpertCausticEffectSettings: 0
-  CausticDepthScaleInEditMode: 0
-  ShowUnderwaterEffectSettings: 0
-  ShowMeshSettings: 0
-  SplineMeshInEditMode: 0
-  ShowExpertMeshSettings: 0
-  WideAngleCameraRenderingMode: 0
-  ShowRendering: 0
-  ShowExpertRenderingSettings: 0
-  _waterGUID: 
 --- !u!64 &138087573
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -43419,6 +43381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f85671dea1c264bb5619009955bcbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReferenceCharacter: {fileID: 0}
   NewCharacter: {fileID: 0}
   healthpoints:
   - {fileID: 256978401}
@@ -43436,6 +43399,8 @@ MonoBehaviour:
   - {fileID: 890137640}
   - {fileID: 1622846077}
   - {fileID: 530808930}
+  weaaponHitExtensions: []
+  obj: {fileID: 0}
 --- !u!114 &974315056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65230,8 +65195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f35b292598e844e873203fc708e8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShorelineWaves: []
-  Splines: []
 --- !u!114 &1454640129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65244,44 +65207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93eb560ae5ebcd8459ef03cd3eccbd16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Profile: {fileID: 0}
-  Settings: {fileID: 0}
-  WaterRenderingActive: 1
-  WorldSpaceBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  ShowColorSettings: 1
-  ShowExpertColorSettings: 0
-  ShowWaves: 1
-  ShowExpertWavesSettings: 0
-  ShowFoam: 0
-  ShowReflectionSettings: 0
-  ShowExpertReflectionSettings: 0
-  ShowRefractionSettings: 0
-  ShowExpertRefractionSettings: 0
-  ShowVolumetricLightSettings: 0
-  ShowExpertVolumetricLightSettings: 0
-  ShowFlowMap: 0
-  ShowExpertFlowmapSettings: 0
-  FlowMapInEditMode: 0
-  FlowMapBrushStrength: 0.75
-  ShowDynamicWaves: 0
-  ShowExpertDynamicWavesSettings: 0
-  ShowShorelineMap: 0
-  ShorelineInEditMode: 0
-  ShowExpertShorelineSettings: 0
-  ShowFoamSettings: 0
-  ShowCausticEffectSettings: 0
-  ShowExpertCausticEffectSettings: 0
-  CausticDepthScaleInEditMode: 0
-  ShowUnderwaterEffectSettings: 0
-  ShowMeshSettings: 0
-  SplineMeshInEditMode: 0
-  ShowExpertMeshSettings: 0
-  WideAngleCameraRenderingMode: 0
-  ShowRendering: 0
-  ShowExpertRenderingSettings: 0
-  _waterGUID: 
 --- !u!114 &1454640132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65294,8 +65219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f35b292598e844e873203fc708e8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShorelineWaves: []
-  Splines: []
 --- !u!4 &1457210197 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4328347802079280546, guid: bff7a1a72bb04037af67eaae9aa5164f, type: 3}
@@ -81910,6 +81833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1882161765}
   - component: {fileID: 1882161766}
+  - component: {fileID: 1882161767}
   m_Layer: 16
   m_Name: Greenland_MM
   m_TagString: Untagged
@@ -81987,6 +81911,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &1882161767
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882161764}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20.44, y: 20.44, z: 0.05}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1883290618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175650,7 +175595,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 1
   Lens:
-    FieldOfView: 55.00006
+    FieldOfView: 55
     OrthographicSize: 10
     NearClipPlane: 0.01
     FarClipPlane: 5000
@@ -187087,7 +187032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offset: {x: 0.5000005, y: -2.673113e-22, z: 8.019352e-22}
+  Offset: {x: 0.5, y: 0, z: 0}
   ApplyAfter: 1
   PreserveComposition: 0
 --- !u!1 &4518445213621343267
@@ -187676,6 +187621,14 @@ PrefabInstance:
     - target: {fileID: 8022909338510372100, guid: 8f402bb900a0f644ca8e78e2d0e7d4ce, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609328130648614971, guid: 8f402bb900a0f644ca8e78e2d0e7d4ce, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609328130648614971, guid: 8f402bb900a0f644ca8e78e2d0e7d4ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -87.593994
       objectReference: {fileID: 0}
     - target: {fileID: 8663798260329693408, guid: 8f402bb900a0f644ca8e78e2d0e7d4ce, type: 3}
       propertyPath: m_AnchorMax.y
@@ -199092,11 +199045,15 @@ PrefabInstance:
     - target: {fileID: 6965780104824285576, guid: 69849b9f128f7f14fbd0d161c33a9856, type: 3}
       propertyPath: MyPlayer
       value: 
-      objectReference: {fileID: 1869087037}
+      objectReference: {fileID: 0}
     - target: {fileID: 6965780104824285576, guid: 69849b9f128f7f14fbd0d161c33a9856, type: 3}
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 1170327178}
+    - target: {fileID: 6965780104824285576, guid: 69849b9f128f7f14fbd0d161c33a9856, type: 3}
+      propertyPath: minimapLayer.m_Bits
+      value: 65536
+      objectReference: {fileID: 0}
     - target: {fileID: 7292247169245614106, guid: 69849b9f128f7f14fbd0d161c33a9856, type: 3}
       propertyPath: DependantSlot
       value: 
@@ -204425,7 +204382,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 5000
-  field of view: 55.00006
+  field of view: 55
   orthographic: 0
   orthographic size: 10
   m_Depth: 0

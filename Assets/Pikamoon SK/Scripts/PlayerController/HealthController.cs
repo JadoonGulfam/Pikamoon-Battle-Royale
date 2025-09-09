@@ -18,7 +18,7 @@ namespace Pikamoon.Controller
 
 
 
-        public void Start()
+        public void Awake()
         {
             AC = GetComponent<AnimationController>();
             Controller = GetComponent<PlayerController>();
@@ -26,6 +26,18 @@ namespace Pikamoon.Controller
         }
         public void Initialize()
         {
+            if(Controller == null) {
+                Debug.Log("Controller is Null");
+            }
+            if (Controller.UI == null)
+            {
+                Debug.Log("Controller ui is Null");
+            }
+
+            if (Controller.UI.hudcontroller == null)
+            {
+                Debug.Log("Controller ui hud controller is Null");
+            }
             Controller.UI.hudcontroller.UpdateHealth(health, 100);
 
             Controller.UI.hudcontroller.UpdateHeadShield(headShieldValue, 100);
