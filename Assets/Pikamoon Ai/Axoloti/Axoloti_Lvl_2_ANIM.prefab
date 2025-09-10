@@ -1670,7 +1670,7 @@ Transform:
   m_GameObject: {fileID: 4115987288180708754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1923,9 +1923,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1958,7 +1958,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2010,15 +2010,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 8300000, guid: 4fb385f80c0f35842970855c9ae196f0, type: 3}
+  walkClipStep_2: {fileID: 8300000, guid: 798de045910e8644a8ac90acc28b6fa6, type: 3}
+  runClipStep_1: {fileID: 8300000, guid: be75db28d1171a543b967a74c40f197f, type: 3}
+  runClipStep_2: {fileID: 8300000, guid: 524eb636820f60546a613d57b47c863b, type: 3}
   alertClip: {fileID: 0}
-  attackClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 71f3af739be1b534786fd2de86be6b15, type: 3}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
+  hitClip: {fileID: 0}
   audioSource: {fileID: 4297448404510178686}
-  pitchRandomization: 0.1
 --- !u!1 &4171414185167701417
 GameObject:
   m_ObjectHideFlags: 0

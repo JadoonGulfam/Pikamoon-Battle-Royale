@@ -679,9 +679,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -714,7 +714,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -766,15 +766,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 8300000, guid: 7e7b5df3767871a47abfdd4f847c53e9, type: 3}
+  walkClipStep_2: {fileID: 8300000, guid: 2c31dc6c4c2121c4088fb69b0a8097df, type: 3}
+  runClipStep_1: {fileID: 8300000, guid: 6c8eb29271d29af4c88a4be3c3dd2ed1, type: 3}
+  runClipStep_2: {fileID: 8300000, guid: 2b7443d2ea41199458bab68ddd6556f2, type: 3}
   alertClip: {fileID: 0}
-  attackClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 889f4a652e87dab43bd7ee67a5ce2ee0, type: 3}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
+  hitClip: {fileID: 0}
   audioSource: {fileID: 665167979046916319}
-  pitchRandomization: 0.1
 --- !u!1 &1096103852739000597
 GameObject:
   m_ObjectHideFlags: 0
