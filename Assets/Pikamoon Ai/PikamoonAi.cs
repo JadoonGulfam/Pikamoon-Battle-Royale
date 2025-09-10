@@ -174,7 +174,7 @@ public class PikamoonAi : MonoBehaviour
         //isIdle = true;
         pikaState = PikamoonState.Idle;
         animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle); // 0 = Idle
-        sounds.PlaySound(sounds.idleClip, true);
+       // sounds.PlaySound(sounds.idleClip, true);
         navMeshAgent.ResetPath();
         idleTimer = Random.Range(idleTimemin, idleTimemax);
         //pikamoonSoundmanager.PlayIdle();
