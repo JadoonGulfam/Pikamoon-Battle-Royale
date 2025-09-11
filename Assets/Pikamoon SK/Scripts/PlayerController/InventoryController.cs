@@ -2,6 +2,7 @@ using UnityEngine;
 using Pikamoon.UI;
 using System.Collections.Generic;
 using System;
+using Fusion;
 
 namespace Pikamoon.Controller
 {
@@ -17,6 +18,9 @@ namespace Pikamoon.Controller
 
     public class InventoryController : MonoBehaviour
     {
+        public GameObject NetworkManagerob;
+        public AnimationController animationController;
+
         [Header("Weapons")]
 
         public WeaponInfo DefaultFistNoWeapon;
@@ -88,6 +92,7 @@ namespace Pikamoon.Controller
             UsingWeaponIndex = 0;
             isUsingWeapon = false;
             IsInventoryOpen = false;
+            NetworkManagerob = GameObject.FindGameObjectWithTag("NetworkManager");
         }
 
 
@@ -192,30 +197,33 @@ namespace Pikamoon.Controller
 
         public void Pick()
         {
-            print("item picked");
+            // print("item picked");
             if (hitTransform)
             {
                 if (Controller.IsInAttack || Controller.InAir)
                     return;
-
                 pickableItem = hitTransform.GetComponent<IPickable>();
                 if (pickableItem != null)
                 {
                     if (!isPointerOnLootBox)
                     {
                         isPickableAnItem = true;
+                        //NetworkManagerob.GetComponent<NetworkManager>().SpawnWeaponAndReturn(0);
+                        int weaponId = hitTransform.GetComponent<WeaponData>().id;
+                        pickableItem = NetworkManagerob.GetComponent<NetworkManager>().SpawnWeaponAndReturn(weaponId).GetComponent<IPickable>();
                         pickableItem.TryToPick(this);
+                        hitTransform.gameObject.SetActive(false);
+                        animationController.RequestToDespawn(hitTransform.GetComponent<NetworkObject>().Id);
+                        //RequestDespawn(hitTransform.GetComponent<NetworkObject>().Id);
                     }
                     else
                     {
-
                         isPickableAnItem = false;
                         PickupLootBox(pickableItem);
                     }
                 }
             }
         }
-
         public void Pick(Item item)
         {
             if (Controller.IsInAttack || Controller.InAir)
