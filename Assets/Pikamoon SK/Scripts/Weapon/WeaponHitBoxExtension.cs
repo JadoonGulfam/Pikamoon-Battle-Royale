@@ -6,6 +6,11 @@ namespace Pikamoon.Controller
         [SerializeField] Weapon weapon;
         public Collider _collider;
 
+        private void Awake()
+        {
+            DisableCollider();
+        }
+
         public void EnableCollider()
         {
             _collider.enabled = true;
