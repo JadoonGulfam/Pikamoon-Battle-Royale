@@ -3,9 +3,10 @@ using UnityEngine;
 public class PikamoonAiSound : MonoBehaviour
 {
     [Header("Audio Clips")]
-    public AudioClip idleClip;
-    public AudioClip walkClip;
-    public AudioClip runClip;
+    public AudioClip walkClipStep_1;
+    public AudioClip walkClipStep_2;
+    public AudioClip runClipStep_1;
+    public AudioClip runClipStep_2;
     public AudioClip alertClip;
     public AudioClip attackClip;
     public AudioClip stunClip;
@@ -14,7 +15,7 @@ public class PikamoonAiSound : MonoBehaviour
 
     [Header("Audio Source")]
     public AudioSource audioSource;
-    public float pitchRandomization = 0.1f; // Add variation to avoid repetitive sounds
+   // public float pitchRandomization = 0.1f; // Add variation to avoid repetitive sounds
 
     private void Awake()
     {
@@ -30,17 +31,21 @@ public class PikamoonAiSound : MonoBehaviour
         audioSource.clip = clip;
         audioSource.PlayOneShot(clip);
     }
-    void Start()
+    public void PlayWalkSoundStep_1() 
     {
-        
+        PlaySound(walkClipStep_1,false);
     }
-    public void PlayWalkSound() 
+    public void PlayWalkSoundStep_2()
     {
-        PlaySound(walkClip,false);
+        PlaySound(walkClipStep_2, false);
     }
-    public void PlayRunSound()
+    public void PlayRunSoundStep_1()
     {
-        PlaySound(runClip, false);
+        PlaySound(runClipStep_1, false);
+    }
+    public void PlayRunSoundStep_2()
+    {
+        PlaySound(runClipStep_2, false);
     }
     public void PlayAttackSound()
     {
