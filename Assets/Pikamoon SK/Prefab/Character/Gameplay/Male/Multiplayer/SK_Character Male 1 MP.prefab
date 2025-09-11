@@ -2211,11 +2211,11 @@ MonoBehaviour:
   SFX: {fileID: 7889522480765926318}
   animatorOverrideController: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
   ReadyToAttack: 0
-  RadiusToFindEnemy: 5
+  RadiusToFindEnemy: 4
   EnemyLayer:
     serializedVersion: 2
-    m_Bits: 33088
-  MaxDistanceToLoseLocking: 0
+    m_Bits: 384
+  MaxDistanceToLoseLocking: 3
   lockedEnemy: {fileID: 0}
   AttackCoolDownTime: 0.1
   ComboCoolDownTime: 0.5
@@ -6834,15 +6834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maleAvatarDefaultCostume:
-    DefaultEyes: {fileID: 0}
-    DefaultEyebrow: {fileID: 0}
-    DefaultSkin: {fileID: 0}
-    DefaultFace: {fileID: 0}
-    DefaultBody: {fileID: 0}
-    DefaultHair: {fileID: 0}
-    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
-  femaleAvatarDefaultCostume:
+  AvatarDefaultCostume:
     DefaultEyes: {fileID: 0}
     DefaultEyebrow: {fileID: 0}
     DefaultSkin: {fileID: 0}
@@ -6851,7 +6843,6 @@ MonoBehaviour:
     DefaultHair: {fileID: 0}
     DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 0}
-  eye: {fileID: 0}
   wornHair: {fileID: 0}
   wornCloth: {fileID: 0}
   genderType: 0
@@ -7502,9 +7493,9 @@ MonoBehaviour:
   IsInAttack: 0
   IsSwimming: 0
   IgnoreGravity: 0
-  isGrounded: 1
+  isGrounded: 0
   cameraOrbitStatus: 1
-  inAir: 0
+  inAir: 1
   is_UI_Opened: 0
 --- !u!114 &7972754419600783326
 MonoBehaviour:
@@ -8184,18 +8175,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6507991153889199695, guid: b781aede3761fd8469719451ed35ad8a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6507991153889199695, guid: b781aede3761fd8469719451ed35ad8a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6507991153889199695, guid: b781aede3761fd8469719451ed35ad8a, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6507991153889199695, guid: b781aede3761fd8469719451ed35ad8a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -8233,10 +8212,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507991153889199695, guid: b781aede3761fd8469719451ed35ad8a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6507991153889199695, guid: b781aede3761fd8469719451ed35ad8a, type: 3}
-      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

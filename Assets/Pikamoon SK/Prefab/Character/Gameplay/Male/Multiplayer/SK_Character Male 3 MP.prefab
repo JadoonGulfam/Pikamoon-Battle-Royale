@@ -674,8 +674,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AvatarDefaultCostume:
+    DefaultEyes: {fileID: 0}
+    DefaultEyebrow: {fileID: 0}
+    DefaultSkin: {fileID: 0}
+    DefaultFace: {fileID: 0}
     DefaultBody: {fileID: 0}
     DefaultHair: {fileID: 0}
+    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 0}
   wornHair: {fileID: 0}
   wornCloth: {fileID: 0}
@@ -4307,36 +4312,6 @@ MonoBehaviour:
     m_Bits: 256
   captureParticle: {fileID: 0}
   MP_Setup: {fileID: 4719332960148600356}
-  OnStunnedPikamoonFounded:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnStunnedPikamoonLost:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   OnCapturedSuccessfully:
     m_PersistentCalls:
       m_Calls: []
@@ -5857,12 +5832,14 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  _cameraController: {fileID: 0}
+  cameraController: {fileID: 0}
   input: {fileID: 0}
   inventory: {fileID: 4232014497189265537}
   AC: {fileID: 0}
   HC: {fileID: 1772782576175156306}
   HitBehaviour: {fileID: 0}
+  UI: {fileID: 0}
+  miniMapHandler: {fileID: 0}
   isRootMotionEnabled: 0
   canExitCrouch: 0
   IsInAttack: 0
@@ -5871,6 +5848,7 @@ MonoBehaviour:
   isGrounded: 1
   cameraOrbitStatus: 1
   inAir: 0
+  is_UI_Opened: 0
 --- !u!114 &4232014497189265537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5883,9 +5861,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b835f7614c8202041ba5a972ead7c1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationController: {fileID: 5729104122124207873}
-  NetworkManagerob: {fileID: 0}
-  UI: {fileID: 0}
   DefaultFistNoWeapon:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
@@ -5950,6 +5925,7 @@ MonoBehaviour:
     m_Bits: 8192
   ItemsParent: {fileID: 377387238611163907}
   MP_Setup: {fileID: 0}
+  isBusyInSwitchingWeapon: 0
   Controller: {fileID: 0}
 --- !u!114 &5729104122124207873
 MonoBehaviour:
@@ -6079,7 +6055,7 @@ MonoBehaviour:
     hitPoint: {fileID: 0}
   - effectPoint: 7
     hitPoint: {fileID: 0}
-  WeaponColliders: []
+  extensionForWeaponHoldingPoint: []
 --- !u!114 &1129328312329496678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6105,7 +6081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4669b567971f04849942c3accc98a5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
   headShieldValue: 0
   upperShieldValue: 0
   lowerShieldValue: 0
@@ -7139,11 +7114,11 @@ MonoBehaviour:
   SFX: {fileID: 3052910670639116513}
   animatorOverrideController: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
   ReadyToAttack: 0
-  RadiusToFindEnemy: 5
+  RadiusToFindEnemy: 4
   EnemyLayer:
     serializedVersion: 2
-    m_Bits: 33088
-  MaxDistanceToLoseLocking: 0
+    m_Bits: 384
+  MaxDistanceToLoseLocking: 3
   lockedEnemy: {fileID: 0}
   AttackCoolDownTime: 0.1
   ComboCoolDownTime: 0.5
