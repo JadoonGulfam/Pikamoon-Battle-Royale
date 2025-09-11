@@ -3809,6 +3809,7 @@ GameObject:
   m_Component:
   - component: {fileID: 242849141}
   - component: {fileID: 242849142}
+  - component: {fileID: 242849143}
   m_Layer: 16
   m_Name: Greenland_MM
   m_TagString: Untagged
@@ -3886,6 +3887,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &242849143
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242849140}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20.880001, y: 20.880001, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0.17}
 --- !u!1001 &249889610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34407,7 +34429,7 @@ MonoBehaviour:
     FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.01
-    FarClipPlane: 50
+    FarClipPlane: 600
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -35112,7 +35134,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 50
+  far clip plane: 600
   field of view: 60
   orthographic: 0
   orthographic size: 10
