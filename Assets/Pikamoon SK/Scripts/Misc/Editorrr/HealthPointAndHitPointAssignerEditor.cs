@@ -35,28 +35,14 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
     [ContextMenu("Perform Action")]
     public void AssignHealthPointAndHitPoints()
     {
-        //if (healthpoints.Length == 0)
-        //{
-        //    healthpoints = ReferenceCharacter.GetComponentsInChildren<HealthPoint>();
-        //}
-        //for (int i = 0; i < healthpoints.Length; i++)
-        //{
-        //    SingleHealthPointAction(healthpoints[i]);
-        //}
-
-
-
-
-
-        //if (hitPoints.Length == 0)
-        //{
-        //    hitPoints = ReferenceCharacter.GetComponentsInChildren<HitPoint>();
-        //}
-        //for (int i = 0; i < hitPoints.Length; i++)
-        //{
-        //    SingleHitPointAction(hitPoints[i]);
-        //}
-
+        if (healthpoints.Length == 0)
+        {
+            healthpoints = ReferenceCharacter.GetComponentsInChildren<HealthPoint>();
+        }
+        for (int i = 0; i < healthpoints.Length; i++)
+        {
+            SingleHealthPointAction(healthpoints[i]);
+        }
 
 
 
@@ -69,6 +55,17 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
         {
             SingleWeaponHitBoxEntension(weaaponHitExtensions[i], i);
         }
+
+
+        if (hitPoints.Length == 0)
+        {
+            hitPoints = ReferenceCharacter.GetComponentsInChildren<HitPoint>();
+        }
+        for (int i = 0; i < hitPoints.Length; i++)
+        {
+            SingleHitPointAction(hitPoints[i]);
+        }
+
     }
 
 
@@ -81,7 +78,7 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
         obj.name = HP.name;
         obj.transform.localPosition = HP.transform.localPosition;
         obj.transform.localRotation = HP.transform.localRotation;
-        obj.transform.localScale    = HP.transform.localScale;
+        obj.transform.localScale = HP.transform.localScale;
 
         obj.layer = HP.gameObject.layer;
         obj.tag = HP.gameObject.tag;
@@ -92,7 +89,7 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
         newHP.player = NewCharacter.GetComponent<HealthController>();
         newHP.type = HP.type;
 
-        if(HP.GetComponent<Collider>() is BoxCollider)
+        if (HP.GetComponent<Collider>() is BoxCollider)
         {
             BoxCollider collider = HP.GetComponent<BoxCollider>();
             BoxCollider bc = obj.AddComponent<BoxCollider>();
@@ -160,8 +157,29 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
         }
 
 
-        Rigidbody rb = hitPoint.AddComponent<Rigidbody>();
+        Rigidbody rb;
+
+        if (hitPoint.GetComponent<Rigidbody>() == null)
+        {
+            rb = hitPoint.AddComponent<Rigidbody>();
+        }
+        else
+        {
+            rb = hitPoint.GetComponent<Rigidbody>();
+        }
+
         Rigidbody referenceRB = HitP.GetComponent<Rigidbody>();
+
+
+        if (rb == null)
+        {
+            Debug.Log("Rb Null");
+        }
+        if (referenceRB == null)
+        {
+            Debug.Log("referenceRB Null");
+        }
+
 
         rb.isKinematic = referenceRB.isKinematic;
         rb.useGravity = referenceRB.isKinematic;
@@ -174,11 +192,11 @@ public class HealthPointAndHitPointAssignerEditor : MonoBehaviour
 
 
     public GameObject obj;
-    void SingleWeaponHitBoxEntension(WeaponHitBoxExtension ReferenceWHitExtP,int index)
+    void SingleWeaponHitBoxEntension(WeaponHitBoxExtension ReferenceWHitExtP, int index)
     {
         Transform WeaponHitExt = FindDeepChildByPartialName(NewCharacter.transform, ReferenceWHitExtP.transform.name);
 
-        if(WeaponHitExt == null)
+        if (WeaponHitExt == null)
         {
             Debug.Log("Already Not has with same name");
             obj = new GameObject();
