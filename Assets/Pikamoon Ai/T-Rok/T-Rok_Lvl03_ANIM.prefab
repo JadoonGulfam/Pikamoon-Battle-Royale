@@ -1158,6 +1158,7 @@ GameObject:
   - component: {fileID: 7671373156845069999}
   - component: {fileID: 1713260136806975540}
   - component: {fileID: 8903586351402892141}
+  - component: {fileID: 4126615844367647234}
   m_Layer: 8
   m_Name: T-Rok_Lvl03_ANIM
   m_TagString: Pikamoon
@@ -1257,8 +1258,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 7942721594399085452}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 7
-  walkSpeed: 3
   attackRange: 6
   stunDuration: 10
   alertDuration: 20
@@ -1400,6 +1399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 792162781988194231}
@@ -1525,6 +1525,21 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 1713260136806975540}
+--- !u!114 &4126615844367647234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641755145506885142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &3759783683622298241
 GameObject:
   m_ObjectHideFlags: 0

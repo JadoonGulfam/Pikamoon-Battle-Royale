@@ -1654,6 +1654,7 @@ GameObject:
   - component: {fileID: 7746282241653618622}
   - component: {fileID: 4297448404510178686}
   - component: {fileID: -5484354434840486613}
+  - component: {fileID: 8771842873549719496}
   m_Layer: 8
   m_Name: Axoloti_Lvl_2_ANIM
   m_TagString: Pikamoon
@@ -1753,8 +1754,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 2382003593510871050}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
   attackRange: 5
   stunDuration: 10
   alertDuration: 20
@@ -1896,6 +1895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 5974693546509460381}
@@ -2020,6 +2020,21 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 4297448404510178686}
+--- !u!114 &8771842873549719496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115987288180708754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 1
+  isRoaming: 0
 --- !u!1 &4171414185167701417
 GameObject:
   m_ObjectHideFlags: 0

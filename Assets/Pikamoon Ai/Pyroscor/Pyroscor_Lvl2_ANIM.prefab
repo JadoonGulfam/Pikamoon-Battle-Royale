@@ -3503,6 +3503,7 @@ GameObject:
   - component: {fileID: 6219638920425891850}
   - component: {fileID: -4127946283078772454}
   - component: {fileID: 4617477471184676168}
+  - component: {fileID: 5296955521657810312}
   m_Layer: 8
   m_Name: Pyroscor_Lvl2_ANIM
   m_TagString: Pikamoon
@@ -3602,8 +3603,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 8342951889636592516}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
   attackRange: 4
   stunDuration: 20
   alertDuration: 20
@@ -3745,6 +3744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 3875226455170494991}
@@ -3870,6 +3870,21 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: -4127946283078772454}
+--- !u!114 &5296955521657810312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7710044791393121227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &7722795281018920913
 GameObject:
   m_ObjectHideFlags: 0

@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 9164085711617797750}
   - component: {fileID: 665167979046916319}
   - component: {fileID: 9125243616174931000}
+  - component: {fileID: 377223652021548178}
   m_Layer: 8
   m_Name: Vellogon_Lvl03_ANIM
   m_TagString: Pikamoon
@@ -505,8 +506,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 6957728600382378066}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 7
-  walkSpeed: 3
   attackRange: 6
   stunDuration: 10
   alertDuration: 20
@@ -648,6 +647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 7517576169236191825}
@@ -776,6 +776,21 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 665167979046916319}
+--- !u!114 &377223652021548178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051523921372587318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &1096103852739000597
 GameObject:
   m_ObjectHideFlags: 0

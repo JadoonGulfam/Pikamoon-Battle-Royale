@@ -2191,6 +2191,7 @@ GameObject:
   - component: {fileID: 974391448051360556}
   - component: {fileID: 8961005854541249120}
   - component: {fileID: -7433242724050520551}
+  - component: {fileID: 4466714438250443183}
   m_Layer: 8
   m_Name: Fortagon_Lvl03_ANIM
   m_TagString: Pikamoon
@@ -2334,8 +2335,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 6073508956506598838}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 7
-  walkSpeed: 3
   attackRange: 5
   stunDuration: 10
   alertDuration: 20
@@ -2433,6 +2432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 6446425960761909062}
@@ -2557,6 +2557,21 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 8961005854541249120}
+--- !u!114 &4466714438250443183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8173793528539933321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &8189078425931900440
 GameObject:
   m_ObjectHideFlags: 0

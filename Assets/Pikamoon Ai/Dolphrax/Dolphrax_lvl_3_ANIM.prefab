@@ -3765,6 +3765,7 @@ GameObject:
   - component: {fileID: 7839594610280376327}
   - component: {fileID: 374943392227568027}
   - component: {fileID: -562479603337742488}
+  - component: {fileID: 6369107541244657710}
   m_Layer: 8
   m_Name: Dolphrax_lvl_3_ANIM
   m_TagString: Pikamoon
@@ -3908,8 +3909,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 1763383212339410312}
   protectionRadius: 10
   fleeDistance: 20
-  fleeSpeed: 7
-  walkSpeed: 3
   attackRange: 8
   stunDuration: 10
   alertDuration: 20
@@ -4007,6 +4006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 5348518343743103163}
@@ -4132,6 +4132,21 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 374943392227568027}
+--- !u!114 &6369107541244657710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835615177254356696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 1
+  isRoaming: 0
 --- !u!1 &7886288593743390945
 GameObject:
   m_ObjectHideFlags: 0

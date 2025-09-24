@@ -3352,6 +3352,7 @@ GameObject:
   - component: {fileID: 8729793946648099706}
   - component: {fileID: 5950944510554262936}
   - component: {fileID: 374425542272446834}
+  - component: {fileID: 8520789697402467678}
   m_Layer: 8
   m_Name: Fortrim_lvl_1_ANIM
   m_TagString: Pikamoon
@@ -3495,8 +3496,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 5092093407567434081}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 3
-  walkSpeed: 1
   attackRange: 4
   stunDuration: 20
   alertDuration: 20
@@ -3594,6 +3593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 5271645821967316750}
@@ -3708,16 +3708,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
   attackClip: {fileID: 0}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 5950944510554262936}
-  pitchRandomization: 0.1
+--- !u!114 &8520789697402467678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556820222650261786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &8864169251039416320
 GameObject:
   m_ObjectHideFlags: 0

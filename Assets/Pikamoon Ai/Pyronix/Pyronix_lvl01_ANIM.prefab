@@ -3004,6 +3004,7 @@ GameObject:
   - component: {fileID: 7984336641804973798}
   - component: {fileID: 3141950594826013771}
   - component: {fileID: -216013219214514067}
+  - component: {fileID: 7445615590501263723}
   m_Layer: 8
   m_Name: Pyronix_lvl01_ANIM
   m_TagString: Pikamoon
@@ -3147,8 +3148,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 6639837137650291729}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
   attackRange: 4
   stunDuration: 20
   alertDuration: 20
@@ -3362,16 +3361,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
   attackClip: {fileID: 0}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 3141950594826013771}
-  pitchRandomization: 0.1
+--- !u!114 &7445615590501263723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7040723662577442354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &7152182090155215638
 GameObject:
   m_ObjectHideFlags: 0

@@ -357,15 +357,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 122.83
+      value: 129.38571
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.071514
+      value: 21.82528
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.41765
+      value: -44.43718
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -460,6 +460,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
       insertIndex: -1
       addedObject: {fileID: -2106791039273256444}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2643170675252257175}
   m_SourcePrefab: {fileID: 100100000, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}
 --- !u!4 &1320024995124305931 stripped
 Transform:
@@ -550,8 +553,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 5545164330374031056}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
   attackRange: 5
   stunDuration: 10
   alertDuration: 20
@@ -693,6 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 5963371595444038654}
@@ -816,16 +818,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
   attackClip: {fileID: 0}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 4407447513430905001}
-  pitchRandomization: 0.1
+--- !u!114 &2643170675252257175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200814722638152069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!4 &4618238493428394625 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8546253308452181589, guid: 7d8efa6a2613c084bb55e66036b9e74e, type: 3}

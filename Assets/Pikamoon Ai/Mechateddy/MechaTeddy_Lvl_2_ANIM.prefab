@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 8559478850301359884}
   - component: {fileID: 1307775678929869779}
   - component: {fileID: 7019414934875852235}
+  - component: {fileID: 3479746428705325979}
   m_Layer: 8
   m_Name: MechaTeddy_Lvl_2_ANIM
   m_TagString: Pikamoon
@@ -674,8 +675,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 9119023150300296641}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
   attackRange: 3.5
   stunDuration: 20
   alertDuration: 20
@@ -773,6 +772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 4853487351869658460}
@@ -888,16 +888,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
   attackClip: {fileID: 0}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 1307775678929869779}
-  pitchRandomization: 0.1
+--- !u!114 &3479746428705325979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444899126967866654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &1583968997933574767
 GameObject:
   m_ObjectHideFlags: 0

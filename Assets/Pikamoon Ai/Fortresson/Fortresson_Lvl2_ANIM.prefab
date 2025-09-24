@@ -2970,6 +2970,7 @@ GameObject:
   - component: {fileID: 5211259224288035515}
   - component: {fileID: 1875248918300265219}
   - component: {fileID: -692063739076448341}
+  - component: {fileID: 2342419236575537264}
   m_Layer: 8
   m_Name: Fortresson_Lvl2_ANIM
   m_TagString: Pikamoon
@@ -3113,8 +3114,6 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 0}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
   attackRange: 4
   stunDuration: 20
   alertDuration: 20
@@ -3327,16 +3326,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
   attackClip: {fileID: 0}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 1875248918300265219}
-  pitchRandomization: 0.1
+--- !u!114 &2342419236575537264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924499992719364076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
 --- !u!1 &8974282447420562897
 GameObject:
   m_ObjectHideFlags: 0
