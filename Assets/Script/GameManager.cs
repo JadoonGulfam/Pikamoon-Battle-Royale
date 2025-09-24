@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
         characterNameText.text = designerPresetList[index].name;
         characterDescriptionText.text = designerPresetList[index].description;
         playerIndex = index;
+        SelectPlayer();
     }
     //public void SpawnWeapons()
     //{
