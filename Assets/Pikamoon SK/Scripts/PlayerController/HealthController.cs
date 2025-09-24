@@ -1,22 +1,29 @@
 using Pikamoon.UI;
 using UnityEngine;
+using Fusion;
 
 namespace Pikamoon.Controller
 {
-
-    public class HealthController : MonoBehaviour
+    public class HealthController : NetworkBehaviour
     {
         PlayerController Controller;
         AnimationController AC;
         InventoryController inventoryController;
 
-        [SerializeField] float headShieldValue;
-        [SerializeField] float upperShieldValue;
-        [SerializeField] float lowerShieldValue;
+        // inspector defaults (kept so you can set starting values in the editor)
+        [SerializeField] float inspectorHeadShieldValue = 0f;
+        [SerializeField] float inspectorUpperShieldValue = 0f;
+        [SerializeField] float inspectorLowerShieldValue = 0f;
         [Space]
-        [SerializeField] float health;
+        [SerializeField] float inspectorHealth = 100f;
 
+        // networked state (names kept similar to your original properties)
+        [Networked] public float headShieldValue { get; set; }
+        [Networked] public float upperShieldValue { get; set; }
+        [Networked] public float lowerShieldValue { get; set; }
+        [Networked] public float health { get; set; }
 
+        private ChangeDetector _changeDetector;
 
         public void Awake()
         {
@@ -24,22 +31,99 @@ namespace Pikamoon.Controller
             Controller = GetComponent<PlayerController>();
             inventoryController = GetComponent<InventoryController>();
         }
+
+        public override void Spawned()
+        {
+            _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
+
+            // initialize networked values from inspector defaults on StateAuthority only
+            if (Object.HasStateAuthority)
+            {
+                headShieldValue = inspectorHeadShieldValue;
+                upperShieldValue = inspectorUpperShieldValue;
+                lowerShieldValue = inspectorLowerShieldValue;
+                health = inspectorHealth;
+            }
+
+            // ensure UI is in correct state on spawn
+            UpdateUI();
+        }
+
         public void Initialize()
         {
-            if(Controller == null) {
+            if (Controller == null)
+            {
                 Debug.Log("Controller is Null");
             }
-            if (Controller.UI == null)
+            if (Controller != null && Controller.UI == null)
             {
                 Debug.Log("Controller ui is Null");
             }
 
-            if (Controller.UI.hudcontroller == null)
+            if (Controller != null && Controller.UI != null && Controller.UI.hudcontroller == null)
             {
                 Debug.Log("Controller ui hud controller is Null");
             }
-            Controller.UI.hudcontroller.UpdateHealth(health, 100);
 
+            UpdateUI();
+        }
+
+        public override void Render()
+        {
+            foreach (var change in _changeDetector.DetectChanges(this))
+            {
+                if (change == nameof(health) ||
+                    change == nameof(headShieldValue) ||
+                    change == nameof(upperShieldValue) ||
+                    change == nameof(lowerShieldValue))
+                {
+                    UpdateUI();
+                }
+            }
+        }
+
+        Vector2 GetHitDirection(Transform hit)
+        {
+            Vector3 enemyForward = transform.forward;
+            Vector3 directionToAttacker = (hit.position - transform.position).normalized;
+            float dotProduct = Vector3.Dot(enemyForward, directionToAttacker);
+            Vector3 crossProduct = Vector3.Cross(enemyForward, directionToAttacker);
+
+            float XVal = 0f;
+            float YVal = 1f;
+
+            if (dotProduct > 0.5f)
+            {
+                YVal = 1f;
+                XVal = 0f;
+            }
+            else if (dotProduct < -0.5f)
+            {
+                YVal = -1f;
+                XVal = 0f;
+            }
+            else
+            {
+                if (crossProduct.y > 0)
+                {
+                    XVal = 1f;
+                    YVal = 0f;
+                }
+                else
+                {
+                    XVal = -1f;
+                    YVal = 0f;
+                }
+            }
+
+            return new Vector2(XVal, YVal);
+        }
+
+        void UpdateUI()
+        {
+            if (Controller == null || Controller.UI == null || Controller.UI.hudcontroller == null) return;
+
+            Controller.UI.hudcontroller.UpdateHealth(health, 100);
             Controller.UI.hudcontroller.UpdateHeadShield(headShieldValue, 100);
             Controller.UI.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
             Controller.UI.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
@@ -47,56 +131,148 @@ namespace Pikamoon.Controller
 
 
 
-        Vector2 GetHitDirection(Transform hit)
+        // attackers should call this to request damage; it sends RPC to the victim's authority
+        public void TakeDamage(HealthPointType healthPoint, float damageAmount, Transform hitPoint)
         {
-            // Get the direction the enemy is facing
-            Vector3 enemyForward = transform.forward;
+            print("11111111 called take damage health point" + healthPoint + "     damage amount  " + damageAmount + "    hit point" + hitPoint);
+            // call RPC on victim's StateAuthority to apply damage (RpcTargets.StateAuthority)
+            RPC_RequestDamage(healthPoint, damageAmount, Object.Id, hitPoint.position);
+        }
 
-            // Get the direction from the enemy to the attacker
-            Vector3 directionToAttacker = (hit.position - transform.position).normalized;
+        // RPC runs on victim's StateAuthority only and then updates all clients
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        public void RPC_RequestDamage(HealthPointType healthPoint, float damageAmount, NetworkId attackerId, Vector3 hitPos, RpcInfo info = default)
+        {
+            ApplyDamageOnAuthority(healthPoint, damageAmount, hitPos);
+        }
 
-            // Calculate the dot product between the enemy's forward direction and the direction to the attacker
-            float dotProduct = Vector3.Dot(enemyForward, directionToAttacker);
+        // centralised damage application; runs on authority (or locally in offline mode)
+        void ApplyDamageOnAuthority(HealthPointType healthPoint, float damageAmount, Vector3 hitPos)
+        {
+            if (Runner != null && !Object.HasStateAuthority) return; // only authority applies (except offline)
 
-            // Calculate the cross product to determine if the hit came from the left or right
-            Vector3 crossProduct = Vector3.Cross(enemyForward, directionToAttacker);
-
-            // Initialize XVal and YVal
-            float XVal = 0f;
-            float YVal = 1f;
-
-            // Determine if the hit came from the front, back, left, or right and set XVal/YVal accordingly
-            if (dotProduct > 0.5f)
+            Vector2 dir;
+            // try to compute direction using a Transform if possible — fallback if hitPos is zero
+            if (hitPos != Vector3.zero)
             {
-                // Hit from the front
-                YVal = 1f;
-                XVal = 0f;
-            }
-            else if (dotProduct < -0.5f)
-            {
-                // Hit from the back
-                YVal = -1f;
-                XVal = 0f;
+                var dummy = new GameObject("tmpHit").transform;
+                dummy.position = hitPos;
+                dir = GetHitDirection(dummy);
+                Destroy(dummy.gameObject);
             }
             else
             {
-                // Hit from the sides
-                if (crossProduct.y > 0)
+                dir = new Vector2(0f, 1f);
+            }
+
+            if (AC != null)
+            {
+                AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
+                AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
+                AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
+            }
+
+            float remainingDamage = damageAmount;
+
+            switch (healthPoint)
+            {
+                case HealthPointType.Head:
+                    if (inventoryController != null && inventoryController.Shields.items[0] != null)
+                    {
+                        headShieldValue = inventoryController.Shields.items[0].Quantity;
+                        remainingDamage = headShieldValue;
+                        headShieldValue = headShieldValue - damageAmount;
+                        if (headShieldValue < 0)
+                        {
+                            headShieldValue = 0;
+                            remainingDamage = damageAmount - remainingDamage;
+                        }
+                        else
+                        {
+                            remainingDamage = 0;
+                        }
+                        inventoryController.Shields.items[0].Quantity = headShieldValue;
+                        Controller.UI?.hudcontroller.UpdateHeadShield(headShieldValue, 100);
+                    }
+                    break;
+                case HealthPointType.UpperBody:
+                    if (inventoryController != null && inventoryController.Shields.items[1] != null)
+                    {
+                        upperShieldValue = inventoryController.Shields.items[1].Quantity;
+                        remainingDamage = upperShieldValue;
+                        upperShieldValue = upperShieldValue - damageAmount;
+                        if (upperShieldValue < 0)
+                        {
+                            upperShieldValue = 0;
+                            remainingDamage = damageAmount - remainingDamage;
+                        }
+                        else
+                        {
+                            remainingDamage = 0;
+                        }
+                        inventoryController.Shields.items[1].Quantity = upperShieldValue;
+                        Controller.UI?.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
+                    }
+                    break;
+                case HealthPointType.LowerBody:
+                    if (inventoryController != null && inventoryController.Shields.items[2] != null)
+                    {
+                        lowerShieldValue = inventoryController.Shields.items[2].Quantity;
+                        remainingDamage = lowerShieldValue;
+                        lowerShieldValue = lowerShieldValue - damageAmount;
+                        if (lowerShieldValue < 0)
+                        {
+                            lowerShieldValue = 0;
+                            remainingDamage = damageAmount - remainingDamage;
+                        }
+                        else
+                        {
+                            remainingDamage = 0;
+                        }
+                        inventoryController.Shields.items[2].Quantity = lowerShieldValue;
+                        Controller.UI?.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
+                    }
+                    break;
+            }
+
+            if (remainingDamage > 0)
+            {
+                health -= remainingDamage;
+                if (health < 0)
                 {
-                    // Hit from the right
-                    XVal = 1f;
-                    YVal = 0f;
-                }
-                else
-                {
-                    // Hit from the left
-                    XVal = -1f;
-                    YVal = 0f;
+                    health = 0;
                 }
             }
 
-            return new Vector2(XVal, YVal);
+            Controller.UI?.hudcontroller.UpdateHealth(health, 100);
 
+            if (isKilled())
+            {
+                Controller.inventory.PlaceLootBoxAfterDeath();
+                gameObject.SetActive(false);
+            }
+        }
+
+        public void OnDamage(float damageAmount, Transform hitPoint)
+        {
+            if (Runner != null && !Object.HasStateAuthority)
+            {
+                // request authority to apply simple damage
+                RPC_RequestDamage(HealthPointType.UpperBody, damageAmount, Object.Id, hitPoint.position);
+                return;
+            }
+
+            Vector2 dir = GetHitDirection(hitPoint);
+
+            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
+            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
+
+            AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
+
+            health -= damageAmount;
+
+            if (isKilled())
+                gameObject.SetActive(false);
         }
 
 
@@ -131,139 +307,7 @@ namespace Pikamoon.Controller
             return false;
         }
 
-        public void TakeDamage(HealthPointType healthPoint, float damageAmount, Transform hitPoint)
-        {
-            print("Take Damage: " + damageAmount);
-            Vector2 dir = GetHitDirection(hitPoint);
-
-
-            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
-            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
-
-            AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
-
-            float remainingDamage = damageAmount;
-
-            switch (healthPoint)
-            {
-                case HealthPointType.Head:
-                    if (inventoryController.Shields.items[0] != null)
-                    {
-                        headShieldValue = inventoryController.Shields.items[0].Quantity;
-
-                        remainingDamage = headShieldValue;
-
-                        headShieldValue = headShieldValue - damageAmount;
-
-                        if (headShieldValue < 0)
-                        {
-                            headShieldValue = 0;
-                            remainingDamage = damageAmount - remainingDamage;
-                        }
-                        else
-                        {
-                            remainingDamage = 0;
-                        }
-
-                        inventoryController.Shields.items[0].Quantity = headShieldValue;
-
-                        Controller.UI?.hudcontroller.UpdateHeadShield(headShieldValue, 100);
-                    }
-
-
-                    break;
-                case HealthPointType.UpperBody:
-
-                    if (inventoryController.Shields.items[1] != null)
-                    {
-                        upperShieldValue = inventoryController.Shields.items[1].Quantity;
-
-                        remainingDamage = upperShieldValue;
-
-                        upperShieldValue = upperShieldValue - damageAmount;
-
-                        if (upperShieldValue < 0)
-                        {
-                            upperShieldValue = 0;
-                            remainingDamage = damageAmount - remainingDamage;
-                        }
-                        else
-                        {
-                            remainingDamage = 0;
-                        }
-
-                        inventoryController.Shields.items[1].Quantity = upperShieldValue;
-
-                        Controller.UI?.hudcontroller.UpdateUpperShield(upperShieldValue, 100);
-                    }
-                    break;
-                case HealthPointType.LowerBody:
-
-                    if (inventoryController.Shields.items[2] != null)
-                    {
-                        lowerShieldValue = inventoryController.Shields.items[2].Quantity;
-
-                        remainingDamage = lowerShieldValue;
-
-                        lowerShieldValue = lowerShieldValue - damageAmount;
-
-                        if (lowerShieldValue < 0)
-                        {
-                            lowerShieldValue = 0;
-                            remainingDamage = damageAmount - remainingDamage;
-                        }
-                        else
-                        {
-                            remainingDamage = 0;
-                        }
-
-                        inventoryController.Shields.items[2].Quantity = lowerShieldValue;
-
-                        Controller.UI?.hudcontroller.UpdateLowerShield(lowerShieldValue, 100);
-                    }
-                    break;
-            }
-
-            if (remainingDamage > 0)
-            {
-                health -= remainingDamage;
-                if (health < 0)
-                {
-                    health = 0;
-                }
-            }
-
-            Controller.UI?.hudcontroller.UpdateHealth(health, 100);
-
-            //HealthBar.DOFillAmount(health / 100, .1f);
-
-            if (isKilled())
-            {
-                Controller.inventory.PlaceLootBoxAfterDeath();
-                gameObject.SetActive(false);
-            }
-        }
-
-
-        public void OnDamage(float damageAmount, Transform hitPoint)
-        {
-            Vector2 dir = GetHitDirection(hitPoint);
-
-
-            AC.PAnimator.SetFloat(AC.Parameters.XVal.Hash, dir.x);
-            AC.PAnimator.SetFloat(AC.Parameters.YVal.Hash, dir.y);
-
-            AC.PAnimator.SetTrigger(AC.Parameters.GetHit.Hash);
-
-            health -= damageAmount;
-
-            //HealthBar.DOFillAmount(health / 100, .1f);
-
-            if (isKilled())
-                gameObject.SetActive(false);
-
-        }
+      
         #endregion
     }
-
 }
