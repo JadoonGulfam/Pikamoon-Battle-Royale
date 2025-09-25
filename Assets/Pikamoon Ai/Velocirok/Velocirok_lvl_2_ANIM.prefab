@@ -855,7 +855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.171}
+  m_AnchoredPosition: {x: 0, y: 0.922}
   m_SizeDelta: {x: 0.5, y: 0.04}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2699742833639714339
@@ -1372,6 +1372,8 @@ GameObject:
   - component: {fileID: 8718550758623483788}
   - component: {fileID: 9094145984024336417}
   - component: {fileID: 2895818077475213301}
+  - component: {fileID: 6632305461038546813}
+  - component: {fileID: 4138478472236589375}
   m_Layer: 8
   m_Name: Velocirok_lvl_2_ANIM
   m_TagString: Pikamoon
@@ -1500,12 +1502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 5320859576982562494}
-  animator: {fileID: 2608581167194430625}
-  overrideControllers: {fileID: 22100000, guid: 9a97451f194513944bf2f0ca48d39ebb, type: 2}
-  pikamoonHealth: {fileID: 1477038613496539185}
   pikamoonFollow: {fileID: 7169351287539271124}
-  pikamoonHandHitbox: {fileID: 643023443779632348}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -1515,15 +1512,11 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 7960367570109001990}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
   attackRange: 4
   stunDuration: 20
   alertDuration: 20
   alertRange: 15
-  initPosition: {fileID: 8364476973537315112}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
+  player: {fileID: 0}
 --- !u!114 &5738082694889477578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1614,6 +1607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 6905376152120781218}
@@ -1728,16 +1722,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 8300000, guid: 3adff27048637a94c8e3073b723cec08, type: 3}
+  walkClipStep_2: {fileID: 8300000, guid: a1f4e2f8c26c8744b8bfef0acdca5a17, type: 3}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
-  attackClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 7e9f61daa403ea74bb2221d1bcde7fb5, type: 3}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
-  hitClip: {fileID: 0}
-  audioSource: {fileID: 9094145984024336417}
-  pitchRandomization: 0.1
+  hitClip: {fileID: 8300000, guid: 76762b35424a3ca44b0662b398702620, type: 3}
+--- !u!114 &6632305461038546813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023726863995590265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
+--- !u!114 &4138478472236589375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023726863995590265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonHandHitbox: {fileID: 643023443779632348}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
+  initPosition: {fileID: 8364476973537315112}
 --- !u!1 &6118152351675746328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,8 +2473,8 @@ Transform:
   m_GameObject: {fileID: 8030080736925528575}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1442, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalPosition: {x: -0.2049, y: 0, z: 0}
+  m_LocalScale: {x: 0.271335, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 899704354461406602}
@@ -2598,8 +2622,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.149, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3346939863543929549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

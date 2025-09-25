@@ -534,6 +534,8 @@ GameObject:
   - component: {fileID: 5269436943478513607}
   - component: {fileID: 3398913788002628857}
   - component: {fileID: 4326710627876212718}
+  - component: {fileID: 732792804290709262}
+  - component: {fileID: 7117271862823269629}
   m_Layer: 8
   m_Name: Axoli_Lvl01_ANIM
   m_TagString: Pikamoon
@@ -618,10 +620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 2110346462405039371}
-  animator: {fileID: 3883963524241409205}
-  overrideControllers: {fileID: 22100000, guid: 9a7459c65c9868a48b7305c2f46cfbaa, type: 2}
-  pikamoonHealth: {fileID: 2388720339750584729}
   pikamoonFollow: {fileID: 1394188438918978868}
   pikamoonHandHitbox: {fileID: 0}
   playerLayer:
@@ -633,12 +631,11 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 6189514561094388072}
   protectionRadius: 10
   fleeDistance: 20
-  fleeSpeed: 3
-  walkSpeed: 1
   attackRange: 5
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
+  player: {fileID: 0}
   initPosition: {fileID: 5812706837003815731}
   fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
   projectileSpeed: 10
@@ -776,6 +773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 8612144232446117733}
@@ -890,16 +888,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
   attackClip: {fileID: 0}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 3398913788002628857}
-  pitchRandomization: 0.1
+--- !u!114 &732792804290709262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3303267855741353990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 1
+  isRoaming: 0
+--- !u!114 &7117271862823269629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3303267855741353990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initPosition: {fileID: 5812706837003815731}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
 --- !u!1 &3553005529224216994
 GameObject:
   m_ObjectHideFlags: 0

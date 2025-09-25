@@ -31,7 +31,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
     public float pikamoonRadius = 10f;
-    public int pikamoonCount;
+   // public int pikamoonCount;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
 
@@ -228,7 +228,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
             if (!isPikamoonAdd)
             {
-                PopulatePikamoonOverNetwork(playerNetworkObject.transform.position,pikamoonCount,pikamoonRadius);
+                PopulatePikamoonOverNetwork(playerNetworkObject.transform.position, pikamoonList.Count, pikamoonRadius);
                 isPikamoonAdd = true; // Ensure Pikamoon is only added once
             }
 

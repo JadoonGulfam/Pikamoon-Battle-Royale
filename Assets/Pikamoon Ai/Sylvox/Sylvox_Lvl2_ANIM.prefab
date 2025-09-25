@@ -2928,8 +2928,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.49, z: 0}
-  m_LocalScale: {x: 1.3249999, y: 1.3249999, z: 1.3249999}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 640252820819444560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5004,7 +5004,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.64}
+  m_AnchoredPosition: {x: 0, y: 1.11}
   m_SizeDelta: {x: 0.7, y: 0.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2002580497998359981
@@ -6813,6 +6813,8 @@ GameObject:
   - component: {fileID: 9046548474294458408}
   - component: {fileID: 3962242426752821481}
   - component: {fileID: 4229006548802023763}
+  - component: {fileID: 5786511190969569536}
+  - component: {fileID: 4975434823829346353}
   m_Layer: 8
   m_Name: Sylvox_Lvl2_ANIM
   m_TagString: Pikamoon
@@ -6943,12 +6945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 7676454240699365191}
-  animator: {fileID: 4633837800668523916}
-  overrideControllers: {fileID: 22100000, guid: c795b3b94d0d09a429474614e3f3dcbf, type: 2}
-  pikamoonHealth: {fileID: 6065150449916365495}
   pikamoonFollow: {fileID: 1193879772158168748}
-  pikamoonHandHitbox: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -6958,15 +6955,11 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 5485759674435433506}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
-  attackRange: 4
+  attackRange: 5
   stunDuration: 20
   alertDuration: 20
   alertRange: 15
-  initPosition: {fileID: 7622714374045739444}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
+  player: {fileID: 0}
 --- !u!114 &4870889283700580174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7177,16 +7170,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 8300000, guid: a5940f47d8483b543b17867473d31eba, type: 3}
+  runClipStep_2: {fileID: 8300000, guid: 694eda719f2d5dd428563e30b6fdea15, type: 3}
   alertClip: {fileID: 0}
   attackClip: {fileID: 0}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
-  audioSource: {fileID: 3962242426752821481}
-  pitchRandomization: 0.1
+--- !u!114 &5786511190969569536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8502032864192932233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 6
+  walkSpeed: 2.5
+  isRoaming: 0
+--- !u!114 &4975434823829346353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8502032864192932233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonHandHitbox: {fileID: 0}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
+  initPosition: {fileID: 7622714374045739444}
 --- !u!1 &8502472671027158886
 GameObject:
   m_ObjectHideFlags: 0

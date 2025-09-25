@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [Serializable]
-    public class DesignerPresetInfo 
+    public class DesignerPresetInfo
     {
         public string name;
         public string description;
@@ -17,12 +17,12 @@ public class GameManager : MonoBehaviour
     public GameObject _player;//, _weapon;
     public List<GameObject> emojiList = new List<GameObject>();
     //public List<GameObject> allWeapons;
-   // public List<GameObject> designerPreset;
+    // public List<GameObject> designerPreset;
     public DesignerPresetInfo[] designerPresetList;
     public UserDataBase userDataBase;
     private int playerIndex = 0;
-   // private int weaponIndex = 2;
-   // private Transform weaponMountPoint;
+    // private int weaponIndex = 2;
+    // private Transform weaponMountPoint;
     public Transform playerPosition;
     public List<GameObject> uiPanels;
 
@@ -74,22 +74,6 @@ public class GameManager : MonoBehaviour
     //    Debug.Log("Character customization saved to " + Application.persistentDataPath + "/characterCustom.json");
     //    //save.interactable = false;
     //}
-    //public void SpawnPlayer()
-    //{
-    //    if (_player != null)
-    //    {
-    //        _player.SetActive(true);
-    //    }
-    //    else
-    //    {
-    //        _player = Instantiate(designerPreset[playerIndex], playerPosition);
-    //        weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
-    //    }
-    //    if (_weapon != null)
-    //    {
-    //        _weapon.SetActive(false);
-    //    }
-    //}
     public void SpawnPrefab(int index)
     {
         if (index < 0 || index >= designerPresetList.Length) return; // Safety check
@@ -106,7 +90,6 @@ public class GameManager : MonoBehaviour
         characterNameText.text = designerPresetList[index].name;
         characterDescriptionText.text = designerPresetList[index].description;
         playerIndex = index;
-        SelectPlayer();
     }
     //public void SpawnWeapons()
     //{
@@ -165,20 +148,16 @@ public class GameManager : MonoBehaviour
     //{
     //   if(_player != null)    _player.SetActive(value);
     //}
-    public void SwitchUIPanels(int index) 
+    public void SwitchUIPanels(int index)
     {
-        foreach (var panel in uiPanels) 
+        foreach (var panel in uiPanels)
         {
             panel.SetActive(false);
         }
         uiPanels[index].SetActive(true);
     }
-    public void SelectPlayer() 
+    public void SelectPlayer()
     {
         NetworkManager.Instance.ChrarcterIndex = playerIndex;
     }
-    //public void SelectWeapon()
-    //{
-    //    NetworkManager.Instance.selectedWearablesIndex = weaponIndex;
-    //}
 }

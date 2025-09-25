@@ -3765,6 +3765,8 @@ GameObject:
   - component: {fileID: 7839594610280376327}
   - component: {fileID: 374943392227568027}
   - component: {fileID: -562479603337742488}
+  - component: {fileID: 6369107541244657710}
+  - component: {fileID: 4808852699599884566}
   m_Layer: 8
   m_Name: Dolphrax_lvl_3_ANIM
   m_TagString: Pikamoon
@@ -3893,10 +3895,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 3645084029969972850}
-  animator: {fileID: 3022150094410160031}
-  overrideControllers: {fileID: 22100000, guid: cfe25fcb44596ad45b34ac04eef7e09d, type: 2}
-  pikamoonHealth: {fileID: 5105526903258914975}
   pikamoonFollow: {fileID: 4361407155885751123}
   pikamoonHandHitbox: {fileID: 1540630311529908591}
   playerLayer:
@@ -3908,15 +3906,11 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 1763383212339410312}
   protectionRadius: 10
   fleeDistance: 20
-  fleeSpeed: 7
-  walkSpeed: 3
   attackRange: 8
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  initPosition: {fileID: 3723259913500925866}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
+  player: {fileID: 0}
 --- !u!114 &5670408798335126628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4007,6 +4001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 5348518343743103163}
@@ -4132,6 +4127,37 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
   audioSource: {fileID: 374943392227568027}
+--- !u!114 &6369107541244657710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835615177254356696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 1
+  isRoaming: 0
+--- !u!114 &4808852699599884566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835615177254356696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonHandHitbox: {fileID: 1540630311529908591}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
+  initPosition: {fileID: 3723259913500925866}
 --- !u!1 &7886288593743390945
 GameObject:
   m_ObjectHideFlags: 0

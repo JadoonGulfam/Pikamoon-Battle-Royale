@@ -175,8 +175,8 @@ Transform:
   m_GameObject: {fileID: 3570407691184711251}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00768, y: -0.00211, z: -0}
-  m_LocalScale: {x: 0.11536, y: 0.065713905, z: 0.15}
+  m_LocalPosition: {x: -0.0791, y: 0.0022, z: 0.008}
+  m_LocalScale: {x: 0.44755998, y: 0.12550604, z: 0.2159787}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8578407079006422023}
@@ -327,15 +327,15 @@ RectTransform:
   m_GameObject: {fileID: 4037091276786165937}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4396205372548991324}
   m_Father: {fileID: 7256741851358494906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.39}
+  m_AnchoredPosition: {x: 0, y: 0.927}
   m_SizeDelta: {x: 0.8, y: 0.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7866050106458853521
@@ -510,15 +510,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 125.875
+      value: 126.25802
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.022
+      value: 15.81041
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -48.52253
+      value: -37.57954
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -616,6 +616,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
       insertIndex: -1
       addedObject: {fileID: -4969746557606295615}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 324923699613114921}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5086896982642026945}
   m_SourcePrefab: {fileID: 100100000, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}
 --- !u!4 &1559931176085287172 stripped
 Transform:
@@ -712,12 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 2338681559312319660}
-  animator: {fileID: 8824917584696918474}
-  overrideControllers: {fileID: 22100000, guid: 011d66d0603c54a4b9a153d54c00bad4, type: 2}
-  pikamoonHealth: {fileID: 754378062325808461}
   pikamoonFollow: {fileID: 5593951858188453375}
-  pikamoonHandHitbox: {fileID: 3853879442687512773}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -727,15 +728,11 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 5443518717008007534}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 3
-  walkSpeed: 1
   attackRange: 7
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  initPosition: {fileID: 5180003712207043470}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
+  player: {fileID: 0}
 --- !u!114 &5593951858188453375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -854,6 +851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 65702233842953800}
@@ -970,16 +968,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleClip: {fileID: 0}
-  walkClip: {fileID: 0}
-  runClip: {fileID: 0}
+  walkClipStep_1: {fileID: 0}
+  walkClipStep_2: {fileID: 0}
+  runClipStep_1: {fileID: 0}
+  runClipStep_2: {fileID: 0}
   alertClip: {fileID: 0}
-  attackClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 88cf0147be20aa040a23032ca77eadf2, type: 3}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
-  hitClip: {fileID: 0}
-  audioSource: {fileID: 8466445596160661250}
-  pitchRandomization: 0.1
+  hitClip: {fileID: 8300000, guid: f1a2a6c6c38cd3647bf3ef96ba449843, type: 3}
+--- !u!114 &324923699613114921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8070152463906200064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
+--- !u!114 &5086896982642026945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8070152463906200064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonHandHitbox: {fileID: 3853879442687512773}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
+  initPosition: {fileID: 5180003712207043470}
 --- !u!4 &8578407079006422023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7767857300923112618, guid: dacd0eef58f48384b835dfdbb986497d, type: 3}

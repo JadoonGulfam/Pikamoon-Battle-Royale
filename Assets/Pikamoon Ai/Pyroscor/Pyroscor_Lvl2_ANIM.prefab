@@ -261,7 +261,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.78}
+  m_AnchoredPosition: {x: 0, y: 3.09}
   m_SizeDelta: {x: 2, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5798615377889666159
@@ -2113,8 +2113,8 @@ Transform:
   m_GameObject: {fileID: 4803487195525829775}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000018354049, y: -0.29147193, z: 0.00000011888699, w: 0.95657945}
-  m_LocalPosition: {x: -0.1319, y: -0.041, z: -0.0596}
-  m_LocalScale: {x: 0.6726384, y: 0.31409, z: 0.092389576}
+  m_LocalPosition: {x: -0.2, y: -0.041, z: -0.105}
+  m_LocalScale: {x: 0.72281724, y: 0.3614862, z: 0.2127171}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8221811004018234841}
@@ -3503,6 +3503,8 @@ GameObject:
   - component: {fileID: 6219638920425891850}
   - component: {fileID: -4127946283078772454}
   - component: {fileID: 4617477471184676168}
+  - component: {fileID: 5296955521657810312}
+  - component: {fileID: 6370351153139769562}
   m_Layer: 8
   m_Name: Pyroscor_Lvl2_ANIM
   m_TagString: Pikamoon
@@ -3587,12 +3589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 3140108302034663662}
-  animator: {fileID: 3417170280957008974}
-  overrideControllers: {fileID: 22100000, guid: 424ee052ced9c404bae893acd510791b, type: 2}
-  pikamoonHealth: {fileID: 767354256852610617}
   pikamoonFollow: {fileID: 4682181112942048545}
-  pikamoonHandHitbox: {fileID: 7467492879620713236}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -3602,15 +3599,11 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 8342951889636592516}
   protectionRadius: 40
   fleeDistance: 20
-  fleeSpeed: 5
-  walkSpeed: 2
-  attackRange: 4
+  attackRange: 4.5
   stunDuration: 20
   alertDuration: 20
   alertRange: 15
-  initPosition: {fileID: 1909995669138523890}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
+  player: {fileID: 0}
 --- !u!114 &767354256852610617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3745,6 +3738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PikamoonName: 
   TimeToBeCaptured: 0
   isStunned: 0
   capture_new: {fileID: 3875226455170494991}
@@ -3869,7 +3863,37 @@ MonoBehaviour:
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
-  audioSource: {fileID: -4127946283078772454}
+--- !u!114 &5296955521657810312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7710044791393121227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  walkSpeed: 2
+  isRoaming: 0
+--- !u!114 &6370351153139769562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7710044791393121227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonHandHitbox: {fileID: 7467492879620713236}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
+  initPosition: {fileID: 1909995669138523890}
 --- !u!1 &7722795281018920913
 GameObject:
   m_ObjectHideFlags: 0
@@ -3985,8 +4009,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.08999807, y: 3.0959995, z: 0.6789874}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 241698821684521224}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
