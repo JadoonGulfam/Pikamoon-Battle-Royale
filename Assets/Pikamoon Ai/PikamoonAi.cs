@@ -73,16 +73,16 @@ public class PikamoonAi : MonoBehaviour
             }
         }
 
-        //if (pikamoonHealth.currentHealth <= stunThreshold && !isStunned && playerDetected && !isFleeing)
-        //{
-        //    StartCoroutine(Stun());
-        //    return;
-        //}
-        //if (pikamoonHealth.currentHealth <= fleeThreshold && playerDetected && !isStunned)
-        //{
-        //    StartFleeing();
-        //    return;
-        //}
+        if (pikamoonHealth.currentHealth <= stunThreshold && !isStunned && playerDetected && !isFleeing)
+        {
+            StartCoroutine(Stun());
+            return;
+        }
+        if (pikamoonHealth.currentHealth <= fleeThreshold && playerDetected && !isStunned)
+        {
+            StartFleeing();
+            return;
+        }
         if (isAttacking) // Pikamoon is already attacking
         {
             AttackPlayer();
