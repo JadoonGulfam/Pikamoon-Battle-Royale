@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 665167979046916319}
   - component: {fileID: 9125243616174931000}
   - component: {fileID: 377223652021548178}
+  - component: {fileID: 621830469894509843}
   m_Layer: 8
   m_Name: Vellogon_Lvl03_ANIM
   m_TagString: Pikamoon
@@ -491,12 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 3405560194929179851}
-  animator: {fileID: 9175208408767757606}
-  overrideControllers: {fileID: 22100000, guid: b16157b45f2df1f498235065afba485d, type: 2}
-  pikamoonHealth: {fileID: 7994922733750297874}
   pikamoonFollow: {fileID: 641562054765154701}
-  pikamoonHandHitbox: {fileID: 9140089783078428823}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -510,9 +506,7 @@ MonoBehaviour:
   stunDuration: 10
   alertDuration: 20
   alertRange: 15
-  initPosition: {fileID: 8402231984200969548}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
+  player: {fileID: 0}
 --- !u!114 &7994922733750297874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,7 +769,6 @@ MonoBehaviour:
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
-  audioSource: {fileID: 665167979046916319}
 --- !u!114 &377223652021548178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,9 +781,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 5
-  walkSpeed: 2
+  runSpeed: 7
+  walkSpeed: 2.5
   isRoaming: 0
+--- !u!114 &621830469894509843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051523921372587318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonHandHitbox: {fileID: 9140089783078428823}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
+  initPosition: {fileID: 8402231984200969548}
 --- !u!1 &1096103852739000597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,7 +2181,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.79}
+  m_AnchoredPosition: {x: 0, y: 2.26}
   m_SizeDelta: {x: 0.8, y: 0.04}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8241912825204263071
@@ -4201,8 +4210,8 @@ Transform:
   m_GameObject: {fileID: 7417920384788995103}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.2337847, z: 0, w: 0.9722884}
-  m_LocalPosition: {x: -0.147, y: 0.059, z: -0.061}
-  m_LocalScale: {x: 0.34, y: 0.34, z: 0.34}
+  m_LocalPosition: {x: -0.091, y: 0.0598, z: 0.0087}
+  m_LocalScale: {x: 0.5030709, y: 0.45884764, z: 0.41554308}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9163299349663430973}

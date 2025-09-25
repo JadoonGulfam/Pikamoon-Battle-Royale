@@ -13,12 +13,12 @@ public class PikamoonAiSound : MonoBehaviour
     public AudioClip deathClip;
     public AudioClip hitClip;
 
-    [Header("Audio Source")]
-    public AudioSource audioSource;
+    private AudioSource audioSource;
    // public float pitchRandomization = 0.1f; // Add variation to avoid repetitive sounds
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
     }
 

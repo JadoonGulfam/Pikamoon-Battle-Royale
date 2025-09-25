@@ -538,15 +538,15 @@ RectTransform:
   m_GameObject: {fileID: 1372156904820390699}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4671500951283987490}
   m_Father: {fileID: 8470290362622954512}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.031}
+  m_AnchoredPosition: {x: 0, y: 0.809}
   m_SizeDelta: {x: 0.9, y: 0.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8339098593382507203
@@ -1069,9 +1069,9 @@ Transform:
   m_GameObject: {fileID: 2621902150179994968}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.237, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 1.154, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8470290362622954512}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3353,6 +3353,7 @@ GameObject:
   - component: {fileID: 5950944510554262936}
   - component: {fileID: 374425542272446834}
   - component: {fileID: 8520789697402467678}
+  - component: {fileID: 4779565391936810187}
   m_Layer: 8
   m_Name: Fortrim_lvl_1_ANIM
   m_TagString: Pikamoon
@@ -3370,7 +3371,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -310.20288, y: 16.072233, z: 175.01935}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8828071654046135076}
@@ -3481,12 +3482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 4371947826925390312}
-  animator: {fileID: 1823159636345463365}
-  overrideControllers: {fileID: 22100000, guid: 5b1ac426b5b48f74395910de55b0d6f3, type: 2}
-  pikamoonHealth: {fileID: 2192709183836498272}
   pikamoonFollow: {fileID: 7760356039305394889}
-  pikamoonHandHitbox: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -3496,13 +3492,11 @@ MonoBehaviour:
   alertMarkTransform: {fileID: 5092093407567434081}
   protectionRadius: 40
   fleeDistance: 20
-  attackRange: 4
+  attackRange: 5
   stunDuration: 20
   alertDuration: 20
   alertRange: 15
-  initPosition: {fileID: 801388303813850606}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
+  player: {fileID: 0}
 --- !u!114 &7595410713069118107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3708,16 +3702,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca8458d672fcdb48a14ebadb9335d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkClipStep_1: {fileID: 0}
-  walkClipStep_2: {fileID: 0}
-  runClipStep_1: {fileID: 0}
-  runClipStep_2: {fileID: 0}
+  walkClipStep_1: {fileID: 8300000, guid: ef5292cb49a63524cbedd556048b21bd, type: 3}
+  walkClipStep_2: {fileID: 8300000, guid: 22c46460605011c4d91ebaf3d2a13264, type: 3}
+  runClipStep_1: {fileID: 8300000, guid: f17c4b6c1ef886e4ab9b0c081988fa36, type: 3}
+  runClipStep_2: {fileID: 8300000, guid: f19e2975c728c4b4ab2aa99290544ebc, type: 3}
   alertClip: {fileID: 0}
-  attackClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 67534a63f9b2cfd4197566f8d9aade32, type: 3}
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
-  hitClip: {fileID: 0}
-  audioSource: {fileID: 5950944510554262936}
+  hitClip: {fileID: 8300000, guid: c86eb0aa1b431cf40a2865fb6ab5e4bc, type: 3}
 --- !u!114 &8520789697402467678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,6 +3726,22 @@ MonoBehaviour:
   runSpeed: 5
   walkSpeed: 2
   isRoaming: 0
+--- !u!114 &4779565391936810187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556820222650261786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pikamoonHandHitbox: {fileID: 0}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
+  initPosition: {fileID: 801388303813850606}
 --- !u!1 &8864169251039416320
 GameObject:
   m_ObjectHideFlags: 0

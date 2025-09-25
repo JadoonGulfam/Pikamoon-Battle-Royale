@@ -357,15 +357,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 129.81395
+      value: 128.672
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.88178
+      value: 15.86629
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -41.92286
+      value: -42.8271
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       propertyPath: m_LocalRotation.w
@@ -723,6 +723,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3788522117280834566}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8735716695835678371}
   m_SourcePrefab: {fileID: 100100000, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
 --- !u!4 &1040711208836024091 stripped
 Transform:
@@ -842,10 +845,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 8711225300652855651}
-  animator: {fileID: 3993446438131477121}
-  overrideControllers: {fileID: 22100000, guid: 60e801da097a6fe46aaf508fb95f9d74, type: 2}
-  pikamoonHealth: {fileID: 602991485234533927}
   pikamoonFollow: {fileID: 278462357953494642}
   pikamoonHandHitbox: {fileID: 0}
   playerLayer:
@@ -861,6 +860,7 @@ MonoBehaviour:
   stunDuration: 20
   alertDuration: 20
   alertRange: 15
+  player: {fileID: 0}
   initPosition: {fileID: 6218253778012863793}
   fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
   projectileSpeed: 10
@@ -1094,6 +1094,21 @@ MonoBehaviour:
   runSpeed: 5
   walkSpeed: 1
   isRoaming: 0
+--- !u!114 &8735716695835678371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608684907230736501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initPosition: {fileID: 6218253778012863793}
+  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
+  projectileSpeed: 10
 --- !u!4 &8949745251408505551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}
