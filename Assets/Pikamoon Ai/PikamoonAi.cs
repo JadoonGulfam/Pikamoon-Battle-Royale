@@ -249,15 +249,58 @@ public class PikamoonAi : MonoBehaviour
             temp = null;
         }
     }
+    private PikamoonState previousState; // store state before getting hit
+    bool isGettingHit = false;
     private IEnumerator StopMovementForHit()
     {
-        // Play hit animation
+        if (isGettingHit) yield break; // avoid overlapping hit reactions
+        isGettingHit = true;
+
+        // Save current state
+        previousState = CurrentState;
+
+        // Stop everything
+        navMeshAgent.isStopped = true;
+        movement.isRoaming = false;
+        isAttacking = false;
+        isAlert = false;
+        isFleeing = false;
+
+        // Play hit reaction
+        //SetState(PikamoonState.Idle); // optional: reset to idle
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Stunned");
         animator.SetTrigger("Hit");
         sounds.PlaySound(sounds.hitClip, false);
-        navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(0.5f); // Adjust delay as needed
-        navMeshAgent.isStopped = false;
+
+    }
+    public void ResumePreviousState()
+    {
         animator.ResetTrigger("Hit");
+        navMeshAgent.isStopped = false;
+        isGettingHit = false;
+
+        switch (previousState)
+        {
+            case PikamoonState.Alert:
+                EnterAlertState();
+                break;
+
+            case PikamoonState.Attack:
+                StartAttack();
+                break;
+
+            case PikamoonState.Run:
+            case PikamoonState.Walk:
+            case PikamoonState.Idle:
+                movement.EnableRoaming();
+                if (isFleeing) StartFleeing();
+                break;
+
+            default:
+                movement.EnableRoaming();
+                break;
+        }
     }
 
     public void TakeDamage(Transform _attacker) // Function to reduce health
