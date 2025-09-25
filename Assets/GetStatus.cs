@@ -15,28 +15,18 @@ public class GetStatus : MonoBehaviour
     public TMP_Text Status_text;
     public Button Mic_Mute;
     public Button Mic_UnMute;
-  
 
     public string RoomName = "Pikamoon";
 
     private void Start()
     {
-        // Add listeners to UI buttons
-      
-
-        if (Mic_Mute != null)
-            Mic_Mute.onClick.AddListener(MuteMic);
-
-        if (Mic_UnMute != null)
-            Mic_UnMute.onClick.AddListener(UnMuteMic);
-
         // Register callbacks
         voiceClient.Client.StateChanged += OnVoiceStateChanged;
 
         // Set initial UI state
         UpdateUI(false);
 
-        Invoke("ConnectToVoiceServer",2f); //  delay start
+        Invoke("ConnectToVoiceServer", 2f); // delay start
     }
 
     private void OnDestroy()
@@ -48,9 +38,26 @@ public class GetStatus : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // Press M to mute mic
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            MuteMic();
+        }
+
+        // Press U to unmute mic
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UnMuteMic();
+        }
+    }
+
     private void ConnectToVoiceServer()
     {
-        ConnectAndJoin.RoomName = RoomName;
+        string roomName = voiceClient.Client.CurrentRoom?.Name ?? RoomName;
+        Debug.Log("Photon Voice Room: " + roomName);
+        ConnectAndJoin.RoomName = roomName;
         ConnectAndJoin.ConnectNow();
     }
 
@@ -84,6 +91,7 @@ public class GetStatus : MonoBehaviour
         if (Recorder != null)
         {
             Recorder.TransmitEnabled = false;
+            Debug.Log("Microphone Muted");
             Mic_Mute.gameObject.SetActive(false);
             Mic_UnMute.gameObject.SetActive(true);
         }
@@ -94,6 +102,7 @@ public class GetStatus : MonoBehaviour
         if (Recorder != null)
         {
             Recorder.TransmitEnabled = true;
+            Debug.Log("Microphone Unmuted");
             Mic_Mute.gameObject.SetActive(true);
             Mic_UnMute.gameObject.SetActive(false);
         }
