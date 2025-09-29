@@ -266,7 +266,7 @@ namespace INab.Dissolve
             return (a & b) == b;
         }
 
-        // EnableCollider keywords in the materials based on the flags
+        // Enable keywords in the materials based on the flags
         private void EnableKeywords()
         {
             if (!useAutomaticKeywords) return;
@@ -299,7 +299,7 @@ namespace INab.Dissolve
 
         }
 
-        // DisableCollider keywords in the materials based on the flags
+        // Disable keywords in the materials based on the flags
         private void DisableKeywords()
         {
             if (!useAutomaticKeywords) return;

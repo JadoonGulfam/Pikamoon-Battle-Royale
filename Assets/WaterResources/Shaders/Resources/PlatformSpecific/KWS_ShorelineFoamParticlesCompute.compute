@@ -1,0 +1,113 @@
+﻿#define KWS_COMPUTE
+
+#define UINT_MAX_VALUE 4294967295.0
+#define _FPS 6.0 // fps = KWS_ShorelineWaves.FPS / 3, because we skipped 2/3 frames
+
+#define _Scale float3(2.48, 1.35, 2.19);
+#define _Offset float3(0.36, 0.46, 0.494)
+#define _TimeLimit 10.5 //(14.0 * 15.0) / 20.0
+//#define _TimeLimit 70.0 //(14.0 * 15.0) / 20.0
+
+#define KWS_DISABLE_POINT_SPOT_SHADOWS
+
+#pragma multi_compile _ STEREO_INSTANCING_ON
+
+#pragma multi_compile _ KWS_FOAM_USE_FAST_MODE
+#pragma multi_compile _ USE_MULTIPLE_SIMULATIONS
+#pragma multi_compile _ USE_VOLUMETRIC_LIGHT
+#pragma multi_compile _ FOAM_RECEIVE_SHADOWS
+//#pragma multi_compile _ KWS_USE_SHADOW_POINT_LIGHTS
+//#pragma multi_compile _ KWS_USE_SHADOW_SPOT_LIGHTS
+
+
+#define LIGHT_EVALUATION_NO_CONTACT_SHADOWS
+
+#define PREFER_HALF 0
+#define GROUP_SIZE_1D           8
+#define SHADOW_USE_DEPTH_BIAS   0 // Too expensive, not particularly effective
+#define SHADOW_LOW          // Different options are too expensive.
+#define AREA_SHADOW_LOW
+#define SHADOW_AUTO_FLIP_NORMAL 0 // No normal information, so no need to flip
+#define SHADOW_VIEW_BIAS        1 // Prevents light leaking through thin geometry. Not as good as normal bias at grazing angles, but cheaper and independent from the geometry.
+#define USE_DEPTH_BUFFER        1 // Accounts for opaque geometry along the camera ray
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Builtin/BuiltinData.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Sky/PhysicallyBasedSky/PhysicallyBasedSkyCommon.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Lighting.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoopDef.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightEvaluation.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/AtmosphericScattering/AtmosphericScattering.hlsl"
+
+#include "Includes/KWS_VertFragIncludes.cginc"
+
+half3 GetSceneColorAfterWaterPass(float2 uv)
+{
+	//#if USE_VOLUMETRIC_LIGHT
+	//	half3 volumeScattering = GetVolumetricLight(uv).xyz;
+	//#else
+	//	half3 volumeScattering = GetAmbientColor();
+	//#endif
+	//float3 underwaterColor = ComputeUnderwaterSurfaceColor(volumeScattering, KW_Transparent, KW_WaterColor.xyz, KW_Turbidity, KW_TurbidityColor.xyz);
+	//return underwaterColor;
+	return saturate(GetAmbientColor(GetExposure()) * 0.25);
+}
+
+float3 GetLight(float3 worldPos, float2 screenUV)
+{
+	float3 result = 0;
+	float exposure = GetCurrentExposureMultiplier();
+
+	for (uint lightIdx = 0; lightIdx < _DirectionalLightCount; ++lightIdx)
+	{
+		LightLoopContext context;
+		context.shadowContext = InitShadowContext();
+		PositionInputs posInput;
+
+		posInput.positionWS = GetCameraRelativePositionWS(worldPos);
+
+		DirectionalLightData light = _DirectionalLightDatas[lightIdx];
+		float3 L = -light.forward;
+		float3 lightResult = 0;
+
+		float3 color; float attenuation;
+		if (light.volumetricLightDimmer > 0)
+		{
+				float4 lightColor = EvaluateLight_Directional(context, posInput, light);
+					
+				lightColor.a *= light.volumetricLightDimmer;
+				lightColor.rgb *= lightColor.a; // Composite
+						
+				float shadow = 1;
+
+				#if defined(FOAM_RECEIVE_SHADOWS)
+					if ((uint)_DirectionalShadowIndex >= 0 && (uint)_DirectionalShadowIndex == lightIdx && (light.volumetricLightDimmer > 0) && (light.volumetricShadowDimmer > 0))
+					{
+						shadow = GetDirectionalShadowAttenuation(context.shadowContext, screenUV, posInput.positionWS, 0, light.shadowIndex, L);
+						shadow = lerp(1, shadow, light.volumetricShadowDimmer);
+					}
+					lightColor.rgb *= ComputeShadowColor(shadow, light.shadowTint, light.penumbraTint);
+				#endif	
+
+			
+				lightResult += shadow * lightColor.xyz;
+			
+		}
+
+		result += lightResult.xyz;
+	}
+	
+	//result += GetAmbientColor() * 0.25;
+	result += KWS_GetSkyColor(float3(0, 1, 0), 5, 1);
+	
+	return result;
+}
+
+#include "../Common/CommandPass/KWS_ShorelineFoam_Common.cginc"
+
+#pragma kernel ClearFoamBuffer
+#pragma kernel RenderFoamToBuffer
+#pragma kernel RenderFoamBufferToTexture
