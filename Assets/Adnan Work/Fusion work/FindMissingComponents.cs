@@ -3,7 +3,7 @@ using UnityEditor;
 
 public class FindMissingComponents
 {
-    [MenuItem("Tools/Find Missing Components In Scene")]
+    //[MenuItem("Tools/Find Missing Components In Scene")]
     [System.Obsolete]
     public static void Find()
     {

@@ -402,6 +402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa8ddaea300ba946ba5ef4da276cd72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
+  hasDependantSlot: 0
+  DependantSlot: {fileID: 0}
   BtnBg: {fileID: 986836276}
   Icon: {fileID: 1375110741}
   ItemName: {fileID: 700610947}
@@ -410,19 +413,17 @@ MonoBehaviour:
   HasHotKey: 0
   HotKey: {fileID: 0}
   hasItem: 0
+  indexInList: 0
   EmptySlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   ActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   InActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
 --- !u!1 &16429292
@@ -5108,7 +5109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 0}
+  SubType: 0
   isEquiped: 0
+  hasSpecializeSlot: 0
   Quantity: 0
   _collider: {fileID: 0}
 --- !u!65 &462551650
@@ -9417,7 +9420,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 0}
+  SubType: 0
   isEquiped: 0
+  hasSpecializeSlot: 0
   Quantity: 0
   _collider: {fileID: 0}
 --- !u!65 &748391687
@@ -13713,11 +13718,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ef927c24c53774db56791db3110a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  HeadShieldFiller: {fileID: 0}
+  UpperShieldFiller: {fileID: 0}
+  LowerShieldFiller: {fileID: 0}
+  AimIcon: {fileID: 0}
+  HealthFiller: {fileID: 0}
+  HealthText: {fileID: 0}
   Weapons:
   - {fileID: 1160663434}
   - {fileID: 582037509}
   PickNotifier: {fileID: 1021746178}
   PickKeyText: {fileID: 2127921913}
+  CaptureAction: {fileID: 0}
+  PikamoonName: {fileID: 0}
+  Key: {fileID: 0}
+  SmallMinimap: {fileID: 0}
+  miniMapUI: {fileID: 0}
 --- !u!223 &1016974946
 Canvas:
   m_ObjectHideFlags: 0
@@ -16252,6 +16269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa8ddaea300ba946ba5ef4da276cd72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
+  hasDependantSlot: 0
+  DependantSlot: {fileID: 0}
   BtnBg: {fileID: 706653188}
   Icon: {fileID: 928801548}
   ItemName: {fileID: 964351348}
@@ -16260,19 +16280,17 @@ MonoBehaviour:
   HasHotKey: 0
   HotKey: {fileID: 0}
   hasItem: 0
+  indexInList: 0
   EmptySlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   ActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   InActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
 --- !u!1001 &1160663432
@@ -16669,7 +16687,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 0}
+  SubType: 0
   isEquiped: 0
+  hasSpecializeSlot: 0
   Quantity: 0
   shieldType: 0
   Strength: 0
@@ -17216,7 +17236,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 0}
+  SubType: 0
   isEquiped: 0
+  hasSpecializeSlot: 0
   Quantity: 0
   shieldType: 2
   Strength: 0
@@ -17921,7 +17943,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 0}
+  SubType: 0
   isEquiped: 0
+  hasSpecializeSlot: 0
   Quantity: 0
   shieldType: 1
   Strength: 0
@@ -27368,11 +27392,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ef927c24c53774db56791db3110a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  HeadShieldFiller: {fileID: 0}
+  UpperShieldFiller: {fileID: 0}
+  LowerShieldFiller: {fileID: 0}
+  AimIcon: {fileID: 0}
+  HealthFiller: {fileID: 0}
+  HealthText: {fileID: 0}
   Weapons:
   - {fileID: 1847818985}
   - {fileID: 951981716}
   PickNotifier: {fileID: 1674483457}
   PickKeyText: {fileID: 649375935}
+  CaptureAction: {fileID: 0}
+  PikamoonName: {fileID: 0}
+  Key: {fileID: 0}
+  SmallMinimap: {fileID: 0}
+  miniMapUI: {fileID: 0}
 --- !u!223 &1886588573
 Canvas:
   m_ObjectHideFlags: 0
@@ -27450,6 +27486,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa8ddaea300ba946ba5ef4da276cd72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
+  hasDependantSlot: 0
+  DependantSlot: {fileID: 0}
   BtnBg: {fileID: 392892018}
   Icon: {fileID: 698060592}
   ItemName: {fileID: 1347857237}
@@ -27458,19 +27497,17 @@ MonoBehaviour:
   HasHotKey: 0
   HotKey: {fileID: 0}
   hasItem: 0
+  indexInList: 0
   EmptySlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   ActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   InActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
 --- !u!1 &1923871004
@@ -45476,6 +45513,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa8ddaea300ba946ba5ef4da276cd72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
+  hasDependantSlot: 0
+  DependantSlot: {fileID: 0}
   BtnBg: {fileID: 155727325663610573}
   Icon: {fileID: 7610905265734333502}
   ItemName: {fileID: 6628239165328593080}
@@ -45484,19 +45524,17 @@ MonoBehaviour:
   HasHotKey: 0
   HotKey: {fileID: 0}
   hasItem: 0
+  indexInList: 0
   EmptySlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   ActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   InActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
 --- !u!114 &7945196203959938657
@@ -45511,6 +45549,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa8ddaea300ba946ba5ef4da276cd72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
+  hasDependantSlot: 0
+  DependantSlot: {fileID: 0}
   BtnBg: {fileID: 155727325394730666}
   Icon: {fileID: 7610905265760078937}
   ItemName: {fileID: 6628239165606013151}
@@ -45519,19 +45560,17 @@ MonoBehaviour:
   HasHotKey: 0
   HotKey: {fileID: 0}
   hasItem: 0
+  indexInList: 0
   EmptySlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   ActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   InActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
 --- !u!114 &7945196205181467455
@@ -45546,6 +45585,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa8ddaea300ba946ba5ef4da276cd72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
+  hasDependantSlot: 0
+  DependantSlot: {fileID: 0}
   BtnBg: {fileID: 155727323930717172}
   Icon: {fileID: 7610905265068087559}
   ItemName: {fileID: 6628239165987765633}
@@ -45554,19 +45596,17 @@ MonoBehaviour:
   HasHotKey: 0
   HotKey: {fileID: 0}
   hasItem: 0
+  indexInList: 0
   EmptySlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   ActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
   InActiveSlotSettings:
     BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    HighlighterColor: {r: 0, g: 0, b: 0, a: 0}
     IconColor: {r: 0, g: 0, b: 0, a: 0}
     IconActiveFlag: 0
 --- !u!1 &8225493064322921859
