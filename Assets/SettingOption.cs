@@ -13,13 +13,39 @@ public class SettingOption : MonoBehaviour
     [Header("Values")]
     [SerializeField] private string optionName;
     [SerializeField] private string[] values; // e.g. { "ON", "OFF" } or { "EASY", "NORMAL", "HARD" }
+    [SerializeField] private SettingType settingType;
     private int currentIndex = 0;
 
+    private void OnEnable()
+    {
+        GameManager.instance.OnSettingsChanged += RefreshUI;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.instance.OnSettingsChanged -= RefreshUI;
+    }
+    private void RefreshUI()
+    {
+        string savedValue = GameManager.instance.GetSettingValue(settingType);
+
+        int index = System.Array.FindIndex(values, v =>
+            string.Equals(v.Trim(), savedValue.Trim(), System.StringComparison.OrdinalIgnoreCase));
+
+        currentIndex = index >= 0 ? index : 0;
+        valueText.text = values[currentIndex];
+    }
     private void Start()
     {
+        //string savedValue = GameManager.instance.GetSettingValue(settingType);
+        //// Match index with saved value (default 0 if not found)
+        //int index = System.Array.FindIndex(values, v =>
+        //string.Equals(v.Trim(), savedValue.Trim(), System.StringComparison.OrdinalIgnoreCase));
+        //currentIndex = index >= 0 ? index : 0;
         // Set initial texts
+        RefreshUI();
         optionNameText.text = optionName;
-        UpdateValueText();
+       // valueText.text = values[currentIndex];
 
         // Hook up buttons
         leftArrowButton.onClick.AddListener(PreviousValue);
@@ -29,6 +55,7 @@ public class SettingOption : MonoBehaviour
     private void UpdateValueText()
     {
         valueText.text = values[currentIndex];
+        GameManager.instance.SetSettingValue(settingType, values[currentIndex]);
     }
 
     private void PreviousValue()
