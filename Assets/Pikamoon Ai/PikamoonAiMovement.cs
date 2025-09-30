@@ -23,6 +23,7 @@ public class PikamoonAiMovement : MonoBehaviour
     }
     private void Update()
     {
+        if(pikamoonAi.pikamoonFollow.isCapture) return;
         if (!isRoaming) return;
 
         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)

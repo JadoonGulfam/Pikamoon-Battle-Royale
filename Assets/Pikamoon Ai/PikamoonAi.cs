@@ -8,7 +8,7 @@ public class PikamoonAi : MonoBehaviour
     private Animator animator;
     private PikamoonAiHealth pikamoonHealth;
     PikamoonAiMovement movement;
-    [SerializeField] private PikamoonAiFollow pikamoonFollow;
+    public PikamoonAiFollow pikamoonFollow;
 
     public LayerMask playerLayer; // Layer mask to detect the player
     public PikamoonType pikaType;
@@ -36,7 +36,7 @@ public class PikamoonAi : MonoBehaviour
     [SerializeField] private float alertDuration = 10f; // Time Pikamoon stays in alert state
     [SerializeField] private float alertRange = 15f; // Detection range for player
 
-    enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
+    //enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
 
     public Transform player;
     private PikamoonAiSound sounds;
@@ -509,3 +509,4 @@ public enum PikamoonType
 {
     Aggressive, Friendly, Protective, Cowardly
 }
+public enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }

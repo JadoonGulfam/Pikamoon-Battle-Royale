@@ -819,16 +819,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   attackTarget: {fileID: 0}
-  followStartDistance: 10
-  followStopDistance: 5
-  followDistance: 2
+  followStartDistance: 20
+  followStopDistance: 10
+  followDistance: 5
   runThreshold: 8
-  walkSpeed: 3
-  runSpeed: 6
-  roamRadius: 5
+  walkSpeed: 2
+  runSpeed: 5
+  roamRadius: 15
   roamWalkTime: 4
   roamIdleTime: 3
-  attackRange: 2
+  attackRange: 4
   attackCooldown: 1.5
   isAttacking: 0
   isFollowing: 0
@@ -846,7 +846,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pikamoonFollow: {fileID: 278462357953494642}
-  pikamoonHandHitbox: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -861,9 +860,6 @@ MonoBehaviour:
   alertDuration: 20
   alertRange: 15
   player: {fileID: 0}
-  initPosition: {fileID: 6218253778012863793}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
 --- !u!114 &8063511619376425912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,7 +1074,6 @@ MonoBehaviour:
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
-  audioSource: {fileID: -5552521509354855303}
 --- !u!114 &3788522117280834566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1092,7 +1087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 5
-  walkSpeed: 1
+  walkSpeed: 2
   isRoaming: 0
 --- !u!114 &8735716695835678371
 MonoBehaviour:
@@ -1106,9 +1101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initPosition: {fileID: 6218253778012863793}
+  pikamoonHandHitbox: {fileID: 0}
   fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
   projectileSpeed: 10
+  initPosition: {fileID: 6218253778012863793}
 --- !u!4 &8949745251408505551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b4dadde446f5ef242b5b1204aa8de726, type: 3}

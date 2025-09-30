@@ -2111,7 +2111,6 @@ GameObject:
   - component: {fileID: -5104137496348714082}
   - component: {fileID: 2316152298187433406}
   - component: {fileID: 6703270634657409976}
-  - component: {fileID: 548195446156646553}
   m_Layer: 8
   m_Name: Dolpho_Lvl2_ANIM
   m_TagString: Pikamoon
@@ -2214,16 +2213,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   attackTarget: {fileID: 0}
-  followStartDistance: 10
-  followStopDistance: 5
-  followDistance: 2
+  followStartDistance: 25
+  followStopDistance: 15
+  followDistance: 10
   runThreshold: 8
-  walkSpeed: 3
-  runSpeed: 6
-  roamRadius: 5
+  walkSpeed: 2
+  runSpeed: 5
+  roamRadius: 20
   roamWalkTime: 4
   roamIdleTime: 3
-  attackRange: 2
+  attackRange: 8
   attackCooldown: 1.5
   isAttacking: 0
   isFollowing: 0
@@ -2485,7 +2484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 5
-  walkSpeed: 1
+  walkSpeed: 2
   isRoaming: 0
 --- !u!114 &6703270634657409976
 MonoBehaviour:
@@ -2503,20 +2502,6 @@ MonoBehaviour:
   fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
   projectileSpeed: 10
   initPosition: {fileID: 401128855209775264}
---- !u!114 &548195446156646553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4529050017509112893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: dca26886a740cbb408a591a0a1c08f88
 --- !u!1 &4552226919330915901
 GameObject:
   m_ObjectHideFlags: 0

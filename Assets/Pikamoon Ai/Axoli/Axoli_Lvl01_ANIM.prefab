@@ -621,7 +621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pikamoonFollow: {fileID: 1394188438918978868}
-  pikamoonHandHitbox: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -636,9 +635,6 @@ MonoBehaviour:
   alertDuration: 20
   alertRange: 15
   player: {fileID: 0}
-  initPosition: {fileID: 5812706837003815731}
-  fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
-  projectileSpeed: 10
 --- !u!114 &2388720339750584729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,16 +665,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   attackTarget: {fileID: 0}
-  followStartDistance: 10
-  followStopDistance: 5
-  followDistance: 2
+  followStartDistance: 20
+  followStopDistance: 10
+  followDistance: 5
   runThreshold: 8
   walkSpeed: 1
-  runSpeed: 3
-  roamRadius: 5
+  runSpeed: 4
+  roamRadius: 15
   roamWalkTime: 4
   roamIdleTime: 3
-  attackRange: 2
+  attackRange: 5
   attackCooldown: 1.5
   isAttacking: 0
   isFollowing: 0
@@ -897,7 +893,6 @@ MonoBehaviour:
   stunClip: {fileID: 0}
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
-  audioSource: {fileID: 3398913788002628857}
 --- !u!114 &732792804290709262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -910,7 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 5
+  runSpeed: 4
   walkSpeed: 1
   isRoaming: 0
 --- !u!114 &7117271862823269629
@@ -925,9 +920,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495f95cfba747d645a80e1107208b9bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initPosition: {fileID: 5812706837003815731}
+  pikamoonHandHitbox: {fileID: 0}
   fireballPrefab: {fileID: 8613961994154535822, guid: 3a68685b8382992498920fe7f58c7908, type: 3}
   projectileSpeed: 10
+  initPosition: {fileID: 5812706837003815731}
 --- !u!1 &3553005529224216994
 GameObject:
   m_ObjectHideFlags: 0
