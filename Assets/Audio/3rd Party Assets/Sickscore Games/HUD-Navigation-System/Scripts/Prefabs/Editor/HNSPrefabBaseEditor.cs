@@ -73,7 +73,7 @@ public class HNSPrefabBaseEditor : HUDNavigationBaseEditor
 				EditorGUILayout.BeginHorizontal ();
 				// CONTENT BEGIN
 				EditorGUILayout.BeginVertical ();
-				EditorGUILayout.PropertyField (_cTransform.FindPropertyRelative ("name"), new GUIContent ("ItemName"));
+				EditorGUILayout.PropertyField (_cTransform.FindPropertyRelative ("name"), new GUIContent ("Name"));
 				EditorGUILayout.PropertyField (_cTransform.FindPropertyRelative ("transform"), new GUIContent ("Transform"));
 				EditorGUILayout.EndVertical ();
 

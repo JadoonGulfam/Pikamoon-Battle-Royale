@@ -65,7 +65,7 @@ namespace SickscoreGames.HUDNavigationSystem
 
 
 		/// <summary>
-		/// EnableCollider / DisableCollider the canvas at runtime.
+		/// Enable / Disable the canvas at runtime.
 		/// </summary>
 		/// <param name="value">value</param>
 		public void EnableCanvas (bool value)
