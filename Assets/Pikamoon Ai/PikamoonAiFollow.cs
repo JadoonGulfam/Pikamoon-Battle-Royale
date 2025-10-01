@@ -107,23 +107,21 @@ public class PikamoonAiFollow : MonoBehaviour
         {
             // Run towards the player
             navMeshAgent.speed = runSpeed;
-            animator.SetTrigger("Run");
-            animator.ResetTrigger("Walk");
+            animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Run);
+           // animator.SetTrigger("Run");
+            //animator.ResetTrigger("Walk");
         }
         else if (distanceToPlayer > followDistance)
         {
             // Walk towards the player
             navMeshAgent.speed = walkSpeed;
-            animator.ResetTrigger("Run");
-            animator.SetTrigger("Walk");
+            animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Walk);
         }
         else
         {
             // Stop moving
             navMeshAgent.speed = 0;
-            animator.ResetTrigger("Run");
-            animator.ResetTrigger("Walk");
-            animator.SetTrigger("Idle");
+            animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle);
             //if (!reachedPlayer)
             //{
             //    reachedPlayer = true;
@@ -158,16 +156,14 @@ public class PikamoonAiFollow : MonoBehaviour
             {
                 navMeshAgent.SetDestination(roamPoint);
                 navMeshAgent.speed = walkSpeed;
-                animator.ResetTrigger("Idle");
-                animator.SetTrigger("Walk");
+                animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Walk);
 
                 while (navMeshAgent.pathPending || navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
                 {
                     yield return null;
                 }
 
-                animator.ResetTrigger("Walk");
-                animator.SetTrigger("Idle");
+                animator.SetFloat("Pikamoon", (int)PikamoonAnimState.Idle);
 
                 yield return new WaitForSeconds(roamIdleTime);
             }

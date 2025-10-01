@@ -31,7 +31,7 @@ public class CharacterCustomizationManager : MonoBehaviour
     private void Awake()
     {
        // GameManager.instance.InitPlayer();
-       GameManager.instance.SpawnPrefab(0);
+       //GameManager.instance.SpawnPrefab(0);
     }
     IEnumerator Start()
     {
@@ -202,6 +202,6 @@ public class CharacterCustomizationManager : MonoBehaviour
     //}
     public void DesignerPreset(int value) 
     {
-        GameManager.instance.SpawnPrefab(value);
+        //GameManager.instance.SpawnPrefab(value);
     }
 }

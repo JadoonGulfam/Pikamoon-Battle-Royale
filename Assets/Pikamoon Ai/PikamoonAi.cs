@@ -8,7 +8,7 @@ public class PikamoonAi : MonoBehaviour
     private Animator animator;
     private PikamoonAiHealth pikamoonHealth;
     PikamoonAiMovement movement;
-    [SerializeField] private PikamoonAiFollow pikamoonFollow;
+    public PikamoonAiFollow pikamoonFollow;
 
     public LayerMask playerLayer; // Layer mask to detect the player
     public PikamoonType pikaType;
@@ -36,7 +36,7 @@ public class PikamoonAi : MonoBehaviour
     [SerializeField] private float alertDuration = 10f; // Time Pikamoon stays in alert state
     [SerializeField] private float alertRange = 15f; // Detection range for player
 
-    enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
+    //enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
 
     public Transform player;
     private PikamoonAiSound sounds;
@@ -249,15 +249,58 @@ public class PikamoonAi : MonoBehaviour
             temp = null;
         }
     }
+    private PikamoonState previousState; // store state before getting hit
+    bool isGettingHit = false;
     private IEnumerator StopMovementForHit()
     {
-        // Play hit animation
+        if (isGettingHit) yield break; // avoid overlapping hit reactions
+        isGettingHit = true;
+
+        // Save current state
+        previousState = CurrentState;
+
+        // Stop everything
+        navMeshAgent.isStopped = true;
+        movement.isRoaming = false;
+        isAttacking = false;
+        isAlert = false;
+        isFleeing = false;
+
+        // Play hit reaction
+        //SetState(PikamoonState.Idle); // optional: reset to idle
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Stunned");
         animator.SetTrigger("Hit");
         sounds.PlaySound(sounds.hitClip, false);
-        navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(0.5f); // Adjust delay as needed
-        navMeshAgent.isStopped = false;
+
+    }
+    public void ResumePreviousState()
+    {
         animator.ResetTrigger("Hit");
+        navMeshAgent.isStopped = false;
+        isGettingHit = false;
+
+        switch (previousState)
+        {
+            case PikamoonState.Alert:
+                EnterAlertState();
+                break;
+
+            case PikamoonState.Attack:
+                StartAttack();
+                break;
+
+            case PikamoonState.Run:
+            case PikamoonState.Walk:
+            case PikamoonState.Idle:
+                movement.EnableRoaming();
+                if (isFleeing) StartFleeing();
+                break;
+
+            default:
+                movement.EnableRoaming();
+                break;
+        }
     }
 
     public void TakeDamage(Transform _attacker) // Function to reduce health
@@ -466,3 +509,4 @@ public enum PikamoonType
 {
     Aggressive, Friendly, Protective, Cowardly
 }
+public enum PikamoonAnimState { Idle = 0, Walk = 1, Run = 2, Alert = 3 }
