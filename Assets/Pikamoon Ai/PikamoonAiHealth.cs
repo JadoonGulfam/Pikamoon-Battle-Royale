@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fusion;
 using Pikamoon.Controller;
-public class PikamoonAiHealth : NetworkBehaviour, IDamageable, ICapturable
+public class PikamoonAiHealth : NetworkBehaviour, IDamageable
 {
     [Header("Health Settings")]
     public float maxHealth = 100f;
@@ -17,30 +17,6 @@ public class PikamoonAiHealth : NetworkBehaviour, IDamageable, ICapturable
     private PikamoonAi pikamoonAi;
 
     private ChangeDetector _changeDetector;
-
-    [Header("Capture Info")]
-    [SerializeField] float TimeToBeCaptured;
-
-    CapturedInfo capturedInfo;
-    private void Start()
-    {
-        capturedInfo = new CapturedInfo();
-
-        capturedInfo.TimeToCapture = TimeToBeCaptured;
-        capturedInfo.transform = this.transform;
-
-    }
-    public bool isReadyToBeCaptured
-    {
-        get
-        {
-            return pikamoonAi.Stunned;
-        }
-        set
-        {
-            pikamoonAi.Stunned = value;
-        }
-    }
 
     public float Health
     {
@@ -115,16 +91,6 @@ public class PikamoonAiHealth : NetworkBehaviour, IDamageable, ICapturable
 
     public Transform GetTransform() => transform;
 
-    public bool isKilled() => IsDead();
-
-    public bool onCapture(out CapturedInfo captureReturnInfo)
-    {
-        captureReturnInfo = capturedInfo;      
-        return isReadyToBeCaptured;
-    }   
-    public void CapturedSuccessfully(Transform _player) 
-    {
-        pikamoonAi.CapturedByPlayer(_player);
-    }
+    public bool isKilled() => IsDead(); 
 
 }

@@ -5,21 +5,23 @@ using UnityEngine.VFX;
 
 public class CapatureEffect : MonoBehaviour, ICapturable
 {
+    [SerializeField]
+    private PikamoonAi pikamoonAi;
 
-    [SerializeField] string PikamoonName;
+    [Header("Capture Info")]
     [SerializeField] float TimeToBeCaptured;
-    [SerializeField] bool isStunned;
 
     CapturedInfo capturedInfo;
+   
     public bool isReadyToBeCaptured
     {
         get
         {
-            return isStunned;
+            return pikamoonAi.Stunned;
         }
         set
         {
-            isStunned = value;
+            pikamoonAi.Stunned = value;
         }
     }
 
@@ -31,24 +33,16 @@ public class CapatureEffect : MonoBehaviour, ICapturable
         for (int i = 0; i < material.Length; i++)
         material[i].SetFloat("_Cutoff", 4);
 
+    }
+    private void Start()
+    {
+        pikamoonAi = GetComponent<PikamoonAi>();
         capturedInfo = new CapturedInfo();
 
         capturedInfo.TimeToCapture = TimeToBeCaptured;
         capturedInfo.transform = this.transform;
-        capturedInfo.Name = PikamoonName;
 
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-           // StartCoroutine(capturePikamoon(this.gameObject));
-            //gameObject.transform.DOScale(0, 0.5f).OnComplete(Capture);
-            //Capture();
-        }
-    }
-
     private void OnDisable()
     {
         for (int i = 0; i < material.Length; i++)
@@ -111,12 +105,10 @@ public class CapatureEffect : MonoBehaviour, ICapturable
     public bool onCapture(out CapturedInfo captureReturnInfo)
     {
         captureReturnInfo = capturedInfo;
-
-        return isStunned;
+        return isReadyToBeCaptured;
     }
-
     public void CapturedSuccessfully(Transform _player)
     {
-     
+        pikamoonAi.CapturedByPlayer(_player);
     }
 }

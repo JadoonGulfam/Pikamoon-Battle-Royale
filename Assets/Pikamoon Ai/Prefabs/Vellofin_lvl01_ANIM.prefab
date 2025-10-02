@@ -706,7 +706,6 @@ MonoBehaviour:
   _currentHealth: 0
   healthBar: {fileID: 2075497357010610101}
   pikamoonAi: {fileID: 1144029490060834144}
-  TimeToBeCaptured: 4
 --- !u!114 &1144029490060834144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,7 +726,6 @@ MonoBehaviour:
   stunnedMark: {fileID: 9093059172011303860, guid: 8f223a4f9ea08254791e472a309ec78f, type: 3}
   alertMarkTransform: {fileID: 5443518717008007534}
   isCaptured: 0
-  followPlayer: {fileID: 0}
   protectionRadius: 40
   fleeDistance: 20
   attackRange: 7
@@ -747,6 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e50c465a3a16df4da3e829a74b5d53d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   attackTarget: {fileID: 0}
   followStartDistance: 20
   followStopDistance: 10
@@ -850,9 +849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a3754a134112046910d7ad689cf4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PikamoonName: 
-  TimeToBeCaptured: 0
-  isStunned: 0
+  pikamoonAi: {fileID: 0}
+  TimeToBeCaptured: 4
   capture_new: {fileID: 65702233842953800}
   material:
   - {fileID: 2100000, guid: ead2aa8fcf162704c810a752705c16a7, type: 2}
