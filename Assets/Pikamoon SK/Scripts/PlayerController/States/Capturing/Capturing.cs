@@ -127,11 +127,11 @@ namespace Pikamoon.Controller
         {
             isCaptureComplete = true;
             isCapturing = false;
-
-
+            if (_icapturable != null)
+                _icapturable.CapturedSuccessfully(Controller.transform);
             Controller.cameraController.ToggleCaptureCam(false);
 
-            TargetCapturePosition.gameObject.SetActive(false);
+            //TargetCapturePosition.gameObject.SetActive(false);
 
             Controller.CurrentPlayerState = StateType.Locomtion;
 

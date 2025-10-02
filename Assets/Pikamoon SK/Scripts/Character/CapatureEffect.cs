@@ -114,4 +114,9 @@ public class CapatureEffect : MonoBehaviour, ICapturable
 
         return isStunned;
     }
+
+    public void CapturedSuccessfully(Transform _player)
+    {
+     
+    }
 }

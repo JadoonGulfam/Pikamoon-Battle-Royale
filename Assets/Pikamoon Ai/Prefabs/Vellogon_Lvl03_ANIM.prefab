@@ -492,7 +492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac66d21f1f4a92947ae8689b1047a182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pikamoonFollow: {fileID: 641562054765154701}
   playerLayer:
     serializedVersion: 2
     m_Bits: 130
@@ -500,6 +499,8 @@ MonoBehaviour:
   alertMark: {fileID: 4305907813615371696, guid: 31824d631f55e874384a88ccb673ed93, type: 3}
   stunnedMark: {fileID: 9093059172011303860, guid: 8f223a4f9ea08254791e472a309ec78f, type: 3}
   alertMarkTransform: {fileID: 6957728600382378066}
+  isCaptured: 0
+  followPlayer: {fileID: 0}
   protectionRadius: 40
   fleeDistance: 20
   attackRange: 6
@@ -531,12 +532,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051523921372587318}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e50c465a3a16df4da3e829a74b5d53d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   attackTarget: {fileID: 0}
   followStartDistance: 25
   followStopDistance: 15
@@ -550,8 +550,6 @@ MonoBehaviour:
   attackRange: 6
   attackCooldown: 1.5
   isAttacking: 0
-  isFollowing: 0
-  isCapture: 0
 --- !u!114 &6087569256758678868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,7 +782,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 7
   walkSpeed: 2.5
-  isRoaming: 0
 --- !u!114 &621830469894509843
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -239,9 +239,8 @@ public class PikamoonAiFollow : MonoBehaviour
         isAttacking = false;
         navMeshAgent.speed = walkSpeed;
     }
-    public void CapturePikamoon(Transform playerTransform)
+    public void AssignPlayerToFollow(Transform playerTransform)
     {
-        player = playerTransform;
-        isFollowing = false; // Start with roaming mode
+        player = playerTransform;    
     }
 }

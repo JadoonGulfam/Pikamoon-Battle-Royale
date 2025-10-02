@@ -7,6 +7,7 @@ public class PikamoonAi : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Animator animator;
     private PikamoonAiHealth pikamoonHealth;
+    private PikamoonAiFollow pikamoonFollow;
     PikamoonAiMovement movement;
 
     public LayerMask playerLayer; // Layer mask to detect the player
@@ -55,6 +56,7 @@ public class PikamoonAi : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         pikamoonHealth = GetComponent<PikamoonAiHealth>();
+        pikamoonFollow = GetComponent<PikamoonAiFollow>();
         friendlyAttackThreshold = Random.Range(2, 4);
     }
     private void Update()
@@ -78,16 +80,16 @@ public class PikamoonAi : MonoBehaviour
             }
         }
 
-        //if (pikamoonHealth.currentHealth <= stunThreshold && !Stunned && playerDetected && !isFleeing)
-        //{
-        //    StartCoroutine(Stun());
-        //    return;
-        //}
-        //if (pikamoonHealth.currentHealth <= fleeThreshold && playerDetected && !Stunned)
-        //{
-        //    StartFleeing();
-        //    return;
-        //}
+        if (pikamoonHealth.currentHealth <= stunThreshold && !Stunned && playerDetected && !isFleeing)
+        {
+            StartCoroutine(Stun());
+            return;
+        }
+        if (pikamoonHealth.currentHealth <= fleeThreshold && playerDetected && !Stunned)
+        {
+            StartFleeing();
+            return;
+        }
         if (isAttacking) // Pikamoon is already attacking
         {
             AttackPlayer();
@@ -495,6 +497,15 @@ public class PikamoonAi : MonoBehaviour
                 animator.SetTrigger("Killed");
                 break;
         }
+    }
+    public void CapturedByPlayer(Transform playerTransform)
+    {
+        isCaptured = true;
+
+        pikamoonFollow.AssignPlayerToFollow(playerTransform);
+
+        if (stunnedMarkInstance != null)
+            stunnedMarkInstance.SetActive(false);
     }
 }
 public enum PikamoonState

@@ -119,8 +119,12 @@ public class PikamoonAiHealth : NetworkBehaviour, IDamageable, ICapturable
 
     public bool onCapture(out CapturedInfo captureReturnInfo)
     {
-        captureReturnInfo = capturedInfo;
-
+        captureReturnInfo = capturedInfo;      
         return isReadyToBeCaptured;
+    }   
+    public void CapturedSuccessfully(Transform _player) 
+    {
+        pikamoonAi.CapturedByPlayer(_player);
     }
+
 }

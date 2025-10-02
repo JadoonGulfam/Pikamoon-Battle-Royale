@@ -17,13 +17,17 @@ public class TempPikamoonCapture : MonoBehaviour, ICapturable
         }
     }
 
+    public void CapturedSuccessfully(Transform _player)
+    {
+       
+    }
+
     public bool onCapture(out CapturedInfo captureReturnInfo)
     {
         captureReturnInfo = capturedInfo;
 
         return isStunned;
     }
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
