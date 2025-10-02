@@ -8,7 +8,6 @@ public class PikamoonAi : MonoBehaviour
     private Animator animator;
     private PikamoonAiHealth pikamoonHealth;
     PikamoonAiMovement movement;
-    public PikamoonAiFollow pikamoonFollow;
 
     public LayerMask playerLayer; // Layer mask to detect the player
     public PikamoonType pikaType;
@@ -25,7 +24,7 @@ public class PikamoonAi : MonoBehaviour
     private int friendlyAttackThreshold; // Random hit threshold
                                          //  private float attackTimer; // Timer for attack trigger
     private float alertTimer;
-
+    public bool isCaptured = false;
     private float fleeThreshold = 40;
     private float stunThreshold = 10;
     private float agroRange = 8f; // New agro range
@@ -60,7 +59,7 @@ public class PikamoonAi : MonoBehaviour
     }
     private void Update()
     {
-        if (!navMeshAgent.enabled || !navMeshAgent.isOnNavMesh || pikamoonFollow.isCapture)
+        if (!navMeshAgent.enabled || !navMeshAgent.isOnNavMesh || isCaptured)
             return;
 
         // Check if the player is in range
@@ -73,22 +72,22 @@ public class PikamoonAi : MonoBehaviour
             if (navMeshAgent.remainingDistance > alertRange)
             {
                 isFleeing = false;
-                navMeshAgent.speed = movement.walkSpeed;
+                navMeshAgent.speed = movement.WalkSpeed;
                 navMeshAgent.ResetPath();
                 movement.EnableRoaming(); // Resume normal behavior
             }
         }
 
-        if (pikamoonHealth.currentHealth <= stunThreshold && !Stunned && playerDetected && !isFleeing)
-        {
-            StartCoroutine(Stun());
-            return;
-        }
-        if (pikamoonHealth.currentHealth <= fleeThreshold && playerDetected && !Stunned)
-        {
-            StartFleeing();
-            return;
-        }
+        //if (pikamoonHealth.currentHealth <= stunThreshold && !Stunned && playerDetected && !isFleeing)
+        //{
+        //    StartCoroutine(Stun());
+        //    return;
+        //}
+        //if (pikamoonHealth.currentHealth <= fleeThreshold && playerDetected && !Stunned)
+        //{
+        //    StartFleeing();
+        //    return;
+        //}
         if (isAttacking) // Pikamoon is already attacking
         {
             AttackPlayer();
@@ -143,7 +142,7 @@ public class PikamoonAi : MonoBehaviour
     private void EnterAlertState()
     {
         isAlert = true;
-        movement.isRoaming = false;
+        movement.IsRoaming = false;
         SetState(PikamoonState.Alert);
         navMeshAgent.ResetPath();
         sounds.PlaySound(sounds.alertClip, true);
@@ -170,7 +169,7 @@ public class PikamoonAi : MonoBehaviour
         isAttacking = true;
         isAlert = false;
         SetState(PikamoonState.Run);
-        navMeshAgent.speed = movement.runSpeed;
+        navMeshAgent.speed = movement.RunSpeed;
         navMeshAgent.SetDestination(player.position);
         alertTimer = 0f;
     }
@@ -269,7 +268,7 @@ public class PikamoonAi : MonoBehaviour
 
         // Stop everything
         navMeshAgent.isStopped = true;
-        movement.isRoaming = false;
+        movement.IsRoaming = false;
         isAttacking = false;
         isAlert = false;
         isFleeing = false;
@@ -320,7 +319,7 @@ public class PikamoonAi : MonoBehaviour
         StartCoroutine(StopMovementForHit());
         // if (pikamoonHealth.currentHealth <= fleeHealthThreshold) StartFleeing();
         // If Pikamoon is in alert state and gets attacked, react based on type
-        if (isAlert || movement.isRoaming)
+        if (isAlert || movement.IsRoaming && !isCaptured)
         {
             switch (pikaType)
             {
@@ -375,7 +374,7 @@ public class PikamoonAi : MonoBehaviour
         isAttacking = true;
         isAlert = false;
         SetState(PikamoonState.Run);
-        navMeshAgent.speed = movement.runSpeed;
+        navMeshAgent.speed = movement.RunSpeed;
         navMeshAgent.SetDestination(_player.position);
         alertTimer = 0f;
     }
@@ -383,7 +382,7 @@ public class PikamoonAi : MonoBehaviour
     private IEnumerator Stun()
     {
         Stunned = true;
-        movement.isRoaming = false;
+        movement.IsRoaming = false;
         isAlert = false;
         isAttacking = false;
         isFleeing = false;
@@ -406,12 +405,12 @@ public class PikamoonAi : MonoBehaviour
     private void StartFleeing()
     {
         isFleeing = true;
-        movement.isRoaming = false;
+        movement.IsRoaming = false;
         isAlert = false;
         navMeshAgent.isStopped = false;
         isAttacking = false;
         SetState(PikamoonState.Run);
-        navMeshAgent.speed = movement.runSpeed; // Increase speed                                       
+        navMeshAgent.speed = movement.RunSpeed; // Increase speed                                       
         Vector3 fleeDirection = (transform.position - player.position).normalized;
         Vector3 fleeTarget = transform.position + fleeDirection * fleeDistance;
 
@@ -428,7 +427,7 @@ public class PikamoonAi : MonoBehaviour
     private void Die()
     {
         isAttacking = false;
-        movement.isRoaming = false;
+        movement.IsRoaming = false;
         isAlert = false;
         navMeshAgent.isStopped = true; // Stop movement
         SetState(PikamoonState.Killed);

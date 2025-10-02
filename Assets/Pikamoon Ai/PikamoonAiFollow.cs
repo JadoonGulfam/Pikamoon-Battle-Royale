@@ -6,6 +6,7 @@ public class PikamoonAiFollow : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
     private Animator animator;
+    private PikamoonAi pikamoonAi;
     public Transform player;
     public Transform attackTarget;
 
@@ -30,21 +31,19 @@ public class PikamoonAiFollow : MonoBehaviour
     private bool Attack = false;
     private bool reachedPlayer = false;
 
-    public bool isFollowing = false;
-    public bool isCapture = false;
+    private bool isFollowing = false;
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        pikamoonAi = GetComponent<PikamoonAi>();
         navMeshAgent.speed = walkSpeed;
     }
 
     void Update()
     {
-        if (player == null) return;
-        if (isCapture)
-        {
+        if (player == null || !pikamoonAi.isCaptured) return;
 
             if (Input.GetKeyDown(KeyCode.C))
             {
@@ -91,7 +90,7 @@ public class PikamoonAiFollow : MonoBehaviour
             {
                 FollowPlayer(distanceToPlayer);
             }
-        }
+        
     }
 
     void StartFollowing()

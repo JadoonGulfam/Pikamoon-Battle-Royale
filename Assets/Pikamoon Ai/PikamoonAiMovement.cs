@@ -12,9 +12,22 @@ public class PikamoonAiMovement : MonoBehaviour
     private float idleTimemin = 2f, idleTimemax = 5f;
     private float minRange = 30f, maxRange = 40f;
 
-    public float runSpeed = 8f; // Speed when fleeing
-    public float walkSpeed = 1f;
-    public bool isRoaming = false;
+    [SerializeField] private float runSpeed = 8f; // Speed when fleeing
+    [SerializeField] private float walkSpeed = 1f;
+
+    public float RunSpeed
+    {
+        get => runSpeed;
+        set => runSpeed = Mathf.Max(0, value); // clamp to avoid negatives
+    }
+
+    public float WalkSpeed
+    {
+        get => walkSpeed;
+        set => walkSpeed = Mathf.Max(0, value);
+    }
+
+    public bool IsRoaming { get; set; } = false;
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -23,8 +36,7 @@ public class PikamoonAiMovement : MonoBehaviour
     }
     private void Update()
     {
-        if(pikamoonAi.pikamoonFollow.isCapture) return;
-        if (!isRoaming) return;
+        if (!IsRoaming || pikamoonAi.isCaptured) return;
 
         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
         {
@@ -48,7 +60,7 @@ public class PikamoonAiMovement : MonoBehaviour
     }
     public void EnableRoaming()
     {
-        isRoaming = true;
+        IsRoaming = true;
         pikamoonAi.SetState(PikamoonState.Idle);
         navMeshAgent.ResetPath();
         idleTimer = Random.Range(idleTimemin, idleTimemax);
@@ -61,12 +73,12 @@ public class PikamoonAiMovement : MonoBehaviour
         if (shouldRun) // Run
         {
             pikamoonAi.SetState(PikamoonState.Run);
-            navMeshAgent.speed = runSpeed;
+            navMeshAgent.speed = RunSpeed;
         }
         else // Walk
         {
             pikamoonAi.SetState(PikamoonState.Walk);
-            navMeshAgent.speed = walkSpeed;
+            navMeshAgent.speed = WalkSpeed;
         }
         SetRandomDestination();
     }
