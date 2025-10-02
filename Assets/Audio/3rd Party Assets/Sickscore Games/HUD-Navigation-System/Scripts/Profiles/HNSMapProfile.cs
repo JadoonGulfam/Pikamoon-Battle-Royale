@@ -38,7 +38,7 @@ namespace SickscoreGames.HUDNavigationSystem
 		/// Gets a custom layer.
 		/// </summary>
 		/// <returns>Custom layer gameobject.</returns>
-		/// <param name="name">Unique ItemName.</param>
+		/// <param name="name">Unique Name.</param>
 		public GameObject GetCustomLayer (string name)
 		{
 			CustomLayer custom = CustomLayers.FirstOrDefault (cl => cl.name.Equals (name));
