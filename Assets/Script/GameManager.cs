@@ -85,7 +85,14 @@ public class GameManager : MonoBehaviour
         currentSettings.playerIndex = playerIndex;
         SaveSettings();
     }
-
+    public void GameExit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
     public void SaveSettings()
     {
         string json = JsonUtility.ToJson(currentSettings, true);
