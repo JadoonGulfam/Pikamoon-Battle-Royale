@@ -30,7 +30,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public TMP_InputField pname;
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
-    public float pikamoonRadius = 10f;
+    public float pikamoonRadius = 100f;
    // public int pikamoonCount;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
