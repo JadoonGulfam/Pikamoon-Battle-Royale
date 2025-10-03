@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     public void SpawnPrefab(int index)
     {
         if (index < 0 || index >= designerPresetList.Length) return; // Safety check
-
+        if (_player != null && playerIndex == index) return;
         // Destroy existing prefab before spawning a new one
         if (_player != null)
         {
