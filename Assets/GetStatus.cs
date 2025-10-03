@@ -13,11 +13,11 @@ public class GetStatus : MonoBehaviour
 
     [Header("UI References")]
     public TMP_Text Status_text;
-    public Button Mic_Mute;
-    public Button Mic_UnMute;
+   // public Button Mic_Mute;
+   // public Button Mic_UnMute;
 
-    public string RoomName = "Pikamoon";
-
+    public string RoomName ;
+    private bool isMuted = false; // track mute state
     private void Start()
     {
         // Register callbacks
@@ -37,25 +37,41 @@ public class GetStatus : MonoBehaviour
             voiceClient.Client.StateChanged -= OnVoiceStateChanged;
         }
     }
-
     private void Update()
     {
-        // Press M to mute mic
-        if (Input.GetKeyDown(KeyCode.M))
+        // Check if Enter (Return) key is pressed
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            MuteMic();
-        }
-
-        // Press U to unmute mic
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            UnMuteMic();
+            if (isMuted)
+            {
+                UnMuteMic(); // if muted, unmute
+                isMuted = false;
+            }
+            else
+            {
+                MuteMic();   // if unmuted, mute
+                isMuted = true;
+            }
         }
     }
 
     private void ConnectToVoiceServer()
     {
-        string roomName = voiceClient.Client.CurrentRoom?.Name ?? RoomName;
+        // Find the first NetworkManager in the scene
+        NetworkManager nm = FindFirstObjectByType<NetworkManager>();
+
+        if (nm != null)
+        {
+            Debug.Log("NetworkManager found on GameObject: " + nm.gameObject.name);
+
+            // Access its randomSessionName variable
+            Debug.Log("Random Session Name: " + nm.randomSessionName);
+        }
+        else
+        {
+            Debug.LogWarning("No NetworkManager found in the scene!");
+        }
+        string roomName = nm.randomSessionName;
         Debug.Log("Photon Voice Room: " + roomName);
         ConnectAndJoin.RoomName = roomName;
         ConnectAndJoin.ConnectNow();
@@ -77,8 +93,8 @@ public class GetStatus : MonoBehaviour
     {
         Status_text.text = connected ? "Connected" : "Disconnected";
 
-        Mic_Mute.gameObject.SetActive(connected);
-        Mic_UnMute.gameObject.SetActive(false);
+       // Mic_Mute.gameObject.SetActive(connected);
+        //Mic_UnMute.gameObject.SetActive(false);
 
         if (!connected && Recorder != null)
         {
@@ -92,8 +108,8 @@ public class GetStatus : MonoBehaviour
         {
             Recorder.TransmitEnabled = false;
             Debug.Log("Microphone Muted");
-            Mic_Mute.gameObject.SetActive(false);
-            Mic_UnMute.gameObject.SetActive(true);
+           // Mic_Mute.gameObject.SetActive(false);
+           // Mic_UnMute.gameObject.SetActive(true);
         }
     }
 
@@ -103,8 +119,8 @@ public class GetStatus : MonoBehaviour
         {
             Recorder.TransmitEnabled = true;
             Debug.Log("Microphone Unmuted");
-            Mic_Mute.gameObject.SetActive(true);
-            Mic_UnMute.gameObject.SetActive(false);
+           // Mic_Mute.gameObject.SetActive(true);
+          //  Mic_UnMute.gameObject.SetActive(false);
         }
     }
 }

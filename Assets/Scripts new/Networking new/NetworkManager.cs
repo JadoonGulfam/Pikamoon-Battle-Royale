@@ -120,11 +120,11 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("ConnectedToServer");
     }
-
+    public string randomSessionName;
     public void CreateRandomSession()
     { 
         int randomInt = UnityEngine.Random.Range(1000, 9999);
-        string randomSessionName = "Room" + randomInt.ToString();
+         randomSessionName = "Room" + randomInt.ToString();
         try
         {
             runnerInstance.StartGame(new StartGameArgs()

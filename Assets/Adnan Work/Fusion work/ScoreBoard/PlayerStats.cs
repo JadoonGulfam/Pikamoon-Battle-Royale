@@ -17,10 +17,11 @@ public class PlayerStats : NetworkBehaviour
         }
 
         // Only the local owner sets their own name
-        if (Object.HasInputAuthority)
+        if (Object.HasStateAuthority)
         {
             // You can replace this with a UI input from your GameManager
-            PlayerName = "Player_" + Random.Range(1000, 9999);
+            PlayerName = "Player_" + Random.Range(1, 99);
+            print("Assigned Player Name: " + PlayerName);
         }
     }
 
