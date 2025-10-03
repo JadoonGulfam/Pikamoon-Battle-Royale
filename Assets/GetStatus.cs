@@ -13,8 +13,8 @@ public class GetStatus : MonoBehaviour
 
     [Header("UI References")]
     public TMP_Text Status_text;
-   // public Button Mic_Mute;
-   // public Button Mic_UnMute;
+    public Image Mic_Mute;
+    public Image Mic_UnMute;
 
     public string RoomName ;
     private bool isMuted = false; // track mute state
@@ -93,8 +93,8 @@ public class GetStatus : MonoBehaviour
     {
         Status_text.text = connected ? "Connected" : "Disconnected";
 
-       // Mic_Mute.gameObject.SetActive(connected);
-        //Mic_UnMute.gameObject.SetActive(false);
+        Mic_Mute.gameObject.SetActive(connected);
+        Mic_UnMute.gameObject.SetActive(false);
 
         if (!connected && Recorder != null)
         {
@@ -108,8 +108,8 @@ public class GetStatus : MonoBehaviour
         {
             Recorder.TransmitEnabled = false;
             Debug.Log("Microphone Muted");
-           // Mic_Mute.gameObject.SetActive(false);
-           // Mic_UnMute.gameObject.SetActive(true);
+            Mic_Mute.gameObject.SetActive(false);
+            Mic_UnMute.gameObject.SetActive(true);
         }
     }
 
@@ -119,8 +119,8 @@ public class GetStatus : MonoBehaviour
         {
             Recorder.TransmitEnabled = true;
             Debug.Log("Microphone Unmuted");
-           // Mic_Mute.gameObject.SetActive(true);
-          //  Mic_UnMute.gameObject.SetActive(false);
+            Mic_Mute.gameObject.SetActive(true);
+            Mic_UnMute.gameObject.SetActive(false);
         }
     }
 }
