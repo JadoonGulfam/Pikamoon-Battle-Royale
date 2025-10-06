@@ -30,7 +30,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public TMP_InputField pname;
     public static NetworkManager Instance; // Singleton instance
     bool isPikamoonAdd;
-    public float pikamoonRadius = 10f;
+    public float pikamoonRadius = 100f;
    // public int pikamoonCount;
 
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
@@ -120,11 +120,11 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("ConnectedToServer");
     }
-
+    public string randomSessionName;
     public void CreateRandomSession()
     { 
         int randomInt = UnityEngine.Random.Range(1000, 9999);
-        string randomSessionName = "Room" + randomInt.ToString();
+         randomSessionName = "Room" + randomInt.ToString();
         try
         {
             runnerInstance.StartGame(new StartGameArgs()

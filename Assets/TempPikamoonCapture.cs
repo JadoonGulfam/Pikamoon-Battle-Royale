@@ -29,6 +29,16 @@ public class TempPikamoonCapture : MonoBehaviour, ICapturable
         return isStunned;
     }
 
+    public void onCaptureCancel()
+    {
+        
+    }
+
+    public void onCaptureStart()
+    {
+       
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
