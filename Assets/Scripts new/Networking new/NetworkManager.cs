@@ -47,10 +47,10 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             Instance = this;
             DontDestroyOnLoad(gameObject); // Make persistent
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
 
         runnerInstance = gameObject.AddComponent<NetworkRunner>();
     }
