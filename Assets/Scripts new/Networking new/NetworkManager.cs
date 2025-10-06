@@ -146,6 +146,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public void JoinSession(string sessionName)
     {
         print("33333" + sessionName);
+        randomSessionName = sessionName;
+        
         runnerInstance.StartGame(new StartGameArgs()
         {
             SessionName = sessionName,
@@ -157,6 +159,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (player == runner.LocalPlayer)
         {
+           // print();
             SceneManager.LoadScene("SKController_Meadows");
             SceneManager.sceneLoaded += OnSceneLoaded;
         }

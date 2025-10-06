@@ -16,13 +16,14 @@ public class GetStatus : MonoBehaviour
     public Image Mic_Mute;
     public Image Mic_UnMute;
 
-    public string RoomName ;
+    private string RoomName ;
     private bool isMuted = false; // track mute state
     private void Start()
     {
         // Register callbacks
         voiceClient.Client.StateChanged += OnVoiceStateChanged;
 
+        nm = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManager>();
         // Set initial UI state
         UpdateUI(false);
 
@@ -54,11 +55,12 @@ public class GetStatus : MonoBehaviour
             }
         }
     }
-
+    NetworkManager nm;
     private void ConnectToVoiceServer()
     {
         // Find the first NetworkManager in the scene
-        NetworkManager nm = FindFirstObjectByType<NetworkManager>();
+       // NetworkManager nm = FindFirstObjectByType<NetworkManager>();
+
 
         if (nm != null)
         {
@@ -71,8 +73,10 @@ public class GetStatus : MonoBehaviour
         {
             Debug.LogWarning("No NetworkManager found in the scene!");
         }
+        print("My Room Name is "+ nm.randomSessionName);
         string roomName = nm.randomSessionName;
         Debug.Log("Photon Voice Room: " + roomName);
+        RoomName = roomName;
         ConnectAndJoin.RoomName = roomName;
         ConnectAndJoin.ConnectNow();
     }
@@ -106,7 +110,7 @@ public class GetStatus : MonoBehaviour
     {
         if (Recorder != null)
         {
-            Recorder.TransmitEnabled = false;
+            Recorder.TransmitEnabled = true;
             Debug.Log("Microphone Muted");
             Mic_Mute.gameObject.SetActive(false);
             Mic_UnMute.gameObject.SetActive(true);
@@ -117,7 +121,7 @@ public class GetStatus : MonoBehaviour
     {
         if (Recorder != null)
         {
-            Recorder.TransmitEnabled = true;
+            Recorder.TransmitEnabled = false;
             Debug.Log("Microphone Unmuted");
             Mic_Mute.gameObject.SetActive(true);
             Mic_UnMute.gameObject.SetActive(false);
