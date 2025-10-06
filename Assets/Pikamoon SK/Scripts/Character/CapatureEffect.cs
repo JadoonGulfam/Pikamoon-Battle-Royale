@@ -48,15 +48,14 @@ public class CapatureEffect : MonoBehaviour, ICapturable
         for (int i = 0; i < material.Length; i++)
             material[i].SetFloat("_Cutoff", 4);
     }
-
+    Coroutine temp;
     public void Capture()
     {
-        StartCoroutine(capturePikamoon(this.gameObject));
-        // pikamoonInventory.AddPikamoon(this.gameObject);
+        temp = StartCoroutine(capturePikamoon(this.gameObject));
     }
     IEnumerator capturePikamoon(GameObject pikamoon)
     {
-        float duration = 3f;
+        float duration = TimeToBeCaptured;
         float startValue = 4;
         float endValue = 0f; // Target value
         float stepSize = 0.1f; // Reduce by 0.1 at a time
@@ -71,20 +70,25 @@ public class CapatureEffect : MonoBehaviour, ICapturable
                 material[i].SetFloat("_Cutoff", currentValue);
             yield return new WaitForSeconds(delay);
         }
-        Destroy(gameObject);
-
         Debug.Log("Reduction complete! Final Value: " + currentValue);
     }
 
-
-    //private void OnEnable()
-    //{
-    //    // StartCoroutine(SetPikamoonMaterial());
-    //}
+    public void ResetValues() 
+    {
+        Debug.Log("yaha aya ha bhai");
+        if (temp != null)
+        {
+            StopCoroutine(temp);
+            temp = null;
+        }
+        float endValue = 4f;
+        for (int i = 0; i < material.Length; i++)
+            material[i].SetFloat("_Cutoff", endValue);
+    }
     //public IEnumerator SetPikamoonMaterial()
     //{
-    //   // pikamoonRoaming.DisableRoaming();
-    //    float duration = 3f;
+    //    // pikamoonRoaming.DisableRoaming();
+    //    float duration = 1;
     //    float startValue = 0f;
     //    float endValue = 4f;
     //    float stepSize = 0.1f;
@@ -105,10 +109,23 @@ public class CapatureEffect : MonoBehaviour, ICapturable
     public bool onCapture(out CapturedInfo captureReturnInfo)
     {
         captureReturnInfo = capturedInfo;
-        return isReadyToBeCaptured;
+        
+        return isReadyToBeCaptured && !pikamoonAi.isCaptured;  
     }
     public void CapturedSuccessfully(Transform _player)
     {
         pikamoonAi.CapturedByPlayer(_player);
+        ResetValues();
+    }
+
+    public void onCaptureCancel()
+    {
+        ResetValues();
+    }
+
+    public void onCaptureStart()
+    {
+       // if(isReadyToBeCaptured && !pikamoonAi.isCaptured)
+        Capture();
     }
 }

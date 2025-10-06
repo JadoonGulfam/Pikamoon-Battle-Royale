@@ -152,7 +152,8 @@ namespace Pikamoon.Controller
                 Controller.cameraController.ToggleCaptureCam(true);
 
                 Controller.CurrentPlayerState = StateType.Capture;
-
+                if (_icapturable != null)
+                    _icapturable.onCaptureStart();
                 isCapturing = true;
                 isCaptureComplete = false;
 
@@ -164,11 +165,16 @@ namespace Pikamoon.Controller
         public void CancelCapturing()
         {
             isCapturing = false;
+            if (!isCaptureComplete)
+            {
+                if (_icapturable != null)
+                    _icapturable.onCaptureCancel();
+            }
 
             Controller.cameraController.ToggleCaptureCam(false);
 
             AC.PAnimator.SetBool   (AC.Parameters.isWalkRun.Hash      , true );
-            AC.PAnimator.SetInteger(AC.Parameters.SecondaryState.Hash , 50   );
+            AC.PAnimator.SetInteger(AC.Parameters.SecondaryState.Hash , 52   );
 
             Controller.CurrentPlayerState = StateType.Locomtion;
         }

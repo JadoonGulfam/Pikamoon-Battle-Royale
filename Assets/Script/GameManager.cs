@@ -36,7 +36,21 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         filePath = Path.Combine(Application.persistentDataPath, "gamesettings.json");
-        LoadSettings();
+        InitializeSettings();
+    }
+    private void InitializeSettings()
+    {
+        if (!File.Exists(filePath))
+        {
+            Debug.Log("No settings file found. Creating defaults...");
+            RestoreDefaults();
+            SaveSettings();
+        }
+        else
+        {
+            Debug.Log("Settings file found. Loading...");
+            LoadSettings();
+        }
     }
     void Start()
     {
@@ -63,7 +77,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(_player);
         }
-
         // Instantiate the selected prefab at the spawn position
         _player = Instantiate(designerPresetList[index].prefab, playerPosition);
         //weaponMountPoint = _player.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.RightHand);
@@ -161,24 +174,39 @@ public class GameManager : MonoBehaviour
     }
     public void LoadSettings()
     {
-        if (File.Exists(filePath))
-        {
             string json = File.ReadAllText(filePath);
             currentSettings = JsonUtility.FromJson<SettingsData>(json);
             Debug.Log("Settings loaded");
-        }
-        else
-        {
-            Debug.Log("No settings file found, using defaults.");
-            RestoreDefaults();
-            SaveSettings();
-        }
+
+            if (currentSettings == null)
+            {
+                Debug.LogWarning("Settings file corrupted. Restoring defaults...");
+                RestoreDefaults();
+            }
+            else
+            {
+                Debug.Log("Settings loaded successfully.");
+            }
+    }
+    private bool IsSettingsValid(SettingsData data)
+    {
+        if (data == null) return false;
+
+        // Check for null or invalid fields
+        if (string.IsNullOrEmpty(data.quality)) return false;
+        if (string.IsNullOrEmpty(data.textureQuality)) return false;
+        if (string.IsNullOrEmpty(data.antiAliasing)) return false;
+        if (string.IsNullOrEmpty(data.Bloom)) return false;
+
+        // Add any extra fields you want to verify
+        return true;
     }
     public void RestoreDefaults()
     {
         // Copy defaults into current settings
         currentSettings = new SettingsData
         {
+            playerIndex = defaultSettings.playerIndex,
             musicVolume = defaultSettings.musicVolume,
             sfxVolume = defaultSettings.sfxVolume,
             quality = defaultSettings.quality,

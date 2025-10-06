@@ -16,7 +16,8 @@ namespace Pikamoon.Controller
         {
             get; set;
         }
-
+        void onCaptureStart();
+        void onCaptureCancel();
         bool onCapture(out CapturedInfo captureReturnInfo);
         void CapturedSuccessfully(Transform _player);
     }
