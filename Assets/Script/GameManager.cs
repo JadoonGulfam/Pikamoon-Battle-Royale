@@ -2,6 +2,7 @@ using Pikamoon.Controller;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,17 @@ public class GameManager : MonoBehaviour
 
     public event Action OnSettingsChanged;
 
+    [Header("UI References")]
+    [SerializeField] private TMP_InputField searchInput;
+    [SerializeField] private TMP_Dropdown regionDropdown;
+    [SerializeField] private TMP_Dropdown privacyDropdown;
+    [SerializeField] private TMP_Dropdown typeDropdown;
+    [SerializeField] private Transform roomListContainer;
+    [SerializeField] private GameObject roomItemPrefab;
+
+    // Example room data (replace this with your actual list from server)
+    private List<RoomData> allRooms = new List<RoomData>();
+    private List<GameObject> spawnedRooms = new List<GameObject>();
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -57,6 +69,64 @@ public class GameManager : MonoBehaviour
         LoadGame();
         SpawnPrefab(currentSettings.playerIndex);
         NetworkManager.Instance.ChrarcterIndex = currentSettings.playerIndex;
+
+        //// Assign dropdown listeners
+        //searchInput.onValueChanged.AddListener(delegate { ApplyFilters(); });
+        //regionDropdown.onValueChanged.AddListener(delegate { ApplyFilters(); });
+        //privacyDropdown.onValueChanged.AddListener(delegate { ApplyFilters(); });
+        //typeDropdown.onValueChanged.AddListener(delegate { ApplyFilters(); });
+
+        //// Display all rooms initially
+        //DisplayRooms(allRooms);
+    }
+    void DisplayRooms(List<RoomData> roomsToShow)
+    {
+        // Clear old
+        foreach (var item in spawnedRooms)
+            Destroy(item);
+        spawnedRooms.Clear();
+
+        // Spawn new
+        foreach (var room in roomsToShow)
+        {
+            GameObject item = Instantiate(roomItemPrefab, roomListContainer);
+            item.GetComponentInChildren<TMP_Text>().text =
+                $"{room.roomName}  ({room.currentPlayers}/{room.maxPlayers}) {room.region} {room.type} {room.privacy}";
+            //roomObj.transform.Find("RoomName").GetComponent<Text>().text = room.roomName;
+            //roomObj.transform.Find("RoomType").GetComponent<Text>().text = room.roomType;
+            //roomObj.transform.Find("Region").GetComponent<Text>().text = room.region;
+            //roomObj.transform.Find("Players").GetComponent<Text>().text = room.players.ToString();
+
+            spawnedRooms.Add(item);
+        }
+    }
+    public void CreateRoom(string roomName, int _player, int _maxPlayer, string roomType, string region, string _privacy)
+    {
+        // Create new data
+        RoomData newRoom = new RoomData(roomName, _player, _maxPlayer ,roomType, region, _privacy);
+        allRooms.Add(newRoom);
+
+        // Refresh UI
+        DisplayRooms(allRooms);
+    }
+    private void ApplyFilters()
+    {
+        string searchText = searchInput.text.ToLower();
+        string selectedRegion = regionDropdown.options[regionDropdown.value].text;
+        string selectedPrivacy = privacyDropdown.options[privacyDropdown.value].text;
+        string selectedType = typeDropdown.options[typeDropdown.value].text;
+
+        // Combine all filters
+       var filteredRooms = allRooms
+            .Where(room =>
+                (string.IsNullOrEmpty(searchText) || room.roomName.ToLower().Contains(searchText)) && // Only name search
+                (selectedRegion == "ALL" || room.region == selectedRegion) &&
+                (selectedPrivacy == "ALL" || room.privacy == selectedPrivacy) &&
+                (selectedType == "ALL" || room.type == selectedType)
+            )
+            .ToList();
+
+        DisplayRooms(filteredRooms);
     }
     void LoadGame()
     {
@@ -188,19 +258,6 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Settings loaded successfully.");
             }
     }
-    private bool IsSettingsValid(SettingsData data)
-    {
-        if (data == null) return false;
-
-        // Check for null or invalid fields
-        if (string.IsNullOrEmpty(data.quality)) return false;
-        if (string.IsNullOrEmpty(data.textureQuality)) return false;
-        if (string.IsNullOrEmpty(data.antiAliasing)) return false;
-        if (string.IsNullOrEmpty(data.Bloom)) return false;
-
-        // Add any extra fields you want to verify
-        return true;
-    }
     public void RestoreDefaults()
     {
         // Copy defaults into current settings
@@ -243,7 +300,6 @@ public class GameManager : MonoBehaviour
         AmbientOcclusion = "Medium",
         MotionBlur = "Medium",
     };
-
 }
 [Serializable]
 public class SettingsData
@@ -262,6 +318,8 @@ public class SettingsData
     public string ColorAdjustments;
     public string AmbientOcclusion;
     public string MotionBlur;
+
+    public string language = "English";
 }
 public enum SettingType
 {
@@ -277,4 +335,24 @@ public enum SettingType
     ColorAdjustments,
     AmbientOcclusion,
     MotionBlur
+}
+[System.Serializable]
+public class RoomData
+{
+    public string roomName;
+    public int currentPlayers;
+    public int maxPlayers;
+    public string type;     
+    public string region;   
+    public string privacy;  
+
+    public RoomData(string name, int players, int max, string type, string region, string privacy)
+    {
+        roomName = name;
+        currentPlayers = players;
+        maxPlayers = max;
+        this.type = type;
+        this.region = region;
+        this.privacy = privacy;
+    }
 }
