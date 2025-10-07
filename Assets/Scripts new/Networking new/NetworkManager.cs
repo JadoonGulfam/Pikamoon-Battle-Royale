@@ -8,6 +8,8 @@ using UnityEditor;
 using TMPro;
 using Pikamoon.Controller;
 using UnityEngine.AI;
+using System.Collections;
+using System.Linq;
 
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
@@ -335,36 +337,77 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log($"[Fusion] Player {player.PlayerId} left the room.");
 
-        // Find another player to transfer ownership to
-        PlayerRef? newOwner = null;
-        foreach (var otherPlayer in runner.ActivePlayers)
+        // Gather remaining players (exclude the leaving player)
+        var remaining = runner.ActivePlayers.Where(p => p != player).ToList();
+        if (remaining.Count == 0)
         {
-            if (otherPlayer != player)
-            {
-                newOwner = otherPlayer;
-                break;
-            }
-        }
-
-        if (!newOwner.HasValue)
-        {
-            Debug.Log("[Fusion] No other players available to transfer ownership.");
+            Debug.Log("[Fusion] No other players left - nothing to transfer.");
             return;
         }
 
-        // Get all currently spawned NetworkObjects
+        // Deterministic candidate to perform the transfer (pick smallest PlayerId)
+        PlayerRef transferAgent = remaining.OrderBy(p => p.PlayerId).First();
+
+        // Only the transferAgent's local instance performs the requests to avoid races
+        if (transferAgent != runner.LocalPlayer)
+        {
+            // other peers do nothing here
+            return;
+        }
+
+        // Iterate all network objects and find those that had input authority of the leaving player
         foreach (var obj in runner.GetAllNetworkObjects())
         {
-            if (obj == null)
-                continue;
+            if (obj == null) continue;
 
-            // Only the state authority can reassign authority
-            if (obj.HasStateAuthority && obj.InputAuthority == player)
+            // If this object was controlled by the player that left, reassign it
+            if (obj.InputAuthority == player)
             {
-                obj.AssignInputAuthority(newOwner.Value);
-                Debug.Log($"[Fusion] Reassigned {obj.name} from Player {player.PlayerId} → Player {newOwner.Value.PlayerId}");
+                // If we already have state authority locally, just assign input authority directly
+                if (obj.HasStateAuthority)
+                {
+                    obj.AssignInputAuthority(transferAgent);
+                    Debug.Log($"[Fusion] (instant) {obj.name} assigned input → Player {transferAgent.PlayerId}");
+                }
+                else
+                {
+                    // Ask Fusion to grant us StateAuthority, then wait and assign
+                    Debug.Log($"[Fusion] Requesting StateAuthority for {obj.name} to transfer input to Player {transferAgent.PlayerId}");
+                    obj.RequestStateAuthority();
+
+                    // Start coroutine to wait until we actually have state authority, then assign
+                    StartCoroutine(WaitForStateThenAssign(obj, transferAgent, 3f));
+                }
             }
         }
+    }
+
+    private IEnumerator WaitForStateThenAssign(NetworkObject obj, PlayerRef assignTo, float timeoutSeconds)
+    {
+        float elapsed = 0f;
+
+        // small safety: bail if object is destroyed
+        while ((obj != null) && !obj.HasStateAuthority && elapsed < timeoutSeconds)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (obj == null)
+        {
+            Debug.LogWarning("[Fusion] Object was destroyed before we could acquire state authority.");
+            yield break;
+        }
+
+        if (!obj.HasStateAuthority)
+        {
+            Debug.LogWarning($"[Fusion] Failed to acquire StateAuthority for {obj.name} within {timeoutSeconds}s.");
+            yield break;
+        }
+
+        // Now we have state authority -> assign input authority
+        obj.AssignInputAuthority(assignTo);
+        Debug.Log($"[Fusion] Successfully transferred {obj.name} input → Player {assignTo.PlayerId}");
     }
 
 
