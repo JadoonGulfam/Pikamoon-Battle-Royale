@@ -50,6 +50,15 @@ public class PikamoonAiHealth : NetworkBehaviour, IDamageable
         }
     }
 
+
+    private void Update()
+    {
+        if (Object != null && Object.StateAuthority == PlayerRef.None)
+        {
+            Object.RequestStateAuthority();
+        }
+    }
+
     private void UpdateHealthUI()
     {
         if (healthBar != null && maxHealth > 0f)

@@ -61,6 +61,7 @@ public class PikamoonAi : MonoBehaviour
     }
     private void Update()
     {
+
         if (!navMeshAgent.enabled || !navMeshAgent.isOnNavMesh || isCaptured)
             return;
 
