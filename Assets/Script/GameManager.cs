@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     public void CreateRoom(string roomName, int _player, int _maxPlayer, string roomType, string region, string _privacy)
     {
         // Create new data
-        RoomData newRoom = new RoomData(roomName, _player, _maxPlayer ,roomType, region, _privacy);
+        RoomData newRoom = new RoomData(roomName, _player, _maxPlayer, roomType, region, _privacy);
         allRooms.Add(newRoom);
 
         // Refresh UI
@@ -117,14 +117,14 @@ public class GameManager : MonoBehaviour
         string selectedType = typeDropdown.options[typeDropdown.value].text;
 
         // Combine all filters
-       var filteredRooms = allRooms
-            .Where(room =>
-                (string.IsNullOrEmpty(searchText) || room.roomName.ToLower().Contains(searchText)) && // Only name search
-                (selectedRegion == "ALL" || room.region == selectedRegion) &&
-                (selectedPrivacy == "ALL" || room.privacy == selectedPrivacy) &&
-                (selectedType == "ALL" || room.type == selectedType)
-            )
-            .ToList();
+        var filteredRooms = allRooms
+             .Where(room =>
+                 (string.IsNullOrEmpty(searchText) || room.roomName.ToLower().Contains(searchText)) && // Only name search
+                 (selectedRegion == "ALL" || room.region == selectedRegion) &&
+                 (selectedPrivacy == "ALL" || room.privacy == selectedPrivacy) &&
+                 (selectedType == "ALL" || room.type == selectedType)
+             )
+             .ToList();
 
         DisplayRooms(filteredRooms);
     }
@@ -197,6 +197,7 @@ public class GameManager : MonoBehaviour
             SettingType.ColorAdjustments => currentSettings.ColorAdjustments,
             SettingType.AmbientOcclusion => currentSettings.AmbientOcclusion,
             SettingType.MotionBlur => currentSettings.MotionBlur,
+            SettingType.Language => currentSettings.language,
             _ => ""
         };
     }
@@ -240,23 +241,26 @@ public class GameManager : MonoBehaviour
             case SettingType.MotionBlur:
                 currentSettings.MotionBlur = value;
                 break;
+            case SettingType.Language:
+                currentSettings.language = value;
+                break;
         }
     }
     public void LoadSettings()
     {
-            string json = File.ReadAllText(filePath);
-            currentSettings = JsonUtility.FromJson<SettingsData>(json);
-            Debug.Log("Settings loaded");
+        string json = File.ReadAllText(filePath);
+        currentSettings = JsonUtility.FromJson<SettingsData>(json);
+        Debug.Log("Settings loaded");
 
-            if (currentSettings == null)
-            {
-                Debug.LogWarning("Settings file corrupted. Restoring defaults...");
-                RestoreDefaults();
-            }
-            else
-            {
-                Debug.Log("Settings loaded successfully.");
-            }
+        if (currentSettings == null)
+        {
+            Debug.LogWarning("Settings file corrupted. Restoring defaults...");
+            RestoreDefaults();
+        }
+        else
+        {
+            Debug.Log("Settings loaded successfully.");
+        }
     }
     public void RestoreDefaults()
     {
@@ -275,6 +279,7 @@ public class GameManager : MonoBehaviour
             ColorAdjustments = defaultSettings.ColorAdjustments,
             AmbientOcclusion = defaultSettings.AmbientOcclusion,
             MotionBlur = defaultSettings.MotionBlur,
+            language = defaultSettings.language,
         };
 
         // Save to JSON so it persists
@@ -299,6 +304,7 @@ public class GameManager : MonoBehaviour
         ColorAdjustments = "Medium",
         AmbientOcclusion = "Medium",
         MotionBlur = "Medium",
+        language = "English",
     };
 }
 [Serializable]
@@ -334,7 +340,8 @@ public enum SettingType
     Vignette,
     ColorAdjustments,
     AmbientOcclusion,
-    MotionBlur
+    MotionBlur,
+    Language
 }
 [System.Serializable]
 public class RoomData
@@ -342,9 +349,9 @@ public class RoomData
     public string roomName;
     public int currentPlayers;
     public int maxPlayers;
-    public string type;     
-    public string region;   
-    public string privacy;  
+    public string type;
+    public string region;
+    public string privacy;
 
     public RoomData(string name, int players, int max, string type, string region, string privacy)
     {
