@@ -28524,22 +28524,6 @@ MonoBehaviour:
   pikamoonRadius: 100
   pikamoonList:
   - {fileID: 5543502001506770630, guid: e93cc2a96278d7a4b9fa15ba4c00b082, type: 3}
-  - {fileID: 1614604601540597844, guid: 59e551f0017cca643950da40fe158e33, type: 3}
-  - {fileID: 3107588243175509712, guid: 2bec5b03dc5d2f84b801282a0459d897, type: 3}
-  - {fileID: 3554783531401168639, guid: 01a7746d4acee0744a4cd26af63c660a, type: 3}
-  - {fileID: 7219036906209539872, guid: c6c628b0abdbe9f4fa5bcdba43170a78, type: 3}
-  - {fileID: 3349739702028586710, guid: dca26886a740cbb408a591a0a1c08f88, type: 3}
-  - {fileID: 6371567538144951547, guid: 0eadef9cc14b42e4d8682a3a77b4f2e5, type: 3}
-  - {fileID: 3111098886023961347, guid: 01f19c9f467e96f41bc648b70a8da056, type: 3}
-  - {fileID: 1428015100378689905, guid: 1d0c0b09cdf1f4949a211e6364bc4722, type: 3}
-  - {fileID: 638140355250220672, guid: 751dc41255d870840b603681cf3f44b1, type: 3}
-  - {fileID: 6371567538144951547, guid: 0eadef9cc14b42e4d8682a3a77b4f2e5, type: 3}
-  - {fileID: 6192862575181014079, guid: d63953a764030d74e8303110d1bafcaa, type: 3}
-  - {fileID: 3101357563730732778, guid: 1f5e2820360222b4fa74ff148cf1bb1c, type: 3}
-  - {fileID: 1565285250048897630, guid: b26250daeabd1c04ca8643e7fb236144, type: 3}
-  - {fileID: 362686171419931538, guid: 7c5dfca13ec95944d962b681d7dd4ddd, type: 3}
-  - {fileID: 542787862836547432, guid: e33cca8838df43043a8e83b8e2399818, type: 3}
-  - {fileID: 6242654192764099533, guid: 802a825bf9d234e4db6daec1b2e6719e, type: 3}
   randomSessionName: 
 --- !u!4 &1075992717
 Transform:
@@ -47498,6 +47482,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 57.33, z: 0}
+--- !u!1 &1788008890
+GameObject:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1788008892}
+  - component: {fileID: 1788008891}
+  m_Layer: 0
+  m_Name: Fusion_PhotonBackgroundConnectionHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1788008891
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788008890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1222927710, guid: 7de3b8b9e1263ad479e2d0c4261b7646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DisconnectAfterKeepAlive: 0
+  KeepAliveInBackground: 60000
+  ApplyDontDestroyOnLoad: 1
+--- !u!4 &1788008892
+Transform:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788008890}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1791372841
 GameObject:
   m_ObjectHideFlags: 0
@@ -56940,3 +56971,4 @@ SceneRoots:
   - {fileID: 238678380}
   - {fileID: 1848757053}
   - {fileID: 362387253}
+  - {fileID: 1788008892}

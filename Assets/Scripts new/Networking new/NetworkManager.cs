@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Fusion;
 using Fusion.Sockets;
 using System.Collections.Generic;
@@ -333,8 +333,41 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        Debug.Log("PlayerLeft");
+        Debug.Log($"[Fusion] Player {player.PlayerId} left the room.");
+
+        // Find another player to transfer ownership to
+        PlayerRef? newOwner = null;
+        foreach (var otherPlayer in runner.ActivePlayers)
+        {
+            if (otherPlayer != player)
+            {
+                newOwner = otherPlayer;
+                break;
+            }
+        }
+
+        if (!newOwner.HasValue)
+        {
+            Debug.Log("[Fusion] No other players available to transfer ownership.");
+            return;
+        }
+
+        // Get all currently spawned NetworkObjects
+        foreach (var obj in runner.GetAllNetworkObjects())
+        {
+            if (obj == null)
+                continue;
+
+            // Only the state authority can reassign authority
+            if (obj.HasStateAuthority && obj.InputAuthority == player)
+            {
+                obj.AssignInputAuthority(newOwner.Value);
+                Debug.Log($"[Fusion] Reassigned {obj.name} from Player {player.PlayerId} → Player {newOwner.Value.PlayerId}");
+            }
+        }
     }
+
+
     #region ________________netbehaviour methods____________________
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
