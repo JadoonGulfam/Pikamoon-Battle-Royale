@@ -34,7 +34,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     bool isPikamoonAdd;
     public float pikamoonRadius = 100f;
    // public int pikamoonCount;
-
+    
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
 
 
@@ -49,10 +49,10 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             Instance = this;
             DontDestroyOnLoad(gameObject); // Make persistent
         }
-        //else
-        //{
-        //    Destroy(gameObject);
-        //}
+        else
+        {
+            Destroy(gameObject);
+        }
 
         runnerInstance = gameObject.AddComponent<NetworkRunner>();
     }
@@ -410,6 +410,28 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log($"[Fusion] Successfully transferred {obj.name} input → Player {assignTo.PlayerId}");
     }
 
+    public void OnGameLeave()
+    {
+      //  runnerInstance.Disconnect();
+        StartCoroutine(LeaveSharedSession());
+    }
+
+    private IEnumerator LeaveSharedSession()
+    {
+        // Notify others before leaving (optional)
+        Debug.Log("[Fusion] Shutting down local runner in shared mode...");
+
+        // Gracefully leave the shared session
+        yield return runnerInstance.Shutdown(shutdownReason: ShutdownReason.Ok);
+
+        Debug.Log("[Fusion] Successfully disconnected from shared session.");
+
+        // Clean up persistent objects (optional)
+       // Destroy(runner.gameObject);
+
+        // Return to main menu or another scene
+       // UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
 
     #region ________________netbehaviour methods____________________
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
@@ -434,11 +456,16 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-
+        print(shutdownReason.ToString());
+        UnityEngine.SceneManagement.SceneManager.LoadScene("lobby new");
+        LoadingManager.Instance.DeactivateAll();
+        Destroy(GameManager.instance.gameObject);
+        Destroy(gameObject);
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
+        print(reason.ToString());
         LoadingManager.Instance.DeactivateAll();
     }
 

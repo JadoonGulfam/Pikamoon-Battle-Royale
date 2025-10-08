@@ -28,6 +28,8 @@ namespace Pikamoon.UI
         }
         void ToggleOnYes() 
         {
+           // LoadingManager.Instance.StartCoroutine("Circle_Loading");
+            NetworkManager.Instance.OnGameLeave();
 
         }
         void ToggleOnNo() 

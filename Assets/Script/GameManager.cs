@@ -46,8 +46,15 @@ public class GameManager : MonoBehaviour
     public GameObject[] enviornmentLagCompensation;
     private void Awake()
     {
-        if (instance == null) { instance = this; }
-        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         filePath = Path.Combine(Application.persistentDataPath, "gamesettings.json");
         InitializeSettings();
