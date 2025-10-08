@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     // Example room data (replace this with your actual list from server)
     private List<RoomData> allRooms = new List<RoomData>();
     private List<GameObject> spawnedRooms = new List<GameObject>();
+
+    public GameObject[] enviornmentLagCompensation;
     private void Awake()
     {
         if (instance == null) { instance = this; }
@@ -49,6 +51,19 @@ public class GameManager : MonoBehaviour
 
         filePath = Path.Combine(Application.persistentDataPath, "gamesettings.json");
         InitializeSettings();
+        foreach (GameObject item in enviornmentLagCompensation)
+        {
+            item.gameObject.SetActive(false);
+        }
+        LoadGame();
+
+    }
+    void EnvironmentLagCompensationRoutine()
+    {
+        foreach (GameObject item in enviornmentLagCompensation)
+        {
+            item.gameObject.SetActive(true);
+        }
     }
     private void InitializeSettings()
     {
@@ -66,7 +81,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        LoadGame();
+      //  LoadGame();
         SpawnPrefab(currentSettings.playerIndex);
         NetworkManager.Instance.ChrarcterIndex = currentSettings.playerIndex;
 
@@ -131,6 +146,7 @@ public class GameManager : MonoBehaviour
     void LoadGame()
     {
         LoadingManager.Instance.ActivateLoading("Splash_Loading", true);
+        Invoke("EnvironmentLagCompensationRoutine", 3.5f);
         //Invoke(nameof(LoadNextScene), 3f);
     }
     public void StartAutoBattler()
