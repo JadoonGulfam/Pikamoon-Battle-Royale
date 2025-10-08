@@ -7,7 +7,7 @@ namespace Pikamoon.UI
         public HUDController hudcontroller;
         public LootBox_UI lootBoxUI;
         public InventoryUI inventoryUI;
-
+        public GamePlayPopupUI exitController;
 
         public void OpenLootBox(LootBox lootbox)
         {

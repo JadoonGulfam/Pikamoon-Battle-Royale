@@ -53,6 +53,7 @@ namespace Pikamoon.Controller
 
         public OnBtnDown onMap_Down;
 
+        public OnBtnDown onEscape;
 
         [HideInInspector]
         //public bool isSprinting;
@@ -121,7 +122,10 @@ namespace Pikamoon.Controller
             vertical   = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                onEscape?.Invoke();
+            }
 
             if (Input.GetKeyDown(KeyCode.I))
             {

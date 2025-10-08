@@ -230,6 +230,7 @@ namespace Pikamoon.Controller
             HC = GetComponent<HealthController>();
             miniMapHandler = GetComponent<MiniMapHandler>();
 
+            input.onEscape += UI.exitController.ToggleExitMenu;
 
             IgnoreGravity = false;
 
@@ -536,8 +537,11 @@ namespace Pikamoon.Controller
         {
             animSpeedLerper = val;
         }
-       
 
+        private void OnDestroy()
+        {
+            input.onEscape -= UI.exitController.ToggleExitMenu;
+        }
         #endregion
     }
 }
