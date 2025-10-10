@@ -18,10 +18,17 @@ namespace Pikamoon.Controller
         [SerializeField] float inspectorHealth = 100f;
 
         // networked state (names kept similar to your original properties)
-        [Networked] public float headShieldValue { get; set; }
-        [Networked] public float upperShieldValue { get; set; }
-        [Networked] public float lowerShieldValue { get; set; }
-        [Networked] public float health { get; set; }
+        //[Networked] 
+        public float headShieldValue { get; set; }
+
+        //[Networked] 
+        public float upperShieldValue { get; set; }
+
+        //[Networked] 
+        public float lowerShieldValue { get; set; }
+
+        //[Networked] 
+        public float health { get; set; }
 
         private ChangeDetector _changeDetector;
 
