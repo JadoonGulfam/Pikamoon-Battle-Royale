@@ -37,6 +37,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
 
+    [SerializeField] private List<Vector3> spawnPositions;
+    private int CharacterIndex = 0;
 
     public static event Action<NetworkRunner, PlayerRef> OnOtherPlayerJoined;
 
@@ -49,10 +51,10 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             Instance = this;
             DontDestroyOnLoad(gameObject); // Make persistent
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+       // else
+       // {
+           // Destroy(gameObject);
+       // }
 
         runnerInstance = gameObject.AddComponent<NetworkRunner>();
     }
@@ -112,6 +114,20 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     private void Start()
     {
         runnerInstance.JoinSessionLobby(SessionLobby.Shared, lobbyName);
+
+        spawnPositions = new List<Vector3>
+        {
+            //new (-319.374695f, 17.8205814f, 214.092667f),
+            new (-305.019257f, 18.4018574f, 335.47197f),
+            new (-323.498779f, 17.9225616f, 218.37114f),
+            new (-302.855499f, 18.0853977f, 209.861771f),
+            new (-328.409241f, 20.0453873f, 232.894516f),
+            new (-321.583771f, 21.7124958f, 254.642303f),
+            new (-294.936707f, 18.3548622f, 247.381622f),
+            new (-309.007538f, 19.0893841f, 230.130005f),
+            new (-333.681885f, 17.9209728f, 210.431427f)
+        };
+
     }
     public string GetPlayerName()
     {
@@ -227,24 +243,53 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         if (scene.name == "SKController_Meadows")
         {
             GameObject go = GameObject.FindGameObjectWithTag("Ref");
-             playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
+
+            int playerCount = runnerInstance.ActivePlayers.Count(); // total connected players
+            int localPlayerIndex = GetLocalPlayerIndex(); // local player's index
+            Vector3 spawnPos = GetSpawnPosition(localPlayerIndex);
+
+            playerNetworkObject = runnerInstance.Spawn(playerPrefab[CharacterIndex], spawnPos, Quaternion.identity);
             go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject);
-           // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
 
             if (!isPikamoonAdd)
             {
-                PopulatePikamoonOverNetwork(playerNetworkObject.transform.position, pikamoonList.Count, pikamoonRadius);
-                isPikamoonAdd = true; // Ensure Pikamoon is only added once
+                PopulatePikamoonOverNetwork(spawnPos, pikamoonList.Count, pikamoonRadius);
+                isPikamoonAdd = true;
             }
 
             if (playerNetworkObject.HasInputAuthority)
             {
-                print("Player has input authority");
+                Debug.Log("Player has input authority");
             }
-            print("Scene loaded successfully");
+
+            Debug.Log("Scene loaded successfully");
             LoadingManager.Instance.DeactivateAll();
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
+    }
+
+
+    private int GetLocalPlayerIndex()
+    {
+        // Each connected player gets an index from 0 to (playerCount - 1)
+        int index = 0;
+        foreach (var player in runnerInstance.ActivePlayers)
+        {
+            if (player == runnerInstance.LocalPlayer)
+                return index;
+            index++;
+        }
+        return 0; // fallback
+    }
+
+    private Vector3 GetSpawnPosition(int playerIndex)
+    {
+        if (spawnPositions.Count == 0)
+            return Vector3.zero;
+
+        // Loop back if player index exceeds position count
+        int index = playerIndex % spawnPositions.Count;
+        return spawnPositions[index];
     }
 
 
