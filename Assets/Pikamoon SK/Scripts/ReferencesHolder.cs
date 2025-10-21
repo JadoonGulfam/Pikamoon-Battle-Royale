@@ -19,7 +19,7 @@ namespace Pikamoon.Controller
 
         public UIManagerSK _uiManager;
 
-        [SerializeField] Transform _SpawnPoint;
+        public Transform[] _SpawnPoint;
 
         void Awake()
         {
@@ -44,22 +44,22 @@ namespace Pikamoon.Controller
                 _playerController = GO.GetComponent<PlayerController>();
             }
 
-            _playerController.transform.position = _SpawnPoint.position;
-            _playerController.transform.rotation = _SpawnPoint.rotation;
+            _playerController.transform.position = _SpawnPoint[0].position;
+            _playerController.transform.rotation = _SpawnPoint[0].rotation;
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
             _playerController.Inititalize(_playerInput,_cameraController, _uiManager);
         }
 
-        public void InstantiatePlayer(GameObject GO)
+        public void InstantiatePlayer(GameObject GO, int i)
         {
             CamefromMPCAll = true;
 
             _playerController = GO.GetComponent<PlayerController>();
 
-            _playerController.transform.position = _SpawnPoint.position;
-            _playerController.transform.rotation = _SpawnPoint.rotation;
+            _playerController.transform.position = _SpawnPoint[i].position;
+            _playerController.transform.rotation = _SpawnPoint[i].rotation;
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
@@ -78,8 +78,8 @@ namespace Pikamoon.Controller
             }
             
             
-            _playerController.transform.position = _SpawnPoint.position;
-            _playerController.transform.rotation = _SpawnPoint.rotation;
+            _playerController.transform.position = _SpawnPoint[0].position;
+            _playerController.transform.rotation = _SpawnPoint[0].rotation;
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
