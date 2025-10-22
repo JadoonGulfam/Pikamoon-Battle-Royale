@@ -27,6 +27,17 @@ public class PlayerTeleportHandler : NetworkBehaviour
             RPC_SyncTeleport(teleportPosition);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("teleportPoint"))
+        {
+            Debug.Log("[Fusion] Teleport key pressed (Shared Mode).");
+            PerformTeleport(teleportPosition);
+
+            // Notify others (optional visual sync)
+            RPC_SyncTeleport(teleportPosition);
+        }
+    }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_SyncTeleport(Vector3 targetPosition)
