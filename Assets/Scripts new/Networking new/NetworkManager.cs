@@ -23,6 +23,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject[] wearables;
     public GameObject[] weaponsForEnv;
     public int selectedWearablesIndex = 2;
+    public int mapIndex = 0;
 
  //   public AnimationController animationController;
     public GameObject[] playerPrefab;
@@ -229,8 +230,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         if (scene.name == "SKController_Meadows")
         {
             GameObject go = GameObject.FindGameObjectWithTag("Ref");
+            print("22222222222" + mapIndex + spawningPosIndex);
              playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
-            go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject, spawningPosIndex);
+            go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject, spawningPosIndex, mapIndex);
             print("11111111111 aaaa   " + spawningPosIndex);
            // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
 

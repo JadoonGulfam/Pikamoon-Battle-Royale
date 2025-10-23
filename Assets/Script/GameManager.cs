@@ -122,6 +122,7 @@ public class GameManager : MonoBehaviour
             //mapPreviewImage.sprite = maps[index].mapPreview;
             StartCoroutine(FadePreview(maps[_index].mapPreview));
             currentSettings.mapIndex = _index;
+            NetworkManager.Instance.mapIndex = _index;
             // Optional: Play transition animation or fade
         }
     }
