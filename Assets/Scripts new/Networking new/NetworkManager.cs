@@ -299,6 +299,29 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             LoadingManager.Instance.DeactivateAll();
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
+        if (scene.name == "SKController_Meadows Dummy")
+        {
+            GameObject go = GameObject.FindGameObjectWithTag("Ref");
+            print("22222222222" + mapIndex + spawningPosIndex);
+            playerNetworkObject = runnerInstance.Spawn(playerPrefab[ChrarcterIndex], Vector3.zero, Quaternion.identity);
+            go.GetComponent<ReferencesHolder>().InstantiatePlayer(playerNetworkObject.gameObject, spawningPosIndex, mapIndex);
+            print("11111111111 aaaa   " + spawningPosIndex);
+            // NetworkObject wearableNetworkObject = runnerInstance.Spawn(wearables[selectedWearablesIndex], playerNetworkObject.transform.position, Quaternion.identity);
+
+          //  if (!isPikamoonAdd)
+            //{
+              //  PopulatePikamoonOverNetwork(playerNetworkObject.transform.position, pikamoonList.Count, pikamoonRadius);
+              //  isPikamoonAdd = true; // Ensure Pikamoon is only added once
+            //}
+
+            if (playerNetworkObject.HasInputAuthority)
+            {
+                print("Player has input authority");
+            }
+            print("Scene loaded successfully");
+            LoadingManager.Instance.DeactivateAll();
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
 
 
