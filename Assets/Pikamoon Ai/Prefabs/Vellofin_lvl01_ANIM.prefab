@@ -969,10 +969,10 @@ MonoBehaviour:
   walkClipStep_2: {fileID: 0}
   runClipStep_1: {fileID: 0}
   runClipStep_2: {fileID: 0}
-  alertClip: {fileID: 0}
+  alertClip: {fileID: 8300000, guid: 9d17549f500d03f43b164f832eccd5ee, type: 3}
   attackClip: {fileID: 8300000, guid: 88cf0147be20aa040a23032ca77eadf2, type: 3}
-  stunClip: {fileID: 0}
-  deathClip: {fileID: 0}
+  stunClip: {fileID: 8300000, guid: 36ea868557ade334abdbbf397f3ed29f, type: 3}
+  deathClip: {fileID: 8300000, guid: c060a9a2eb03dc844be948b4ea883311, type: 3}
   hitClip: {fileID: 8300000, guid: f1a2a6c6c38cd3647bf3ef96ba449843, type: 3}
 --- !u!114 &324923699613114921
 MonoBehaviour:
@@ -986,8 +986,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba2891e233e600488cd9e9eee3ace16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFlying: 0
   runSpeed: 5
   walkSpeed: 2
+  flySpeed: 5
+  rotationSpeed: 2.5
+  minHeight: 10
+  maxHeight: 25
+  flightAreaCenter: {fileID: 0}
+  flightAreaRadius: 50
 --- !u!114 &5086896982642026945
 MonoBehaviour:
   m_ObjectHideFlags: 0
