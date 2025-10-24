@@ -11,6 +11,7 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Linq;
 using static Dreamteck.WelcomeWindow.WindowPanel;
+using static Unity.Collections.Unicode;
 
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
@@ -38,6 +39,16 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
    // public int pikamoonCount;
     int spawningPosIndex = 0;
     [SerializeField] private List<NetworkObject> pikamoonList = new List<NetworkObject>();
+
+
+
+    public TMP_Text playerListText;          // Assign a UI Text in Inspector
+    public int expectedPlayers = 2;      // Set how many players you want before starting
+
+
+
+    public List<PlayerRef> connectedPlayers = new List<PlayerRef>();
+    public PlayerRef[] playerArray;      // Public array you can use anywhere
 
 
     public static event Action<NetworkRunner, PlayerRef> OnOtherPlayerJoined;
@@ -134,7 +145,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             runnerInstance.StartGame(new StartGameArgs()
             {
                 SessionName = randomSessionName,
+                SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
                 GameMode = GameMode.Shared,
+               // HostMigration =true,
             });
             LoadingManager.Instance.ActivateLoading("Circle_Loading", false);
             Debug.Log("Game started with session name: " + randomSessionName);
@@ -177,7 +190,43 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             isPikamoonAdd = true;
         }
         OnOtherPlayerJoined?.Invoke(runner, player);
+
+        // Maintaining list of players
+        if (!connectedPlayers.Contains(player))
+            connectedPlayers.Add(player);
+        // Update the array whenever list changes
+        playerArray = connectedPlayers.ToArray();
+        UpdatePlayerList();
+        if (connectedPlayers.Count >= expectedPlayers)
+        {
+            Debug.Log("All players joined! Starting game...");
+            StartGame();
+        }
     }
+   
+    private void StartGame()
+    {
+        Debug.Log("Loading game scene...");
+
+        if (runnerInstance.SceneManager != null)
+        {
+            // Convert your scene name to a SceneRef
+            SceneRef gameScene = SceneRef.FromIndex(2);// UnityEngine.SceneManagement.SceneUtility.sce GetBuildIndexByScenePath("Assets/Scenes/GameScene.unity"));
+
+            // Or if you know the build index (e.g., 2), you can just use:
+            // SceneRef gameScene = new SceneRef(2);
+
+            runnerInstance.SceneManager.LoadScene(gameScene, new NetworkLoadSceneParameters());
+        }
+        else
+        {
+            Debug.LogError("No SceneManager found on runner — cannot load scene!");
+        }
+    }
+
+
+
+
     private void PopulatePikamoonOverNetwork(Vector3 playerPosition, int pikamoonCount, float spawnRadius)
     {
         for (int i = 0; i < pikamoonCount; i++)
@@ -337,9 +386,27 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     // Other INetworkRunnerCallbacks methods go here
-
+    private void UpdatePlayerList()
+    {
+      //  playerListText.text = "Players in Lobby:\n";
+       // foreach (var player in playerArray)
+       // {
+        //    playerListText.text += $"Player {player.PlayerId}\n";
+        //}
+    }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        // Maintaining player list 
+        if (connectedPlayers.Contains(player))
+            connectedPlayers.Remove(player);
+
+        // Update the array whenever list changes
+        playerArray = connectedPlayers.ToArray();
+
+        UpdatePlayerList();
+
+
+
         Debug.Log($"[Fusion] Player {player.PlayerId} left the room.");
 
         // Gather remaining players (exclude the leaving player)
