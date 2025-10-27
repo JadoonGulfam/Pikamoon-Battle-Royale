@@ -13,6 +13,8 @@ namespace Pikamoon.Controller
         [SerializeField] Rigidbody rigidBody;
         [SerializeField] Collider _collider;
         [SerializeField] float disableAfter;
+        [Space]
+        [SerializeField] Transform visualTransform;
 
         [Space]
         [Header("Particles")]
@@ -94,10 +96,11 @@ namespace Pikamoon.Controller
 
         public void Shoot(Vector3 spawnpoint, Vector3 AimPosition, float _speed, float Damage)
         {
+            GiveBackVisual();
+            transform.parent = null;
             gameObject.SetActive(false);
             transform.position = spawnpoint;
             rigidBody.isKinematic = true;
-            
 
             damage = Damage;
             speed = _speed;
@@ -128,7 +131,7 @@ namespace Pikamoon.Controller
 
             rigidBody.isKinematic = false;
 
-            this.gameObject.SetActive(_speed > 0);
+            this.gameObject.SetActive(true);
             rigidBody.linearVelocity = transform.forward * speed;
             _collider.enabled = true;
 
@@ -137,6 +140,19 @@ namespace Pikamoon.Controller
             bulletRoutine = StartCoroutine(Disabler());
 
         }
+
+        public Transform GetVisualTransform()
+        {
+            return visualTransform;
+        }
+
+        public void GiveBackVisual()
+        {
+            visualTransform.parent = this.transform;
+            visualTransform.localPosition = Vector3.zero;
+            visualTransform.localRotation = Quaternion.identity;
+        }
+
 
         IEnumerator Disabler()
         {
