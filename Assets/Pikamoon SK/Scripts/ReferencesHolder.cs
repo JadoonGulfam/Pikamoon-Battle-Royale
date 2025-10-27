@@ -1,4 +1,5 @@
 using Pikamoon.UI;
+using System;
 using UnityEngine;
 
 
@@ -18,9 +19,13 @@ namespace Pikamoon.Controller
         public CameraController _cameraController;
 
         public UIManagerSK _uiManager;
+       
+       [Serializable]
+       public class PlayerPosition {
+            public Transform[] _MapSpawnPoint;
+        }
 
-        [SerializeField] Transform _SpawnPoint;
-
+        public PlayerPosition[] playerPosition; 
         void Awake()
         {
             Instance = this;
@@ -44,22 +49,28 @@ namespace Pikamoon.Controller
                 _playerController = GO.GetComponent<PlayerController>();
             }
 
-            _playerController.transform.position = _SpawnPoint.position;
-            _playerController.transform.rotation = _SpawnPoint.rotation;
+            _playerController.transform.position = playerPosition[0]._MapSpawnPoint[0].position;
+            _playerController.transform.rotation = playerPosition[0]._MapSpawnPoint[0].rotation;
+
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
             _playerController.Inititalize(_playerInput,_cameraController, _uiManager);
         }
 
-        public void InstantiatePlayer(GameObject GO)
+        public void InstantiatePlayer(GameObject GO, int i, int _mapIndex)
         {
             CamefromMPCAll = true;
-
+            print("1111111111111111111111111" + playerPosition[_mapIndex]._MapSpawnPoint[i].position);
             _playerController = GO.GetComponent<PlayerController>();
+           
+                _playerController.transform.position = playerPosition[_mapIndex]._MapSpawnPoint[i].position;
+                _playerController.transform.rotation = playerPosition[_mapIndex]._MapSpawnPoint[i].rotation;
+            
+            
 
-            _playerController.transform.position = _SpawnPoint.position;
-            _playerController.transform.rotation = _SpawnPoint.rotation;
+            //_playerController.transform.position = _SpawnPoint[i].position;
+            //_playerController.transform.rotation = _SpawnPoint[i].rotation;
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 
@@ -76,10 +87,10 @@ namespace Pikamoon.Controller
             {
                 return;
             }
-            
-            
-            _playerController.transform.position = _SpawnPoint.position;
-            _playerController.transform.rotation = _SpawnPoint.rotation;
+
+
+            _playerController.transform.position = playerPosition[0]._MapSpawnPoint[0].position;
+            _playerController.transform.rotation = playerPosition[0]._MapSpawnPoint[0].rotation;
 
             _cameraController.AssignPlayer(_playerController.transform, _playerController.Head);
 

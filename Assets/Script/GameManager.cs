@@ -1,11 +1,13 @@
 using Pikamoon.Controller;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [Serializable]
@@ -38,7 +40,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown typeDropdown;
     [SerializeField] private Transform roomListContainer;
     [SerializeField] private GameObject roomItemPrefab;
+    [SerializeField] private TMP_Dropdown mapDropdown;
+    [SerializeField] private Image mapPreviewImage;
 
+    [Header("Map Data")]
+    [SerializeField] private List<MapData> maps = new List<MapData>();
     // Example room data (replace this with your actual list from server)
     private List<RoomData> allRooms = new List<RoomData>();
     private List<GameObject> spawnedRooms = new List<GameObject>();
@@ -92,6 +98,14 @@ public class GameManager : MonoBehaviour
         SpawnPrefab(currentSettings.playerIndex);
         NetworkManager.Instance.ChrarcterIndex = currentSettings.playerIndex;
 
+        // Populate dropdown with map names
+        mapDropdown.ClearOptions();
+        List<string> mapNames = new List<string>();
+        foreach (var map in maps)
+            mapNames.Add(map.mapName);
+        mapDropdown.AddOptions(mapNames);
+        mapDropdown.onValueChanged.AddListener(OnMapChanged);
+        OnMapChanged(currentSettings.mapIndex);
         //// Assign dropdown listeners
         //searchInput.onValueChanged.AddListener(delegate { ApplyFilters(); });
         //regionDropdown.onValueChanged.AddListener(delegate { ApplyFilters(); });
@@ -100,6 +114,44 @@ public class GameManager : MonoBehaviour
 
         //// Display all rooms initially
         //DisplayRooms(allRooms);
+    }
+    private void OnMapChanged(int _index)
+    {
+        if (_index >= 0 && _index < maps.Count)
+        {
+            //mapPreviewImage.sprite = maps[index].mapPreview;
+            StartCoroutine(FadePreview(maps[_index].mapPreview));
+            currentSettings.mapIndex = _index;
+            NetworkManager.Instance.mapIndex = _index;
+            // Optional: Play transition animation or fade
+        }
+    }
+    private IEnumerator FadePreview(Sprite newSprite)
+    {
+        float duration = 0.3f;
+        float elapsed = 0f;
+        Color c = mapPreviewImage.color;
+
+        // Fade out
+        while (elapsed < duration)
+        {
+            c.a = Mathf.Lerp(1f, 0f, elapsed / duration);
+            mapPreviewImage.color = c;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        mapPreviewImage.sprite = newSprite;
+
+        // Fade in
+        elapsed = 0f;
+        while (elapsed < duration)
+        {
+            c.a = Mathf.Lerp(0f, 1f, elapsed / duration);
+            mapPreviewImage.color = c;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
     void DisplayRooms(List<RoomData> roomsToShow)
     {
@@ -303,6 +355,7 @@ public class GameManager : MonoBehaviour
             AmbientOcclusion = defaultSettings.AmbientOcclusion,
             MotionBlur = defaultSettings.MotionBlur,
             language = defaultSettings.language,
+            mapIndex = defaultSettings.mapIndex,
         };
 
         // Save to JSON so it persists
@@ -328,6 +381,7 @@ public class GameManager : MonoBehaviour
         AmbientOcclusion = "Medium",
         MotionBlur = "Medium",
         language = "English",
+        mapIndex = 0,
     };
 }
 [Serializable]
@@ -347,6 +401,8 @@ public class SettingsData
     public string ColorAdjustments;
     public string AmbientOcclusion;
     public string MotionBlur;
+
+    public int mapIndex;
 
     public string language = "English";
 }
@@ -385,4 +441,10 @@ public class RoomData
         this.region = region;
         this.privacy = privacy;
     }
+}
+[System.Serializable]
+public class MapData
+{
+    public string mapName;
+    public Sprite mapPreview;
 }
