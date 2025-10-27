@@ -1,6 +1,6 @@
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Windows;
 
 namespace Pikamoon.Controller
 {
@@ -8,45 +8,50 @@ namespace Pikamoon.Controller
     {
         public PlayerData playerData;
 
-        [SerializeField] float Gravity;
+        [SerializeField] float Gravity = 9.81f;
         [SerializeField] float TransitionTime = 0.1f;
+        [SerializeField] float CoyoteJumpTime = 0.2f;
+        [SerializeField] float ApexHungTime = 0.2f;
+        [SerializeField, Range(0.0f, 1f)] float ApexGravityMultiplier = 0.1f; // less gravity at jump apex
 
         [Header("Animation State")]
-        [Space]
         [SerializeField] string _fallStateName = "Airbourne.Fall";
-        int _fallStateHash;
         [SerializeField] string _jumpStateName = "Airbourne.Jump";
-        int _jumpStateHash; 
-
-
-        //[Header("Gliding")]
-        //[Space]
-        //[SerializeField] Vector3 GlidingSpeed;
+        int _fallStateHash;
+        int _jumpStateHash;
 
         [Header("Events")]
-        [Space]
         public UnityEvent OnJumpStart;
         public UnityEvent OnLanded;
 
         bool isJumping;
+        bool isInApexHang;
+        bool isInCoyoteJump;
+        bool hasApexed;
+
+        Coroutine coyoteJumpRoutine;
+        Coroutine apexHangRoutine;
+
+        public PlayerSetupForMultiplayer MP_Setup;
 
         public override void Initialize()
         {
             base.Initialize();
-
-            isJumping = false;
-
-            _fallStateHash = Animator.StringToHash(_fallStateName);
-            _jumpStateHash = Animator.StringToHash(_jumpStateName);
-
-            playerInput.onJump_Down += StartJumping;
+            Setup();
         }
 
         public override void Initialize(Transform Root)
         {
             base.Initialize(Root);
+            Setup();
+        }
 
+        void Setup()
+        {
             isJumping = false;
+            isInApexHang = false;
+            isInCoyoteJump = false;
+            hasApexed = false;
 
             _fallStateHash = Animator.StringToHash(_fallStateName);
             _jumpStateHash = Animator.StringToHash(_jumpStateName);
@@ -54,17 +59,10 @@ namespace Pikamoon.Controller
             playerInput.onJump_Down += StartJumping;
         }
 
-        public override StateType GetStateType()
-        {
-            return StateType.Air;
-        }
+        public override StateType GetStateType() => StateType.Air;
 
-        public PlayerSetupForMultiplayer MP_Setup;
         private void Update()
         {
-            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
-            //    return;
-
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
@@ -73,56 +71,80 @@ namespace Pikamoon.Controller
 
         void StartJumping()
         {
-            if (Controller.IsUIOpened || Controller.InAir || Controller.IsRootMotionEnabled)
+            if (Controller.IsUIOpened || Controller.IsRootMotionEnabled)
                 return;
 
+            // Allow jump if grounded OR in coyote window
+            if (!Controller.IsGrounded && !isInCoyoteJump)
+                return;
 
+            // Calculate upward velocity
             playerInput.JumpVelocity = Mathf.Sqrt(playerData.JumpHeight * 2f * Gravity);
             isJumping = true;
+            hasApexed = false;
 
+            // Stop coyote timer if jumping
+            if (coyoteJumpRoutine != null)
+            {
+                StopCoroutine(coyoteJumpRoutine);
+                isInCoyoteJump = false;
+                coyoteJumpRoutine = null;
+            }
+
+            AC.SetAnimationState(_jumpStateHash, TransitionTime);
             OnJumpStart?.Invoke();
         }
 
         void Landed()
         {
+            if (!Controller.InAir) return;
+
             isJumping = false;
+            isInApexHang = false;
+            isInCoyoteJump = false;
+            hasApexed = false;
+
+            if (coyoteJumpRoutine != null)
+            {
+                StopCoroutine(coyoteJumpRoutine);
+                coyoteJumpRoutine = null;
+            }
+
+            if (apexHangRoutine != null)
+            {
+                StopCoroutine(apexHangRoutine);
+                apexHangRoutine = null;
+            }
+
             AC.PAnimator.SetBool(AC.Parameters.inAir.Hash, false);
+            Controller.InAir = false;
             OnLanded?.Invoke();
         }
 
         void HandleGravity()
         {
-            if(Controller.IgnoreGravity)
+            if (Controller.IgnoreGravity)
             {
                 playerInput.JumpVelocity = 0;
-
                 return;
             }
-
 
             if (Controller.IsGrounded)
             {
                 if (playerInput.JumpVelocity < 0)
-                {
-                    playerInput.JumpVelocity = -200f;
-                }
-
-                isJumping = false;
+                    playerInput.JumpVelocity = -10f;
 
                 if (Controller.InAir)
-                {
-                    Controller.InAir = false;
-
                     Landed();
-                }
             }
-            else 
+            else
             {
-                if(!Controller.InAir && !Controller.IsRootMotionEnabled)
+                // Player just became airborne
+                if (!Controller.InAir && !Controller.IsRootMotionEnabled)
                 {
                     Controller.InAir = true;
-
                     AC.PAnimator.SetBool(AC.Parameters.inAir.Hash, true);
+
                     if (isJumping)
                     {
                         AC.SetAnimationState(_jumpStateHash, TransitionTime);
@@ -130,40 +152,52 @@ namespace Pikamoon.Controller
                     else
                     {
                         AC.SetAnimationState(_fallStateHash, TransitionTime);
+                        // ✅ Only start coyote timer when *not jumping*
+                        if (coyoteJumpRoutine != null)
+                            StopCoroutine(coyoteJumpRoutine);
+                        coyoteJumpRoutine = StartCoroutine(StartCoyoteJumping());
                     }
                 }
 
-                playerInput.JumpVelocity -= Gravity * Time.deltaTime;
+                // Detect apex (velocity going from positive to negative)
+                if (isJumping && !hasApexed && playerInput.JumpVelocity <= 0.2f)
+                {
+                    hasApexed = true;
+                    if (apexHangRoutine != null)
+                        StopCoroutine(apexHangRoutine);
+                    apexHangRoutine = StartCoroutine(StartApexHang());
+                }
+
+                // Apply gravity normally or reduced at apex
+                float gravityToApply = isInApexHang ? Gravity * ApexGravityMultiplier : Gravity;
+                playerInput.JumpVelocity -= gravityToApply * Time.deltaTime;
             }
         }
 
-        public void Jump()
+        IEnumerator StartCoyoteJumping()
         {
-
+            isInCoyoteJump = true;
+            yield return new WaitForSeconds(CoyoteJumpTime);
+            isInCoyoteJump = false;
         }
 
-        public override void OnEnd()
+        IEnumerator StartApexHang()
         {
+            isInApexHang = true;
+            yield return new WaitForSeconds(ApexHungTime);
+            isInApexHang = false;
         }
 
-        public override void OnStart()
-        {
-        }
-
-        public override void OnUpdate()
-        {
-        }
-
+        public override void OnStart() { }
+        public override void OnEnd() { }
+        public override void OnUpdate() { }
 
         private void OnDestroy()
         {
-            //if (Controller.MP_Setup != null && !Controller.MP_Setup.isMinePlayer)
-            //    return;
-
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
-            playerInput.onWalk_Up -= StartJumping;
+            playerInput.onJump_Down -= StartJumping;
         }
     }
 }
