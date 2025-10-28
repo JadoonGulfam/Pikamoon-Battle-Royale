@@ -157,6 +157,13 @@ namespace Pikamoon.UI
         public Transform SmallMinimap;
         public MiniMapUI miniMapUI;
         #endregion
+
+        #region Ranged Weapon Charged Shot
+        [Header("Charged Shot")]
+        [Space]
+        public GameObject ChargeGO;
+        public GameObject ChargeFillerGO;
+        #endregion
     }
 
 }
