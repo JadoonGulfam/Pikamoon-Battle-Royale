@@ -36,6 +36,14 @@ namespace Pikamoon.Controller
         {
             shootingManager.ShootArrow();
         }
+        public void EquipArrrow()
+        {
+            shootingManager.PickArrow();
+        }
+        public void PutArrrowBack()
+        {
+            shootingManager.PutBackArrow();
+        }
 
         public void Throw()
         {

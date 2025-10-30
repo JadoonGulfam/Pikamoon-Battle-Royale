@@ -9,6 +9,12 @@ namespace Pikamoon.Controller
 
         [Header("Core Data")]
         [Space]
+        public Animator _animator;
+        int PullHash;
+        int ShootHash;
+
+
+        [Space]
         public Transform FirePoint;
 
         [Space]
@@ -16,7 +22,7 @@ namespace Pikamoon.Controller
         [SerializeField] Transform BulletsParent;
         public int MaxPoolSize;
         List<Bullet> bulletsPool;
-
+        Bullet ActiveBullet;
 
         [Space]
         [SerializeField] Transform DebugTransform;
@@ -28,19 +34,41 @@ namespace Pikamoon.Controller
 
         RangedWeaponDataSO rWeaponData;
 
+
+
         private void Awake()
         {
             rWeaponData = GetItemDataAs<RangedWeaponDataSO>();
 
             MakePool(rWeaponData.Bullet);
+
+            PullHash = Animator.StringToHash("Pull");
+            ShootHash = Animator.StringToHash("Shoot");
         }
 
-        public void ShootBullet(Vector3 hit)
+        public void ShootBullet(Vector3 hit, float perfectShotDamageMultiplier)
         {
+            ActiveBullet.Shoot(FirePoint.position, hit, rWeaponData.BulletSpeed, rWeaponData.BulletDamage * perfectShotDamageMultiplier);
+            DebugTransform.transform.position = hit;
+
             UpdateNextBulletIndex();
 
-            bulletsPool[bulletIndex].Shoot(FirePoint.position, hit, rWeaponData.BulletSpeed, rWeaponData.BulletDamage);
-            DebugTransform.transform.position = hit;
+            _animator.SetTrigger(ShootHash);
+        }
+
+        public void EnableActiveArrow(Transform parent)
+        {
+            Transform ArrowVisual = ActiveBullet.GetVisualTransform();
+
+            ArrowVisual.parent = parent;
+            ArrowVisual.localPosition = Vector3.zero;
+            ArrowVisual.localRotation = Quaternion.identity;
+
+        }
+
+        public void DisableActiveArrow()
+        {
+            ActiveBullet.GiveBackVisual();
         }
 
         void UpdateNextBulletIndex()
@@ -50,11 +78,24 @@ namespace Pikamoon.Controller
             {
                 bulletIndex = 0;
             }
+
+            ActiveBullet = bulletsPool[bulletIndex];
         }
 
         public int GetBulletIndex()
         {
             return bulletIndex;
+        }
+
+        public void Pull()
+        {
+            _animator.SetBool(PullHash, true);
+        }
+
+
+        public void Release()
+        {
+            _animator.SetBool(PullHash, false);
         }
 
         void MakePool(Bullet bullet)
@@ -73,6 +114,8 @@ namespace Pikamoon.Controller
 
                 bulletsPool.Add(_bllt);
             }
+
+            ActiveBullet = bulletsPool[0];
         }
 
         public Transform GetActionCamParent()
