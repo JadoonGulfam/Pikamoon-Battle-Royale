@@ -1221,6 +1221,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.1
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -2944,7 +2947,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 579301289870825731}
-  animatorOverrideController: []
+  animatorOverrideController:
+  - {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
+  - {fileID: 22100000, guid: 815d2d250c3695d42971f7f44921aeaa, type: 2}
+  - {fileID: 22100000, guid: 644c33bd0c83fc44fbed028c081e94cb, type: 2}
   Parameters:
     isWalkRun:
       Name: isWalkRun
@@ -3590,6 +3596,7 @@ MonoBehaviour:
   AC: {fileID: 1743615005857181618}
   SFX: {fileID: 2433528212639487250}
   FirePoint: {fileID: 6898643091826725154}
+  ArrowHoldingPoint: {fileID: 0}
   AR_LockedOnTargetAimer: {fileID: 862506565922401563}
   AR_LookTarget: {fileID: 597312789764402419}
   AR_LookSpeed: 2
@@ -3604,6 +3611,21 @@ MonoBehaviour:
   DebugTransform: {fileID: 4337573760193901239}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 8279086650186931593}
+  isChargingAttack: 0
+  ChargeGO: {fileID: 0}
+  ChargeFillerGO: {fileID: 0}
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 0
+  SpeedOfCharge: 0
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.77
+    max: 0.85
 --- !u!1 &3502974875163509072
 GameObject:
   m_ObjectHideFlags: 0
