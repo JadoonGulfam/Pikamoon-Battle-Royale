@@ -290,6 +290,7 @@ public class GameManager : MonoBehaviour
                 currentSettings.musicVolume = value == "ON";
                 break;
             case SettingType.Quality:
+                ApplyQualitySetting(value);
                 currentSettings.quality = value;
                 break;
             case SettingType.TextureQuality:
@@ -319,6 +320,21 @@ public class GameManager : MonoBehaviour
             case SettingType.Language:
                 currentSettings.language = value;
                 break;
+        }
+    }
+    private void ApplyQualitySetting(string value)
+    {
+        int index = Array.FindIndex(QualitySettings.names, q =>
+            q.Equals(value, StringComparison.OrdinalIgnoreCase));
+
+        if (index >= 0)
+        {
+            QualitySettings.SetQualityLevel(index, true);
+            Debug.Log($"[Settings] Quality set to: {value}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Settings] Quality level '{value}' not found in QualitySettings.");
         }
     }
     public void LoadSettings()
