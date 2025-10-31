@@ -63,6 +63,12 @@ public class GameManager : MonoBehaviour
         }
 
         filePath = Path.Combine(Application.persistentDataPath, "gamesettings.json");
+        //Ensure directory exists before using it
+        string directoryPath = Path.GetDirectoryName(filePath);
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
         InitializeSettings();
         foreach (GameObject item in enviornmentLagCompensation)
         {
