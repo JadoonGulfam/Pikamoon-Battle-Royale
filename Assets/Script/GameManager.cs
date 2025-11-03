@@ -458,5 +458,10 @@ public class MapData
 {
     public string mapName;
     public Sprite mapPreview;
+}
+[System.Serializable]
+public class RegionPikamoons
+{
+    public string RegionName;
     public GameObject[] Pikamoons;
 }

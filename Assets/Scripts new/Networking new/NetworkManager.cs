@@ -41,7 +41,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public static event Action<NetworkRunner, PlayerRef> OnOtherPlayerJoined;
 
-
+    [Header("Pikamoon Region")]
+    [SerializeField] private List<RegionPikamoons> regionPiamoon = new List<RegionPikamoons>();
     // public string _playerName = "adnan";
     private void Awake()
     {
