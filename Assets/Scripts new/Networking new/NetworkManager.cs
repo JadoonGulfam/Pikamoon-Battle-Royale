@@ -10,7 +10,6 @@ using Pikamoon.Controller;
 using UnityEngine.AI;
 using System.Collections;
 using System.Linq;
-using static Dreamteck.WelcomeWindow.WindowPanel;
 
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 

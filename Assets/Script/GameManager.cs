@@ -49,7 +49,6 @@ public class GameManager : MonoBehaviour
     private List<RoomData> allRooms = new List<RoomData>();
     private List<GameObject> spawnedRooms = new List<GameObject>();
 
-    public GameObject[] enviornmentLagCompensation;
     private void Awake()
     {
         if (instance == null)
@@ -69,21 +68,10 @@ public class GameManager : MonoBehaviour
         {
             Directory.CreateDirectory(directoryPath);
         }
-        InitializeSettings();
-        foreach (GameObject item in enviornmentLagCompensation)
-        {
-            item.gameObject.SetActive(false);
-        }
-        LoadGame();
+        InitializeSettings();      
+        //LoadGame();
 
-    }
-    void EnvironmentLagCompensationRoutine()
-    {
-        foreach (GameObject item in enviornmentLagCompensation)
-        {
-            item.gameObject.SetActive(true);
-        }
-    }
+    }   
     private void InitializeSettings()
     {
         if (!File.Exists(filePath))
@@ -100,7 +88,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-      //  LoadGame();
+        LoadGame();
         SpawnPrefab(currentSettings.playerIndex);
         NetworkManager.Instance.ChrarcterIndex = currentSettings.playerIndex;
 
