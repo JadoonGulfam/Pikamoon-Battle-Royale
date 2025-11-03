@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Map Data")]
     [SerializeField] private List<MapData> maps = new List<MapData>();
+
     // Example room data (replace this with your actual list from server)
     private List<RoomData> allRooms = new List<RoomData>();
     private List<GameObject> spawnedRooms = new List<GameObject>();
@@ -457,4 +458,5 @@ public class MapData
 {
     public string mapName;
     public Sprite mapPreview;
+    public GameObject[] Pikamoons;
 }
