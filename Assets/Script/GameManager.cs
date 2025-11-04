@@ -45,11 +45,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Map Data")]
     [SerializeField] private List<MapData> maps = new List<MapData>();
+
     // Example room data (replace this with your actual list from server)
     private List<RoomData> allRooms = new List<RoomData>();
     private List<GameObject> spawnedRooms = new List<GameObject>();
 
-    public GameObject[] enviornmentLagCompensation;
     private void Awake()
     {
         if (instance == null)
@@ -63,21 +63,16 @@ public class GameManager : MonoBehaviour
         }
 
         filePath = Path.Combine(Application.persistentDataPath, "gamesettings.json");
-        InitializeSettings();
-        foreach (GameObject item in enviornmentLagCompensation)
+        //Ensure directory exists before using it
+        string directoryPath = Path.GetDirectoryName(filePath);
+        if (!Directory.Exists(directoryPath))
         {
-            item.gameObject.SetActive(false);
+            Directory.CreateDirectory(directoryPath);
         }
-        LoadGame();
+        InitializeSettings();      
+        //LoadGame();
 
-    }
-    void EnvironmentLagCompensationRoutine()
-    {
-        foreach (GameObject item in enviornmentLagCompensation)
-        {
-            item.gameObject.SetActive(true);
-        }
-    }
+    }   
     private void InitializeSettings()
     {
         if (!File.Exists(filePath))
@@ -94,7 +89,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-      //  LoadGame();
+        LoadGame();
         SpawnPrefab(currentSettings.playerIndex);
         NetworkManager.Instance.ChrarcterIndex = currentSettings.playerIndex;
 
@@ -463,4 +458,10 @@ public class MapData
 {
     public string mapName;
     public Sprite mapPreview;
+}
+[System.Serializable]
+public class RegionPikamoons
+{
+    public string RegionName;
+    public GameObject[] Pikamoons;
 }
