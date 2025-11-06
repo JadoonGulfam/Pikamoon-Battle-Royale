@@ -27,7 +27,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public int selectedWearablesIndex = 2;
     public int mapIndex = 0;
 
- //   public AnimationController animationController;
+ // public AnimationController animationController;
     public GameObject[] playerPrefab;
     public int ChrarcterIndex = 0;
     public Transform sessionListContentParent;
@@ -47,6 +47,10 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Pikamoon Region")]
     [SerializeField] private List<RegionPikamoons> regionPiamoon = new List<RegionPikamoons>();
     // public string _playerName = "adnan";
+
+
+
+    public Vector3[] mapPosition;
     private void Awake()
     {
         if (Instance == null)
@@ -54,9 +58,18 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             Instance = this;
             DontDestroyOnLoad(gameObject); // Make persistent
         }
+        mapPosition = new Vector3[]
+   {
+        new (-318.1f,18.9f,215.9f),
+        new (81.3201294f,11.7200012f,-985.000244f),
+        new (-866.011841f,126.253998f,-938.042725f),
+        new (-881.719971f,132.339691f,260.60553f),
+   };
+
+
         //else
         //{
-           // Destroy(gameObject);
+        // Destroy(gameObject);
         //}
 
         runnerInstance = gameObject.AddComponent<NetworkRunner>();
@@ -241,7 +254,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
             if (!isPikamoonAdd)
             {
-                PopulatePikamoonOverNetwork(playerNetworkObject.transform.position, pikamoonList.Count, pikamoonRadius);
+                PopulatePikamoonOverNetwork(mapPosition[mapIndex], pikamoonList.Count, pikamoonRadius);
                 isPikamoonAdd = true; // Ensure Pikamoon is only added once
             }
 
