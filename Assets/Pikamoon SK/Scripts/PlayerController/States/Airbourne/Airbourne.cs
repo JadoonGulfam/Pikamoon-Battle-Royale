@@ -71,7 +71,7 @@ namespace Pikamoon.Controller
 
         void StartJumping()
         {
-            if (Controller.IsUIOpened || Controller.IsRootMotionEnabled)
+            if (Controller.IsUIOpened || Controller.IsRootMotionEnabled || Controller.IsSwimming)
                 return;
 
             // Allow jump if grounded OR in coyote window
@@ -162,6 +162,10 @@ namespace Pikamoon.Controller
                 // Detect apex (velocity going from positive to negative)
                 if (isJumping && !hasApexed && playerInput.JumpVelocity <= 0.2f)
                 {
+
+
+
+                    AC.SetAnimationState(_fallStateHash, TransitionTime);
                     hasApexed = true;
                     if (apexHangRoutine != null)
                         StopCoroutine(apexHangRoutine);
