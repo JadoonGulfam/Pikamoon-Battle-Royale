@@ -7,19 +7,15 @@ namespace Pikamoon.UI
     public class UI_WeaponSlot : UI_ItemSlot
     {
 
-        [Header("Settings")]
-        public SlotAppearenceSettings EmptySlotSettings;
-        public SlotAppearenceSettings ActiveSlotSettings;
-        public SlotAppearenceSettings InActiveSlotSettings;
 
 
         protected override void Awake()
         {
             base.Awake();
-            ChangeButtonAppearance(EmptySlotSettings);
+           //ChangeButtonAppearance(inventoryUI.EmptySlotSettings);
         }
 
-        public override void AssignItem(Item item, bool alsoExecuteDependency)
+        public override void AssignItem(Item item, bool alsoExecuteDependency, bool isEquipped = false)
         {
             if (item == null)
             {
@@ -36,10 +32,8 @@ namespace Pikamoon.UI
             if(ItemName)
                 ItemName.text = item.Data.ItemName;
 
-            ChangeButtonAppearance(ActiveSlotSettings);
 
-            if(inventoryUI)
-                inventoryUI.Player.AddWeaponsToList(item, indexInList);
+            ChangeButtonAppearance(inventoryUI.ActiveSlotSettings);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.AssignItemByDependentSlot(item);
@@ -66,23 +60,15 @@ namespace Pikamoon.UI
             if(ItemName)
                 ItemName.text = item.Data.ItemName;
 
-            ChangeButtonAppearance(ActiveSlotSettings);
+            ChangeButtonAppearance(inventoryUI.ActiveSlotSettings);
         }
 
 
         public override void UnAssignItem(bool alsoExecuteDependency)
         {
-            if (Icon)
-                Icon.sprite = null;
-            if (ItemName)
-                ItemName.text = "";
-            CurrentItem = null;
-            hasItem = false;
 
-            ChangeButtonAppearance(InActiveSlotSettings);
+            ChangeButtonAppearance(inventoryUI.InActiveSlotSettings);
 
-            if (inventoryUI)
-                inventoryUI.Player.RemoveWeaponsFromList(indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.UnAssignItemByDependentSlot();
@@ -93,7 +79,7 @@ namespace Pikamoon.UI
             CurrentItem = null;
             hasItem = false;
 
-            ChangeButtonAppearance(InActiveSlotSettings);
+            ChangeButtonAppearance(inventoryUI.InActiveSlotSettings);
         }
 
         public override void RemoveItem(bool alsoExecuteDependency)
@@ -105,10 +91,7 @@ namespace Pikamoon.UI
             CurrentItem = null;
             hasItem = false;
 
-            ChangeButtonAppearance(EmptySlotSettings);
-
-            if (inventoryUI)
-                inventoryUI.Player.RemoveWeaponsFromList(indexInList);
+            ChangeButtonAppearance(inventoryUI.EmptySlotSettings);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.RemoveItemByDependentSlot();
@@ -124,7 +107,7 @@ namespace Pikamoon.UI
             CurrentItem = null;
             hasItem = false;
 
-            ChangeButtonAppearance(EmptySlotSettings);
+            ChangeButtonAppearance(inventoryUI.EmptySlotSettings);
         }
 
         private void ChangeButtonAppearance(SlotAppearenceSettings settings)
@@ -158,7 +141,13 @@ namespace Pikamoon.UI
 
             return returnFlag;
         }
+        public override void DropItem()
+        {
+            if (CurrentItem == null)
+                return;
 
+            inventoryUI.Player.DropWeaponsFromList(indexInList);
+        }
 
     }
 }

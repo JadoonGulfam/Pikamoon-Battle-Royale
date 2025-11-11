@@ -141,6 +141,13 @@ namespace Pikamoon.Controller
             if (!IsInventoryOpen)
             {
                 IsInventoryOpen = true;
+
+                if (isUsingWeapon)
+                {
+                    UnEquipping(UsingWeaponIndex, Weapons.items[UsingWeaponIndex], true);
+                }
+
+
                 ShowInventoryUI();
                 Controller.ToggleCursor(true);
                 AllowPickUp = false;
@@ -518,7 +525,7 @@ namespace Pikamoon.Controller
 
             weapon.OnUnEquip();
 
-            UI.hudcontroller.UnEquipWeapon(index, DefaultFistNoWeapon.Data.AimIcon);
+            UI.hudcontroller.UnEquipWeapon(index, DefaultFistNoWeapon.Data.AimIcon, DefaultFistNoWeapon.Data.icon);
 
 
             isUsingWeapon = false;
@@ -635,7 +642,8 @@ namespace Pikamoon.Controller
         void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
             AddWeaponsToList(weapon, index);
-            UI.inventoryUI.AssignToWeapons(weapon, index);
+
+            UI.inventoryUI.AssignToWeapons(weapon, index, UsingWeaponIndex == index);
 
             weapon.OnPicked();
 
@@ -771,6 +779,7 @@ namespace Pikamoon.Controller
                 }
             }
         }
+
 
         #endregion
 
@@ -935,6 +944,28 @@ namespace Pikamoon.Controller
                 QuickItems.AvailedInCategory--;
             }
         }
+
+
+        public void DropFromQuickItem(int index)
+        {
+            if (QuickItems.items[index] == null)
+                return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+            
+            
+            
+
+            QuickItems.items[index].OnDrop(this.transform, Controller.groundLayer);
+            
+
+
+
+            RemoveQuickItemsFromList(index);
+
+        }
+
 
         #endregion
 

@@ -56,6 +56,7 @@ namespace Pikamoon.Controller
         public ParamBool isCrouch;
         public ParamBool inCombat;
         public ParamBool isSwim;
+        public ParamBool isBlocking;
         public ParamInt AttackState;
         public ParamBool isSlide;
         public ParamFloat Speed;
@@ -110,6 +111,7 @@ namespace Pikamoon.Controller
             Parameters.isCrouch.Hash = Animator.StringToHash(Parameters.isCrouch.Name);
             Parameters.inCombat.Hash = Animator.StringToHash(Parameters.inCombat.Name);
             Parameters.isSwim.Hash = Animator.StringToHash(Parameters.isSwim.Name);
+            Parameters.isBlocking.Hash = Animator.StringToHash(Parameters.isBlocking.Name);
             Parameters.AttackState.Hash = Animator.StringToHash(Parameters.AttackState.Name);
             Parameters.isSlide.Hash = Animator.StringToHash(Parameters.isSlide.Name);
             Parameters.Speed.Hash = Animator.StringToHash(Parameters.Speed.Name);

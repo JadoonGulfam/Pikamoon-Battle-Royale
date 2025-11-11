@@ -9,6 +9,11 @@ namespace Pikamoon.UI
         public InventoryUI inventoryUI;
         public GamePlayPopupUI exitController;
 
+        void Awake()
+        {
+            hudcontroller.InitializeWeaponUI(inventoryUI);
+        }
+
         public void OpenLootBox(LootBox lootbox)
         {
 

@@ -187,11 +187,13 @@ namespace Pikamoon.Controller
         {
             RaycastHit hit;
 
+            Debug.Log("Throwable Weapon Dropped");
+
             if (Physics.Raycast(Dropper.position + (Dropper.forward * 2) + (Vector3.up * 2), Vector3.down, out hit, 5, DropLayer))
             {
+                this.gameObject.SetActive(true);
 
                 Vector3 pos = hit.point + Vector3.up * 1;
-
 
                 if (HasScabbard)
                 {

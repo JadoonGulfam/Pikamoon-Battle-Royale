@@ -49,9 +49,24 @@ namespace Pikamoon.UI
         [Header("Weapons")]
         [Space]
         public UI_ItemSlot[] Weapons;
+        public UI_ItemSlot[] QuickItems;
         int selectedIndex;
 
 
+        public void InitializeWeaponUI(InventoryUI inventoryUI)
+        {
+            
+            foreach (var item in Weapons)
+            {
+                item.AssignDragManager(inventoryUI);
+            }
+
+            foreach (var item in QuickItems)
+            {
+                item.AssignDragManager(inventoryUI);
+            }
+
+        }
 
         public void EquipWeapon(int index, Item item, bool isActive, Sprite AimSprite)
         {
@@ -64,16 +79,17 @@ namespace Pikamoon.UI
         }
         public void EquipWeapon(int index, Sprite icon, bool isActive, int resourceRemaining, int totalResource)
         {
-            //Weapons[index].AssignItem(icon, isActive, resourceRemaining,totalResource);
+            //Weapons[index].AssignItem(aimIcon, isActive, resourceRemaining,totalResource);
 
             if(isActive)
                 selectedIndex = index;
         }
 
-        public void UnEquipWeapon(int index, Sprite icon)
+        public void UnEquipWeapon(int index, Sprite aimIcon, Sprite icon)
         {
-            AimIcon.sprite = icon;
-            Weapons[index].UnAssignItem(true);
+            AimIcon.sprite = aimIcon;
+            Weapons[index].UnAssignItem(false);
+           // Weapons[index].Icon.sprite = icon;
         }
 
         public void DropWeapon(int index)

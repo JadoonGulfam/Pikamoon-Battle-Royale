@@ -91,7 +91,7 @@ namespace Pikamoon.UI
 
                 if (targetItem == null)
                 {
-                    draggedSlot.UnAssignItem(true);
+                    draggedSlot.RemoveItem(true);
                 }
                 else
                 {

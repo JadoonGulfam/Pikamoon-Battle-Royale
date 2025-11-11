@@ -58,7 +58,8 @@ namespace Pikamoon.Controller
         [Header("Charged Attack")]
         [Space]
         [SerializeField] bool isChargingAttack;
-
+        GameObject ChargeGO;
+        GameObject ChargeFillerGO;
         [SerializeField] AnimationCurve ChargedScalingCurve;
         [Range(1f,3f)][SerializeField] float chargeAttackDamageMultiplier;
         [SerializeField] float SpeedOfCharge;
@@ -66,8 +67,7 @@ namespace Pikamoon.Controller
         [SerializeField] bool isShotPerfect;
         [HideInInspector] public Range PerfectRange = new Range { min = 0.77f, max = 0.85f };
 
-        GameObject ChargeGO;
-        GameObject ChargeFillerGO;
+    
 
         public override void Initialize()
         {
