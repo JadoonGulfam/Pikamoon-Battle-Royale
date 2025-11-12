@@ -61,13 +61,17 @@ namespace Pikamoon.Controller
         GameObject ChargeGO;
         GameObject ChargeFillerGO;
         [SerializeField] AnimationCurve ChargedScalingCurve;
-        [Range(1f,3f)][SerializeField] float chargeAttackDamageMultiplier;
-        [SerializeField] float SpeedOfCharge;
+        [Range(1f,3f)][SerializeField] float chargeAttackDamageMultiplier = 1;
+        [SerializeField] float SpeedOfCharge = 100f;
         float currentChargeValue;
         [SerializeField] bool isShotPerfect;
-        [HideInInspector] public Range PerfectRange = new Range { min = 0.77f, max = 0.85f };
+        [HideInInspector] Range PerfectRange = new Range { min = 0.7f, max = 0.9f };
 
-    
+        [ContextMenu("Get Holding Pos")]
+        public void GetHoldingPos()
+        {
+            ArrowHoldingPoint = Controller.holdingPoints[1].Point;
+        }
 
         public override void Initialize()
         {

@@ -751,6 +751,7 @@ MonoBehaviour:
   AC: {fileID: 2648906217961522093}
   SFX: {fileID: 3412433881902320679}
   FirePoint: {fileID: 3132595219255431692}
+  ArrowHoldingPoint: {fileID: 5630344458110467962}
   AR_LockedOnTargetAimer: {fileID: 3119697058921998865}
   AR_LookTarget: {fileID: 2738295298423243149}
   AR_LookSpeed: 2
@@ -765,6 +766,37 @@ MonoBehaviour:
   DebugTransform: {fileID: 5509494293879526510}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 0}
+  isChargingAttack: 0
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 1
+  SpeedOfCharge: 100
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.7
+    max: 0.9
 --- !u!1 &1094238454917491510
 GameObject:
   m_ObjectHideFlags: 0
@@ -1615,6 +1647,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.2
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -2838,6 +2873,7 @@ MonoBehaviour:
   combat: {fileID: 7194240394275954014}
   shootingManager: {fileID: 3389242943074887169}
   _throwManager: {fileID: 7761440303172084537}
+  _swimmingManager: {fileID: 0}
   Controller: {fileID: 5455068485987766398}
   AC: {fileID: 2648906217961522093}
 --- !u!114 &3395121349391953382
@@ -3191,6 +3227,10 @@ MonoBehaviour:
       Name: isSwim
       Value: 0
       Hash: 795965116
+    isBlocking:
+      Name: 
+      Value: 0
+      Hash: 0
     AttackState:
       Name: AttackState
       Value: 0
@@ -3315,10 +3355,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4669b567971f04849942c3accc98a5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headShieldValue: 0
-  upperShieldValue: 0
-  lowerShieldValue: 0
-  health: 100
+  inspectorHeadShieldValue: 0
+  inspectorUpperShieldValue: 0
+  inspectorLowerShieldValue: 0
+  inspectorHealth: 100
 --- !u!114 &3412433881902320679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5851,6 +5891,13 @@ MonoBehaviour:
     m_Bits: 16
   chestDisToFeet: 1.8
   UpForce: 1
+  SwimmingMaxLedgeClimbHeight: 2.5
+  LedgeDetectDistance: 1
+  LedgeCheckRadius: 0.4
+  SurfaceOffset: 0.8
+  ClimbSphere1: {fileID: 0}
+  ClimbSphere2: {fileID: 0}
+  ClimbSphere3: {fileID: 0}
   MP_Setup: {fileID: 0}
 --- !u!1 &7274369025480283791
 GameObject:

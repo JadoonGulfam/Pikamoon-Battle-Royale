@@ -3456,6 +3456,13 @@ MonoBehaviour:
     m_Bits: 16
   chestDisToFeet: 1.8
   UpForce: 1
+  SwimmingMaxLedgeClimbHeight: 2.5
+  LedgeDetectDistance: 1
+  LedgeCheckRadius: 0.4
+  SurfaceOffset: 0.8
+  ClimbSphere1: {fileID: 0}
+  ClimbSphere2: {fileID: 0}
+  ClimbSphere3: {fileID: 0}
   MP_Setup: {fileID: 0}
 --- !u!1 &3903676432713977295
 GameObject:
@@ -3508,6 +3515,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.2
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -3791,6 +3801,10 @@ MonoBehaviour:
       Name: isSwim
       Value: 0
       Hash: 795965116
+    isBlocking:
+      Name: 
+      Value: 0
+      Hash: 0
     AttackState:
       Name: AttackState
       Value: 0
@@ -3902,10 +3916,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4669b567971f04849942c3accc98a5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headShieldValue: 0
-  upperShieldValue: 0
-  lowerShieldValue: 0
-  health: 100
+  inspectorHeadShieldValue: 0
+  inspectorUpperShieldValue: 0
+  inspectorLowerShieldValue: 0
+  inspectorHealth: 100
 --- !u!114 &223707180570414156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5483,6 +5497,7 @@ MonoBehaviour:
   AC: {fileID: 2992451472291269727}
   SFX: {fileID: 223707180570414156}
   FirePoint: {fileID: 9124511645811502431}
+  ArrowHoldingPoint: {fileID: 8002261505364575715}
   AR_LockedOnTargetAimer: {fileID: 3037508681499059901}
   AR_LookTarget: {fileID: 4134845320730308955}
   AR_LookSpeed: 2
@@ -5497,6 +5512,37 @@ MonoBehaviour:
   DebugTransform: {fileID: 364033086063441844}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 0}
+  isChargingAttack: 0
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 1
+  SpeedOfCharge: 100
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.7
+    max: 0.9
 --- !u!1 &5923121154560360657
 GameObject:
   m_ObjectHideFlags: 0
@@ -6470,6 +6516,7 @@ MonoBehaviour:
   combat: {fileID: 462457091776757065}
   shootingManager: {fileID: 4928663095637874726}
   _throwManager: {fileID: 7246918843198346898}
+  _swimmingManager: {fileID: 0}
   Controller: {fileID: 6337627167851990057}
   AC: {fileID: 2992451472291269727}
 --- !u!114 &2762752323679203912

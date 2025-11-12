@@ -13,7 +13,7 @@ namespace Pikamoon.Controller
 
         [Header("Climb Out Settings")]
         [Space]
-        public float SwimmingMaxLedgeClimbHeight = 2f;   // Max ledge height that can be climbed
+        public float SwimmingMaxLedgeClimbHeight = 2.5f;   // Max ledge height that can be climbed
         public float LedgeDetectDistance = 1f;           // How far ahead to detect climbable ledge
         public float LedgeCheckRadius = 0.4f;            // Size of detection sphere
         public float SurfaceOffset = 0.8f;               // Offset to place player above ledge top

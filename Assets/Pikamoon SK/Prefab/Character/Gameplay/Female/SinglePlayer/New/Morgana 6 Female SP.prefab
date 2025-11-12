@@ -49,6 +49,7 @@ MonoBehaviour:
   AC: {fileID: 7191199232747126747}
   SFX: {fileID: 2041589726497708314}
   FirePoint: {fileID: 4316808519970483232}
+  ArrowHoldingPoint: {fileID: 5731643656327876425}
   AR_LockedOnTargetAimer: {fileID: 475841948684752558}
   AR_LookTarget: {fileID: 6273551377262022634}
   AR_LookSpeed: 2
@@ -63,6 +64,37 @@ MonoBehaviour:
   DebugTransform: {fileID: 5935303573401643461}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 0}
+  isChargingAttack: 0
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 1
+  SpeedOfCharge: 100
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.7
+    max: 0.9
 --- !u!1 &278258821037348913
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +579,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.2
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -4901,6 +4936,13 @@ MonoBehaviour:
     m_Bits: 16
   chestDisToFeet: 1.8
   UpForce: 1
+  SwimmingMaxLedgeClimbHeight: 2.5
+  LedgeDetectDistance: 1
+  LedgeCheckRadius: 0.4
+  SurfaceOffset: 0.8
+  ClimbSphere1: {fileID: 0}
+  ClimbSphere2: {fileID: 0}
+  ClimbSphere3: {fileID: 0}
   MP_Setup: {fileID: 0}
 --- !u!1 &6568657845563158196
 GameObject:
@@ -4981,6 +5023,7 @@ MonoBehaviour:
   combat: {fileID: 3866686987475159169}
   shootingManager: {fileID: 6907172824277585398}
   _throwManager: {fileID: 8355187472439641788}
+  _swimmingManager: {fileID: 0}
   Controller: {fileID: 3415741822112335125}
   AC: {fileID: 7191199232747126747}
 --- !u!114 &4157767649730340986
@@ -7067,6 +7110,10 @@ MonoBehaviour:
       Name: isSwim
       Value: 0
       Hash: 795965116
+    isBlocking:
+      Name: 
+      Value: 0
+      Hash: 0
     AttackState:
       Name: AttackState
       Value: 0
@@ -7191,10 +7238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4669b567971f04849942c3accc98a5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headShieldValue: 0
-  upperShieldValue: 0
-  lowerShieldValue: 0
-  health: 100
+  inspectorHeadShieldValue: 0
+  inspectorUpperShieldValue: 0
+  inspectorLowerShieldValue: 0
+  inspectorHealth: 100
 --- !u!114 &2041589726497708314
 MonoBehaviour:
   m_ObjectHideFlags: 0

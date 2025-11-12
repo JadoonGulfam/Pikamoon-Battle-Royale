@@ -8,11 +8,11 @@ namespace Pikamoon.Controller
     {
         public PlayerData playerData;
 
-        [SerializeField] float Gravity = 9.81f;
+        [SerializeField] float Gravity = 20f;
         [SerializeField] float TransitionTime = 0.1f;
         [SerializeField] float CoyoteJumpTime = 0.2f;
         [SerializeField] float ApexHungTime = 0.2f;
-        [SerializeField, Range(0.0f, 1f)] float ApexGravityMultiplier = 0.1f; // less gravity at jump apex
+        [SerializeField, Range(0.0f, 1f)] float ApexGravityMultiplier = 0.2f; // less gravity at jump apex
 
         [Header("Animation State")]
         [SerializeField] string _fallStateName = "Airbourne.Fall";
