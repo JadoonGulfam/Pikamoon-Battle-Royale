@@ -65,7 +65,7 @@ namespace Pikamoon.Controller
         [SerializeField] float SpeedOfCharge = 100f;
         float currentChargeValue;
         [SerializeField] bool isShotPerfect;
-        [HideInInspector] Range PerfectRange = new Range { min = 0.7f, max = 0.9f };
+        [HideInInspector] public Range PerfectRange = new Range { min = 0.7f, max = 0.9f };
 
         [ContextMenu("Get Holding Pos")]
         public void GetHoldingPos()

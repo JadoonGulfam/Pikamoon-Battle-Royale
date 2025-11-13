@@ -7,7 +7,7 @@ using Fusion;
 namespace Pikamoon.Controller
 {
 
-    [System.Serializable]
+    [Serializable]
     public struct ItemCategory
     {
         public string CategoryName;
