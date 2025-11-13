@@ -638,12 +638,11 @@ namespace Pikamoon.Controller
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
 
-
         void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
             AddWeaponsToList(weapon, index);
 
-            UI.inventoryUI.AssignToWeapons(weapon, index, UsingWeaponIndex == index);
+            UI.inventoryUI.AssignToWeapons(weapon, index);
 
             weapon.OnPicked();
 
@@ -693,6 +692,32 @@ namespace Pikamoon.Controller
                 SuccessfullyItemPickedFromEnvironment();
             }
         }
+        public void AddItemToWeaponsByInventoryChange(Weapon weapon, int index)
+        {
+            AddWeaponsToList(weapon, index);
+
+            weapon.AssignHolder(Controller);
+
+            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+
+            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+            weapon.transform.parent = restingPoint.transform;
+            weapon.transform.localPosition = Vector3.zero;
+            weapon.transform.localRotation = Quaternion.identity;
+            
+
+
+            if (weapon.HasScabbard)
+            {
+                weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
+            }
+
+            weapon.transform.gameObject.SetActive(true);
+        }
+
+
         int GetMeAvailableSlotForNewWeapon()
         {
             int index = -1;
@@ -720,6 +745,7 @@ namespace Pikamoon.Controller
         {
             if (Weapons.items[index] != null)
             {
+                Debug.Log("2");
                 Weapons.items[index] = null;
                 Weapons.AvailedInCategory--;
             }

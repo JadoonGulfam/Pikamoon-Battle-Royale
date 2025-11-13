@@ -29,7 +29,7 @@ namespace Pikamoon.UI
     {
 
         public SlotType slotType;
-        public bool isInventorySlot;
+        public bool isHUDSlot;
         [Space]
         [SerializeField]
         protected bool hasDependantSlot; 
@@ -76,7 +76,7 @@ namespace Pikamoon.UI
 
         public virtual void AssignItem() { }
 
-        public abstract void AssignItem(Item item, bool alsoExecuteDependency, bool isEquipped = false);
+        public abstract void AssignItem(Item item, bool alsoExecuteDependency, bool isCallFromDragManager = false);
         public abstract void AssignItemByDependentSlot(Item item);
         //public abstract void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100);
         public abstract void UnAssignItem(bool alsoExecuteDependency);

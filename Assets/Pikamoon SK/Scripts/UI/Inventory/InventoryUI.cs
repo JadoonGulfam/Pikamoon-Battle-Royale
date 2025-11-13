@@ -92,9 +92,9 @@ namespace Pikamoon.UI
             _canvas.enabled = false;
         }
 
-        public void AssignToWeapons(Item item, int index, bool isEquipped = false)
+        public void AssignToWeapons(Item item, int index)
         {
-            Weapons.Items[index].AssignItem(item, true, isEquipped);
+            Weapons.Items[index].AssignItem(item, true);
         }
 
         public void removeFromWeapons()
