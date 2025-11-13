@@ -210,6 +210,7 @@ namespace Pikamoon.Controller
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         private void RPC_ChangeOverrideContorller(int index, string playerID, RpcInfo info = default)
         {
+           print("RPC ChangeOverrideController called with index: " + index + " for playerID: " + playerID);
             string numericOnly = new string(playerID.Where(char.IsDigit).ToArray());
             string trimmedID = numericOnly.Length >= 5
                 ? numericOnly.Substring(0, 4) + numericOnly[^1]

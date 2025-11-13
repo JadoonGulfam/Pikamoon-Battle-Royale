@@ -1221,6 +1221,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.1
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -2707,6 +2710,8 @@ GameObject:
   - component: {fileID: 2996592185640574634}
   - component: {fileID: 3453229228348098307}
   - component: {fileID: 8279086650186931593}
+  - component: {fileID: 4347714668343200597}
+  - component: {fileID: 225550188420903060}
   m_Layer: 7
   m_Name: Morgana 5 Female MP
   m_TagString: Player
@@ -2942,7 +2947,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 579301289870825731}
-  animatorOverrideController: []
+  animatorOverrideController:
+  - {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
+  - {fileID: 22100000, guid: 815d2d250c3695d42971f7f44921aeaa, type: 2}
+  - {fileID: 22100000, guid: 644c33bd0c83fc44fbed028c081e94cb, type: 2}
   Parameters:
     isWalkRun:
       Name: isWalkRun
@@ -3092,10 +3100,6 @@ MonoBehaviour:
   inspectorUpperShieldValue: 0
   inspectorLowerShieldValue: 0
   inspectorHealth: 100
-  _headShieldValue: 0
-  _upperShieldValue: 0
-  _lowerShieldValue: 0
-  _health: 0
 --- !u!114 &2433528212639487250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3166,6 +3170,8 @@ MonoBehaviour:
   - {fileID: 6166672487242631249}
   - {fileID: 3453229228348098307}
   - {fileID: 8279086650186931593}
+  - {fileID: 4347714668343200597}
+  - {fileID: 225550188420903060}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &3453229228348098307
 MonoBehaviour:
@@ -3198,6 +3204,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdingpoints: []
   isMinePlayer: 0
+--- !u!114 &4347714668343200597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3066098353816570634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd77d0b38905584e9dec94a55b1db77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PlayerName: 
+  _Kills: 0
+  _Rank: 0
+--- !u!114 &225550188420903060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3066098353816570634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b49d862a91460a4e8ccd64ba2e86461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportKey: 116
+  teleportPosition: {x: -305.01926, y: 18.401857, z: 235.47197}
 --- !u!1 &3123991901162609235
 GameObject:
   m_ObjectHideFlags: 0
@@ -3561,6 +3596,7 @@ MonoBehaviour:
   AC: {fileID: 1743615005857181618}
   SFX: {fileID: 2433528212639487250}
   FirePoint: {fileID: 6898643091826725154}
+  ArrowHoldingPoint: {fileID: 0}
   AR_LockedOnTargetAimer: {fileID: 862506565922401563}
   AR_LookTarget: {fileID: 597312789764402419}
   AR_LookSpeed: 2
@@ -3575,6 +3611,21 @@ MonoBehaviour:
   DebugTransform: {fileID: 4337573760193901239}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 8279086650186931593}
+  isChargingAttack: 0
+  ChargeGO: {fileID: 0}
+  ChargeFillerGO: {fileID: 0}
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 0
+  SpeedOfCharge: 0
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.77
+    max: 0.85
 --- !u!1 &3502974875163509072
 GameObject:
   m_ObjectHideFlags: 0

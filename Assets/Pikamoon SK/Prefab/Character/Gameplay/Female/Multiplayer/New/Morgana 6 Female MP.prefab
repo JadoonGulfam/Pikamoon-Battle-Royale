@@ -1889,6 +1889,7 @@ MonoBehaviour:
   AC: {fileID: 3623503018781837761}
   SFX: {fileID: 904948977192077982}
   FirePoint: {fileID: 3290696568811672502}
+  ArrowHoldingPoint: {fileID: 0}
   AR_LockedOnTargetAimer: {fileID: 380847259744403500}
   AR_LookTarget: {fileID: 7560955369350593686}
   AR_LookSpeed: 2
@@ -1903,6 +1904,21 @@ MonoBehaviour:
   DebugTransform: {fileID: 2876150131936462550}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 3238660129691167482}
+  isChargingAttack: 0
+  ChargeGO: {fileID: 0}
+  ChargeFillerGO: {fileID: 0}
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 0
+  SpeedOfCharge: 0
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.77
+    max: 0.85
 --- !u!1 &2260091796217695987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3442,6 +3458,10 @@ GameObject:
   - component: {fileID: 311844107084514563}
   - component: {fileID: 4506816807916412221}
   - component: {fileID: 3238660129691167482}
+  - component: {fileID: 5507775539671982732}
+  - component: {fileID: 3042468617868734315}
+  - component: {fileID: 8795820930382775741}
+  - component: {fileID: 7249266259017299030}
   m_Layer: 7
   m_Name: Morgana 6 Female MP
   m_TagString: Player
@@ -3678,7 +3698,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6505013953598750553}
-  animatorOverrideController: []
+  animatorOverrideController:
+  - {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
+  - {fileID: 22100000, guid: 815d2d250c3695d42971f7f44921aeaa, type: 2}
+  - {fileID: 22100000, guid: 644c33bd0c83fc44fbed028c081e94cb, type: 2}
   Parameters:
     isWalkRun:
       Name: isWalkRun
@@ -3828,10 +3851,6 @@ MonoBehaviour:
   inspectorUpperShieldValue: 0
   inspectorLowerShieldValue: 0
   inspectorHealth: 100
-  _headShieldValue: 0
-  _upperShieldValue: 0
-  _lowerShieldValue: 0
-  _health: 0
 --- !u!114 &904948977192077982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3902,6 +3921,10 @@ MonoBehaviour:
   - {fileID: 442079707296979078}
   - {fileID: 4506816807916412221}
   - {fileID: 3238660129691167482}
+  - {fileID: 5507775539671982732}
+  - {fileID: 3042468617868734315}
+  - {fileID: 8795820930382775741}
+  - {fileID: 7249266259017299030}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &4506816807916412221
 MonoBehaviour:
@@ -3934,6 +3957,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdingpoints: []
   isMinePlayer: 0
+--- !u!114 &5507775539671982732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435546945748277359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd77d0b38905584e9dec94a55b1db77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PlayerName: 
+  _Kills: 0
+  _Rank: 0
+--- !u!114 &3042468617868734315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435546945748277359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b49d862a91460a4e8ccd64ba2e86461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportKey: 116
+  teleportPosition: {x: -305.01926, y: 18.401857, z: 235.47197}
+--- !u!114 &8795820930382775741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435546945748277359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd77d0b38905584e9dec94a55b1db77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PlayerName: 
+  _Kills: 0
+  _Rank: 0
+--- !u!114 &7249266259017299030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435546945748277359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b49d862a91460a4e8ccd64ba2e86461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportKey: 116
+  teleportPosition: {x: -305.01926, y: 18.401857, z: 235.47197}
 --- !u!1 &4527624399131260407
 GameObject:
   m_ObjectHideFlags: 0
@@ -5219,6 +5300,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.1
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
