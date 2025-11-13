@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        LoadGame();
+      //  LoadGame();
         SpawnPrefab(currentSettings.playerIndex);
         NetworkManager.Instance.ChrarcterIndex = currentSettings.playerIndex;
 
@@ -197,12 +197,12 @@ public class GameManager : MonoBehaviour
 
         DisplayRooms(filteredRooms);
     }
-    void LoadGame()
-    {
-        LoadingManager.Instance.ActivateLoading("Splash_Loading", true);
-        Invoke("EnvironmentLagCompensationRoutine", 3.5f);
-        //Invoke(nameof(LoadNextScene), 3f);
-    }
+    //void LoadGame()
+    //{
+    //    LoadingManager.Instance.ActivateLoading("Splash_Loading", true);
+    //    Invoke("EnvironmentLagCompensationRoutine", 3.5f);
+    //    //Invoke(nameof(LoadNextScene), 3f);
+    //}
     public void StartAutoBattler()
     {
         SceneManager.LoadScene("AutoBattler");
