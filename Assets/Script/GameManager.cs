@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
     public event Action OnSettingsChanged;
 
     [Header("UI References")]
+    public TextMeshProUGUI userName;
+    public Button logOutBtn;
+
+    [Header("UI References")]
     [SerializeField] private TMP_InputField searchInput;
     [SerializeField] private TMP_Dropdown regionDropdown;
     [SerializeField] private TMP_Dropdown privacyDropdown;
@@ -45,11 +49,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Map Data")]
     [SerializeField] private List<MapData> maps = new List<MapData>();
+
     // Example room data (replace this with your actual list from server)
     private List<RoomData> allRooms = new List<RoomData>();
     private List<GameObject> spawnedRooms = new List<GameObject>();
 
-    public GameObject[] enviornmentLagCompensation;
     private void Awake()
     {
         if (instance == null)
@@ -63,21 +67,16 @@ public class GameManager : MonoBehaviour
         }
 
         filePath = Path.Combine(Application.persistentDataPath, "gamesettings.json");
+        //Ensure directory exists before using it
+        string directoryPath = Path.GetDirectoryName(filePath);
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
         InitializeSettings();
-        foreach (GameObject item in enviornmentLagCompensation)
-        {
-            item.gameObject.SetActive(false);
-        }
-        LoadGame();
-
-    }
-    void EnvironmentLagCompensationRoutine()
-    {
-        foreach (GameObject item in enviornmentLagCompensation)
-        {
-            item.gameObject.SetActive(true);
-        }
-    }
+        //LoadGame();
+        logOutBtn.onClick.AddListener(LogOut);
+    }   
     private void InitializeSettings()
     {
         if (!File.Exists(filePath))
@@ -202,12 +201,12 @@ public class GameManager : MonoBehaviour
 
         DisplayRooms(filteredRooms);
     }
-    void LoadGame()
-    {
-        LoadingManager.Instance.ActivateLoading("Splash_Loading", true);
-        Invoke("EnvironmentLagCompensationRoutine", 3.5f);
-        //Invoke(nameof(LoadNextScene), 3f);
-    }
+    //void LoadGame()
+    //{
+    //    LoadingManager.Instance.ActivateLoading("Splash_Loading", true);
+    //    Invoke("EnvironmentLagCompensationRoutine", 3.5f);
+    //    //Invoke(nameof(LoadNextScene), 3f);
+    //}
     public void StartAutoBattler()
     {
         SceneManager.LoadScene("AutoBattler");
@@ -290,6 +289,7 @@ public class GameManager : MonoBehaviour
                 currentSettings.musicVolume = value == "ON";
                 break;
             case SettingType.Quality:
+                ApplyQualitySetting(value);
                 currentSettings.quality = value;
                 break;
             case SettingType.TextureQuality:
@@ -319,6 +319,21 @@ public class GameManager : MonoBehaviour
             case SettingType.Language:
                 currentSettings.language = value;
                 break;
+        }
+    }
+    private void ApplyQualitySetting(string value)
+    {
+        int index = Array.FindIndex(QualitySettings.names, q =>
+            q.Equals(value, StringComparison.OrdinalIgnoreCase));
+
+        if (index >= 0)
+        {
+            QualitySettings.SetQualityLevel(index, true);
+            Debug.Log($"[Settings] Quality set to: {value}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Settings] Quality level '{value}' not found in QualitySettings.");
         }
     }
     public void LoadSettings()
@@ -383,6 +398,11 @@ public class GameManager : MonoBehaviour
         language = "English",
         mapIndex = 0,
     };
+    public void LogOut()
+    {
+        AutoLoginManager.Clear();
+        GameExit();
+    }
 }
 [Serializable]
 public class SettingsData
@@ -447,4 +467,10 @@ public class MapData
 {
     public string mapName;
     public Sprite mapPreview;
+}
+[System.Serializable]
+public class RegionPikamoons
+{
+    public string RegionName;
+    public GameObject[] Pikamoons;
 }
