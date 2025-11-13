@@ -47,13 +47,17 @@ public class AuthManager : MonoBehaviour
         string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
     }
-    public async Task<(bool, string)> Login(string email, string password)
+    public async Task<(bool, string)> Login(string email, string password, bool rememberMe = false)
     {
         await Task.Delay(300);
         bool valid = LocalUserDatabase.ValidateUser(email, password);
         if (!valid) return (false, "Invalid email or password.");
 
-        PlayerPrefsEncryptor.SaveEncrypted("autoLogin", email + "|" + password);
+        if (rememberMe)
+            AutoLoginManager.Save(email, password);
+        else
+            AutoLoginManager.Clear();
+
         return (true, "Login successful!");
     }
 
@@ -66,9 +70,31 @@ public class AuthManager : MonoBehaviour
         LocalUserDatabase.ResetPassword(email, newPassword);
         return (true, "Password has been reset successfully!");
     }
+    // Automatically tries to log in using autologin.json
+    public async Task<(bool, string)> TryAutoLogin()
+    {
+        var saved = AutoLoginManager.Load();
+        if (saved == null)
+            return (false, "No saved login.");
 
+        var (login, passwordHash) = saved.Value;
+        var db = LocalUserDatabase.LoadDatabase();
+        bool found = db.users.Exists(u =>
+            (u.email.Equals(login, System.StringComparison.OrdinalIgnoreCase)
+            || u.username.Equals(login, System.StringComparison.OrdinalIgnoreCase))
+            && u.passwordHash == passwordHash);
+
+        if (!found)
+        {
+            AutoLoginManager.Clear();
+            return (false, "Saved login invalid.");
+        }
+
+        await Task.Delay(100);
+        return (true, "Auto login successful!");
+    }
     public void Logout()
     {
-        PlayerPrefs.DeleteKey("autoLogin");
+        AutoLoginManager.Clear();
     }
 }

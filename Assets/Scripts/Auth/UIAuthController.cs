@@ -10,7 +10,7 @@ public class UIAuthController : MonoBehaviour
     [Header("UI References Login")]  
     public TMP_InputField emailInput;
     public TMP_InputField passwordInput;
-    public Toggle rememberMeToggle;
+    public Toggle rememberToggle;
     public Button loginButton;
     public Button resetPasswordButton;
     public TextMeshProUGUI feedbackTextLogin;
@@ -26,19 +26,18 @@ public class UIAuthController : MonoBehaviour
     private async void Start()
     {
         // Auto-login if saved
-        //string saved = PlayerPrefsEncryptor.LoadDecrypted("autoLogin");
-        //if (!string.IsNullOrEmpty(saved))
-        //{
-        //    var parts = saved.Split('|');
-        //    var (ok, msg) = await AuthManager.Instance.Login(parts[0], parts[1]);
-        //    if (ok) LoadNextScene();
-        //}
+        var (ok, msg) = await AuthManager.Instance.TryAutoLogin();
+        if (ok)
+        {
+            Debug.Log(msg);
+            LoadNextScene();
+        }
         feedbackTextSignUp.text = "";
         feedbackTextLogin.text = "";
         loginButton.onClick.AddListener(async () =>
         {
             feedbackTextLogin.text = "Logging in...";
-            var (ok, msg) = await AuthManager.Instance.Login(emailInput.text, passwordInput.text);
+            var (ok, msg) = await AuthManager.Instance.Login(emailInput.text, passwordInput.text, rememberToggle.isOn);
             feedbackTextLogin.text = msg;
             if (ok) LoadNextScene();
         });
@@ -62,7 +61,6 @@ public class UIAuthController : MonoBehaviour
             feedbackTextLogin.text = msg;
         });
     }
-
     private void LoadNextScene()
     {
         LoadingManager.Instance.ActivateLoadingScene("lobby new", "Splash_Loading", true);
