@@ -1,4 +1,4 @@
-﻿Shader "Orbio/UltraProFXMaster_FINAL_V4"
+﻿Shader "Orbio/UltraProFXMaster_FINAL_V5"
 {
     Properties
     {
@@ -27,6 +27,7 @@
         _WaveSpeed ("Wave Speed", Range(0,10)) = 2
         _UVScroll ("UV Scroll (X,Y)", Vector) = (0.1,0.1,0,0)
         _UVRotation ("UV Rotation Speed", Range(-10,10)) = 0.5
+        [Enum(Continuous,0,Pendulum,1)] _WaveMotionMode ("Wave Motion Mode", Float) = 0
 
         // Noise
         [Toggle] _EnableNoise ("Enable Noise Flow", Float) = 1
@@ -46,6 +47,7 @@
         _GradientColor ("Secondary Color", Color) = (0.3,0.7,1,1)
         _GradientBlend ("Gradient Blend", Range(0,1)) = 0.5
         _GradientSpeed ("Gradient Speed", Range(0,10)) = 1
+        [Enum(Continuous,0,Pendulum,1)] _GradientMotionMode ("Gradient Motion Mode", Float) = 1
     }
 
     SubShader
@@ -81,6 +83,7 @@
             float _EnableWaves, _WaveAmplitude, _WaveFrequency, _WaveSpeed;
             float4 _UVScroll;
             float _UVRotation;
+            float _WaveMotionMode;
 
             float _EnableNoise, _NoiseScale, _NoiseSpeed, _NoiseIntensity;
 
@@ -89,8 +92,9 @@
 
             float _EnableGradient, _GradientBlend, _GradientSpeed;
             float4 _GradientColor;
+            float _GradientMotionMode;
 
-            // --- Simple noise for distortion ---
+            // --- Noise Function ---
             float hash(float2 p){ return frac(sin(dot(p,float2(127.1,311.7)))*43758.5453); }
             float noise(float2 p){
                 float2 i=floor(p); float2 f=frac(p);
@@ -112,46 +116,55 @@
 
             float4 frag(v2f i) : SV_Target
             {
-                float time = _Time.y + _SinTime.w * 2.0 + _CosTime.w * 3.0;
+                float time = _Time.y;
                 float2 uv = i.uv;
 
-                // ---- UV Animation ----
+                // ---- UV Scroll ----
                 uv += _UVScroll.xy * time;
                 float s = sin(_UVRotation * time);
                 float c = cos(_UVRotation * time);
                 uv = mul(float2x2(c, -s, s, c), uv - 0.5) + 0.5;
 
+                // ---- Wave Motion ----
                 if (_EnableWaves > 0.5)
-                    uv += sin(uv.y * _WaveFrequency + time * _WaveSpeed) * _WaveAmplitude;
+                {
+                    float waveFactor;
+                    if (_WaveMotionMode < 0.5)
+                        waveFactor = frac(time * _WaveSpeed);        // Continuous
+                    else
+                        waveFactor = sin(time * _WaveSpeed);         // Pendulum
+                    uv += waveFactor * _WaveAmplitude * float2(0.5, 1);
+                }
 
+                // ---- Noise ----
                 if (_EnableNoise > 0.5)
                 {
                     float n = noise(uv * _NoiseScale + time * _NoiseSpeed);
                     uv += (n - 0.5) * _NoiseIntensity;
                 }
 
+                // ---- Texture Sample ----
                 float4 col = tex2D(_MainTex, uv) * _BaseColor;
                 float alpha = col.a * _Transparency;
 
-                // ✂️ REAL UNITY-STYLE ALPHA CUTOUT
+                // ---- Alpha Cutout ----
                 if (_EnableCutout > 0.5)
                 {
                     float texAlpha = col.a;
-                    float vertexAlpha = 1.0; // you can pass vertex color alpha later if needed
-                    float combinedAlpha = texAlpha * vertexAlpha * _Transparency;
-                    combinedAlpha += _AlphaEdgeExpand * 0.5;
-
-                    // discard like Unity particle shaders
+                    float combinedAlpha = texAlpha * _Transparency + _AlphaEdgeExpand * 0.5;
                     if (combinedAlpha < _AlphaThreshold)
                         discard;
-
                     alpha = combinedAlpha;
                 }
 
-                // ---- Gradient Color ----
+                // ---- Gradient ----
                 if (_EnableGradient > 0.5)
                 {
-                    float g = sin(time * _GradientSpeed) * 0.5 + 0.5;
+                    float g;
+                    if (_GradientMotionMode < 0.5)
+                        g = frac(time * _GradientSpeed);     // Continuous
+                    else
+                        g = sin(time * _GradientSpeed) * 0.5 + 0.5; // Pendulum
                     col.rgb = lerp(col.rgb, _GradientColor.rgb, g * _GradientBlend);
                 }
 
