@@ -1,10 +1,11 @@
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 public class AuthManager : MonoBehaviour
 {
     public static AuthManager Instance;
-
+    public UsersData LoggedInUser { get; private set; }
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -34,7 +35,7 @@ public class AuthManager : MonoBehaviour
             return (false, "Email already registered.");
 
         LocalUserDatabase.AddUser(username, email, password);
-      
+
         return (true, "Account created successfully!");
     }
     // --- Email format validation ---
@@ -92,6 +93,21 @@ public class AuthManager : MonoBehaviour
 
         await Task.Delay(100);
         return (true, "Auto login successful!");
+    }
+    public async Task<(bool ok, string msg)> GuestLogin()
+    {
+        string guestID = "Guest_" + UnityEngine.Random.Range(10000, 99999);
+
+        LoggedInUser = new UsersData
+        {
+            username = guestID,
+            email = "",
+            passwordHash = "",
+            isGuest = true
+        };
+
+        // No auto-login saving for guests unless you want to add it.
+        return (true, "Logged in as " + guestID);
     }
     public void Logout()
     {

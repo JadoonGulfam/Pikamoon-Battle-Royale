@@ -9,6 +9,7 @@ public class UsersData
     public string username;
     public string email;
     public string passwordHash; // stored as hashed version
+    public bool isGuest;
 }
 
 [Serializable]

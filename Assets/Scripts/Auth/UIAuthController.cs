@@ -23,6 +23,8 @@ public class UIAuthController : MonoBehaviour
     public TextMeshProUGUI feedbackTextSignUp;
     public Button signupButton;
 
+    [Header("UI References Guest Login")]
+    public Button guestButton;
     private async void Start()
     {
         // Auto-login if saved
@@ -59,6 +61,14 @@ public class UIAuthController : MonoBehaviour
             feedbackTextLogin.text = "Resetting password...";
             var (ok, msg) = await AuthManager.Instance.ResetPassword(emailInput.text, passwordInput.text);
             feedbackTextLogin.text = msg;
+        });
+        guestButton.onClick.AddListener(async () =>
+        {
+            feedbackTextLogin.text = "Logging in as guest...";
+            var (ok, msg) = await AuthManager.Instance.GuestLogin();
+            feedbackTextLogin.text = msg;
+
+            if (ok) LoadNextScene();
         });
     }
     private void LoadNextScene()
