@@ -60,7 +60,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         }
         mapPosition = new Vector3[]
    {
-        new (-318.1f,18.9f,215.9f),
+        new (-296.631927f,18.9640007f,215.413055f),
         new (81.3201294f,11.7200012f,-985.000244f),
         new (-866.011841f,126.253998f,-938.042725f),
         new (-881.719971f,132.339691f,260.60553f),
