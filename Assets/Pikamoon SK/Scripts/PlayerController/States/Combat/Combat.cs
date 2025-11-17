@@ -22,16 +22,6 @@ namespace Pikamoon.Controller
     {
         MeleeWeapon ActiveWeapon;
 
-        //[Header("Movement")]
-        //[Space]
-        //public Transform DummyCircle;
-
-        //public Image comboStatusImage;
-        //public Image AttackStatusImage;
-
-        //public TextMeshProUGUI ActiveStateName;
-        //public TextMeshProUGUI ActiveStateProgress;
-
         [Space]
         [Header("Animation")]
         [SerializeField] AnimatorOverrideController animatorOverrideController;
@@ -56,9 +46,7 @@ namespace Pikamoon.Controller
         [Space]
         [Header("Combo")]
         [SerializeField] float ComboCoolDownTime;
-        bool inCombo;
         [SerializeField] int comboMoveCounter;
-        float comboInputTimer;
 
         HitBehaviour hitBehaviour;
 
@@ -80,7 +68,6 @@ namespace Pikamoon.Controller
 
             SettingHashes();
 
-            comboInputTimer = Time.time;
 
             ActiveWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
 
@@ -96,8 +83,6 @@ namespace Pikamoon.Controller
             hitBehaviour = Root.GetComponent<HitBehaviour>();
 
             SettingHashes();
-
-            comboInputTimer = Time.time;
 
             ActiveWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
 

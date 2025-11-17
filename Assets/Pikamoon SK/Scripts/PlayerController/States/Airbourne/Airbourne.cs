@@ -8,11 +8,11 @@ namespace Pikamoon.Controller
     {
         public PlayerData playerData;
 
-        [SerializeField] float Gravity = 9.81f;
+        [SerializeField] float Gravity = 20f;
         [SerializeField] float TransitionTime = 0.1f;
         [SerializeField] float CoyoteJumpTime = 0.2f;
         [SerializeField] float ApexHungTime = 0.2f;
-        [SerializeField, Range(0.0f, 1f)] float ApexGravityMultiplier = 0.1f; // less gravity at jump apex
+        [SerializeField, Range(0.0f, 1f)] float ApexGravityMultiplier = 0.2f; // less gravity at jump apex
 
         [Header("Animation State")]
         [SerializeField] string _fallStateName = "Airbourne.Fall";
@@ -71,7 +71,7 @@ namespace Pikamoon.Controller
 
         void StartJumping()
         {
-            if (Controller.IsUIOpened || Controller.IsRootMotionEnabled)
+            if (Controller.IsUIOpened || Controller.IsRootMotionEnabled || Controller.IsSwimming)
                 return;
 
             // Allow jump if grounded OR in coyote window
@@ -162,6 +162,10 @@ namespace Pikamoon.Controller
                 // Detect apex (velocity going from positive to negative)
                 if (isJumping && !hasApexed && playerInput.JumpVelocity <= 0.2f)
                 {
+
+
+
+                    AC.SetAnimationState(_fallStateHash, TransitionTime);
                     hasApexed = true;
                     if (apexHangRoutine != null)
                         StopCoroutine(apexHangRoutine);

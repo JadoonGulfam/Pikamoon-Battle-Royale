@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
     public event Action OnSettingsChanged;
 
     [Header("UI References")]
+    public TextMeshProUGUI userName;
+    public Button logOutBtn;
+
+    [Header("UI References")]
     [SerializeField] private TMP_InputField searchInput;
     [SerializeField] private TMP_Dropdown regionDropdown;
     [SerializeField] private TMP_Dropdown privacyDropdown;
@@ -69,9 +73,9 @@ public class GameManager : MonoBehaviour
         {
             Directory.CreateDirectory(directoryPath);
         }
-        InitializeSettings();      
+        InitializeSettings();
         //LoadGame();
-
+        logOutBtn.onClick.AddListener(LogOut);
     }   
     private void InitializeSettings()
     {
@@ -89,7 +93,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        LoadGame();
+      //  LoadGame();
         SpawnPrefab(currentSettings.playerIndex);
         NetworkManager.Instance.ChrarcterIndex = currentSettings.playerIndex;
 
@@ -197,12 +201,12 @@ public class GameManager : MonoBehaviour
 
         DisplayRooms(filteredRooms);
     }
-    void LoadGame()
-    {
-        LoadingManager.Instance.ActivateLoading("Splash_Loading", true);
-        Invoke("EnvironmentLagCompensationRoutine", 3.5f);
-        //Invoke(nameof(LoadNextScene), 3f);
-    }
+    //void LoadGame()
+    //{
+    //    LoadingManager.Instance.ActivateLoading("Splash_Loading", true);
+    //    Invoke("EnvironmentLagCompensationRoutine", 3.5f);
+    //    //Invoke(nameof(LoadNextScene), 3f);
+    //}
     public void StartAutoBattler()
     {
         SceneManager.LoadScene("AutoBattler");
@@ -394,6 +398,11 @@ public class GameManager : MonoBehaviour
         language = "English",
         mapIndex = 0,
     };
+    public void LogOut()
+    {
+        AutoLoginManager.Clear();
+        GameExit();
+    }
 }
 [Serializable]
 public class SettingsData

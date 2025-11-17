@@ -55,7 +55,24 @@ public class LoadingManager : MonoBehaviour
         if (startLoading)
             LoadScene();
     }
+    public void ActivateLoadingScene(string scene, string loadingName, bool startLoading)
+    {
+        _activeFillImage = null;
 
+        foreach (var indicator in loadingIndicators)
+        {
+            bool active = indicator.name == loadingName;
+            indicator.indicatorObject.SetActive(active);
+
+            if (active)
+            {
+                _activeFillImage = indicator.loadingFillImage;
+                if (_activeFillImage) _activeFillImage.fillAmount = 0f;
+            }
+        }
+        if (startLoading)
+            LoadScene(scene);
+    }
     public void DeactivateAll()
     {
         foreach (var indicator in loadingIndicators)
@@ -91,18 +108,34 @@ public class LoadingManager : MonoBehaviour
         var asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
+        float displayProgress = 0f;
+
         while (asyncLoad.progress < 0.9f)
         {
+            float targetProgress = asyncLoad.progress / 0.9f;
+            displayProgress = Mathf.MoveTowards(displayProgress, targetProgress, Time.deltaTime * 2f);
+
             if (_activeFillImage)
-                _activeFillImage.fillAmount = asyncLoad.progress / 0.9f;
+                _activeFillImage.fillAmount = displayProgress;
 
             yield return null;
         }
 
+        // Smoothly move to full
+        while (displayProgress < 1f)
+        {
+            displayProgress = Mathf.MoveTowards(displayProgress, 1f, Time.deltaTime * 2f);
+            if (_activeFillImage)
+                _activeFillImage.fillAmount = displayProgress;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.3f); // optional fade delay
+
         asyncLoad.allowSceneActivation = true;
 
         while (!asyncLoad.isDone) yield return null;
-
+        DeactivateAll();
         onComplete?.Invoke();
     }
 

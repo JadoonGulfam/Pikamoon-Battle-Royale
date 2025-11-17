@@ -12,7 +12,7 @@ namespace Pikamoon.UI
         [SerializeField] LootBox_UI lootBox_UI;
         public TextMeshProUGUI Quantity;
 
-        public override void AssignItem(Item item, bool alsoExecuteDependency)
+        public override void AssignItem(Item item, bool alsoExecuteDependency, bool isEquipped = false)
         {
         }
         public override void AssignItemByDependentSlot(Item item)

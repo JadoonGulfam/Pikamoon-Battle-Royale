@@ -913,6 +913,7 @@ MonoBehaviour:
   AC: {fileID: 557198231146286023}
   SFX: {fileID: 7592434035066773649}
   FirePoint: {fileID: 6078584133589678234}
+  ArrowHoldingPoint: {fileID: 5488333015170883969}
   AR_LockedOnTargetAimer: {fileID: 60645694018589419}
   AR_LookTarget: {fileID: 230868760355960407}
   AR_LookSpeed: 2
@@ -927,6 +928,37 @@ MonoBehaviour:
   DebugTransform: {fileID: 5639597877064702952}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 0}
+  isChargingAttack: 0
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 1
+  SpeedOfCharge: 100
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.7
+    max: 0.90000004
 --- !u!1 &1039786672334545867
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,7 +2009,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5723561557081478312
 Transform:
   m_ObjectHideFlags: 0
@@ -1987,7 +2019,7 @@ Transform:
   m_GameObject: {fileID: 2505700925860858444}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -96, y: 0, z: 11.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2650,6 +2682,10 @@ MonoBehaviour:
       Name: isSwim
       Value: 0
       Hash: 795965116
+    isBlocking:
+      Name: isBlocking
+      Value: 0
+      Hash: 0
     AttackState:
       Name: AttackState
       Value: 0
@@ -5498,6 +5534,13 @@ MonoBehaviour:
     m_Bits: 16
   chestDisToFeet: 1.8
   UpForce: 1
+  SwimmingMaxLedgeClimbHeight: 2.5
+  LedgeDetectDistance: 1
+  LedgeCheckRadius: 0.4
+  SurfaceOffset: 0.8
+  ClimbSphere1: {fileID: 0}
+  ClimbSphere2: {fileID: 0}
+  ClimbSphere3: {fileID: 0}
   MP_Setup: {fileID: 0}
 --- !u!1 &6488951021040348144
 GameObject:
@@ -7476,7 +7519,7 @@ Animator:
   m_GameObject: {fileID: 8487570120939759374}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: bd7a82d62de71e946b20c6f460c76201, type: 3}
-  m_Controller: {fileID: 22100000, guid: 0ca0d127202403a488161f50767da12b, type: 2}
+  m_Controller: {fileID: 22100000, guid: 88e64b463df149249b2a75769b0b04af, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7506,6 +7549,7 @@ MonoBehaviour:
   combat: {fileID: 2618567431452814151}
   shootingManager: {fileID: 6634140842439810559}
   _throwManager: {fileID: 6188205844331544619}
+  _swimmingManager: {fileID: 4697142555715682131}
   Controller: {fileID: 6486213007318890542}
   AC: {fileID: 557198231146286023}
 --- !u!114 &418115541183957307
@@ -7582,7 +7626,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8487570120939759374}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 

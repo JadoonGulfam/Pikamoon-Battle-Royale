@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotType: 0
+  isInventorySlot: 0
   hasDependantSlot: 0
   DependantSlot: {fileID: 0}
   BtnBg: {fileID: 986836276}
@@ -414,18 +415,6 @@ MonoBehaviour:
   HotKey: {fileID: 0}
   hasItem: 0
   indexInList: 0
-  EmptySlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  ActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  InActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
 --- !u!1 &16429292
 GameObject:
   m_ObjectHideFlags: 0
@@ -14439,6 +14428,7 @@ MonoBehaviour:
   Weapons:
   - {fileID: 1160663434}
   - {fileID: 582037509}
+  QuickItems: []
   PickNotifier: {fileID: 1021746178}
   PickKeyText: {fileID: 2127921913}
   CaptureAction: {fileID: 0}
@@ -14446,6 +14436,8 @@ MonoBehaviour:
   Key: {fileID: 0}
   SmallMinimap: {fileID: 0}
   miniMapUI: {fileID: 0}
+  ChargeGO: {fileID: 0}
+  ChargeFillerGO: {fileID: 0}
 --- !u!223 &1016974946
 Canvas:
   m_ObjectHideFlags: 0
@@ -17048,6 +17040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotType: 0
+  isInventorySlot: 0
   hasDependantSlot: 0
   DependantSlot: {fileID: 0}
   BtnBg: {fileID: 706653188}
@@ -17059,18 +17052,6 @@ MonoBehaviour:
   HotKey: {fileID: 0}
   hasItem: 0
   indexInList: 0
-  EmptySlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  ActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  InActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
 --- !u!1001 &1160663432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17508,6 +17489,37 @@ Transform:
   m_Children:
   - {fileID: 1197694959}
   - {fileID: 1515961581}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1180989831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1180989832}
+  m_Layer: 0
+  m_Name: '    '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1180989832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180989831}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 111.43742, y: 0, z: -92.33388}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1191713934
@@ -21700,6 +21712,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456655945}
   m_CullTransparentMesh: 1
+--- !u!1001 &1465370061
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1372835260147800524, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: Weapons.MaxInCategory
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3040903635450559629, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_Name
+      value: Morgana 4 Female SP (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 122.76003
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16.2521
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -48.740005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697142555715682131, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: ClimbSphere1
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697142555715682131, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: ClimbSphere2
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697142555715682131, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: ClimbSphere3
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697142555715682131, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: SwimmingMaxLedgeClimbHeight
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087485494958585944, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
+      propertyPath: ApexGravityMultiplier
+      value: 0.2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
 --- !u!1 &1467462095
 GameObject:
   m_ObjectHideFlags: 0
@@ -23181,63 +23274,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549817396}
   m_CullTransparentMesh: 1
---- !u!1001 &1561839306
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3040903635450559629, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_Name
-      value: Morgana 4 Female SP
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 129.26508
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 16.572102
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -45.54173
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355333112228128381, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 11504e756b85ae849aef2c9886c85267, type: 3}
 --- !u!1001 &1580667880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29089,6 +29125,7 @@ MonoBehaviour:
   Weapons:
   - {fileID: 1847818985}
   - {fileID: 951981716}
+  QuickItems: []
   PickNotifier: {fileID: 1674483457}
   PickKeyText: {fileID: 649375935}
   CaptureAction: {fileID: 0}
@@ -29096,6 +29133,8 @@ MonoBehaviour:
   Key: {fileID: 0}
   SmallMinimap: {fileID: 0}
   miniMapUI: {fileID: 0}
+  ChargeGO: {fileID: 0}
+  ChargeFillerGO: {fileID: 0}
 --- !u!223 &1886588573
 Canvas:
   m_ObjectHideFlags: 0
@@ -29174,6 +29213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotType: 0
+  isInventorySlot: 0
   hasDependantSlot: 0
   DependantSlot: {fileID: 0}
   BtnBg: {fileID: 392892018}
@@ -29185,18 +29225,6 @@ MonoBehaviour:
   HotKey: {fileID: 0}
   hasItem: 0
   indexInList: 0
-  EmptySlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  ActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  InActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
 --- !u!1 &1923871004
 GameObject:
   m_ObjectHideFlags: 0
@@ -47974,6 +48002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotType: 0
+  isInventorySlot: 0
   hasDependantSlot: 0
   DependantSlot: {fileID: 0}
   BtnBg: {fileID: 155727325663610573}
@@ -47985,18 +48014,6 @@ MonoBehaviour:
   HotKey: {fileID: 0}
   hasItem: 0
   indexInList: 0
-  EmptySlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  ActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  InActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
 --- !u!114 &7945196203959938657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48010,6 +48027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotType: 0
+  isInventorySlot: 0
   hasDependantSlot: 0
   DependantSlot: {fileID: 0}
   BtnBg: {fileID: 155727325394730666}
@@ -48021,18 +48039,6 @@ MonoBehaviour:
   HotKey: {fileID: 0}
   hasItem: 0
   indexInList: 0
-  EmptySlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  ActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  InActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
 --- !u!114 &7945196205181467455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48046,6 +48052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotType: 0
+  isInventorySlot: 0
   hasDependantSlot: 0
   DependantSlot: {fileID: 0}
   BtnBg: {fileID: 155727323930717172}
@@ -48057,18 +48064,6 @@ MonoBehaviour:
   HotKey: {fileID: 0}
   hasItem: 0
   indexInList: 0
-  EmptySlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  ActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
-  InActiveSlotSettings:
-    BgIconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconColor: {r: 0, g: 0, b: 0, a: 0}
-    IconActiveFlag: 0
 --- !u!1 &8225493064322921859
 GameObject:
   m_ObjectHideFlags: 0
@@ -48713,4 +48708,5 @@ SceneRoots:
   - {fileID: 4785172779236582471}
   - {fileID: 2057918749}
   - {fileID: 3212847998052060741}
-  - {fileID: 1561839306}
+  - {fileID: 1465370061}
+  - {fileID: 1180989832}

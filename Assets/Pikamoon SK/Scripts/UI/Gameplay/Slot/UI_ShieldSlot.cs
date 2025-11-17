@@ -17,7 +17,7 @@ namespace Pikamoon.UI
             ChangeButtonAppearance(EmptySlotSettings);
         }
 
-        public override void AssignItem(Item item, bool alsoExecuteDependency)
+        public override void AssignItem(Item item, bool alsoExecuteDependency, bool isEquipped = false)
         {
             if (item == null)
             {
@@ -36,7 +36,7 @@ namespace Pikamoon.UI
 
             ChangeButtonAppearance(ActiveSlotSettings);
 
-            inventoryUI.Player.AddShieldsToList(item, indexInList);
+            inventoryUI.Player.UpdateShieldsItem(item, indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.AssignItemByDependentSlot(item);

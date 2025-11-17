@@ -974,6 +974,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.2
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -1370,6 +1373,7 @@ MonoBehaviour:
   combat: {fileID: 3407176880877999895}
   shootingManager: {fileID: 3253647560985491812}
   _throwManager: {fileID: 2389795488381813644}
+  _swimmingManager: {fileID: 0}
   Controller: {fileID: 3256461843424567716}
   AC: {fileID: 8887061701011538695}
 --- !u!114 &2707766332545646258
@@ -1419,15 +1423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5074713bcc3044b4592e4d5e83eb3e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maleAvatarDefaultCostume:
-    DefaultEyes: {fileID: 0}
-    DefaultEyebrow: {fileID: 0}
-    DefaultSkin: {fileID: 0}
-    DefaultFace: {fileID: 0}
-    DefaultBody: {fileID: 0}
-    DefaultHair: {fileID: 0}
-    DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
-  femaleAvatarDefaultCostume:
+  AvatarDefaultCostume:
     DefaultEyes: {fileID: 0}
     DefaultEyebrow: {fileID: 0}
     DefaultSkin: {fileID: 0}
@@ -1436,7 +1432,6 @@ MonoBehaviour:
     DefaultHair: {fileID: 0}
     DefaultLipsColor: {r: 0, g: 0, b: 0, a: 0}
   body: {fileID: 0}
-  eye: {fileID: 0}
   wornHair: {fileID: 0}
   wornCloth: {fileID: 0}
   genderType: 0
@@ -3386,6 +3381,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b835f7614c8202041ba5a972ead7c1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetworkManagerob: {fileID: 0}
+  animationController: {fileID: 0}
   DefaultFistNoWeapon:
     Prefab: {fileID: 0}
     Data: {fileID: 11400000, guid: 255f192cce3c98648aab8b205dc465f0, type: 2}
@@ -3487,6 +3484,10 @@ MonoBehaviour:
       Name: isSwim
       Value: 0
       Hash: 795965116
+    isBlocking:
+      Name: 
+      Value: 0
+      Hash: 0
     AttackState:
       Name: AttackState
       Value: 0
@@ -3611,10 +3612,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4669b567971f04849942c3accc98a5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headShieldValue: 0
-  upperShieldValue: 0
-  lowerShieldValue: 0
-  health: 100
+  inspectorHeadShieldValue: 0
+  inspectorUpperShieldValue: 0
+  inspectorLowerShieldValue: 0
+  inspectorHealth: 100
 --- !u!114 &7467071313427122133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6902,6 +6903,7 @@ MonoBehaviour:
   AC: {fileID: 8887061701011538695}
   SFX: {fileID: 7467071313427122133}
   FirePoint: {fileID: 8025145611161254941}
+  ArrowHoldingPoint: {fileID: 3385107923163914807}
   AR_LockedOnTargetAimer: {fileID: 6351139769363196712}
   AR_LookTarget: {fileID: 4888781525981917165}
   AR_LookSpeed: 2
@@ -6916,6 +6918,37 @@ MonoBehaviour:
   DebugTransform: {fileID: 2342870050847627887}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 0}
+  isChargingAttack: 0
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 1
+  SpeedOfCharge: 100
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.7
+    max: 0.9
 --- !u!1 &6815562059556823685
 GameObject:
   m_ObjectHideFlags: 0
@@ -8221,6 +8254,13 @@ MonoBehaviour:
     m_Bits: 16
   chestDisToFeet: 1.8
   UpForce: 1
+  SwimmingMaxLedgeClimbHeight: 2.5
+  LedgeDetectDistance: 1
+  LedgeCheckRadius: 0.4
+  SurfaceOffset: 0.8
+  ClimbSphere1: {fileID: 0}
+  ClimbSphere2: {fileID: 0}
+  ClimbSphere3: {fileID: 0}
   MP_Setup: {fileID: 0}
 --- !u!1 &8878656601211103496
 GameObject:

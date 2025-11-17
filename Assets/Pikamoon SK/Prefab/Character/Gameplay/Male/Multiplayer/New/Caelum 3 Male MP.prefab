@@ -1385,6 +1385,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8e9b68c6dd398374e8214e37e6bcf781, type: 2}
   Gravity: 20
   TransitionTime: 0.1
+  CoyoteJumpTime: 0.2
+  ApexHungTime: 0.2
+  ApexGravityMultiplier: 0.2
   _fallStateName: Airbourne.Fall
   _jumpStateName: Airbourne.Jump
   OnJumpStart:
@@ -2365,6 +2368,10 @@ MonoBehaviour:
       Name: isSwim
       Value: 0
       Hash: 795965116
+    isBlocking:
+      Name: 
+      Value: 0
+      Hash: 0
     AttackState:
       Name: AttackState
       Value: 0
@@ -2538,7 +2545,7 @@ MonoBehaviour:
   Animator: {fileID: 283200613627102081}
   ApplyTiming: 2
   SyncSettings: 127
-  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37510a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0bf100bd923552865528f21757873248c4fe6afb2622275ab0543aaddb4c56c983c588e24aa047c9281bfea26be149bb20ada38e39c86ca55b73d5ce188962d75c14711c1ec83cbd879437e5ac8c5b81ff7c5a706da017d1f4fc1c89dfe470ed896fb6b50bc076ea950801a7bccc539c7f4e0f7eaee6b9731f91380b0d3dfc26b8a7a444f958341e25e5d730f2cb8ec9813139d0cef0f989166b408849aca67b30c9695055ac2a1b877067ba1c01206a9ded3e40882465119a8ba54e07c507d6b569c3fb03a53f602a616d5be11fe9094a07856d1
+  StateHashes: 00000000f38ddc86184e547b32edce8b7143fd882b1a167caa034899665b1eccd32924a00a44c9cddd6270ea4ba2fdbae44fa7203270625b1a35a0c228a9810700ec439e94e7007b525bbd4b35e7c26bdb1f2bd5b029dc7afdebce5464ed060b1d4a50cedebc0f92a71b5957488c08e5312b5e2098167531c20d5da6eb196c7b92be3abe7d296b0c048e3dc9c7786295bedf34508774046ffed352aa3d250df644825b33ab150a81d2b25c4408806e1f712738da9eb06968e7173fad24e160f15d4636347f17931d44fcf37598e20eb3b4200717262f475de6eb851d10a8c9558359a63d1f0860abcd632219ff91369e2dfa742c096efccdbaf1b469f24d3a3f5be7f66dad7bb71d0e5d111bb793a35fc3c77a10564855dae5d71d7e105a0b75b9f0c727d2ca10d6d1169f84804b25f505848ca2ef36308c8fe8b511c43dc768d91333d4f50006470298bc24b4ecb233a9c2468fbad385b1a7fd710d8e04810f08b5a12d94cfabf322f00cd1eef32509b5b0e2fbdd733f35e23c74c9172f82e265491854336e528e4108c83815b524dc2afa6f201072cd16621457a0bf100bd923552865528f21757873248c4fe6afb2622275ab0543aaddb4c56c983c588e24aa047c9281bfea26be149bb20ada38e39c86ca55b73d5ce188962d75c14711c1ec83cbd879437e5ac8c5b81ff7c5a706da017d1f4fc1c89dfe470ed896fb6b50bc076ea950801a7bccc539c7f4e0f7eaee6b9731f91380b0d3dfc26b8a7a444f958341e25e5d730f2cb8ec9813139d0cef0f989166b408849aca67b30c9695055ac2a1b877067ba1c01206a9ded3e40882465119a8ba54e07c507d6b569c3fb03a53f602a616d5be11fe9094a07856d1
   TriggerHashes: 000000004dc06ae332edce8bbad385b194cfabf3b4ecb233ed6cef2b
   TotalWords: 20
 --- !u!114 &3444419085637799430
@@ -2972,6 +2979,7 @@ MonoBehaviour:
   AC: {fileID: 7324599129660313467}
   SFX: {fileID: 4931421806004343905}
   FirePoint: {fileID: 3741113908980782399}
+  ArrowHoldingPoint: {fileID: 8946879032617864606}
   AR_LockedOnTargetAimer: {fileID: 3318124886135762510}
   AR_LookTarget: {fileID: 1386951034768145066}
   AR_LookSpeed: 2
@@ -2986,6 +2994,37 @@ MonoBehaviour:
   DebugTransform: {fileID: 2495903204847191881}
   DebugUITransform: {fileID: 0}
   MP_Setup: {fileID: 3444419085637799430}
+  isChargingAttack: 0
+  ChargedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeAttackDamageMultiplier: 1
+  SpeedOfCharge: 100
+  isShotPerfect: 0
+  PerfectRange:
+    min: 0.7
+    max: 0.9
 --- !u!1 &2436594293784663119
 GameObject:
   m_ObjectHideFlags: 0
@@ -7120,6 +7159,7 @@ MonoBehaviour:
   combat: {fileID: 2109495571428794858}
   shootingManager: {fileID: 8859151207955214652}
   _throwManager: {fileID: 2233467967270365600}
+  _swimmingManager: {fileID: 0}
   Controller: {fileID: 6193872717626130470}
   AC: {fileID: 7324599129660313467}
 --- !u!114 &8032403938596430902
@@ -7766,6 +7806,13 @@ MonoBehaviour:
     m_Bits: 16
   chestDisToFeet: 1.8
   UpForce: 1
+  SwimmingMaxLedgeClimbHeight: 2.5
+  LedgeDetectDistance: 1
+  LedgeCheckRadius: 0.4
+  SurfaceOffset: 0.8
+  ClimbSphere1: {fileID: 0}
+  ClimbSphere2: {fileID: 0}
+  ClimbSphere3: {fileID: 0}
   MP_Setup: {fileID: 3444419085637799430}
 --- !u!1 &8606468529119054930
 GameObject:
