@@ -6,6 +6,7 @@ namespace Pikamoon.Controller
         [SerializeField] Combat combat;
         [SerializeField] Shooting shootingManager;
         [SerializeField] Throwing _throwManager;
+        [SerializeField] Swimming _swimmingManager;
         [SerializeField] PlayerController Controller;
         [SerializeField] AnimationController AC;
 
@@ -31,6 +32,13 @@ namespace Pikamoon.Controller
             combat.ToggleNextComboAttckStatus(false);
             combat.AttackEnd();
         }
+
+
+        public void SwimmingEnd()
+        {
+            _swimmingManager.EndSwimmingThroughClimb();
+        }
+
 
         public void Shoot()
         {

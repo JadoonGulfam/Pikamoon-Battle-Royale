@@ -29,7 +29,7 @@ namespace Pikamoon.Controller
         RightMidBack
     }
 
-    public abstract class Weapon : Item, IPickable ,IDroppable
+    public abstract class Weapon : Item
     {
         protected WeaponInfo weaponInfo;
 
@@ -46,7 +46,8 @@ namespace Pikamoon.Controller
 
 
         [Header("VFX")]
-        public Transform TrailParticle;
+        public Transform AlwaysOnParticle;
+        public Transform TrailOnAttackParticle;
         public Transform HitImpactParticle;
 
         [Header("SFX")]
@@ -66,14 +67,14 @@ namespace Pikamoon.Controller
         public abstract void PlaceScabbard(Transform parent);
 
 
-        public abstract void OnPicked();
-        public abstract void OnPicked(Transform Picker);
-        public abstract void TryToPick(InventoryController Picker);       
+        public abstract override void OnPicked();
+        public abstract override void OnPicked(Transform Picker);
+        public abstract override void TryToPick(InventoryController Picker);       
 
 
 
-        public abstract void OnDrop();
-        public abstract void OnDrop(Transform Picker, LayerMask DropLayer);
+        public abstract override void OnDrop();
+        public abstract override void OnDrop(Transform Picker, LayerMask DropLayer);
 
 
 

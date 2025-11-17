@@ -22,7 +22,6 @@ namespace Pikamoon.UI
 
         [SerializeField] private Image CharacterImg;
 
-
         public DragManager _dragManager;
 
         [Space]
@@ -37,13 +36,20 @@ namespace Pikamoon.UI
         [Space]
         public UI_ItemCategory AllItems;
 
-        private void Start()
+        [Header("Settings")]
+        [Space]
+        public SlotAppearenceSettings EmptySlotSettings;
+        public SlotAppearenceSettings ActiveSlotSettings;
+        public SlotAppearenceSettings InActiveSlotSettings;
+
+        private void Awake()
         {
             AssignDragManagerToAllItemsSlots();
         }
 
         void AssignDragManagerToAllItemsSlots()
         {
+
             foreach (var item in Weapons.Items)
             {
                 item.AssignDragManager(this);
@@ -88,7 +94,7 @@ namespace Pikamoon.UI
 
         public void AssignToWeapons(Item item, int index)
         {
-            Weapons.Items[index].AssignItem(item, false);
+            Weapons.Items[index].AssignItem(item, true);
         }
 
         public void removeFromWeapons()

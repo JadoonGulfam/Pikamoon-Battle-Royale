@@ -36,6 +36,10 @@ namespace Pikamoon.Controller
         public OnBtnDown onWalk_Down;
         public OnBtnUp   onWalk_Up;
 
+        public OnBtnDown onBlock_Down;
+        public OnBtnUp   onBlock_Up;
+
+
         public OnBtnDown onPrimaryWeaponSelect_Down;
         public OnBtnDown onSecondaryWeaponSelect_Down;
         public OnBtnDown onTertiaryWeaponSelect_Down;

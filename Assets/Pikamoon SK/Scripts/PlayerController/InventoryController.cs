@@ -7,7 +7,7 @@ using Fusion;
 namespace Pikamoon.Controller
 {
 
-    [System.Serializable]
+    [Serializable]
     public struct ItemCategory
     {
         public string CategoryName;
@@ -141,6 +141,13 @@ namespace Pikamoon.Controller
             if (!IsInventoryOpen)
             {
                 IsInventoryOpen = true;
+
+                if (isUsingWeapon)
+                {
+                    UnEquipping(UsingWeaponIndex, Weapons.items[UsingWeaponIndex], true);
+                }
+
+
                 ShowInventoryUI();
                 Controller.ToggleCursor(true);
                 AllowPickUp = false;
@@ -505,6 +512,7 @@ namespace Pikamoon.Controller
         {
             isBusyInSwitchingWeapon = false;
         }
+
         void UnEquipping(int index, Item item, bool ActivateNoWeapon)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
@@ -518,7 +526,7 @@ namespace Pikamoon.Controller
 
             weapon.OnUnEquip();
 
-            UI.hudcontroller.UnEquipWeapon(index, DefaultFistNoWeapon.Data.AimIcon);
+            UI.hudcontroller.UnEquipWeapon(index, DefaultFistNoWeapon.Data.AimIcon, DefaultFistNoWeapon.Data.icon);
 
 
             isUsingWeapon = false;
@@ -594,6 +602,7 @@ namespace Pikamoon.Controller
                 }
             }
         }
+        
         void DropWeapon()
         {
             if (Weapons.items[UsingWeaponIndex] == null)
@@ -612,6 +621,7 @@ namespace Pikamoon.Controller
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
+
         void DropWeapon(int index)
         {
             if (Weapons.items[index] == null)
@@ -631,10 +641,10 @@ namespace Pikamoon.Controller
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
 
-
         void AddItemToWeaponsByPickup(Weapon weapon, int index)
         {
             AddWeaponsToList(weapon, index);
+
             UI.inventoryUI.AssignToWeapons(weapon, index);
 
             weapon.OnPicked();
@@ -685,6 +695,33 @@ namespace Pikamoon.Controller
                 SuccessfullyItemPickedFromEnvironment();
             }
         }
+        public void UpdateItemToWeaponsByInventoryChange(Weapon weapon, int index)
+        {
+            Weapons.items[index] = weapon;
+            Weapons.AvailedInCategory++;
+
+
+            weapon.AssignHolder(Controller);
+
+            WeaponInfo weaponInfo = weapon.GetWeaponInfo();
+
+            Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
+
+            weapon.transform.parent = restingPoint.transform;
+            weapon.transform.localPosition = Vector3.zero;
+            weapon.transform.localRotation = Quaternion.identity;
+            
+
+
+            if (weapon.HasScabbard)
+            {
+                weapon.PlaceScabbard(Controller.GetRestingPoint(weaponInfo.Data.restingPointType));
+            }
+
+            weapon.transform.gameObject.SetActive(true);
+        }
+
+
         int GetMeAvailableSlotForNewWeapon()
         {
             int index = -1;
@@ -712,6 +749,7 @@ namespace Pikamoon.Controller
         {
             if (Weapons.items[index] != null)
             {
+                Debug.Log("2");
                 Weapons.items[index] = null;
                 Weapons.AvailedInCategory--;
             }
@@ -771,6 +809,7 @@ namespace Pikamoon.Controller
                 }
             }
         }
+
 
         #endregion
 
@@ -855,6 +894,11 @@ namespace Pikamoon.Controller
                 Shields.AvailedInCategory++;
             }
         }
+        public void UpdateShieldsItem(Item item, int index)
+        {
+                Shields.items[index] = item;
+                Shields.AvailedInCategory++;
+        }
 
         public void RemoveShieldsFromList(int index)
         {
@@ -927,6 +971,15 @@ namespace Pikamoon.Controller
 
         }
 
+        
+        public void UpdateQuickItem(Item item, int index)
+        {
+                QuickItems.items[index] = item;
+                QuickItems.AvailedInCategory++;
+
+        }
+
+
         public void RemoveQuickItemsFromList(int index)
         {
             if (QuickItems.items[index] != null)
@@ -935,6 +988,28 @@ namespace Pikamoon.Controller
                 QuickItems.AvailedInCategory--;
             }
         }
+
+
+        public void DropFromQuickItem(int index)
+        {
+            if (QuickItems.items[index] == null)
+                return;
+
+            if (Controller.IsInAttack || Controller.InAir || Controller.IsSwimming)
+                return;
+            
+            
+            
+
+            QuickItems.items[index].OnDrop(this.transform, Controller.groundLayer);
+            
+
+
+
+            RemoveQuickItemsFromList(index);
+
+        }
+
 
         #endregion
 
@@ -991,6 +1066,11 @@ namespace Pikamoon.Controller
                 AllItems.items[index] = item;
                 AllItems.AvailedInCategory++;
             }
+        }
+        public void UpdateAllItemsItem(Item item, int index)
+        {
+            AllItems.items[index] = item;
+            AllItems.AvailedInCategory++;
         }
 
         public void RemoveAllItemsFromList(int index)

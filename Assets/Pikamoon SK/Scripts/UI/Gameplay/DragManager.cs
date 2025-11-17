@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 namespace Pikamoon.UI
 {
+    
+
     public class DragManager : MonoBehaviour
     {
+        [SerializeField] InventoryUI inventoryUI;
         public Item draggedItem;
         public UI_ItemSlot draggedSlot;
         public UI_ItemSlot hoveredSlot;
@@ -87,16 +90,19 @@ namespace Pikamoon.UI
 
             if (targetSlot.CanAcceptItem(hoveredSlot.GetItem(), draggedItem, draggedSlot))
             {
-                targetSlot.AssignItem(draggedItem, true);
+
+                targetSlot.AssignItem(draggedItem, true, true);
 
                 if (targetItem == null)
                 {
-                    draggedSlot.UnAssignItem(true);
+
+                    draggedSlot.RemoveItem(true);
                 }
                 else
                 {
-                    draggedSlot.AssignItem(targetItem, true);
+                    draggedSlot.AssignItem(targetItem, true, true);
                 }
+
             }
 
             EndDrag();

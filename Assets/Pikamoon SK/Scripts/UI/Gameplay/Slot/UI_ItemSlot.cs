@@ -17,16 +17,16 @@ namespace Pikamoon.UI
         QuickItem,
         AllItems
     }
+    [System.Serializable]
+    public struct SlotAppearenceSettings
+    {
+        public Color BgIconColor;
+        public Color IconColor;
+        public bool IconActiveFlag;
+    }
 
     public abstract class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
     {
-        [System.Serializable]
-        public struct SlotAppearenceSettings
-        {
-            public Color BgIconColor;
-            public Color IconColor;
-            public bool IconActiveFlag;
-        }
 
         public SlotType slotType;
         [Space]
@@ -75,7 +75,7 @@ namespace Pikamoon.UI
 
         public virtual void AssignItem() { }
 
-        public abstract void AssignItem(Item item, bool alsoExecuteDependency);
+        public abstract void AssignItem(Item item, bool alsoExecuteDependency, bool isCallFromDragManager = false);
         public abstract void AssignItemByDependentSlot(Item item);
         //public abstract void AssignItem(Sprite icon, bool isActive, int health = 100, int _fullHealth = 100);
         public abstract void UnAssignItem(bool alsoExecuteDependency);

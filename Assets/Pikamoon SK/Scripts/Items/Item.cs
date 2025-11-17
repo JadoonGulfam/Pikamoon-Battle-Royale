@@ -40,7 +40,7 @@ namespace Pikamoon.Controller
     //    public int Quantity;
     //}
 
-    public class Item : MonoBehaviour
+    public class Item : MonoBehaviour, IPickable, IDroppable
     {
         public ItemDataSO Data;
         public int SubType;
@@ -59,7 +59,25 @@ namespace Pikamoon.Controller
             return this as T; // Tries to cast the currentWeapon to the specified type
         }
 
+        public virtual void OnPicked()
+        {
+        }
 
+        public virtual void OnPicked(Transform Picker)
+        {
+        }
+
+        public virtual void TryToPick(InventoryController Picker)
+        {
+        }
+
+        public virtual void OnDrop()
+        {
+        }
+
+        public virtual void OnDrop(Transform Dropper, LayerMask DropLayer)
+        {
+        }
     }
 
 }

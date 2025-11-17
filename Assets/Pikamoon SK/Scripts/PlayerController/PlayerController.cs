@@ -307,6 +307,7 @@ namespace Pikamoon.Controller
                 RestingPointOfWeapon = ActiveWeapon.Data.restingPointType;
             }
 
+
             ActiveWeapon = weapon;
 
             //ActiveWeapon.Prefab.gameObject.SetActive(true);
