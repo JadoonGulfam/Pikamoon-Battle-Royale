@@ -16,8 +16,8 @@ namespace Pikamoon.Controller
         {
             mWeaponData = GetItemDataAs<MeleeWeaponDataSO>();
 
-            if (TrailParticle)
-                TrailParticle.gameObject.SetActive(false);
+            if (TrailOnAttackParticle)
+                TrailOnAttackParticle.gameObject.SetActive(false);
 
             defaultHitParticlePos = HitImpactParticle.localPosition;
         }
@@ -129,13 +129,13 @@ namespace Pikamoon.Controller
 
         public override void OnEquip()
         {
-            if(TrailParticle)
-                TrailParticle.gameObject.SetActive(true);
+            if(TrailOnAttackParticle)
+                TrailOnAttackParticle.gameObject.SetActive(true);
         }
         public override void OnUnEquip()
         {
-            if (TrailParticle)
-                TrailParticle.gameObject.SetActive(false);
+            if (TrailOnAttackParticle)
+                TrailOnAttackParticle.gameObject.SetActive(false);
         }
 
         public override void OnHit(Vector3 point)

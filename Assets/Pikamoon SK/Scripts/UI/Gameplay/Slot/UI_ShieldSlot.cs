@@ -36,7 +36,7 @@ namespace Pikamoon.UI
 
             ChangeButtonAppearance(ActiveSlotSettings);
 
-            inventoryUI.Player.AddShieldsToList(item, indexInList);
+            inventoryUI.Player.UpdateShieldsItem(item, indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.AssignItemByDependentSlot(item);

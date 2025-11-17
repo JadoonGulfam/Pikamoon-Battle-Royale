@@ -16,11 +16,12 @@ namespace Pikamoon.UI
 
         public override void AssignItem(Item item, bool alsoExecuteDependency, bool isCallFromDrageManager = false)
         {
-            if (item == null)
-            {
-                RemoveItem(true);
-                return;
-            }
+            Debug.Log("Weapon Added 1", this);
+            //if (item == null)
+            //{
+            //    RemoveItem(true);
+            //    return;
+            //}
 
             CurrentItem = item;
             hasItem = true;
@@ -33,9 +34,13 @@ namespace Pikamoon.UI
 
             ChangeButtonAppearance(inventoryUI.ActiveSlotSettings);
 
+            inventoryUI.Player.UpdateItemToWeaponsByInventoryChange(CurrentItem as Weapon, indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
+            {
+                Debug.Log("Weapon Added 2", this);
                 DependantSlot.AssignItemByDependentSlot(item);
+            }
         }
 
         //public override void AssignItem(Sprite icon, bool isActive, int _fullHealth = 100, int _health = 100)
@@ -43,12 +48,13 @@ namespace Pikamoon.UI
         //    if (Icon)
         //        Icon.sprite = icon;
 
-        //    ChangeButtonAppearance(isActive ? ActiveSlotSettings : InActiveSlotSettings);
-        //}
+            //    ChangeButtonAppearance(isActive ? ActiveSlotSettings : InActiveSlotSettings);
+            //}
 
         public override void AssignItemByDependentSlot(Item item)
         {
-            if (item == null) { RemoveItem(true); return; }
+            Debug.Log("Weapon Added 3", this);
+            //if (item == null) { RemoveItem(true); return; }
 
             CurrentItem = item;
             hasItem = true;
@@ -60,12 +66,10 @@ namespace Pikamoon.UI
                 ItemName.text = item.Data.ItemName;
 
 
-            ChangeButtonAppearance(inventoryUI.ActiveSlotSettings); 
-            
-            if (isHUDSlot)
-            {
-                inventoryUI.Player.AddItemToWeaponsByInventoryChange(CurrentItem as Weapon, indexInList);
-            }
+            Debug.Log("Weapon Added 4",this);
+            ChangeButtonAppearance(inventoryUI.ActiveSlotSettings);
+
+
         }
 
 

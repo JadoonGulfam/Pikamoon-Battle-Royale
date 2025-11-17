@@ -512,6 +512,7 @@ namespace Pikamoon.Controller
         {
             isBusyInSwitchingWeapon = false;
         }
+
         void UnEquipping(int index, Item item, bool ActivateNoWeapon)
         {
             Weapon weapon = item.GetItemAs<Weapon>();
@@ -601,6 +602,7 @@ namespace Pikamoon.Controller
                 }
             }
         }
+        
         void DropWeapon()
         {
             if (Weapons.items[UsingWeaponIndex] == null)
@@ -619,6 +621,7 @@ namespace Pikamoon.Controller
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);
         }
+
         void DropWeapon(int index)
         {
             if (Weapons.items[index] == null)
@@ -692,14 +695,15 @@ namespace Pikamoon.Controller
                 SuccessfullyItemPickedFromEnvironment();
             }
         }
-        public void AddItemToWeaponsByInventoryChange(Weapon weapon, int index)
+        public void UpdateItemToWeaponsByInventoryChange(Weapon weapon, int index)
         {
-            AddWeaponsToList(weapon, index);
+            Weapons.items[index] = weapon;
+            Weapons.AvailedInCategory++;
+
 
             weapon.AssignHolder(Controller);
 
             WeaponInfo weaponInfo = weapon.GetWeaponInfo();
-
 
             Transform restingPoint = Controller.GetRestingPoint(weaponInfo.Data.restingPointType);
 
@@ -890,6 +894,11 @@ namespace Pikamoon.Controller
                 Shields.AvailedInCategory++;
             }
         }
+        public void UpdateShieldsItem(Item item, int index)
+        {
+                Shields.items[index] = item;
+                Shields.AvailedInCategory++;
+        }
 
         public void RemoveShieldsFromList(int index)
         {
@@ -961,6 +970,15 @@ namespace Pikamoon.Controller
             }
 
         }
+
+        
+        public void UpdateQuickItem(Item item, int index)
+        {
+                QuickItems.items[index] = item;
+                QuickItems.AvailedInCategory++;
+
+        }
+
 
         public void RemoveQuickItemsFromList(int index)
         {
@@ -1048,6 +1066,11 @@ namespace Pikamoon.Controller
                 AllItems.items[index] = item;
                 AllItems.AvailedInCategory++;
             }
+        }
+        public void UpdateAllItemsItem(Item item, int index)
+        {
+            AllItems.items[index] = item;
+            AllItems.AvailedInCategory++;
         }
 
         public void RemoveAllItemsFromList(int index)

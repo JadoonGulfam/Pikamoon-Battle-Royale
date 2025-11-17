@@ -29,7 +29,6 @@ namespace Pikamoon.UI
     {
 
         public SlotType slotType;
-        public bool isHUDSlot;
         [Space]
         [SerializeField]
         protected bool hasDependantSlot; 

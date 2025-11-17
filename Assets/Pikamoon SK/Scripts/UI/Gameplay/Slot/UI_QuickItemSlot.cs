@@ -6,6 +6,7 @@ namespace Pikamoon.UI
 {
     public class UI_QuickItemSlot : UI_ItemSlot
     {
+        [SerializeField] bool isHUDSlot;
 
        protected override void Awake()
         {
@@ -31,8 +32,8 @@ namespace Pikamoon.UI
                 ItemName.text = item.Data.ItemName;
 
             ChangeButtonAppearance(inventoryUI.ActiveSlotSettings);
-            
-            inventoryUI.Player.AddQuickItemsToList(item, indexInList);
+
+            inventoryUI.Player.UpdateQuickItem(item, indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.AssignItemByDependentSlot(item);

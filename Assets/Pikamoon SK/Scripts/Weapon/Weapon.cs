@@ -46,7 +46,8 @@ namespace Pikamoon.Controller
 
 
         [Header("VFX")]
-        public Transform TrailParticle;
+        public Transform AlwaysOnParticle;
+        public Transform TrailOnAttackParticle;
         public Transform HitImpactParticle;
 
         [Header("SFX")]

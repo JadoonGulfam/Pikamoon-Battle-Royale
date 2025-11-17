@@ -34,7 +34,7 @@ namespace Pikamoon.UI
 
             ChangeButtonAppearance(inventoryUI.ActiveSlotSettings);
 
-            inventoryUI.Player.AddAllItemsToList(item, indexInList);
+            inventoryUI.Player.UpdateAllItemsItem(item, indexInList);
 
             if (alsoExecuteDependency && hasDependantSlot)
                 DependantSlot.AssignItemByDependentSlot(item);
