@@ -62,6 +62,10 @@ namespace Pikamoon.Controller
             Holder = playerController;
         }
 
+        public abstract void OnAttackingStart();
+        public abstract void OnAttackingStop();
+
+
 
         public abstract Transform GetScabbard();
         public abstract void PlaceScabbard(Transform parent);

@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Player Data", menuName = "Pikamoon/Player/Create Player")]
 public class PlayerData : ScriptableObject
 {
+    [Header("Graphics")]
+    [Space]
+    public Sprite Icon;
+
     [Header("Locomotion")]
     [Space]
     public float Acceleration;

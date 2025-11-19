@@ -244,6 +244,19 @@ namespace Pikamoon.Controller
 
         }
 
+        public override void OnAttackingStart()
+        {
+            if (TrailOnAttackParticle && !TrailOnAttackParticle.gameObject.activeInHierarchy)
+                TrailOnAttackParticle.gameObject.SetActive(true);
+        }
+
+        public override void OnAttackingStop()
+        {
+            if (TrailOnAttackParticle && TrailOnAttackParticle.gameObject.activeInHierarchy)
+                TrailOnAttackParticle.gameObject.SetActive(false);
+        }
+
+
 
         #endregion
 

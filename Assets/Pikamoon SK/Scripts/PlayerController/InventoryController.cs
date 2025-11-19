@@ -108,6 +108,7 @@ namespace Pikamoon.Controller
             //AllItems.InitializeCategory();
 
             UI.inventoryUI.Player = this;
+            UI.inventoryUI.AssignIcon(Controller.PlayerData.Icon);
             UI.lootBoxUI._inventory = this;
 
             Controller.ActivateWeapon(DefaultFistNoWeapon);

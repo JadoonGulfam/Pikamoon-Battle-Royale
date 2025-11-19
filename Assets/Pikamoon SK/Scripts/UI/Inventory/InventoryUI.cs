@@ -71,10 +71,9 @@ namespace Pikamoon.UI
             }
         }
 
-        // Update is called once per frame
-        void Update()
+        public void AssignIcon(Sprite _icon)
         {
-
+            CharacterImg.sprite = _icon;
         }
 
         public void PopulateList()

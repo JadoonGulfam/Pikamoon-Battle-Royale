@@ -126,16 +126,27 @@ namespace Pikamoon.Controller
         }
 
 
+        public override void OnAttackingStart()
+        {
+            if (TrailOnAttackParticle && !TrailOnAttackParticle.gameObject.activeInHierarchy)
+                TrailOnAttackParticle.gameObject.SetActive(true);
+        }
+
+        public override void OnAttackingStop()
+        {
+            if (TrailOnAttackParticle && TrailOnAttackParticle.gameObject.activeInHierarchy)
+                TrailOnAttackParticle.gameObject.SetActive(false);
+        }
 
         public override void OnEquip()
         {
             if(TrailOnAttackParticle)
-                TrailOnAttackParticle.gameObject.SetActive(true);
+                AlwaysOnParticle.gameObject.SetActive(true);
         }
         public override void OnUnEquip()
         {
             if (TrailOnAttackParticle)
-                TrailOnAttackParticle.gameObject.SetActive(false);
+                AlwaysOnParticle.gameObject.SetActive(false);
         }
 
         public override void OnHit(Vector3 point)

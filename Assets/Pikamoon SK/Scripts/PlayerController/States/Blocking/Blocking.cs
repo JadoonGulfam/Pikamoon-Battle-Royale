@@ -22,6 +22,7 @@ namespace Pikamoon.Controller
         public override void Initialize()
         {
             base.Initialize();
+
             activeWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
             weaponData = activeWeapon?.GetItemDataAs<MeleeWeaponDataSO>();
 
@@ -39,6 +40,7 @@ namespace Pikamoon.Controller
         {
             if (!canBlock || weaponData == null || activeWeapon.Health <= 0)
                 return;
+
 
             isBlocking = true;
             //////AC.PAnimator.SetBool(AC.Parameters.isBlocking.Hash, true);
