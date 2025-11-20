@@ -23,8 +23,20 @@ namespace Pikamoon.Controller
         {
             base.Initialize();
 
-            activeWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
-            weaponData = activeWeapon?.GetItemDataAs<MeleeWeaponDataSO>();
+            //activeWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
+            //weaponData = activeWeapon?.GetItemDataAs<MeleeWeaponDataSO>();
+
+            // Bind player input
+            playerInput.onBlock_Down += StartBlock;
+            playerInput.onBlock_Up += StopBlock;
+        }
+
+        public override void Initialize(Transform Root)
+        {
+            base.Initialize(Root);
+
+            //activeWeapon = Controller.ActiveWeapon.Prefab as MeleeWeapon;
+            //weaponData = activeWeapon?.GetItemDataAs<MeleeWeaponDataSO>();
 
             // Bind player input
             playerInput.onBlock_Down += StartBlock;
@@ -33,7 +45,7 @@ namespace Pikamoon.Controller
 
         public override StateType GetStateType()
         {
-            return StateType.Combat; // Or create a StateType.Blocking if you prefer
+            return StateType.Block; // Or create a StateType.Blocking if you prefer
         }
 
         void StartBlock()

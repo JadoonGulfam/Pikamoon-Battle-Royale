@@ -36,7 +36,8 @@ namespace Pikamoon.Controller
         Shooting,
         Swimming,
         Battle,
-        Capture
+        Capture,
+        Block
     }
 
 

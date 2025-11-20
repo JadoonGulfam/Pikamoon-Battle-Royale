@@ -311,7 +311,7 @@ namespace Pikamoon.Controller
         {
             ToggleNextComboAttckStatus(false);
 
-            ActiveWeapon.OnAttackingStart();
+
 
             // Enables Concenrned Hit Boxes for Attack 
             if (comboMoveCounter <= meleeWeapnonData.combos[(int)combatMoveType].moves.Length)
@@ -326,6 +326,7 @@ namespace Pikamoon.Controller
                 }
                 else if (ActiveWeapon.weaponType == WeaponType.Melee)
                 {
+                    ActiveWeapon.OnAttackingStart();
                     ActiveWeapon.HitBox.EnableCollider();
                     hitBehaviour.EnableWeaponHitPoint(meleeWeapnonData.HoldingPointType);
                 }
@@ -375,10 +376,10 @@ namespace Pikamoon.Controller
             if (MP_Setup != null && !MP_Setup.isMinePlayer)
                 return;
 
-            ActiveWeapon.OnAttackingStop();
 
             if (ActiveWeapon != null && ActiveWeapon.weaponType == WeaponType.Melee)
             {
+                ActiveWeapon.OnAttackingStop();
                 ActiveWeapon.HitBox.DisableCollider();
                 hitBehaviour.DisableWeaponHitPoint(meleeWeapnonData.HoldingPointType);
             }

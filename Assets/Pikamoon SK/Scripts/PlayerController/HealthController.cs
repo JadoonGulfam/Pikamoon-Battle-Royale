@@ -43,13 +43,16 @@ namespace Pikamoon.Controller
         {
             _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
 
-            // initialize networked values from inspector defaults on StateAuthority only
-            if (Object.HasStateAuthority)
+            if(Controller.MP_Setup)
             {
-                headShieldValue = inspectorHeadShieldValue;
-                upperShieldValue = inspectorUpperShieldValue;
-                lowerShieldValue = inspectorLowerShieldValue;
-                health = inspectorHealth;
+                // initialize networked values from inspector defaults on StateAuthority only
+                if (Object.HasStateAuthority)
+                {
+                    headShieldValue = inspectorHeadShieldValue;
+                    upperShieldValue = inspectorUpperShieldValue;
+                    lowerShieldValue = inspectorLowerShieldValue;
+                    health = inspectorHealth;
+                }
             }
 
             // ensure UI is in correct state on spawn
@@ -128,6 +131,10 @@ namespace Pikamoon.Controller
 
         void UpdateUI()
         {
+
+            if (!Controller.MP_Setup)
+                return;
+
             if (Controller == null || Controller.UI == null || Controller.UI.hudcontroller == null) return;
 
             Controller.UI.hudcontroller.UpdateHealth(health, 100);
