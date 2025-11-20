@@ -227,8 +227,8 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                     pikamoonPosition,
                     Quaternion.identity
                 );
-
-                spawnEnvWeapons(pikamoonPosition);
+                pikamoonNetworkObject.GetComponent<NavMeshAgent>().enabled = true;
+                spawnEnvWeapons(pikamoonPosition + randomOffset);
                 Debug.Log($"Pikamoon {i + 1} spawned at position: {pikamoonPosition}");
             }
             else
