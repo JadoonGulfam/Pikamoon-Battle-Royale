@@ -5,7 +5,9 @@ public class AvatarController : MonoBehaviour
     //public AvatarDefaultClothes femaleAvatarDefaultCostume;
 
     public Stitcher stitcher;
-    public SkinnedMeshRenderer body;//, eye;
+    [HideInInspector]
+    public SkinnedMeshRenderer body;
+    [HideInInspector]
     public GameObject wornHair, wornCloth;
     public GenderType genderType;
 
