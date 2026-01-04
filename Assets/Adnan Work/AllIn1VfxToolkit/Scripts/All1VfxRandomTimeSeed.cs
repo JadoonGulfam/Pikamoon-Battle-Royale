@@ -6,7 +6,7 @@ namespace AllIn1VfxToolkit
     {
         [SerializeField] private float minSeedValue = 0;
         [SerializeField] private float maxSeedValue = 100f;
-
+  //Private Function
         private void Start()
         {
             MaterialPropertyBlock properties = new MaterialPropertyBlock();
