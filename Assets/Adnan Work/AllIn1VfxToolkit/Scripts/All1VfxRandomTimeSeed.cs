@@ -3,7 +3,7 @@
 namespace AllIn1VfxToolkit
 {
     public class All1VfxRandomTimeSeed : MonoBehaviour
-    {
+    {//
         [SerializeField] private float minSeedValue = 0;
         [SerializeField] private float maxSeedValue = 100f;
 
